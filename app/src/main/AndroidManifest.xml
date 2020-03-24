@@ -12,6 +12,11 @@
     <!-- 写外置存储。如果开发者使用了离线地图，并且数据写在外置存储区域，则需要申请该权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:name=".DemoApplication"
         android:allowBackup="true"
@@ -20,13 +25,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- 开发密钥 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="Y5HQLSAsKHcmmU2Yv2NGtST0nhBVj0iZ" />
-        <activity android:name=".MainActivity">
+
+        <!-- 定位服务 -->
+        <service android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote"/>
+
+        <!-- 主活动旋转屏幕不重置，没有标题栏 -->
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
