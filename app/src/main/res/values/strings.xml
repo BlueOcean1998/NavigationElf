@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Navigation</string>
 
+    <string name="select_bottom1">驾车导航</string>
+    <string name="select_bottom2">步行导航</string>
+    <string name="select_bottom3">公交导航</string>
+
     <string name="search_bottom1">清空</string>
     <string name="search_bottom2">搜索</string>
     <string name="search_hint">你要查找的地址</string>

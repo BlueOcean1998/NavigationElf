@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
@@ -55,12 +56,14 @@ import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.example.foxizz.navigation.demo.MyOrientationListener;
-import com.example.foxizz.navigation.demo.MyPoiOverlay;
+import com.example.foxizz.navigation.overlayutil.MyPoiOverlay;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.demo.Tools;
+import com.example.foxizz.navigation.overlayutil.WalkingRouteOverlay;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -77,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
     private boolean isFirstLoc = true;//是否是首次定位
     private MyLocationData locData;//地址信息
     private LatLng latLng;//坐标
+    public LatLng getLatLng() {
+        return latLng;
+    }
     private int mLocType;//定位结果
     private float mRadius = 10;//精度半径
     private double mLatitude;//纬度
@@ -86,6 +92,16 @@ public class MainActivity extends AppCompatActivity {
     //搜索相关
     private PoiSearch mPoiSearch;
 
+    private LinearLayout selectLayout;//选择布局
+    public LinearLayout getSelectLayout() {
+        return selectLayout;
+    }
+    private Button selectButton1;//选择驾车导航
+    public Button getSearchButton1() {
+        return searchButton1;
+    }
+    private Button selectButton2;//选择步行导航
+    private Button selectButton3;//选择公交导航
     private LinearLayout searchLayout;//搜索布局
     private EditText searchEdit;//搜索输入框
     private Button searchButton1;//清除按钮
@@ -103,10 +119,13 @@ public class MainActivity extends AppCompatActivity {
 
     //路线规划相关
     private RoutePlanSearch mSearch;
+    public RoutePlanSearch getMSearch() {
+        return mSearch;
+    }
 
     //获取改变控件尺寸动画
     //参数：需要改变高度的layoutDrawer（当然也可以是其它view），动画前的高度，动画后的高度
-    private ValueAnimator getValueAnimator(final View view, int startHeight, int endHeight) {
+    public ValueAnimator getValueAnimator(final View view, int startHeight, int endHeight) {
         final ValueAnimator valueAnimator = ValueAnimator.ofInt(startHeight, endHeight);
         //valueAnimator.setDuration(300);//动画时间（默认就是300）
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -122,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
     //伸展按钮的旋转动画
     //参数：需要旋转的spreadButton（当然也可以是其它view），动画前的旋转角度，动画后的旋转角度
-    private void rotateExpandIcon(final View view, float from, float to) {
+    public void rotateExpandIcon(final View view, float from, float to) {
         final ValueAnimator valueAnimator = ValueAnimator.ofFloat(from, to);
         valueAnimator.setInterpolator(new DecelerateInterpolator());//先加速后减速的动画
         //valueAnimator.setDuration(300);//动画时间（默认就是300）
@@ -176,6 +195,10 @@ public class MainActivity extends AppCompatActivity {
 
     //初始化自定义控件
     private void initMyView() {
+        selectLayout = findViewById(R.id.select_layout);
+        selectButton1 = findViewById(R.id.select_button1);
+        selectButton2 = findViewById(R.id.select_button2);
+        selectButton3 = findViewById(R.id.select_button3);
         searchLayout = findViewById(R.id.search_layout);
         searchEdit = findViewById(R.id.search_edit);
         searchButton1 = findViewById(R.id.search_button1);
@@ -183,6 +206,11 @@ public class MainActivity extends AppCompatActivity {
         searchExpand = findViewById(R.id.search_expand);
         searchDrawer = findViewById(R.id.search_drawer);
         searchResult = findViewById(R.id.search_result);
+
+        //设置导航选项布局初始高度为0
+        ViewGroup.LayoutParams params = selectLayout.getLayoutParams();//获取内容抽屉参数
+        params.height = 0;
+        selectLayout.setLayoutParams(params);
 
         searchButton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,6 +256,36 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //驾车导航按钮的点击事件
+        selectButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectButton1.setBackgroundResource(R.drawable.button_background5);
+                selectButton2.setBackgroundResource(R.drawable.button_background4);
+                selectButton3.setBackgroundResource(R.drawable.button_background4);
+            }
+        });
+
+        //步行导航按钮的点击事件
+        selectButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectButton1.setBackgroundResource(R.drawable.button_background4);
+                selectButton2.setBackgroundResource(R.drawable.button_background5);
+                selectButton3.setBackgroundResource(R.drawable.button_background4);
+            }
+        });
+
+        //公交导航按钮的点击事件
+        selectButton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectButton1.setBackgroundResource(R.drawable.button_background4);
+                selectButton2.setBackgroundResource(R.drawable.button_background4);
+                selectButton3.setBackgroundResource(R.drawable.button_background5);
+            }
+        });
+
         //计算半个屏幕高度，用于下面的伸缩动画
         Display defaultDisplay = getWindowManager().getDefaultDisplay();
         Point point = new Point();
@@ -237,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
         searchExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ValueAnimator valueAnimator;//伸展动画
+                ValueAnimator valueAnimator = null;//伸展动画
 
                 if (expandFlag) {//如果状态为展开
                     searchResult.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.adapter_alpha1));//动画1，消失;
@@ -245,14 +303,14 @@ public class MainActivity extends AppCompatActivity {
                     rotateExpandIcon(searchExpand, 180, 0);//伸展按钮的旋转动画
                     expandFlag = false;//设置状态为收起
 
-                } else {//如果状态为收起
+                } else if(searchList.size() != 0) {//如果状态为收起且有搜索内容
                     searchResult.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.adapter_alpha2));//动画2，出现;
                     valueAnimator = getValueAnimator(searchDrawer, 0, bodyHeight);//设置抽屉动画为展开
                     rotateExpandIcon(searchExpand, 0, 180);//伸展按钮的旋转动画
                     expandFlag = true;//设置状态为展开
                 }
 
-                valueAnimator.start();//开始抽屉的伸缩动画
+                if(valueAnimator != null) valueAnimator.start();//开始抽屉的伸缩动画
             }
         });
 
@@ -422,6 +480,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onGetPoiDetailResult(PoiDetailSearchResult poiDetailResult) {
                 if (poiDetailResult.error != SearchResult.ERRORNO.NO_ERROR) {
@@ -434,8 +493,11 @@ public class MainActivity extends AppCompatActivity {
                         searchItem.setTargetName(info.getName());//获取并设置目标名
                         searchItem.setAddress(info.getAddress());//获取并设置目标地址
 
+                        LatLng tLatLng = info.getLocation();//获取目标坐标
+                        searchItem.setLatLng(tLatLng);//设置目标坐标
+
                         //获取定位点到目标点的距离（单位：m，结果除以1000转化为km）
-                        double distance = (DistanceUtil.getDistance(latLng, info.getLocation()) / 1000);
+                        double distance = (DistanceUtil.getDistance(latLng, tLatLng) / 1000);
                         //保留两位小数
                         BigDecimal bd = new BigDecimal(distance);
                         distance = bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
@@ -443,6 +505,14 @@ public class MainActivity extends AppCompatActivity {
 
                         searchList.add(searchItem);//添加搜到的内容到searchList
                     }
+
+                    //按距离升序排序
+                    searchList.sort(new Comparator<SearchItem>() {
+                        @Override
+                        public int compare(SearchItem o1, SearchItem o2) {
+                            return o1.getDistance().compareTo(o2.getDistance());
+                        }
+                    });
                     searchAdapter.notifyDataSetChanged();//通知searchAdapter更新
                 }
             }
@@ -470,7 +540,16 @@ public class MainActivity extends AppCompatActivity {
         OnGetRoutePlanResultListener listener = new OnGetRoutePlanResultListener() {
             @Override
             public void onGetWalkingRouteResult(WalkingRouteResult walkingRouteResult) {
-
+                //创建WalkingRouteOverlay实例
+                WalkingRouteOverlay overlay = new WalkingRouteOverlay(mBaiduMap);
+                if(walkingRouteResult.getRouteLines().size() > 0) {
+                    mBaiduMap.clear();
+                    //获取路径规划数据,(以返回的第一条数据为例)
+                    //为WalkingRouteOverlay实例设置路径数据
+                    overlay.setData(walkingRouteResult.getRouteLines().get(0));
+                    //在地图上绘制WalkingRouteOverlay
+                    overlay.addToMap();
+                }
             }
 
             @Override
@@ -537,8 +616,10 @@ public class MainActivity extends AppCompatActivity {
         if (mLocationClient.isStarted()) {
             mLocationClient.stop();
         }
+        //释放地图、POI检索、路线规划实例
         mMapView.onDestroy();
         mPoiSearch.destroy();
+        mSearch.destroy();
     }
 
 }

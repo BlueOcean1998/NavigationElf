@@ -4,11 +4,14 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.baidu.mapapi.search.route.PlanNode;
+import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.example.foxizz.navigation.R;
 
 import java.util.List;
@@ -26,17 +29,19 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     //设置item中的View
     static class ViewHolder extends RecyclerView.ViewHolder {
-        View dataView;
+        View cardView;
         TextView targetName;
         TextView address;
         TextView distance;
+        Button itemButton1;
 
         ViewHolder(View view) {
             super(view);
-            dataView = view;
+            cardView = view;
             targetName = view.findViewById(R.id.target_name);
             address = view.findViewById(R.id.address);
             distance = view.findViewById(R.id.distance);
+            itemButton1 = view.findViewById(R.id.item_button1);
         }
     }
 
@@ -64,12 +69,25 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 .inflate(R.layout.search_item, parent, false);
         final ViewHolder holder = new ViewHolder(view);
 
-        //item的点击事件
-        holder.dataView.setOnClickListener(new View.OnClickListener() {
+        //itemButton1的点击事件
+        holder.itemButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //获取导航布局原本的高度
+                int bodyHeight = mainActivity.getSearchButton1().getLayout().getHeight() * 2;
+                //获取并开始动画
+                mainActivity.getValueAnimator(mainActivity.getSelectLayout(), 0, bodyHeight).start();
+
                 int position = holder.getAdapterPosition();
                 SearchItem searchItem = mSearchItemList.get(position);
+
+                //获取定位点和目标点并开始步行路线规划
+                PlanNode startNode = PlanNode.withLocation(mainActivity.getLatLng());
+                PlanNode endNode = PlanNode.withLocation(searchItem.getLatLng());
+                mainActivity.getMSearch().walkingSearch((new WalkingRoutePlanOption())
+                        .from(startNode)
+                        .to(endNode));
+
             }
         });
         return holder;

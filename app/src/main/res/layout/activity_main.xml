@@ -14,12 +14,60 @@
         android:clickable="true"
         android:focusable="true" />
 
+
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@drawable/layout_background">
+        <LinearLayout
+            android:id="@+id/select_layout"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/layout_background2">
+            <Button
+                android:id="@+id/select_button1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="6dp"
+                android:layout_gravity="center"
+                android:background="@drawable/button_background4"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:text="@string/select_bottom1"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:id="@+id/select_button2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="6dp"
+                android:layout_gravity="center"
+                android:background="@drawable/button_background4"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:text="@string/select_bottom2"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:id="@+id/select_button3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="6dp"
+                android:layout_gravity="center"
+                android:background="@drawable/button_background4"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:text="@string/select_bottom3"
+                tools:ignore="ButtonStyle" />
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/search_layout"
             android:orientation="horizontal"
