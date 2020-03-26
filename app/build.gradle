@@ -37,13 +37,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    implementation files('libs/req_head.jar')
-    implementation files('libs/protobuf-java-2.3.0-micro.jar')
-    implementation files('libs/lbsCoreSDK.jar')
-    implementation files('libs/javapoet-1.9.0.jar')
-    implementation files('libs/intellij_annotations.jar')
-    implementation files('libs/galaxy_lite_v2.3.jar')
-    implementation files('libs/galaxy_lite_lbs_v2.3.jar')
     implementation files('libs/BaiduLBS_Android.jar')
 
     implementation 'androidx.recyclerview:recyclerview:1.1.0'

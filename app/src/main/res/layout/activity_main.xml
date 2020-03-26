@@ -1,87 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".util.MainActivity">
 
     <com.baidu.mapapi.map.MapView
         android:id="@+id/bmapView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:clickable="true"
         android:focusable="true" />
 
     <LinearLayout
-        android:id="@+id/search_layout"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/search_button1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:layout_margin="6dp"
-            android:layout_gravity="center"
-            android:background="@drawable/button_background"
-            android:textSize="18sp"
-            android:text="@string/bottom1"/>
-
-        <EditText
-            android:id="@+id/search_edit"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="7"
-            android:layout_margin="6dp"
-            android:layout_gravity="center"
-            android:padding="5dp"
-            android:background="@null"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:hint="@string/search_hint"
-            android:lines="1"
-            android:maxLength="20"
-            android:importantForAutofill="no"
-            android:inputType="none" />
-
-        <Button
-            android:id="@+id/search_button2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:layout_margin="6dp"
-            android:layout_gravity="center"
-            android:background="@drawable/button_background"
-            android:textSize="18sp"
-            android:text="@string/bottom2" />
-
-        <ImageButton
-            android:id="@+id/search_expand"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:layout_margin="6dp"
-            android:layout_gravity="center"
-            android:background="@null"
-            android:src="@drawable/ic_expand_less_black_24dp"
-            android:contentDescription="@string/expand" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/search_drawer"
-        android:layout_width="match_parent"
-        android:layout_height="0dp">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/search_result"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/layout_background">
+        <LinearLayout
+            android:id="@+id/search_layout"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="6dp" />
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp">
+            <Button
+                android:id="@+id/search_button1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:layout_margin="6dp"
+                android:layout_gravity="center"
+                android:background="@drawable/button_background"
+                android:textSize="18sp"
+                android:text="@string/search_bottom1"/>
+
+            <EditText
+                android:id="@+id/search_edit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:layout_margin="6dp"
+                android:layout_gravity="center"
+                android:padding="5dp"
+                android:background="@null"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:hint="@string/search_hint"
+                android:textColorHint="@color/gray"
+                android:lines="1"
+                android:maxLength="20"
+                android:importantForAutofill="no"
+                android:inputType="none" />
+
+            <Button
+                android:id="@+id/search_button2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:layout_margin="6dp"
+                android:layout_gravity="center"
+                android:background="@drawable/button_background"
+                android:textSize="18sp"
+                android:text="@string/search_bottom2" />
+
+            <ImageButton
+                android:id="@+id/search_expand"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_margin="6dp"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:src="@drawable/ic_expand_less_black_24dp"
+                android:contentDescription="@string/expand" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/search_drawer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/search_result"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="6dp" />
+        </LinearLayout>
     </LinearLayout>
-
-
-</LinearLayout>
+</FrameLayout>

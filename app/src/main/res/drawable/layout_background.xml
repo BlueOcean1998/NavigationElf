@@ -2,18 +2,18 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--填充颜色-->
-    <solid android:color="@color/white" />
+    <solid android:color="?attr/colorPrimaryDark" />
 
     <!--边框宽度、颜色-->
     <stroke
-        android:width="2dp"
-        android:color="@color/black" />
+        android:width="1dp"
+        android:color="?attr/colorPrimary" />
 
     <!--圆角边框-->
     <corners
         android:topLeftRadius="9dp"
         android:topRightRadius="9dp"
-        android:bottomRightRadius="9dp"
-        android:bottomLeftRadius="9dp"/>
+        android:bottomRightRadius="0dp"
+        android:bottomLeftRadius="0dp"/>
 
 </shape>
