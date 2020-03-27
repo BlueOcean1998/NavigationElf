@@ -1,4 +1,4 @@
-package com.example.foxizz.navigation.util;
+package com.example.foxizz.navigation.searchdata;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -10,9 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
 import com.baidu.mapapi.search.route.PlanNode;
+import com.baidu.mapapi.search.route.TransitRoutePlanOption;
 import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.example.foxizz.navigation.R;
+import com.example.foxizz.navigation.util.MainActivity;
 
 import java.util.List;
 
@@ -80,14 +83,36 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
                 int position = holder.getAdapterPosition();
                 SearchItem searchItem = mSearchItemList.get(position);
+                mainActivity.setSearchItemSelect(position);
 
-                //获取定位点和目标点并开始步行路线规划
+                //获取定位坐标和目标坐标
                 PlanNode startNode = PlanNode.withLocation(mainActivity.getLatLng());
                 PlanNode endNode = PlanNode.withLocation(searchItem.getLatLng());
-                mainActivity.getMSearch().walkingSearch((new WalkingRoutePlanOption())
-                        .from(startNode)
-                        .to(endNode));
 
+                switch(MainActivity.getRoutePlanSelect()) {
+                    //驾车路线规划
+                    case 0:
+                        mainActivity.getMSearch().drivingSearch((new DrivingRoutePlanOption())
+                                .from(startNode)
+                                .to(endNode));
+                        break;
+
+                    //步行路线规划
+                    case 1:
+                        mainActivity.getMSearch().walkingSearch((new WalkingRoutePlanOption())
+                                .from(startNode)
+                                .to(endNode));
+                        break;
+
+                    //公交路线规划
+                    case 2:
+                        TransitRoutePlanOption transitRoutePlanOption = new TransitRoutePlanOption();
+                        transitRoutePlanOption.city(mainActivity.getmCity());
+                        transitRoutePlanOption.from(startNode);
+                        transitRoutePlanOption.to(endNode);
+                        mainActivity.getMSearch().transitSearch(transitRoutePlanOption);
+                        break;
+                }
             }
         });
         return holder;

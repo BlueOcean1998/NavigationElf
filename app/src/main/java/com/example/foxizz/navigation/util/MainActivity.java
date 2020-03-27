@@ -47,23 +47,33 @@ import com.baidu.mapapi.search.poi.PoiIndoorResult;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.route.BikingRouteResult;
+import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
 import com.baidu.mapapi.search.route.DrivingRouteResult;
 import com.baidu.mapapi.search.route.IndoorRouteResult;
 import com.baidu.mapapi.search.route.MassTransitRouteResult;
 import com.baidu.mapapi.search.route.OnGetRoutePlanResultListener;
+import com.baidu.mapapi.search.route.PlanNode;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
+import com.baidu.mapapi.search.route.TransitRoutePlanOption;
 import com.baidu.mapapi.search.route.TransitRouteResult;
+import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.example.foxizz.navigation.demo.MyOrientationListener;
+import com.example.foxizz.navigation.overlayutil.BikingRouteOverlay;
+import com.example.foxizz.navigation.overlayutil.DrivingRouteOverlay;
+import com.example.foxizz.navigation.overlayutil.IndoorRouteOverlay;
+import com.example.foxizz.navigation.overlayutil.MassTransitRouteOverlay;
 import com.example.foxizz.navigation.overlayutil.MyPoiOverlay;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.demo.Tools;
+import com.example.foxizz.navigation.overlayutil.TransitRouteOverlay;
 import com.example.foxizz.navigation.overlayutil.WalkingRouteOverlay;
+import com.example.foxizz.navigation.searchdata.SearchAdapter;
+import com.example.foxizz.navigation.searchdata.SearchItem;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -88,6 +98,9 @@ public class MainActivity extends AppCompatActivity {
     private double mLatitude;//纬度
     private double mLongitude;//经度
     private String mCity;//所在城市
+    public String getmCity() {
+        return mCity;
+    }
 
     //搜索相关
     private PoiSearch mPoiSearch;
@@ -96,12 +109,12 @@ public class MainActivity extends AppCompatActivity {
     public LinearLayout getSelectLayout() {
         return selectLayout;
     }
-    private Button selectButton1;//选择驾车导航
+    private Button selectButton1;//选择驾车
     public Button getSearchButton1() {
         return searchButton1;
     }
-    private Button selectButton2;//选择步行导航
-    private Button selectButton3;//选择公交导航
+    private Button selectButton2;//选择步行
+    private Button selectButton3;//选择公交
     private LinearLayout searchLayout;//搜索布局
     private EditText searchEdit;//搜索输入框
     private Button searchButton1;//清除按钮
@@ -121,6 +134,19 @@ public class MainActivity extends AppCompatActivity {
     private RoutePlanSearch mSearch;
     public RoutePlanSearch getMSearch() {
         return mSearch;
+    }
+
+    private final static int DRIVING = 0;//驾车
+    private final static int WALKING = 1;//步行
+    private final static int TRANSIT = 2;//公交
+    private static int routePlanSelect = DRIVING;//默认为驾车
+    public static int getRoutePlanSelect() {
+        return routePlanSelect;
+    }
+
+    private static int searchItemSelect = 0;//选择的是哪个item
+    public void setSearchItemSelect(int searchItemSelect) {
+        MainActivity.searchItemSelect = searchItemSelect;
     }
 
     //获取改变控件尺寸动画
@@ -207,6 +233,71 @@ public class MainActivity extends AppCompatActivity {
         searchDrawer = findViewById(R.id.search_drawer);
         searchResult = findViewById(R.id.search_result);
 
+        //默认为驾车
+        selectButton1.setBackgroundResource(R.drawable.button_background5);
+
+        //驾车按钮的点击事件
+        selectButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectButton1.setBackgroundResource(R.drawable.button_background5);
+                selectButton2.setBackgroundResource(R.drawable.button_background4);
+                selectButton3.setBackgroundResource(R.drawable.button_background4);
+                routePlanSelect = DRIVING;
+
+                //获取定位坐标和目标坐标
+                PlanNode startNode = PlanNode.withLocation(latLng);
+                PlanNode endNode = PlanNode.withLocation(searchList.get(searchItemSelect).getLatLng());
+
+                //开始驾车路线规划
+                mSearch.drivingSearch((new DrivingRoutePlanOption())
+                        .from(startNode)
+                        .to(endNode));
+            }
+        });
+
+        //步行按钮的点击事件
+        selectButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectButton1.setBackgroundResource(R.drawable.button_background4);
+                selectButton2.setBackgroundResource(R.drawable.button_background5);
+                selectButton3.setBackgroundResource(R.drawable.button_background4);
+                routePlanSelect = WALKING;
+
+                //获取定位坐标和目标坐标
+                PlanNode startNode = PlanNode.withLocation(latLng);
+                PlanNode endNode = PlanNode.withLocation(searchList.get(searchItemSelect).getLatLng());
+
+                //开始步行路线规划
+                mSearch.walkingSearch((new WalkingRoutePlanOption())
+                        .from(startNode)
+                        .to(endNode));
+            }
+        });
+
+        //公交按钮的点击事件
+        selectButton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectButton1.setBackgroundResource(R.drawable.button_background4);
+                selectButton2.setBackgroundResource(R.drawable.button_background4);
+                selectButton3.setBackgroundResource(R.drawable.button_background5);
+                routePlanSelect = TRANSIT;
+
+                //获取定位坐标和目标坐标
+                PlanNode startNode = PlanNode.withLocation(latLng);
+                PlanNode endNode = PlanNode.withLocation(searchList.get(searchItemSelect).getLatLng());
+
+                //开始公交路线规划
+                TransitRoutePlanOption transitRoutePlanOption = new TransitRoutePlanOption();
+                transitRoutePlanOption.city(mCity);
+                transitRoutePlanOption.from(startNode);
+                transitRoutePlanOption.to(endNode);
+                mSearch.transitSearch(transitRoutePlanOption);
+            }
+        });
+
         //设置导航选项布局初始高度为0
         ViewGroup.LayoutParams params = selectLayout.getLayoutParams();//获取内容抽屉参数
         params.height = 0;
@@ -253,36 +344,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this,
                             "网络错误，请检查网络连接是否正常", Toast.LENGTH_LONG).show();
                 }
-            }
-        });
-
-        //驾车导航按钮的点击事件
-        selectButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectButton1.setBackgroundResource(R.drawable.button_background5);
-                selectButton2.setBackgroundResource(R.drawable.button_background4);
-                selectButton3.setBackgroundResource(R.drawable.button_background4);
-            }
-        });
-
-        //步行导航按钮的点击事件
-        selectButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectButton1.setBackgroundResource(R.drawable.button_background4);
-                selectButton2.setBackgroundResource(R.drawable.button_background5);
-                selectButton3.setBackgroundResource(R.drawable.button_background4);
-            }
-        });
-
-        //公交导航按钮的点击事件
-        selectButton3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectButton1.setBackgroundResource(R.drawable.button_background4);
-                selectButton2.setBackgroundResource(R.drawable.button_background4);
-                selectButton3.setBackgroundResource(R.drawable.button_background5);
             }
         });
 
@@ -340,9 +401,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * 初始化定位参数配置
-     */
+    //初始化定位参数配置
     private void initLocationOption() {
         //定位服务的客户端。宿主程序在客户端声明此类，并调用，目前只支持在主线程中启动
         mLocationClient = new LocationClient(this);
@@ -445,6 +504,7 @@ public class MainActivity extends AppCompatActivity {
         mLocationClient.start();
     }
 
+    //初始化搜索目标信息
     private void initSearch() {
         mPoiSearch = PoiSearch.newInstance();
 
@@ -506,6 +566,7 @@ public class MainActivity extends AppCompatActivity {
                         searchList.add(searchItem);//添加搜到的内容到searchList
                     }
 
+                    /*按原来的顺序比较合适
                     //按距离升序排序
                     searchList.sort(new Comparator<SearchItem>() {
                         @Override
@@ -513,6 +574,8 @@ public class MainActivity extends AppCompatActivity {
                             return o1.getDistance().compareTo(o2.getDistance());
                         }
                     });
+                    */
+
                     searchAdapter.notifyDataSetChanged();//通知searchAdapter更新
                 }
             }
@@ -532,6 +595,7 @@ public class MainActivity extends AppCompatActivity {
         mPoiSearch.setOnGetPoiSearchResultListener(listener);
     }
 
+    //初始化路线规划算法
     private void initRoutePlanSearch() {
         //创建路线规划检索实例
         mSearch = RoutePlanSearch.newInstance();
@@ -543,6 +607,7 @@ public class MainActivity extends AppCompatActivity {
                 //创建WalkingRouteOverlay实例
                 WalkingRouteOverlay overlay = new WalkingRouteOverlay(mBaiduMap);
                 if(walkingRouteResult.getRouteLines().size() > 0) {
+                    //清空地图上的标记
                     mBaiduMap.clear();
                     //获取路径规划数据,(以返回的第一条数据为例)
                     //为WalkingRouteOverlay实例设置路径数据
@@ -554,27 +619,77 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onGetTransitRouteResult(TransitRouteResult transitRouteResult) {
-
+                //创建TransitRouteOverlay实例
+                TransitRouteOverlay overlay = new TransitRouteOverlay(mBaiduMap);
+                if(transitRouteResult.getRouteLines().size() > 0) {
+                    //清空地图上的标记
+                    mBaiduMap.clear();
+                    //获取路径规划数据,(以返回的第一条数据为例)
+                    //为TransitRouteOverlay实例设置路径数据
+                    overlay.setData(transitRouteResult.getRouteLines().get(0));
+                    //在地图上绘制TransitRouteOverlay
+                    overlay.addToMap();
+                }
             }
 
             @Override
             public void onGetMassTransitRouteResult(MassTransitRouteResult massTransitRouteResult) {
-
+                //创建MassTransitRouteOverlay实例
+                MassTransitRouteOverlay overlay = new MassTransitRouteOverlay(mBaiduMap);
+                if(massTransitRouteResult.getRouteLines() != null && massTransitRouteResult.getRouteLines().size() > 0){
+                    //清空地图上的标记
+                    mBaiduMap.clear();
+                    //获取路线规划数据（以返回的第一条数据为例）
+                    //为MassTransitRouteOverlay设置数据
+                    overlay.setData(massTransitRouteResult.getRouteLines().get(0));
+                    //在地图上绘制Overlay
+                    overlay.addToMap();
+                }
             }
 
             @Override
             public void onGetDrivingRouteResult(DrivingRouteResult drivingRouteResult) {
-
+                //创建DrivingRouteOverlay实例
+                DrivingRouteOverlay overlay = new DrivingRouteOverlay(mBaiduMap);
+                if(drivingRouteResult.getRouteLines().size() > 0) {
+                    //清空地图上的标记
+                    mBaiduMap.clear();
+                    //获取路径规划数据,(以返回的第一条路线为例）
+                    //为DrivingRouteOverlay实例设置数据
+                    overlay.setData(drivingRouteResult.getRouteLines().get(0));
+                    //在地图上绘制DrivingRouteOverlay
+                    overlay.addToMap();
+                }
             }
 
             @Override
             public void onGetIndoorRouteResult(IndoorRouteResult indoorRouteResult) {
-
+                //创建IndoorRouteOverlay实例
+                IndoorRouteOverlay overlay = new IndoorRouteOverlay(mBaiduMap);
+                if(indoorRouteResult.getRouteLines() != null && indoorRouteResult.getRouteLines().size() > 0) {
+                    //清空地图上的标记
+                    mBaiduMap.clear();
+                    //获取室内路径规划数据（以返回的第一条路线为例）
+                    //为IndoorRouteOverlay实例设置数据
+                    overlay.setData(indoorRouteResult.getRouteLines().get(0));
+                    //在地图上绘制IndoorRouteOverlay
+                    overlay.addToMap();
+                }
             }
 
             @Override
             public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
-
+                //创建BikingRouteOverlay实例
+                BikingRouteOverlay overlay = new BikingRouteOverlay(mBaiduMap);
+                if(bikingRouteResult.getRouteLines().size() > 0) {
+                    //清空地图上的标记
+                    mBaiduMap.clear();
+                    //获取路径规划数据,(以返回的第一条路线为例）
+                    //为BikingRouteOverlay实例设置数据
+                    overlay.setData(bikingRouteResult.getRouteLines().get(0));
+                    //在地图上绘制BikingRouteOverlay
+                    overlay.addToMap();
+                }
             }
         };
 

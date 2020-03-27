@@ -8,16 +8,16 @@ import com.baidu.mapapi.search.poi.PoiSearch;
 public class MyPoiOverlay extends PoiOverlay {
 
     private PoiSearch poiSearch;
-    public MyPoiOverlay(BaiduMap arg0, PoiSearch poiSearch) {
-        super(arg0);
+    public MyPoiOverlay(BaiduMap baiduMap, PoiSearch poiSearch) {
+        super(baiduMap);
         this.poiSearch = poiSearch;
     }
 
     @Override
-    public boolean onPoiClick(int arg0) {
-        super.onPoiClick(arg0);
-        PoiInfo poiInfo = getPoiResult().getAllPoi().get(arg0);
-        // 检索poi详细信息
+    public boolean onPoiClick(int index) {
+        super.onPoiClick(index);
+        PoiInfo poiInfo = getPoiResult().getAllPoi().get(index);
+        //检索poi详细信息
         poiSearch.searchPoiDetail(new PoiDetailSearchOption()
                 .poiUid(poiInfo.uid));
         return true;

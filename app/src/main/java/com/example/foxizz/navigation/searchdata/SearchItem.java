@@ -1,12 +1,14 @@
-package com.example.foxizz.navigation.util;
+package com.example.foxizz.navigation.searchdata;
 
 import com.baidu.mapapi.model.LatLng;
 
 public class SearchItem {
-    private LatLng latLng;
-    private String targetName;
-    private String address;
-    private Double distance;
+    private LatLng latLng;//坐标
+    private Double latitude;//纬度
+    private Double longitude;//经度
+    private String targetName;//目标名
+    private String address;//目标地址
+    private Double distance;//与目标的距离
 
     public SearchItem(LatLng latLng, String targetName, String address, Double distance) {
         super();
