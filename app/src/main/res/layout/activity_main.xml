@@ -134,5 +134,90 @@
                 android:layout_height="match_parent"
                 android:layout_margin="6dp" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/info_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/layout_background">
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="7dp"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="6dp">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4">
+
+                    <TextView
+                        android:id="@+id/info_target_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:text="@string/target_name"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/info_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:text="@string/address"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/info_distance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:text="@string/distance"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/info_others"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:text="@string/others"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="18dp">
+                        <Button
+                            android:id="@+id/info_button1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="18dp"
+                            android:layout_marginRight="18dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/button_background2"
+                            android:textSize="18sp"
+                            android:text="@string/info_bottom1"
+                            tools:ignore="ButtonStyle" />
+
+                        <Button
+                            android:id="@+id/info_button2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="18dp"
+                            android:layout_marginRight="18dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/button_background3"
+                            android:textSize="18sp"
+                            android:text="@string/info_bottom2"
+                            tools:ignore="ButtonStyle" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
     </LinearLayout>
 </FrameLayout>

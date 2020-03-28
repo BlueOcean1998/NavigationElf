@@ -15,6 +15,7 @@ import com.baidu.mapapi.search.route.PlanNode;
 import com.baidu.mapapi.search.route.TransitRoutePlanOption;
 import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.example.foxizz.navigation.R;
+import com.example.foxizz.navigation.demo.Tools;
 import com.example.foxizz.navigation.util.MainActivity;
 
 import java.util.List;
@@ -76,10 +77,29 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         holder.itemButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //获取导航布局原本的高度
-                int bodyHeight = mainActivity.getSearchButton1().getLayout().getHeight() * 2;
-                //获取并开始动画
-                mainActivity.getValueAnimator(mainActivity.getSelectLayout(), 0, bodyHeight).start();
+                //获取搜索布局的高度
+                int searchLayoutHeight = mainActivity.getSearchLayout().getHeight();
+                //收起动画
+                Tools.getValueAnimator(mainActivity.getSearchLayout(), searchLayoutHeight, 0).start();
+
+                //获取搜索抽屉的高度
+                int searchDrawerHeight = mainActivity.getSearchDrawer().getHeight();
+                //收起动画
+                Tools.getValueAnimator(mainActivity.getSearchDrawer(), searchDrawerHeight, 0).start();
+
+                //计算选择布局原本的高度
+                int selectLayoutHeight = mainActivity.getSearchButton1().getLayout().getHeight() * 2;
+                //展开动画
+                Tools.getValueAnimator(mainActivity.getSelectLayout(), 0, selectLayoutHeight).start();
+
+                //计算详细信息布局原本的高度
+                int infoLayoutHeight = (mainActivity.getInfoTargetName().getLayout().getHeight()
+                        + mainActivity.getInfoAddress().getLayout().getHeight()
+                        + mainActivity.getInfoDistance().getLayout().getHeight()
+                        + mainActivity.getInfoOthers().getLayout().getHeight()
+                        + mainActivity.getInfoButton1().getLayout().getHeight()) * 2;
+                //展开动画
+                Tools.getValueAnimator(mainActivity.getInfoLayout(), 0, infoLayoutHeight).start();
 
                 int position = holder.getAdapterPosition();
                 SearchItem searchItem = mSearchItemList.get(position);

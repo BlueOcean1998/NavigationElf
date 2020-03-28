@@ -13,7 +13,9 @@
     <string name="target_name">目标名</string>
     <string name="address">地址</string>
     <string name="distance">距离</string>
+    <string name="others">其它信息</string>
 
     <string name="item_bottom1">路线</string>
-    <string name="item_bottom2">导航</string>
+    <string name="info_bottom1">返回</string>
+    <string name="info_bottom2">导航</string>
 </resources>
