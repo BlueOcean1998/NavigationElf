@@ -2,11 +2,9 @@ package com.example.foxizz.navigation.util;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Build;
@@ -45,6 +43,7 @@ import com.baidu.mapapi.search.poi.PoiDetailResult;
 import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.baidu.mapapi.search.poi.PoiDetailSearchResult;
 import com.baidu.mapapi.search.poi.PoiIndoorResult;
+import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.route.BikingRouteResult;
@@ -74,6 +73,7 @@ import com.example.foxizz.navigation.searchdata.SearchItem;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.example.foxizz.navigation.demo.Tools.getValueAnimator;
@@ -107,25 +107,27 @@ public class MainActivity extends AppCompatActivity {
         return mCity;
     }
 
+
     //搜索相关
     private PoiSearch mPoiSearch;
+    private final static int CITY_SEARCH = 0;//城市内搜索
+    private final static int NEARBY_SEARCH = 1;//周边搜索
+    private int poiSearchType = CITY_SEARCH;//使用的搜索类型
 
     private LinearLayout searchLayout;//搜索布局
-    public LinearLayout getSearchLayout() {
-        return searchLayout;
-    }
     private EditText searchEdit;//搜索输入框
     private Button searchButton1;//清除按钮
     private Button searchButton2;//搜索按钮
     private ImageButton searchExpand;//搜索结果伸缩按钮
 
+    private static String searchContent = "";//搜索内容
     private static boolean expandFlag = false;//伸缩状态
+    public boolean getExpandFlag() {
+        return expandFlag;
+    }
     private int bodyHeight;//半个屏幕高度
 
     private LinearLayout searchDrawer;//搜索结果抽屉
-    public LinearLayout getSearchDrawer() {
-        return searchDrawer;
-    }
     private RecyclerView searchResult;
     private List<SearchItem> searchList = new ArrayList<>();
     private StaggeredGridLayoutManager layoutManager;
@@ -151,11 +153,15 @@ public class MainActivity extends AppCompatActivity {
     public TextView getInfoOthers() {
         return infoOthers;
     }
-    private Button infoButton1;//返回
+    private Button infoButton1;//返回按钮
     public Button getInfoButton1() {
         return infoButton1;
     }
-    private Button infoButton2;//开始导航
+    private Button infoButton2;//开始导航按钮
+
+    private LinearLayout endLayout;//结束布局
+    private Button endButton;//结束导航按钮
+
 
     //路线规划相关
     private RoutePlanSearch mSearch;
@@ -164,13 +170,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private LinearLayout selectLayout;//选择布局
-    public LinearLayout getSelectLayout() {
-        return selectLayout;
-    }
     private Button selectButton1;//选择驾车
-    public Button getSearchButton1() {
-        return searchButton1;
-    }
     private Button selectButton2;//选择步行
     private Button selectButton3;//选择公交
 
@@ -187,26 +187,131 @@ public class MainActivity extends AppCompatActivity {
         MainActivity.searchItemSelect = searchItemSelect;
     }
 
+
+    //控制布局相关
+    //伸缩布局
+    private void expandLayout(LinearLayout linearLayout, Button button, boolean flag) {
+        if(flag) {
+            //计算布局原本的高度
+            int endLayoutHeight = button.getLayout().getHeight() * 2;
+            //展开动画
+            getValueAnimator(linearLayout, 0, endLayoutHeight).start();
+        } else {
+            //获取布局的高度
+            int endLayoutHeight = linearLayout.getHeight();
+            //收起动画
+            getValueAnimator(linearLayout, endLayoutHeight, 0).start();
+        }
+    }
+
+    //伸缩选择布局
+    public void expandSelectLayout(boolean flag) {
+        expandLayout(selectLayout, selectButton1, flag);
+        /*
+        if(flag) {
+            //计算选择布局原本的高度
+            int selectLayoutHeight = selectButton1.getLayout().getHeight() * 2;
+            //展开动画
+            getValueAnimator(selectLayout, 0, selectLayoutHeight).start();
+        } else {
+            //获取选择布局的高度
+            int selectLayoutHeight = selectLayout.getHeight();
+            //收起动画
+            getValueAnimator(selectLayout, selectLayoutHeight, 0).start();
+        }
+        */
+    }
+
+    //伸缩搜索布局
+    public void expandSearchLayout(boolean flag) {
+        expandLayout(searchLayout, searchButton1, flag);
+        /*
+        if(flag) {
+            //计算搜索布局原本的高度
+            int searchLayoutHeight = searchButton1.getLayout().getHeight() * 2;
+            //展开动画
+            getValueAnimator(searchLayout, 0, searchLayoutHeight).start();
+        } else {
+            //获取搜索布局的高度
+            int searchLayoutHeight = searchLayout.getHeight();
+            //收起动画
+            getValueAnimator(searchLayout, searchLayoutHeight, 0).start();
+        }
+        */
+    }
+
+    //伸缩搜索抽屉
+    public void expandSearchDrawer(boolean flag) {
+        if(flag) {//如果状态为展开
+            searchResult.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.adapter_alpha1));//动画1，消失;
+            getValueAnimator(searchDrawer, bodyHeight, 0).start();//收起搜索抽屉
+            rotateExpandIcon(searchExpand, 180, 0);//伸展按钮的旋转动画
+            expandFlag = false;//设置状态为收起
+        } else {//如果状态为收起
+            searchResult.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.adapter_alpha2));//动画2，出现;
+            getValueAnimator(searchDrawer, 0, bodyHeight).start();//展开搜索抽屉
+            rotateExpandIcon(searchExpand, 0, 180);//伸展按钮的旋转动画
+            expandFlag = true;//设置状态为展开
+        }
+    }
+
+    //伸缩详细信息布局
+    public void expandInfoLayout(boolean flag) {
+        if(flag) {
+            //计算详细信息布局原本的高度
+            int infoLayoutHeight = (infoTargetName.getLayout().getHeight()
+                    + infoAddress.getLayout().getHeight()
+                    + infoDistance.getLayout().getHeight()
+                    + infoOthers.getLayout().getHeight()
+                    + infoButton1.getLayout().getHeight()) * 2;
+            //展开动画
+            getValueAnimator(infoLayout, 0, infoLayoutHeight).start();
+        } else {
+            //获取详细信息布局的高度
+            int infoLayoutHeight = infoLayout.getHeight();
+            //收起动画
+            getValueAnimator(infoLayout, infoLayoutHeight, 0).start();
+        }
+    }
+
+    //伸缩结束布局
+    public void expandEndLayout(boolean flag) {
+        expandLayout(endLayout, endButton, flag);
+        /*
+        if(flag) {
+            //计算结束布局原本的高度
+            int endLayoutHeight = endButton.getLayout().getHeight() * 2;
+            //展开动画
+            getValueAnimator(endLayout, 0, endLayoutHeight).start();
+        } else {
+            //获取结束布局的高度
+            int endLayoutHeight = endLayout.getHeight();
+            //收起动画
+            getValueAnimator(endLayout, endLayoutHeight, 0).start();
+        }
+        */
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //初始化地图控件
-        setInit();
+        InitMap();
         //初始化自定义控件
         initMyView();
         //初始化方向传感器
         initMyOrien();
         //初始化定位
         initLocationOption();
-        //初始化搜索工具
+        //初始化搜索目标信息
         initSearch();
         //初始化路线规划
         initRoutePlanSearch();
     }
 
     //初始化地图控件
-    public void setInit() {
+    public void InitMap() {
         //获取地图控件引用
         mMapView = findViewById(R.id.bmapView);
         mBaiduMap = mMapView.getMap();
@@ -220,9 +325,9 @@ public class MainActivity extends AppCompatActivity {
         mBaiduMap.setMyLocationConfiguration(myLocationConfiguration);
 
         mMapView.removeViewAt(1);//去除百度水印
-        mMapView.showScaleControl(true);//显示比例尺
-        mMapView.showZoomControls(false);//去除缩放按钮
-        mUiSettings.setCompassEnabled(false);//去除指南针
+        //mMapView.showScaleControl(true);//显示比例尺
+        //mMapView.showZoomControls(false);//去除缩放按钮
+        //mUiSettings.setCompassEnabled(false);//去除指南针
     }
 
     //初始化自定义控件
@@ -248,8 +353,11 @@ public class MainActivity extends AppCompatActivity {
         infoButton1 = findViewById(R.id.info_button1);
         infoButton2 = findViewById(R.id.info_button2);
 
+        endLayout = findViewById(R.id.end_layout);
+        endButton = findViewById(R.id.end_button);
+
         //设置导航选项布局初始高度为0
-        ViewGroup.LayoutParams selectParams = selectLayout.getLayoutParams();//获取内容抽屉参数
+        ViewGroup.LayoutParams selectParams = selectLayout.getLayoutParams();//获取导航选项布局参数
         selectParams.height = 0;
         selectLayout.setLayoutParams(selectParams);
 
@@ -318,47 +426,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //设置详细信息布局初始高度为0
-        ViewGroup.LayoutParams infoParams = infoLayout.getLayoutParams();//获取内容抽屉参数
-        infoParams.height = 0;
-        infoLayout.setLayoutParams(infoParams);
-
-        //返回按钮的点击事件
-        infoButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //计算搜索布局原本的高度
-                int searchLayoutHeight = searchButton1.getLayout().getHeight() * 2;
-                //展开动画
-                getValueAnimator(searchLayout, 0, searchLayoutHeight).start();
-
-                if(searchList.size() != 0) {//如果状态为收起且有搜索内容
-                    searchResult.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.adapter_alpha2));//动画2，出现;
-                    getValueAnimator(searchDrawer, 0, bodyHeight).start();//展开抽屉
-                    rotateExpandIcon(searchExpand, 0, 180);//伸展按钮的旋转动画
-                    expandFlag = true;//设置状态为展开
-                }
-
-                //获取选择布局的高度
-                int selectLayoutHeight = selectButton1.getHeight();
-                //收起动画
-                getValueAnimator(selectLayout, selectLayoutHeight, 0).start();
-
-                //获取详细信息布局的高度
-                int infoLayoutHeight = infoLayout.getHeight();
-                //收起动画
-                getValueAnimator(infoLayout, infoLayoutHeight, 0).start();
-            }
-        });
-
-        //导航按钮的点击事件
-        infoButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
         //清除按钮的点击事件
         searchButton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -377,16 +444,9 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this,
                                 "请检查是否有关闭飞行模式", Toast.LENGTH_LONG).show();
                     } else {
-                        String searchContent = searchEdit.getText().toString();
+                        searchContent = searchEdit.getText().toString();
                         if(!searchContent.equals("")){
-                            if(!expandFlag) {
-                                final ValueAnimator valueAnimator;//伸展动画
-                                searchResult.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.adapter_alpha2));//动画2，出现;
-                                valueAnimator = getValueAnimator(searchDrawer, 0, bodyHeight);//设置抽屉动画为展开
-                                rotateExpandIcon(searchExpand, 0, 180);//伸展按钮的旋转动画
-                                expandFlag = true;//设置状态为展开
-                                valueAnimator.start();//开始抽屉的伸缩动画
-                            }
+                            if(!expandFlag) expandSearchDrawer(false);//展开搜索抽屉
 
                             //收回键盘
                             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -415,22 +475,7 @@ public class MainActivity extends AppCompatActivity {
         searchExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ValueAnimator valueAnimator = null;//伸展动画
-
-                if(expandFlag) {//如果状态为展开
-                    searchResult.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.adapter_alpha1));//动画1，消失;
-                    valueAnimator = getValueAnimator(searchDrawer, bodyHeight, 0);//设置抽屉动画为收起
-                    rotateExpandIcon(searchExpand, 180, 0);//伸展按钮的旋转动画
-                    expandFlag = false;//设置状态为收起
-
-                } else if(searchList.size() != 0) {//如果状态为收起且有搜索内容
-                    searchResult.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.adapter_alpha2));//动画2，出现;
-                    valueAnimator = getValueAnimator(searchDrawer, 0, bodyHeight);//设置抽屉动画为展开
-                    rotateExpandIcon(searchExpand, 0, 180);//伸展按钮的旋转动画
-                    expandFlag = true;//设置状态为展开
-                }
-
-                if(valueAnimator != null) valueAnimator.start();//开始抽屉的伸缩动画
+                expandSearchDrawer(expandFlag);//展开或收起搜索抽屉
             }
         });
 
@@ -438,6 +483,52 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);//布局行数为1
         searchResult.setAdapter(searchAdapter);//设置适配器
         searchResult.setLayoutManager(layoutManager);//设置布局
+
+        //设置详细信息布局初始高度为0
+        ViewGroup.LayoutParams infoParams = infoLayout.getLayoutParams();//获取内容抽屉参数
+        infoParams.height = 0;
+        infoLayout.setLayoutParams(infoParams);
+
+        //返回按钮的点击事件
+        infoButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expandSelectLayout(false);//收起选择布局
+                expandSearchLayout(true);//展开搜索布局
+                if(!expandFlag) expandSearchDrawer(false);//展开被收起的搜索抽屉
+                expandInfoLayout(false);//收起详细信息布局
+            }
+        });
+
+        //设置结束导航布局初始宽度为0
+        ViewGroup.LayoutParams endParams = endLayout.getLayoutParams();//获取结束导航布局参数
+        endParams.height = 0;
+        endLayout.setLayoutParams(endParams);
+
+        //开始导航按钮的点击事件
+        infoButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expandSelectLayout(false);//收起选择布局
+                expandInfoLayout(false);//收起详细信息布局
+                expandEndLayout(true);//展开结束布局
+
+
+            }
+        });
+
+        //结束导航按钮的点击事件
+        endButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expandSelectLayout(true);//展开选择布局
+                expandInfoLayout(true);//展开详细信息布局
+                expandEndLayout(false);//收起结束布局
+
+
+            }
+        });
+
     }
 
     //初始化方向传感器
@@ -460,7 +551,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //初始化定位参数配置
+    //初始化定位
     private void initLocationOption() {
         //定位服务的客户端。宿主程序在客户端声明此类，并调用，目前只支持在主线程中启动
         mLocationClient = new LocationClient(this);
@@ -567,6 +658,8 @@ public class MainActivity extends AppCompatActivity {
     private void initSearch() {
         mPoiSearch = PoiSearch.newInstance();
 
+
+
         OnGetPoiSearchResultListener listener = new OnGetPoiSearchResultListener() {
             @Override
             public void onGetPoiResult(PoiResult poiResult) {
@@ -578,23 +671,46 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if(poiResult.error == SearchResult.ERRORNO.NO_ERROR) {//检索结果正常返回
-                    MyPoiOverlay poiOverlay = new MyPoiOverlay(mBaiduMap, mPoiSearch);
-                    poiOverlay.setData(poiResult);//设置POI数据
-                    mBaiduMap.clear();//清空地图上的标记点
-                    mBaiduMap.setOnMarkerClickListener(poiOverlay);
-                    poiOverlay.addToMap();//将所有的overlay添加到地图上
-                    poiOverlay.zoomToSpan();
+                    //如果搜索到的目标数量小于50或使用的是周边搜索
+                    if(poiResult.getTotalPoiNum() < 50 || poiSearchType == NEARBY_SEARCH) {
+                        Toast.makeText(MainActivity.this,
+                                "总共查到" + poiResult.getTotalPoiNum() + "个兴趣点, 分为"
+                                        + poiResult.getTotalPageNum() + "页", Toast.LENGTH_SHORT).show();
 
-                    /*
-                    Toast.makeText(MainActivity.this,
-                            "总共查到" + poiResult.getTotalPoiNum() + "个兴趣点, 分为"
-                                    + poiResult.getTotalPageNum() + "页", Toast.LENGTH_SHORT).show();
-                    */
+                        mBaiduMap.clear();//清空地图上的所有标记点和绘制的路线
+                        searchList.clear();//清空searchList
 
-                    searchList.clear();//清空searchList
-                    for(PoiInfo info: poiResult.getAllPoi()) {
-                        //uid的集合，最多可以传入10个uid，多个uid之间用英文逗号分隔。
-                        mPoiSearch.searchPoiDetail((new PoiDetailSearchOption()).poiUids(info.uid));
+                        MyPoiOverlay poiOverlay = new MyPoiOverlay(mBaiduMap, mPoiSearch);
+                        mBaiduMap.setOnMarkerClickListener(poiOverlay);
+                        poiOverlay.setData(poiResult);//设置POI数据
+                        poiOverlay.addToMap();//将所有的overlay添加到地图上
+                        poiOverlay.zoomToSpan();
+
+                        //详细搜索所有页的所有内容，超过5页则只搜索5页内容
+                        int searchNum = 5;
+                        if(poiResult.getTotalPageNum() < searchNum) {
+                            searchNum = poiResult.getTotalPageNum();
+                        }
+                        for(int i = 0; i < searchNum; i++) {
+                            for(PoiInfo info: poiResult.getAllPoi()) {
+                                //uid的集合，最多可以传入10个uid，多个uid之间用英文逗号分隔。
+                                mPoiSearch.searchPoiDetail((new PoiDetailSearchOption()).poiUids(info.uid));
+                            }
+
+                            poiResult.setCurrentPageNum(i);
+                        }
+
+                        //还原搜索类型为城市内搜索
+                        poiSearchType = CITY_SEARCH;
+
+                    } else {//如果搜索到的目标数量不小于50则用周边搜索周围5km内的目标
+                        mPoiSearch.searchNearby(new PoiNearbySearchOption()
+                                .location(latLng)
+                                .radius(5000)
+                                .keyword(searchContent));
+
+                        //设置搜索类型为周边搜索
+                        poiSearchType = NEARBY_SEARCH;
                     }
                 }
             }
@@ -625,17 +741,19 @@ public class MainActivity extends AppCompatActivity {
                         searchList.add(searchItem);//添加搜到的内容到searchList
                     }
 
-                    /*按原来的顺序比较合适
-                    //按距离升序排序
-                    searchList.sort(new Comparator<SearchItem>() {
-                        @Override
-                        public int compare(SearchItem o1, SearchItem o2) {
-                            return o1.getDistance().compareTo(o2.getDistance());
-                        }
-                    });
-                    */
+                    //这里的poiSearchType因为线程不同步问题始终不会等于NEARBY_SEARCH，待解决，（影响不大）
+                    if(poiSearchType == NEARBY_SEARCH) {//如果是使用周边搜索
+                        //按距离升序排序
+                        searchList.sort(new Comparator<SearchItem>() {
+                            @Override
+                            public int compare(SearchItem o1, SearchItem o2) {
+                                return o1.getDistance().compareTo(o2.getDistance());
+                            }
+                        });
+                    }
 
                     searchAdapter.notifyDataSetChanged();//通知searchAdapter更新
+                    searchResult.scrollToPosition(0);//移动回头部
                 }
             }
 
@@ -654,7 +772,7 @@ public class MainActivity extends AppCompatActivity {
         mPoiSearch.setOnGetPoiSearchResultListener(listener);
     }
 
-    //初始化路线规划算法
+    //初始化路线规划
     private void initRoutePlanSearch() {
         //创建路线规划检索实例
         mSearch = RoutePlanSearch.newInstance();

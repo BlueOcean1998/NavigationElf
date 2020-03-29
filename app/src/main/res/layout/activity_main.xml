@@ -24,8 +24,7 @@
             android:id="@+id/select_layout"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/layout_background2">
+            android:layout_height="wrap_content">
             <Button
                 android:id="@+id/select_button1"
                 android:layout_width="0dp"
@@ -138,8 +137,7 @@
         <LinearLayout
             android:id="@+id/info_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/layout_background">
+            android:layout_height="wrap_content">
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -220,4 +218,20 @@
             </androidx.cardview.widget.CardView>
         </LinearLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/end_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end">
+        <Button
+            android:id="@+id/end_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:background="@drawable/button_background3"
+            android:textSize="18sp"
+            android:text="@string/end_button" />
+    </LinearLayout>
+
 </FrameLayout>

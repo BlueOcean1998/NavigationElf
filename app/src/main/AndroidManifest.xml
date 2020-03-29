@@ -17,6 +17,11 @@
     <!-- 这个权限用于访问GPS定位 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <!-- 获取访问手机振动器权限，用于导航过程中的震动提示 -->
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <!-- 获取摄像头权限，用于AR步行导航 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:name=".demo.DemoApplication"
         android:allowBackup="true"

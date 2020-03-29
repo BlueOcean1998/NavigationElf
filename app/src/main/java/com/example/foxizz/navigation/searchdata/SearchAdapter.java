@@ -77,20 +77,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         holder.itemButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //获取搜索布局的高度
-                int searchLayoutHeight = mainActivity.getSearchLayout().getHeight();
-                //收起动画
-                Tools.getValueAnimator(mainActivity.getSearchLayout(), searchLayoutHeight, 0).start();
-
-                //获取搜索抽屉的高度
-                int searchDrawerHeight = mainActivity.getSearchDrawer().getHeight();
-                //收起动画
-                Tools.getValueAnimator(mainActivity.getSearchDrawer(), searchDrawerHeight, 0).start();
-
-                //计算选择布局原本的高度
-                int selectLayoutHeight = mainActivity.getSearchButton1().getLayout().getHeight() * 2;
-                //展开动画
-                Tools.getValueAnimator(mainActivity.getSelectLayout(), 0, selectLayoutHeight).start();
+                mainActivity.expandSelectLayout(true);//展开选择布局
+                mainActivity.expandSearchLayout(false);//收起搜索布局
+                if(mainActivity.getExpandFlag())
+                    mainActivity.expandSearchDrawer(true);//收起展开的搜索抽屉
+                mainActivity.expandInfoLayout(true);//展开详细信息布局
 
                 //计算详细信息布局原本的高度
                 int infoLayoutHeight = (mainActivity.getInfoTargetName().getLayout().getHeight()

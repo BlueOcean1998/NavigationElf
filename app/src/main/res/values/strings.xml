@@ -18,4 +18,5 @@
     <string name="item_bottom1">路线</string>
     <string name="info_bottom1">返回</string>
     <string name="info_bottom2">导航</string>
+    <string name="end_button">结束导航</string>
 </resources>
