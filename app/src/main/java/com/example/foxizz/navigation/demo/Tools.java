@@ -11,6 +11,15 @@ import android.view.animation.DecelerateInterpolator;
 
 import androidx.annotation.RequiresApi;
 
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.model.LatLngBounds;
+
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * 这是一个工具类，专门存放各种方法
  */
@@ -65,6 +74,29 @@ public class Tools {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public static boolean isAirplaneModeOn(Context context) {
         return Settings.Global.getInt(context.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
+    }
+
+    //判断是否在时间内
+    public static boolean isEffectiveDate(Date nowTime, Date startTime, Date endTime) {
+        if(nowTime != null && startTime != null && endTime != null) {
+            if (nowTime.getTime() == startTime.getTime()
+                    || nowTime.getTime() == endTime.getTime()) {
+                return true;
+            }
+
+            Calendar date = Calendar.getInstance();
+            date.setTime(nowTime);
+
+            Calendar begin = Calendar.getInstance();
+            begin.setTime(startTime);
+
+            Calendar end = Calendar.getInstance();
+            end.setTime(endTime);
+
+            return date.after(begin) && date.before(end);
+        }
+
+        return false;
     }
 
 }

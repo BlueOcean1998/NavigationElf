@@ -4,18 +4,18 @@ import com.baidu.mapapi.model.LatLng;
 
 public class SearchItem {
     private LatLng latLng;//坐标
-    private Double latitude;//纬度
-    private Double longitude;//经度
     private String targetName;//目标名
     private String address;//目标地址
     private Double distance;//与目标的距离
-    private String telephone;//联系方式
-    private String shopTime;//营业时间
+    private String otherInfo;//其它信息
 
-    public SearchItem(Double latitude, Double longitude) {
+    public SearchItem(LatLng latLng, String targetName, String address, Double distance, String otherInfo) {
         super();
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.latLng = latLng;
+        this.targetName = targetName;
+        this.address = address;
+        this.distance = distance;
+        this.otherInfo = otherInfo;
     }
     public SearchItem() {
         super();
@@ -26,20 +26,6 @@ public class SearchItem {
     }
     public void setLatLng(LatLng latLng) {
         this.latLng = latLng;
-    }
-
-    public Double getLatitude() {
-        return latitude;
-    }
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
     }
 
     public String getTargetName() {
@@ -63,40 +49,20 @@ public class SearchItem {
         this.distance = distance;
     }
 
-    public String getTelephone() {
-        return telephone;
+    public String getOtherInfo() {
+        return otherInfo;
     }
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public String getShopTime() {
-        return shopTime;
-    }
-    public void setShopTime(String shopTime) {
-        this.shopTime = shopTime;
+    public void setOtherInfo(String otherInfo) {
+        this.otherInfo = otherInfo;
     }
 
     @Override
     public String toString() {
-        return "SearchItem{" +
-                "坐标:'" + latLng +
-                ", 纬度:'" + latitude +
-                ", 经度:'" + longitude +
+        return "SearchItem{" + "坐标:'" + latLng +
                 ", 目标名:'" + targetName + '\'' +
                 ", 目标地址:'" + address + '\'' +
-                ", 距离:" + distance +
-                ", 联系方式:'" + telephone + '\'' +
-                ", 营业时间:'" + shopTime + '\'' +
-                '}';
-    }
-
-    //只打印其它信息
-    public String otherInfoToString() {
-        return "SearchItem{" +
-                "联系方式:'" + telephone + '\'' +
-                ", 营业时间:'" + shopTime + '\'' +
-                '}';
+                ", 距离:'" + distance + '\'' +
+                ", 其它信息:'" + otherInfo + '\'' + '}';
     }
 
 }

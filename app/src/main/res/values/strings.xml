@@ -5,8 +5,8 @@
     <string name="select_bottom2">步行</string>
     <string name="select_bottom3">公交</string>
 
-    <string name="search_bottom1">清空</string>
-    <string name="search_bottom2">搜索</string>
+    <string name="empty_bottom">清空</string>
+    <string name="search_bottom">搜索</string>
     <string name="search_hint">你要查找的地址</string>
     <string name="expand">伸缩</string>
 
@@ -15,8 +15,10 @@
     <string name="distance">距离</string>
     <string name="others">其它信息</string>
 
-    <string name="item_bottom1">路线</string>
-    <string name="info_bottom1">返回</string>
-    <string name="info_bottom2">导航</string>
+    <string name="item_button">路线</string>
+    <string name="return_button">返回</string>
+    <string name="info_button1">路线</string>
+    <string name="info_button2">详细信息</string>
+    <string name="start_button">导航</string>
     <string name="end_button">结束导航</string>
 </resources>

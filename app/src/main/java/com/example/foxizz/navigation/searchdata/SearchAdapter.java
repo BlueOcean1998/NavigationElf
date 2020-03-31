@@ -10,12 +10,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.baidu.mapapi.map.Overlay;
+import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
 import com.baidu.mapapi.search.route.PlanNode;
 import com.baidu.mapapi.search.route.TransitRoutePlanOption;
 import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.demo.Tools;
+import com.example.foxizz.navigation.overlayutil.MyPoiOverlay;
 import com.example.foxizz.navigation.util.MainActivity;
 
 import java.util.List;
@@ -37,7 +40,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         TextView targetName;
         TextView address;
         TextView distance;
-        Button itemButton1;
+        Button itemButton;
 
         ViewHolder(View view) {
             super(view);
@@ -45,7 +48,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             targetName = view.findViewById(R.id.target_name);
             address = view.findViewById(R.id.address);
             distance = view.findViewById(R.id.distance);
-            itemButton1 = view.findViewById(R.id.item_button1);
+            itemButton = view.findViewById(R.id.item_button);
         }
     }
 
@@ -73,60 +76,62 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 .inflate(R.layout.search_item, parent, false);
         final ViewHolder holder = new ViewHolder(view);
 
-        //itemButton1的点击事件
-        holder.itemButton1.setOnClickListener(new View.OnClickListener() {
+        //cardView的点击事件
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainActivity.expandSelectLayout(true);//展开选择布局
-                mainActivity.expandSearchLayout(false);//收起搜索布局
-                if(mainActivity.getExpandFlag())
-                    mainActivity.expandSearchDrawer(true);//收起展开的搜索抽屉
+                click(holder);
+
+                mainActivity.getInfoButton().setText(R.string.info_button1);//设置按钮为路线
                 mainActivity.expandInfoLayout(true);//展开详细信息布局
-
-                //计算详细信息布局原本的高度
-                int infoLayoutHeight = (mainActivity.getInfoTargetName().getLayout().getHeight()
-                        + mainActivity.getInfoAddress().getLayout().getHeight()
-                        + mainActivity.getInfoDistance().getLayout().getHeight()
-                        + mainActivity.getInfoOthers().getLayout().getHeight()
-                        + mainActivity.getInfoButton1().getLayout().getHeight()) * 2;
-                //展开动画
-                Tools.getValueAnimator(mainActivity.getInfoLayout(), 0, infoLayoutHeight).start();
-
-                int position = holder.getAdapterPosition();
-                SearchItem searchItem = mSearchItemList.get(position);
-                mainActivity.setSearchItemSelect(position);
-
-                //获取定位坐标和目标坐标
-                PlanNode startNode = PlanNode.withLocation(mainActivity.getLatLng());
-                PlanNode endNode = PlanNode.withLocation(searchItem.getLatLng());
-
-                switch(MainActivity.getRoutePlanSelect()) {
-                    //驾车路线规划
-                    case 0:
-                        mainActivity.getMSearch().drivingSearch((new DrivingRoutePlanOption())
-                                .from(startNode)
-                                .to(endNode));
-                        break;
-
-                    //步行路线规划
-                    case 1:
-                        mainActivity.getMSearch().walkingSearch((new WalkingRoutePlanOption())
-                                .from(startNode)
-                                .to(endNode));
-                        break;
-
-                    //公交路线规划
-                    case 2:
-                        TransitRoutePlanOption transitRoutePlanOption = new TransitRoutePlanOption();
-                        transitRoutePlanOption.city(mainActivity.getmCity());
-                        transitRoutePlanOption.from(startNode);
-                        transitRoutePlanOption.to(endNode);
-                        mainActivity.getMSearch().transitSearch(transitRoutePlanOption);
-                        break;
-                }
+                mainActivity.setInfoFlag(true);//设置信息状态为展开
             }
         });
+
+        //itemButton1的点击事件
+        holder.itemButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                click(holder);
+
+                mainActivity.getInfoButton().setText(R.string.info_button2);//设置按钮为详细信息
+                mainActivity.expandSelectLayout(true);//展开选择布局
+                mainActivity.setInfoFlag(false);//设置信息状态为收起
+
+                mainActivity.startRoutePlanSearch();//开始路线规划
+            }
+        });
+
+        //cardView的长按事件
+        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+
+                return false;
+            }
+        });
+
         return holder;
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void click(ViewHolder holder) {
+        int position = holder.getAdapterPosition();
+        SearchItem searchItem = mSearchItemList.get(position);
+
+        mainActivity.setSearchItemSelect(position);//设置item选择
+
+        //设置详细信息内容
+        mainActivity.getInfoTargetName().setText(searchItem.getTargetName());
+        mainActivity.getInfoAddress().setText(searchItem.getAddress());
+        mainActivity.getInfoDistance().setText(searchItem.getDistance() + "km");
+        mainActivity.getInfoOthers().setText(searchItem.getOtherInfo());
+
+        mainActivity.expandSearchLayout(false);//收起搜索布局
+        if(mainActivity.getExpandFlag())
+            mainActivity.expandSearchDrawer(true);//收起展开的搜索抽屉
+        mainActivity.expandStartLayout(true);//展开开始导航布局
     }
 
 }

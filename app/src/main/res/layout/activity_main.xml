@@ -14,224 +14,261 @@
         android:clickable="true"
         android:focusable="true" />
 
-    <LinearLayout
-        android:orientation="vertical"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@drawable/layout_background">
+        android:layout_gravity="bottom">
         <LinearLayout
-            android:id="@+id/select_layout"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/select_button1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_margin="6dp"
-                android:layout_gravity="center"
-                android:background="@drawable/button_background4"
-                android:textSize="16sp"
-                android:textColor="@color/white"
-                android:text="@string/select_bottom1"
-                tools:ignore="ButtonStyle" />
-
-            <Button
-                android:id="@+id/select_button2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_margin="6dp"
-                android:layout_gravity="center"
-                android:background="@drawable/button_background4"
-                android:textSize="16sp"
-                android:textColor="@color/white"
-                android:text="@string/select_bottom2"
-                tools:ignore="ButtonStyle" />
-
-            <Button
-                android:id="@+id/select_button3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_margin="6dp"
-                android:layout_gravity="center"
-                android:background="@drawable/button_background4"
-                android:textSize="16sp"
-                android:textColor="@color/white"
-                android:text="@string/select_bottom3"
-                tools:ignore="ButtonStyle" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/search_layout"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="6dp">
-            <Button
-                android:id="@+id/search_button1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:layout_margin="6dp"
-                android:layout_gravity="center"
-                android:background="@drawable/button_background"
-                android:textSize="18sp"
-                android:text="@string/search_bottom1"/>
-
-            <EditText
-                android:id="@+id/search_edit"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="7"
-                android:layout_margin="6dp"
-                android:layout_gravity="center"
-                android:padding="5dp"
-                android:background="@null"
-                android:textSize="16sp"
-                android:textColor="@color/white"
-                android:hint="@string/search_hint"
-                android:textColorHint="@color/gray"
-                android:lines="1"
-                android:maxLength="20"
-                android:importantForAutofill="no"
-                android:inputType="none" />
-
-            <Button
-                android:id="@+id/search_button2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:layout_margin="6dp"
-                android:layout_gravity="center"
-                android:background="@drawable/button_background"
-                android:textSize="18sp"
-                android:text="@string/search_bottom2" />
-
-            <ImageButton
-                android:id="@+id/search_expand"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_margin="6dp"
-                android:layout_gravity="center"
-                android:background="@null"
-                android:src="@drawable/ic_expand_less_black_24dp"
-                android:contentDescription="@string/expand" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/search_drawer"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/search_result"
+            android:background="@drawable/layout_background1">
+            <LinearLayout
+                android:id="@+id/select_layout"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="6dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/info_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="7dp"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="6dp">
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/layout_background">
+                <Button
+                    android:id="@+id/select_button1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="4">
+                    android:layout_weight="1"
+                    android:layout_margin="6dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/button_background_black"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:text="@string/select_bottom1"
+                    tools:ignore="ButtonStyle" />
 
-                    <TextView
-                        android:id="@+id/info_target_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="3dp"
-                        android:text="@string/target_name"
-                        android:textSize="16sp" />
+                <Button
+                    android:id="@+id/select_button2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="6dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/button_background_black"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:text="@string/select_bottom2"
+                    tools:ignore="ButtonStyle" />
 
-                    <TextView
-                        android:id="@+id/info_address"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="3dp"
-                        android:text="@string/address"
-                        android:textSize="12sp" />
+                <Button
+                    android:id="@+id/select_button3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="6dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/button_background_black"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:text="@string/select_bottom3"
+                    tools:ignore="ButtonStyle" />
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/info_distance"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="3dp"
-                        android:text="@string/distance"
-                        android:textSize="16sp" />
+            <LinearLayout
+                android:id="@+id/search_layout"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/layout_background">
+                <Button
+                    android:id="@+id/empty_bottom"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:layout_margin="6dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/button_background"
+                    android:textSize="18sp"
+                    android:text="@string/empty_bottom"/>
 
-                    <TextView
-                        android:id="@+id/info_others"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="3dp"
-                        android:text="@string/others"
-                        android:textSize="16sp" />
+                <EditText
+                    android:id="@+id/search_edit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:layout_margin="6dp"
+                    android:layout_gravity="center"
+                    android:padding="5dp"
+                    android:background="@null"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:hint="@string/search_hint"
+                    android:textColorHint="@color/gray"
+                    android:lines="1"
+                    android:maxLength="20"
+                    android:importantForAutofill="no"
+                    android:inputType="none" />
 
+                <Button
+                    android:id="@+id/search_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:layout_margin="6dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/button_background"
+                    android:textSize="18sp"
+                    android:text="@string/search_bottom" />
+
+                <ImageButton
+                    android:id="@+id/search_expand"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_margin="6dp"
+                    android:layout_gravity="center"
+                    android:background="@null"
+                    android:src="@drawable/ic_expand_less_black_24dp"
+                    android:contentDescription="@string/expand" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/search_drawer"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:padding="6dp"
+                android:background="@drawable/layout_background">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/search_result"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/info_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:background="@drawable/layout_background">
+                <ScrollView
+                    android:id="@+id/info_scroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:ignore="UselessParent">
                     <LinearLayout
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="18dp">
-                        <Button
-                            android:id="@+id/info_button1"
-                            android:layout_width="0dp"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/info_target_name"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginLeft="18dp"
-                            android:layout_marginRight="18dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/button_background2"
-                            android:textSize="18sp"
-                            android:text="@string/info_bottom1"
-                            tools:ignore="ButtonStyle" />
+                            android:layout_margin="3dp"
+                            android:enabled="true"
+                            android:textIsSelectable="true"
+                            android:focusable="true"
+                            android:longClickable="true"
+                            android:text="@string/target_name"
+                            android:textSize="20sp" />
 
-                        <Button
-                            android:id="@+id/info_button2"
-                            android:layout_width="0dp"
+                        <TextView
+                            android:id="@+id/info_address"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginLeft="18dp"
-                            android:layout_marginRight="18dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/button_background3"
-                            android:textSize="18sp"
-                            android:text="@string/info_bottom2"
-                            tools:ignore="ButtonStyle" />
+                            android:layout_margin="3dp"
+                            android:enabled="true"
+                            android:textIsSelectable="true"
+                            android:focusable="true"
+                            android:longClickable="true"
+                            android:text="@string/address"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/info_distance"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
+                            android:gravity="end"
+                            android:enabled="true"
+                            android:textIsSelectable="true"
+                            android:focusable="true"
+                            android:longClickable="true"
+                            android:text="@string/distance"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/info_others"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
+                            android:enabled="true"
+                            android:textIsSelectable="true"
+                            android:focusable="true"
+                            android:longClickable="true"
+                            android:text="@string/others"
+                            android:textSize="16sp" />
                     </LinearLayout>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
-    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/end_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end">
-        <Button
-            android:id="@+id/end_button"
+            <LinearLayout
+                android:id="@+id/start_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/layout_background"
+                android:orientation="horizontal"
+                android:padding="6dp">
+
+                <Button
+                    android:id="@+id/return_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_background_skyblue"
+                    android:text="@string/return_button"
+                    android:textSize="18sp"
+                    tools:ignore="ButtonStyle" />
+
+                <Button
+                    android:id="@+id/info_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_background_deepblue"
+                    android:text="@string/info_button1"
+                    android:textSize="18sp"
+                    tools:ignore="ButtonStyle" />
+
+                <Button
+                    android:id="@+id/start_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="18dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_background_deepblue"
+                    android:text="@string/start_button"
+                    android:textSize="18sp"
+                    tools:ignore="ButtonStyle" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/end_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:background="@drawable/button_background3"
-            android:textSize="18sp"
-            android:text="@string/end_button" />
-    </LinearLayout>
-
+            android:layout_gravity="bottom|end">
+            <Button
+                android:id="@+id/end_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:background="@drawable/button_background_deepblue"
+                android:textSize="18sp"
+                android:text="@string/end_button" />
+        </LinearLayout>
+    </FrameLayout>
 </FrameLayout>

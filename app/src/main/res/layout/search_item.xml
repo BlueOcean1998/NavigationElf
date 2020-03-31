@@ -59,15 +59,15 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/item_button1"
+                android:id="@+id/item_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_margin="6dp"
                 android:layout_gravity="center"
-                android:background="@drawable/button_background2"
+                android:background="@drawable/button_background_skyblue"
                 android:textSize="18sp"
-                android:text="@string/item_bottom1" />
+                android:text="@string/item_button" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>
