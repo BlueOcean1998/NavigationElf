@@ -130,7 +130,7 @@
             <LinearLayout
                 android:id="@+id/search_drawer"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:padding="6dp"
                 android:background="@drawable/layout_background">
                 <androidx.recyclerview.widget.RecyclerView

@@ -10,15 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.baidu.mapapi.map.Overlay;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
-import com.baidu.mapapi.search.route.PlanNode;
-import com.baidu.mapapi.search.route.TransitRoutePlanOption;
-import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.example.foxizz.navigation.R;
-import com.example.foxizz.navigation.demo.Tools;
-import com.example.foxizz.navigation.overlayutil.MyPoiOverlay;
 import com.example.foxizz.navigation.util.MainActivity;
 
 import java.util.List;
@@ -129,8 +121,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         mainActivity.getInfoOthers().setText(searchItem.getOtherInfo());
 
         mainActivity.expandSearchLayout(false);//收起搜索布局
-        if(mainActivity.getExpandFlag())
-            mainActivity.expandSearchDrawer(true);//收起展开的搜索抽屉
+        if(MainActivity.getExpandFlag()) {
+            mainActivity.expandSearchDrawer(false);//收起展开的搜索抽屉
+            MainActivity.setExpandFlag(false);//设置状态为收起
+        }
         mainActivity.expandStartLayout(true);//展开开始导航布局
     }
 

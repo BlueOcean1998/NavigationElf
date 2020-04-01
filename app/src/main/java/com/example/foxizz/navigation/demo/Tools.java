@@ -7,15 +7,14 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.provider.Settings;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.LinearLayout;
 
 import androidx.annotation.RequiresApi;
 
-import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.MapStatusUpdate;
-import com.baidu.mapapi.map.MapStatusUpdateFactory;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.model.LatLngBounds;
+import com.example.foxizz.navigation.R;
+import com.example.foxizz.navigation.util.MainActivity;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -24,6 +23,25 @@ import java.util.Date;
  * 这是一个工具类，专门存放各种方法
  */
 public class Tools {
+
+    //伸缩布局
+    public static void expandLayout(Context context, LinearLayout linearLayout, boolean flag) {
+        if(flag) {
+            linearLayout.startAnimation(AnimationUtils.loadAnimation(context, R.anim.adapter_alpha2));//动画2，出现;
+            //计算布局自适应时的高度
+            int layoutHeight = 0;
+            for(int i = 0; i < linearLayout.getChildCount(); i++) {
+                layoutHeight += linearLayout.getChildAt(i).getLayoutParams().height;
+            }
+
+            getValueAnimator(linearLayout, 0, layoutHeight).start();//收起动画
+        } else {
+            linearLayout.startAnimation(AnimationUtils.loadAnimation(context, R.anim.adapter_alpha1));//动画1，消失;
+
+            int layoutHeight = linearLayout.getHeight();//获取布局的高度
+            getValueAnimator(linearLayout, layoutHeight, 0).start();//收起动画
+        }
+    }
 
     //获取改变控件尺寸动画
     //参数：需要改变高度的layoutDrawer（当然也可以是其它view），动画前的高度，动画后的高度

@@ -1,16 +1,24 @@
 package com.example.foxizz.navigation.util;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -65,7 +73,6 @@ import com.example.foxizz.navigation.overlayutil.BikingRouteOverlay;
 import com.example.foxizz.navigation.overlayutil.DrivingRouteOverlay;
 import com.example.foxizz.navigation.overlayutil.IndoorRouteOverlay;
 import com.example.foxizz.navigation.overlayutil.MassTransitRouteOverlay;
-import com.example.foxizz.navigation.overlayutil.MyPoiOverlay;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.overlayutil.TransitRouteOverlay;
 import com.example.foxizz.navigation.overlayutil.WalkingRouteOverlay;
@@ -80,7 +87,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import static com.example.foxizz.navigation.demo.Tools.expandLayout;
 import static com.example.foxizz.navigation.demo.Tools.getValueAnimator;
 import static com.example.foxizz.navigation.demo.Tools.isAirplaneModeOn;
 import static com.example.foxizz.navigation.demo.Tools.isEffectiveDate;
@@ -89,30 +99,43 @@ import static com.example.foxizz.navigation.demo.Tools.rotateExpandIcon;
 
 public class MainActivity extends AppCompatActivity {
 
+    //地图控件
     private MapView mMapView;
     private BaiduMap mBaiduMap;
     private UiSettings mUiSettings;
 
-    private MyOrientationListener myOrientationListener;//方向传感器
-    private float mLastX;//方向角度
+
+    //方向传感器
+    private MyOrientationListener myOrientationListener;
+    private static float mLastX;//方向角度
+
+
+    //动态申请权限相关
+    private static int READY_TO_LOCATION = 0;//准备定位
+    private static int REQUEST_FAILED = 1;//申请失败
+    private static int permissionFlag = 1;//权限状态
+
+    private Timer timer;
+    private TimerTask task;
+
 
     //定位相关
     private LocationClient mLocationClient;
-    private boolean isFirstLoc = true;//是否是首次定位
-    private MyLocationData locData;//地址信息
-    private LatLng latLng;//坐标
-    private int mLocType;//定位结果
-    private float mRadius = 10;//精度半径
-    private double mLatitude;//纬度
-    private double mLongitude;//经度
-    private String mCity;//所在城市
+    private static boolean isFirstLoc = true;//是否是首次定位
+    private static MyLocationData locData;//地址信息
+    private static LatLng latLng;//坐标
+    private static int mLocType;//定位结果
+    private static float mRadius;//精度半径
+    private static double mLatitude;//纬度
+    private static double mLongitude;//经度
+    private static String mCity;//所在城市
 
 
     //搜索相关
     private PoiSearch mPoiSearch;
     private final static int CITY_SEARCH = 0;//城市内搜索
     private final static int NEARBY_SEARCH = 1;//周边搜索
-    private int poiSearchType = CITY_SEARCH;//使用的搜索类型
+    private static int poiSearchType = CITY_SEARCH;//使用的搜索类型
 
     private LinearLayout searchLayout;//搜索布局
     private EditText searchEdit;//搜索输入框
@@ -122,16 +145,19 @@ public class MainActivity extends AppCompatActivity {
 
     private static String searchContent = "";//搜索内容
     private static boolean expandFlag = false;//伸缩状态
-    public boolean getExpandFlag() {
+    public static boolean getExpandFlag() {
         return expandFlag;
     }
-    private int bodyHeight;//屏幕高度
+    public static void setExpandFlag(boolean expandFlag) {
+        MainActivity.expandFlag = expandFlag;
+    }
+    private static int bodyHeight;//屏幕高度
 
     private LinearLayout searchDrawer;//搜索结果抽屉
-    private RecyclerView searchResult;
+    private RecyclerView searchResult;//搜索结果列表
     private List<SearchItem> searchList = new ArrayList<>();
     private StaggeredGridLayoutManager layoutManager;
-    private SearchAdapter searchAdapter;
+    private SearchAdapter searchAdapter;//列表适配器
 
     private LinearLayout infoLayout;//详细信息布局
     private ScrollView infoScroll;//详细信息布局的拖动条
@@ -191,64 +217,35 @@ public class MainActivity extends AppCompatActivity {
     private Button endButton;//结束导航按钮
 
 
+    private long exitTime = 0;//实现再按一次退出程序时，用于保存系统时间
+
+
     //控制布局相关
-    //伸缩布局
-    private void expandLayout(LinearLayout linearLayout, boolean flag) {
-        if(flag) {
-            linearLayout.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.adapter_alpha2));//动画2，出现;
-            //计算布局自适应时的高度
-            int layoutHeight = 0;
-            for(int i = 0; i < linearLayout.getChildCount(); i++) {
-                layoutHeight += linearLayout.getChildAt(i).getLayoutParams().height;
-            }
-
-            getValueAnimator(linearLayout, 0, layoutHeight).start();//收起动画
-        } else {
-            linearLayout.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.adapter_alpha1));//动画1，消失;
-
-            int layoutHeight = linearLayout.getHeight();//获取布局的高度
-            getValueAnimator(linearLayout, layoutHeight, 0).start();//收起动画
-        }
+    public void expandSelectLayout(boolean flag) {//伸缩选择布局
+        expandLayout(MainActivity.this, selectLayout, flag);
     }
 
-    //伸缩选择布局
-    public void expandSelectLayout(boolean flag) {
-        expandLayout(selectLayout, flag);
+    public void expandSearchLayout(boolean flag) {//伸缩搜索布局
+        expandLayout(MainActivity.this, searchLayout, flag);
     }
 
-    //伸缩搜索布局
-    public void expandSearchLayout(boolean flag) {
-        expandLayout(searchLayout, flag);
+    public void expandSearchDrawer(boolean flag) {//伸缩搜索抽屉
+        expandLayout(MainActivity.this, searchDrawer, flag);
+        if(flag) rotateExpandIcon(searchExpand, 0, 180);//旋转伸展按钮
+        else rotateExpandIcon(searchExpand, 180, 0);//旋转伸展按钮
     }
 
-    //伸缩搜索抽屉
-    public void expandSearchDrawer(boolean flag) {
-        if(flag) {//如果状态为展开
-            searchResult.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.adapter_alpha1));//动画1，消失;
-            getValueAnimator(searchDrawer, bodyHeight / 2, 0).start();//收起搜索抽屉
-            rotateExpandIcon(searchExpand, 180, 0);//伸展按钮的旋转动画
-            expandFlag = false;//设置状态为收起
-        } else if(searchList.size() > 0) {//如果状态为收起且searchList不为空
-            searchResult.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.adapter_alpha2));//动画2，出现;
-            getValueAnimator(searchDrawer, 0, bodyHeight / 2).start();//展开搜索抽屉
-            rotateExpandIcon(searchExpand, 0, 180);//伸展按钮的旋转动画
-            expandFlag = true;//设置状态为展开
-        }
-    }
-
-    //伸缩详细信息布局
-    public void expandInfoLayout(boolean flag) {
-        expandLayout(infoLayout, flag);
+    public void expandInfoLayout(boolean flag) {//伸缩详细信息布局
+        expandLayout(MainActivity.this, infoLayout, flag);
     }
 
     //伸缩开始导航布局
     public void expandStartLayout(boolean flag) {
-        expandLayout(startLayout, flag);
+        expandLayout(MainActivity.this, startLayout, flag);
     }
 
-    //伸缩结束导航布局
-    public void expandEndLayout(boolean flag) {
-        expandLayout(endLayout, flag);
+    public void expandEndLayout(boolean flag) {//伸缩结束导航布局
+        expandLayout(MainActivity.this, endLayout, flag);
     }
 
     @Override
@@ -262,15 +259,11 @@ public class MainActivity extends AppCompatActivity {
 
         initMyOrien();//初始化方向传感器
 
-        initLocationOption();//初始化定位
-
-        initSearch();//初始化搜索目标信息
-
-        initRoutePlanSearch();//初始化路线规划
+        ProcessingPermission();//处理权限申请
     }
 
     //初始化地图控件
-    public void InitMap() {
+    private void InitMap() {
         //获取地图控件引用
         mMapView = findViewById(R.id.bmapView);
         mBaiduMap = mMapView.getMap();
@@ -331,11 +324,13 @@ public class MainActivity extends AppCompatActivity {
         defaultDisplay.getSize(point);
         bodyHeight = point.y;
 
-        //设置详细信息布局的拖动布局的高度为三分之一个屏幕
+        //设置搜索抽屉的结果列表、详细信息布局的拖动布局的高度
+        searchResult.getLayoutParams().height = bodyHeight / 2;
         infoScroll.getLayoutParams().height = bodyHeight / 3;
 
-        //设置选项布局、详细信息、开始导航、结束导航布局初始高度为0
+        //设置选项布局、搜索结果抽屉、详细信息、开始导航、结束导航布局初始高度为0
         selectLayout.getLayoutParams().height = 0;
+        searchDrawer.getLayoutParams().height = 0;
         infoLayout.getLayoutParams().height = 0;
         startLayout.getLayoutParams().height = 0;
         endLayout.getLayoutParams().height = 0;
@@ -410,45 +405,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //返回按钮的点击事件
-        returnButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                expandSelectLayout(false);//收起选择布局
-                expandSearchLayout(true);//展开搜索布局
-                if(!expandFlag) expandSearchDrawer(false);//展开被收起的搜索抽屉
-                expandInfoLayout(false);//收起详细信息布局
-                expandStartLayout(false);//收起开始导航布局
-            }
-        });
-
-        //路线规划、详细信息切换按钮的点击事件
-        infoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(infoFlag) {//如果状态为展开
-                    infoButton.setText(R.string.info_button2);//设置按钮为详细信息
-                    expandSelectLayout(true);//展开选择布局
-                    expandInfoLayout(false);//收起详细信息布局
-                    setInfoFlag(false);//设置信息状态为收起
-
-                    startRoutePlanSearch();//开始路线规划
-                } else {//如果状态为收起
-                    infoButton.setText(R.string.info_button1);//设置按钮为路线
-                    expandSelectLayout(false);//收起选择布局
-                    expandInfoLayout(true);//展开详细信息布局
-                    setInfoFlag(true);//设置信息状态为展开
-                }
-            }
-        });
-
         //清空按钮的点击事件
         emptyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 searchEdit.setText("");
 
-                if(expandFlag) expandSearchDrawer(true);//收起展开的搜索抽屉
+                if(expandFlag) {
+                    expandSearchDrawer(false);//收起展开的搜索抽屉
+                    expandFlag = false;//设置状态为收起
+                }
 
                 searchList.clear();//清空搜索结果列表
                 searchAdapter.notifyDataSetChanged();//通知adapter更新
@@ -495,7 +461,48 @@ public class MainActivity extends AppCompatActivity {
         searchExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expandSearchDrawer(expandFlag);//展开或收起搜索抽屉
+                if(expandFlag) {//如果是展开状态
+                    expandSearchDrawer(false);//收起搜索抽屉
+                    expandFlag = false;//设置状态为收起
+                } else {//如果是收起状态
+                    expandSearchDrawer(true);//展开搜索抽屉
+                    expandFlag = true;//设置状态为展开
+                }
+            }
+        });
+
+        //返回按钮的点击事件
+        returnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expandSelectLayout(false);//收起选择布局
+                expandSearchLayout(true);//展开搜索布局
+                if(!expandFlag) {
+                    expandSearchDrawer(true);//展开被收起的搜索抽屉
+                    expandFlag = true;//设置状态为展开
+                }
+                expandInfoLayout(false);//收起详细信息布局
+                expandStartLayout(false);//收起开始导航布局
+            }
+        });
+
+        //路线规划、详细信息切换按钮的点击事件
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(infoFlag) {//如果状态为展开
+                    infoButton.setText(R.string.info_button2);//设置按钮为详细信息
+                    expandSelectLayout(true);//展开选择布局
+                    expandInfoLayout(false);//收起详细信息布局
+                    setInfoFlag(false);//设置信息状态为收起
+
+                    startRoutePlanSearch();//开始路线规划
+                } else {//如果状态为收起
+                    infoButton.setText(R.string.info_button1);//设置按钮为路线
+                    expandSelectLayout(false);//收起选择布局
+                    expandInfoLayout(true);//展开详细信息布局
+                    setInfoFlag(true);//设置信息状态为展开
+                }
             }
         });
 
@@ -517,7 +524,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 expandSearchLayout(true);//展开搜索布局
-                expandSearchDrawer(false);//展开搜索抽屉
+                if(!expandFlag) {
+                    expandSearchDrawer(true);//展开搜索抽屉
+                    expandFlag = true;
+                }
                 expandEndLayout(false);//收起结束布局
 
 
@@ -546,6 +556,102 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //申请权限
+    private void requestPermission() {
+        List<String> permissionList = new ArrayList<>();
+
+        /*
+        if(ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            permissionList.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+        */
+        if(ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if(ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            permissionList.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        }
+        /*
+        if(ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+        */
+
+        //如果列表为空，则获取了全部权限不用再获取，否则要获取
+        if(permissionList.isEmpty()) {
+            permissionFlag = READY_TO_LOCATION;//准备定位
+            ProcessingPermission();//处理权限申请
+        } else {
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    permissionList.toArray(new String[0]), 0);
+            permissionFlag = REQUEST_FAILED;//申请失败
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == 0) {
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                permissionFlag = READY_TO_LOCATION;
+                ProcessingPermission();//处理权限申请
+            } else {
+                permissionFlag = REQUEST_FAILED;
+                Toast.makeText(MainActivity.this,
+                        "获取权限失败，若要定位请手动开启", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    //处理权限申请
+    private void ProcessingPermission() {
+        timer = new Timer(true);
+        task = new TimerTask() {
+            @Override public void run() {
+                Message message = new Message();
+                //检测到状态为准备定位
+                switch(permissionFlag) {
+                    case 0:
+                        message.what = 0;
+                        break;
+                    case 1:
+                        message.what = 1;
+                        break;
+                }
+                handler.sendMessage(message);
+            }
+        };
+        timer.schedule(task, 0, 300);//检测间隔：0.3秒
+    }
+
+    //处理检测信息的Handler
+    final Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message message) {
+            switch(message.what) {
+                case 0:
+                    initLocationOption();//初始化定位
+                    initSearch();//初始化搜索目标信息
+                    initRoutePlanSearch();//初始化路线规划
+                    break;
+
+                case 1:
+                    requestPermission();//申请权限
+                    break;
+            }
+
+            //停止线程
+            timer.cancel();
+            task.cancel();
+            super.handleMessage(message);
+        }
+    };
+
     //初始化定位
     private void initLocationOption() {
         //定位服务的客户端。宿主程序在客户端声明此类，并调用，目前只支持在主线程中启动
@@ -563,7 +669,7 @@ public class MainActivity extends AppCompatActivity {
                 //获取定位数据
                 latLng = new LatLng(location.getLatitude(), location.getLongitude());
                 mLocType = location.getLocType();
-                //mRadius = location.getRadius();
+                mRadius = location.getRadius();
                 mLatitude = location.getLatitude();
                 mLongitude = location.getLongitude();
                 mCity = location.getCity();
@@ -583,18 +689,14 @@ public class MainActivity extends AppCompatActivity {
                     MapStatusUpdate msu= MapStatusUpdateFactory.newLatLng(latLng);
                     mBaiduMap.setMapStatus(msu);
                     MapStatus.Builder builder = new MapStatus.Builder();
-                    builder.target(latLng).zoom(18.0f);
+                    builder.target(latLng);
                     mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
 
-                    if(mLocType == BDLocation.TypeGpsLocation) {//GPS定位结果
-                        Toast.makeText(MainActivity.this,
-                                location.getAddrStr(), Toast.LENGTH_SHORT).show();
-                    } else if(mLocType == BDLocation.TypeNetWorkLocation) {//网络定位结果
-                        Toast.makeText(MainActivity.this,
-                                location.getAddrStr(), Toast.LENGTH_SHORT).show();
-                    } else if(mLocType == BDLocation.TypeOffLineLocation) {//离线定位结果
-                        Toast.makeText(MainActivity.this,
-                                location.getAddrStr(), Toast.LENGTH_SHORT).show();
+                    if(mLocType == BDLocation.TypeGpsLocation //GPS定位结果
+                            || mLocType == BDLocation.TypeNetWorkLocation //网络定位结果
+                            || mLocType == BDLocation.TypeOffLineLocation) {//离线定位结果
+                        //Toast.makeText(MainActivity.this,
+                        //location.getAddrStr(), Toast.LENGTH_SHORT).show();
                     } else if(mLocType == BDLocation.TypeServerError) {//服务器错误
                         Toast.makeText(MainActivity.this,
                                 "服务器错误", Toast.LENGTH_SHORT).show();
@@ -666,18 +768,22 @@ public class MainActivity extends AppCompatActivity {
                 if(poiResult.error == SearchResult.ERRORNO.NO_ERROR) {//检索结果正常返回
                     //如果搜索到的目标数量小于50或使用的是周边搜索
                     if(poiResult.getTotalPoiNum() < 50 || poiSearchType == NEARBY_SEARCH) {
+                        /*
                         Toast.makeText(MainActivity.this,
                                 "总共查到" + poiResult.getTotalPoiNum() + "个兴趣点, 分为"
                                         + poiResult.getTotalPageNum() + "页", Toast.LENGTH_SHORT).show();
+                        */
 
                         mBaiduMap.clear();//清空地图上的所有标记点和绘制的路线
                         searchList.clear();//清空searchList
 
+                        /*
                         MyPoiOverlay poiOverlay = new MyPoiOverlay(mBaiduMap, mPoiSearch);
                         mBaiduMap.setOnMarkerClickListener(poiOverlay);
                         poiOverlay.setData(poiResult);//设置POI数据
                         poiOverlay.addToMap();//将所有的overlay添加到地图上
                         poiOverlay.zoomToSpan();
+                        */
 
                         //详细搜索所有页的所有内容，超过5页则只搜索5页内容
                         int searchNum = 5;
@@ -992,6 +1098,22 @@ public class MainActivity extends AppCompatActivity {
         mMapView.onDestroy();
         mPoiSearch.destroy();
         mSearch.destroy();
+    }
+
+    //重写，实现再按一次退出以及关闭抽屉
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                Toast.makeText(this, getString(R.string.exit_app), Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }
