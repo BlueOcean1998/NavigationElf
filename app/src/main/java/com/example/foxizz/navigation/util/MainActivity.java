@@ -113,10 +113,7 @@ public class MainActivity extends AppCompatActivity {
     //动态申请权限相关
     private static int READY_TO_LOCATION = 0;//准备定位
     private static int REQUEST_FAILED = 1;//申请失败
-    private static int permissionFlag = 1;//权限状态
-
-    private Timer timer;
-    private TimerTask task;
+    private static int permissionFlag;//权限状态
 
 
     //定位相关
@@ -259,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
 
         initMyOrien();//初始化方向传感器
 
-        ProcessingPermission();//处理权限申请
+        requestPermission();//申请权限
     }
 
     //初始化地图控件
@@ -431,23 +428,26 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this,
                                 "请检查是否有关闭飞行模式", Toast.LENGTH_LONG).show();
                     } else {
-                        searchContent = searchEdit.getText().toString();
-                        if(!searchContent.equals("")){
-                            if(!expandFlag) {//展开搜索抽屉
-                                searchResult.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.adapter_alpha2));//动画2，出现;
-                                getValueAnimator(searchDrawer, 0, bodyHeight / 2).start();//展开搜索抽屉
-                                rotateExpandIcon(searchExpand, 0, 180);//伸展按钮的旋转动画
-                                expandFlag = true;//设置状态为展开
+                        requestPermission();//申请权限
+                        if(permissionFlag == READY_TO_LOCATION) {
+                            searchContent = searchEdit.getText().toString();
+                            if(!searchContent.equals("")){
+                                if(!expandFlag) {//展开搜索抽屉
+                                    searchResult.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.adapter_alpha2));//动画2，出现;
+                                    getValueAnimator(searchDrawer, 0, bodyHeight / 2).start();//展开搜索抽屉
+                                    rotateExpandIcon(searchExpand, 0, 180);//伸展按钮的旋转动画
+                                    expandFlag = true;//设置状态为展开
+                                }
+
+                                //收回键盘
+                                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+
+                                //开始城市内搜索
+                                mPoiSearch.searchInCity(new PoiCitySearchOption()
+                                        .city(mCity)
+                                        .keyword(searchContent));
                             }
-
-                            //收回键盘
-                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
-
-                            //开始城市内搜索
-                            mPoiSearch.searchInCity(new PoiCitySearchOption()
-                                    .city(mCity)
-                                    .keyword(searchContent));
                         }
                     }
                 } else {
@@ -583,12 +583,16 @@ public class MainActivity extends AppCompatActivity {
 
         //如果列表为空，则获取了全部权限不用再获取，否则要获取
         if(permissionList.isEmpty()) {
-            permissionFlag = READY_TO_LOCATION;//准备定位
-            ProcessingPermission();//处理权限申请
+            initLocationOption();//初始化定位
+            initSearch();//初始化搜索目标信息
+            initRoutePlanSearch();//初始化路线规划
+
+            permissionFlag = READY_TO_LOCATION;
         } else {
             ActivityCompat.requestPermissions(MainActivity.this,
                     permissionList.toArray(new String[0]), 0);
-            permissionFlag = REQUEST_FAILED;//申请失败
+
+            permissionFlag = REQUEST_FAILED;
         }
     }
 
@@ -598,59 +602,15 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode == 0) {
             if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                permissionFlag = READY_TO_LOCATION;
-                ProcessingPermission();//处理权限申请
+                initLocationOption();//初始化定位
+                initSearch();//初始化搜索目标信息
+                initRoutePlanSearch();//初始化路线规划
             } else {
-                permissionFlag = REQUEST_FAILED;
                 Toast.makeText(MainActivity.this,
                         "获取权限失败，若要定位请手动开启", Toast.LENGTH_SHORT).show();
             }
         }
     }
-
-    //处理权限申请
-    private void ProcessingPermission() {
-        timer = new Timer(true);
-        task = new TimerTask() {
-            @Override public void run() {
-                Message message = new Message();
-                //检测到状态为准备定位
-                switch(permissionFlag) {
-                    case 0:
-                        message.what = 0;
-                        break;
-                    case 1:
-                        message.what = 1;
-                        break;
-                }
-                handler.sendMessage(message);
-            }
-        };
-        timer.schedule(task, 0, 300);//检测间隔：0.3秒
-    }
-
-    //处理检测信息的Handler
-    final Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message message) {
-            switch(message.what) {
-                case 0:
-                    initLocationOption();//初始化定位
-                    initSearch();//初始化搜索目标信息
-                    initRoutePlanSearch();//初始化路线规划
-                    break;
-
-                case 1:
-                    requestPermission();//申请权限
-                    break;
-            }
-
-            //停止线程
-            timer.cancel();
-            task.cancel();
-            super.handleMessage(message);
-        }
-    };
 
     //初始化定位
     private void initLocationOption() {
