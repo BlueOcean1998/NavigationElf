@@ -43,7 +43,7 @@
 
         <!-- 主活动旋转屏幕不重置，没有标题栏 -->
         <activity
-            android:name=".util.MainActivity"
+            android:name=".activity.MainActivity"
             android:configChanges="orientation"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>

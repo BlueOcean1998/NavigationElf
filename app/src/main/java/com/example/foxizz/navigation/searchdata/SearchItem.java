@@ -2,6 +2,9 @@ package com.example.foxizz.navigation.searchdata;
 
 import com.baidu.mapapi.model.LatLng;
 
+/**
+ * 搜索到的目标信息类
+ */
 public class SearchItem {
     private LatLng latLng;//坐标
     private String targetName;//目标名

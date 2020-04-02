@@ -1,4 +1,4 @@
-package com.example.foxizz.navigation.demo;
+package com.example.foxizz.navigation.util;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -9,6 +9,9 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+/**
+ * 方向传感器模块
+ */
 public class MyOrientationListener implements SensorEventListener {
 
     private SensorManager mSensorManager;

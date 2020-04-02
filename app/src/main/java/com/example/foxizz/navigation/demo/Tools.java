@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import androidx.annotation.RequiresApi;
 
 import com.example.foxizz.navigation.R;
-import com.example.foxizz.navigation.util.MainActivity;
 
 import java.util.Calendar;
 import java.util.Date;

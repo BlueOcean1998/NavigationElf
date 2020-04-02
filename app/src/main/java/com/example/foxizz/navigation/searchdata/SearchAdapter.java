@@ -11,10 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foxizz.navigation.R;
-import com.example.foxizz.navigation.util.MainActivity;
+import com.example.foxizz.navigation.activity.MainActivity;
+import com.example.foxizz.navigation.util.MyRoutePlanSearch;
 
 import java.util.List;
 
+/**
+ * 搜索到的信息列表的适配器
+ */
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
 
     private MainActivity mainActivity;
@@ -74,9 +78,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             public void onClick(View view) {
                 click(holder);
 
-                mainActivity.getInfoButton().setText(R.string.info_button1);//设置按钮为路线
+                mainActivity.infoButton.setText(R.string.info_button1);//设置按钮为路线
                 mainActivity.expandInfoLayout(true);//展开详细信息布局
-                mainActivity.setInfoFlag(true);//设置信息状态为展开
+                MainActivity.infoFlag = true;//设置信息状态为展开
             }
         });
 
@@ -86,11 +90,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             public void onClick(View view) {
                 click(holder);
 
-                mainActivity.getInfoButton().setText(R.string.info_button2);//设置按钮为详细信息
+                mainActivity.infoButton.setText(R.string.info_button2);//设置按钮为详细信息
                 mainActivity.expandSelectLayout(true);//展开选择布局
                 mainActivity.setInfoFlag(false);//设置信息状态为收起
 
-                mainActivity.startRoutePlanSearch();//开始路线规划
+                MyRoutePlanSearch myRoutePlanSearch = new MyRoutePlanSearch(mainActivity);
+                myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
             }
         });
 
@@ -112,18 +117,18 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         int position = holder.getAdapterPosition();
         SearchItem searchItem = mSearchItemList.get(position);
 
-        mainActivity.setSearchItemSelect(position);//设置item选择
+        MainActivity.searchItemSelect = position;//设置item选择
 
         //设置详细信息内容
-        mainActivity.getInfoTargetName().setText(searchItem.getTargetName());
-        mainActivity.getInfoAddress().setText(searchItem.getAddress());
-        mainActivity.getInfoDistance().setText(searchItem.getDistance() + "km");
-        mainActivity.getInfoOthers().setText(searchItem.getOtherInfo());
+        mainActivity.infoTargetName.setText(searchItem.getTargetName());
+        mainActivity.infoAddress.setText(searchItem.getAddress());
+        mainActivity.infoDistance.setText(searchItem.getDistance() + "km");
+        mainActivity.infoOthers.setText(searchItem.getOtherInfo());
 
         mainActivity.expandSearchLayout(false);//收起搜索布局
-        if(MainActivity.getExpandFlag()) {
+        if(MainActivity.expandFlag) {
             mainActivity.expandSearchDrawer(false);//收起展开的搜索抽屉
-            MainActivity.setExpandFlag(false);//设置状态为收起
+            MainActivity.expandFlag = false;//设置状态为收起
         }
         mainActivity.expandStartLayout(true);//展开开始导航布局
     }
