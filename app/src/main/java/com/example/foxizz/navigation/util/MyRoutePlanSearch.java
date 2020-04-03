@@ -157,10 +157,10 @@ public class MyRoutePlanSearch {
     //开始路线规划
     public void startRoutePlanSearch() {
         //获取定位点和目标点
-        PlanNode startNode = PlanNode.withLocation(MainActivity.latLng);
-        PlanNode endNode = PlanNode.withLocation(mainActivity.searchList.get(MainActivity.searchItemSelect).getLatLng());
+        PlanNode startNode = PlanNode.withLocation(mainActivity.latLng);
+        PlanNode endNode = PlanNode.withLocation(mainActivity.searchList.get(mainActivity.searchItemSelect).getLatLng());
 
-        switch(MainActivity.routePlanSelect) {
+        switch(mainActivity.routePlanSelect) {
             //驾车路线规划
             case 0:
                 mainActivity.mSearch.drivingSearch((new DrivingRoutePlanOption())
@@ -178,7 +178,7 @@ public class MyRoutePlanSearch {
             //公交路线规划
             case 2:
                 TransitRoutePlanOption transitRoutePlanOption = new TransitRoutePlanOption();
-                transitRoutePlanOption.city(MainActivity.mCity);
+                transitRoutePlanOption.city(mainActivity.mCity);
                 transitRoutePlanOption.from(startNode);
                 transitRoutePlanOption.to(endNode);
                 mainActivity.mSearch.transitSearch(transitRoutePlanOption);

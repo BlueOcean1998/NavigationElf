@@ -40,43 +40,43 @@ public class MyLocation {
                 }
 
                 //获取定位数据
-                MainActivity.latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                MainActivity.mLocType = location.getLocType();
-                MainActivity.mRadius = location.getRadius();
-                MainActivity.mLatitude = location.getLatitude();
-                MainActivity.mLongitude = location.getLongitude();
-                MainActivity.mCity = location.getCity();
+                mainActivity.latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                mainActivity.mLocType = location.getLocType();
+                mainActivity.mRadius = location.getRadius();
+                mainActivity.mLatitude = location.getLatitude();
+                mainActivity.mLongitude = location.getLongitude();
+                mainActivity.mCity = location.getCity();
 
                 //更新定位
-                MainActivity.locData = new MyLocationData.Builder()
-                        .accuracy(MainActivity.mRadius)
-                        .direction(MainActivity.mLastX)
-                        .latitude(MainActivity.mLatitude)
-                        .longitude(MainActivity.mLongitude).build();
-                mainActivity.mBaiduMap.setMyLocationData(MainActivity.locData);//设置定位数据
+                mainActivity.locData = new MyLocationData.Builder()
+                        .accuracy(mainActivity.mRadius)
+                        .direction(mainActivity.mLastX)
+                        .latitude(mainActivity.mLatitude)
+                        .longitude(mainActivity.mLongitude).build();
+                mainActivity.mBaiduMap.setMyLocationData(mainActivity.locData);//设置定位数据
 
-                if(MainActivity.isFirstLoc) {
-                    MainActivity.isFirstLoc = false;
+                if(mainActivity.isFirstLoc) {
+                    mainActivity.isFirstLoc = false;
 
                     //改变地图状态
-                    MapStatusUpdate msu= MapStatusUpdateFactory.newLatLng(MainActivity.latLng);
+                    MapStatusUpdate msu= MapStatusUpdateFactory.newLatLng(mainActivity.latLng);
                     mainActivity.mBaiduMap.setMapStatus(msu);
                     MapStatus.Builder builder = new MapStatus.Builder();
-                    builder.target(MainActivity.latLng);
+                    builder.target(mainActivity.latLng);
                     mainActivity.mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
 
-                    if(MainActivity.mLocType == BDLocation.TypeGpsLocation //GPS定位结果
-                            || MainActivity.mLocType == BDLocation.TypeNetWorkLocation //网络定位结果
-                            || MainActivity.mLocType == BDLocation.TypeOffLineLocation) {//离线定位结果
+                    if(mainActivity.mLocType == BDLocation.TypeGpsLocation //GPS定位结果
+                            || mainActivity.mLocType == BDLocation.TypeNetWorkLocation //网络定位结果
+                            || mainActivity.mLocType == BDLocation.TypeOffLineLocation) {//离线定位结果
                         //Toast.makeText(MainActivity.this,
                         //location.getAddrStr(), Toast.LENGTH_SHORT).show();
-                    } else if(MainActivity.mLocType == BDLocation.TypeServerError) {//服务器错误
+                    } else if(mainActivity.mLocType == BDLocation.TypeServerError) {//服务器错误
                         Toast.makeText(mainActivity,
                                 "服务器错误", Toast.LENGTH_SHORT).show();
-                    } else if(MainActivity.mLocType == BDLocation.TypeNetWorkException) {//网络错误
+                    } else if(mainActivity.mLocType == BDLocation.TypeNetWorkException) {//网络错误
                         Toast.makeText(mainActivity,
                                 "网络错误，请检查网络连接是否正常", Toast.LENGTH_SHORT).show();
-                    } else if(MainActivity.mLocType == BDLocation.TypeCriteriaException) {//手机模式错误
+                    } else if(mainActivity.mLocType == BDLocation.TypeCriteriaException) {//手机模式错误
                         Toast.makeText(mainActivity,
                                 "请检查是否有关闭飞行模式", Toast.LENGTH_SHORT).show();
                     }

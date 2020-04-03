@@ -63,7 +63,7 @@ import static com.example.foxizz.navigation.demo.Tools.rotateExpandIcon;
 /**
  * app_name: Navigation
  * author: Foxizz
- * time: 2020-04-02
+ * time: 2020-04-03
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -75,36 +75,33 @@ public class MainActivity extends AppCompatActivity {
 
     //方向传感器
     public MyOrientationListener myOrientationListener;
-    public static float mLastX;//方向角度
+    public float mLastX;//方向角度
 
 
     //动态申请权限相关
-    public static int READY_TO_LOCATION = 0;//准备定位
-    public static int REQUEST_FAILED = 1;//申请失败
-    public static int permissionFlag;//权限状态
+    public int permissionFlag;//权限状态
+    public static final int READY_TO_LOCATION = 0;//准备定位
+    public static final int REQUEST_FAILED = 1;//申请失败
 
 
     //定位相关
     private MyLocation myLocation;
 
     public LocationClient mLocationClient;
-    public static boolean isFirstLoc = true;//是否是首次定位
-    public static MyLocationData locData;//地址信息
-    public static LatLng latLng;//坐标
-    public static int mLocType;//定位结果
-    public static float mRadius;//精度半径
-    public static double mLatitude;//纬度
-    public static double mLongitude;//经度
-    public static String mCity;//所在城市
+    public boolean isFirstLoc = true;//是否是首次定位
+    public MyLocationData locData;//地址信息
+    public LatLng latLng;//坐标
+    public int mLocType;//定位结果
+    public float mRadius;//精度半径
+    public double mLatitude;//纬度
+    public double mLongitude;//经度
+    public String mCity;//所在城市
 
 
     //搜索相关
     private MyPoiSearch myPoiSearch;
 
     public PoiSearch mPoiSearch;
-    public final static int CITY_SEARCH = 0;//城市内搜索
-    public final static int NEARBY_SEARCH = 1;//周边搜索
-    public static int poiSearchType = CITY_SEARCH;//使用的搜索类型
 
     public LinearLayout searchLayout;//搜索布局
     public EditText searchEdit;//搜索输入框
@@ -112,9 +109,9 @@ public class MainActivity extends AppCompatActivity {
     public Button searchButton;//搜索按钮
     public ImageButton searchExpand;//搜索结果伸缩按钮
 
-    public static String searchContent = "";//搜索内容
-    public static boolean expandFlag = false;//伸缩状态
-    public static int bodyHeight;//屏幕高度
+    public String searchContent = "";//搜索内容
+    public boolean expandFlag = false;//伸缩状态
+    public int bodyHeight;//屏幕高度
 
     public LinearLayout searchDrawer;//搜索结果抽屉
     public RecyclerView searchResult;//搜索结果列表
@@ -143,25 +140,23 @@ public class MainActivity extends AppCompatActivity {
     public final static int DRIVING = 0;//驾车
     public final static int WALKING = 1;//步行
     public final static int TRANSIT = 2;//公交
-    public static int routePlanSelect = DRIVING;//默认为驾车
+    public int routePlanSelect = DRIVING;//默认为驾车
 
-    public static int searchItemSelect = 0;//选择的是哪个item
+    public int searchItemSelect = 0;//选择的是哪个item
 
     public LinearLayout startLayout;//开始导航布局
     public Button returnButton;//返回按钮
     public Button infoButton;//路线规划、详细信息切换按钮
     public Button startButton;//开始导航按钮
 
-    public static boolean infoFlag;//信息显示状态
-    public void setInfoFlag(boolean infoFlag) {
-        MainActivity.infoFlag = infoFlag;
-    }
+    public boolean infoFlag;//信息显示状态
 
     public LinearLayout endLayout;//结束导航布局
     public Button endButton;//结束导航按钮
 
 
-    public long exitTime = 0;//实现再按一次退出程序时，用于保存系统时间
+    private long exitTime = 0;//实现再按一次退出程序时，用于保存系统时间
+    private long clickTime = 0;//防止连续点击按钮
 
 
     //控制布局相关
@@ -183,8 +178,7 @@ public class MainActivity extends AppCompatActivity {
         expandLayout(MainActivity.this, infoLayout, flag);
     }
 
-    //伸缩开始导航布局
-    public void expandStartLayout(boolean flag) {
+    public void expandStartLayout(boolean flag) {//伸缩开始导航布局
         expandLayout(MainActivity.this, startLayout, flag);
     }
 
@@ -376,36 +370,41 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
-                if(isNetworkConnected(MainActivity.this)) {
-                    if(isAirplaneModeOn(MainActivity.this)){
-                        Toast.makeText(MainActivity.this,
-                                "请检查是否有关闭飞行模式", Toast.LENGTH_LONG).show();
-                    } else {
-                        requestPermission();//申请权限
-                        if(permissionFlag == READY_TO_LOCATION) {
-                            searchContent = searchEdit.getText().toString();
-                            if(!searchContent.equals("")){
-                                if(!expandFlag) {//展开搜索抽屉
-                                    searchResult.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.adapter_alpha2));//动画2，出现;
-                                    getValueAnimator(searchDrawer, 0, bodyHeight / 2).start();//展开搜索抽屉
-                                    rotateExpandIcon(searchExpand, 0, 180);//伸展按钮的旋转动画
-                                    expandFlag = true;//设置状态为展开
+                if((System.currentTimeMillis() - clickTime) > 1000) {
+                    clickTime = System.currentTimeMillis();
+
+                    if(isNetworkConnected(MainActivity.this)) {
+                        if(isAirplaneModeOn(MainActivity.this)){
+                            Toast.makeText(MainActivity.this,
+                                    "请检查是否有关闭飞行模式", Toast.LENGTH_LONG).show();
+                        } else {
+                            requestPermission();//申请权限
+                            if(permissionFlag == READY_TO_LOCATION) {
+                                searchContent = searchEdit.getText().toString();
+                                if(!searchContent.equals("")){
+                                    if(!expandFlag) {//展开搜索抽屉
+                                        searchResult.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.adapter_alpha2));//动画2，出现;
+                                        getValueAnimator(searchDrawer, 0, bodyHeight / 2).start();//展开搜索抽屉
+                                        rotateExpandIcon(searchExpand, 0, 180);//伸展按钮的旋转动画
+                                        expandFlag = true;//设置状态为展开
+                                    }
+
+                                    //收回键盘
+                                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    if(imm != null) imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+
+                                    myPoiSearch.resetPoiSearchType();//还原搜索类型为城市内搜索
+                                    //开始城市内搜索
+                                    mPoiSearch.searchInCity(new PoiCitySearchOption()
+                                            .city(mCity)
+                                            .keyword(searchContent));
                                 }
-
-                                //收回键盘
-                                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                                imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
-
-                                //开始城市内搜索
-                                mPoiSearch.searchInCity(new PoiCitySearchOption()
-                                        .city(mCity)
-                                        .keyword(searchContent));
                             }
                         }
+                    } else {
+                        Toast.makeText(MainActivity.this,
+                                "网络错误，请检查网络连接是否正常", Toast.LENGTH_LONG).show();
                     }
-                } else {
-                    Toast.makeText(MainActivity.this,
-                            "网络错误，请检查网络连接是否正常", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -447,14 +446,14 @@ public class MainActivity extends AppCompatActivity {
                     infoButton.setText(R.string.info_button2);//设置按钮为详细信息
                     expandSelectLayout(true);//展开选择布局
                     expandInfoLayout(false);//收起详细信息布局
-                    setInfoFlag(false);//设置信息状态为收起
+                    infoFlag = false;//设置信息状态为收起
 
                     myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
                 } else {//如果状态为收起
                     infoButton.setText(R.string.info_button1);//设置按钮为路线
                     expandSelectLayout(false);//收起选择布局
                     expandInfoLayout(true);//展开详细信息布局
-                    setInfoFlag(true);//设置信息状态为展开
+                    infoFlag = true;//设置信息状态为展开
                 }
             }
         });

@@ -80,7 +80,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
                 mainActivity.infoButton.setText(R.string.info_button1);//设置按钮为路线
                 mainActivity.expandInfoLayout(true);//展开详细信息布局
-                MainActivity.infoFlag = true;//设置信息状态为展开
+                mainActivity.infoFlag = true;//设置信息状态为展开
             }
         });
 
@@ -92,7 +92,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
                 mainActivity.infoButton.setText(R.string.info_button2);//设置按钮为详细信息
                 mainActivity.expandSelectLayout(true);//展开选择布局
-                mainActivity.setInfoFlag(false);//设置信息状态为收起
+                mainActivity.infoFlag = false;//设置信息状态为收起
 
                 MyRoutePlanSearch myRoutePlanSearch = new MyRoutePlanSearch(mainActivity);
                 myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
@@ -117,7 +117,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         int position = holder.getAdapterPosition();
         SearchItem searchItem = mSearchItemList.get(position);
 
-        MainActivity.searchItemSelect = position;//设置item选择
+        mainActivity.searchItemSelect = position;//设置item选择
 
         //设置详细信息内容
         mainActivity.infoTargetName.setText(searchItem.getTargetName());
@@ -126,9 +126,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         mainActivity.infoOthers.setText(searchItem.getOtherInfo());
 
         mainActivity.expandSearchLayout(false);//收起搜索布局
-        if(MainActivity.expandFlag) {
+        if(mainActivity.expandFlag) {
             mainActivity.expandSearchDrawer(false);//收起展开的搜索抽屉
-            MainActivity.expandFlag = false;//设置状态为收起
+            mainActivity.expandFlag = false;//设置状态为收起
         }
         mainActivity.expandStartLayout(true);//展开开始导航布局
     }
