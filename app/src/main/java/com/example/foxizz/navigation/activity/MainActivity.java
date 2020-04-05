@@ -43,10 +43,12 @@ import com.baidu.mapapi.search.route.PlanNode;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.baidu.mapapi.search.route.TransitRoutePlanOption;
 import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
+import com.baidu.mapapi.walknavi.params.WalkNaviLaunchParam;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.searchdata.SearchAdapter;
 import com.example.foxizz.navigation.searchdata.SearchItem;
 import com.example.foxizz.navigation.util.MyLocation;
+import com.example.foxizz.navigation.util.MyNavigateHelper;
 import com.example.foxizz.navigation.util.MyOrientationListener;
 import com.example.foxizz.navigation.util.MyPoiSearch;
 import com.example.foxizz.navigation.util.MyRoutePlanSearch;
@@ -151,40 +153,39 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean infoFlag;//信息显示状态
 
-    public LinearLayout endLayout;//结束导航布局
-    public Button endButton;//结束导航按钮
 
+    //导航相关
+    private MyNavigateHelper myNavigateHelper;
 
-    private long exitTime = 0;//实现再按一次退出程序时，用于保存系统时间
-    private long clickTime = 0;//防止连续点击按钮
+    public WalkNaviLaunchParam walkParam;
 
 
     //控制布局相关
+    private long exitTime = 0;//实现再按一次退出程序时，用于保存系统时间
+    private long clickTime = 0;//防止连续点击按钮
+
     public void expandSelectLayout(boolean flag) {//伸缩选择布局
-        expandLayout(MainActivity.this, selectLayout, flag);
+        expandLayout(this, selectLayout, flag);
     }
 
     public void expandSearchLayout(boolean flag) {//伸缩搜索布局
-        expandLayout(MainActivity.this, searchLayout, flag);
+        expandLayout(this, searchLayout, flag);
     }
 
     public void expandSearchDrawer(boolean flag) {//伸缩搜索抽屉
-        expandLayout(MainActivity.this, searchDrawer, flag);
+        expandLayout(this, searchDrawer, flag);
         if(flag) rotateExpandIcon(searchExpand, 0, 180);//旋转伸展按钮
         else rotateExpandIcon(searchExpand, 180, 0);//旋转伸展按钮
     }
 
     public void expandInfoLayout(boolean flag) {//伸缩详细信息布局
-        expandLayout(MainActivity.this, infoLayout, flag);
+        expandLayout(this, infoLayout, flag);
     }
 
     public void expandStartLayout(boolean flag) {//伸缩开始导航布局
-        expandLayout(MainActivity.this, startLayout, flag);
+        expandLayout(this, startLayout, flag);
     }
 
-    public void expandEndLayout(boolean flag) {//伸缩结束导航布局
-        expandLayout(MainActivity.this, endLayout, flag);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,6 +203,8 @@ public class MainActivity extends AppCompatActivity {
         myPoiSearch = new MyPoiSearch(this);//初始化搜索模块
 
         myRoutePlanSearch = new MyRoutePlanSearch(this);//初始化路线规划模块
+
+        myNavigateHelper = new MyNavigateHelper(this);//初始化导航模块
 
         requestPermission();//申请权限
     }
@@ -259,9 +262,6 @@ public class MainActivity extends AppCompatActivity {
         infoButton = findViewById(R.id.info_button);
         startButton = findViewById(R.id.start_button);
 
-        endLayout = findViewById(R.id.end_layout);
-        endButton = findViewById(R.id.end_button);
-
         //计算半个屏幕高度，用于下面的伸缩动画
         Display defaultDisplay = getWindowManager().getDefaultDisplay();
         Point point = new Point();
@@ -272,14 +272,13 @@ public class MainActivity extends AppCompatActivity {
         searchResult.getLayoutParams().height = bodyHeight / 2;
         infoScroll.getLayoutParams().height = bodyHeight / 3;
 
-        //设置选项布局、搜索结果抽屉、详细信息、开始导航、结束导航布局初始高度为0
+        //设置选项布局、搜索结果抽屉、详细信息、开始导航初始高度为0
         selectLayout.getLayoutParams().height = 0;
         searchDrawer.getLayoutParams().height = 0;
         infoLayout.getLayoutParams().height = 0;
         startLayout.getLayoutParams().height = 0;
-        endLayout.getLayoutParams().height = 0;
 
-        searchAdapter = new SearchAdapter(MainActivity.this, searchList);//初始化适配器
+        searchAdapter = new SearchAdapter(this, searchList);//初始化适配器
         layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);//布局行数为1
         searchResult.setAdapter(searchAdapter);//设置适配器
         searchResult.setLayoutManager(layoutManager);//设置布局
@@ -393,6 +392,8 @@ public class MainActivity extends AppCompatActivity {
                                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                                     if(imm != null) imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
 
+                                    searchResult.stopScroll();//停止信息列表滑动
+
                                     myPoiSearch.resetPoiSearchType();//还原搜索类型为城市内搜索
                                     //开始城市内搜索
                                     mPoiSearch.searchInCity(new PoiCitySearchOption()
@@ -462,27 +463,9 @@ public class MainActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expandSelectLayout(false);//收起选择布局
-                expandInfoLayout(false);//收起详细信息布局
-                expandStartLayout(false);//收起开始导航布局
-                expandEndLayout(true);//展开结束导航布局
-
-
-            }
-        });
-
-        //结束导航按钮的点击事件
-        endButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                expandSearchLayout(true);//展开搜索布局
-                if(!expandFlag) {
-                    expandSearchDrawer(true);//展开搜索抽屉
-                    expandFlag = true;
+                if(permissionFlag == READY_TO_LOCATION) {
+                    myNavigateHelper.initNavigateHelper();//初始化导航引擎
                 }
-                expandEndLayout(false);//收起结束布局
-
-
             }
         });
 
@@ -512,11 +495,11 @@ public class MainActivity extends AppCompatActivity {
     private void requestPermission() {
         List<String> permissionList = new ArrayList<>();
 
-        if(ContextCompat.checkSelfPermission(MainActivity.this,
+        if(ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
-        if(ContextCompat.checkSelfPermission(MainActivity.this,
+        if(ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             permissionList.add(Manifest.permission.ACCESS_COARSE_LOCATION);
         }
@@ -529,7 +512,7 @@ public class MainActivity extends AppCompatActivity {
 
             permissionFlag = READY_TO_LOCATION;
         } else {
-            ActivityCompat.requestPermissions(MainActivity.this,
+            ActivityCompat.requestPermissions(this,
                     permissionList.toArray(new String[0]), 0);
 
             permissionFlag = REQUEST_FAILED;
@@ -546,7 +529,7 @@ public class MainActivity extends AppCompatActivity {
                 myPoiSearch.initSearch();//初始化搜索目标信息
                 myRoutePlanSearch.initRoutePlanSearch();//初始化路线规划
             } else {
-                Toast.makeText(MainActivity.this,
+                Toast.makeText(this,
                         "获取权限失败，若要定位请手动开启", Toast.LENGTH_SHORT).show();
             }
         }

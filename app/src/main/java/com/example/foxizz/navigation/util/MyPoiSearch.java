@@ -156,11 +156,11 @@ public class MyPoiSearch {
 
                         String otherInfo = "";
 
-                        if(!info.getTelephone().equals("")) {
+                        if(info.getTelephone() != null && !info.getTelephone().isEmpty()) {
                             otherInfo += "联系方式：" + info.getTelephone() + "\n";
                         }
 
-                        if(!info.getShopHours().equals("")) {
+                        if(info.getShopHours() != null && !info.getShopHours().isEmpty()) {
                             otherInfo += "营业时间：" + info.getShopHours();
                             try {
                                 boolean flag = false;

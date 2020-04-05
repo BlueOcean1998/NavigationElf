@@ -255,20 +255,5 @@
                     tools:ignore="ButtonStyle" />
             </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/end_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end">
-            <Button
-                android:id="@+id/end_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:background="@drawable/button_background_deepblue"
-                android:textSize="18sp"
-                android:text="@string/end_button" />
-        </LinearLayout>
     </FrameLayout>
 </FrameLayout>
