@@ -15,6 +15,7 @@ import com.baidu.mapapi.search.route.TransitRoutePlanOption;
 import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
+import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.overlayutil.BikingRouteOverlay;
 import com.example.foxizz.navigation.overlayutil.DrivingRouteOverlay;
@@ -76,8 +77,7 @@ public class MyRoutePlanSearch {
                     }
                 } catch(Exception e) {
                     e.printStackTrace();
-                    Toast.makeText(mainActivity,
-                            "路程太短，建议步行", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mainActivity, mainActivity.getString(R.string.suggest_to_walk), Toast.LENGTH_SHORT).show();
                 }
             }
 

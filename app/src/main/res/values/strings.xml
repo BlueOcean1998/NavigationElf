@@ -22,5 +22,24 @@
     <string name="start_button">导航</string>
     <string name="end_button">结束导航</string>
 
+    <string name="app_id">19031902</string>
+    <string name="api_key">Y5HQLSAsKHcmmU2Yv2NGtST0nhBVj0iZ</string>
+    <string name="secret_key">FA6eK7iTuT3btn37ruG1OC4mhPyiepd5</string>
+
+    <string name="get_permission_fail">获取权限失败，若要定位请手动开启</string>
+    <string name="close_airplane_mode">请检查是否有关闭飞行模式</string>
+    <string name="server_error">服务器错误</string>
+    <string name="network_error">网络错误，请检查网络连接是否正常</string>
+    <string name="wait_for_location_result">请等待定位结果</string>
+    <string name="find_nothing">未找到结果</string>
+    <string name="phone_number">联系方式：</string>
+    <string name="shop_time">营业时间：</string>
+    <string name="shopping"> 营业中</string>
+    <string name="relaxing"> 休息中</string>
+    <string name="price">平均消费</string>
+    <string name="suggest_to_walk">路程太短，建议步行</string>
+    <string name="walk_navigate_init_fail">步行导航初始化失败</string>
+    <string name="walk_route_plan_fail">步行路线规划失败</string>
+
     <string name="exit_app">再按一次退出程序</string>
 </resources>

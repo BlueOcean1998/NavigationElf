@@ -12,6 +12,7 @@ import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
+import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.MainActivity;
 
 /**
@@ -72,13 +73,13 @@ public class MyLocation {
                         //location.getAddrStr(), Toast.LENGTH_SHORT).show();
                     } else if(mainActivity.mLocType == BDLocation.TypeServerError) {//服务器错误
                         Toast.makeText(mainActivity,
-                                "服务器错误", Toast.LENGTH_SHORT).show();
+                                R.string.server_error, Toast.LENGTH_SHORT).show();
                     } else if(mainActivity.mLocType == BDLocation.TypeNetWorkException) {//网络错误
                         Toast.makeText(mainActivity,
-                                "网络错误，请检查网络连接是否正常", Toast.LENGTH_SHORT).show();
+                                mainActivity.getString(R.string.network_error), Toast.LENGTH_SHORT).show();
                     } else if(mainActivity.mLocType == BDLocation.TypeCriteriaException) {//手机模式错误
                         Toast.makeText(mainActivity,
-                                "请检查是否有关闭飞行模式", Toast.LENGTH_SHORT).show();
+                                R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
                     }
                 }
             }

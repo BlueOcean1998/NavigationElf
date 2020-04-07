@@ -369,13 +369,12 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
-                if((System.currentTimeMillis() - clickTime) > 1000) {
+                if((System.currentTimeMillis() - clickTime) > 1000) {//连续点击间隔时间不能小于1秒
                     clickTime = System.currentTimeMillis();
 
                     if(isNetworkConnected(MainActivity.this)) {
                         if(isAirplaneModeOn(MainActivity.this)){
-                            Toast.makeText(MainActivity.this,
-                                    "请检查是否有关闭飞行模式", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, getString(R.string.close_airplane_mode), Toast.LENGTH_SHORT).show();
                         } else {
                             requestPermission();//申请权限
                             if(permissionFlag == READY_TO_LOCATION) {
@@ -394,17 +393,20 @@ public class MainActivity extends AppCompatActivity {
 
                                     searchResult.stopScroll();//停止信息列表滑动
 
-                                    myPoiSearch.resetPoiSearchType();//还原搜索类型为城市内搜索
-                                    //开始城市内搜索
-                                    mPoiSearch.searchInCity(new PoiCitySearchOption()
-                                            .city(mCity)
-                                            .keyword(searchContent));
+                                    if(mCity != null) {//定位成功后才可以进行搜索
+                                        myPoiSearch.resetPoiSearchType();//还原搜索类型为城市内搜索
+                                        //开始城市内搜索
+                                        mPoiSearch.searchInCity(new PoiCitySearchOption()
+                                                .city(mCity)
+                                                .keyword(searchContent));
+                                    } else {
+                                        Toast.makeText(MainActivity.this, getString(R.string.wait_for_location_result), Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             }
                         }
                     } else {
-                        Toast.makeText(MainActivity.this,
-                                "网络错误，请检查网络连接是否正常", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -516,8 +518,7 @@ public class MainActivity extends AppCompatActivity {
 
             permissionFlag = READY_TO_LOCATION;
         } else {
-            ActivityCompat.requestPermissions(this,
-                    permissionList.toArray(tmpList), 0);
+            ActivityCompat.requestPermissions(this, permissionList.toArray(tmpList), 0);
 
             permissionFlag = REQUEST_FAILED;
         }
@@ -533,8 +534,7 @@ public class MainActivity extends AppCompatActivity {
                 myPoiSearch.initSearch();//初始化搜索目标信息
                 myRoutePlanSearch.initRoutePlanSearch();//初始化路线规划
             } else {
-                Toast.makeText(this,
-                        "获取权限失败，若要定位请手动开启", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.get_permission_fail), Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -20,6 +20,7 @@ import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.utils.DistanceUtil;
+import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.overlayutil.PoiOverlay;
 import com.example.foxizz.navigation.searchdata.SearchItem;
@@ -75,7 +76,7 @@ public class MyPoiSearch {
                                 .city(mainActivity.mCity)
                                 .keyword(mainActivity.searchContent));
                     } else {
-                        Toast.makeText(mainActivity, "未找到结果", Toast.LENGTH_LONG).show();
+                        Toast.makeText(mainActivity, mainActivity.getString(R.string.find_nothing), Toast.LENGTH_LONG).show();
                     }
                     return;
                 }
@@ -132,7 +133,7 @@ public class MyPoiSearch {
             public void onGetPoiDetailResult(PoiDetailSearchResult poiDetailResult) {
                 if(poiDetailResult == null
                         || poiDetailResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {
-                    Toast.makeText(mainActivity, "未找到结果", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mainActivity, mainActivity.getString(R.string.find_nothing), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -157,11 +158,11 @@ public class MyPoiSearch {
                         String otherInfo = "";
 
                         if(info.getTelephone() != null && !info.getTelephone().isEmpty()) {
-                            otherInfo += "联系方式：" + info.getTelephone() + "\n";
+                            otherInfo += mainActivity.getString(R.string.phone_number) + info.getTelephone() + "\n";
                         }
 
                         if(info.getShopHours() != null && !info.getShopHours().isEmpty()) {
-                            otherInfo += "营业时间：" + info.getShopHours();
+                            otherInfo += mainActivity.getString(R.string.shop_time) + info.getShopHours();
                             try {
                                 boolean flag = false;
 
@@ -177,8 +178,8 @@ public class MyPoiSearch {
                                     }
                                 }
 
-                                if(flag) otherInfo += " 营业中";
-                                else otherInfo += " 休息中";
+                                if(flag) otherInfo += mainActivity.getString(R.string.shopping);
+                                else otherInfo += mainActivity.getString(R.string.relaxing);
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
@@ -186,7 +187,7 @@ public class MyPoiSearch {
                         }
 
                         if(info.getPrice() != 0) {
-                            otherInfo += "平均消费：" + info.getPrice() + "\n";
+                            otherInfo += mainActivity.getString(R.string.price) + info.getPrice() + "\n";
                         }
 
                         searchItem.setOtherInfo(otherInfo);

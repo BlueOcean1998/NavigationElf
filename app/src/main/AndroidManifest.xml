@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.foxizz.navigation">
 
     <!-- 访问网络，进行地图相关业务数据请求，包括地图数据，路线规划，POI检索等 -->
@@ -31,14 +32,16 @@
         android:allowBackup="true"
         android:icon="@drawable/foxizz"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/foxizz"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:targetApi="q">
 
         <!-- 开发密钥 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="Y5HQLSAsKHcmmU2Yv2NGtST0nhBVj0iZ" />
+            android:value="@string/api_key" />
 
         <!-- 定位服务 -->
         <service android:name="com.baidu.location.f"

@@ -10,6 +10,7 @@ import com.baidu.mapapi.walknavi.adapter.IWRoutePlanListener;
 import com.baidu.mapapi.walknavi.model.WalkRoutePlanError;
 import com.baidu.mapapi.walknavi.params.WalkNaviLaunchParam;
 import com.baidu.mapapi.walknavi.params.WalkRouteNodeInfo;
+import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.activity.WNaviGuideActivity;
 
@@ -36,7 +37,7 @@ public class MyNavigateHelper {
             @Override
             public void engineInitFail() {
                 //引擎初始化失败的回调
-                Toast.makeText(mainActivity, "引擎初始化失败", Toast.LENGTH_LONG).show();
+                Toast.makeText(mainActivity, mainActivity.getString(R.string.walk_navigate_init_fail), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -58,7 +59,7 @@ public class MyNavigateHelper {
 
             @Override
             public void onRoutePlanFail(WalkRoutePlanError error) {
-                Toast.makeText(mainActivity, "路线规划失败", Toast.LENGTH_LONG).show();
+                Toast.makeText(mainActivity, mainActivity.getString(R.string.walk_route_plan_fail), Toast.LENGTH_LONG).show();
             }
 
         });

@@ -36,6 +36,7 @@ public class WNaviGuideActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         mNaviHelper.quit();
+        mySpeech.mSpeechSynthesizer.release();//释放实例
     }
 
     @Override
@@ -87,7 +88,7 @@ public class WNaviGuideActivity extends Activity {
             public int playTTSText(final String s, boolean b) {
                 Log.d(TAG, "tts: " + s);
 
-                mySpeech.mSpeechSynthesizer.speak(s);
+                mySpeech.mSpeechSynthesizer.speak(s);//语音
 
                 return 0;
             }
