@@ -42,7 +42,7 @@ import static com.example.foxizz.navigation.demo.Tools.isEffectiveDate;
 public class MyPoiSearch {
 
     private final static int MAX_SEARCH_NUM = 5;//搜索的最大页数
-    private final static int TO_NEARBY_SEARCH_MIN_NUM = 50;//触发周边搜索需要的最小目标点数量
+    private final static int TO_NEARBY_SEARCH_MIN_NUM = 100;//触发周边搜索需要的最小目标点数量
     private final static int NEARBY_SEARCH_DISTANCE = 5000;//周边搜索的距离
 
     private MainActivity mainActivity;

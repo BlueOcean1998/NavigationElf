@@ -493,16 +493,20 @@ public class MainActivity extends AppCompatActivity {
 
     //申请权限
     private void requestPermission() {
+        String[] permissions = {
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+        };
+
         List<String> permissionList = new ArrayList<>();
 
-        if(ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        for(String permission: permissions) {
+            if(ContextCompat.checkSelfPermission(this, permission)
+                    != PackageManager.PERMISSION_GRANTED)
+                permissionList.add(permission);
         }
-        if(ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            permissionList.add(Manifest.permission.ACCESS_COARSE_LOCATION);
-        }
+
+        String[] tmpList = new String[permissionList.size()];
 
         //如果列表为空，则获取了全部权限不用再获取，否则要获取
         if(permissionList.isEmpty()) {
@@ -513,7 +517,7 @@ public class MainActivity extends AppCompatActivity {
             permissionFlag = READY_TO_LOCATION;
         } else {
             ActivityCompat.requestPermissions(this,
-                    permissionList.toArray(new String[0]), 0);
+                    permissionList.toArray(tmpList), 0);
 
             permissionFlag = REQUEST_FAILED;
         }

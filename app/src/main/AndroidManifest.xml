@@ -22,6 +22,10 @@
     <!-- 获取摄像头权限，用于AR步行导航 -->
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
     <application
         android:name=".demo.DemoApplication"
         android:allowBackup="true"
@@ -40,6 +44,9 @@
         <service android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote"/>
+
+        <!-- 语音合成 -->
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
 
         <!-- 主活动旋转屏幕不重置，没有标题栏 -->
         <activity

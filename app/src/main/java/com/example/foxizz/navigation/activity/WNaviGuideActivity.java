@@ -10,6 +10,8 @@ import com.baidu.mapapi.walknavi.adapter.IWTTSPlayer;
 import com.baidu.mapapi.walknavi.model.RouteGuideKind;
 import com.baidu.platform.comapi.walknavi.WalkNaviModeSwitchListener;
 import com.baidu.platform.comapi.walknavi.widget.ArCameraView;
+import com.example.foxizz.navigation.util.MySpeech;
+
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -27,6 +29,8 @@ public class WNaviGuideActivity extends Activity {
     private final static String TAG = WNaviGuideActivity.class.getSimpleName();
 
     private WalkNavigateHelper mNaviHelper;
+
+    private MySpeech mySpeech;//语音合成模块
 
     @Override
     protected void onDestroy() {
@@ -51,6 +55,10 @@ public class WNaviGuideActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         mNaviHelper = WalkNavigateHelper.getInstance();
+
+        //初始化语音合成模块
+        mySpeech = new MySpeech(this);
+        mySpeech.initSpeech();
 
         try {
             View view = mNaviHelper.onCreate(WNaviGuideActivity.this);
@@ -78,6 +86,9 @@ public class WNaviGuideActivity extends Activity {
             @Override
             public int playTTSText(final String s, boolean b) {
                 Log.d(TAG, "tts: " + s);
+
+                mySpeech.mSpeechSynthesizer.speak(s);
+
                 return 0;
             }
         });
