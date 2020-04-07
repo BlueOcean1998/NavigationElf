@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.location.LocationClient;
+import com.baidu.mapapi.bikenavi.params.BikeNaviLaunchParam;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -38,6 +39,7 @@ import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.poi.PoiCitySearchOption;
 import com.baidu.mapapi.search.poi.PoiSearch;
+import com.baidu.mapapi.search.route.BikingRoutePlanOption;
 import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
 import com.baidu.mapapi.search.route.PlanNode;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
@@ -137,11 +139,13 @@ public class MainActivity extends AppCompatActivity {
     public LinearLayout selectLayout;//选择布局
     public Button selectButton1;//选择驾车
     public Button selectButton2;//选择步行
-    public Button selectButton3;//选择公交
+    public Button selectButton3;//选择骑行
+    public Button selectButton4;//选择公交
 
     public final static int DRIVING = 0;//驾车
     public final static int WALKING = 1;//步行
-    public final static int TRANSIT = 2;//公交
+    public final static int BIKING = 2;//骑行
+    public final static int TRANSIT = 3;//公交
     public int routePlanSelect = DRIVING;//默认为驾车
 
     public int searchItemSelect = 0;//选择的是哪个item
@@ -156,8 +160,6 @@ public class MainActivity extends AppCompatActivity {
 
     //导航相关
     private MyNavigateHelper myNavigateHelper;
-
-    public WalkNaviLaunchParam walkParam;
 
 
     //控制布局相关
@@ -241,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
         selectButton1 = findViewById(R.id.select_button1);
         selectButton2 = findViewById(R.id.select_button2);
         selectButton3 = findViewById(R.id.select_button3);
+        selectButton4 = findViewById(R.id.select_button4);
 
         searchLayout = findViewById(R.id.search_layout);
         searchEdit = findViewById(R.id.search_edit);
@@ -293,16 +296,10 @@ public class MainActivity extends AppCompatActivity {
                 selectButton1.setBackgroundResource(R.drawable.button_background_gray);
                 selectButton2.setBackgroundResource(R.drawable.button_background_black);
                 selectButton3.setBackgroundResource(R.drawable.button_background_black);
+                selectButton4.setBackgroundResource(R.drawable.button_background_black);
                 routePlanSelect = DRIVING;
 
-                //获取定位坐标和目标坐标
-                PlanNode startNode = PlanNode.withLocation(latLng);
-                PlanNode endNode = PlanNode.withLocation(searchList.get(searchItemSelect).getLatLng());
-
-                //开始驾车路线规划
-                mSearch.drivingSearch((new DrivingRoutePlanOption())
-                        .from(startNode)
-                        .to(endNode));
+                myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
             }
         });
 
@@ -313,38 +310,38 @@ public class MainActivity extends AppCompatActivity {
                 selectButton1.setBackgroundResource(R.drawable.button_background_black);
                 selectButton2.setBackgroundResource(R.drawable.button_background_gray);
                 selectButton3.setBackgroundResource(R.drawable.button_background_black);
+                selectButton4.setBackgroundResource(R.drawable.button_background_black);
                 routePlanSelect = WALKING;
 
-                //获取定位坐标和目标坐标
-                PlanNode startNode = PlanNode.withLocation(latLng);
-                PlanNode endNode = PlanNode.withLocation(searchList.get(searchItemSelect).getLatLng());
-
-                //开始步行路线规划
-                mSearch.walkingSearch((new WalkingRoutePlanOption())
-                        .from(startNode)
-                        .to(endNode));
+                myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
             }
         });
 
-        //公交按钮的点击事件
+        //骑行按钮的点击事件
         selectButton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectButton1.setBackgroundResource(R.drawable.button_background_black);
                 selectButton2.setBackgroundResource(R.drawable.button_background_black);
                 selectButton3.setBackgroundResource(R.drawable.button_background_gray);
+                selectButton4.setBackgroundResource(R.drawable.button_background_black);
+                routePlanSelect = BIKING;
+
+                myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
+            }
+        });
+
+        //公交按钮的点击事件
+        selectButton4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectButton1.setBackgroundResource(R.drawable.button_background_black);
+                selectButton2.setBackgroundResource(R.drawable.button_background_black);
+                selectButton3.setBackgroundResource(R.drawable.button_background_black);
+                selectButton4.setBackgroundResource(R.drawable.button_background_gray);
                 routePlanSelect = TRANSIT;
 
-                //获取定位坐标和目标坐标
-                PlanNode startNode = PlanNode.withLocation(latLng);
-                PlanNode endNode = PlanNode.withLocation(searchList.get(searchItemSelect).getLatLng());
-
-                //开始公交路线规划
-                TransitRoutePlanOption transitRoutePlanOption = new TransitRoutePlanOption();
-                transitRoutePlanOption.city(mCity);
-                transitRoutePlanOption.from(startNode);
-                transitRoutePlanOption.to(endNode);
-                mSearch.transitSearch(transitRoutePlanOption);
+                myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
             }
         });
 
@@ -466,7 +463,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(permissionFlag == READY_TO_LOCATION) {
-                    myNavigateHelper.initNavigateHelper();//初始化导航引擎
+                    myNavigateHelper.startNavigate();//开始导航
                 }
             }
         });

@@ -3,6 +3,7 @@ package com.example.foxizz.navigation.util;
 import android.annotation.SuppressLint;
 import android.widget.Toast;
 
+import com.baidu.mapapi.search.route.BikingRoutePlanOption;
 import com.baidu.mapapi.search.route.BikingRouteResult;
 import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
 import com.baidu.mapapi.search.route.DrivingRouteResult;
@@ -175,8 +176,15 @@ public class MyRoutePlanSearch {
                         .to(endNode));
                 break;
 
-            //公交路线规划
+            //骑行路线规划
             case 2:
+                mainActivity.mSearch.bikingSearch((new BikingRoutePlanOption())
+                        .from(startNode)
+                        .to(endNode));
+                break;
+
+            //公交路线规划
+            case 3:
                 TransitRoutePlanOption transitRoutePlanOption = new TransitRoutePlanOption();
                 transitRoutePlanOption.city(mainActivity.mCity);
                 transitRoutePlanOption.from(startNode);

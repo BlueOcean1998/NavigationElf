@@ -62,7 +62,15 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.WNaviGuideActivity" />
+        <!-- 步行导航 -->
+        <activity
+            android:name=".activity.WNaviGuideActivity"
+            android:configChanges="orientation" />
+
+        <!-- 骑行导航 -->
+        <activity
+            android:name=".activity.BNaviGuideActivity"
+            android:configChanges="orientation" />
     </application>
 
 </manifest>

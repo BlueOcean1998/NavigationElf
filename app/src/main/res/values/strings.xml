@@ -3,7 +3,8 @@
 
     <string name="select_bottom1">驾车</string>
     <string name="select_bottom2">步行</string>
-    <string name="select_bottom3">公交</string>
+    <string name="select_bottom3">骑行</string>
+    <string name="select_bottom4">公交</string>
 
     <string name="empty_bottom">清空</string>
     <string name="search_bottom">搜索</string>
@@ -40,6 +41,8 @@
     <string name="suggest_to_walk">路程太短，建议步行</string>
     <string name="walk_navigate_init_fail">步行导航初始化失败</string>
     <string name="walk_route_plan_fail">步行路线规划失败</string>
+    <string name="bike_navigate_init_fail">骑行导航初始化失败</string>
+    <string name="bike_route_plan_fail">骑行路线规划失败</string>
 
     <string name="exit_app">再按一次退出程序</string>
 </resources>

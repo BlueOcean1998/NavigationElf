@@ -67,6 +67,19 @@
                     android:textColor="@color/white"
                     android:text="@string/select_bottom3"
                     tools:ignore="ButtonStyle" />
+
+                <Button
+                    android:id="@+id/select_button4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="6dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/button_background_black"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:text="@string/select_bottom4"
+                    tools:ignore="ButtonStyle" />
             </LinearLayout>
 
             <LinearLayout
