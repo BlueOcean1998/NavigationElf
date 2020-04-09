@@ -1,27 +1,36 @@
 package com.example.foxizz.navigation.searchdata;
 
+import androidx.annotation.NonNull;
+
 import com.baidu.mapapi.model.LatLng;
 
 /**
  * 搜索到的目标信息类
  */
 public class SearchItem {
+    private String uid;//唯一地址标识
     private LatLng latLng;//坐标
     private String targetName;//目标名
     private String address;//目标地址
     private Double distance;//与目标的距离
-    private String otherInfo;//其它信息
 
-    public SearchItem(LatLng latLng, String targetName, String address, Double distance, String otherInfo) {
+    public SearchItem(String uid, LatLng latLng, String targetName, String address, Double distance) {
         super();
+        this.uid = uid;
         this.latLng = latLng;
         this.targetName = targetName;
         this.address = address;
         this.distance = distance;
-        this.otherInfo = otherInfo;
     }
     public SearchItem() {
         super();
+    }
+
+    public String getUid() {
+        return uid;
+    }
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public LatLng getLatLng() {
@@ -52,20 +61,16 @@ public class SearchItem {
         this.distance = distance;
     }
 
-    public String getOtherInfo() {
-        return otherInfo;
-    }
-    public void setOtherInfo(String otherInfo) {
-        this.otherInfo = otherInfo;
-    }
-
+    @NonNull
     @Override
     public String toString() {
-        return "SearchItem{" + "坐标:'" + latLng +
+        return "SearchItem{" +
+                "uid:'" + uid + '\'' +
+                ", 坐标:" + latLng +
                 ", 目标名:'" + targetName + '\'' +
                 ", 目标地址:'" + address + '\'' +
-                ", 距离:'" + distance + '\'' +
-                ", 其它信息:'" + otherInfo + '\'' + '}';
+                ", 距离:" + distance + '\'' +
+                '}';
     }
 
 }

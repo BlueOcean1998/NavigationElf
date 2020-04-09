@@ -1,20 +1,29 @@
 package com.example.foxizz.navigation.searchdata;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.util.MyRoutePlanSearch;
 
 import java.util.List;
+
+import static com.example.foxizz.navigation.demo.Tools.isAirplaneModeOn;
+import static com.example.foxizz.navigation.demo.Tools.isNetworkConnected;
 
 /**
  * 搜索到的信息列表的适配器
@@ -74,28 +83,47 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
         //cardView的点击事件
         holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View view) {
-                click(holder);
+                if(isNetworkConnected(mainActivity)) {
+                    if(isAirplaneModeOn(mainActivity)) {
+                        Toast.makeText(mainActivity, mainActivity.getString(R.string.close_airplane_mode), Toast.LENGTH_SHORT).show();
+                    } else {
+                        click(holder);
 
-                mainActivity.infoButton.setText(R.string.info_button1);//设置按钮为路线
-                mainActivity.expandInfoLayout(true);//展开详细信息布局
-                mainActivity.infoFlag = true;//设置信息状态为展开
+                        mainActivity.infoButton.setText(R.string.info_button1);//设置按钮为路线
+                        mainActivity.expandInfoLayout(true);//展开详细信息布局
+                        mainActivity.infoFlag = true;//设置信息状态为展开
+                    }
+                } else {
+                    Toast.makeText(mainActivity, mainActivity.getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
         //itemButton1的点击事件
         holder.itemButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View view) {
-                click(holder);
+                if(isNetworkConnected(mainActivity)) {
+                    if(isAirplaneModeOn(mainActivity)) {
+                        Toast.makeText(mainActivity, mainActivity.getString(R.string.close_airplane_mode), Toast.LENGTH_SHORT).show();
+                    } else {
+                        click(holder);
 
-                mainActivity.infoButton.setText(R.string.info_button2);//设置按钮为详细信息
-                mainActivity.expandSelectLayout(true);//展开选择布局
-                mainActivity.infoFlag = false;//设置信息状态为收起
+                        mainActivity.infoButton.setText(R.string.info_button2);//设置按钮为详细信息
+                        mainActivity.expandSelectLayout(true);//展开选择布局
+                        mainActivity.infoFlag = false;//设置信息状态为收起
 
-                MyRoutePlanSearch myRoutePlanSearch = new MyRoutePlanSearch(mainActivity);
-                myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
+                        MyRoutePlanSearch myRoutePlanSearch = new MyRoutePlanSearch(mainActivity);
+                        myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
+                    }
+                } else {
+                    Toast.makeText(mainActivity, mainActivity.getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -103,7 +131,36 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                final int position = holder.getAdapterPosition();
+                final SearchItem searchItem = mSearchItemList.get(position);
 
+                if(mainActivity.isHistorySearchResult) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
+                    builder.setTitle("提示");
+                    builder.setMessage("你确定要删除这条记录吗？");
+
+                    builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mSearchItemList.remove(position);//移除搜索列表的这条记录
+                            notifyItemRemoved(position);//通知adapter移除这条记录
+
+                            mainActivity.dbHelper.deleteSearchData(searchItem.getUid());//删除数据库中的搜索记录
+                        }
+                    });
+
+                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //do nothing
+                        }
+                    });
+
+                    builder.show();
+                } else {
+                    mainActivity.searchList.remove(position);//移除搜索列表的这条记录
+                    notifyItemRemoved(position);//通知adapter移除这条记录
+                }
 
                 return false;
             }
@@ -112,18 +169,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         return holder;
     }
 
+    //cardView和itemButton1共同的点击事件
     @SuppressLint("SetTextI18n")
     private void click(ViewHolder holder) {
         int position = holder.getAdapterPosition();
-        SearchItem searchItem = mSearchItemList.get(position);
 
         mainActivity.searchItemSelect = position;//设置item选择
-
-        //设置详细信息内容
-        mainActivity.infoTargetName.setText(searchItem.getTargetName());
-        mainActivity.infoAddress.setText(searchItem.getAddress());
-        mainActivity.infoDistance.setText(searchItem.getDistance() + "km");
-        mainActivity.infoOthers.setText(searchItem.getOtherInfo());
 
         mainActivity.expandSearchLayout(false);//收起搜索布局
         if(mainActivity.expandFlag) {
@@ -131,6 +182,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             mainActivity.expandFlag = false;//设置状态为收起
         }
         mainActivity.expandStartLayout(true);//展开开始导航布局
+
+        SearchItem searchItem = mSearchItemList.get(position);
+
+        mainActivity.myPoiSearch.detailPoiSearch();//设置为直接详细搜索
+        mainActivity.mPoiSearch.searchPoiDetail(//进行详细信息搜索
+                (new PoiDetailSearchOption()).poiUids(searchItem.getUid()));
     }
 
 }

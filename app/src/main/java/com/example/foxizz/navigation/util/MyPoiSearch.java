@@ -1,6 +1,7 @@
 package com.example.foxizz.navigation.util;
 
 import android.annotation.SuppressLint;
+import android.database.Cursor;
 import android.os.Build;
 import android.widget.Toast;
 
@@ -23,16 +24,14 @@ import com.baidu.mapapi.utils.DistanceUtil;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.overlayutil.PoiOverlay;
+import com.example.foxizz.navigation.searchdata.SearchDatabase;
 import com.example.foxizz.navigation.searchdata.SearchItem;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 
 import static com.example.foxizz.navigation.demo.Tools.isEffectiveDate;
 
@@ -55,19 +54,23 @@ public class MyPoiSearch {
     private final static int CITY_SEARCH = 0;//城市内搜索
     private final static int NEARBY_SEARCH = 1;//周边搜索
     private final static int CONSTRAINT_CITY_SEARCH = 2;//强制城市内搜索，使用周边搜索搜不到内容时使用
+    private final static int DETAIL_SEARCH = 3;//直接详细信息搜索，一般传入
     public void resetPoiSearchType() {//重设搜索类型为城市内搜索
         poiSearchType = CITY_SEARCH;
-    }
+    }//还原搜索类型为城市内搜索
+    public void detailPoiSearch() {poiSearchType = DETAIL_SEARCH;}//设置为直接详细搜索
 
     //初始化搜索目标信息
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void initSearch() {
+        //获取Poi搜索实例
         mainActivity.mPoiSearch = PoiSearch.newInstance();
 
         OnGetPoiSearchResultListener listener = new OnGetPoiSearchResultListener() {
             @Override
             public void onGetPoiResult(PoiResult poiResult) {
-                if(poiResult == null
-                        || poiResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {//没有找到检索结果
+                if(poiResult == null//没有找到检索结果
+                        || poiResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {
                     if(poiSearchType == NEARBY_SEARCH) {
                         poiSearchType = CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
 
@@ -93,6 +96,7 @@ public class MyPoiSearch {
 
                         mainActivity.mBaiduMap.clear();//清空地图上的所有标记点和绘制的路线
                         mainActivity.searchList.clear();//清空searchList
+                        mainActivity.isHistorySearchResult = false;//已经不是搜索历史记录了
 
                         PoiOverlay poiOverlay = new PoiOverlay(mainActivity.mBaiduMap);
                         mainActivity.mBaiduMap.setOnMarkerClickListener(poiOverlay);
@@ -106,7 +110,7 @@ public class MyPoiSearch {
                         for(int i = 0; i < searchPageNum; i++) {
                             for(PoiInfo info: poiResult.getAllPoi()) {
                                 //uid的集合，最多可以传入10个uid，多个uid之间用英文逗号分隔。
-                                mainActivity.mPoiSearch.searchPoiDetail(
+                                mainActivity.mPoiSearch.searchPoiDetail(//进行详细信息搜索
                                         (new PoiDetailSearchOption()).poiUids(info.getUid()));
                             }
                             poiOverlay.setData(poiResult);//设置POI数据
@@ -127,88 +131,134 @@ public class MyPoiSearch {
                 }
             }
 
-            @SuppressLint("SimpleDateFormat")
+            @SuppressLint({"SimpleDateFormat", "SetTextI18n"})
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onGetPoiDetailResult(PoiDetailSearchResult poiDetailResult) {
-                if(poiDetailResult == null
+                if(poiDetailResult == null//没有找到检索结果
                         || poiDetailResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {
                     Toast.makeText(mainActivity, mainActivity.getString(R.string.find_nothing), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if(poiDetailResult.error == SearchResult.ERRORNO.NO_ERROR) {//正常返回结果的时候，此处可以获得很多相关信息
-                    for(PoiDetailInfo info: poiDetailResult.getPoiDetailInfoList()) {//详细检索结果往往只有一个
-                        SearchItem searchItem = new SearchItem();
+                if(poiDetailResult.error == SearchResult.ERRORNO.NO_ERROR) {//检索结果正常返回
+                    if(poiSearchType == DETAIL_SEARCH) {//直接的详细信息搜索
+                        for(PoiDetailInfo info: poiDetailResult.getPoiDetailInfoList()) {
+                            //将结果保存到数据库
+                            insertOrUpdateSearchDatabase(info);
 
-                        searchItem.setTargetName(info.getName());//获取并设置目标名
-                        searchItem.setAddress(info.getAddress());//获取并设置目标地址
+                            //更新搜索结果列表
+                            SearchItem searchItem = new SearchItem();
 
-                        LatLng tLatLng = info.getLocation();//获取目标坐标
-                        searchItem.setLatLng(tLatLng);//设置目标坐标
+                            //设置详细信息内容、更新搜索结果列表
+                            //获取并设置目标uid
+                            searchItem.setUid(info.getUid());
 
-                        //获取定位点到目标点的距离（单位：m，结果除以1000转化为km）
-                        double distance = (DistanceUtil.getDistance(mainActivity.latLng, tLatLng) / 1000);
-                        //保留两位小数
-                        BigDecimal bd = new BigDecimal(distance);
-                        distance = bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                        searchItem.setDistance(distance);//设置定位点到目标点的距离
+                            //获取并设置目标名
+                            mainActivity.infoTargetName.setText(info.getName());
+                            searchItem.setTargetName(info.getName());
 
+                            //获取并设置目标地址
+                            mainActivity.infoAddress.setText(info.getAddress());
+                            searchItem.setAddress(info.getAddress());
 
-                        String otherInfo = "";
+                            LatLng tLatLng = info.getLocation();//获取目标坐标
+                            searchItem.setLatLng(tLatLng);//设置目标坐标
 
-                        if(info.getTelephone() != null && !info.getTelephone().isEmpty()) {
-                            otherInfo += mainActivity.getString(R.string.phone_number) + info.getTelephone() + "\n";
-                        }
+                            //获取定位点到目标点的距离（单位：m，结果除以1000转化为km）
+                            double distance = (DistanceUtil.getDistance(mainActivity.latLng, tLatLng) / 1000);
+                            //保留两位小数
+                            BigDecimal bd = new BigDecimal(distance);
+                            distance = bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                            mainActivity.infoDistance.setText(distance + "km");
+                            searchItem.setDistance(distance);
 
-                        if(info.getShopHours() != null && !info.getShopHours().isEmpty()) {
-                            otherInfo += mainActivity.getString(R.string.shop_time) + info.getShopHours();
-                            try {
-                                boolean flag = false;
-
-                                DateFormat sdf = new SimpleDateFormat("HH:mm");
-                                Date nowTime = sdf.parse(sdf.format(new Date()));
-                                String[] shopHours = info.getShopHours().split(",");
-                                for(String shopHour: shopHours) {
-                                    String[] time = shopHour.split("-");
-                                    Date startTime = sdf.parse(time[0]);
-                                    Date endTime = sdf.parse(time[1]);
-                                    if(isEffectiveDate(nowTime, startTime, endTime)) {
-                                        flag = true;
-                                    }
+                            //寻找搜索列表中Uid相同的item
+                            for(int i = 0; i < mainActivity.searchList.size(); i++) {
+                                if(mainActivity.searchList.get(i).getUid().equals(info.getUid())) {
+                                    mainActivity.searchList.set(i, searchItem);//更新搜索结果列表
+                                    mainActivity.searchAdapter.notifyDataSetChanged();//通知adapter更新
+                                    break;
                                 }
-
-                                if(flag) otherInfo += mainActivity.getString(R.string.shopping);
-                                else otherInfo += mainActivity.getString(R.string.relaxing);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
                             }
-                            otherInfo += "\n";
+
+                            //其它信息
+                            String otherInfo = "";
+
+                            if(info.getTelephone() != null && !info.getTelephone().isEmpty()) {//获取联系方式
+                                otherInfo += mainActivity.getString(R.string.phone_number) + info.getTelephone() + "\n";
+                            }
+
+                            if(info.getShopHours() != null && !info.getShopHours().isEmpty()) {//获取营业时间
+                                otherInfo += mainActivity.getString(R.string.shop_time) + info.getShopHours();
+                                try {
+                                    boolean flag = false;
+
+                                    DateFormat sdf = new SimpleDateFormat("HH:mm");
+                                    Date nowTime = sdf.parse(sdf.format(new Date()));
+                                    String[] shopHours = info.getShopHours().split(",");
+                                    for(String shopHour: shopHours) {
+                                        String[] time = shopHour.split("-");
+                                        Date startTime = sdf.parse(time[0]);
+                                        Date endTime = sdf.parse(time[1]);
+                                        if(isEffectiveDate(nowTime, startTime, endTime)) {
+                                            flag = true;
+                                        }
+                                    }
+
+                                    if(flag) otherInfo += mainActivity.getString(R.string.shopping);
+                                    else otherInfo += mainActivity.getString(R.string.relaxing);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                otherInfo += "\n";
+                            }
+
+                            if(info.getPrice() != 0) {//获取平均消费
+                                otherInfo += mainActivity.getString(R.string.price) + info.getPrice() + "\n";
+                            }
+
+                            mainActivity.infoOthers.setText(otherInfo);//设置其它信息
                         }
 
-                        if(info.getPrice() != 0) {
-                            otherInfo += mainActivity.getString(R.string.price) + info.getPrice() + "\n";
+                    } else {//间接的详细信息搜索
+                        //由于一般传入的是uid，详细检索结果往往只有一个
+                        for(PoiDetailInfo info: poiDetailResult.getPoiDetailInfoList()) {
+                            //设置搜索结果列表
+                            SearchItem searchItem = new SearchItem();
+
+                            searchItem.setUid(info.getUid());//获取并设置Uid
+                            searchItem.setTargetName(info.getName());//获取并设置目标名
+                            searchItem.setAddress(info.getAddress());//获取并设置目标地址
+
+                            LatLng tLatLng = info.getLocation();//获取目标坐标
+                            searchItem.setLatLng(tLatLng);//设置目标坐标
+
+                            //获取定位点到目标点的距离（单位：m，结果除以1000转化为km）
+                            double distance = (DistanceUtil.getDistance(mainActivity.latLng, tLatLng) / 1000);
+                            //保留两位小数
+                            BigDecimal bd = new BigDecimal(distance);
+                            distance = bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                            searchItem.setDistance(distance);//设置定位点到目标点的距离
+
+                            mainActivity.searchList.add(searchItem);//添加搜到的内容到searchList
                         }
 
-                        searchItem.setOtherInfo(otherInfo);
+                        /*经过测试，随机排序更为合理
+                        if(poiSearchType == NEARBY_SEARCH) {//如果是使用周边搜索
+                            //按距离升序排序
+                            mainActivity.searchList.sort(new Comparator<SearchItem>() {
+                                @Override
+                                public int compare(SearchItem o1, SearchItem o2) {
+                                    return o1.getDistance().compareTo(o2.getDistance());
+                                }
+                            });
+                        }
+                        */
 
-                        mainActivity.searchList.add(searchItem);//添加搜到的内容到searchList
+                        mainActivity.searchAdapter.notifyDataSetChanged();//通知searchAdapter更新
+                        mainActivity.searchResult.scrollToPosition(0);//移动回头部
                     }
-
-                    /*经过测试，随机排序更为合理
-                    if(poiSearchType == NEARBY_SEARCH) {//如果是使用周边搜索
-                        //按距离升序排序
-                        mainActivity.searchList.sort(new Comparator<SearchItem>() {
-                            @Override
-                            public int compare(SearchItem o1, SearchItem o2) {
-                                return o1.getDistance().compareTo(o2.getDistance());
-                            }
-                        });
-                    }
-                    */
-
-                    mainActivity.searchAdapter.notifyDataSetChanged();//通知searchAdapter更新
-                    mainActivity.searchResult.scrollToPosition(0);//移动回头部
                 }
             }
 
@@ -225,6 +275,17 @@ public class MyPoiSearch {
         };
 
         mainActivity.mPoiSearch.setOnGetPoiSearchResultListener(listener);
+    }
+
+    //将详细搜索结果录入数据库或更新数据库中这条记录的内容
+    private void insertOrUpdateSearchDatabase(PoiDetailInfo info) {
+        Cursor cursor = mainActivity.dbHelper.getSearchData(info.getUid());
+        if(cursor != null) {
+            if(cursor.getCount() > 0) mainActivity.dbHelper.updateSearchDatabase(info);//有则更新
+            else mainActivity.dbHelper.insertSearchDatabase(info);//没有则添加
+
+            cursor.close();
+        }
     }
 
 }

@@ -2,6 +2,7 @@ package com.example.foxizz.navigation.activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.os.Build;
@@ -28,7 +30,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.location.LocationClient;
-import com.baidu.mapapi.bikenavi.params.BikeNaviLaunchParam;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -39,15 +40,10 @@ import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.poi.PoiCitySearchOption;
 import com.baidu.mapapi.search.poi.PoiSearch;
-import com.baidu.mapapi.search.route.BikingRoutePlanOption;
-import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
-import com.baidu.mapapi.search.route.PlanNode;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
-import com.baidu.mapapi.search.route.TransitRoutePlanOption;
-import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
-import com.baidu.mapapi.walknavi.params.WalkNaviLaunchParam;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.searchdata.SearchAdapter;
+import com.example.foxizz.navigation.searchdata.SearchDatabase;
 import com.example.foxizz.navigation.searchdata.SearchItem;
 import com.example.foxizz.navigation.util.MyLocation;
 import com.example.foxizz.navigation.util.MyNavigateHelper;
@@ -89,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //定位相关
-    private MyLocation myLocation;
+    public MyLocation myLocation;
 
     public LocationClient mLocationClient;
     public boolean isFirstLoc = true;//是否是首次定位
@@ -103,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //搜索相关
-    private MyPoiSearch myPoiSearch;
+    public MyPoiSearch myPoiSearch;
 
     public PoiSearch mPoiSearch;
 
@@ -130,9 +126,12 @@ public class MainActivity extends AppCompatActivity {
     public TextView infoDistance;//与目标的距离
     public TextView infoOthers;//目标的其它信息（联系方式，营业时间等）
 
+    public boolean isHistorySearchResult = true;//是否是搜索历史记录
+    public SearchDatabase dbHelper;//搜索记录数据库
+
 
     //路线规划相关
-    private MyRoutePlanSearch myRoutePlanSearch;
+    public MyRoutePlanSearch myRoutePlanSearch;
 
     public RoutePlanSearch mSearch;
 
@@ -159,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //导航相关
-    private MyNavigateHelper myNavigateHelper;
+    public MyNavigateHelper myNavigateHelper;
 
 
     //控制布局相关
@@ -189,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -209,6 +209,9 @@ public class MainActivity extends AppCompatActivity {
         myNavigateHelper = new MyNavigateHelper(this);//初始化导航模块
 
         requestPermission();//申请权限
+
+        //新建搜索记录数据库，已存在则连接数据库
+        dbHelper = new SearchDatabase(MainActivity.this, "Navigate.db", null, 1);
     }
 
     //初始化地图控件
@@ -291,6 +294,7 @@ public class MainActivity extends AppCompatActivity {
 
         //驾车按钮的点击事件
         selectButton1.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
                 selectButton1.setBackgroundResource(R.drawable.button_background_gray);
@@ -305,6 +309,7 @@ public class MainActivity extends AppCompatActivity {
 
         //步行按钮的点击事件
         selectButton2.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
                 selectButton1.setBackgroundResource(R.drawable.button_background_black);
@@ -319,6 +324,7 @@ public class MainActivity extends AppCompatActivity {
 
         //骑行按钮的点击事件
         selectButton3.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
                 selectButton1.setBackgroundResource(R.drawable.button_background_black);
@@ -333,6 +339,7 @@ public class MainActivity extends AppCompatActivity {
 
         //公交按钮的点击事件
         selectButton4.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
                 selectButton1.setBackgroundResource(R.drawable.button_background_black);
@@ -347,17 +354,48 @@ public class MainActivity extends AppCompatActivity {
 
         //清空按钮的点击事件
         emptyButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
-                searchEdit.setText("");
+                if(isHistorySearchResult) {//如果是搜索历史记录
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("警告！");
+                    builder.setMessage("你确定要清空搜索记录吗？");
 
-                if(expandFlag) {
-                    expandSearchDrawer(false);//收起展开的搜索抽屉
-                    expandFlag = false;//设置状态为收起
+                    builder.setPositiveButton("清空", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            searchEdit.setText("");//清空搜索输出框
+
+                            if(expandFlag) {
+                                expandSearchDrawer(false);//收起展开的搜索抽屉
+                                expandFlag = false;//设置状态为收起
+                            }
+
+                            searchResult.stopScroll();//停止信息列表滑动
+
+                            dbHelper.deleteAllSearchData();//清空数据库中的搜索记录
+                        }
+                    });
+
+                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //do nothing
+                        }
+                    });
+
+                    builder.show();
+
+                } else {//如果不是
+                    isHistorySearchResult = true;//现在是搜索历史记录了
+
+                    searchEdit.setText("");//清空搜索输出框
+
+                    searchResult.stopScroll();//停止信息列表滑动
+
+                    dbHelper.initSearchData();//初始化搜索记录
                 }
-
-                searchList.clear();//清空搜索结果列表
-                searchAdapter.notifyDataSetChanged();//通知adapter更新
             }
         });
 
@@ -368,12 +406,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if((System.currentTimeMillis() - clickTime) > 1000) {//连续点击间隔时间不能小于1秒
                     clickTime = System.currentTimeMillis();
-
                     if(isNetworkConnected(MainActivity.this)) {
-                        if(isAirplaneModeOn(MainActivity.this)){
-                            Toast.makeText(MainActivity.this, getString(R.string.close_airplane_mode), Toast.LENGTH_SHORT).show();
-                        } else {
-                            requestPermission();//申请权限
+                        if(!isAirplaneModeOn(MainActivity.this)){
                             if(permissionFlag == READY_TO_LOCATION) {
                                 searchContent = searchEdit.getText().toString();
                                 if(!searchContent.equals("")){
@@ -388,9 +422,9 @@ public class MainActivity extends AppCompatActivity {
                                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                                     if(imm != null) imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
 
-                                    searchResult.stopScroll();//停止信息列表滑动
-
                                     if(mCity != null) {//定位成功后才可以进行搜索
+                                        searchResult.stopScroll();//停止信息列表滑动
+
                                         myPoiSearch.resetPoiSearchType();//还原搜索类型为城市内搜索
                                         //开始城市内搜索
                                         mPoiSearch.searchInCity(new PoiCitySearchOption()
@@ -400,7 +434,11 @@ public class MainActivity extends AppCompatActivity {
                                         Toast.makeText(MainActivity.this, getString(R.string.wait_for_location_result), Toast.LENGTH_SHORT).show();
                                     }
                                 }
+                            } else {
+                                requestPermission();//申请权限
                             }
+                        } else {
+                            Toast.makeText(MainActivity.this, getString(R.string.close_airplane_mode), Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Toast.makeText(MainActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
@@ -440,6 +478,7 @@ public class MainActivity extends AppCompatActivity {
 
         //路线规划、详细信息切换按钮的点击事件
         infoButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
                 if(infoFlag) {//如果状态为展开
@@ -460,6 +499,7 @@ public class MainActivity extends AppCompatActivity {
 
         //开始导航按钮的点击事件
         startButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
                 if(permissionFlag == READY_TO_LOCATION) {
@@ -491,6 +531,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //申请权限
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void requestPermission() {
         String[] permissions = {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -521,6 +562,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void onRequestPermissionsResult(
             int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

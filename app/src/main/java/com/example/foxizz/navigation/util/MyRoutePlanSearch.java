@@ -1,7 +1,10 @@
 package com.example.foxizz.navigation.util;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 
 import com.baidu.mapapi.search.route.BikingRoutePlanOption;
 import com.baidu.mapapi.search.route.BikingRouteResult;
@@ -25,6 +28,9 @@ import com.example.foxizz.navigation.overlayutil.MassTransitRouteOverlay;
 import com.example.foxizz.navigation.overlayutil.TransitRouteOverlay;
 import com.example.foxizz.navigation.overlayutil.WalkingRouteOverlay;
 
+import static com.example.foxizz.navigation.demo.Tools.isAirplaneModeOn;
+import static com.example.foxizz.navigation.demo.Tools.isNetworkConnected;
+
 /**
  * 路线规划模块
  */
@@ -34,6 +40,56 @@ public class MyRoutePlanSearch {
     private MainActivity mainActivity;
     public MyRoutePlanSearch(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
+    }
+
+    //开始路线规划
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public void startRoutePlanSearch() {
+        if(isNetworkConnected(mainActivity)) {
+            if(isAirplaneModeOn(mainActivity)) {
+                Toast.makeText(mainActivity, mainActivity.getString(R.string.close_airplane_mode), Toast.LENGTH_SHORT).show();
+            } else {
+                if(mainActivity.permissionFlag == MainActivity.READY_TO_LOCATION) {
+                    //获取定位点和目标点
+                    PlanNode startNode = PlanNode.withLocation(mainActivity.latLng);
+                    PlanNode endNode = PlanNode.withLocation(mainActivity.searchList.get(mainActivity.searchItemSelect).getLatLng());
+
+                    switch(mainActivity.routePlanSelect) {
+                        //驾车路线规划
+                        case 0:
+                            mainActivity.mSearch.drivingSearch((new DrivingRoutePlanOption())
+                                    .from(startNode)
+                                    .to(endNode));
+                            break;
+
+                        //步行路线规划
+                        case 1:
+                            mainActivity.mSearch.walkingSearch((new WalkingRoutePlanOption())
+                                    .from(startNode)
+                                    .to(endNode));
+                            break;
+
+                        //骑行路线规划
+                        case 2:
+                            mainActivity.mSearch.bikingSearch((new BikingRoutePlanOption())
+                                    .from(startNode)
+                                    .to(endNode));
+                            break;
+
+                        //公交路线规划
+                        case 3:
+                            TransitRoutePlanOption transitRoutePlanOption = new TransitRoutePlanOption();
+                            transitRoutePlanOption.city(mainActivity.mCity);
+                            transitRoutePlanOption.from(startNode);
+                            transitRoutePlanOption.to(endNode);
+                            mainActivity.mSearch.transitSearch(transitRoutePlanOption);
+                            break;
+                    }
+                }
+            }
+        } else {
+            Toast.makeText(mainActivity, mainActivity.getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+        }
     }
 
     //初始化路线规划
@@ -153,45 +209,6 @@ public class MyRoutePlanSearch {
 
         //设置路线规划检索监听器
         mainActivity.mSearch.setOnGetRoutePlanResultListener(listener);
-    }
-
-    //开始路线规划
-    public void startRoutePlanSearch() {
-        //获取定位点和目标点
-        PlanNode startNode = PlanNode.withLocation(mainActivity.latLng);
-        PlanNode endNode = PlanNode.withLocation(mainActivity.searchList.get(mainActivity.searchItemSelect).getLatLng());
-
-        switch(mainActivity.routePlanSelect) {
-            //驾车路线规划
-            case 0:
-                mainActivity.mSearch.drivingSearch((new DrivingRoutePlanOption())
-                        .from(startNode)
-                        .to(endNode));
-                break;
-
-            //步行路线规划
-            case 1:
-                mainActivity.mSearch.walkingSearch((new WalkingRoutePlanOption())
-                        .from(startNode)
-                        .to(endNode));
-                break;
-
-            //骑行路线规划
-            case 2:
-                mainActivity.mSearch.bikingSearch((new BikingRoutePlanOption())
-                        .from(startNode)
-                        .to(endNode));
-                break;
-
-            //公交路线规划
-            case 3:
-                TransitRoutePlanOption transitRoutePlanOption = new TransitRoutePlanOption();
-                transitRoutePlanOption.city(mainActivity.mCity);
-                transitRoutePlanOption.from(startNode);
-                transitRoutePlanOption.to(endNode);
-                mainActivity.mSearch.transitSearch(transitRoutePlanOption);
-                break;
-        }
     }
 
 }

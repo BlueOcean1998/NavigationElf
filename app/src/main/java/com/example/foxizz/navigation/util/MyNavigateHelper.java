@@ -1,7 +1,10 @@
 package com.example.foxizz.navigation.util;
 
 import android.content.Intent;
+import android.os.Build;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 
 import com.baidu.mapapi.bikenavi.BikeNavigateHelper;
 import com.baidu.mapapi.bikenavi.adapter.IBEngineInitListener;
@@ -21,6 +24,9 @@ import com.example.foxizz.navigation.activity.BNaviGuideActivity;
 import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.activity.WNaviGuideActivity;
 
+import static com.example.foxizz.navigation.demo.Tools.isAirplaneModeOn;
+import static com.example.foxizz.navigation.demo.Tools.isNetworkConnected;
+
 public class MyNavigateHelper {
 
     private MainActivity mainActivity;
@@ -32,27 +38,38 @@ public class MyNavigateHelper {
     private BikeNaviLaunchParam bikeParam;
 
     //开始导航
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void startNavigate() {
-        switch(mainActivity.routePlanSelect) {
-            //驾车导航
-            case 0:
+        if(isNetworkConnected(mainActivity)) {
+            if(isAirplaneModeOn(mainActivity)) {
+                Toast.makeText(mainActivity, mainActivity.getString(R.string.close_airplane_mode), Toast.LENGTH_SHORT).show();
+            } else {
+                if(mainActivity.permissionFlag == MainActivity.READY_TO_LOCATION) {
+                    switch(mainActivity.routePlanSelect) {
+                        //驾车导航
+                        case 0:
 
-                break;
+                            break;
 
-            //步行导航
-            case 1:
-                initWalkNavigateHelper();
-                break;
+                        //步行导航
+                        case 1:
+                            initWalkNavigateHelper();
+                            break;
 
-            //骑行导航
-            case 2:
-                initBikeNavigateHelper();
-                break;
+                        //骑行导航
+                        case 2:
+                            initBikeNavigateHelper();
+                            break;
 
-            //公交导航
-            case 3:
+                        //公交导航
+                        case 3:
 
-                break;
+                            break;
+                    }
+                }
+            }
+        } else {
+            Toast.makeText(mainActivity, mainActivity.getString(R.string.network_error), Toast.LENGTH_SHORT).show();
         }
     }
 

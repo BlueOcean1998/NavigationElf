@@ -1,7 +1,10 @@
 package com.example.foxizz.navigation.util;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -27,6 +30,7 @@ public class MyLocation {
     }
 
     //初始化定位
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void initLocationOption() {
         //定位服务的客户端。宿主程序在客户端声明此类，并调用，目前只支持在主线程中启动
         mainActivity.mLocationClient = new LocationClient(mainActivity);
@@ -81,6 +85,8 @@ public class MyLocation {
                         Toast.makeText(mainActivity,
                                 R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
                     }
+
+                    mainActivity.dbHelper.initSearchData();//初始化搜索记录
                 }
             }
         });
