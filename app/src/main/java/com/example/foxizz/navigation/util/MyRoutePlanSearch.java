@@ -46,46 +46,54 @@ public class MyRoutePlanSearch {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void startRoutePlanSearch() {
         if(isNetworkConnected(mainActivity)) {
-            if(isAirplaneModeOn(mainActivity)) {
-                Toast.makeText(mainActivity, mainActivity.getString(R.string.close_airplane_mode), Toast.LENGTH_SHORT).show();
-            } else {
+            if(!isAirplaneModeOn(mainActivity)) {
                 if(mainActivity.permissionFlag == MainActivity.READY_TO_LOCATION) {
-                    //获取定位点和目标点
-                    PlanNode startNode = PlanNode.withLocation(mainActivity.latLng);
-                    PlanNode endNode = PlanNode.withLocation(mainActivity.searchList.get(mainActivity.searchItemSelect).getLatLng());
+                    if(mainActivity.latLng != null) {
+                        //获取定位点和目标点
+                        PlanNode startNode = PlanNode.withLocation(mainActivity.latLng);
+                        PlanNode endNode = PlanNode.withLocation(mainActivity.searchList.get(mainActivity.searchItemSelect).getLatLng());
 
-                    switch(mainActivity.routePlanSelect) {
-                        //驾车路线规划
-                        case 0:
-                            mainActivity.mSearch.drivingSearch((new DrivingRoutePlanOption())
-                                    .from(startNode)
-                                    .to(endNode));
-                            break;
+                        switch(mainActivity.routePlanSelect) {
+                            //驾车路线规划
+                            case 0:
+                                mainActivity.mSearch.drivingSearch((new DrivingRoutePlanOption())
+                                        .from(startNode)
+                                        .to(endNode));
+                                break;
 
-                        //步行路线规划
-                        case 1:
-                            mainActivity.mSearch.walkingSearch((new WalkingRoutePlanOption())
-                                    .from(startNode)
-                                    .to(endNode));
-                            break;
+                            //步行路线规划
+                            case 1:
+                                mainActivity.mSearch.walkingSearch((new WalkingRoutePlanOption())
+                                        .from(startNode)
+                                        .to(endNode));
+                                break;
 
-                        //骑行路线规划
-                        case 2:
-                            mainActivity.mSearch.bikingSearch((new BikingRoutePlanOption())
-                                    .from(startNode)
-                                    .to(endNode));
-                            break;
+                            //骑行路线规划
+                            case 2:
+                                mainActivity.mSearch.bikingSearch((new BikingRoutePlanOption())
+                                        .from(startNode)
+                                        .to(endNode));
+                                break;
 
-                        //公交路线规划
-                        case 3:
-                            TransitRoutePlanOption transitRoutePlanOption = new TransitRoutePlanOption();
-                            transitRoutePlanOption.city(mainActivity.mCity);
-                            transitRoutePlanOption.from(startNode);
-                            transitRoutePlanOption.to(endNode);
-                            mainActivity.mSearch.transitSearch(transitRoutePlanOption);
-                            break;
+                            //公交路线规划
+                            case 3:
+                                if(mainActivity.mCity != null) {
+                                    TransitRoutePlanOption transitRoutePlanOption = new TransitRoutePlanOption();
+                                    transitRoutePlanOption.city(mainActivity.mCity);
+                                    transitRoutePlanOption.from(startNode);
+                                    transitRoutePlanOption.to(endNode);
+                                    mainActivity.mSearch.transitSearch(transitRoutePlanOption);
+                                }
+                                break;
+                        }
+                    } else {
+                        Toast.makeText(mainActivity, mainActivity.getString(R.string.wait_for_location_result), Toast.LENGTH_SHORT).show();
                     }
+                } else {
+                    mainActivity.requestPermission();//申请权限
                 }
+            } else {
+                Toast.makeText(mainActivity, mainActivity.getString(R.string.close_airplane_mode), Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(mainActivity, mainActivity.getString(R.string.network_error), Toast.LENGTH_SHORT).show();
@@ -103,7 +111,7 @@ public class MyRoutePlanSearch {
             public void onGetWalkingRouteResult(WalkingRouteResult walkingRouteResult) {
                 //创建WalkingRouteOverlay实例
                 WalkingRouteOverlay overlay = new WalkingRouteOverlay(mainActivity.mBaiduMap);
-                if(walkingRouteResult.getRouteLines().size() > 0) {
+                if(walkingRouteResult.getRouteLines() != null && walkingRouteResult.getRouteLines().size() > 0) {
                     //清空地图上的标记
                     mainActivity.mBaiduMap.clear();
                     //获取路径规划数据,(以返回的第一条数据为例)
@@ -121,7 +129,7 @@ public class MyRoutePlanSearch {
                 try {
                     //创建TransitRouteOverlay实例
                     TransitRouteOverlay overlay = new TransitRouteOverlay(mainActivity.mBaiduMap);
-                    if(transitRouteResult.getRouteLines().size() > 0) {
+                    if(transitRouteResult.getRouteLines() != null && transitRouteResult.getRouteLines().size() > 0) {
                         //清空地图上的标记
                         mainActivity.mBaiduMap.clear();
                         //获取路径规划数据,(以返回的第一条数据为例)
@@ -159,7 +167,7 @@ public class MyRoutePlanSearch {
             public void onGetDrivingRouteResult(DrivingRouteResult drivingRouteResult) {
                 //创建DrivingRouteOverlay实例
                 DrivingRouteOverlay overlay = new DrivingRouteOverlay(mainActivity.mBaiduMap);
-                if(drivingRouteResult.getRouteLines().size() > 0) {
+                if(drivingRouteResult.getRouteLines() != null && drivingRouteResult.getRouteLines().size() > 0) {
                     //清空地图上的标记
                     mainActivity.mBaiduMap.clear();
                     //获取路径规划数据,(以返回的第一条路线为例）
@@ -193,7 +201,7 @@ public class MyRoutePlanSearch {
             public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
                 //创建BikingRouteOverlay实例
                 BikingRouteOverlay overlay = new BikingRouteOverlay(mainActivity.mBaiduMap);
-                if(bikingRouteResult.getRouteLines().size() > 0) {
+                if(bikingRouteResult.getRouteLines() != null && bikingRouteResult.getRouteLines().size() > 0) {
                     //清空地图上的标记
                     mainActivity.mBaiduMap.clear();
                     //获取路径规划数据,(以返回的第一条路线为例）

@@ -50,15 +50,12 @@ public class MyPoiSearch {
         this.mainActivity = mainActivity;
     }
 
-    private int poiSearchType;//使用的搜索类型
-    private final static int CITY_SEARCH = 0;//城市内搜索
-    private final static int NEARBY_SEARCH = 1;//周边搜索
-    private final static int CONSTRAINT_CITY_SEARCH = 2;//强制城市内搜索，使用周边搜索搜不到内容时使用
-    private final static int DETAIL_SEARCH = 3;//直接详细信息搜索，一般传入
-    public void resetPoiSearchType() {//重设搜索类型为城市内搜索
-        poiSearchType = CITY_SEARCH;
-    }//还原搜索类型为城市内搜索
-    public void detailPoiSearch() {poiSearchType = DETAIL_SEARCH;}//设置为直接详细搜索
+    public int poiSearchType;//使用的搜索类型
+    public final static int CITY_SEARCH = 0;//城市内搜索
+    public final static int NEARBY_SEARCH = 1;//周边搜索
+    public final static int CONSTRAINT_CITY_SEARCH = 2;//强制城市内搜索，使用城市内搜索不会再自动转为周边搜索
+    public final static int DETAIL_SEARCH = 3;//直接详细信息搜索，一般直接用uid搜索
+    public final static int DETAIL_SEARCH_ALL = 4;//详细搜索全部，用于数据库录入
 
     //初始化搜索目标信息
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -100,6 +97,9 @@ public class MyPoiSearch {
 
                         PoiOverlay poiOverlay = new PoiOverlay(mainActivity.mBaiduMap);
                         mainActivity.mBaiduMap.setOnMarkerClickListener(poiOverlay);
+                        poiOverlay.setData(poiResult);//设置POI数据
+                        poiOverlay.addToMap();//将所有的overlay添加到地图上
+                        poiOverlay.zoomToSpan();//移动地图到目标点上
 
                         //详细搜索所有页的所有内容，超过最大页数则只搜索最大页数内容
                         int searchPageNum = MAX_SEARCH_NUM;
@@ -113,10 +113,6 @@ public class MyPoiSearch {
                                 mainActivity.mPoiSearch.searchPoiDetail(//进行详细信息搜索
                                         (new PoiDetailSearchOption()).poiUids(info.getUid()));
                             }
-                            poiOverlay.setData(poiResult);//设置POI数据
-                            poiOverlay.addToMap();//将所有的overlay添加到地图上
-                            poiOverlay.zoomToSpan();//移动地图到目标点上
-
                             poiResult.setCurrentPageNum(i);
                         }
                     } else {
@@ -142,7 +138,8 @@ public class MyPoiSearch {
                 }
 
                 if(poiDetailResult.error == SearchResult.ERRORNO.NO_ERROR) {//检索结果正常返回
-                    if(poiSearchType == DETAIL_SEARCH) {//直接的详细信息搜索
+                    //直接的详细信息搜索
+                    if(poiSearchType == DETAIL_SEARCH || poiSearchType == DETAIL_SEARCH_ALL) {
                         for(PoiDetailInfo info: poiDetailResult.getPoiDetailInfoList()) {
                             //将结果保存到数据库
                             insertOrUpdateSearchDatabase(info);
@@ -176,8 +173,12 @@ public class MyPoiSearch {
                             //寻找搜索列表中Uid相同的item
                             for(int i = 0; i < mainActivity.searchList.size(); i++) {
                                 if(mainActivity.searchList.get(i).getUid().equals(info.getUid())) {
-                                    mainActivity.searchList.set(i, searchItem);//更新搜索结果列表
-                                    mainActivity.searchAdapter.notifyDataSetChanged();//通知adapter更新
+                                    if(poiSearchType == DETAIL_SEARCH) {
+                                        mainActivity.searchList.remove(i);//移除原本位置的item
+                                        mainActivity.searchList.add(0, searchItem);//将其添加到头部
+                                    } else if(poiSearchType == DETAIL_SEARCH_ALL) {
+                                        mainActivity.searchList.set(i, searchItem);//直接修改原位置的item
+                                    }
                                     break;
                                 }
                             }
@@ -256,9 +257,10 @@ public class MyPoiSearch {
                         }
                         */
 
-                        mainActivity.searchAdapter.notifyDataSetChanged();//通知searchAdapter更新
-                        mainActivity.searchResult.scrollToPosition(0);//移动回头部
                     }
+
+                    mainActivity.searchAdapter.notifyDataSetChanged();//通知searchAdapter更新
+                    mainActivity.searchResult.scrollToPosition(0);//移动回头部
                 }
             }
 

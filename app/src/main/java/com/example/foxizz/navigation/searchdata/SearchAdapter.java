@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.MainActivity;
+import com.example.foxizz.navigation.util.MyPoiSearch;
 import com.example.foxizz.navigation.util.MyRoutePlanSearch;
 
 import java.util.List;
@@ -185,7 +186,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
         SearchItem searchItem = mSearchItemList.get(position);
 
-        mainActivity.myPoiSearch.detailPoiSearch();//设置为直接详细搜索
+        mainActivity.myPoiSearch.poiSearchType = MyPoiSearch.DETAIL_SEARCH;//设置为直接详细搜索
         mainActivity.mPoiSearch.searchPoiDetail(//进行详细信息搜索
                 (new PoiDetailSearchOption()).poiUids(searchItem.getUid()));
     }

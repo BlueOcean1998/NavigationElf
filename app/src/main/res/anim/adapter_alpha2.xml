@@ -2,7 +2,7 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- 通明度从0到1的动画 -->
     <alpha
-        android:duration="300"
+        android:duration="500"
         android:fromAlpha="0"
         android:toAlpha="1" />
 </set>

@@ -8,10 +8,14 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.search.core.PoiDetailInfo;
 import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.example.foxizz.navigation.activity.MainActivity;
+import com.example.foxizz.navigation.util.MyPoiSearch;
 
 import static com.example.foxizz.navigation.demo.Tools.isAirplaneModeOn;
 import static com.example.foxizz.navigation.demo.Tools.isNetworkConnected;
@@ -29,11 +33,11 @@ public class SearchDatabase extends SQLiteOpenHelper {
             + "address text, "//目标地址
             + "time long)";//记录时间
 
-    private Context mContext;
+    private MainActivity mainActivity;
     public SearchDatabase(Context context, String name,
                           SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
-        mContext = context;
+        mainActivity = (MainActivity) context;
     }
 
     private SQLiteDatabase db;
@@ -53,16 +57,17 @@ public class SearchDatabase extends SQLiteOpenHelper {
     //初始化搜索记录
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void initSearchData() {
-        MainActivity mainActivity = (MainActivity) mContext;
         mainActivity.searchList.clear();
 
+        boolean isLastRecord = true;//是否是最后的记录
+
         boolean flag = false;//是否刷新搜索记录
-        if(isNetworkConnected(mContext)
-                && !isAirplaneModeOn(mContext)
+        if(isNetworkConnected(mainActivity)
+                && !isAirplaneModeOn(mainActivity)
                 && mainActivity.permissionFlag == MainActivity.READY_TO_LOCATION
                 && mainActivity.mCity != null) {
             flag = true;
-            mainActivity.myPoiSearch.detailPoiSearch();//设置为直接详细搜索
+            mainActivity.myPoiSearch.poiSearchType = MyPoiSearch.DETAIL_SEARCH_ALL;//设置为详细搜索全部
         }
 
         db = this.getReadableDatabase();
@@ -71,23 +76,31 @@ public class SearchDatabase extends SQLiteOpenHelper {
         if(cursor != null && cursor.moveToFirst()) {
             do {
                 SearchItem searchItem = new SearchItem();
+
                 searchItem.setUid(cursor.getString(cursor.getColumnIndex("uid")));
+                searchItem.setLatLng(new LatLng(
+                        cursor.getDouble(cursor.getColumnIndex("latitude")),
+                        cursor.getDouble(cursor.getColumnIndex("longitude"))));
+
+                searchItem.setTargetName(cursor.getString(cursor.getColumnIndex("targetName")));
+                searchItem.setAddress(cursor.getString(cursor.getColumnIndex("address")));
+                searchItem.setDistance(0.0);
+
+                mainActivity.searchList.add(searchItem);
+                mainActivity.searchAdapter.notifyDataSetChanged();
 
                 if(flag) {
-                    mainActivity.searchList.add(searchItem);
+                    //通过网络重新获取搜索信息
                     mainActivity.mPoiSearch.searchPoiDetail(
                             (new PoiDetailSearchOption()).poiUids(searchItem.getUid()));
 
-                } else {
-                    searchItem.setLatLng(new LatLng(
-                            cursor.getDouble(cursor.getColumnIndex("latitude")),
-                            cursor.getDouble(cursor.getColumnIndex("longitude"))));
-                    searchItem.setTargetName(cursor.getString(cursor.getColumnIndex("targetName")));
-                    searchItem.setAddress(cursor.getString(cursor.getColumnIndex("address")));
-                    searchItem.setDistance(0.0);
-
-                    mainActivity.searchList.add(searchItem);
-                    mainActivity.searchAdapter.notifyDataSetChanged();
+                } else if(isLastRecord) {
+                    isLastRecord = false;
+                    //网络不好时移动地图到上次记录的位置
+                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                    builder.include(searchItem.getLatLng());
+                    MapStatusUpdate msu= MapStatusUpdateFactory.newLatLngBounds(builder.build());
+                    mainActivity.mBaiduMap.setMapStatus(msu);
                 }
             } while (cursor.moveToNext());
             cursor.close();
@@ -132,7 +145,6 @@ public class SearchDatabase extends SQLiteOpenHelper {
 
     //清空搜索记录
     public void deleteAllSearchData() {
-        MainActivity mainActivity = (MainActivity) mContext;
         mainActivity.searchList.clear();//清空搜索列表
         mainActivity.searchAdapter.notifyDataSetChanged();//通知adapter更新
 

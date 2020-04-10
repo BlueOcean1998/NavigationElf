@@ -41,32 +41,38 @@ public class MyNavigateHelper {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void startNavigate() {
         if(isNetworkConnected(mainActivity)) {
-            if(isAirplaneModeOn(mainActivity)) {
-                Toast.makeText(mainActivity, mainActivity.getString(R.string.close_airplane_mode), Toast.LENGTH_SHORT).show();
-            } else {
+            if(!isAirplaneModeOn(mainActivity)) {
                 if(mainActivity.permissionFlag == MainActivity.READY_TO_LOCATION) {
-                    switch(mainActivity.routePlanSelect) {
-                        //驾车导航
-                        case 0:
+                    if(mainActivity.latLng != null) {
+                        switch(mainActivity.routePlanSelect) {
+                            //驾车导航
+                            case 0:
 
-                            break;
+                                break;
 
-                        //步行导航
-                        case 1:
-                            initWalkNavigateHelper();
-                            break;
+                            //步行导航
+                            case 1:
+                                initWalkNavigateHelper();
+                                break;
 
-                        //骑行导航
-                        case 2:
-                            initBikeNavigateHelper();
-                            break;
+                            //骑行导航
+                            case 2:
+                                initBikeNavigateHelper();
+                                break;
 
-                        //公交导航
-                        case 3:
+                            //公交导航
+                            case 3:
 
-                            break;
+                                break;
+                        }
+                    } else {
+                        Toast.makeText(mainActivity, mainActivity.getString(R.string.wait_for_location_result), Toast.LENGTH_SHORT).show();
                     }
+                } else {
+                    mainActivity.requestPermission();
                 }
+            } else {
+                Toast.makeText(mainActivity, mainActivity.getString(R.string.close_airplane_mode), Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(mainActivity, mainActivity.getString(R.string.network_error), Toast.LENGTH_SHORT).show();

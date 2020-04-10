@@ -2,7 +2,11 @@
   <dictionary name="BlueOcean">
     <words>
       <w>baidu</w>
+      <w>deepblue</w>
+      <w>deepgreen</w>
       <w>foxizz</w>
+      <w>lightgreen</w>
+      <w>skyblue</w>
     </words>
   </dictionary>
 </component>

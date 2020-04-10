@@ -76,11 +76,14 @@ public class Tools {
 
     //获取网络连接状态，有则返回true，没有则返回false
     public static boolean isNetworkConnected(Context context) {
-        if (context != null) {
+        if(context != null) {
             ConnectivityManager mConnectivityManager = (ConnectivityManager) context
                     .getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
-            if (mNetworkInfo != null) {
+            NetworkInfo mNetworkInfo = null;
+            if(mConnectivityManager != null) {
+                mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+            }
+            if(mNetworkInfo != null) {
                 return mNetworkInfo.isAvailable();
             }
         }

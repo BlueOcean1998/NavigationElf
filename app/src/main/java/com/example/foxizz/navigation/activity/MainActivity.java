@@ -37,6 +37,9 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.UiSettings;
+import com.baidu.mapapi.map.offline.MKOLSearchRecord;
+import com.baidu.mapapi.map.offline.MKOfflineMap;
+import com.baidu.mapapi.map.offline.MKOfflineMapListener;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.poi.PoiCitySearchOption;
 import com.baidu.mapapi.search.poi.PoiSearch;
@@ -145,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
     public final static int WALKING = 1;//步行
     public final static int BIKING = 2;//骑行
     public final static int TRANSIT = 3;//公交
-    public int routePlanSelect = DRIVING;//默认为驾车
+    public int routePlanSelect = WALKING;//默认为步行
 
     public int searchItemSelect = 0;//选择的是哪个item
 
@@ -162,6 +165,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     //控制布局相关
+    private ImageButton setting;//设置
+    private ImageButton refresh;//刷新
+
     private long exitTime = 0;//实现再按一次退出程序时，用于保存系统时间
     private long clickTime = 0;//防止连续点击按钮
 
@@ -238,10 +244,30 @@ public class MainActivity extends AppCompatActivity {
         MapStatus.Builder builder = new MapStatus.Builder();
         builder.zoom(18.0f);
         mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+
+        /*离线地图要下载离线包，现在暂时不用
+        //下载离线地图
+        final MKOfflineMap mOffline = new MKOfflineMap();
+        mOffline.init(new MKOfflineMapListener() {
+            @Override
+            public void onGetOfflineMapState(int i, int i1) {
+                //根据城市名获取城市id
+                ArrayList<MKOLSearchRecord> records = mOffline.searchCity(mCity);
+                if (records != null && records.size() == 1) {
+                    mOffline.start(records.get(0).cityID);
+                    mOffline.update(records.get(0).cityID);
+                    Toast.makeText(MainActivity.this, "正在下载离线地图", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        */
     }
 
     //初始化自定义控件
     private void initMyView() {
+        setting = findViewById(R.id.setting);
+        refresh = findViewById(R.id.refresh);
+
         selectLayout = findViewById(R.id.select_layout);
         selectButton1 = findViewById(R.id.select_button1);
         selectButton2 = findViewById(R.id.select_button2);
@@ -289,8 +315,25 @@ public class MainActivity extends AppCompatActivity {
         searchResult.setAdapter(searchAdapter);//设置适配器
         searchResult.setLayoutManager(layoutManager);//设置布局
 
-        //默认为驾车
-        selectButton1.setBackgroundResource(R.drawable.button_background_gray);
+        //设置按钮的点击事件
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        //刷新按钮的点击事件
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();//关闭当前活动
+                startActivity(getIntent());//重启当前活动
+            }
+        });
+
+        //默认为步行
+        selectButton2.setBackgroundResource(R.drawable.button_background_gray);
 
         //驾车按钮的点击事件
         selectButton1.setOnClickListener(new View.OnClickListener() {
@@ -425,7 +468,7 @@ public class MainActivity extends AppCompatActivity {
                                     if(mCity != null) {//定位成功后才可以进行搜索
                                         searchResult.stopScroll();//停止信息列表滑动
 
-                                        myPoiSearch.resetPoiSearchType();//还原搜索类型为城市内搜索
+                                        myPoiSearch.poiSearchType = MyPoiSearch.CITY_SEARCH;//设置搜索类型为城市内搜索
                                         //开始城市内搜索
                                         mPoiSearch.searchInCity(new PoiCitySearchOption()
                                                 .city(mCity)
@@ -532,7 +575,7 @@ public class MainActivity extends AppCompatActivity {
 
     //申请权限
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private void requestPermission() {
+    public void requestPermission() {
         String[] permissions = {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
