@@ -87,7 +87,6 @@ public class SearchDatabase extends SQLiteOpenHelper {
                 searchItem.setDistance(0.0);
 
                 mainActivity.searchList.add(searchItem);
-                mainActivity.searchAdapter.notifyDataSetChanged();
 
                 if(flag) {
                     //通过网络重新获取搜索信息
@@ -106,6 +105,8 @@ public class SearchDatabase extends SQLiteOpenHelper {
             cursor.close();
         }
         db.close();
+
+        mainActivity.searchAdapter.notifyDataSetChanged();
     }
 
     //根据uid获取某条搜索记录

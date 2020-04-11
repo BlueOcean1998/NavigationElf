@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
     public MyLocation myLocation;
 
     public LocationClient mLocationClient;
-    public boolean isFirstLoc = true;//是否是首次定位
     public MyLocationData locData;//地址信息
     public LatLng latLng;//坐标
     public int mLocType;//定位结果
@@ -166,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
     //控制布局相关
     private ImageButton setting;//设置
     private ImageButton refresh;//刷新
+    private ImageButton location;//定位
 
     private long exitTime = 0;//实现再按一次退出程序时，用于保存系统时间
     private long clickTime = 0;//防止连续点击按钮
@@ -266,6 +266,7 @@ public class MainActivity extends AppCompatActivity {
     private void initMyView() {
         setting = findViewById(R.id.setting);
         refresh = findViewById(R.id.refresh);
+        location = findViewById(R.id.location);
 
         selectLayout = findViewById(R.id.select_layout);
         selectButton1 = findViewById(R.id.select_button1);
@@ -329,6 +330,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 finish();//关闭当前活动
                 startActivity(getIntent());//重启当前活动
+            }
+        });
+
+        //定位按钮的点击事件
+        location.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+            @Override
+            public void onClick(View v) {
+                myLocation.initLocationOption();
             }
         });
 

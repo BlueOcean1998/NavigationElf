@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:enterFadeDuration="250" android:exitFadeDuration="250">
+
+    <!--按下时-->
+    <item android:state_pressed="true">
+        <shape>
+            <corners android:radius="15dp" />
+            <solid android:color="@color/skyblue" android:angle="0" />
+        </shape>
+    </item>
+
+    <!-- 不使用时 -->
+    <item android:state_enabled="false">
+        <shape>
+            <corners android:radius="15dp" />
+            <solid android:color="@color/alpha" android:angle="0" />
+        </shape>
+    </item>
+
+    <!--一般状态-->
+    <item>
+        <shape>
+            <corners android:radius="15dp" />
+            <solid android:color="@color/alpha" android:angle="0" />
+        </shape>
+    </item>
+
+</selector>

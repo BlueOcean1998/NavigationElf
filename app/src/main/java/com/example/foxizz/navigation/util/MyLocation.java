@@ -29,9 +29,13 @@ public class MyLocation {
         this.mainActivity = mainActivity;
     }
 
+    private boolean isFirstLoc;//是否是首次定位
+
     //初始化定位
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void initLocationOption() {
+        isFirstLoc = true;
+
         //定位服务的客户端。宿主程序在客户端声明此类，并调用，目前只支持在主线程中启动
         mainActivity.mLocationClient = new LocationClient(mainActivity);
 
@@ -60,8 +64,8 @@ public class MyLocation {
                         .longitude(mainActivity.mLongitude).build();
                 mainActivity.mBaiduMap.setMyLocationData(mainActivity.locData);//设置定位数据
 
-                if(mainActivity.isFirstLoc) {
-                    mainActivity.isFirstLoc = false;
+                if(isFirstLoc) {
+                    isFirstLoc = false;
 
                     //改变地图状态
                     MapStatusUpdate msu= MapStatusUpdateFactory.newLatLng(mainActivity.latLng);

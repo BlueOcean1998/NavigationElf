@@ -142,7 +142,8 @@ public class MyPoiSearch {
                     if(poiSearchType == DETAIL_SEARCH || poiSearchType == DETAIL_SEARCH_ALL) {
                         for(PoiDetailInfo info: poiDetailResult.getPoiDetailInfoList()) {
                             //将结果保存到数据库
-                            insertOrUpdateSearchDatabase(info);
+                            if(poiSearchType ==DETAIL_SEARCH)
+                                insertOrUpdateSearchDatabase(info);
 
                             //更新搜索结果列表
                             SearchItem searchItem = new SearchItem();
