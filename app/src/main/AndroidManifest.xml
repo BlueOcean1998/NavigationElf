@@ -30,6 +30,7 @@
     <application
         android:name=".demo.DemoApplication"
         android:allowBackup="true"
+        android:fullBackupContent="false"
         android:icon="@drawable/foxizz"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
@@ -54,12 +55,22 @@
         <!-- 主活动旋转屏幕不重置，没有标题栏 -->
         <activity
             android:name=".activity.MainActivity"
-            android:configChanges="orientation"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:configChanges="orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <!-- 设置页 -->
+        <activity
+            android:name=".activity.SettingActivity"
+            android:label="设置"
+            android:parentActivityName=".activity.MainActivity"
+            android:configChanges="orientation">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.foxizz.navigation.activity.MainActivity" />
         </activity>
 
         <!-- 步行导航 -->

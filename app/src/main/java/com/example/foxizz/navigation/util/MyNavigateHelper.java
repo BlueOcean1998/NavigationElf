@@ -92,7 +92,7 @@ public class MyNavigateHelper {
                 WalkRouteNodeInfo walkStartNode = new WalkRouteNodeInfo();
                 walkStartNode.setLocation(mainActivity.latLng);
                 WalkRouteNodeInfo walkEndNode = new WalkRouteNodeInfo();
-                walkEndNode.setLocation(mainActivity.searchList.get(mainActivity.searchItemSelect).getLatLng());
+                walkEndNode.setLocation(mainActivity.searchList.get(0).getLatLng());
 
                 walkParam = new WalkNaviLaunchParam()
                         .startNodeInfo(walkStartNode)
@@ -146,7 +146,7 @@ public class MyNavigateHelper {
                 BikeRouteNodeInfo bikeStartNode = new BikeRouteNodeInfo();
                 bikeStartNode.setLocation(mainActivity.latLng);
                 BikeRouteNodeInfo bikeEndNode = new BikeRouteNodeInfo();
-                bikeEndNode.setLocation(mainActivity.searchList.get(mainActivity.searchItemSelect).getLatLng());
+                bikeEndNode.setLocation(mainActivity.searchList.get(0).getLatLng());
 
                 bikeParam = new BikeNaviLaunchParam()
                         .startNodeInfo(bikeStartNode)

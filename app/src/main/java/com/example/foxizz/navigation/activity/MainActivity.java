@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.os.Build;
@@ -150,8 +151,6 @@ public class MainActivity extends AppCompatActivity {
     public final static int TRANSIT = 3;//公交
     public int routePlanSelect = WALKING;//默认为步行
 
-    public int searchItemSelect = 0;//选择的是哪个item
-
     public LinearLayout startLayout;//开始导航布局
     public Button returnButton;//返回按钮
     public Button infoButton;//路线规划、详细信息切换按钮
@@ -223,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
     //初始化地图控件
     private void InitMap() {
         //获取地图控件引用
-        mMapView = findViewById(R.id.bmapView);
+        mMapView = findViewById(R.id.map_view);
         mBaiduMap = mMapView.getMap();
         mUiSettings = mBaiduMap.getUiSettings();
 
@@ -319,7 +318,8 @@ public class MainActivity extends AppCompatActivity {
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -333,17 +333,17 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //默认为步行
-        selectButton2.setBackgroundResource(R.drawable.button_background_gray);
+        selectButton2.setBackgroundResource(R.drawable.button_background_black);
 
         //驾车按钮的点击事件
         selectButton1.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
-                selectButton1.setBackgroundResource(R.drawable.button_background_gray);
-                selectButton2.setBackgroundResource(R.drawable.button_background_black);
-                selectButton3.setBackgroundResource(R.drawable.button_background_black);
-                selectButton4.setBackgroundResource(R.drawable.button_background_black);
+                selectButton1.setBackgroundResource(R.drawable.button_background_black);
+                selectButton2.setBackgroundResource(R.drawable.button_background_gray);
+                selectButton3.setBackgroundResource(R.drawable.button_background_gray);
+                selectButton4.setBackgroundResource(R.drawable.button_background_gray);
                 routePlanSelect = DRIVING;
 
                 myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
@@ -355,10 +355,10 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
-                selectButton1.setBackgroundResource(R.drawable.button_background_black);
-                selectButton2.setBackgroundResource(R.drawable.button_background_gray);
-                selectButton3.setBackgroundResource(R.drawable.button_background_black);
-                selectButton4.setBackgroundResource(R.drawable.button_background_black);
+                selectButton1.setBackgroundResource(R.drawable.button_background_gray);
+                selectButton2.setBackgroundResource(R.drawable.button_background_black);
+                selectButton3.setBackgroundResource(R.drawable.button_background_gray);
+                selectButton4.setBackgroundResource(R.drawable.button_background_gray);
                 routePlanSelect = WALKING;
 
                 myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
@@ -370,10 +370,10 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
-                selectButton1.setBackgroundResource(R.drawable.button_background_black);
-                selectButton2.setBackgroundResource(R.drawable.button_background_black);
-                selectButton3.setBackgroundResource(R.drawable.button_background_gray);
-                selectButton4.setBackgroundResource(R.drawable.button_background_black);
+                selectButton1.setBackgroundResource(R.drawable.button_background_gray);
+                selectButton2.setBackgroundResource(R.drawable.button_background_gray);
+                selectButton3.setBackgroundResource(R.drawable.button_background_black);
+                selectButton4.setBackgroundResource(R.drawable.button_background_gray);
                 routePlanSelect = BIKING;
 
                 myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
@@ -385,10 +385,10 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
-                selectButton1.setBackgroundResource(R.drawable.button_background_black);
-                selectButton2.setBackgroundResource(R.drawable.button_background_black);
-                selectButton3.setBackgroundResource(R.drawable.button_background_black);
-                selectButton4.setBackgroundResource(R.drawable.button_background_gray);
+                selectButton1.setBackgroundResource(R.drawable.button_background_gray);
+                selectButton2.setBackgroundResource(R.drawable.button_background_gray);
+                selectButton3.setBackgroundResource(R.drawable.button_background_gray);
+                selectButton4.setBackgroundResource(R.drawable.button_background_black);
                 routePlanSelect = TRANSIT;
 
                 myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
@@ -402,10 +402,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(isHistorySearchResult) {//如果是搜索历史记录
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setTitle("警告！");
-                    builder.setMessage("你确定要清空搜索记录吗？");
+                    builder.setTitle(getString(R.string.warning));
+                    builder.setMessage(getString(R.string.to_clear));
 
-                    builder.setPositiveButton("清空", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton(getString(R.string.clear), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             searchEdit.setText("");//清空搜索输出框
@@ -421,7 +421,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
-                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             //do nothing

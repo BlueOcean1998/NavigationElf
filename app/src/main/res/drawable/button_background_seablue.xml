@@ -13,7 +13,7 @@
     <item android:state_enabled="false">
         <shape>
             <corners android:radius="15dp" />
-            <solid android:color="@color/skyblue" android:angle="0" />
+            <solid android:color="@color/seablue" android:angle="0" />
         </shape>
     </item>
 
@@ -21,7 +21,7 @@
     <item>
         <shape>
             <corners android:radius="15dp" />
-            <solid android:color="@color/skyblue" android:angle="0" />
+            <solid android:color="@color/seablue" android:angle="0" />
         </shape>
     </item>
 

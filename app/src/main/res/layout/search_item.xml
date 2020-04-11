@@ -18,7 +18,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@null"
+            android:background="@drawable/card_background_black_lightgray"
             android:padding="12dp">
             <LinearLayout
                 android:orientation="vertical"
@@ -33,6 +33,7 @@
                     android:layout_margin="3dp"
                     android:lines="1"
                     android:ellipsize="end"
+                    android:textColor="@color/black"
                     android:text="@string/target_name"
                     android:textSize="16sp" />
 
@@ -43,6 +44,7 @@
                     android:layout_margin="3dp"
                     android:lines="1"
                     android:ellipsize="end"
+                    android:textColor="@color/black"
                     android:text="@string/address"
                     android:textSize="12sp" />
 
@@ -53,6 +55,7 @@
                     android:layout_margin="3dp"
                     android:lines="1"
                     android:ellipsize="end"
+                    android:textColor="@color/black"
                     android:text="@string/distance"
                     android:textSize="16sp" />
 
@@ -66,6 +69,7 @@
                 android:layout_margin="6dp"
                 android:layout_gravity="center"
                 android:background="@drawable/button_background_skyblue"
+                android:textColor="@color/white"
                 android:textSize="18sp"
                 android:text="@string/item_button" />
         </LinearLayout>

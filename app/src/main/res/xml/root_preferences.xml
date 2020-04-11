@@ -1,0 +1,15 @@
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:icon="@null"
+        app:title="搜索相关">
+
+        <SwitchPreferenceCompat
+            app:key="modify_sync"
+            app:title="禁用周边搜索"
+            app:summary="当城市内搜索到的内容过多时，会自动转为周边搜索" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

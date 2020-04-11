@@ -137,10 +137,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
                 if(mainActivity.isHistorySearchResult) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
-                    builder.setTitle("提示");
-                    builder.setMessage("你确定要删除这条记录吗？");
+                    builder.setTitle(mainActivity.getString(R.string.hint));
+                    builder.setMessage(mainActivity.getString(R.string.to_delete));
 
-                    builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton(mainActivity.getString(R.string.delete), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             mSearchItemList.remove(position);//移除搜索列表的这条记录
@@ -150,7 +150,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                         }
                     });
 
-                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton(mainActivity.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             //do nothing
@@ -174,8 +174,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     @SuppressLint("SetTextI18n")
     private void click(ViewHolder holder) {
         int position = holder.getAdapterPosition();
-
-        mainActivity.searchItemSelect = position;//设置item选择
 
         mainActivity.expandSearchLayout(false);//收起搜索布局
         if(mainActivity.expandFlag) {

@@ -51,7 +51,7 @@ public class MyRoutePlanSearch {
                     if(mainActivity.latLng != null) {
                         //获取定位点和目标点
                         PlanNode startNode = PlanNode.withLocation(mainActivity.latLng);
-                        PlanNode endNode = PlanNode.withLocation(mainActivity.searchList.get(mainActivity.searchItemSelect).getLatLng());
+                        PlanNode endNode = PlanNode.withLocation(mainActivity.searchList.get(0).getLatLng());
 
                         switch(mainActivity.routePlanSelect) {
                             //驾车路线规划
