@@ -23,8 +23,6 @@ import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.MainActivity;
-import com.example.foxizz.navigation.overlayutil.PoiOverlay;
-import com.example.foxizz.navigation.searchdata.SearchDatabase;
 import com.example.foxizz.navigation.searchdata.SearchItem;
 
 import java.math.BigDecimal;
@@ -95,11 +93,13 @@ public class MyPoiSearch {
                         mainActivity.searchList.clear();//清空searchList
                         mainActivity.isHistorySearchResult = false;//已经不是搜索历史记录了
 
+                        /*
                         PoiOverlay poiOverlay = new PoiOverlay(mainActivity.mBaiduMap);
                         mainActivity.mBaiduMap.setOnMarkerClickListener(poiOverlay);
                         poiOverlay.setData(poiResult);//设置POI数据
                         poiOverlay.addToMap();//将所有的overlay添加到地图上
                         poiOverlay.zoomToSpan();//移动地图到目标点上
+                        */
 
                         //详细搜索所有页的所有内容，超过最大页数则只搜索最大页数内容
                         int searchPageNum = MAX_SEARCH_NUM;
@@ -115,6 +115,7 @@ public class MyPoiSearch {
                             }
                             poiResult.setCurrentPageNum(i);
                         }
+
                     } else {
                         poiSearchType = NEARBY_SEARCH;//设置搜索类型为周边搜索
 
@@ -284,8 +285,8 @@ public class MyPoiSearch {
     private void insertOrUpdateSearchDatabase(PoiDetailInfo info) {
         Cursor cursor = mainActivity.dbHelper.getSearchData(info.getUid());
         if(cursor != null) {
-            if(cursor.getCount() > 0) mainActivity.dbHelper.updateSearchDatabase(info);//有则更新
-            else mainActivity.dbHelper.insertSearchDatabase(info);//没有则添加
+            if(cursor.getCount() > 0) mainActivity.dbHelper.updateSearchData(info);//有则更新
+            else mainActivity.dbHelper.insertSearchData(info);//没有则添加
 
             cursor.close();
         }

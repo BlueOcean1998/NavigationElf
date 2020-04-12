@@ -6,14 +6,19 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,16 +43,13 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.UiSettings;
-import com.baidu.mapapi.map.offline.MKOLSearchRecord;
-import com.baidu.mapapi.map.offline.MKOfflineMap;
-import com.baidu.mapapi.map.offline.MKOfflineMapListener;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.poi.PoiCitySearchOption;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.searchdata.SearchAdapter;
-import com.example.foxizz.navigation.searchdata.SearchDatabase;
+import com.example.foxizz.navigation.database.DatabaseHelper;
 import com.example.foxizz.navigation.searchdata.SearchItem;
 import com.example.foxizz.navigation.util.MyLocation;
 import com.example.foxizz.navigation.util.MyNavigateHelper;
@@ -67,9 +69,13 @@ import static com.example.foxizz.navigation.demo.Tools.rotateExpandIcon;
 /**
  * app_name: Navigation
  * author: Foxizz
- * time: 2020-04-03
+ * time: 2020-04-12
  */
 public class MainActivity extends AppCompatActivity {
+
+    //设置相关
+    private SharedPreferences sharedPreferences;
+
 
     //地图控件
     public MapView mMapView;
@@ -114,7 +120,8 @@ public class MainActivity extends AppCompatActivity {
 
     public String searchContent = "";//搜索内容
     public boolean expandFlag = false;//伸缩状态
-    public int bodyHeight;//屏幕高度
+    public int bodyLength;//屏幕的长
+    public int bodyShort;//屏幕的宽
 
     public LinearLayout searchDrawer;//搜索结果抽屉
     public RecyclerView searchResult;//搜索结果列表
@@ -130,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
     public TextView infoOthers;//目标的其它信息（联系方式，营业时间等）
 
     public boolean isHistorySearchResult = true;//是否是搜索历史记录
-    public SearchDatabase dbHelper;//搜索记录数据库
+    public DatabaseHelper dbHelper;//搜索记录数据库
 
 
     //路线规划相关
@@ -199,6 +206,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //获取偏好设置
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        //新建数据库，已存在则连接数据库
+        dbHelper = new DatabaseHelper(MainActivity.this, "Navigate.db", null, 1);
+
         InitMap();//初始化地图控件
 
         initMyView();//初始化自定义控件
@@ -214,9 +227,88 @@ public class MainActivity extends AppCompatActivity {
         myNavigateHelper = new MyNavigateHelper(this);//初始化导航模块
 
         requestPermission();//申请权限
+    }
 
-        //新建搜索记录数据库，已存在则连接数据库
-        dbHelper = new SearchDatabase(MainActivity.this, "Navigate.db", null, 1);
+    //管理地图的生命周期
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //开启定位的允许
+        mBaiduMap.setMyLocationEnabled(true);
+        //开启方向传感
+        myOrientationListener.start();
+    }
+
+    @SuppressLint("SourceLockedOrientationActivity")
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mMapView.onResume();
+
+        switch(dbHelper.getSettings("map_type")) {
+            case "0":
+                mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+                mBaiduMap.setTrafficEnabled(false);
+                break;
+
+            case "1":
+                mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
+                mBaiduMap.setTrafficEnabled(false);
+                break;
+
+            case "2":
+                mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+                mBaiduMap.setTrafficEnabled(true);
+                break;
+        }
+
+        if(sharedPreferences.getBoolean("landscape", false))
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);//自动旋转
+        else setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//只允许竖屏
+
+        if(sharedPreferences.getBoolean("angle_3d", false))
+            mUiSettings.setOverlookingGesturesEnabled(true);//启用3D视角
+        else mUiSettings.setOverlookingGesturesEnabled(false);//禁用3D视角
+
+        if(sharedPreferences.getBoolean("map_rotation", false))
+            mUiSettings.setRotateGesturesEnabled(true);//启用地图旋转
+        else mUiSettings.setRotateGesturesEnabled(false);//禁用地图旋转
+
+        if(sharedPreferences.getBoolean("scale_control", false))
+            mMapView.showScaleControl(true);//显示比例尺
+        else mMapView.showScaleControl(false);//不显示比例尺
+
+        if(sharedPreferences.getBoolean("zoom_controls", false))
+            mMapView.showZoomControls(true);//显示缩放按钮
+        else mMapView.showZoomControls(false);//不显示缩放按钮
+
+        if(sharedPreferences.getBoolean("compass", true))
+            mUiSettings.setCompassEnabled(true);//显示指南针
+        else mUiSettings.setCompassEnabled(false);//不显示指南针
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mMapView.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //开启定位的允许
+        mBaiduMap.setMyLocationEnabled(false);
+        //停止方向传感
+        myOrientationListener.stop();
+        //停止定位服务
+        if (mLocationClient.isStarted()) {
+            mLocationClient.stop();
+        }
+        //释放地图、POI检索、路线规划实例
+        mMapView.onDestroy();
+        mPoiSearch.destroy();
+        mSearch.destroy();
     }
 
     //初始化地图控件
@@ -230,14 +322,12 @@ public class MainActivity extends AppCompatActivity {
         //LocationMode定位模式有三种：普通模式，跟随模式，罗盘模式，在这使用普通模式
         MyLocationConfiguration myLocationConfiguration =
                 new MyLocationConfiguration(MyLocationConfiguration.LocationMode.NORMAL,
-                        true, null, 0xAA9FCFFF, 0xAA5F7FBF);
+                        true, null, 0xAABFEFFF, 0xAA9FCFFF);
         mBaiduMap.setMyLocationConfiguration(myLocationConfiguration);
 
         mMapView.removeViewAt(1);//去除百度水印
-        mMapView.showScaleControl(true);//显示比例尺
-        mMapView.setScaleControlPosition(new Point(0, bodyHeight));//调整比例尺位置到左上角
-        mMapView.showZoomControls(false);//去除缩放按钮
-        mUiSettings.setCompassEnabled(false);//去除指南针
+        mMapView.setScaleControlPosition(new Point());//改变比例尺位置
+        mMapView.setZoomControlsPosition(new Point());//改变缩放按钮位置
 
         //设置缩放等级
         MapStatus.Builder builder = new MapStatus.Builder();
@@ -252,7 +342,7 @@ public class MainActivity extends AppCompatActivity {
             public void onGetOfflineMapState(int i, int i1) {
                 //根据城市名获取城市id
                 ArrayList<MKOLSearchRecord> records = mOffline.searchCity(mCity);
-                if (records != null && records.size() == 1) {
+                if(records != null && records.size() == 1) {
                     mOffline.start(records.get(0).cityID);
                     mOffline.update(records.get(0).cityID);
                     Toast.makeText(MainActivity.this, "正在下载离线地图", Toast.LENGTH_SHORT).show();
@@ -294,15 +384,25 @@ public class MainActivity extends AppCompatActivity {
         infoButton = findViewById(R.id.info_button);
         startButton = findViewById(R.id.start_button);
 
-        //计算半个屏幕高度，用于下面的伸缩动画
+        //计算屏幕高度，用于下面的伸缩动画
         Display defaultDisplay = getWindowManager().getDefaultDisplay();
         Point point = new Point();
         defaultDisplay.getSize(point);
-        bodyHeight = point.y;
+
+        Configuration configuration = this.getResources().getConfiguration();//获取设置的配置信息
+        int ori = configuration.orientation;//获取屏幕方向
+        if(ori == Configuration.ORIENTATION_LANDSCAPE) {//横屏时
+            bodyLength = point.x;
+            bodyShort = point.y;
+        }
+        else if(ori == Configuration.ORIENTATION_PORTRAIT) {//竖屏时
+            bodyLength = point.y;
+            bodyShort = point.x;
+        }
 
         //设置搜索抽屉的结果列表、详细信息布局的拖动布局的高度
-        searchResult.getLayoutParams().height = bodyHeight / 2;
-        infoScroll.getLayoutParams().height = bodyHeight / 3;
+        searchResult.getLayoutParams().height = bodyLength / 2;
+        infoScroll.getLayoutParams().height = bodyLength / 3;
 
         //设置选项布局、搜索结果抽屉、详细信息、开始导航初始高度为0
         selectLayout.getLayoutParams().height = 0;
@@ -319,7 +419,8 @@ public class MainActivity extends AppCompatActivity {
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                if(mCity != null) intent.putExtra("mCity", mCity);
                 startActivity(intent);
             }
         });
@@ -457,45 +558,60 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
-                if((System.currentTimeMillis() - clickTime) > 1000) {//连续点击间隔时间不能小于1秒
+                if((System.currentTimeMillis() - clickTime) > 1000) //连续点击间隔时间不能小于1秒
                     clickTime = System.currentTimeMillis();
-                    if(isNetworkConnected(MainActivity.this)) {
-                        if(!isAirplaneModeOn(MainActivity.this)){
-                            if(permissionFlag == READY_TO_LOCATION) {
-                                searchContent = searchEdit.getText().toString();
-                                if(!searchContent.equals("")){
-                                    if(!expandFlag) {//展开搜索抽屉
-                                        searchResult.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.adapter_alpha2));//动画2，出现;
-                                        getValueAnimator(searchDrawer, 0, bodyHeight / 2).start();//展开搜索抽屉
-                                        rotateExpandIcon(searchExpand, 0, 180);//伸展按钮的旋转动画
-                                        expandFlag = true;//设置状态为展开
-                                    }
+                else return;
 
-                                    //收回键盘
-                                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                                    if(imm != null) imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+                if(!isNetworkConnected(MainActivity.this)) {
+                    Toast.makeText(MainActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                                    if(mCity != null) {//定位成功后才可以进行搜索
-                                        searchResult.stopScroll();//停止信息列表滑动
+                if(isAirplaneModeOn(MainActivity.this)) {
+                    Toast.makeText(MainActivity.this, getString(R.string.close_airplane_mode), Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                                        myPoiSearch.poiSearchType = MyPoiSearch.CITY_SEARCH;//设置搜索类型为城市内搜索
-                                        //开始城市内搜索
-                                        mPoiSearch.searchInCity(new PoiCitySearchOption()
-                                                .city(mCity)
-                                                .keyword(searchContent));
-                                    } else {
-                                        Toast.makeText(MainActivity.this, getString(R.string.wait_for_location_result), Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            } else {
-                                requestPermission();//申请权限
-                            }
-                        } else {
-                            Toast.makeText(MainActivity.this, getString(R.string.close_airplane_mode), Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Toast.makeText(MainActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
-                    }
+                if(permissionFlag == READY_TO_LOCATION) {
+                    searchContent = searchEdit.getText().toString();
+                } else {
+                    requestPermission();//申请权限
+                    return;
+                }
+
+                if(searchContent.isEmpty()) return;
+
+                if(!expandFlag) {//展开搜索抽屉
+                    searchResult.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.adapter_alpha2));//动画2，出现;
+                    getValueAnimator(searchDrawer, 0, bodyLength / 2).start();//展开搜索抽屉
+                    rotateExpandIcon(searchExpand, 0, 180);//伸展按钮的旋转动画
+                    expandFlag = true;//设置状态为展开
+                }
+
+                //收回键盘
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if(imm != null) imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+
+                if(mCity != null) {//定位成功后才可以进行搜索
+                    String destinationCity = mCity;//目的城市
+
+                    //数据库中的城市
+                    String databaseCity = dbHelper.getSettings("destination_city");
+                    if(!databaseCity.equals(getString(R.string.location_city)))
+                        destinationCity = databaseCity;
+
+                    searchResult.stopScroll();//停止信息列表滑动
+
+                    if(sharedPreferences.getBoolean("search_around", false))
+                        myPoiSearch.poiSearchType = MyPoiSearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
+                    else myPoiSearch.poiSearchType = MyPoiSearch.CITY_SEARCH;//设置搜索类型为城市内搜索
+
+                    //开始城市内搜索
+                    mPoiSearch.searchInCity(new PoiCitySearchOption()
+                            .city(destinationCity)
+                            .keyword(searchContent));
+                } else {
+                    Toast.makeText(MainActivity.this, getString(R.string.wait_for_location_result), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -629,46 +745,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, getString(R.string.get_permission_fail), Toast.LENGTH_SHORT).show();
             }
         }
-    }
-
-    //管理地图的生命周期
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    protected void onStart() {
-        super.onStart();
-        //开启定位的允许
-        mBaiduMap.setMyLocationEnabled(true);
-        //开启方向传感
-        myOrientationListener.start();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mMapView.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mMapView.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //开启定位的允许
-        mBaiduMap.setMyLocationEnabled(false);
-        //停止方向传感
-        myOrientationListener.stop();
-        //停止定位服务
-        if (mLocationClient.isStarted()) {
-            mLocationClient.stop();
-        }
-        //释放地图、POI检索、路线规划实例
-        mMapView.onDestroy();
-        mPoiSearch.destroy();
-        mSearch.destroy();
     }
 
     //重写，实现再按一次退出以及关闭抽屉

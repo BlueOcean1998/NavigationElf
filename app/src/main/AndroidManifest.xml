@@ -64,7 +64,7 @@
 
         <!-- 设置页 -->
         <activity
-            android:name=".activity.SettingActivity"
+            android:name=".activity.SettingsActivity"
             android:label="设置"
             android:parentActivityName=".activity.MainActivity"
             android:configChanges="orientation">

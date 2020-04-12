@@ -15,6 +15,13 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.MainActivity;
@@ -183,6 +190,24 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         mainActivity.expandStartLayout(true);//展开开始导航布局
 
         SearchItem searchItem = mSearchItemList.get(position);
+
+        //移动视角到指定位置
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        builder.include(searchItem.getLatLng());
+        MapStatusUpdate msu= MapStatusUpdateFactory.newLatLngBounds(builder.build());
+        mainActivity.mBaiduMap.setMapStatus(msu);
+
+        //清空地图上的所有标记点和绘制的路线
+        mainActivity.mBaiduMap.clear();
+        //构建Marker图标
+        BitmapDescriptor bitmap = BitmapDescriptorFactory
+                .fromResource(R.drawable.ic_to_location);
+        //构建MarkerOption，用于在地图上添加Marker
+        OverlayOptions option = new MarkerOptions()
+                .position(searchItem.getLatLng())
+                .icon(bitmap);
+        //在地图上添加Marker，并显示
+        mainActivity.mBaiduMap.addOverlay(option);
 
         mainActivity.myPoiSearch.poiSearchType = MyPoiSearch.DETAIL_SEARCH;//设置为直接详细搜索
         mainActivity.mPoiSearch.searchPoiDetail(//进行详细信息搜索

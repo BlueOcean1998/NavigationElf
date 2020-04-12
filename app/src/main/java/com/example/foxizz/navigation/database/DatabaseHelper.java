@@ -1,4 +1,4 @@
-package com.example.foxizz.navigation.searchdata;
+package com.example.foxizz.navigation.database;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -15,6 +15,8 @@ import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.search.core.PoiDetailInfo;
 import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.example.foxizz.navigation.activity.MainActivity;
+import com.example.foxizz.navigation.activity.SettingsActivity;
+import com.example.foxizz.navigation.searchdata.SearchItem;
 import com.example.foxizz.navigation.util.MyPoiSearch;
 
 import static com.example.foxizz.navigation.demo.Tools.isAirplaneModeOn;
@@ -23,7 +25,14 @@ import static com.example.foxizz.navigation.demo.Tools.isNetworkConnected;
 /**
  * 搜索到的信息的数据库
  */
-public class SearchDatabase extends SQLiteOpenHelper {
+public class DatabaseHelper extends SQLiteOpenHelper {
+
+    private static final String CREATE_SETTINGS = "create table Settings ("
+            + "map_type text, "//地图类型
+            + "destination_city text)";//目的地城市
+
+    private static final String INIT_SETTINGS = "insert into Settings "
+            + "(map_type, destination_city) values('0', '所在城市')";
 
     private static final String CREATE_SEARCH = "create table SearchData ("
             + "uid text primary key, "//uid
@@ -34,10 +43,12 @@ public class SearchDatabase extends SQLiteOpenHelper {
             + "time long)";//记录时间
 
     private MainActivity mainActivity;
-    public SearchDatabase(Context context, String name,
+    private SettingsActivity settingsActivity;
+    public DatabaseHelper(Context context, String name,
                           SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
-        mainActivity = (MainActivity) context;
+        if(context instanceof MainActivity) mainActivity = (MainActivity) context;
+        if(context instanceof SettingsActivity) settingsActivity = (SettingsActivity) context;
     }
 
     private SQLiteDatabase db;
@@ -45,13 +56,33 @@ public class SearchDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_SEARCH);//建表
+        db.execSQL(CREATE_SETTINGS);//建设置表
+        db.execSQL(INIT_SETTINGS);//初始化设置表
+        db.execSQL(CREATE_SEARCH);//建搜索记录表
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {//升级数据库
+        db.execSQL("drop table if exists Settings");
         db.execSQL("drop table if exists SearchData");
-        onCreate(db);//升级数据库
+        onCreate(db);
+    }
+
+    //修改设置
+    public void modifySettings(String column, String value) {
+        db = this.getWritableDatabase();
+        db.execSQL("update Settings set " + column + " = ?",
+                new String[] { value });
+        db.close();
+    }
+
+    //读取设置
+    public String getSettings(String column) {
+        db = this.getReadableDatabase();
+        cursor = db.rawQuery("select * from Settings", null);
+        if(cursor != null && cursor.moveToFirst())
+            return cursor.getString(cursor.getColumnIndex(column));
+        return null;
     }
 
     //初始化搜索记录
@@ -116,7 +147,7 @@ public class SearchDatabase extends SQLiteOpenHelper {
     }
 
     //录入搜索信息数据库
-    public void insertSearchDatabase(PoiDetailInfo info) {
+    public void insertSearchData(PoiDetailInfo info) {
         db = this.getWritableDatabase();
         db.execSQL("insert into SearchData (uid, latitude, longitude, targetName, address, time) " +
                         "values(?, ?, ?, ?, ?, ?)",
@@ -130,7 +161,7 @@ public class SearchDatabase extends SQLiteOpenHelper {
     }
 
     //更新搜索信息数据库
-    public void updateSearchDatabase(PoiDetailInfo info) {
+    public void updateSearchData(PoiDetailInfo info) {
         db = this.getWritableDatabase();
         db.execSQL("update SearchData set latitude = ?, longitude = ?, " +
                         "targetName = ?, address = ?, time = ? where uid = ?",

@@ -1,5 +1,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -14,8 +15,189 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <FrameLayout
-        android:id="@+id/settings"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:baselineAligned="false">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="6dp"
+                    tools:ignore="UseCompoundDrawables">
+                    <ImageView
+                        android:id="@+id/map_standard_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/map_standard_off"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/map_standard_text" />
+
+                    <TextView
+                        android:id="@+id/map_standard_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_gravity="center"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:text="@string/map_standard_text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="6dp"
+                    tools:ignore="UseCompoundDrawables">
+                    <ImageView
+                        android:id="@+id/map_satellite_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/map_satellite_off"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/map_satellite_text" />
+
+                    <TextView
+                        android:id="@+id/map_satellite_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_gravity="center"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:text="@string/map_satellite_text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="6dp"
+                    tools:ignore="UseCompoundDrawables">
+                    <ImageView
+                        android:id="@+id/map_traffic_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/map_traffic_off"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/map_traffic_text" />
+
+                    <TextView
+                        android:id="@+id/map_traffic_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_gravity="center"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:text="@string/map_traffic_text" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:text="@string/destination_city" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_my_location_black_24dp"
+                        android:contentDescription="@null" />
+
+                    <Button
+                        android:id="@+id/destination_city_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"
+                        android:text="@string/location_city" />
+
+                    <EditText
+                        android:id="@+id/destination_city_edit_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="6dp"
+                        android:padding="9dp"
+                        android:minWidth="90dp"
+                        android:maxWidth="150dp"
+                        android:background="@drawable/edit_background"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray"
+                        android:textSize="16sp"
+                        android:hint="@string/location_city"
+                        android:singleLine="true"
+                        android:maxLength="20"
+                        android:importantForAutofill="no"
+                        android:inputType="none" />
+
+                    <ImageButton
+                        android:id="@+id/destination_city_confirm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_gravity="center"
+                        android:background="@null"
+                        android:src="@drawable/ic_check_black_24dp"
+                        android:contentDescription="@null"
+                        tools:ignore="RtlHardcoded" />
+
+                    <ImageButton
+                        android:id="@+id/destination_city_cancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_gravity="center"
+                        android:background="@null"
+                        android:src="@drawable/ic_clear_black_24dp"
+                        android:contentDescription="@null"
+                        tools:ignore="PrivateResource,RtlHardcoded" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray"/>
+
+            <FrameLayout
+                android:id="@+id/settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

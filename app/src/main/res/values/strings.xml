@@ -5,6 +5,12 @@
     <string name="refresh">刷新</string>
     <string name="location">定位</string>
 
+    <string name="map_standard_text">标准地图</string>
+    <string name="map_satellite_text">卫星地图</string>
+    <string name="map_traffic_text">交通地图</string>
+    <string name="destination_city">目的地城市</string>
+    <string name="location_city">所在城市</string>
+
     <string name="select_bottom1">驾车</string>
     <string name="select_bottom2">步行</string>
     <string name="select_bottom3">骑行</string>
