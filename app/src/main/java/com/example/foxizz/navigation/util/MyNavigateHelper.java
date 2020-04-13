@@ -40,42 +40,47 @@ public class MyNavigateHelper {
     //开始导航
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void startNavigate() {
-        if(isNetworkConnected(mainActivity)) {
-            if(!isAirplaneModeOn(mainActivity)) {
-                if(mainActivity.permissionFlag == MainActivity.READY_TO_LOCATION) {
-                    if(mainActivity.latLng != null) {
-                        switch(mainActivity.routePlanSelect) {
-                            //驾车导航
-                            case 0:
-
-                                break;
-
-                            //步行导航
-                            case 1:
-                                initWalkNavigateHelper();
-                                break;
-
-                            //骑行导航
-                            case 2:
-                                initBikeNavigateHelper();
-                                break;
-
-                            //公交导航
-                            case 3:
-
-                                break;
-                        }
-                    } else {
-                        Toast.makeText(mainActivity, mainActivity.getString(R.string.wait_for_location_result), Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    mainActivity.requestPermission();
-                }
-            } else {
-                Toast.makeText(mainActivity, mainActivity.getString(R.string.close_airplane_mode), Toast.LENGTH_SHORT).show();
-            }
-        } else {
+        if(!isNetworkConnected(mainActivity)) {//没有开网络
             Toast.makeText(mainActivity, mainActivity.getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(isAirplaneModeOn(mainActivity)) {//开启了飞行模式
+            Toast.makeText(mainActivity, mainActivity.getString(R.string.close_airplane_mode), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(mainActivity.permissionFlag != MainActivity.READY_TO_LOCATION) {//权限不足
+            mainActivity.requestPermission();
+            return;
+        }
+
+        if(mainActivity.latLng == null) {//还没有得到定位
+            Toast.makeText(mainActivity, mainActivity.getString(R.string.wait_for_location_result), Toast.LENGTH_SHORT).show();
+        } else {
+            return;
+        }
+
+        switch(mainActivity.routePlanSelect) {
+            //驾车导航
+            case 0:
+
+                break;
+
+            //步行导航
+            case 1:
+                initWalkNavigateHelper();
+                break;
+
+            //骑行导航
+            case 2:
+                initBikeNavigateHelper();
+                break;
+
+            //公交导航
+            case 3:
+
+                break;
         }
     }
 

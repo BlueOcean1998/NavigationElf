@@ -45,58 +45,63 @@ public class MyRoutePlanSearch {
     //开始路线规划
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void startRoutePlanSearch() {
-        if(isNetworkConnected(mainActivity)) {
-            if(!isAirplaneModeOn(mainActivity)) {
-                if(mainActivity.permissionFlag == MainActivity.READY_TO_LOCATION) {
-                    if(mainActivity.latLng != null) {
-                        //获取定位点和目标点
-                        PlanNode startNode = PlanNode.withLocation(mainActivity.latLng);
-                        PlanNode endNode = PlanNode.withLocation(mainActivity.searchList.get(0).getLatLng());
-
-                        switch(mainActivity.routePlanSelect) {
-                            //驾车路线规划
-                            case 0:
-                                mainActivity.mSearch.drivingSearch((new DrivingRoutePlanOption())
-                                        .from(startNode)
-                                        .to(endNode));
-                                break;
-
-                            //步行路线规划
-                            case 1:
-                                mainActivity.mSearch.walkingSearch((new WalkingRoutePlanOption())
-                                        .from(startNode)
-                                        .to(endNode));
-                                break;
-
-                            //骑行路线规划
-                            case 2:
-                                mainActivity.mSearch.bikingSearch((new BikingRoutePlanOption())
-                                        .from(startNode)
-                                        .to(endNode));
-                                break;
-
-                            //公交路线规划
-                            case 3:
-                                if(mainActivity.mCity != null) {
-                                    TransitRoutePlanOption transitRoutePlanOption = new TransitRoutePlanOption();
-                                    transitRoutePlanOption.city(mainActivity.mCity);
-                                    transitRoutePlanOption.from(startNode);
-                                    transitRoutePlanOption.to(endNode);
-                                    mainActivity.mSearch.transitSearch(transitRoutePlanOption);
-                                }
-                                break;
-                        }
-                    } else {
-                        Toast.makeText(mainActivity, mainActivity.getString(R.string.wait_for_location_result), Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    mainActivity.requestPermission();//申请权限
-                }
-            } else {
-                Toast.makeText(mainActivity, mainActivity.getString(R.string.close_airplane_mode), Toast.LENGTH_SHORT).show();
-            }
-        } else {
+        if(!isNetworkConnected(mainActivity)) {//没有开网络
             Toast.makeText(mainActivity, mainActivity.getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(isAirplaneModeOn(mainActivity)) {//开启了飞行模式
+            Toast.makeText(mainActivity, mainActivity.getString(R.string.close_airplane_mode), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(mainActivity.permissionFlag != MainActivity.READY_TO_LOCATION) {//权限不足
+            mainActivity.requestPermission();
+            return;
+        }
+
+        if(mainActivity.latLng == null) {//还没有得到定位
+            Toast.makeText(mainActivity, mainActivity.getString(R.string.wait_for_location_result), Toast.LENGTH_SHORT).show();
+        } else {
+            return;
+        }
+
+        //获取定位点和目标点
+        PlanNode startNode = PlanNode.withLocation(mainActivity.latLng);
+        PlanNode endNode = PlanNode.withLocation(mainActivity.searchList.get(0).getLatLng());
+
+        switch(mainActivity.routePlanSelect) {
+            //驾车路线规划
+            case 0:
+                mainActivity.mSearch.drivingSearch((new DrivingRoutePlanOption())
+                        .from(startNode)
+                        .to(endNode));
+                break;
+
+            //步行路线规划
+            case 1:
+                mainActivity.mSearch.walkingSearch((new WalkingRoutePlanOption())
+                        .from(startNode)
+                        .to(endNode));
+                break;
+
+            //骑行路线规划
+            case 2:
+                mainActivity.mSearch.bikingSearch((new BikingRoutePlanOption())
+                        .from(startNode)
+                        .to(endNode));
+                break;
+
+            //公交路线规划
+            case 3:
+                if(mainActivity.mCity != null) {
+                    TransitRoutePlanOption transitRoutePlanOption = new TransitRoutePlanOption();
+                    transitRoutePlanOption.city(mainActivity.mCity);
+                    transitRoutePlanOption.from(startNode);
+                    transitRoutePlanOption.to(endNode);
+                    mainActivity.mSearch.transitSearch(transitRoutePlanOption);
+                }
+                break;
         }
     }
 

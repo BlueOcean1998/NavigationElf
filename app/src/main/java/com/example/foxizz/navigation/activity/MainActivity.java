@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //控制布局相关
-    private ImageButton setting;//设置
+    private ImageButton settings;//设置
     private ImageButton refresh;//刷新
     private ImageButton location;//定位
 
@@ -221,8 +221,10 @@ public class MainActivity extends AppCompatActivity {
         myLocation = new MyLocation(this);//初始化定位模块
 
         myPoiSearch = new MyPoiSearch(this);//初始化搜索模块
+        myPoiSearch.initSearch();//初始化搜索目标信息
 
         myRoutePlanSearch = new MyRoutePlanSearch(this);//初始化路线规划模块
+        myRoutePlanSearch.initRoutePlanSearch();//初始化路线规划
 
         myNavigateHelper = new MyNavigateHelper(this);//初始化导航模块
 
@@ -240,25 +242,57 @@ public class MainActivity extends AppCompatActivity {
         myOrientationListener.start();
     }
 
-    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onResume() {
         super.onResume();
         mMapView.onResume();
 
+        reSettings();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mMapView.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //开启定位的允许
+        mBaiduMap.setMyLocationEnabled(false);
+        //停止方向传感
+        myOrientationListener.stop();
+        //停止定位服务
+        if(mLocationClient != null && mLocationClient.isStarted()) {
+            mLocationClient.stop();
+        }
+        //释放地图、POI检索、路线规划实例
+        mMapView.onDestroy();
+        mPoiSearch.destroy();
+        mSearch.destroy();
+    }
+
+    //重新设置偏好
+    @SuppressLint("SourceLockedOrientationActivity")
+    private void reSettings() {
+        //切换地图类型
         switch(dbHelper.getSettings("map_type")) {
-            case "0":
-                mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+            case "0"://标准地图
+                if(mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_NORMAL)
+                    mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
                 mBaiduMap.setTrafficEnabled(false);
                 break;
 
-            case "1":
-                mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
+            case "1"://卫星地图
+                if(mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_SATELLITE)
+                    mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
                 mBaiduMap.setTrafficEnabled(false);
                 break;
 
-            case "2":
-                mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+            case "2"://交通地图
+                if(mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_NORMAL)
+                    mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
                 mBaiduMap.setTrafficEnabled(true);
                 break;
         }
@@ -286,29 +320,6 @@ public class MainActivity extends AppCompatActivity {
         if(sharedPreferences.getBoolean("compass", true))
             mUiSettings.setCompassEnabled(true);//显示指南针
         else mUiSettings.setCompassEnabled(false);//不显示指南针
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mMapView.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //开启定位的允许
-        mBaiduMap.setMyLocationEnabled(false);
-        //停止方向传感
-        myOrientationListener.stop();
-        //停止定位服务
-        if (mLocationClient.isStarted()) {
-            mLocationClient.stop();
-        }
-        //释放地图、POI检索、路线规划实例
-        mMapView.onDestroy();
-        mPoiSearch.destroy();
-        mSearch.destroy();
     }
 
     //初始化地图控件
@@ -354,9 +365,9 @@ public class MainActivity extends AppCompatActivity {
 
     //初始化自定义控件
     private void initMyView() {
-        setting = findViewById(R.id.setting);
-        refresh = findViewById(R.id.refresh);
-        location = findViewById(R.id.location);
+        settings = findViewById(R.id.settings_button);
+        refresh = findViewById(R.id.refresh_button);
+        location = findViewById(R.id.location_button);
 
         selectLayout = findViewById(R.id.select_layout);
         selectButton1 = findViewById(R.id.select_button1);
@@ -416,7 +427,7 @@ public class MainActivity extends AppCompatActivity {
         searchResult.setLayoutManager(layoutManager);//设置布局
 
         //设置按钮的点击事件
-        setting.setOnClickListener(new View.OnClickListener() {
+        settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
@@ -439,7 +450,7 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
-                myLocation.initLocationOption();
+                myLocation.initLocationOption();//初始化定位
             }
         });
 
@@ -512,6 +523,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isHistorySearchResult) {//如果是搜索历史记录
+                    //如果有搜索内容则清空
+                    if(!searchEdit.getText().toString().isEmpty()) {
+                        searchEdit.setText("");
+                        return;
+                    }
+
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setTitle(getString(R.string.warning));
                     builder.setMessage(getString(R.string.to_clear));
@@ -572,12 +589,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                if(permissionFlag == READY_TO_LOCATION) {
-                    searchContent = searchEdit.getText().toString();
-                } else {
-                    requestPermission();//申请权限
-                    return;
-                }
+                searchContent = searchEdit.getText().toString();
 
                 if(searchContent.isEmpty()) return;
 
@@ -592,27 +604,32 @@ public class MainActivity extends AppCompatActivity {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 if(imm != null) imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
 
-                if(mCity != null) {//定位成功后才可以进行搜索
-                    String destinationCity = mCity;//目的城市
+                String searchCity = null;//进行搜索的城市
 
-                    //数据库中的城市
-                    String databaseCity = dbHelper.getSettings("destination_city");
-                    if(!databaseCity.equals(getString(R.string.location_city)))
-                        destinationCity = databaseCity;
-
-                    searchResult.stopScroll();//停止信息列表滑动
-
-                    if(sharedPreferences.getBoolean("search_around", false))
-                        myPoiSearch.poiSearchType = MyPoiSearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
-                    else myPoiSearch.poiSearchType = MyPoiSearch.CITY_SEARCH;//设置搜索类型为城市内搜索
-
-                    //开始城市内搜索
-                    mPoiSearch.searchInCity(new PoiCitySearchOption()
-                            .city(destinationCity)
-                            .keyword(searchContent));
-                } else {
-                    Toast.makeText(MainActivity.this, getString(R.string.wait_for_location_result), Toast.LENGTH_SHORT).show();
+                if(mCity == null) {//定位成功后才可以进行搜索
+                    searchCity = mCity;
                 }
+
+                //如果数据库中的城市不是默认值，则换用数据库中的城市
+                String databaseCity = dbHelper.getSettings("destination_city");
+                if(!databaseCity.equals(getString(R.string.location_city)))
+                    searchCity = databaseCity;
+
+                searchResult.stopScroll();//停止信息列表滑动
+
+                if(sharedPreferences.getBoolean("search_around", false))
+                    myPoiSearch.poiSearchType = MyPoiSearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
+                else myPoiSearch.poiSearchType = MyPoiSearch.CITY_SEARCH;//设置搜索类型为城市内搜索
+
+                if(searchCity == null) {
+                    requestPermission();//申请权限
+                    return;
+                }
+
+                //开始城市内搜索
+                mPoiSearch.searchInCity(new PoiCitySearchOption()
+                        .city(searchCity)
+                        .keyword(searchContent));
             }
         });
 
@@ -720,12 +737,13 @@ public class MainActivity extends AppCompatActivity {
         //如果列表为空，则获取了全部权限不用再获取，否则要获取
         if(permissionList.isEmpty()) {
             myLocation.initLocationOption();//初始化定位
-            myPoiSearch.initSearch();//初始化搜索目标信息
-            myRoutePlanSearch.initRoutePlanSearch();//初始化路线规划
 
             permissionFlag = READY_TO_LOCATION;
         } else {
+            //申请权限
             ActivityCompat.requestPermissions(this, permissionList.toArray(tmpList), 0);
+
+            dbHelper.initSearchData();//初始化搜索记录
 
             permissionFlag = REQUEST_FAILED;
         }
@@ -739,10 +757,12 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode == 0) {
             if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 myLocation.initLocationOption();//初始化定位
-                myPoiSearch.initSearch();//初始化搜索目标信息
-                myRoutePlanSearch.initRoutePlanSearch();//初始化路线规划
+
+                permissionFlag = READY_TO_LOCATION;
             } else {
                 Toast.makeText(this, getString(R.string.get_permission_fail), Toast.LENGTH_SHORT).show();
+
+                permissionFlag = REQUEST_FAILED;
             }
         }
     }

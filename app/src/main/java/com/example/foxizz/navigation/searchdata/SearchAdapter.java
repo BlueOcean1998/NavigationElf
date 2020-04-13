@@ -39,12 +39,10 @@ import static com.example.foxizz.navigation.demo.Tools.isNetworkConnected;
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
 
     private MainActivity mainActivity;
-    private List<SearchItem> mSearchItemList;
 
     //构造器
     public SearchAdapter(MainActivity mainActivity, List<SearchItem> searchItemList) {
         this.mainActivity = mainActivity;
-        mSearchItemList = searchItemList;
     }
 
     //设置item中的View
@@ -54,6 +52,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         TextView address;
         TextView distance;
         Button itemButton;
+        TextView endText;
 
         ViewHolder(View view) {
             super(view);
@@ -62,23 +61,30 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             address = view.findViewById(R.id.address);
             distance = view.findViewById(R.id.distance);
             itemButton = view.findViewById(R.id.item_button);
+            endText = view.findViewById(R.id.end_text);
         }
     }
 
     //获取item数量
     @Override
     public int getItemCount() {
-        return mSearchItemList.size();
+        return mainActivity.searchList.size();
     }
 
     //获取SearchItem的数据
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        SearchItem dataItem = mSearchItemList.get(position);
+        SearchItem dataItem = mainActivity.searchList.get(position);
         holder.targetName.setText(dataItem.getTargetName());
         holder.address.setText(dataItem.getAddress());
         holder.distance.setText(dataItem.getDistance() + "km");
+
+        //底部显示提示信息
+        if(position == mainActivity.searchList.size() - 1)
+            holder.endText.setVisibility(View.VISIBLE);
+        else
+            holder.endText.setVisibility(View.GONE);
     }
 
     //为recyclerView的每一个item设置点击事件
@@ -140,18 +146,23 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             @Override
             public boolean onLongClick(View v) {
                 final int position = holder.getAdapterPosition();
-                final SearchItem searchItem = mSearchItemList.get(position);
+                final SearchItem searchItem = mainActivity.searchList.get(position);
 
-                if(mainActivity.isHistorySearchResult) {
+                if(mainActivity.isHistorySearchResult) {//如果是搜索历史记录
                     AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
                     builder.setTitle(mainActivity.getString(R.string.hint));
-                    builder.setMessage(mainActivity.getString(R.string.to_delete));
+                    builder.setMessage("你确定要删除'" + searchItem.getTargetName() + "'吗？");
 
                     builder.setPositiveButton(mainActivity.getString(R.string.delete), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            mSearchItemList.remove(position);//移除搜索列表的这条记录
-                            notifyItemRemoved(position);//通知adapter移除这条记录
+                            //在searchList中寻找这条记录
+                            for(int i = 0; i < mainActivity.searchList.size(); i++) {
+                                if(searchItem.getUid().equals(mainActivity.searchList.get(i).getUid())) {
+                                    mainActivity.searchList.remove(searchItem);//移除搜索列表的这条记录
+                                    notifyItemRemoved(i);//通知adapter移除这条记录
+                                }
+                            }
 
                             mainActivity.dbHelper.deleteSearchData(searchItem.getUid());//删除数据库中的搜索记录
                         }
@@ -165,9 +176,15 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                     });
 
                     builder.show();
-                } else {
-                    mainActivity.searchList.remove(position);//移除搜索列表的这条记录
-                    notifyItemRemoved(position);//通知adapter移除这条记录
+
+                } else {//如果不是
+                    //在searchList中寻找这条记录
+                    for(int i = 0; i < mainActivity.searchList.size(); i++) {
+                        if(searchItem.getUid().equals(mainActivity.searchList.get(i).getUid())) {
+                            mainActivity.searchList.remove(searchItem);//移除搜索列表的这条记录
+                            notifyItemRemoved(i);//通知adapter移除这条记录
+                        }
+                    }
                 }
 
                 return false;
@@ -189,7 +206,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         }
         mainActivity.expandStartLayout(true);//展开开始导航布局
 
-        SearchItem searchItem = mSearchItemList.get(position);
+        SearchItem searchItem = mainActivity.searchList.get(position);
 
         //移动视角到指定位置
         LatLngBounds.Builder builder = new LatLngBounds.Builder();

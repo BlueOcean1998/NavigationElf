@@ -25,6 +25,7 @@
     <string name="address">地址</string>
     <string name="distance">距离</string>
     <string name="others">其它信息</string>
+    <string name="no_more">没有更多了</string>
 
     <string name="item_button">路线</string>
     <string name="return_button">返回</string>

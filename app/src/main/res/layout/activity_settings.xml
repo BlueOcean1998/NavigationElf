@@ -17,7 +17,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -197,7 +197,7 @@
             <FrameLayout
                 android:id="@+id/settings"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="600dp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

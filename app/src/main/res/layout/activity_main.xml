@@ -22,7 +22,7 @@
         android:layout_gravity="top|end"
         android:background="@null">
         <ImageButton
-            android:id="@+id/setting"
+            android:id="@+id/settings_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
@@ -32,7 +32,7 @@
             android:contentDescription="@string/settings" />
 
         <ImageButton
-            android:id="@+id/refresh"
+            android:id="@+id/refresh_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
@@ -42,7 +42,7 @@
             android:contentDescription="@string/refresh" />
 
         <ImageButton
-            android:id="@+id/location"
+            android:id="@+id/location_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"

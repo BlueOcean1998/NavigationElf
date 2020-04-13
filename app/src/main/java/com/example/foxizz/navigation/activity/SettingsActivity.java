@@ -8,8 +8,10 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -17,12 +19,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.preference.PreferenceFragmentCompat;
 
-import com.baidu.mapapi.map.offline.MKOLSearchRecord;
-import com.baidu.mapapi.map.offline.MKOfflineMap;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.database.DatabaseHelper;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -199,9 +198,13 @@ public class SettingsActivity extends AppCompatActivity {
                 //获取输入框内的城市信息
                 textCity = destinationCityEditText.getText().toString();
 
-                if(!textCity.isEmpty()) {//若获取到的信息不为空
+                if(!textCity.isEmpty() //获取到的信息不为空
+                        && !textCity.equals(databaseCity)) {//不等于数据库中的城市名
                     destinationCityConfirm.setVisibility(View.VISIBLE);//显示确定按钮
                     destinationCityCancel.setVisibility(View.VISIBLE);//显示取消按钮
+                } else {
+                    destinationCityConfirm.setVisibility(View.GONE);//隐藏确定按钮
+                    destinationCityCancel.setVisibility(View.GONE);//隐藏取消按钮
                 }
             }
         });
@@ -230,7 +233,10 @@ public class SettingsActivity extends AppCompatActivity {
 
                 if(databaseCity.equals(getString(R.string.location_city)))//如果等于默认值
                     destinationCityEditText.setText("");//清空
-                else destinationCityEditText.setText(databaseCity);//恢复城市数据
+                else {
+                    destinationCityEditText.setText(databaseCity);//恢复城市数据
+                    destinationCityEditText.setSelection(databaseCity.length());//移动焦点到末尾
+                }
             }
         });
 
