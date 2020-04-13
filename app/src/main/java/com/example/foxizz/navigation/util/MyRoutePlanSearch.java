@@ -56,7 +56,7 @@ public class MyRoutePlanSearch {
             return;
         }
 
-        if(ifHaveReadWriteAndLocationPermissions(mainActivity)) {//权限不足
+        if(!ifHaveReadWriteAndLocationPermissions(mainActivity)) {//权限不足
             mainActivity.requestPermission();
             return;
         }
