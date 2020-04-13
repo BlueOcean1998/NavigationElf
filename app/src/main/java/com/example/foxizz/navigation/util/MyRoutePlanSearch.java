@@ -63,7 +63,6 @@ public class MyRoutePlanSearch {
 
         if(mainActivity.latLng == null) {//还没有得到定位
             Toast.makeText(mainActivity, mainActivity.getString(R.string.wait_for_location_result), Toast.LENGTH_SHORT).show();
-        } else {
             return;
         }
 
