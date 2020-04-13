@@ -69,7 +69,7 @@ import static com.example.foxizz.navigation.demo.Tools.rotateExpandIcon;
 /**
  * app_name: Navigation
  * author: Foxizz
- * time: 2020-04-12
+ * time: 2020-04-13
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -86,12 +86,6 @@ public class MainActivity extends AppCompatActivity {
     //方向传感器
     public MyOrientationListener myOrientationListener;
     public float mLastX;//方向角度
-
-
-    //动态申请权限相关
-    public int permissionFlag;//权限状态
-    public static final int READY_TO_LOCATION = 0;//准备定位
-    public static final int REQUEST_FAILED = 1;//申请失败
 
 
     //定位相关
@@ -606,14 +600,12 @@ public class MainActivity extends AppCompatActivity {
 
                 String searchCity = null;//进行搜索的城市
 
-                if(mCity == null) {//定位成功后才可以进行搜索
-                    searchCity = mCity;
-                }
+                // 定位成功后才可以进行搜索
+                if(mCity != null) searchCity = mCity;
 
                 //如果数据库中的城市不是默认值，则换用数据库中的城市
                 String databaseCity = dbHelper.getSettings("destination_city");
-                if(!databaseCity.equals(getString(R.string.location_city)))
-                    searchCity = databaseCity;
+                if(!databaseCity.equals(getString(R.string.location_city))) searchCity = databaseCity;
 
                 searchResult.stopScroll();//停止信息列表滑动
 
@@ -688,9 +680,7 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
-                if(permissionFlag == READY_TO_LOCATION) {
-                    myNavigateHelper.startNavigate();//开始导航
-                }
+                myNavigateHelper.startNavigate();//开始导航
             }
         });
 
@@ -737,15 +727,11 @@ public class MainActivity extends AppCompatActivity {
         //如果列表为空，则获取了全部权限不用再获取，否则要获取
         if(permissionList.isEmpty()) {
             myLocation.initLocationOption();//初始化定位
-
-            permissionFlag = READY_TO_LOCATION;
         } else {
             //申请权限
             ActivityCompat.requestPermissions(this, permissionList.toArray(tmpList), 0);
 
             dbHelper.initSearchData();//初始化搜索记录
-
-            permissionFlag = REQUEST_FAILED;
         }
     }
 
@@ -755,15 +741,10 @@ public class MainActivity extends AppCompatActivity {
             int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode == 0) {
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 myLocation.initLocationOption();//初始化定位
-
-                permissionFlag = READY_TO_LOCATION;
-            } else {
+            else
                 Toast.makeText(this, getString(R.string.get_permission_fail), Toast.LENGTH_SHORT).show();
-
-                permissionFlag = REQUEST_FAILED;
-            }
         }
     }
 

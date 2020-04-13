@@ -95,7 +95,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         boolean flag = false;//是否刷新搜索记录
         if(isNetworkConnected(mainActivity)
                 && !isAirplaneModeOn(mainActivity)
-                && mainActivity.permissionFlag == MainActivity.READY_TO_LOCATION
                 && mainActivity.mCity != null) {
             flag = true;
             mainActivity.myPoiSearch.poiSearchType = MyPoiSearch.DETAIL_SEARCH_ALL;//设置为详细搜索全部

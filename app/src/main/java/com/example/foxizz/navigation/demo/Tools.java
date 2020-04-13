@@ -1,7 +1,9 @@
 package com.example.foxizz.navigation.demo;
 
+import android.Manifest;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -12,6 +14,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 
 import com.example.foxizz.navigation.R;
 
@@ -72,6 +75,22 @@ public class Tools {
             }
         });
         valueAnimator.start();
+    }
+
+    //判断是否已经获取了读取存储和定位权限
+    public static boolean ifHaveReadWriteAndLocationPermissions(Context context) {
+        String[] permissions = {
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+        };
+
+        for(String permission: permissions) {
+            if(ContextCompat.checkSelfPermission(context, permission)
+                    != PackageManager.PERMISSION_GRANTED)
+                return false;
+        }
+
+        return true;
     }
 
     //获取网络连接状态，有则返回true，没有则返回false

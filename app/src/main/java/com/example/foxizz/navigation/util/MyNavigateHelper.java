@@ -12,7 +12,6 @@ import com.baidu.mapapi.bikenavi.adapter.IBRoutePlanListener;
 import com.baidu.mapapi.bikenavi.model.BikeRoutePlanError;
 import com.baidu.mapapi.bikenavi.params.BikeNaviLaunchParam;
 import com.baidu.mapapi.bikenavi.params.BikeRouteNodeInfo;
-import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.walknavi.WalkNavigateHelper;
 import com.baidu.mapapi.walknavi.adapter.IWEngineInitListener;
 import com.baidu.mapapi.walknavi.adapter.IWRoutePlanListener;
@@ -24,6 +23,7 @@ import com.example.foxizz.navigation.activity.BNaviGuideActivity;
 import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.activity.WNaviGuideActivity;
 
+import static com.example.foxizz.navigation.demo.Tools.ifHaveReadWriteAndLocationPermissions;
 import static com.example.foxizz.navigation.demo.Tools.isAirplaneModeOn;
 import static com.example.foxizz.navigation.demo.Tools.isNetworkConnected;
 
@@ -50,7 +50,7 @@ public class MyNavigateHelper {
             return;
         }
 
-        if(mainActivity.permissionFlag != MainActivity.READY_TO_LOCATION) {//权限不足
+        if(ifHaveReadWriteAndLocationPermissions(mainActivity)) {//权限不足
             mainActivity.requestPermission();
             return;
         }

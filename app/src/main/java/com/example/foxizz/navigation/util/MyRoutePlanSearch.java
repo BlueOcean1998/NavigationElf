@@ -28,6 +28,7 @@ import com.example.foxizz.navigation.overlayutil.MassTransitRouteOverlay;
 import com.example.foxizz.navigation.overlayutil.TransitRouteOverlay;
 import com.example.foxizz.navigation.overlayutil.WalkingRouteOverlay;
 
+import static com.example.foxizz.navigation.demo.Tools.ifHaveReadWriteAndLocationPermissions;
 import static com.example.foxizz.navigation.demo.Tools.isAirplaneModeOn;
 import static com.example.foxizz.navigation.demo.Tools.isNetworkConnected;
 
@@ -55,7 +56,7 @@ public class MyRoutePlanSearch {
             return;
         }
 
-        if(mainActivity.permissionFlag != MainActivity.READY_TO_LOCATION) {//权限不足
+        if(ifHaveReadWriteAndLocationPermissions(mainActivity)) {//权限不足
             mainActivity.requestPermission();
             return;
         }
