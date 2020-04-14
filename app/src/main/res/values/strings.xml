@@ -54,7 +54,7 @@
     <string name="suggest_not_to_walk">路程太远，不建议步行</string>
     <string name="suggest_not_to_bike">路程太远，不建议骑行</string>
     <string name="suggest_to_walk">路程太短，建议步行</string>
-    <string name="can_not_get_start_station_info">无法获取第一站信息</string>
+    <string name="can_not_get_station_info">无法获取站点信息</string>
     <string name="end_location_is_null">终点信息为空</string>
     <string name="wait_for_route_plan_result">请等待路线规划结果</string>
     <string name="walk_navigate_init_fail">步行导航初始化失败</string>

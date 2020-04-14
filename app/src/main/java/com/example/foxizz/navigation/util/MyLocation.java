@@ -67,11 +67,11 @@ public class MyLocation {
                 if(isFirstLoc) {
                     isFirstLoc = false;
 
-                    //改变地图状态
+                    //移动视角并改变缩放等级
                     MapStatusUpdate msu= MapStatusUpdateFactory.newLatLng(mainActivity.latLng);
                     mainActivity.mBaiduMap.setMapStatus(msu);
                     MapStatus.Builder builder = new MapStatus.Builder();
-                    builder.target(mainActivity.latLng);
+                    builder.zoom(18.0f).target(mainActivity.latLng);
                     mainActivity.mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
 
                     if(mainActivity.mLocType == BDLocation.TypeGpsLocation //GPS定位结果

@@ -332,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
                         true, null, 0xAABFEFFF, 0xAA9FCFFF);
         mBaiduMap.setMyLocationConfiguration(myLocationConfiguration);
 
-        mMapView.removeViewAt(1);//去除百度水印
+        //mMapView.removeViewAt(1);//去除百度水印
         mMapView.setScaleControlPosition(new Point());//改变比例尺位置
         mMapView.setZoomControlsPosition(new Point());//改变缩放按钮位置
 

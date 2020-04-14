@@ -142,79 +142,81 @@ public class MyRoutePlanSearch {
             @Override
             public void onGetTransitRouteResult(TransitRouteResult transitRouteResult) {
                 if(transitRouteResult.getRouteLines() == null
-                        || transitRouteResult.getRouteLines().size() == 0)
-                    return;
-
-                try {
-                    //创建TransitRouteOverlay实例
-                    TransitRouteOverlay overlay = new TransitRouteOverlay(mainActivity.mBaiduMap);
-                    //清空地图上的标记
-                    mainActivity.mBaiduMap.clear();
-                    //获取路径规划数据,(以返回的第一条数据为例)
-                    //为TransitRouteOverlay实例设置路径数据
-                    overlay.setData(transitRouteResult.getRouteLines().get(0));
-                    //在地图上绘制TransitRouteOverlay
-                    overlay.addToMap();
-                    //将路线放在最佳视野位置
-                    overlay.zoomToSpan();
-                } catch(Exception e) {
-                    e.printStackTrace();
+                        || transitRouteResult.getRouteLines().size() == 0) {
                     Toast.makeText(mainActivity, mainActivity.getString(R.string.suggest_to_walk), Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                //创建TransitRouteOverlay实例
+                TransitRouteOverlay overlay = new TransitRouteOverlay(mainActivity.mBaiduMap);
+                //清空地图上的标记
+                mainActivity.mBaiduMap.clear();
+                //获取路径规划数据,(以返回的第一条数据为例)
+                //为TransitRouteOverlay实例设置路径数据
+                overlay.setData(transitRouteResult.getRouteLines().get(0));
+                //在地图上绘制TransitRouteOverlay
+                overlay.addToMap();
+                //将路线放在最佳视野位置
+                overlay.zoomToSpan();
             }
 
             @Override
             public void onGetMassTransitRouteResult(MassTransitRouteResult massTransitRouteResult) {
-                if(massTransitRouteResult.getRouteLines() == null) return;
-
-                if(massTransitRouteResult.getRouteLines().size() > 0){
-                    try {
-                        //获取第一站的坐标，用于步行导航
-                        if(massTransitRouteResult.getRouteLines().get(0).getNewSteps().get(0).size() == 1) {
-                            mainActivity.startBusStationLocation = massTransitRouteResult
-                                    .getRouteLines()
-                                    .get(0)
-                                    .getNewSteps()
-                                    .get(1)
-                                    .get(0)
-                                    .getStartLocation();
-                        } else {
-                            mainActivity.startBusStationLocation = massTransitRouteResult
-                                    .getRouteLines()
-                                    .get(0)
-                                    .getNewSteps()
-                                    .get(0)
-                                    .get(1)
-                                    .getStartLocation();
-                        }
-                    } catch (Exception e) {
-                        Toast.makeText(mainActivity, mainActivity.getString(R.string.can_not_get_start_station_info), Toast.LENGTH_SHORT).show();
-                        e.printStackTrace();
-                        return;
-                    }
-
-                    //创建MassTransitRouteOverlay实例
-                    MassTransitRouteOverlay overlay = new MassTransitRouteOverlay(mainActivity.mBaiduMap);
-                    //清空地图上的所有标记点和绘制的路线
-                    mainActivity.mBaiduMap.clear();
-                    //构建Marker图标
-                    BitmapDescriptor bitmap = BitmapDescriptorFactory
-                            .fromResource(R.drawable.ic_to_location);
-                    //构建MarkerOption，用于在地图上添加Marker
-                    OverlayOptions option = new MarkerOptions()
-                            .position(mainActivity.startBusStationLocation)
-                            .icon(bitmap);
-                    //在地图上添加Marker，并显示
-                    mainActivity.mBaiduMap.addOverlay(option);
-
-                    //获取路线规划数据（以返回的第一条数据为例）
-                    //为MassTransitRouteOverlay设置数据
-                    overlay.setData(massTransitRouteResult.getRouteLines().get(0));
-                    //在地图上绘制Overlay
-                    overlay.addToMap();
-                    //将路线放在最佳视野位置
-                    overlay.zoomToSpan();
+                if(massTransitRouteResult.getRouteLines() == null
+                        || massTransitRouteResult.getRouteLines().size() == 0) {
+                    Toast.makeText(mainActivity, mainActivity.getString(R.string.suggest_to_walk), Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                /*
+                 * getRouteLines(): 所有规划好的路线
+                 * get(0): 第1条规划好的路线
+                 *
+                 * getNewSteps():
+                 * 起终点为同城时，该list表示一个step中的多个方案scheme（方案1、方案2、方案3...）
+                 * 起终点为跨城时，该list表示一个step中多个子步骤sub_step（如：步行->公交->火车->步行）
+                 *
+                 * get(0): 方案1或第1步
+                 * get(0): 步行到第1站点
+                 * getEndLocation(): 终点站，即步行导航的终点站
+                 *
+                 */
+                mainActivity.startBusStationLocation = massTransitRouteResult
+                        .getRouteLines()
+                        .get(0)
+                        .getNewSteps()
+                        .get(0)
+                        .get(0)
+                        .getEndLocation();
+
+                //创建MassTransitRouteOverlay实例
+                MassTransitRouteOverlay overlay = new MassTransitRouteOverlay(mainActivity.mBaiduMap);
+                //清空地图上的所有标记点和绘制的路线
+                mainActivity.mBaiduMap.clear();
+                //构建Marker图标
+                BitmapDescriptor bitmap = BitmapDescriptorFactory
+                        .fromResource(R.drawable.ic_to_location);
+                //构建MarkerOption，用于在地图上添加Marker
+                OverlayOptions option = new MarkerOptions()
+                        .position(mainActivity.startBusStationLocation)
+                        .icon(bitmap);
+                //在地图上添加Marker，并显示
+                mainActivity.mBaiduMap.addOverlay(option);
+
+                //获取路线规划数据（以返回的第一条数据为例）
+                //为MassTransitRouteOverlay设置数据
+                overlay.setData(massTransitRouteResult.getRouteLines().get(0));
+                //在地图上绘制Overlay
+                overlay.addToMap();
+                //将路线放在最佳视野位置
+                overlay.zoomToSpan();
+
+                /*
+                } catch (Exception e) {
+                    Toast.makeText(mainActivity, mainActivity.getString(R.string.can_not_get_station_info), Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+                */
             }
 
             @Override
@@ -234,7 +236,6 @@ public class MyRoutePlanSearch {
                 overlay.addToMap();
                 //将路线放在最佳视野位置
                 overlay.zoomToSpan();
-
             }
 
             @Override
