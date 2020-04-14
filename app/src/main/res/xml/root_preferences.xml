@@ -37,6 +37,7 @@
         <SwitchPreferenceCompat
             app:key="compass"
             app:title="显示指南针"
+            app:summary="旋转地图后生效"
             app:defaultValue="true" />
     </PreferenceCategory>
 

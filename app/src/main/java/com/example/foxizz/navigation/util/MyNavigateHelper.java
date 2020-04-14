@@ -12,6 +12,7 @@ import com.baidu.mapapi.bikenavi.adapter.IBRoutePlanListener;
 import com.baidu.mapapi.bikenavi.model.BikeRoutePlanError;
 import com.baidu.mapapi.bikenavi.params.BikeNaviLaunchParam;
 import com.baidu.mapapi.bikenavi.params.BikeRouteNodeInfo;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.baidu.mapapi.walknavi.WalkNavigateHelper;
 import com.baidu.mapapi.walknavi.adapter.IWEngineInitListener;
 import com.baidu.mapapi.walknavi.adapter.IWRoutePlanListener;
@@ -60,25 +61,25 @@ public class MyNavigateHelper {
             return;
         }
 
+        if(mainActivity.endLocation == null) {
+            Toast.makeText(mainActivity, mainActivity.getString(R.string.end_location_is_null), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         switch(mainActivity.routePlanSelect) {
             //驾车导航
             case 0:
 
                 break;
 
-            //步行导航
-            case 1:
+            //步行导航，公交导航
+            case 1:case 3:
                 initWalkNavigateHelper();
                 break;
 
             //骑行导航
             case 2:
                 initBikeNavigateHelper();
-                break;
-
-            //公交导航
-            case 3:
-
                 break;
         }
     }
@@ -92,11 +93,40 @@ public class MyNavigateHelper {
             public void engineInitSuccess() {
                 //Toast.makeText(mainActivity, "步行引擎初始化成功", Toast.LENGTH_SHORT).show();
 
-                //获取定位点和目标点坐标
                 WalkRouteNodeInfo walkStartNode = new WalkRouteNodeInfo();
-                walkStartNode.setLocation(mainActivity.latLng);
                 WalkRouteNodeInfo walkEndNode = new WalkRouteNodeInfo();
-                walkEndNode.setLocation(mainActivity.searchList.get(0).getLatLng());
+
+                //获取定位点和目标点坐标
+                if(mainActivity.routePlanSelect == MainActivity.WALKING) {
+                    walkStartNode.setLocation(mainActivity.latLng);
+                    walkEndNode.setLocation(mainActivity.endLocation);
+
+                } else if(mainActivity.routePlanSelect == MainActivity.TRANSIT) {
+                    if(mainActivity.startBusStationLocation == null) {
+                        Toast.makeText(mainActivity, mainActivity.getString(R.string.wait_for_route_plan_result), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    //获取位置到第一站和终点的距离
+                    double distanceToStart =
+                            DistanceUtil.getDistance(mainActivity.latLng, mainActivity.startBusStationLocation);
+                    double distanceToEnd =
+                            DistanceUtil.getDistance(mainActivity.latLng, mainActivity.endLocation);
+
+                    //小于10km才可以步行导航
+                    if(distanceToStart < 10000 || distanceToEnd <10000) {
+                        //比较哪个更近
+                        if(distanceToStart < distanceToEnd) {
+                            walkStartNode.setLocation(mainActivity.latLng);
+                            walkEndNode.setLocation(mainActivity.startBusStationLocation);
+                        } else {
+                            walkStartNode.setLocation(mainActivity.latLng);
+                            walkEndNode.setLocation(mainActivity.endLocation);
+                        }
+                    } else {
+                        Toast.makeText(mainActivity, mainActivity.getString(R.string.out_of_navigation_range), Toast.LENGTH_SHORT).show();
+                    }
+                }
 
                 walkParam = new WalkNaviLaunchParam()
                         .startNodeInfo(walkStartNode)

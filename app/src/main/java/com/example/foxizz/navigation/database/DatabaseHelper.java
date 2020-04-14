@@ -139,6 +139,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mainActivity.searchAdapter.notifyDataSetChanged();
     }
 
+    //是否有搜索记录
+    public boolean ifHasSearchData() {
+        db = this.getReadableDatabase();
+        cursor = db.rawQuery("select * from SearchData", null);
+        if(cursor != null) {
+            return cursor.getCount() > 0;
+        }
+        return false;
+    }
+
     //根据uid获取某条搜索记录
     public Cursor getSearchData(String uid) {
         db = this.getReadableDatabase();

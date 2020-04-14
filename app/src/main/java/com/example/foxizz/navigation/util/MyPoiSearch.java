@@ -7,7 +7,9 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
+import com.baidu.location.Poi;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.CityInfo;
 import com.baidu.mapapi.search.core.PoiDetailInfo;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.core.SearchResult;
@@ -50,10 +52,11 @@ public class MyPoiSearch {
 
     public int poiSearchType;//使用的搜索类型
     public final static int CITY_SEARCH = 0;//城市内搜索
-    public final static int NEARBY_SEARCH = 1;//周边搜索
-    public final static int CONSTRAINT_CITY_SEARCH = 2;//强制城市内搜索，使用城市内搜索不会再自动转为周边搜索
-    public final static int DETAIL_SEARCH = 3;//直接详细信息搜索，一般直接用uid搜索
-    public final static int DETAIL_SEARCH_ALL = 4;//详细搜索全部，用于数据库录入
+    public final static int OTHER_CITY_SEARCH = 1;//其它城市搜索，使用城市内搜索不到内容时启用
+    public final static int NEARBY_SEARCH = 2;//周边搜索，使用城市内搜索到的内容过多时启用
+    public final static int CONSTRAINT_CITY_SEARCH = 3;//强制城市内搜索，使用城市内搜索不会再自动转为周边搜索
+    public final static int DETAIL_SEARCH = 4;//直接详细信息搜索，一般直接用uid搜索
+    public final static int DETAIL_SEARCH_ALL = 5;//详细搜索全部，用于数据库录入
 
     //初始化搜索目标信息
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -64,8 +67,29 @@ public class MyPoiSearch {
         OnGetPoiSearchResultListener listener = new OnGetPoiSearchResultListener() {
             @Override
             public void onGetPoiResult(PoiResult poiResult) {
+                mainActivity.mBaiduMap.clear();//清空地图上的所有标记点和绘制的路线
+                mainActivity.searchList.clear();//清空searchList
+                mainActivity.searchAdapter.notifyDataSetChanged();//通知adapter更新
+                mainActivity.isHistorySearchResult = false;//已经不是搜索历史记录了
+
                 if(poiResult == null//没有找到检索结果
                         || poiResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {
+                    //城市内搜索不到内容时切换到别的城市继续搜索
+                    if(poiSearchType == CITY_SEARCH) {
+                        if(poiResult != null && poiResult.getSuggestCityList() != null) {
+                            for (CityInfo cityInfo : poiResult.getSuggestCityList()) {
+                                poiSearchType = OTHER_CITY_SEARCH;
+
+                                //开始别的城市内搜索
+                                mainActivity.mPoiSearch.searchInCity(new PoiCitySearchOption()
+                                        .city(cityInfo.city)
+                                        .keyword(mainActivity.searchContent));
+                            }
+                        }
+                        return;
+                    }
+
+                    //周边搜索不到内容时切换回城市内搜索
                     if(poiSearchType == NEARBY_SEARCH) {
                         poiSearchType = CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
 
@@ -80,20 +104,16 @@ public class MyPoiSearch {
                 }
 
                 if(poiResult.error == SearchResult.ERRORNO.NO_ERROR) {//检索结果正常返回
-                    //如果目标数量小于预设值或搜索类型为周边搜索或搜索类型为强制城市内搜索
                     if((poiResult.getTotalPoiNum() < TO_NEARBY_SEARCH_MIN_NUM
+                            || poiSearchType == OTHER_CITY_SEARCH
                             || poiSearchType == NEARBY_SEARCH
                             || poiSearchType == CONSTRAINT_CITY_SEARCH)) {
 
+                        /*这些是测试时给程序员看的
                         Toast.makeText(mainActivity,
                                 "总共查到" + poiResult.getTotalPoiNum() + "个兴趣点, 分为"
                                         + poiResult.getTotalPageNum() + "页", Toast.LENGTH_SHORT).show();
 
-                        mainActivity.mBaiduMap.clear();//清空地图上的所有标记点和绘制的路线
-                        mainActivity.searchList.clear();//清空searchList
-                        mainActivity.isHistorySearchResult = false;//已经不是搜索历史记录了
-
-                        /*
                         PoiOverlay poiOverlay = new PoiOverlay(mainActivity.mBaiduMap);
                         mainActivity.mBaiduMap.setOnMarkerClickListener(poiOverlay);
                         poiOverlay.setData(poiResult);//设置POI数据
@@ -108,14 +128,22 @@ public class MyPoiSearch {
                         }
 
                         for(int i = 0; i < searchPageNum; i++) {
+                            poiResult.setCurrentPageNum(i);//下一页
+
                             for(PoiInfo info: poiResult.getAllPoi()) {
-                                //uid的集合，最多可以传入10个uid，多个uid之间用英文逗号分隔。
-                                mainActivity.mPoiSearch.searchPoiDetail(//进行详细信息搜索
-                                        (new PoiDetailSearchOption()).poiUids(info.getUid()));
+                                //检索到的Poi类型不是下面那些
+                                if(info.getType() != PoiInfo.POITYPE.BUS_STATION
+                                        && info.getType() != PoiInfo.POITYPE.BUS_LINE
+                                        && info.getType() != PoiInfo.POITYPE.SUBWAY_STATION
+                                        && info.getType() != PoiInfo.POITYPE.SUBWAY_LINE) {
+                                    //uid的集合，最多可以传入10个uid，多个uid之间用英文逗号分隔。
+                                    mainActivity.mPoiSearch.searchPoiDetail(//进行详细信息搜索
+                                            (new PoiDetailSearchOption()).poiUids(info.getUid()));
+                                }
                             }
-                            poiResult.setCurrentPageNum(i);
                         }
 
+                    //如果目标数量小于预设值或搜索类型为周边搜索或搜索类型为强制城市内搜索
                     } else {
                         poiSearchType = NEARBY_SEARCH;//设置搜索类型为周边搜索
 

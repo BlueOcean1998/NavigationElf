@@ -109,6 +109,28 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                         mainActivity.infoButton.setText(R.string.info_button1);//设置按钮为路线
                         mainActivity.expandInfoLayout(true);//展开详细信息布局
                         mainActivity.infoFlag = true;//设置信息状态为展开
+
+                        //获取点击的item
+                        int position = holder.getAdapterPosition();
+                        SearchItem searchItem = mainActivity.searchList.get(position);
+
+                        //移动视角到指定位置
+                        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                        builder.include(searchItem.getLatLng());
+                        MapStatusUpdate msu= MapStatusUpdateFactory.newLatLngBounds(builder.build());
+                        mainActivity.mBaiduMap.setMapStatus(msu);
+
+                        //清空地图上的所有标记点和绘制的路线
+                        mainActivity.mBaiduMap.clear();
+                        //构建Marker图标
+                        BitmapDescriptor bitmap = BitmapDescriptorFactory
+                                .fromResource(R.drawable.ic_to_location);
+                        //构建MarkerOption，用于在地图上添加Marker
+                        OverlayOptions option = new MarkerOptions()
+                                .position(searchItem.getLatLng())
+                                .icon(bitmap);
+                        //在地图上添加Marker，并显示
+                        mainActivity.mBaiduMap.addOverlay(option);
                     }
                 } else {
                     Toast.makeText(mainActivity, mainActivity.getString(R.string.network_error), Toast.LENGTH_SHORT).show();
@@ -117,7 +139,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             }
         });
 
-        //itemButton1的点击事件
+        //itemButton的点击事件
         holder.itemButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
@@ -197,7 +219,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     //cardView和itemButton1共同的点击事件
     @SuppressLint("SetTextI18n")
     private void click(ViewHolder holder) {
+        //获取点击的item
         int position = holder.getAdapterPosition();
+        SearchItem searchItem = mainActivity.searchList.get(position);
 
         mainActivity.expandSearchLayout(false);//收起搜索布局
         if(mainActivity.expandFlag) {
@@ -206,25 +230,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         }
         mainActivity.expandStartLayout(true);//展开开始导航布局
 
-        SearchItem searchItem = mainActivity.searchList.get(position);
-
-        //移动视角到指定位置
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        builder.include(searchItem.getLatLng());
-        MapStatusUpdate msu= MapStatusUpdateFactory.newLatLngBounds(builder.build());
-        mainActivity.mBaiduMap.setMapStatus(msu);
-
-        //清空地图上的所有标记点和绘制的路线
-        mainActivity.mBaiduMap.clear();
-        //构建Marker图标
-        BitmapDescriptor bitmap = BitmapDescriptorFactory
-                .fromResource(R.drawable.ic_to_location);
-        //构建MarkerOption，用于在地图上添加Marker
-        OverlayOptions option = new MarkerOptions()
-                .position(searchItem.getLatLng())
-                .icon(bitmap);
-        //在地图上添加Marker，并显示
-        mainActivity.mBaiduMap.addOverlay(option);
+        //设置终点坐标
+        mainActivity.endLocation = searchItem.getLatLng();
 
         mainActivity.myPoiSearch.poiSearchType = MyPoiSearch.DETAIL_SEARCH;//设置为直接详细搜索
         mainActivity.mPoiSearch.searchPoiDetail(//进行详细信息搜索

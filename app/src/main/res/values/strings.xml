@@ -9,6 +9,7 @@
     <string name="map_satellite_text">卫星地图</string>
     <string name="map_traffic_text">交通地图</string>
     <string name="destination_city">目的地城市</string>
+    <string name="destination_city_summary">便于搜索其它城市的目的地</string>
     <string name="location_city">所在城市</string>
 
     <string name="select_bottom1">驾车</string>
@@ -43,13 +44,19 @@
     <string name="server_error">服务器错误</string>
     <string name="network_error">网络错误，请检查网络连接是否正常</string>
     <string name="wait_for_location_result">请等待定位结果</string>
+    <string name="out_of_navigation_range">超出导航范围</string>
     <string name="find_nothing">未找到结果</string>
     <string name="phone_number">联系方式：</string>
     <string name="shop_time">营业时间：</string>
     <string name="shopping"> 营业中</string>
     <string name="relaxing"> 休息中</string>
     <string name="price">平均消费</string>
+    <string name="suggest_not_to_walk">路程太远，不建议步行</string>
+    <string name="suggest_not_to_bike">路程太远，不建议骑行</string>
     <string name="suggest_to_walk">路程太短，建议步行</string>
+    <string name="can_not_get_start_station_info">无法获取第一站信息</string>
+    <string name="end_location_is_null">终点信息为空</string>
+    <string name="wait_for_route_plan_result">请等待路线规划结果</string>
     <string name="walk_navigate_init_fail">步行导航初始化失败</string>
     <string name="walk_route_plan_fail">步行路线规划失败</string>
     <string name="bike_navigate_init_fail">骑行导航初始化失败</string>

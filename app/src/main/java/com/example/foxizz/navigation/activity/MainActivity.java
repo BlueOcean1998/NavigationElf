@@ -151,16 +151,18 @@ public class MainActivity extends AppCompatActivity {
     public final static int TRANSIT = 3;//公交
     public int routePlanSelect = WALKING;//默认为步行
 
+    public LatLng startBusStationLocation;//公交导航第一站的坐标
+    public LatLng endLocation;//终点
+
+    //导航相关
+    public MyNavigateHelper myNavigateHelper;
+
     public LinearLayout startLayout;//开始导航布局
     public Button returnButton;//返回按钮
     public Button infoButton;//路线规划、详细信息切换按钮
     public Button startButton;//开始导航按钮
 
     public boolean infoFlag;//信息显示状态
-
-
-    //导航相关
-    public MyNavigateHelper myNavigateHelper;
 
 
     //控制布局相关
@@ -523,6 +525,9 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     }
 
+                    //没有搜索记录
+                    if(!dbHelper.ifHasSearchData()) return;
+
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setTitle(getString(R.string.warning));
                     builder.setMessage(getString(R.string.to_clear));
@@ -621,7 +626,8 @@ public class MainActivity extends AppCompatActivity {
                 //开始城市内搜索
                 mPoiSearch.searchInCity(new PoiCitySearchOption()
                         .city(searchCity)
-                        .keyword(searchContent));
+                        .keyword(searchContent)
+                        .cityLimit(false));//不限制搜索范围在城市内
             }
         });
 
