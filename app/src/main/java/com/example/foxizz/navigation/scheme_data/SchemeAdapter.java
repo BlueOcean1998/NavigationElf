@@ -12,8 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.MainActivity;
+import com.example.foxizz.navigation.overlayutil.MassTransitRouteOverlay;
 
 import java.util.List;
 
@@ -78,7 +83,6 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
             holder.schemeExpand.setRotation(0);
         }
 
-
         //底部显示提示信息
         if(position == mainActivity.schemeList.size() - 1)
             holder.endText.setVisibility(View.VISIBLE);
@@ -98,12 +102,61 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int position = holder.getAdapterPosition();
+                SchemeItem schemeItem = mainActivity.schemeList.get(position);
+
                 mainActivity.expandSelectLayout(true);//展开选择布局
                 mainActivity.expandSchemeDrawer(false);//收起方案抽屉
                 mainActivity.expandStartLayout(true);//展开开始导航布局
 
-                mainActivity.schemeList.clear();
-                notifyDataSetChanged();
+                /*
+                 * getRouteLines(): 所有规划好的路线
+                 * get(0): 第1条规划好的路线
+                 *
+                 * getNewSteps():
+                 * 起终点为同城时，该list表示一个step中的多个方案scheme（方案1、方案2、方案3...）
+                 * 起终点为跨城时，该list表示一个step中多个子步骤sub_step（如：步行->公交->火车->步行）
+                 *
+                 * get(0): 方案1或第1步
+                 * get(0): 步行到第1站点
+                 * getEndLocation(): 终点站，即步行导航的终点站
+                 *
+                 */
+                mainActivity.startBusStationLocation = schemeItem
+                        .getRouteLine()
+                        .getNewSteps()
+                        .get(0)
+                        .get(0)
+                        .getEndLocation();
+
+                //创建MassTransitRouteOverlay实例
+                MassTransitRouteOverlay overlay = new MassTransitRouteOverlay(mainActivity.mBaiduMap);
+                //清空地图上的所有标记点和绘制的路线
+                mainActivity.mBaiduMap.clear();
+                //构建Marker图标
+                BitmapDescriptor bitmap = BitmapDescriptorFactory
+                        .fromResource(R.drawable.ic_to_location);
+                //构建MarkerOption，用于在地图上添加Marker
+                OverlayOptions option = new MarkerOptions()
+                        .position(mainActivity.startBusStationLocation)
+                        .icon(bitmap);
+                //在地图上添加Marker，并显示
+                mainActivity.mBaiduMap.addOverlay(option);
+
+                //获取路线规划数据（以返回的第一条数据为例）
+                //为MassTransitRouteOverlay设置数据
+                overlay.setData(schemeItem.getRouteLine());
+                //在地图上绘制Overlay
+                overlay.addToMap();
+                //将路线放在最佳视野位置
+                overlay.zoomToSpan();
+
+                /*
+                } catch (Exception e) {
+                    Toast.makeText(mainActivity, mainActivity.getString(R.string.can_not_get_station_info), Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+                */
             }
         });
 
@@ -113,6 +166,7 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
                 SchemeItem schemeItem = mainActivity.schemeList.get(position);
+
                 if(schemeItem.getExpandFlag()) {
                     expandLayout(mainActivity, holder.infoDrawer, holder.detailInfo,false, mainActivity.schemeResult, position);
                     rotateExpandIcon(holder.schemeExpand, 180, 0);//旋转伸展按钮

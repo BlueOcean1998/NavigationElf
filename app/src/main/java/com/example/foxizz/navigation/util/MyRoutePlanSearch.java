@@ -6,15 +6,12 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
-import com.baidu.mapapi.map.BitmapDescriptor;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.MarkerOptions;
-import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.search.route.BikingRoutePlanOption;
 import com.baidu.mapapi.search.route.BikingRouteResult;
 import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
 import com.baidu.mapapi.search.route.DrivingRouteResult;
 import com.baidu.mapapi.search.route.IndoorRouteResult;
+import com.baidu.mapapi.search.route.MassTransitRouteLine;
 import com.baidu.mapapi.search.route.MassTransitRoutePlanOption;
 import com.baidu.mapapi.search.route.MassTransitRouteResult;
 import com.baidu.mapapi.search.route.OnGetRoutePlanResultListener;
@@ -28,9 +25,15 @@ import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.overlayutil.BikingRouteOverlay;
 import com.example.foxizz.navigation.overlayutil.DrivingRouteOverlay;
 import com.example.foxizz.navigation.overlayutil.IndoorRouteOverlay;
-import com.example.foxizz.navigation.overlayutil.MassTransitRouteOverlay;
 import com.example.foxizz.navigation.overlayutil.TransitRouteOverlay;
 import com.example.foxizz.navigation.overlayutil.WalkingRouteOverlay;
+import com.example.foxizz.navigation.scheme_data.SchemeItem;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 import static com.example.foxizz.navigation.demo.Tools.ifHaveReadWriteAndLocationPermissions;
 import static com.example.foxizz.navigation.demo.Tools.isAirplaneModeOn;
@@ -104,9 +107,15 @@ public class MyRoutePlanSearch {
             //公交路线规划
             case 3:
                 mainActivity.startBusStationLocation = null;//第一站置空
+                mainActivity.schemeList.clear();//清空方案列表
+                mainActivity.schemeAdapter.notifyDataSetChanged();//通知adapter更新
                 mainActivity.mSearch.masstransitSearch((new MassTransitRoutePlanOption())
                         .from(startNode)
                         .to(endNode));
+
+                mainActivity.expandSelectLayout(false);//收起选择布局
+                mainActivity.expandSchemeDrawer(true);//展开方案抽屉
+                mainActivity.expandStartLayout(false);//收起开始导航布局
                 break;
         }
     }
@@ -168,55 +177,55 @@ public class MyRoutePlanSearch {
                     return;
                 }
 
-                /*
-                 * getRouteLines(): 所有规划好的路线
-                 * get(0): 第1条规划好的路线
-                 *
-                 * getNewSteps():
-                 * 起终点为同城时，该list表示一个step中的多个方案scheme（方案1、方案2、方案3...）
-                 * 起终点为跨城时，该list表示一个step中多个子步骤sub_step（如：步行->公交->火车->步行）
-                 *
-                 * get(0): 方案1或第1步
-                 * get(0): 步行到第1站点
-                 * getEndLocation(): 终点站，即步行导航的终点站
-                 *
-                 */
-                mainActivity.startBusStationLocation = massTransitRouteResult
-                        .getRouteLines()
-                        .get(0)
-                        .getNewSteps()
-                        .get(0)
-                        .get(0)
-                        .getEndLocation();
+                for(MassTransitRouteLine massTransitRouteLine: massTransitRouteResult.getRouteLines()) {
+                    SchemeItem schemeItem = new SchemeItem();
+                    schemeItem.setRouteLine(massTransitRouteLine);
 
-                //创建MassTransitRouteOverlay实例
-                MassTransitRouteOverlay overlay = new MassTransitRouteOverlay(mainActivity.mBaiduMap);
-                //清空地图上的所有标记点和绘制的路线
-                mainActivity.mBaiduMap.clear();
-                //构建Marker图标
-                BitmapDescriptor bitmap = BitmapDescriptorFactory
-                        .fromResource(R.drawable.ic_to_location);
-                //构建MarkerOption，用于在地图上添加Marker
-                OverlayOptions option = new MarkerOptions()
-                        .position(mainActivity.startBusStationLocation)
-                        .icon(bitmap);
-                //在地图上添加Marker，并显示
-                mainActivity.mBaiduMap.addOverlay(option);
+                    //获取公交路线信息
+                    StringBuilder simpleInfo = new StringBuilder();
+                    for(List<MassTransitRouteLine.TransitStep> transitSteps: massTransitRouteLine.getNewSteps()) {
+                        for(MassTransitRouteLine.TransitStep transitStep: transitSteps) {
+                            if(transitStep.getVehileType() //巴士
+                                    == MassTransitRouteLine.TransitStep.StepVehicleInfoType.ESTEP_BUS
+                            || transitStep.getVehileType() //长途巴士
+                                    == MassTransitRouteLine.TransitStep.StepVehicleInfoType.ESTEP_COACH ) {
+                                if(transitStep.getBusInfo() != null) {
+                                    simpleInfo.append("—").append(transitStep.getBusInfo().getName());
+                                }
+                            }
+                        }
+                    }
+                    simpleInfo = new StringBuilder(simpleInfo.substring(1));
+                    schemeItem.setSimpleInfo(simpleInfo.toString());
 
-                //获取路线规划数据（以返回的第一条数据为例）
-                //为MassTransitRouteOverlay设置数据
-                overlay.setData(massTransitRouteResult.getRouteLines().get(0));
-                //在地图上绘制Overlay
-                overlay.addToMap();
-                //将路线放在最佳视野位置
-                overlay.zoomToSpan();
+                    //获取详细信息
+                    String detailInfo = "";
 
-                /*
-                } catch (Exception e) {
-                    Toast.makeText(mainActivity, mainActivity.getString(R.string.can_not_get_station_info), Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
+                    try {
+                        String spendTime;
+                        @SuppressLint("SimpleDateFormat")
+                        DateFormat sdf1 = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+                        Date nowTime = sdf1.parse(sdf1.format(new Date()));
+                        @SuppressLint("SimpleDateFormat")
+                        DateFormat sdf2 = new SimpleDateFormat("mm");
+                        Date arriveTime = sdf2.parse(massTransitRouteLine.getArriveTime());
+                        if(arriveTime != null && nowTime != null) {
+                            spendTime = sdf2.format(arriveTime.getTime() - nowTime.getTime());
+                            detailInfo += mainActivity.getString(R.string.spend_time) + spendTime + mainActivity.getString(R.string.minute);
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    if(massTransitRouteLine.getPrice() > 10) {
+                        detailInfo += "\n" + mainActivity.getString(R.string.budget) + (int) massTransitRouteLine.getPrice() + mainActivity.getString(R.string.yuan);
+                    }
+
+                    schemeItem.setDetailInfo(detailInfo);
+
+                    mainActivity.schemeList.add(schemeItem);//添加到列表中
+                    mainActivity.schemeAdapter.notifyDataSetChanged();//通知adapter更新
                 }
-                */
             }
 
             @Override

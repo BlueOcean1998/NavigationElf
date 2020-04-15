@@ -246,7 +246,7 @@ public class MyPoiSearch {
                             }
 
                             if(info.getPrice() != 0) {//获取平均消费
-                                otherInfo += mainActivity.getString(R.string.price) + info.getPrice() + "\n";
+                                otherInfo += mainActivity.getString(R.string.price) + info.getPrice() + "元\n";
                             }
 
                             mainActivity.infoOthers.setText(otherInfo);//设置其它信息

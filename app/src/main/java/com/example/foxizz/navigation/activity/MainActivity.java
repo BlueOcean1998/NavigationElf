@@ -534,18 +534,6 @@ public class MainActivity extends AppCompatActivity {
                 routePlanSelect = TRANSIT;
 
                 myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
-
-                expandSelectLayout(false);//收起选择布局
-                expandSchemeDrawer(true);//展开方案抽屉
-                expandStartLayout(false);//收起开始导航布局
-
-                for(int i = 0; i < 10; i++){
-                    SchemeItem schemeItem = new SchemeItem();
-                    schemeItem.setSimpleInfo("123");
-                    schemeItem.setDetailInfo("456\n789\n123\n456\n789");
-                    schemeList.add(schemeItem);
-                    schemeAdapter.notifyDataSetChanged();
-                }
             }
         });
 
@@ -604,11 +592,8 @@ public class MainActivity extends AppCompatActivity {
 
                 } else {//如果不是
                     isHistorySearchResult = true;//现在是搜索历史记录了
-
                     searchEdit.setText("");//清空搜索输出框
-
                     searchResult.stopScroll();//停止信息列表滑动
-
                     dbHelper.initSearchData();//初始化搜索记录
                 }
             }
