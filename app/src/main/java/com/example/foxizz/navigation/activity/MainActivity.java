@@ -48,6 +48,8 @@ import com.baidu.mapapi.search.poi.PoiCitySearchOption;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.example.foxizz.navigation.R;
+import com.example.foxizz.navigation.scheme_data.SchemeAdapter;
+import com.example.foxizz.navigation.scheme_data.SchemeItem;
 import com.example.foxizz.navigation.searchdata.SearchAdapter;
 import com.example.foxizz.navigation.database.DatabaseHelper;
 import com.example.foxizz.navigation.searchdata.SearchItem;
@@ -117,11 +119,11 @@ public class MainActivity extends AppCompatActivity {
     public int bodyLength;//屏幕的长
     public int bodyShort;//屏幕的宽
 
-    public LinearLayout searchDrawer;//搜索结果抽屉
-    public RecyclerView searchResult;//搜索结果列表
-    public List<SearchItem> searchList = new ArrayList<>();
-    public StaggeredGridLayoutManager layoutManager;
-    public SearchAdapter searchAdapter;//列表适配器
+    public LinearLayout searchDrawer;//搜索抽屉
+    public RecyclerView searchResult;//搜索结果
+    public List<SearchItem> searchList = new ArrayList<>();//搜索列表
+    public StaggeredGridLayoutManager searchLayoutManager;//搜索布局管理器
+    public SearchAdapter searchAdapter;//搜索适配器
 
     public LinearLayout infoLayout;//详细信息布局
     public ScrollView infoScroll;//详细信息布局的拖动条
@@ -153,6 +155,13 @@ public class MainActivity extends AppCompatActivity {
 
     public LatLng startBusStationLocation;//公交导航第一站的坐标
     public LatLng endLocation;//终点
+
+    public LinearLayout schemeDrawer;//方案抽屉
+    public ImageButton schemeReturnButton;//返回按钮
+    public RecyclerView schemeResult;//方案结果
+    public List<SchemeItem> schemeList = new ArrayList<>();//方案列表
+    public StaggeredGridLayoutManager schemeLayoutManager;//方案布局管理器
+    public SchemeAdapter schemeAdapter;//方案适配器
 
     //导航相关
     public MyNavigateHelper myNavigateHelper;
@@ -189,6 +198,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void expandInfoLayout(boolean flag) {//伸缩详细信息布局
         expandLayout(this, infoLayout, flag);
+    }
+
+    public void expandSchemeDrawer(boolean flag) {//伸缩方案布局
+        expandLayout(this, schemeDrawer, flag);
     }
 
     public void expandStartLayout(boolean flag) {//伸缩开始导航布局
@@ -386,6 +399,10 @@ public class MainActivity extends AppCompatActivity {
         infoDistance = findViewById(R.id.info_distance);
         infoOthers = findViewById(R.id.info_others);
 
+        schemeDrawer = findViewById(R.id.scheme_drawer);
+        schemeReturnButton = findViewById(R.id.scheme_return_button);
+        schemeResult = findViewById(R.id.scheme_result);
+
         startLayout = findViewById(R.id.start_layout);
         returnButton = findViewById(R.id.return_button);
         infoButton = findViewById(R.id.info_button);
@@ -407,20 +424,27 @@ public class MainActivity extends AppCompatActivity {
             bodyShort = point.x;
         }
 
-        //设置搜索抽屉的结果列表、详细信息布局的拖动布局的高度
+        //设置搜索抽屉的结果列表、详细信息布局的拖动布局、路线方案抽屉的结果列表的高度
         searchResult.getLayoutParams().height = bodyLength / 2;
         infoScroll.getLayoutParams().height = bodyLength / 3;
+        schemeResult.getLayoutParams().height = bodyLength / 2;
 
-        //设置选项布局、搜索结果抽屉、详细信息、开始导航初始高度为0
+        //设置选项布局、搜索结果抽屉、详细信息、路线方案抽屉、开始导航初始高度为0
         selectLayout.getLayoutParams().height = 0;
         searchDrawer.getLayoutParams().height = 0;
         infoLayout.getLayoutParams().height = 0;
+        schemeDrawer.getLayoutParams().height = 0;
         startLayout.getLayoutParams().height = 0;
 
-        searchAdapter = new SearchAdapter(this, searchList);//初始化适配器
-        layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);//布局行数为1
-        searchResult.setAdapter(searchAdapter);//设置适配器
-        searchResult.setLayoutManager(layoutManager);//设置布局
+        searchAdapter = new SearchAdapter(this);//初始化搜索适配器
+        searchLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);//搜索布局行数为1
+        searchResult.setAdapter(searchAdapter);//设置搜索适配器
+        searchResult.setLayoutManager(searchLayoutManager);//设置搜索布局
+
+        schemeAdapter = new SchemeAdapter(this);//初始化方案适配器
+        schemeLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);//方案布局行数为1
+        schemeResult.setAdapter(schemeAdapter);//设置方案适配器
+        schemeResult.setLayoutManager(schemeLayoutManager);//设置方案布局
 
         //设置按钮的点击事件
         settings.setOnClickListener(new View.OnClickListener() {
@@ -510,6 +534,27 @@ public class MainActivity extends AppCompatActivity {
                 routePlanSelect = TRANSIT;
 
                 myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
+
+                expandSelectLayout(false);//收起选择布局
+                expandSchemeDrawer(true);//展开方案抽屉
+                expandStartLayout(false);//收起开始导航布局
+
+                for(int i = 0; i < 10; i++){
+                    SchemeItem schemeItem = new SchemeItem();
+                    schemeItem.setSimpleInfo("123");
+                    schemeItem.setDetailInfo("456\n789\n123\n456\n789");
+                    schemeList.add(schemeItem);
+                    schemeAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+        schemeReturnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expandSelectLayout(true);//展开选择布局
+                expandSchemeDrawer(false);//收起方案抽屉
+                expandStartLayout(true);//展开开始导航布局
             }
         });
 

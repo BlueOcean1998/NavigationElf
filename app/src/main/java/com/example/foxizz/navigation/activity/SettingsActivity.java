@@ -198,8 +198,7 @@ public class SettingsActivity extends AppCompatActivity {
                 //获取输入框内的城市信息
                 textCity = destinationCityEditText.getText().toString();
 
-                if(!textCity.isEmpty() //获取到的信息不为空
-                        && !textCity.equals(databaseCity)) {//不等于数据库中的城市名
+                if(!textCity.equals(databaseCity)) {//不等于数据库中的城市名
                     destinationCityConfirm.setVisibility(View.VISIBLE);//显示确定按钮
                     destinationCityCancel.setVisibility(View.VISIBLE);//显示取消按钮
                 } else {

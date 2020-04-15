@@ -28,6 +28,9 @@
     <string name="others">其它信息</string>
     <string name="no_more">没有更多了</string>
 
+    <string name="simple_info">简要信息</string>
+    <string name="detail_info">详细信息</string>
+
     <string name="item_button">路线</string>
     <string name="return_button">返回</string>
     <string name="info_button1">路线</string>

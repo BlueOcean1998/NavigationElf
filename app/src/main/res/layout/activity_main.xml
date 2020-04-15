@@ -28,7 +28,7 @@
             android:layout_margin="6dp"
             android:layout_gravity="center"
             android:background="@drawable/button_background_alpha"
-            android:src="@drawable/ic_settings_black_24dp"
+            android:src="@drawable/ic_settings_black_30dp"
             android:contentDescription="@string/settings" />
 
         <ImageButton
@@ -38,7 +38,7 @@
             android:layout_margin="6dp"
             android:layout_gravity="center"
             android:background="@drawable/button_background_alpha"
-            android:src="@drawable/ic_refresh_black_24dp"
+            android:src="@drawable/ic_refresh_black_30dp"
             android:contentDescription="@string/refresh" />
 
         <ImageButton
@@ -48,7 +48,7 @@
             android:layout_margin="6dp"
             android:layout_gravity="center"
             android:background="@drawable/button_background_alpha"
-            android:src="@drawable/ic_my_location_black_24dp"
+            android:src="@drawable/ic_my_location_black_30dp"
             android:contentDescription="@string/location" />
     </LinearLayout>
 
@@ -176,7 +176,7 @@
                 android:layout_marginRight="6dp"
                 android:layout_gravity="center"
                 android:background="@null"
-                android:src="@drawable/ic_expand_less_black_24dp"
+                android:src="@drawable/ic_expand_less_black_30dp"
                 android:contentDescription="@string/expand"
                 tools:ignore="RtlHardcoded" />
         </LinearLayout>
@@ -184,7 +184,7 @@
         <LinearLayout
             android:id="@+id/search_drawer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:padding="6dp"
             android:background="@drawable/layout_background_white">
             <androidx.recyclerview.widget.RecyclerView
@@ -262,6 +262,28 @@
                         android:textSize="16sp" />
                 </LinearLayout>
             </ScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/scheme_drawer"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:background="@drawable/layout_background_white">
+            <ImageButton
+                android:id="@+id/scheme_return_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:src="@drawable/ic_expand_more_black_30dp"
+                android:contentDescription="@string/expand" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/scheme_result"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </LinearLayout>
 
         <LinearLayout

@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.baidu.mapapi.map.BitmapDescriptor;
@@ -41,13 +42,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     private MainActivity mainActivity;
 
     //构造器
-    public SearchAdapter(MainActivity mainActivity, List<SearchItem> searchItemList) {
+    public SearchAdapter(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
     }
 
     //设置item中的View
     static class ViewHolder extends RecyclerView.ViewHolder {
-        View cardView;
+        View view;
+        CardView cardView;
         TextView targetName;
         TextView address;
         TextView distance;
@@ -56,7 +58,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
         ViewHolder(View view) {
             super(view);
-            cardView = view;
+            cardView = view.findViewById(R.id.card_view);
             targetName = view.findViewById(R.id.target_name);
             address = view.findViewById(R.id.address);
             distance = view.findViewById(R.id.distance);
@@ -75,10 +77,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        SearchItem dataItem = mainActivity.searchList.get(position);
-        holder.targetName.setText(dataItem.getTargetName());
-        holder.address.setText(dataItem.getAddress());
-        holder.distance.setText(dataItem.getDistance() + "km");
+        SearchItem searchItem = mainActivity.searchList.get(position);
+        holder.targetName.setText(searchItem.getTargetName());
+        holder.address.setText(searchItem.getAddress());
+        holder.distance.setText(searchItem.getDistance() + "km");
 
         //底部显示提示信息
         if(position == mainActivity.searchList.size() - 1)
@@ -216,7 +218,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         return holder;
     }
 
-    //cardView和itemButton1共同的点击事件
+    //cardView和itemButton共同的点击事件
     @SuppressLint("SetTextI18n")
     private void click(ViewHolder holder) {
         //获取点击的item

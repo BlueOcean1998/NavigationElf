@@ -67,7 +67,10 @@
             android:name=".activity.SettingsActivity"
             android:label="设置"
             android:parentActivityName=".activity.MainActivity"
-            android:configChanges="orientation">
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation"
+            tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.foxizz.navigation.activity.MainActivity" />
