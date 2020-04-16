@@ -1,8 +1,7 @@
-package com.example.foxizz.navigation.scheme_data;
+package com.example.foxizz.navigation.schemedata;
 
 import androidx.annotation.NonNull;
 
-import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.route.MassTransitRouteLine;
 
 /**

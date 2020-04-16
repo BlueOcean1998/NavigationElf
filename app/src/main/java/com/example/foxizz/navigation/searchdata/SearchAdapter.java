@@ -27,9 +27,6 @@ import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.util.MyPoiSearch;
-import com.example.foxizz.navigation.util.MyRoutePlanSearch;
-
-import java.util.List;
 
 import static com.example.foxizz.navigation.demo.Tools.isAirplaneModeOn;
 import static com.example.foxizz.navigation.demo.Tools.isNetworkConnected;
@@ -110,7 +107,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
                         mainActivity.infoButton.setText(R.string.info_button1);//设置按钮为路线
                         mainActivity.expandInfoLayout(true);//展开详细信息布局
-                        mainActivity.infoFlag = true;//设置信息状态为展开
+                        mainActivity.infoFlag = true;//设置信息状态为详细信息
 
                         //获取点击的item
                         int position = holder.getAdapterPosition();
@@ -154,10 +151,16 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
                         mainActivity.infoButton.setText(R.string.info_button2);//设置按钮为详细信息
                         mainActivity.expandSelectLayout(true);//展开选择布局
-                        mainActivity.infoFlag = false;//设置信息状态为收起
+                        mainActivity.infoFlag = false;//设置信息状态为交通选择
 
-                        MyRoutePlanSearch myRoutePlanSearch = new MyRoutePlanSearch(mainActivity);
-                        myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
+                        //重置交通类型为步行
+                        mainActivity.routePlanSelect = MainActivity.WALKING;
+                        mainActivity.selectButton1.setBackgroundResource(R.drawable.button_background_gray);
+                        mainActivity.selectButton2.setBackgroundResource(R.drawable.button_background_black);
+                        mainActivity.selectButton3.setBackgroundResource(R.drawable.button_background_gray);
+                        mainActivity.selectButton4.setBackgroundResource(R.drawable.button_background_gray);
+
+                        mainActivity.myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
                     }
                 } else {
                     Toast.makeText(mainActivity, mainActivity.getString(R.string.network_error), Toast.LENGTH_SHORT).show();

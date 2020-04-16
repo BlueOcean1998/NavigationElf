@@ -22,6 +22,7 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
@@ -48,8 +49,8 @@ import com.baidu.mapapi.search.poi.PoiCitySearchOption;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.example.foxizz.navigation.R;
-import com.example.foxizz.navigation.scheme_data.SchemeAdapter;
-import com.example.foxizz.navigation.scheme_data.SchemeItem;
+import com.example.foxizz.navigation.schemedata.SchemeAdapter;
+import com.example.foxizz.navigation.schemedata.SchemeItem;
 import com.example.foxizz.navigation.searchdata.SearchAdapter;
 import com.example.foxizz.navigation.database.DatabaseHelper;
 import com.example.foxizz.navigation.searchdata.SearchItem;
@@ -71,7 +72,7 @@ import static com.example.foxizz.navigation.demo.Tools.rotateExpandIcon;
 /**
  * app_name: Navigation
  * author: Foxizz
- * time: 2020-04-13
+ * time: 2020-04-16
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -156,12 +157,21 @@ public class MainActivity extends AppCompatActivity {
     public LatLng startBusStationLocation;//公交导航第一站的坐标
     public LatLng endLocation;//终点
 
-    public LinearLayout schemeDrawer;//方案抽屉
+    public LinearLayout schemeLayout;//方案布局
     public ImageButton schemeReturnButton;//返回按钮
+    public LinearLayout schemeDrawer;//方案抽屉
     public RecyclerView schemeResult;//方案结果
+    public LinearLayout schemeInfoDrawer;//方案信息抽屉
+    public ScrollView schemeInfoScroll;//方案信息的拖动条
+    public TextView schemeInfo;//方案信息
+
+    //方案信息的展开状态，0：未展开，1：只有列表展开，2：只有单个信息展开
+    public int schemeInfoFlag = 0;
+
     public List<SchemeItem> schemeList = new ArrayList<>();//方案列表
     public StaggeredGridLayoutManager schemeLayoutManager;//方案布局管理器
     public SchemeAdapter schemeAdapter;//方案适配器
+
 
     //导航相关
     public MyNavigateHelper myNavigateHelper;
@@ -200,8 +210,16 @@ public class MainActivity extends AppCompatActivity {
         expandLayout(this, infoLayout, flag);
     }
 
-    public void expandSchemeDrawer(boolean flag) {//伸缩方案布局
+    public void expandSchemeLayout(boolean flag) {//伸缩方案布局
+        expandLayout(this, schemeLayout, flag);
+    }
+
+    public void expandSchemeDrawer(boolean flag) {//伸缩方案抽屉
         expandLayout(this, schemeDrawer, flag);
+    }
+
+    public void expandSchemeInfoDrawer(boolean flag) {//伸缩方案信息抽屉
+        expandLayout(this, schemeInfoDrawer, flag);
     }
 
     public void expandStartLayout(boolean flag) {//伸缩开始导航布局
@@ -399,9 +417,13 @@ public class MainActivity extends AppCompatActivity {
         infoDistance = findViewById(R.id.info_distance);
         infoOthers = findViewById(R.id.info_others);
 
-        schemeDrawer = findViewById(R.id.scheme_drawer);
+        schemeLayout = findViewById(R.id.scheme_layout);
         schemeReturnButton = findViewById(R.id.scheme_return_button);
+        schemeDrawer = findViewById(R.id.scheme_drawer);
         schemeResult = findViewById(R.id.scheme_result);
+        schemeInfoDrawer = findViewById(R.id.scheme_info_drawer);
+        schemeInfoScroll = findViewById(R.id.scheme_info_scroll);
+        schemeInfo = findViewById(R.id.scheme_info);
 
         startLayout = findViewById(R.id.start_layout);
         returnButton = findViewById(R.id.return_button);
@@ -424,16 +446,19 @@ public class MainActivity extends AppCompatActivity {
             bodyShort = point.x;
         }
 
-        //设置搜索抽屉的结果列表、详细信息布局的拖动布局、路线方案抽屉的结果列表的高度
+        //设置搜索抽屉的结果列表、详细信息布局的拖动布局、路线方案抽屉的结果列表、路线方案信息的拖动布局的高度
         searchResult.getLayoutParams().height = bodyLength / 2;
         infoScroll.getLayoutParams().height = bodyLength / 3;
         schemeResult.getLayoutParams().height = bodyLength / 2;
+        schemeInfoScroll.getLayoutParams().height = bodyLength / 6;
 
-        //设置选项布局、搜索结果抽屉、详细信息、路线方案抽屉、开始导航初始高度为0
+        //设置选项布局、搜索结果抽屉、详细信息、路线方案布局、方案抽屉、方案信息抽屉、开始导航布局初始高度为0
         selectLayout.getLayoutParams().height = 0;
         searchDrawer.getLayoutParams().height = 0;
         infoLayout.getLayoutParams().height = 0;
+        schemeLayout.getLayoutParams().height = 0;
         schemeDrawer.getLayoutParams().height = 0;
+        schemeInfoDrawer.getLayoutParams().height = 0;
         startLayout.getLayoutParams().height = 0;
 
         searchAdapter = new SearchAdapter(this);//初始化搜索适配器
@@ -537,12 +562,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //从方案列表返回按钮的点击事件
         schemeReturnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //收回所有展开的item
+                for(int i = 0; i < schemeList.size(); i++) {//遍历所有item
+                    if(schemeList.get(i).getExpandFlag()) {//如果是展开状态
+                        //用layoutManager找到相应的item
+                        View view = schemeLayoutManager.findViewByPosition(i);
+                        if(view != null) {
+                            LinearLayout infoDrawer = view.findViewById(R.id.info_drawer);
+                            ImageButton schemeExpand = view.findViewById(R.id.scheme_expand);
+                            expandLayout(MainActivity.this, infoDrawer, false);
+                            rotateExpandIcon(schemeExpand, 180, 0);//旋转伸展按钮
+                            schemeList.get(i).setExpandFlag(false);
+                            schemeAdapter.notifyDataSetChanged();//通知adapter更新
+                        }
+                    }
+                }
+
                 expandSelectLayout(true);//展开选择布局
-                expandSchemeDrawer(false);//收起方案抽屉
+                expandSchemeLayout(false);//收起方案抽屉
                 expandStartLayout(true);//展开开始导航布局
+                infoFlag = false;//设置信息状态为交通选择
+                schemeInfoFlag = 0;//设置状态为不显示
             }
         });
 
@@ -638,9 +682,9 @@ public class MainActivity extends AppCompatActivity {
                 // 定位成功后才可以进行搜索
                 if(mCity != null) searchCity = mCity;
 
-                //如果数据库中的城市不是默认值，则换用数据库中的城市
+                //如果数据库中的城市不为空，则换用数据库中的城市
                 String databaseCity = dbHelper.getSettings("destination_city");
-                if(!databaseCity.equals(getString(R.string.location_city))) searchCity = databaseCity;
+                if(!TextUtils.isEmpty(databaseCity)) searchCity = databaseCity;
 
                 searchResult.stopScroll();//停止信息列表滑动
 
@@ -687,6 +731,11 @@ public class MainActivity extends AppCompatActivity {
                 }
                 expandInfoLayout(false);//收起详细信息布局
                 expandStartLayout(false);//收起开始导航布局
+
+                if(schemeInfoFlag != 0) {//如果方案布局已经展开
+                    expandSchemeLayout(false);//收起方案布局
+                    schemeInfoFlag = 0;//设置状态为不显示
+                }
             }
         });
 
@@ -695,18 +744,35 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
-                if(infoFlag) {//如果状态为展开
+                if(schemeInfoFlag != 0) {//如果方案布局已经展开
+                    expandSelectLayout(true);//展开选择布局
+                    infoButton.setText(R.string.info_button2);//设置按钮为详细信息
+                    infoFlag = false;//设置信息状态为交通选择
+
+                    expandSchemeLayout(false);//收起方案布局
+                    schemeInfoFlag = 0;//设置状态为不显示
+                    return;
+                }
+
+                if(infoFlag) {//如果显示为详细信息
                     infoButton.setText(R.string.info_button2);//设置按钮为详细信息
                     expandSelectLayout(true);//展开选择布局
                     expandInfoLayout(false);//收起详细信息布局
-                    infoFlag = false;//设置信息状态为收起
+                    infoFlag = false;//设置信息状态交通选择
+
+                    //重置交通类型为步行
+                    routePlanSelect = MainActivity.WALKING;
+                    selectButton1.setBackgroundResource(R.drawable.button_background_gray);
+                    selectButton2.setBackgroundResource(R.drawable.button_background_black);
+                    selectButton3.setBackgroundResource(R.drawable.button_background_gray);
+                    selectButton4.setBackgroundResource(R.drawable.button_background_gray);
 
                     myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
-                } else {//如果状态为收起
+                } else {//如果显示为交通选择
                     infoButton.setText(R.string.info_button1);//设置按钮为路线
                     expandSelectLayout(false);//收起选择布局
                     expandInfoLayout(true);//展开详细信息布局
-                    infoFlag = true;//设置信息状态为展开
+                    infoFlag = true;//设置信息状态为详细信息
                 }
             }
         });

@@ -55,7 +55,7 @@
         <!-- 主活动旋转屏幕不重置，没有标题栏 -->
         <activity
             android:name=".activity.MainActivity"
-            android:configChanges="orientation">
+            android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -69,7 +69,6 @@
             android:parentActivityName=".activity.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:configChanges="orientation"
             tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -79,12 +78,12 @@
         <!-- 步行导航 -->
         <activity
             android:name=".activity.WNaviGuideActivity"
-            android:configChanges="orientation" />
+            android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <!-- 骑行导航 -->
         <activity
             android:name=".activity.BNaviGuideActivity"
-            android:configChanges="orientation" />
+            android:configChanges="keyboardHidden|orientation|screenSize" />
     </application>
 
 </manifest>

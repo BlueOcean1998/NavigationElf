@@ -4,14 +4,13 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -38,6 +37,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     //设置目的地所在城市
     private String mCity;//所在城市
+    private String databaseCity;//数据库中的城市
     private String textCity;//输入框内输入的城市
     private Button destinationCityButton;//回到所在城市
     private EditText destinationCityEditText;//目标城市
@@ -164,8 +164,8 @@ public class SettingsActivity extends AppCompatActivity {
         mCity = intent.getStringExtra("mCity");
 
         //设置城市信息
-        final String databaseCity = dbHelper.getSettings("destination_city");
-        if(!databaseCity.equals(getString(R.string.location_city)))//如果等于默认值
+        databaseCity = dbHelper.getSettings("destination_city");
+        if(!TextUtils.isEmpty(databaseCity))//如果数据库中的城市信息不为空
             destinationCityEditText.setText(databaseCity);//设置城市信息
 
         //设置提示信息为所在城市
@@ -175,9 +175,11 @@ public class SettingsActivity extends AppCompatActivity {
         destinationCityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                destinationCityEditText.setText("");//清空
-                //恢复数据库
-                dbHelper.modifySettings("destination_city", getString(R.string.location_city));
+                //置空数据库中的城市信息
+                dbHelper.modifySettings("destination_city", "");
+                databaseCity = "";
+
+                destinationCityEditText.setText("");//清空输入框
             }
         });
 
@@ -216,8 +218,8 @@ public class SettingsActivity extends AppCompatActivity {
                 destinationCityCancel.setVisibility(View.GONE);//隐藏取消按钮
 
                 if(textCity.isEmpty())//若输入的城市信息为空
-                    //恢复数据库中的城市数据到默认值
-                    dbHelper.modifySettings("destination_city", getString(R.string.location_city));
+                    //置空数据库中的城市信息
+                    dbHelper.modifySettings("destination_city", null);
                 //将城市信息录入数据库
                 else dbHelper.modifySettings("destination_city", textCity);
             }
@@ -230,8 +232,8 @@ public class SettingsActivity extends AppCompatActivity {
                 destinationCityConfirm.setVisibility(View.GONE);//隐藏确定按钮
                 destinationCityCancel.setVisibility(View.GONE);//隐藏取消按钮
 
-                if(databaseCity.equals(getString(R.string.location_city)))//如果等于默认值
-                    destinationCityEditText.setText("");//清空
+                if(TextUtils.isEmpty(databaseCity))//如果数据库中的城市信息为空
+                    destinationCityEditText.setText("");//清空输入框
                 else {
                     destinationCityEditText.setText(databaseCity);//恢复城市数据
                     destinationCityEditText.setSelection(databaseCity.length());//移动焦点到末尾

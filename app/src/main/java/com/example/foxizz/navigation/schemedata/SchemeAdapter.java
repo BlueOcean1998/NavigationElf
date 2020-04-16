@@ -1,4 +1,4 @@
-package com.example.foxizz.navigation.scheme_data;
+package com.example.foxizz.navigation.schemedata;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -19,8 +20,6 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.overlayutil.MassTransitRouteOverlay;
-
-import java.util.List;
 
 import static com.example.foxizz.navigation.demo.Tools.expandLayout;
 import static com.example.foxizz.navigation.demo.Tools.rotateExpandIcon;
@@ -100,14 +99,21 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
 
         //cardView的点击事件
         holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View view) {
                 int position = holder.getAdapterPosition();
                 SchemeItem schemeItem = mainActivity.schemeList.get(position);
 
-                mainActivity.expandSelectLayout(true);//展开选择布局
                 mainActivity.expandSchemeDrawer(false);//收起方案抽屉
+                mainActivity.expandSchemeInfoDrawer(true);//展开方案信息抽屉
+                mainActivity.schemeInfoFlag = 2;//现在只有一个方案了
                 mainActivity.expandStartLayout(true);//展开开始导航布局
+                mainActivity.infoButton.setText(R.string.info_button3);//设置按钮为交通选择
+
+
+                //设置方案信息
+                mainActivity.schemeInfo.setText(schemeItem.getSimpleInfo() + "\n" + schemeItem.getDetailInfo());
 
                 /*
                  * getRouteLines(): 所有规划好的路线
@@ -143,13 +149,17 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
                 //在地图上添加Marker，并显示
                 mainActivity.mBaiduMap.addOverlay(option);
 
-                //获取路线规划数据（以返回的第一条数据为例）
-                //为MassTransitRouteOverlay设置数据
-                overlay.setData(schemeItem.getRouteLine());
-                //在地图上绘制Overlay
-                overlay.addToMap();
-                //将路线放在最佳视野位置
-                overlay.zoomToSpan();
+                try {
+                    //获取路线规划数据
+                    //为MassTransitRouteOverlay设置数据
+                    overlay.setData(schemeItem.getRouteLine());
+                    //在地图上绘制Overlay
+                    overlay.addToMap();
+                    //将路线放在最佳视野位置
+                    overlay.zoomToSpan();
+                } catch (Exception ignored) {
+                    Toast.makeText(mainActivity, mainActivity.getString(R.string.draw_route_fail), Toast.LENGTH_SHORT).show();
+                }
 
                 /*
                 } catch (Exception e) {

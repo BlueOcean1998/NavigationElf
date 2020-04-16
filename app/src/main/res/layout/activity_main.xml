@@ -265,7 +265,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/scheme_drawer"
+            android:id="@+id/scheme_layout"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -276,14 +276,43 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@null"
+                android:background="@drawable/button_background_skyblue"
                 android:src="@drawable/ic_expand_more_black_30dp"
                 android:contentDescription="@string/expand" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/scheme_result"
+            <LinearLayout
+                android:id="@+id/scheme_drawer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/scheme_result"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/scheme_info_drawer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ScrollView
+                    android:id="@+id/scheme_info_scroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:ignore="UselessParent">
+                    <TextView
+                        android:id="@+id/scheme_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="6dp"
+                        android:enabled="true"
+                        android:focusable="true"
+                        android:longClickable="true"
+                        android:text="@string/scheme_info"
+                        android:textColor="@color/black"
+                        android:textIsSelectable="true"
+                        android:textSize="16sp" />
+                </ScrollView>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout

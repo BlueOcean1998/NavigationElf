@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Navigation</string>
+    <string name="app_name">导航小精灵</string>
 
     <string name="settings">设置</string>
     <string name="refresh">刷新</string>
@@ -28,6 +28,7 @@
     <string name="others">其它信息</string>
     <string name="no_more">没有更多了</string>
 
+    <string name="scheme_info">方案信息</string>
     <string name="simple_info">简要信息</string>
     <string name="detail_info">详细信息</string>
     <string name="spend_time">预计步行总耗时：</string>
@@ -39,6 +40,7 @@
     <string name="return_button">返回</string>
     <string name="info_button1">路线</string>
     <string name="info_button2">详细信息</string>
+    <string name="info_button3">交通选择</string>
     <string name="start_button">导航</string>
     <string name="end_button">结束导航</string>
 
@@ -61,7 +63,7 @@
     <string name="suggest_not_to_walk">路程太远，不建议步行</string>
     <string name="suggest_not_to_bike">路程太远，不建议骑行</string>
     <string name="suggest_to_walk">路程太短，建议步行</string>
-    <string name="can_not_get_station_info">无法获取站点信息</string>
+    <string name="draw_route_fail">绘制路线失败</string>
     <string name="end_location_is_null">终点信息为空</string>
     <string name="wait_for_route_plan_result">请等待路线规划结果</string>
     <string name="walk_navigate_init_fail">步行导航初始化失败</string>

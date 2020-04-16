@@ -27,7 +27,7 @@ import com.example.foxizz.navigation.overlayutil.DrivingRouteOverlay;
 import com.example.foxizz.navigation.overlayutil.IndoorRouteOverlay;
 import com.example.foxizz.navigation.overlayutil.TransitRouteOverlay;
 import com.example.foxizz.navigation.overlayutil.WalkingRouteOverlay;
-import com.example.foxizz.navigation.scheme_data.SchemeItem;
+import com.example.foxizz.navigation.schemedata.SchemeItem;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -106,15 +106,20 @@ public class MyRoutePlanSearch {
 
             //公交路线规划
             case 3:
-                mainActivity.startBusStationLocation = null;//第一站置空
                 mainActivity.schemeList.clear();//清空方案列表
                 mainActivity.schemeAdapter.notifyDataSetChanged();//通知adapter更新
+
+                mainActivity.startBusStationLocation = null;//第一站置空
                 mainActivity.mSearch.masstransitSearch((new MassTransitRoutePlanOption())
                         .from(startNode)
                         .to(endNode));
 
                 mainActivity.expandSelectLayout(false);//收起选择布局
+
+                mainActivity.schemeInfoDrawer.getLayoutParams().height = 0;//设置方案信息抽屉的高度为0
+                mainActivity.expandSchemeLayout(true);//展开方案布局
                 mainActivity.expandSchemeDrawer(true);//展开方案抽屉
+                mainActivity.schemeInfoFlag = 1;//现在是方案信息列表
                 mainActivity.expandStartLayout(false);//收起开始导航布局
                 break;
         }
@@ -177,20 +182,27 @@ public class MyRoutePlanSearch {
                     return;
                 }
 
+                //所有的路线
                 for(MassTransitRouteLine massTransitRouteLine: massTransitRouteResult.getRouteLines()) {
                     SchemeItem schemeItem = new SchemeItem();
                     schemeItem.setRouteLine(massTransitRouteLine);
 
                     //获取公交路线信息
                     StringBuilder simpleInfo = new StringBuilder();
+                    //每条路线的所有段
                     for(List<MassTransitRouteLine.TransitStep> transitSteps: massTransitRouteLine.getNewSteps()) {
+                        //每一段的所有信息
                         for(MassTransitRouteLine.TransitStep transitStep: transitSteps) {
+                            //只收集巴士和长途巴士的信息
                             if(transitStep.getVehileType() //巴士
                                     == MassTransitRouteLine.TransitStep.StepVehicleInfoType.ESTEP_BUS
                             || transitStep.getVehileType() //长途巴士
                                     == MassTransitRouteLine.TransitStep.StepVehicleInfoType.ESTEP_COACH ) {
                                 if(transitStep.getBusInfo() != null) {
                                     simpleInfo.append("—").append(transitStep.getBusInfo().getName());
+                                }
+                                if(transitStep.getCoachInfo() != null) {
+                                    simpleInfo.append("—").append(transitStep.getCoachInfo().getName());
                                 }
                             }
                         }

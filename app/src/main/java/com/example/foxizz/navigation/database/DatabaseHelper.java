@@ -32,7 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + "destination_city text)";//目的地城市
 
     private static final String INIT_SETTINGS = "insert into Settings "
-            + "(map_type, destination_city) values('0', '所在城市')";
+            + "(map_type, destination_city) values('0', '')";
 
     private static final String CREATE_SEARCH = "create table SearchData ("
             + "uid text primary key, "//uid
