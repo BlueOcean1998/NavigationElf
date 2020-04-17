@@ -9,12 +9,14 @@ import com.baidu.mapapi.search.route.MassTransitRouteLine;
  */
 public class SchemeItem {
     private MassTransitRouteLine routeLine;//路线
+    private String allStationInfo;//所有站点信息
     private String simpleInfo;//简要信息
     private String detailInfo;//详细信息
     private Boolean expandFlag;//伸展状态
 
-    public SchemeItem(MassTransitRouteLine routeLine, String simpleInfo, String detailInfo) {
+    public SchemeItem(MassTransitRouteLine routeLine, String allStationInfo,String simpleInfo, String detailInfo) {
         this.routeLine = routeLine;
+        this.allStationInfo = allStationInfo;
         this.simpleInfo = simpleInfo;
         this.detailInfo = detailInfo;
         expandFlag = false;
@@ -29,6 +31,13 @@ public class SchemeItem {
     }
     public void setRouteLine(MassTransitRouteLine routeLine) {
         this.routeLine = routeLine;
+    }
+
+    public String getAllStationInfo() {
+        return allStationInfo;
+    }
+    public void setAllStationInfo(String allStationInfo) {
+        this.allStationInfo = allStationInfo;
     }
 
     public String getSimpleInfo() {
@@ -57,6 +66,7 @@ public class SchemeItem {
     public String toString() {
         return "SchemeItem{" +
                 "路线:'" + routeLine +
+                ", 所有站点信息:'" + allStationInfo + '\'' +
                 ", 简要信息:'" + simpleInfo + '\'' +
                 ", 详细信息:'" + detailInfo + '\'' +
                 ", 伸展状态:'" + expandFlag + '\'' +

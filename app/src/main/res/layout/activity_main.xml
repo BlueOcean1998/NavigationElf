@@ -57,7 +57,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@null"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        android:clickable="true"
+        android:focusable="true">
         <LinearLayout
             android:id="@+id/select_layout"
             android:orientation="horizontal"
@@ -283,7 +285,7 @@
             <LinearLayout
                 android:id="@+id/scheme_drawer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="0dp">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/scheme_result"
                     android:layout_width="match_parent"

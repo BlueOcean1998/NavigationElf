@@ -108,12 +108,13 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
                 mainActivity.expandSchemeDrawer(false);//收起方案抽屉
                 mainActivity.expandSchemeInfoDrawer(true);//展开方案信息抽屉
                 mainActivity.schemeInfoFlag = 2;//现在只有一个方案了
-                mainActivity.expandStartLayout(true);//展开开始导航布局
                 mainActivity.infoButton.setText(R.string.info_button3);//设置按钮为交通选择
+                mainActivity.expandStartLayout(true);//展开开始导航布局
 
 
                 //设置方案信息
-                mainActivity.schemeInfo.setText(schemeItem.getSimpleInfo() + "\n" + schemeItem.getDetailInfo());
+                mainActivity.schemeInfo.setText(schemeItem.getAllStationInfo()
+                        + "\n" + schemeItem.getDetailInfo() + "\n");
 
                 /*
                  * getRouteLines(): 所有规划好的路线

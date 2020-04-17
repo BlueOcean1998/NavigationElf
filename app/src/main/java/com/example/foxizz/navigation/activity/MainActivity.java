@@ -450,7 +450,7 @@ public class MainActivity extends AppCompatActivity {
         searchResult.getLayoutParams().height = bodyLength / 2;
         infoScroll.getLayoutParams().height = bodyLength / 3;
         schemeResult.getLayoutParams().height = bodyLength / 2;
-        schemeInfoScroll.getLayoutParams().height = bodyLength / 6;
+        schemeInfoScroll.getLayoutParams().height = bodyLength / 4;
 
         //设置选项布局、搜索结果抽屉、详细信息、路线方案布局、方案抽屉、方案信息抽屉、开始导航布局初始高度为0
         selectLayout.getLayoutParams().height = 0;

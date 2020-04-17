@@ -188,6 +188,7 @@ public class MyRoutePlanSearch {
                     schemeItem.setRouteLine(massTransitRouteLine);
 
                     //获取公交路线信息
+                    StringBuilder allStationInfo = new StringBuilder();
                     StringBuilder simpleInfo = new StringBuilder();
                     //每条路线的所有段
                     for(List<MassTransitRouteLine.TransitStep> transitSteps: massTransitRouteLine.getNewSteps()) {
@@ -198,17 +199,23 @@ public class MyRoutePlanSearch {
                                     == MassTransitRouteLine.TransitStep.StepVehicleInfoType.ESTEP_BUS
                             || transitStep.getVehileType() //长途巴士
                                     == MassTransitRouteLine.TransitStep.StepVehicleInfoType.ESTEP_COACH ) {
-                                if(transitStep.getBusInfo() != null) {
+                                if(transitStep.getBusInfo() != null) {//巴士
                                     simpleInfo.append("—").append(transitStep.getBusInfo().getName());
+                                    allStationInfo.append(transitStep.getBusInfo().getName());
                                 }
-                                if(transitStep.getCoachInfo() != null) {
+                                if(transitStep.getCoachInfo() != null) {//长途巴士
                                     simpleInfo.append("—").append(transitStep.getCoachInfo().getName());
+                                    allStationInfo.append(transitStep.getCoachInfo().getName());
                                 }
+                                //终点站
+                                allStationInfo.append("—终点站：").append(
+                                        transitStep.getBusInfo().getArriveStation()).append("\n");
                             }
                         }
                     }
                     simpleInfo = new StringBuilder(simpleInfo.substring(1));
                     schemeItem.setSimpleInfo(simpleInfo.toString());
+                    schemeItem.setAllStationInfo(allStationInfo.toString());
 
                     //获取详细信息
                     String detailInfo = "";

@@ -2,6 +2,7 @@ package com.example.foxizz.navigation.util;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -73,6 +74,8 @@ public class MyLocation {
                     MapStatus.Builder builder = new MapStatus.Builder();
                     builder.zoom(18.0f).target(mainActivity.latLng);
                     mainActivity.mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+
+                    Log.d("locType: ", String.valueOf(mainActivity.mLocType));
 
                     if(mainActivity.mLocType == BDLocation.TypeGpsLocation //GPS定位结果
                             || mainActivity.mLocType == BDLocation.TypeNetWorkLocation //网络定位结果
