@@ -221,17 +221,21 @@ public class MyRoutePlanSearch {
                     String detailInfo = "";
 
                     try {
-                        String spendTime;
+                        long spendTime;
                         @SuppressLint("SimpleDateFormat")
-                        DateFormat sdf1 = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
-                        Date nowTime = sdf1.parse(sdf1.format(new Date()));
-                        @SuppressLint("SimpleDateFormat")
-                        DateFormat sdf2 = new SimpleDateFormat("mm");
-                        Date arriveTime = sdf2.parse(massTransitRouteLine.getArriveTime());
-                        if(arriveTime != null && nowTime != null) {
-                            spendTime = sdf2.format(arriveTime.getTime() - nowTime.getTime());
-                            detailInfo += mainActivity.getString(R.string.spend_time) + spendTime + mainActivity.getString(R.string.minute);
+                        DateFormat sdf = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+                        long nowTime = sdf.parse(sdf.format(new Date())).getTime();
+                        long arriveTime = sdf.parse(massTransitRouteLine.getArriveTime()).getTime();
+                        spendTime = arriveTime - nowTime;
+                        if(spendTime < 3 * 60 * 60 * 1000) {//小于3小时
+                            detailInfo += mainActivity.getString(R.string.spend_time)
+                                    + spendTime / 1000 / 60 + mainActivity.getString(R.string.minute);
+                        } else {
+                            detailInfo += mainActivity.getString(R.string.spend_time)
+                                    + spendTime / 1000 / 60 / 60 + mainActivity.getString(R.string.hour)
+                                    + spendTime / 1000 / 60 % 60 + mainActivity.getString(R.string.minute);
                         }
+
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }

@@ -31,7 +31,8 @@
     <string name="scheme_info">方案信息</string>
     <string name="simple_info">简要信息</string>
     <string name="detail_info">详细信息</string>
-    <string name="spend_time">预计步行总耗时：</string>
+    <string name="spend_time">预计耗时：</string>
+    <string name="hour">小时</string>
     <string name="minute">分钟</string>
     <string name="budget">预算：</string>
     <string name="yuan">元</string>
