@@ -38,7 +38,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + "uid text primary key, "//uid
             + "latitude double, "//纬度
             + "longitude double, "//经度
-            + "targetName text, "//目标名
+            + "target_name text, "//目标名
             + "address text, "//目标地址
             + "time long)";//记录时间
 
@@ -112,7 +112,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         cursor.getDouble(cursor.getColumnIndex("latitude")),
                         cursor.getDouble(cursor.getColumnIndex("longitude"))));
 
-                searchItem.setTargetName(cursor.getString(cursor.getColumnIndex("targetName")));
+                searchItem.setTargetName(cursor.getString(cursor.getColumnIndex("target_name")));
                 searchItem.setAddress(cursor.getString(cursor.getColumnIndex("address")));
                 searchItem.setDistance(0.0);
 
@@ -158,7 +158,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //录入搜索信息数据库
     public void insertSearchData(PoiDetailInfo info) {
         db = this.getWritableDatabase();
-        db.execSQL("insert into SearchData (uid, latitude, longitude, targetName, address, time) " +
+        db.execSQL("insert into SearchData (uid, latitude, longitude, target_name, address, time) " +
                         "values(?, ?, ?, ?, ?, ?)",
                 new String[] { info.getUid(),
                         String.valueOf(info.getLocation().latitude),
@@ -173,7 +173,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void updateSearchData(PoiDetailInfo info) {
         db = this.getWritableDatabase();
         db.execSQL("update SearchData set latitude = ?, longitude = ?, " +
-                        "targetName = ?, address = ?, time = ? where uid = ?",
+                        "target_name = ?, address = ?, time = ? where uid = ?",
                 new String[] {
                         String.valueOf(info.getLocation().latitude),
                         String.valueOf(info.getLocation().longitude),

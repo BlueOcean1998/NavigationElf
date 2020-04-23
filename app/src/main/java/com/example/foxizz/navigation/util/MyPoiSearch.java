@@ -77,9 +77,9 @@ public class MyPoiSearch {
                     //城市内搜索不到内容时切换到别的城市继续搜索
                     if(poiSearchType == CITY_SEARCH) {
                         if(poiResult != null && poiResult.getSuggestCityList() != null) {
-                            for (CityInfo cityInfo : poiResult.getSuggestCityList()) {
-                                poiSearchType = OTHER_CITY_SEARCH;
+                            poiSearchType = OTHER_CITY_SEARCH;
 
+                            for(CityInfo cityInfo : poiResult.getSuggestCityList()) {
                                 //开始别的城市内搜索
                                 mainActivity.mPoiSearch.searchInCity(new PoiCitySearchOption()
                                         .city(cityInfo.city)

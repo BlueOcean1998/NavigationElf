@@ -45,9 +45,7 @@ public class MyLocation {
             @Override
             public void onReceiveLocation(BDLocation location) {
                 //mapView 销毁后不在处理新接收的位置
-                if (location == null || mainActivity.mMapView == null){
-                    return;
-                }
+                if(location == null || mainActivity.mMapView == null) return;
 
                 //获取定位数据
                 mainActivity.latLng = new LatLng(location.getLatitude(), location.getLongitude());
