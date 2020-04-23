@@ -686,16 +686,20 @@ public class MainActivity extends AppCompatActivity {
                 String databaseCity = dbHelper.getSettings("destination_city");
                 if(!TextUtils.isEmpty(databaseCity)) searchCity = databaseCity;
 
-                searchResult.stopScroll();//停止信息列表滑动
-
-                if(sharedPreferences.getBoolean("search_around", false))
-                    myPoiSearch.poiSearchType = MyPoiSearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
-                else myPoiSearch.poiSearchType = MyPoiSearch.CITY_SEARCH;//设置搜索类型为城市内搜索
-
                 if(searchCity == null) {
                     requestPermission();//申请权限
                     return;
                 }
+
+                searchResult.stopScroll();//停止信息列表滑动
+                mBaiduMap.clear();//清空地图上的所有标记点和绘制的路线
+                searchList.clear();//清空searchList
+                searchAdapter.notifyDataSetChanged();//通知adapter更新
+                isHistorySearchResult = false;//已经不是搜索历史记录了
+
+                if(sharedPreferences.getBoolean("search_around", false))
+                    myPoiSearch.poiSearchType = MyPoiSearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
+                else myPoiSearch.poiSearchType = MyPoiSearch.CITY_SEARCH;//设置搜索类型为城市内搜索
 
                 //开始城市内搜索
                 mPoiSearch.searchInCity(new PoiCitySearchOption()

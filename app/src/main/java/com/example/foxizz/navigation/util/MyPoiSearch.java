@@ -67,11 +67,6 @@ public class MyPoiSearch {
         OnGetPoiSearchResultListener listener = new OnGetPoiSearchResultListener() {
             @Override
             public void onGetPoiResult(PoiResult poiResult) {
-                mainActivity.mBaiduMap.clear();//清空地图上的所有标记点和绘制的路线
-                mainActivity.searchList.clear();//清空searchList
-                mainActivity.searchAdapter.notifyDataSetChanged();//通知adapter更新
-                mainActivity.isHistorySearchResult = false;//已经不是搜索历史记录了
-
                 if(poiResult == null//没有找到检索结果
                         || poiResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {
                     //城市内搜索不到内容时切换到别的城市继续搜索
@@ -79,7 +74,7 @@ public class MyPoiSearch {
                         if(poiResult != null && poiResult.getSuggestCityList() != null) {
                             poiSearchType = OTHER_CITY_SEARCH;
 
-                            for(CityInfo cityInfo : poiResult.getSuggestCityList()) {
+                            for(CityInfo cityInfo: poiResult.getSuggestCityList()) {
                                 //开始别的城市内搜索
                                 mainActivity.mPoiSearch.searchInCity(new PoiCitySearchOption()
                                         .city(cityInfo.city)
