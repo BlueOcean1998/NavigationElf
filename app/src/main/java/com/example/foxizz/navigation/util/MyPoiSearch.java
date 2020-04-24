@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
-import com.baidu.location.Poi;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.CityInfo;
 import com.baidu.mapapi.search.core.PoiDetailInfo;

@@ -2,7 +2,6 @@ package com.example.foxizz.navigation.util;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;

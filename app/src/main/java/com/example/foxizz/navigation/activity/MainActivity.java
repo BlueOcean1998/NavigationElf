@@ -72,7 +72,7 @@ import static com.example.foxizz.navigation.demo.Tools.rotateExpandIcon;
 /**
  * app_name: Navigation
  * author: Foxizz
- * time: 2020-04-16
+ * time: 2020-04-24
  */
 public class MainActivity extends AppCompatActivity {
 
