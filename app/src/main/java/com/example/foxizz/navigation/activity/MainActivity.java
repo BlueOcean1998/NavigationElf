@@ -834,10 +834,9 @@ public class MainActivity extends AppCompatActivity {
         if(permissionList.isEmpty()) {
             myLocation.initLocationOption();//初始化定位
         } else {
+            dbHelper.initSearchData();//初始化搜索记录
             //申请权限
             ActivityCompat.requestPermissions(this, permissionList.toArray(tmpList), 0);
-
-            dbHelper.initSearchData();//初始化搜索记录
         }
     }
 

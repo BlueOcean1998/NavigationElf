@@ -85,17 +85,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    private boolean isLastRecord = true;//是否是最后的记录
+
     //初始化搜索记录
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void initSearchData() {
         mainActivity.searchList.clear();
 
-        boolean isLastRecord = true;//是否是最后的记录
-
         boolean flag = false;//是否刷新搜索记录
-        if(isNetworkConnected(mainActivity)
-                && !isAirplaneModeOn(mainActivity)
-                && mainActivity.mCity != null) {
+        if(isNetworkConnected(mainActivity)//有网络连接
+                && !isAirplaneModeOn(mainActivity)) {//没有开飞行模式
             flag = true;
             mainActivity.myPoiSearch.poiSearchType = MyPoiSearch.DETAIL_SEARCH_ALL;//设置为详细搜索全部
         }
@@ -118,19 +117,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 mainActivity.searchList.add(searchItem);
 
-                if(flag) {
-                    //通过网络重新获取搜索信息
-                    mainActivity.mPoiSearch.searchPoiDetail(
-                            (new PoiDetailSearchOption()).poiUids(searchItem.getUid()));
-
-                } else if(isLastRecord) {
+                //移动视角到最近一次记录的位置
+                if(isLastRecord) {
                     isLastRecord = false;
-                    //网络不好时移动地图到上次记录的位置
+
                     LatLngBounds.Builder builder = new LatLngBounds.Builder();
                     builder.include(searchItem.getLatLng());
                     MapStatusUpdate msu= MapStatusUpdateFactory.newLatLngBounds(builder.build());
                     mainActivity.mBaiduMap.setMapStatus(msu);
                 }
+
+                if(flag) {
+                    //通过网络重新获取搜索信息
+                    mainActivity.mPoiSearch.searchPoiDetail(
+                            (new PoiDetailSearchOption()).poiUids(searchItem.getUid()));
+                }
+
             } while (cursor.moveToNext());
             cursor.close();
         }

@@ -30,12 +30,15 @@ public class MyLocation {
         this.mainActivity = mainActivity;
     }
 
+    private int requestLocationTime;//请求定位的次数
+    private final static int maxTime = 10;//最大请求次数
     private boolean isFirstLoc;//是否是首次定位
 
     //初始化定位
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void initLocationOption() {
-        isFirstLoc = true;
+        requestLocationTime = 0;//请求次数置0
+        isFirstLoc = true;//首次定位
 
         //定位服务的客户端。宿主程序在客户端声明此类，并调用，目前只支持在主线程中启动
         mainActivity.mLocationClient = new LocationClient(mainActivity);
@@ -63,35 +66,44 @@ public class MyLocation {
                         .longitude(mainActivity.mLongitude).build();
                 mainActivity.mBaiduMap.setMyLocationData(mainActivity.locData);//设置定位数据
 
-                if(isFirstLoc) {
-                    isFirstLoc = false;
+                mainActivity.dbHelper.initSearchData();//初始化搜索记录
 
-                    //移动视角并改变缩放等级
-                    MapStatusUpdate msu= MapStatusUpdateFactory.newLatLng(mainActivity.latLng);
-                    mainActivity.mBaiduMap.setMapStatus(msu);
-                    MapStatus.Builder builder = new MapStatus.Builder();
-                    builder.zoom(18.0f).target(mainActivity.latLng);
-                    mainActivity.mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+                if(mainActivity.mLocType == BDLocation.TypeGpsLocation //GPS定位结果
+                        || mainActivity.mLocType == BDLocation.TypeNetWorkLocation //网络定位结果
+                        || mainActivity.mLocType == BDLocation.TypeOffLineLocation) {//离线定位结果
+                    //Toast.makeText(MainActivity.this,location.getAddrStr(), Toast.LENGTH_SHORT).show();
+                    if(isFirstLoc) {
+                        isFirstLoc = false;
 
-                    Log.d("locType: ", String.valueOf(mainActivity.mLocType));
-
-                    if(mainActivity.mLocType == BDLocation.TypeGpsLocation //GPS定位结果
-                            || mainActivity.mLocType == BDLocation.TypeNetWorkLocation //网络定位结果
-                            || mainActivity.mLocType == BDLocation.TypeOffLineLocation) {//离线定位结果
-                        //Toast.makeText(MainActivity.this,
-                        //location.getAddrStr(), Toast.LENGTH_SHORT).show();
-                    } else if(mainActivity.mLocType == BDLocation.TypeServerError) {//服务器错误
-                        Toast.makeText(mainActivity,
-                                R.string.server_error, Toast.LENGTH_SHORT).show();
-                    } else if(mainActivity.mLocType == BDLocation.TypeNetWorkException) {//网络错误
-                        Toast.makeText(mainActivity,
-                                mainActivity.getString(R.string.network_error), Toast.LENGTH_SHORT).show();
-                    } else if(mainActivity.mLocType == BDLocation.TypeCriteriaException) {//手机模式错误
-                        Toast.makeText(mainActivity,
-                                R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
+                        //移动视角并改变缩放等级
+                        MapStatusUpdate msu= MapStatusUpdateFactory.newLatLng(mainActivity.latLng);
+                        mainActivity.mBaiduMap.setMapStatus(msu);
+                        MapStatus.Builder builder = new MapStatus.Builder();
+                        builder.zoom(18.0f).target(mainActivity.latLng);
+                        mainActivity.mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
                     }
 
-                    mainActivity.dbHelper.initSearchData();//初始化搜索记录
+                } else {
+                    if(requestLocationTime < maxTime) {
+                        initLocationOption();//再次请求定位
+                        requestLocationTime++;//请求次数+1
+                    } else {
+                        //弹出错误提示
+                        switch (mainActivity.mLocType) {
+                            case BDLocation.TypeServerError://服务器错误
+                                Toast.makeText(mainActivity, R.string.server_error, Toast.LENGTH_SHORT).show();
+                                break;
+                            case BDLocation.TypeNetWorkException://网络错误
+                                Toast.makeText(mainActivity, mainActivity.getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+                                break;
+                            case BDLocation.TypeCriteriaException://手机模式错误
+                                Toast.makeText(mainActivity, R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                Toast.makeText(mainActivity, R.string.unknown_error, Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
                 }
             }
         });
