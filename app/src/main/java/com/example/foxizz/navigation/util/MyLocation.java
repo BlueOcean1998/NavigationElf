@@ -29,6 +29,7 @@ public class MyLocation {
         this.mainActivity = mainActivity;
     }
 
+    public boolean refreshSearchList;//是否刷新搜索列表
     private int requestLocationTime;//请求定位的次数
     private final static int maxTime = 10;//最大请求次数
     private boolean isFirstLoc;//是否是首次定位
@@ -65,7 +66,7 @@ public class MyLocation {
                         .longitude(mainActivity.mLongitude).build();
                 mainActivity.mBaiduMap.setMyLocationData(mainActivity.locData);//设置定位数据
 
-                mainActivity.dbHelper.initSearchData();//初始化搜索记录
+                if(refreshSearchList) mainActivity.dbHelper.initSearchData();//初始化搜索记录
 
                 if(mainActivity.mLocType == BDLocation.TypeGpsLocation //GPS定位结果
                         || mainActivity.mLocType == BDLocation.TypeNetWorkLocation //网络定位结果

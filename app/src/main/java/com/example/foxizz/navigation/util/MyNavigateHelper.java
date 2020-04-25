@@ -114,7 +114,7 @@ public class MyNavigateHelper {
                             DistanceUtil.getDistance(mainActivity.latLng, mainActivity.endLocation);
 
                     //小于10km才可以步行导航
-                    if(distanceToStart < 10000 || distanceToEnd <10000) {
+                    if(distanceToStart < 10000 || distanceToEnd < 10000) {
                         //比较哪个更近
                         if(distanceToStart < distanceToEnd) {
                             walkStartNode.setLocation(mainActivity.latLng);

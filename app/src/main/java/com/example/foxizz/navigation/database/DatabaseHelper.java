@@ -85,7 +85,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
-    private boolean isLastRecord = true;//是否是最后的记录
+    //移动视角到最近的一条搜索记录
+    public void moveToLastSearchRecordLocation() {
+        if(ifHasSearchData()) {//如果有搜索记录
+            db = this.getReadableDatabase();
+            //查询所有的搜索记录，按时间降序排列
+            cursor = db.rawQuery("select * from SearchData order by time desc", null);
+            if(cursor != null && cursor.moveToFirst()) {
+                //移动视角
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                builder.include(new LatLng(
+                        cursor.getDouble(cursor.getColumnIndex("latitude")),
+                        cursor.getDouble(cursor.getColumnIndex("longitude"))));
+                MapStatusUpdate msu= MapStatusUpdateFactory.newLatLngBounds(builder.build());
+                mainActivity.mBaiduMap.setMapStatus(msu);
+            }
+        }
+    }
 
     //初始化搜索记录
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -116,16 +132,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 searchItem.setDistance(0.0);
 
                 mainActivity.searchList.add(searchItem);
-
-                //移动视角到最近一次记录的位置
-                if(isLastRecord) {
-                    isLastRecord = false;
-
-                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                    builder.include(searchItem.getLatLng());
-                    MapStatusUpdate msu= MapStatusUpdateFactory.newLatLngBounds(builder.build());
-                    mainActivity.mBaiduMap.setMapStatus(msu);
-                }
 
                 if(flag) {
                     //通过网络重新获取搜索信息

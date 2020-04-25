@@ -372,6 +372,9 @@ public class MainActivity extends AppCompatActivity {
         builder.zoom(18.0f);
         mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
 
+        //移动视角到最近的一条搜索记录
+        dbHelper.moveToLastSearchRecordLocation();
+
         /*离线地图要下载离线包，现在暂时不用
         //下载离线地图
         final MKOfflineMap mOffline = new MKOfflineMap();
@@ -495,6 +498,7 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
+                myLocation.refreshSearchList = false;//不刷新搜索列表
                 myLocation.initLocationOption();//初始化定位
             }
         });
@@ -832,6 +836,7 @@ public class MainActivity extends AppCompatActivity {
 
         //如果列表为空，则获取了全部权限不用再获取，否则要获取
         if(permissionList.isEmpty()) {
+            myLocation.refreshSearchList = true;//刷新搜索列表
             myLocation.initLocationOption();//初始化定位
         } else {
             dbHelper.initSearchData();//初始化搜索记录
@@ -846,8 +851,10 @@ public class MainActivity extends AppCompatActivity {
             int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode == 0) {
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                myLocation.refreshSearchList = true;//刷新搜索列表
                 myLocation.initLocationOption();//初始化定位
+            }
             else
                 Toast.makeText(this, getString(R.string.get_permission_fail), Toast.LENGTH_SHORT).show();
         }
