@@ -255,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
 
         myNavigateHelper = new MyNavigateHelper(this);//初始化导航模块
 
-        requestPermission();//申请权限
+        requestPermission();//申请权限，获得权限后定位
     }
 
     //管理地图的生命周期
@@ -498,7 +498,7 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
-                myLocation.initLocationOption();//初始化定位
+                requestPermission();//申请权限，获得权限后定位
             }
         });
 
@@ -690,7 +690,7 @@ public class MainActivity extends AppCompatActivity {
                 if(!TextUtils.isEmpty(databaseCity)) searchCity = databaseCity;
 
                 if(searchCity == null) {
-                    requestPermission();//申请权限
+                    requestPermission();//申请权限，获得权限后定位
                     return;
                 }
 
@@ -815,7 +815,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //申请权限
+    //申请权限，获得权限后定位
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void requestPermission() {
         String[] permissions = {

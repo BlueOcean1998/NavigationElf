@@ -52,7 +52,7 @@ public class MyNavigateHelper {
         }
 
         if(!haveReadWriteAndLocationPermissions(mainActivity)) {//权限不足
-            mainActivity.requestPermission();
+            mainActivity.requestPermission();//申请权限，获得权限后定位
             return;
         }
 
