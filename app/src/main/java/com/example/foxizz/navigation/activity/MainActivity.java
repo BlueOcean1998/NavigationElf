@@ -498,7 +498,6 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
-                myLocation.refreshSearchList = false;//不刷新搜索列表
                 myLocation.initLocationOption();//初始化定位
             }
         });

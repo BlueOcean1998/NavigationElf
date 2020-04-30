@@ -66,7 +66,10 @@ public class MyLocation {
                         .longitude(mainActivity.mLongitude).build();
                 mainActivity.mBaiduMap.setMyLocationData(mainActivity.locData);//设置定位数据
 
-                if(refreshSearchList) mainActivity.dbHelper.initSearchData();//初始化搜索记录
+                if(refreshSearchList) {
+                    mainActivity.dbHelper.initSearchData();//初始化搜索记录
+                    refreshSearchList = false;
+                }
 
                 if(mainActivity.mLocType == BDLocation.TypeGpsLocation //GPS定位结果
                         || mainActivity.mLocType == BDLocation.TypeNetWorkLocation //网络定位结果
