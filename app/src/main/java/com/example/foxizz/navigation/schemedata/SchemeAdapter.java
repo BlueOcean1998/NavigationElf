@@ -30,11 +30,12 @@ import static com.example.foxizz.navigation.demo.Tools.rotateExpandIcon;
 public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder> {
 
     private MainActivity mainActivity;
-
     //构造器
     public SchemeAdapter(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
     }
+
+    private long clickTime = 0;
 
     //设置item中的View
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -102,6 +103,8 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View view) {
+                if(unableToClick()) return;
+
                 int position = holder.getAdapterPosition();
                 SchemeItem schemeItem = mainActivity.schemeList.get(position);
 
@@ -191,6 +194,15 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
         });
 
         return holder;
+    }
+
+    //不允许同时点击多个item
+    private boolean unableToClick() {
+        if((System.currentTimeMillis() - clickTime) > 1000) {
+            clickTime = System.currentTimeMillis();
+            return false;
+        }
+        else return true;
     }
 
 }

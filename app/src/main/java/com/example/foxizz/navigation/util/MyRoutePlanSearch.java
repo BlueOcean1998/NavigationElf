@@ -35,7 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import static com.example.foxizz.navigation.demo.Tools.ifHaveReadWriteAndLocationPermissions;
+import static com.example.foxizz.navigation.demo.Tools.haveReadWriteAndLocationPermissions;
 import static com.example.foxizz.navigation.demo.Tools.isAirplaneModeOn;
 import static com.example.foxizz.navigation.demo.Tools.isNetworkConnected;
 
@@ -63,7 +63,7 @@ public class MyRoutePlanSearch {
             return;
         }
 
-        if(!ifHaveReadWriteAndLocationPermissions(mainActivity)) {//权限不足
+        if(!haveReadWriteAndLocationPermissions(mainActivity)) {//权限不足
             mainActivity.requestPermission();
             return;
         }

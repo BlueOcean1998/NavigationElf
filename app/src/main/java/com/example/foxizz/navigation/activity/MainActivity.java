@@ -72,7 +72,7 @@ import static com.example.foxizz.navigation.demo.Tools.rotateExpandIcon;
 /**
  * app_name: Navigation
  * author: Foxizz
- * time: 2020-04-24
+ * time: 2020-04-30
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -863,8 +863,8 @@ public class MainActivity extends AppCompatActivity {
     //重写，实现再按一次退出以及关闭抽屉
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if ((System.currentTimeMillis() - exitTime) > 2000) {
+        if(keyCode == KeyEvent.KEYCODE_BACK) {
+            if((System.currentTimeMillis() - exitTime) > 2000) {
                 Toast.makeText(this, getString(R.string.exit_app), Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {

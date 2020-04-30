@@ -37,11 +37,12 @@ import static com.example.foxizz.navigation.demo.Tools.isNetworkConnected;
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
 
     private MainActivity mainActivity;
-
     //构造器
     public SearchAdapter(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
     }
+
+    private long clickTime = 0;
 
     //设置item中的View
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -99,42 +100,45 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View view) {
-                if(isNetworkConnected(mainActivity)) {
-                    if(isAirplaneModeOn(mainActivity)) {
-                        Toast.makeText(mainActivity, mainActivity.getString(R.string.close_airplane_mode), Toast.LENGTH_SHORT).show();
-                    } else {
-                        click(holder);
+                if(unableToClick()) return;
 
-                        mainActivity.infoButton.setText(R.string.info_button1);//设置按钮为路线
-                        mainActivity.expandInfoLayout(true);//展开详细信息布局
-                        mainActivity.infoFlag = true;//设置信息状态为详细信息
-
-                        //获取点击的item
-                        int position = holder.getAdapterPosition();
-                        SearchItem searchItem = mainActivity.searchList.get(position);
-
-                        //移动视角到指定位置
-                        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                        builder.include(searchItem.getLatLng());
-                        MapStatusUpdate msu= MapStatusUpdateFactory.newLatLngBounds(builder.build());
-                        mainActivity.mBaiduMap.setMapStatus(msu);
-
-                        //清空地图上的所有标记点和绘制的路线
-                        mainActivity.mBaiduMap.clear();
-                        //构建Marker图标
-                        BitmapDescriptor bitmap = BitmapDescriptorFactory
-                                .fromResource(R.drawable.ic_to_location);
-                        //构建MarkerOption，用于在地图上添加Marker
-                        OverlayOptions option = new MarkerOptions()
-                                .position(searchItem.getLatLng())
-                                .icon(bitmap);
-                        //在地图上添加Marker，并显示
-                        mainActivity.mBaiduMap.addOverlay(option);
-                    }
-                } else {
+                if(!isNetworkConnected(mainActivity)) {
                     Toast.makeText(mainActivity, mainActivity.getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
+                if(isAirplaneModeOn(mainActivity)) {
+                    Toast.makeText(mainActivity, mainActivity.getString(R.string.close_airplane_mode), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                click(holder);
+
+                mainActivity.infoButton.setText(R.string.info_button1);//设置按钮为路线
+                mainActivity.expandInfoLayout(true);//展开详细信息布局
+                mainActivity.infoFlag = true;//设置信息状态为详细信息
+
+                //获取点击的item
+                int position = holder.getAdapterPosition();
+                SearchItem searchItem = mainActivity.searchList.get(position);
+
+                //移动视角到指定位置
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                builder.include(searchItem.getLatLng());
+                MapStatusUpdate msu= MapStatusUpdateFactory.newLatLngBounds(builder.build());
+                mainActivity.mBaiduMap.setMapStatus(msu);
+
+                //清空地图上的所有标记点和绘制的路线
+                mainActivity.mBaiduMap.clear();
+                //构建Marker图标
+                BitmapDescriptor bitmap = BitmapDescriptorFactory
+                        .fromResource(R.drawable.ic_to_location);
+                //构建MarkerOption，用于在地图上添加Marker
+                OverlayOptions option = new MarkerOptions()
+                        .position(searchItem.getLatLng())
+                        .icon(bitmap);
+                //在地图上添加Marker，并显示
+                mainActivity.mBaiduMap.addOverlay(option);
             }
         });
 
@@ -143,6 +147,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View view) {
+                if(unableToClick()) return;
+
                 if(isNetworkConnected(mainActivity)) {
                     if(isAirplaneModeOn(mainActivity)) {
                         Toast.makeText(mainActivity, mainActivity.getString(R.string.close_airplane_mode), Toast.LENGTH_SHORT).show();
@@ -172,6 +178,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                if(unableToClick()) return false;
+
                 final int position = holder.getAdapterPosition();
                 final SearchItem searchItem = mainActivity.searchList.get(position);
 
@@ -241,6 +249,15 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         mainActivity.myPoiSearch.poiSearchType = MyPoiSearch.DETAIL_SEARCH;//设置为直接详细搜索
         mainActivity.mPoiSearch.searchPoiDetail(//进行详细信息搜索
                 (new PoiDetailSearchOption()).poiUids(searchItem.getUid()));
+    }
+
+    //不允许同时点击多个item
+    private boolean unableToClick() {
+        if((System.currentTimeMillis() - clickTime) > 1000) {
+            clickTime = System.currentTimeMillis();
+            return false;
+        }
+        else return true;
     }
 
 }

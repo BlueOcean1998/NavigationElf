@@ -24,7 +24,7 @@ import com.example.foxizz.navigation.activity.BNaviGuideActivity;
 import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.activity.WNaviGuideActivity;
 
-import static com.example.foxizz.navigation.demo.Tools.ifHaveReadWriteAndLocationPermissions;
+import static com.example.foxizz.navigation.demo.Tools.haveReadWriteAndLocationPermissions;
 import static com.example.foxizz.navigation.demo.Tools.isAirplaneModeOn;
 import static com.example.foxizz.navigation.demo.Tools.isNetworkConnected;
 
@@ -51,7 +51,7 @@ public class MyNavigateHelper {
             return;
         }
 
-        if(!ifHaveReadWriteAndLocationPermissions(mainActivity)) {//权限不足
+        if(!haveReadWriteAndLocationPermissions(mainActivity)) {//权限不足
             mainActivity.requestPermission();
             return;
         }

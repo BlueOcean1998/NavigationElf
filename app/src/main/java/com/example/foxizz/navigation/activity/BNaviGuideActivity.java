@@ -14,7 +14,6 @@ import com.baidu.mapapi.bikenavi.adapter.IBNaviStatusListener;
 import com.baidu.mapapi.bikenavi.adapter.IBRouteGuidanceListener;
 import com.baidu.mapapi.bikenavi.adapter.IBTTSPlayer;
 import com.baidu.mapapi.bikenavi.model.BikeRouteDetailInfo;
-import com.baidu.mapapi.bikenavi.params.BikeNaviLaunchParam;
 import com.baidu.mapapi.walknavi.model.RouteGuideKind;
 import com.example.foxizz.navigation.util.MySpeech;
 

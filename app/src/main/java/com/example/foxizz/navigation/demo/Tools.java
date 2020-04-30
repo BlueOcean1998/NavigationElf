@@ -119,7 +119,7 @@ public class Tools {
     }
 
     //判断是否已经获取了读取存储和定位权限
-    public static boolean ifHaveReadWriteAndLocationPermissions(Context context) {
+    public static boolean haveReadWriteAndLocationPermissions(Context context) {
         String[] permissions = {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
