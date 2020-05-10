@@ -61,7 +61,7 @@
     <string name="shop_time">营业时间：</string>
     <string name="shopping"> 营业中</string>
     <string name="relaxing"> 休息中</string>
-    <string name="price">平均消费</string>
+    <string name="price">平均消费：</string>
     <string name="suggest_not_to_walk">路程太远，不建议步行</string>
     <string name="suggest_not_to_bike">路程太远，不建议骑行</string>
     <string name="suggest_to_walk">路程太短，建议步行</string>
