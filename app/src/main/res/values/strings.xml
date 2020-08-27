@@ -55,7 +55,6 @@
     <string name="network_error">网络错误，请检查网络连接是否正常</string>
     <string name="unknown_error">未知错误</string>
     <string name="wait_for_location_result">请等待定位结果</string>
-    <string name="out_of_navigation_range">超出导航范围</string>
     <string name="find_nothing">未找到结果</string>
     <string name="phone_number">联系方式：</string>
     <string name="shop_time">营业时间：</string>

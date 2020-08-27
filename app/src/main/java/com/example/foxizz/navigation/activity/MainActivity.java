@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
     public final static int TRANSIT = 3;//公交
     public int routePlanSelect = WALKING;//默认为步行
 
-    public LatLng startBusStationLocation;//公交导航第一站的坐标
+    public List<LatLng> busStationLocations = new ArrayList<>();//公交导航所有站点的坐标
     public LatLng endLocation;//终点
 
     public LinearLayout schemeLayout;//方案布局

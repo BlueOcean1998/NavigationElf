@@ -17,9 +17,12 @@ import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.search.route.MassTransitRouteLine;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.overlayutil.MassTransitRouteOverlay;
+
+import java.util.List;
 
 import static com.example.foxizz.navigation.demo.Tools.expandLayout;
 import static com.example.foxizz.navigation.demo.Tools.rotateExpandIcon;
@@ -119,6 +122,18 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
                 mainActivity.schemeInfo.setText(schemeItem.getAllStationInfo()
                         + "\n" + schemeItem.getDetailInfo() + "\n");
 
+                //清空临时保存的公交站点信息
+                mainActivity.busStationLocations.clear();
+
+                //创建MassTransitRouteOverlay实例
+                MassTransitRouteOverlay overlay = new MassTransitRouteOverlay(mainActivity.mBaiduMap);
+
+                //清空地图上的所有标记点和绘制的路线
+                mainActivity.mBaiduMap.clear();
+                //构建Marker图标
+                BitmapDescriptor bitmap = BitmapDescriptorFactory
+                        .fromResource(R.drawable.ic_to_location);
+
                 /*
                  * getRouteLines(): 所有规划好的路线
                  * get(0): 第1条规划好的路线
@@ -132,26 +147,21 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
                  * getEndLocation(): 终点站，即步行导航的终点站
                  *
                  */
-                mainActivity.startBusStationLocation = schemeItem
-                        .getRouteLine()
-                        .getNewSteps()
-                        .get(0)
-                        .get(0)
-                        .getEndLocation();
+                //获取所有站点信息
+                for(List<MassTransitRouteLine.TransitStep> transitSteps: schemeItem.getRouteLine().getNewSteps()) {
+                    for (MassTransitRouteLine.TransitStep transitStep : transitSteps) {
+                        //将获取到的站点信息临时保存
+                        mainActivity.busStationLocations.add(transitStep.getEndLocation());
 
-                //创建MassTransitRouteOverlay实例
-                MassTransitRouteOverlay overlay = new MassTransitRouteOverlay(mainActivity.mBaiduMap);
-                //清空地图上的所有标记点和绘制的路线
-                mainActivity.mBaiduMap.clear();
-                //构建Marker图标
-                BitmapDescriptor bitmap = BitmapDescriptorFactory
-                        .fromResource(R.drawable.ic_to_location);
-                //构建MarkerOption，用于在地图上添加Marker
-                OverlayOptions option = new MarkerOptions()
-                        .position(mainActivity.startBusStationLocation)
-                        .icon(bitmap);
-                //在地图上添加Marker，并显示
-                mainActivity.mBaiduMap.addOverlay(option);
+                        //构建MarkerOption，用于在地图上添加Marker
+                        OverlayOptions option = new MarkerOptions()
+                                .position(transitStep.getEndLocation())
+                                .icon(bitmap);
+
+                        //在地图上添加Marker，并显示
+                        mainActivity.mBaiduMap.addOverlay(option);
+                    }
+                }
 
                 try {
                     //获取路线规划数据

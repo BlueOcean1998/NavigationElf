@@ -109,7 +109,6 @@ public class MyRoutePlanSearch {
                 mainActivity.schemeList.clear();//清空方案列表
                 mainActivity.schemeAdapter.notifyDataSetChanged();//通知adapter更新
 
-                mainActivity.startBusStationLocation = null;//第一站置空
                 mainActivity.mSearch.masstransitSearch((new MassTransitRoutePlanOption())
                         .from(startNode)
                         .to(endNode));
