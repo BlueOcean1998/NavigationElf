@@ -102,7 +102,6 @@ public class MyNavigateHelper {
 
                 //设置步行导航的终点
                 if(mainActivity.routePlanSelect == MainActivity.WALKING) {
-
                     walkEndNode.setLocation(mainActivity.endLocation);
 
                 //计算公交导航的步行导航的终点
@@ -112,15 +111,24 @@ public class MyNavigateHelper {
                         return;
                     }
 
-                    //设置最近的站点为目的地
-                    LatLng minDistanceLocation = mainActivity.endLocation;
-                    for(LatLng busStation: mainActivity.busStationLocations) {
-                        if(DistanceUtil.getDistance(mainActivity.latLng, busStation)
-                                < DistanceUtil.getDistance(mainActivity.latLng, minDistanceLocation)) {
-                            minDistanceLocation = busStation;
+                    //设置目的地
+                    double minDistance = DistanceUtil.getDistance(mainActivity.latLng, mainActivity.endLocation);
+                    walkEndNode.setLocation(mainActivity.endLocation);
+                    for(int i = 0; i < mainActivity.busStationLocations.size(); i++) {
+                        double busStationDistance = DistanceUtil.getDistance(
+                                mainActivity.latLng, mainActivity.busStationLocations.get(i)
+                        );
+                        if(busStationDistance < minDistance) {
+                            minDistance = busStationDistance;
+                            //最近的站点距离大于100m则将目的地设置为最近的站点
+                            if(minDistance > 100) {
+                                walkEndNode.setLocation(mainActivity.busStationLocations.get(i));
+                            //否则设置为最近的站点的下一个站点
+                            } else if(i != mainActivity.busStationLocations.size() - 1) {
+                                walkEndNode.setLocation(mainActivity.busStationLocations.get(i + 1));
+                            }
                         }
                     }
-                    walkEndNode.setLocation(minDistanceLocation);
                 }
 
                 walkParam = new WalkNaviLaunchParam()
