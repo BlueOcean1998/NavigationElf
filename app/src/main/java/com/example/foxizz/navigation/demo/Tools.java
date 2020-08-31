@@ -39,7 +39,7 @@ public class Tools {
                 layoutHeight += linearLayout.getChildAt(i).getLayoutParams().height;
             }
 
-            getValueAnimator(linearLayout, 0, layoutHeight).start();//收起动画
+            getValueAnimator(linearLayout, 0, layoutHeight).start();//展开动画
         } else {
             linearLayout.startAnimation(AnimationUtils.loadAnimation(context, R.anim.adapter_alpha1));//动画1，消失;
 
@@ -73,7 +73,7 @@ public class Tools {
             //计算布局自适应时的高度
             int layoutHeight = textView.getLineHeight() * (textView.getLineCount() + 1);
 
-            getValueAnimator(linearLayout, 0, layoutHeight, recyclerView, position).start();//收起动画
+            getValueAnimator(linearLayout, 0, layoutHeight, recyclerView, position).start();//展开动画
         } else {
             linearLayout.startAnimation(AnimationUtils.loadAnimation(context, R.anim.adapter_alpha1));//动画1，消失;
 

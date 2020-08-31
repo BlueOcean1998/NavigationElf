@@ -20,6 +20,7 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.search.route.MassTransitRouteLine;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.MainActivity;
+import com.example.foxizz.navigation.demo.Tools;
 import com.example.foxizz.navigation.overlayutil.MassTransitRouteOverlay;
 
 import java.util.List;
@@ -80,8 +81,7 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
             holder.infoDrawer.getLayoutParams().height
                     = holder.detailInfo.getLineHeight() * (holder.detailInfo.getLineCount() + 1);
             holder.schemeExpand.setRotation(180);
-        }
-        else {
+        } else {
             holder.infoDrawer.getLayoutParams().height = 0;
             holder.schemeExpand.setRotation(0);
         }
@@ -113,7 +113,13 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
 
                 mainActivity.expandSchemeDrawer(false);//收起方案抽屉
                 mainActivity.expandSchemeInfoDrawer(true);//展开方案信息抽屉
-                mainActivity.schemeInfoFlag = 2;//现在只有一个方案了
+
+                //调整方案布局的高度
+                Tools.getValueAnimator(mainActivity.schemeLayout,
+                        mainActivity.bodyLength / 2,
+                        mainActivity.bodyLength / 4).start();
+
+                mainActivity.schemeInfoFlag = 2;//如果方案布局为单个方案
                 mainActivity.infoButton.setText(R.string.info_button3);//设置按钮为交通选择
                 mainActivity.expandStartLayout(true);//展开开始导航布局
 

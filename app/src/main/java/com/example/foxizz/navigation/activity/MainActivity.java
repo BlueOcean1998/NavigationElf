@@ -49,6 +49,7 @@ import com.baidu.mapapi.search.poi.PoiCitySearchOption;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.example.foxizz.navigation.R;
+import com.example.foxizz.navigation.demo.Tools;
 import com.example.foxizz.navigation.schemedata.SchemeAdapter;
 import com.example.foxizz.navigation.schemedata.SchemeItem;
 import com.example.foxizz.navigation.searchdata.SearchAdapter;
@@ -569,26 +570,11 @@ public class MainActivity extends AppCompatActivity {
         schemeReturnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //收回所有展开的item
-                for(int i = 0; i < schemeList.size(); i++) {//遍历所有item
-                    if(schemeList.get(i).getExpandFlag()) {//如果是展开状态
-                        //用layoutManager找到相应的item
-                        View view = schemeLayoutManager.findViewByPosition(i);
-                        if(view != null) {
-                            LinearLayout infoDrawer = view.findViewById(R.id.info_drawer);
-                            ImageButton schemeExpand = view.findViewById(R.id.scheme_expand);
-                            expandLayout(MainActivity.this, infoDrawer, false);
-                            rotateExpandIcon(schemeExpand, 180, 0);//旋转伸展按钮
-                            schemeList.get(i).setExpandFlag(false);
-                            schemeAdapter.notifyDataSetChanged();//通知adapter更新
-                        }
-                    }
-                }
-
                 expandSelectLayout(true);//展开选择布局
                 expandSchemeLayout(false);//收起方案抽屉
                 expandStartLayout(true);//展开开始导航布局
                 infoFlag = false;//设置信息状态为交通选择
+                infoButton.setText(R.string.info_button2);//设置按钮为详细信息
                 schemeInfoFlag = 0;//设置状态为不显示
             }
         });
@@ -730,23 +716,34 @@ public class MainActivity extends AppCompatActivity {
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expandSelectLayout(false);//收起选择布局
-                expandSearchLayout(true);//展开搜索布局
-                if(!expandFlag) {
-                    expandSearchDrawer(true);//展开被收起的搜索抽屉
-                    expandFlag = true;//设置状态为展开
-                }
-                expandInfoLayout(false);//收起详细信息布局
-                expandStartLayout(false);//收起开始导航布局
+                if(schemeInfoFlag == 2) {//如果方案布局为单个方案
+                    expandSchemeDrawer(true);//展开方案抽屉
+                    expandSchemeInfoDrawer(false);//收起方案信息抽屉
+                    schemeInfoFlag = 1;//设置状态为方案列表
+                    expandStartLayout(false);//收起开始导航布局
 
-                if(schemeInfoFlag != 0) {//如果方案布局已经展开
-                    expandSchemeLayout(false);//收起方案布局
-                    schemeInfoFlag = 0;//设置状态为不显示
+                    //调整方案布局的高度
+                    getValueAnimator(schemeLayout,
+                            bodyLength / 4, bodyLength / 2).start();
+                } else {
+                    expandSelectLayout(false);//收起选择布局
+                    expandSearchLayout(true);//展开搜索布局
+                    if(!expandFlag) {
+                        expandSearchDrawer(true);//展开被收起的搜索抽屉
+                        expandFlag = true;//设置状态为展开
+                    }
+                    expandInfoLayout(false);//收起详细信息布局
+                    expandStartLayout(false);//收起开始导航布局
+
+                    if(schemeInfoFlag == 1) {//如果方案布局为方案列表
+                        expandSchemeLayout(false);//收起方案布局
+                        schemeInfoFlag = 0;//设置状态为不显示
+                    }
                 }
             }
         });
 
-        //路线规划、详细信息切换按钮的点击事件
+        //路线规划、详细信息、交通选择切换按钮的点击事件
         infoButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override

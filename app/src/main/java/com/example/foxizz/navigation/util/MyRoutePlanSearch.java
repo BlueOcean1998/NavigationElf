@@ -2,6 +2,9 @@ package com.example.foxizz.navigation.util;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -35,9 +38,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import static com.example.foxizz.navigation.demo.Tools.expandLayout;
 import static com.example.foxizz.navigation.demo.Tools.haveReadWriteAndLocationPermissions;
 import static com.example.foxizz.navigation.demo.Tools.isAirplaneModeOn;
 import static com.example.foxizz.navigation.demo.Tools.isNetworkConnected;
+import static com.example.foxizz.navigation.demo.Tools.rotateExpandIcon;
 
 /**
  * 路线规划模块
@@ -106,6 +111,22 @@ public class MyRoutePlanSearch {
 
             //公交路线规划
             case 3:
+                //收回所有展开的方案
+                for(int i = 0; i < mainActivity.schemeList.size(); i++) {//遍历所有item
+                    if(mainActivity.schemeList.get(i).getExpandFlag()) {//如果是展开状态
+                        //用layoutManager找到相应的item
+                        View view = mainActivity.schemeLayoutManager.findViewByPosition(i);
+                        if(view != null) {
+                            LinearLayout infoDrawer = view.findViewById(R.id.info_drawer);
+                            ImageButton schemeExpand = view.findViewById(R.id.scheme_expand);
+                            expandLayout(mainActivity, infoDrawer, false);
+                            rotateExpandIcon(schemeExpand, 180, 0);//旋转伸展按钮
+                            mainActivity.schemeList.get(i).setExpandFlag(false);
+                            mainActivity.schemeAdapter.notifyDataSetChanged();//通知adapter更新
+                        }
+                    }
+                }
+
                 mainActivity.schemeList.clear();//清空方案列表
                 mainActivity.schemeAdapter.notifyDataSetChanged();//通知adapter更新
 
@@ -118,7 +139,7 @@ public class MyRoutePlanSearch {
                 mainActivity.schemeInfoDrawer.getLayoutParams().height = 0;//设置方案信息抽屉的高度为0
                 mainActivity.expandSchemeLayout(true);//展开方案布局
                 mainActivity.expandSchemeDrawer(true);//展开方案抽屉
-                mainActivity.schemeInfoFlag = 1;//现在是方案信息列表
+                mainActivity.schemeInfoFlag = 1;//设置状态为方案列表
                 mainActivity.expandStartLayout(false);//收起开始导航布局
                 break;
         }
