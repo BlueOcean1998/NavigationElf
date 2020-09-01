@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.ui.widget.RGRootViewFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bnav_rg_mapmode_main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- 地图容器 -->
+    <FrameLayout
+        android:id="@+id/bnav_rg_map_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
+
+    <!-- 选点 -->
+    <ViewStub
+        android:id="@+id/bnav_rg_pp_layout_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/nsdk_layout_rg_mapmode_main_sub_pp" />
+
+    <!-- 商业变现项目容器 -->
+    <LinearLayout
+        android:id="@+id/module_contains"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:visibility="gone"></LinearLayout>
+
+    <!-- 面板容器 -->
+    <RelativeLayout
+        android:id="@+id/bnav_rg_content_panel_land"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/bnav_top_empty_view"
+            layout="@layout/bnav_statusbar_empty_view_include" />
+
+        <!-- 左侧空间-->
+        <RelativeLayout
+            android:id="@+id/bnav_rg_left_panel"
+            android:layout_width="@dimen/nsdk_rg_land_left_panel_width"
+            android:layout_height="match_parent"
+            android:layout_below="@id/bnav_top_empty_view"
+            android:background="@drawable/bnav_rg_guide_top_panel">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navi_dimens_1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/navi_dimens_82dp"
+                android:background="#404A58"></View>
+
+            <!-- 简易诱导信息 -->
+            <include layout="@layout/nsdk_layout_rg_mapmode_main_sub_simple_guide_land" />
+
+            <!-- 模糊诱导信息 -->
+            <ViewStub
+                android:id="@+id/nsdk_layout_rg_mapmode_main_sub_fuzzy_guide_stub"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inflatedId="@+id/nsdk_layout_rg_mapmode_main_sub_fuzzy_guide_panel"
+                android:layout="@layout/nsdk_layout_rg_mapmode_main_sub_fuzzy_guide_land" />
+
+            <!-- 高速模式，横屏模式下，此处不包含服务区 -->
+            <FrameLayout
+                android:id="@+id/bnav_rg_highway_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"></FrameLayout>
+
+            <!-- 导航中设备状态 -->
+            <FrameLayout
+                android:id="@+id/bnav_rg_device_status_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/navi_dimens_10dp"
+                android:visibility="gone"></FrameLayout>
+
+            <!--随后转向标-->
+            <FrameLayout
+                android:id="@+id/bnav_rg_next_deriction_indicator"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"></FrameLayout>
+
+            <!--横屏诱导面板ETA信息-->
+            <include
+                layout="@layout/nsdk_layout_rg_mapmode_main_sub_eta_detail_land"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"></include>
+
+            <TextView
+                android:id="@+id/bnav_rg_cp_anolog_change_speed_land"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navi_dimens_82dp"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:text="中速"
+                android:textColor="@color/nsdk_cl_text_g"
+                android:textSize="@dimen/navi_dimens_18dp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <!-- 右侧空间 -->
+        <RelativeLayout
+            android:id="@+id/bnav_rg_right_panel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/bnav_top_empty_view"
+            android:layout_toRightOf="@id/bnav_rg_left_panel">
+
+            <ViewStub
+                android:id="@+id/common_debug_viewstub"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout="@layout/nsdk_layout_rg_mapmode_main_sub_common_debug" />
+
+            <!-- 辅助诱导控件 -->
+            <RelativeLayout
+                android:id="@+id/bnav_rg_assist_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/nsdk_rg_assist_panel_margin_top_land"
+                android:visibility="gone">
+
+                <include layout="@layout/nsdk_layout_rg_mapmode_assist_panel_layout_land" />
+            </RelativeLayout>
+
+            <!-- 控制面板-操作态 -->
+            <ViewStub
+                android:id="@+id/bnav_rg_control_panel_stub"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/nsdk_rg_control_panel_margin_top_land"
+                android:layout_marginBottom="@dimen/navi_dimens_5dp"
+                android:layout="@layout/nsdk_layout_rg_mapmode_main_sub_control_panel" />
+
+            <!--横屏状态下预计到达时间ETA信息-->
+            <LinearLayout
+                android:id="@+id/bnav_rg_toolbox_convoy_time_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/navi_dimens_1dp"
+                android:layout_marginRight="@dimen/nsdk_rg_hw_simple_board_margin_right"
+                android:background="@drawable/nsdk_drawable_rg_assist_eta_arrival_time_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/nsdk_rg_dest_arrivel_time_padding_left"
+                android:paddingTop="@dimen/navi_dimens_3dp"
+                android:paddingRight="@dimen/nsdk_rg_dest_arrivel_time_padding_left"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/bnav_rg_toolbox_convoy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/navi_dimens_1dp"
+                    android:gravity="center"
+                    android:text="@string/nsdk_string_rg_convoy_in_process"
+                    android:textColor="@color/nsdk_bottom_convoy_text_color"
+                    android:textSize="@dimen/navi_dimens_12dp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/bnav_rg_toolbox_arrive_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="后天18:56到达"
+                    android:textColor="@color/nsdk_cl_text_a"
+                    android:textSize="@dimen/navi_dimens_16dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <ViewStub
+                android:id="@+id/bnav_rg_nearby_search_stub"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/nsdk_rg_control_panel_bottom_margin"
+                android:layout="@layout/nsdk_layout_rg_nearby_search_filter_panel_land" />
+
+            <!--当前道路名view-->
+            <RelativeLayout
+                android:id="@+id/bnav_rg_cur_road_name_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:background="@color/nsdk_rg_transparent"
+                android:visibility="gone"></RelativeLayout>
+
+            <!--横屏BottomBar-->
+            <RelativeLayout
+                android:id="@+id/bnav_rg_toolbox_bottom_bar_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/navi_dimens_4dp"
+                android:gravity="bottom"></RelativeLayout>
+            <!--小度语音态-->
+            <ViewStub
+                android:id="@+id/bnav_rg_xd_voice_container_stub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inflatedId="@+id/bnav_rg_xd_voice_container"
+                android:layout="@layout/nsdk_layout_rg_xd_voice_panel_land"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <!-- 工具箱 -->
+    <RelativeLayout
+        android:id="@+id/bnav_rg_toolbox_panel_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        tools:visibility="gone"></RelativeLayout>
+
+    <!-- 菜单view -->
+    <!--<LinearLayout-->
+    <!--android:id="@+id/bnav_rg_menu_panel"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="@color/nsdk_cl_rg_bg_a"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:visibility="gone">-->
+
+    <!--<View-->
+    <!--android:id="@+id/bnav_rg_menu_trans_top"-->
+    <!--android:layout_width="@dimen/nsdk_rg_land_left_panel_width"-->
+    <!--android:layout_height="match_parent" />-->
+
+    <!--<LinearLayout-->
+    <!--android:id="@+id/bnav_rg_menu_container"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:orientation="vertical"></LinearLayout>-->
+    <!--</LinearLayout>-->
+
+    <!--ugc 上报面板-->
+    <com.baidu.navisdk.module.ugc.report.ui.UgcReportPanelLayout
+        android:id="@+id/bnav_rg_ugc_menu_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:panel_margin_left="@dimen/nsdk_rg_land_left_panel_width" />
+
+
+    <!-- UGC 详情view -->
+    <LinearLayout
+        android:id="@+id/bnav_rg_ugc_detail_menu_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="@dimen/nsdk_rg_land_left_panel_width"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/bnav_rg_ugc_detail_menu_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bnav_rg_route_search_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/nsdk_cl_rg_bg_a"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="@dimen/nsdk_rg_land_left_panel_width"
+            android:layout_height="match_parent" />
+
+        <RelativeLayout
+            android:id="@+id/bnav_rg_route_search_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:visibility="gone"></RelativeLayout>
+
+    </LinearLayout>
+
+    <!-- 路线排序 -->
+    <LinearLayout
+        android:id="@+id/bnav_rg_route_sort_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/nsdk_cl_rg_bg_a"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <View
+            android:id="@+id/bnav_rg_route_sort_trans_top"
+            android:layout_width="@dimen/nsdk_rg_land_left_panel_width"
+            android:layout_height="match_parent" />
+
+        <RelativeLayout
+            android:id="@+id/bnav_rg_route_sort_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="center_vertical"></RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bluetooth_panel_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/nsdk_cl_rg_bg_a"
+        android:orientation="horizontal"
+        android:paddingRight="@dimen/nsdk_rg_toolbox_margin_left"
+        android:paddingBottom="@dimen/nsdk_rg_toolbox_margin_left"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="@dimen/nsdk_rg_land_left_panel_width"
+            android:layout_height="match_parent" />
+
+        <!--蓝牙控制panel-->
+        <include layout="@layout/nsdk_layout_rg_bluetooth_controller_panel" />
+    </LinearLayout>
+
+
+    <!-- collada -->
+    <RelativeLayout
+        android:id="@+id/bnav_rg_collada_view_rl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/bnav_rg_collada_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal"></LinearLayout>
+
+        <ImageView
+            android:id="@+id/bnav_rg_collada_open_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/navi_dimens_0dp"
+            android:paddingRight="@dimen/navi_dimens_0dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/nsdk_drawable_enlarge_close_l"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <!-- 放大图 -->
+    <ViewStub
+        android:id="@+id/bnav_rg_enlarge_road_map_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/nsdk_layout_rg_mapmode_main_sub_enlarge_road_map" />
+
+    <!--卡片容器-->
+    <RelativeLayout
+        android:id="@+id/navi_rg_card_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:visibility="gone"></RelativeLayout>
+
+    <!-- 更多设置 -->
+    <RelativeLayout
+        android:id="@+id/bnav_rg_menu_more_setting_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"></RelativeLayout>
+
+    <!--高速订阅面板-->
+    <ViewStub
+        android:id="@+id/navi_rg_highway_subscript_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/navi_rg_highway_subscript_layout"
+        android:layout="@layout/nsdk_layout_hw_subscript_view"
+        android:visibility="gone" />
+
+    <ViewStub
+        android:id="@+id/open_the_door_for_me"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/nsdk_layout_rg_mapmode_main_sub_open_the_door" />
+
+    <ViewStub
+        android:id="@+id/bnav_rg_notification_debug_layout_stub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout="@layout/nsdk_layout_rg_mapmode_main_sub_notification_debug" />
+
+    <!-- 通知 -->
+    <RelativeLayout
+        android:id="@+id/bnav_rg_notification_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <View
+            android:id="@+id/bnav_rg_notification_trans_top"
+            android:layout_width="@dimen/nsdk_rg_land_left_panel_width"
+            android:layout_height="match_parent" />
+
+        <!-- -9为诱导面板右边阴影的宽度-->
+        <RelativeLayout
+            android:id="@+id/bnav_rg_notification_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="-9dp"
+            android:layout_toRightOf="@id/bnav_rg_notification_trans_top"></RelativeLayout>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/debug_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:visibility="gone" />
+
+    <!--首次引导-->
+    <RelativeLayout
+        android:id="@+id/navi_rg_first_enter_guide"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"></RelativeLayout>
+
+</com.baidu.navisdk.ui.widget.RGRootViewFrameLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/navi_dimens_64dp"
+    android:background="#ffffff"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/location_share_setting_list_item_check"
+        android:layout_width="@dimen/navi_dimens_16dp"
+        android:layout_height="@dimen/navi_dimens_16dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/navi_dimens_16dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/nsdk_drawable_location_share_setting_uncheck" />
+
+    <ImageView
+        android:id="@+id/location_share_setting_list_item_head"
+        android:layout_width="@dimen/navi_dimens_52dp"
+        android:layout_height="@dimen/navi_dimens_52dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/navi_dimens_14dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/nsdk_drawable_location_share_default_head_icon" />
+
+    <TextView
+        android:id="@+id/location_share_setting_list_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/navi_dimens_14dp"
+        android:text="younftze_2015"
+        android:textSize="@dimen/navi_dimens_14dp"/>
+</LinearLayout>
+

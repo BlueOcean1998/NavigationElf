@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/motor_edit_plate_layout"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/motor_setting_plate_layout_height"
+    android:paddingLeft="@dimen/navi_dimens_16dp"
+    android:paddingRight="@dimen/navi_dimens_6dp"
+    tools:parentTag="android.widget.RelativeLayout">
+
+
+    <ImageView
+        android:id="@+id/motor_edit_plate_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        tools:src="@drawable/motor_icon_plate_add" />
+
+    <LinearLayout
+        android:id="@+id/motor_plate_text_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+        android:layout_toRightOf="@id/motor_edit_plate_img"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/motor_edit_plate_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textColor="@color/nsdk_cl_text_a"
+            android:textSize="@dimen/navi_dimens_22dp"
+            android:textStyle="bold"
+            tools:text="京B88888" />
+
+
+        <TextView
+            android:id="@+id/motor_edit_plate_tips"
+            style="@style/MotorSettingItemTipsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="@string/motor_add_plate_avoid_limit" />
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/motor_edit_plate_edit_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingLeft="@dimen/navi_dimens_10dp"
+        android:paddingRight="@dimen/navi_dimens_10dp"
+        android:paddingTop="@dimen/navi_dimens_15dp"
+        android:paddingBottom="@dimen/navi_dimens_15dp"
+        android:src="@drawable/motor_icon_plate_edit"
+        android:visibility="gone"
+        tools:visibility="visible" />
+</merge>

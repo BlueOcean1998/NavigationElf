@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tab_item_collection"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.baidu.navisdk.commute.ui.widgets.CommuteRouteTabItem
+        android:id="@+id/commute_route_first_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.baidu.navisdk.commute.ui.widgets.CommuteRouteTabItem
+        android:id="@+id/commute_route_second_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.baidu.navisdk.commute.ui.widgets.CommuteRouteTabItem
+        android:id="@+id/commute_route_third_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNLinearLayout>

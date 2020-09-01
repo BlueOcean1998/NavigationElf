@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:tools="http://schemas.android.com/tools"
+       tools:parentTag="android.widget.LinearLayout"
+       tools:layout_width="@dimen/navi_dimens_132dp"
+       tools:layout_height="@dimen/navi_dimens_53dp"
+       tools:layout_marginLeft="@dimen/navi_dimens_5dp"
+       tools:gravity="center_vertical"
+       tools:orientation="horizontal">
+
+    <com.baidu.navisdk.ui.routeguide.asr.view.BNVoiceCornerView
+            android:id="@+id/cornerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/nsdk_xd_voice_aid_view_bg">
+
+        <com.baidu.mapframework.voice.widget.VoiceContentAnimView
+                android:layout_gravity="bottom"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:id="@+id/content_anim">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+
+                <com.baidu.mapframework.voice.widget.VoiceHeadView
+                        android:id="@+id/voice_add_head_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/navi_dimens_19dp"/>
+
+                <View
+                        android:id="@+id/voice_add_line_view"
+                        android:layout_width="1px"
+                        android:layout_height="@dimen/navi_dimens_10dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_20dp"
+                        android:background="#FFFFFF"/>
+
+
+                <ImageView
+                        android:id="@+id/voice_add_close_iv"
+                        android:layout_width="@dimen/navi_dimens_25dp"
+                        android:layout_height="@dimen/navi_dimens_25dp"
+                        android:padding="@dimen/navi_dimens_8dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_11dp"
+                        android:src="@drawable/nsdk_voice_aid_close"/>
+            </LinearLayout>
+        </com.baidu.mapframework.voice.widget.VoiceContentAnimView>
+
+    </com.baidu.navisdk.ui.routeguide.asr.view.BNVoiceCornerView>
+</merge>

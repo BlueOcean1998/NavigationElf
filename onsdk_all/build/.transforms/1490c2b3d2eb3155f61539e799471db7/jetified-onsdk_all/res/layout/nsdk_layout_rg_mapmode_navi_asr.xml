@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:roundProgress="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/navi_dimens_280dp"
+    android:layout_height="@dimen/navi_dimens_280dp"
+    android:background="@color/nsdk_cl_bg_d" >
+
+    <TextView
+        android:id="@+id/nsdk_rg_asr_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/navi_dimens_36dp"
+        android:text="@string/nsdk_string_rg_asr_starting"
+        android:textColor="@color/nsdk_cl_text_a"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/nsdk_rg_asr_tips_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nsdk_rg_asr_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/navi_dimens_18dp"
+        android:text="@string/nsdk_string_rg_asr_tips_title"
+        android:textColor="@color/nsdk_cl_text_b"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/nsdk_rg_asr_tips_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nsdk_rg_asr_tips_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/navi_dimens_8dp"
+        android:text="@string/nsdk_string_rg_asr_tips_content"
+        android:textColor="@color/nsdk_cl_text_b"
+        android:textSize="18sp" />
+
+    <com.baidu.navisdk.ui.routeguide.subview.widget.EllipsizingTextView
+        android:id="@+id/nsdk_rg_asr_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/navi_dimens_84dp"
+        android:textColor="@color/nsdk_cl_link_a"
+        android:textSize="22sp"
+        android:layout_marginLeft="@dimen/navi_dimens_20dp"
+        android:layout_marginRight="@dimen/navi_dimens_20dp"
+        android:ellipsize="start"
+        android:maxLines="2"
+        android:text="default_content_no_show"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_180dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/nsdk_rg_asr_record_panel"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_220dp" >
+
+            <com.baidu.navisdk.ui.routeguide.mapmode.subview.CircleWaveView
+                android:id="@+id/nsdk_rg_asr_wave_speak"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/nsdk_rg_asr_wave_stable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:contentDescription="@null"
+                android:src="@drawable/nsdk_asr_wave"
+                android:visibility="gone" />
+
+            <FrameLayout
+                android:id="@+id/nsdk_rg_asr_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="@dimen/navi_dimens_2dp" >
+
+                <ImageView
+                    android:id="@+id/nsdk_rg_asr_btn_record_process"
+                    android:layout_width="@dimen/navi_dimens_74dp"
+                    android:layout_height="@dimen/navi_dimens_74dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/nsdk_asr_process"
+                    android:contentDescription="@null"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/nsdk_rg_asr_btn_record"
+                    android:layout_width="@dimen/navi_dimens_64dp"
+                    android:layout_height="@dimen/navi_dimens_64dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@null"
+                    android:src="@drawable/nsdk_drawable_asr_record" />
+            </FrameLayout>
+        </RelativeLayout>
+
+       
+    </LinearLayout>
+ 		<TextView
+            android:id="@+id/nsdk_rg_asr_repeat_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/navi_dimens_16dp"
+            android:text="@string/nsdk_string_rg_asr_repeat"
+            android:textColor="@color/nsdk_cl_link_a"
+            android:textSize="12sp"
+            android:visibility="gone" />
+</RelativeLayout>

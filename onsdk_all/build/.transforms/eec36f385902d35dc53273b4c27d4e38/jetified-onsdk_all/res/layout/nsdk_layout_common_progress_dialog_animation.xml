@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/ll_loading_box"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/navi_dimens_56dp"
+        android:minWidth="@dimen/navi_dimens_210dp"
+        android:background="@drawable/nsdk_drawable_common_loading_box"
+        android:orientation="horizontal"
+        android:padding="@dimen/navi_dimens_16dp" >
+
+        <ProgressBar
+            android:id="@+id/progress_cycle_normal"
+            style="@style/BNCommonProgressStyle"
+            android:layout_width="@dimen/navi_dimens_24dp"
+            android:layout_height="@dimen/navi_dimens_24dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/navi_dimens_10dp"
+            android:layout_marginRight="@dimen/navi_dimens_10dp"
+            android:background="@drawable/nsdk_rg_ic_loading_logo" />
+
+        <TextView
+            android:id="@+id/progress_tip_text"
+            android:layout_width="@dimen/navi_dimens_0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="@dimen/navi_dimens_10dp"
+            android:layout_marginRight="@dimen/navi_dimens_10dp"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="0.5dp"
+            android:layout_height="@dimen/navi_dimens_24dp"
+            android:background="@color/nsdk_cl_bg_b" />
+
+        <ImageView
+            android:id="@+id/iv_dialog_close"
+            android:layout_width="@dimen/navi_dimens_16dp"
+            android:layout_height="@dimen/navi_dimens_16dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/navi_dimens_10dp"
+            android:layout_marginStart="@dimen/navi_dimens_10dp"
+            android:src="@drawable/nsdk_rg_ic_loading_close" />
+    </LinearLayout>
+
+</FrameLayout>

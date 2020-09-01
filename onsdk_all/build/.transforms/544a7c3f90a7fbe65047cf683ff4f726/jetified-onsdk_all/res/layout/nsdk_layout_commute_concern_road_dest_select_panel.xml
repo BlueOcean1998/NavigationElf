@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="horizontal">
+
+    <include
+        android:id="@+id/commute_dest_home"
+        layout="@layout/nsdk_layout_commute_concern_road_page_dest"
+        android:layout_marginLeft="@dimen/navi_dimens_85dp"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/navi_dimens_30dp" />
+
+    <include
+        android:id="@+id/commute_dest_company"
+        android:layout_marginRight="@dimen/navi_dimens_85dp"
+        android:layout_alignParentRight="true"
+        layout="@layout/nsdk_layout_commute_concern_road_page_dest"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/navi_dimens_30dp" />
+</RelativeLayout>

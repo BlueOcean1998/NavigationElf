@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/navi_dimens_17dp"
+    android:layout_marginBottom="@dimen/navi_dimens_32dp"
+    android:clipChildren="false"
+    android:orientation="vertical">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/voice_event_item_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_80dp"
+        android:clipChildren="false">
+
+    </androidx.viewpager.widget.ViewPager>
+</LinearLayout>

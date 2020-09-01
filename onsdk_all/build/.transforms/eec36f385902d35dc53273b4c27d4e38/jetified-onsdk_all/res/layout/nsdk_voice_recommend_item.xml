@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navi_dimens_246dp">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/nsdk_voice_recommend_item_bg"
+    >
+    <ImageView
+            android:id="@+id/voice_item_recommend_cover"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_164dp"
+            android:scaleType="centerCrop"/>
+
+    <ImageView
+            android:id="@+id/voice_item_recommend_tag"
+            android:layout_width="@dimen/navi_dimens_42dp"
+            android:layout_height="@dimen/navi_dimens_20dp"
+            android:src="@drawable/nsdk_voice_item_recommend_tag_level"/>
+
+        <View
+                android:id="@+id/voice_item_recommend_audition_click"
+                android:layout_width="@dimen/navi_dimens_75dp"
+                android:layout_height="@dimen/navi_dimens_75dp"
+                android:layout_alignBottom="@id/voice_item_recommend_cover"/>
+
+    <ImageView
+            android:id="@+id/voice_item_recommend_audition"
+            android:layout_width="@dimen/navi_dimens_40dp"
+            android:layout_height="@dimen/navi_dimens_21dp"
+            android:layout_alignBottom="@id/voice_item_recommend_cover"
+            android:background="@drawable/nsdk_voice_recommend_audution_btn_bg"
+            android:src="@drawable/bnav_voice_audition_stop"
+            android:scaleType="center"
+    />
+
+    <com.baidu.navisdk.ui.navivoice.widget.BNDownloadProgressButton
+            android:id="@+id/voice_item_recommend_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@id/voice_item_recommend_cover"
+            android:layout_marginRight="@dimen/navi_dimens_6dp"
+            android:layout_marginTop="@dimen/navi_dimens_150dp"
+            android:layout_alignBottom="@dimen/navi_dimens_12dp"
+    />
+
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_80dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+        <View
+                android:id="@+id/voice_item_recommend_tipArea"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/navi_dimens_30dp"/>
+        <TextView
+                android:id="@+id/voice_item_recommend_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                android:layout_marginTop="@dimen/navi_dimens_19dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:maxWidth="@dimen/navi_dimens_200dp"
+                android:text="阿斯顿阿斯顿啊的"
+                android:textColor="@color/nsdk_voice_audition_title_recommend_title_text_color"
+                android:textSize="@dimen/navi_dimens_16dp"/>
+
+        <ImageView
+                android:id="@+id/voice_item_recommend_author_img"
+                android:layout_width="@dimen/navi_dimens_17dp"
+                android:layout_height="@dimen/navi_dimens_17dp"
+                android:layout_below="@id/voice_item_recommend_title"
+                android:layout_alignLeft="@id/voice_item_recommend_title"
+                android:layout_marginTop="@dimen/navi_dimens_12dp"
+                android:src="@drawable/nsdk_ipo_turn_back"
+                />
+
+        <ImageView
+                android:id="@+id/voice_item_recommend_author_vip"
+                android:layout_width="9dp"
+                android:layout_height="9dp"
+                android:layout_alignBottom="@id/voice_item_recommend_author_img"
+                android:layout_alignLeft="@id/voice_item_recommend_author_img"
+                android:src="@drawable/voice_item_author_vip"
+                android:layout_marginLeft="@dimen/navi_dimens_10dp"
+        />
+
+        <TextView
+                android:id="@+id/voice_item_recommend_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/voice_item_recommend_title"
+                android:layout_alignBottom="@id/voice_item_recommend_author_img"
+                android:layout_marginLeft="@dimen/navi_dimens_23dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="“他是一种经典，更是修养”"
+                android:textColor="@color/nsdk_voice_audition_title_recommend_subtitle_text_color"
+                android:textSize="@dimen/navi_dimens_13dp"/>
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/nsdk_voice_item_more"
+                android:layout_marginRight="@dimen/navi_dimens_3dp"
+                android:layout_marginBottom="@dimen/navi_dimens_14dp"
+        />
+
+    </RelativeLayout>
+
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

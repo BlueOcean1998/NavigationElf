@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+
+    <item
+        android:drawable="@drawable/nsdk_ic_notify_voice_speech_1"
+        android:duration="200" />
+    <item
+        android:drawable="@drawable/nsdk_ic_notify_voice_speech_2"
+        android:duration="200" />
+    <item
+        android:drawable="@drawable/nsdk_ic_notify_voice_speech_3"
+        android:duration="200" />
+    <item
+        android:drawable="@drawable/nsdk_ic_notify_voice_speech_4"
+        android:duration="200" />
+
+    <item
+        android:drawable="@drawable/nsdk_ic_notify_voice_speech_5"
+        android:duration="200" />
+    <item
+        android:drawable="@drawable/nsdk_ic_notify_voice_speech_6"
+        android:duration="200" />
+    <item
+        android:drawable="@drawable/nsdk_ic_notify_voice_speech_7"
+        android:duration="200" />
+    <item
+        android:drawable="@drawable/nsdk_ic_notify_voice_speech_8"
+        android:duration="200" />
+
+    <item
+        android:drawable="@drawable/nsdk_ic_notify_voice_speech_9"
+        android:duration="200" />
+    <item
+        android:drawable="@drawable/nsdk_ic_notify_voice_speech_10"
+        android:duration="200" />
+    <item
+        android:drawable="@drawable/nsdk_ic_notify_voice_speech_11"
+        android:duration="200" />
+
+
+</animation-list>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--高速出入口-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bnavi_hw_exit_panel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:orientation="vertical"
+    android:visibility="visible"
+    tools:background="@drawable/nsdk_drawable_rg_hw_bg_green_top">
+
+    <LinearLayout
+        android:id="@+id/bnavi_rg_hw_service_panel_exit_code_ly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/nsdk_drawable_rg_hw_bg_exit_text"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/navi_dimens_21dp"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/navi_dimens_4dp"
+        android:paddingRight="@dimen/navi_dimens_4dp">
+
+        <TextView
+            android:id="@+id/bnavi_rg_hw_service_panel_exit_or_enter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/nsdk_rg_hw_service_exit_code_top"
+            android:textSize="@dimen/nsdk_rg_hw_service_area_panel_text_exit_code"
+            android:textStyle="bold"
+            tools:text="出口" />
+
+        <TextView
+            android:id="@+id/bnavi_rg_hw_service_panel_exit_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/navi_dimens_12dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/nsdk_rg_hw_service_exit_code_top"
+            android:textSize="@dimen/nsdk_rg_hw_service_area_panel_text_exit_code"
+            android:textStyle="bold"
+            tools:text="11" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/navi_dimens_21dp"
+        android:layout_marginTop="@dimen/navi_dimens_5dp"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/bnavi_rg_hw_service_panel_subscript_icon"
+            android:layout_width="@dimen/nsdk_rg_hw_service_area_subscript_icon_size"
+            android:layout_height="@dimen/nsdk_rg_hw_service_area_subscript_icon_size"
+            android:layout_marginBottom="@dimen/navi_dimens_3dp"
+            android:layout_marginRight="@dimen/nsdk_rg_hw_service_area_subscript_icon_margin_right"
+            android:src="@drawable/nsdk_drawable_rg_hw_service_subscribed"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <!--<com.baidu.navisdk.ui.routeguide.subview.widget.RGExitServiceAreaTextView-->
+        <TextView
+            android:id="@+id/bnavi_hw_exit_panel_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:gravity="bottom"
+            android:textColor="@color/nsdk_rg_hw_service_info"
+            android:includeFontPadding="false"
+            android:textSize="@dimen/nsdk_rg_hw_service_area_panel_text_exit_name"
+            tools:text="虎门搭桥 东莞" />
+
+        <TextView
+            android:id="@+id/bnavi_hw_exit_panel_direction_label"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:singleLine="true"
+            android:gravity="bottom"
+            android:textColor="@color/nsdk_rg_service_area_panel_direction_label_color"
+            android:textSize="@dimen/nsdk_rg_hw_service_area_panel_text_exit_name"
+            android:includeFontPadding="false"
+            android:text=" 方向" />
+
+    </LinearLayout>
+
+</LinearLayout>
+
+
+    <!--历史版本--><!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:tools="http://schemas.android.com/tools"--><!--android:id="@+id/bnavi_hw_exit_panel"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:background="@null"--><!--android:orientation="vertical"--><!--android:visibility="visible"--><!--tools:background="@drawable/nsdk_drawable_rg_hw_bg_green_top">-->
+
+    <!--&lt;!&ndash;解决上下对其问题所以嵌套一层&ndash;&gt;--><!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:orientation="horizontal">-->
+
+    <!--<LinearLayout--><!--android:id="@+id/bnavi_rg_hw_service_panel_exit_code_ly"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:background="@drawable/nsdk_drawable_rg_hw_bg_exit_text"--><!--android:gravity="center_vertical"--><!--android:minHeight="@dimen/navi_dimens_21dp"--><!--android:orientation="horizontal"--><!--android:paddingLeft="@dimen/navi_dimens_4dp"--><!--android:paddingRight="@dimen/navi_dimens_4dp">-->
+
+    <!--<TextView--><!--android:id="@+id/bnavi_rg_hw_service_panel_exit_or_enter"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:textColor="@color/nsdk_rg_hw_service_exit_code_top"--><!--android:textSize="@dimen/nsdk_rg_hw_service_area_panel_text_exit_code"--><!--android:textStyle="bold"--><!--tools:text="出口" />-->
+
+    <!--<TextView--><!--android:id="@+id/bnavi_rg_hw_service_panel_exit_code"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_marginLeft="@dimen/navi_dimens_12dp"--><!--android:ellipsize="end"--><!--android:singleLine="true"--><!--android:textColor="@color/nsdk_rg_hw_service_exit_code_top"--><!--android:textSize="@dimen/nsdk_rg_hw_service_area_panel_text_exit_code"--><!--android:textStyle="bold"--><!--tools:text="11" />--><!--</LinearLayout>--><!--</LinearLayout>-->
+
+    <!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="@dimen/navi_dimens_21dp"--><!--android:layout_marginTop="@dimen/navi_dimens_3dp"--><!--android:gravity="bottom"--><!--android:orientation="horizontal">-->
+
+    <!--<ImageView--><!--android:id="@+id/bnavi_rg_hw_service_panel_subscript_icon"--><!--android:layout_width="@dimen/nsdk_rg_hw_service_area_subscript_icon_size"--><!--android:layout_height="@dimen/nsdk_rg_hw_service_area_subscript_icon_size"--><!--android:layout_marginBottom="@dimen/navi_dimens_3dp"--><!--android:layout_marginRight="@dimen/nsdk_rg_hw_service_area_subscript_icon_margin_right"--><!--android:src="@drawable/nsdk_drawable_rg_hw_service_subscribed"--><!--android:visibility="gone"--><!--tools:visibility="visible" />-->
+
+    <!--<ImageView--><!--android:layout_width="0dp"--><!--android:layout_height="0dp"--><!--android:layout_weight="1" />-->
+
+    <!--<com.baidu.navisdk.ui.routeguide.subview.widget.RGExitServiceAreaTextView--><!--android:id="@+id/bnavi_hw_exit_panel_name"--><!--android:layout_width="wrap_content"--><!--android:layout_height="match_parent"--><!--android:ellipsize="end"--><!--android:gravity="right"--><!--android:singleLine="true"--><!--android:textColor="@color/nsdk_rg_hw_service_info"--><!--android:textSize="@dimen/nsdk_rg_hw_service_area_panel_text_exit_name"--><!--tools:text="虎门搭桥 东莞" />--><!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->

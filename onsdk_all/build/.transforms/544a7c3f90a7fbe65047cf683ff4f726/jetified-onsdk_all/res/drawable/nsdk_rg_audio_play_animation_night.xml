@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+    <item
+        android:drawable="@drawable/nsdk_audio_play_1_night"
+        android:duration="130" />
+    <item
+        android:drawable="@drawable/nsdk_audio_play_2_night"
+        android:duration="130" />
+    <item
+        android:drawable="@drawable/nsdk_audio_play_3_night"
+        android:duration="130" />
+    <item
+        android:drawable="@drawable/nsdk_audio_play_4_night"
+        android:duration="130" />
+    <item
+        android:drawable="@drawable/nsdk_audio_play_5_night"
+        android:duration="130" />
+    <item
+        android:drawable="@drawable/nsdk_audio_play_6_night"
+        android:duration="130" />
+</animation-list>

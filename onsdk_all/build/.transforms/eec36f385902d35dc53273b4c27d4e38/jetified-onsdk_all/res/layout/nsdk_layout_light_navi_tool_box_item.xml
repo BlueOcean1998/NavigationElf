@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/nsdk_light_navi_tool_box_menu_width"
+    android:background="@android:color/transparent"
+    android:minHeight="@dimen/nsdk_light_navi_tool_box_menu_height"
+    android:layout_height="@dimen/nsdk_light_navi_tool_box_menu_height">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/img"
+            tools:src="@drawable/nsdk_light_navi_toolbox_share"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:layout_height="@dimen/navi_dimens_29dp"
+            android:layout_width="@dimen/navi_dimens_29dp">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/text"
+            tools:text="行程分享"
+            android:textSize="@dimen/navi_dimens_12dp"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/img"
+            android:layout_marginTop="@dimen/navi_dimens_0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/nsdk_light_navi_toolbox_txt_selector"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:gravity="center" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="1px"
+        android:id="@+id/right_divider"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="@dimen/navi_dimens_14dp"
+        android:layout_marginBottom="@dimen/navi_dimens_14dp"
+        android:layout_alignParentRight="true"
+        android:layout_height="@dimen/navi_dimens_44dp"
+        android:background="@drawable/nsdk_light_navi_toolbox_right_divider" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/bottom_divider"
+        android:layout_alignParentBottom="true"
+        android:layout_height="1px"
+        android:background="#80979797" />
+</RelativeLayout>

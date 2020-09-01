@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/bnav_cruise_menu"
+    android:background="#fff7f7f7">
+
+	<RelativeLayout 
+        android:id="@+id/bnav_cruise_qa_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_54dp"
+        android:gravity="center_vertical"
+	    android:paddingBottom="@dimen/navi_dimens_6dp"
+	    android:paddingLeft="@dimen/navi_dimens_8dp"
+	    android:paddingRight="@dimen/navi_dimens_8dp"
+	    android:paddingTop="@dimen/navi_dimens_6dp"
+	    android:background="@drawable/nsdk_drawable_bg_texture"
+        android:visibility="visible">
+	
+	    <ImageView
+	        android:id="@+id/bnav_cruise_qa_back"
+	        android:layout_width="@dimen/navi_dimens_45dp"
+	        android:layout_height="match_parent"
+	        android:layout_alignParentLeft="true"
+	        android:background="@drawable/nsdk_drawable_rg_bg_space_search_catalog_prj_night"
+	        android:src="@drawable/nsdk_drawable_common_btn_back_black_night"
+	        android:scaleType="centerInside"
+	        android:gravity="center"
+	        android:clickable="true"
+	        android:maxWidth="@dimen/navi_dimens_80dp"/>
+	    
+	    <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerInParent="true"
+	        android:textSize="20sp"
+	        android:text="新手答疑"
+	        android:textColor="#ffffffff" />
+        
+    </RelativeLayout>
+	
+	<LinearLayout 
+        android:orientation="vertical"
+	    android:layout_below="@id/bnav_cruise_qa_title_bar"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:background="@drawable/nsdk_drawable_common_bg_prj_card_selector"
+	    android:layout_marginLeft="@dimen/navi_dimens_0dp"
+	    android:layout_marginRight="@dimen/navi_dimens_0dp"
+	    android:layout_marginTop="@dimen/navi_dimens_0dp"
+	    android:visibility="visible">
+	        <WebView
+            android:id="@+id/bnav_cruise_qa_webview"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_0dp"
+            android:layout_marginBottom="@dimen/navi_dimens_1dp"
+            android:layout_marginTop="@dimen/navi_dimens_1dp"
+            android:layout_weight="1" />
+	</LinearLayout>
+	
+</RelativeLayout>

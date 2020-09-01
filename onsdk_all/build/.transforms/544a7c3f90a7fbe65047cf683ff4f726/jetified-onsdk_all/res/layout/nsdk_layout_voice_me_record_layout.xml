@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <LinearLayout
+            android:id="@+id/nsdk_voice_record_no_voice_layout"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/navi_dimens_50dp"
+            android:visibility="gone"
+            android:gravity="center">
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/nsdk_voice_record_no_voice_icon"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="   您还没有录制语音\n快去录制您的专属语音吧"
+                android:textSize="@dimen/navi_dimens_14dp"
+                android:textColor="#999999"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/nsdk_voice_record_no_sign_in_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/navi_dimens_90dp"
+            android:visibility="gone">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="登录查看已录制的语音"
+                android:textColor="#999999"
+                android:textSize="@dimen/navi_dimens_17dp"/>
+        
+        <Button
+                android:id="@+id/nsdk_voice_record_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/navi_dimens_16dp"
+                android:text="立即登录"
+                android:textColor="#5566FF"
+                android:background="@drawable/nsdk_voice_me_record_sign_in"
+                android:textSize="@dimen/navi_dimens_17dp"/>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/voice_me_record_recycleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/nsdk_voice_recycleview_normal_padding"
+            android:paddingRight="@dimen/nsdk_voice_recycleview_normal_padding">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <com.baidu.navisdk.ui.widget.BNLoadingView
+            android:id="@+id/voice_me_record_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+    >
+
+    </com.baidu.navisdk.ui.widget.BNLoadingView>
+
+</RelativeLayout>

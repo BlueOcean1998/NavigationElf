@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
+  -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#cc000000">
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_alignParentRight="true"
+        android:scaleType="centerInside"
+        android:layout_centerInParent="true"
+        android:src="@drawable/nsdk_ic_light_navi_guide"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></ImageView>
+
+</RelativeLayout>

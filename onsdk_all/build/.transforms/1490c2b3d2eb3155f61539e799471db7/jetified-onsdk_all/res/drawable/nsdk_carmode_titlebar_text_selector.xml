@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <item android:color="@color/nsdk_carmode_titlebar_text_pressed_bg" android:state_pressed="true"/>
+    <item android:color="@color/nsdk_carmode_titlebar_text_bg"/>
+</selector>

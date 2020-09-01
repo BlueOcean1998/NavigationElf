@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:gravity="center">
+
+    <include
+        android:id="@+id/bnav_top_empty_view"
+        layout="@layout/bnav_statusbar_empty_view_include" />
+
+    <RelativeLayout
+        android:id="@+id/nsdk_driving_habit_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_50dp"
+        android:layout_below="@id/bnav_top_empty_view">
+
+        <ImageView
+            android:id="@+id/nsdk_driving_habit_back_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/navi_dimens_15dp"
+            android:src="@drawable/bnav_titlebar_ic_back_new" />
+
+        <TextView
+            android:id="@+id/nsdk_driving_habit_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/nsdk_string_select_driving_habit"
+            android:textColor="@color/nsdk_route_sort_title"
+            android:textSize="@dimen/navi_dimens_18dp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/nsdk_driving_habit_sub_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nsdk_driving_habit_status_bar"
+        android:background="#f7f7f7"
+        android:gravity="center"
+        android:paddingTop="@dimen/navi_dimens_10dp"
+        android:text="@string/nsdk_string_select_preference_sub_title"
+        android:textColor="@color/nsdk_route_sort_summary_text"
+        android:textSize="@dimen/navi_dimens_12dp" />
+
+
+    <ScrollView
+        android:id="@+id/nsdk_driving_habit_more_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/nsdk_driving_habit_sub_title_bar"
+        android:layout_alignParentBottom="true"
+        android:background="#f7f7f7"
+        android:orientation="vertical"
+        android:scrollbarAlwaysDrawVerticalTrack="false"
+        android:scrollbarSize="@dimen/navi_dimens_0dp"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/nsdk_driving_habit_parent_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

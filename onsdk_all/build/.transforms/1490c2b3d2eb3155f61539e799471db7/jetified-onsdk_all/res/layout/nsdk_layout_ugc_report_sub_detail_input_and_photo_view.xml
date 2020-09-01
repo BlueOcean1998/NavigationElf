@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/ugc_sub_info_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="@dimen/navi_dimens_12dp"
+        android:text="详情描述"
+        android:textColor="#333333"
+        android:textSize="12dp" />
+
+    <LinearLayout
+        android:id="@+id/ugc_sub_input_and_photo"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_50dp"
+        android:background="@color/nsdk_cl_bg_d"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/navi_dimens_15dp"
+        android:paddingRight="@dimen/navi_dimens_15dp">
+
+
+        <ImageView
+            android:id="@+id/ugc_sub_info_fill_photo_iv"
+            android:layout_width="@dimen/navi_dimens_41dp"
+            android:layout_height="@dimen/navi_dimens_41dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/navi_dimens_10dp"
+            android:background="@drawable/nsdk_route_report_photo_bg"
+            android:scaleType="center"
+            android:src="@drawable/nsdk_ugc_sub_info_fill_photo_icon" />
+
+        <FrameLayout
+            android:id="@+id/ugc_sub_photo_show_layout"
+            android:layout_width="@dimen/navi_dimens_41dp"
+            android:layout_height="@dimen/navi_dimens_41dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/navi_dimens_10dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/ugc_sub_photo_show_iv"
+                android:layout_width="@dimen/navi_dimens_41dp"
+                android:layout_height="@dimen/navi_dimens_41dp"
+                android:scaleType="fitXY" />
+
+            <ImageView
+                android:id="@+id/ugc_sub_photo_show_play_video_iv"
+                android:layout_width="@dimen/navi_dimens_20dp"
+                android:layout_height="@dimen/navi_dimens_20dp"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"
+                android:src="@drawable/nsdk_ugc_icon_play_small"
+                android:visibility="gone"
+                tools:visibility="visible" />
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_41dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/nsdk_drawable_rg_ugc_view_unselected">
+
+
+            <TextView
+                android:id="@+id/ugc_sub_info_fill_content_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/navi_dimens_40dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/navi_dimens_15dp"
+                android:textColor="#333"
+                android:textSize="@dimen/nsdk_ugc_report_edit_text_size" />
+
+            <EditText
+                android:id="@+id/ugc_sub_info_fill_content_et"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/navi_dimens_40dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/navi_dimens_15dp"
+                android:textColor="#333"
+                android:textSize="@dimen/nsdk_ugc_report_edit_text_size"
+                android:visibility="gone" />
+
+            <!-- 展示录音信息 -->
+            <TextView
+                android:id="@+id/ugc_sub_sounds_content_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/navi_dimens_40dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/navi_dimens_15dp"
+                android:textColor="#333"
+                android:textSize="@dimen/nsdk_ugc_report_edit_text_size"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/ugc_sub_info_fill_sounds_iv"
+                android:layout_width="@dimen/navi_dimens_24dp"
+                android:layout_height="@dimen/navi_dimens_24dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/navi_dimens_15dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/nsdk_ugc_sub_info_fill_sounds_icon" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#ffffff"
+              android:orientation="vertical">
+    <include
+            android:id="@+id/bnav_top_empty_view"
+            layout="@layout/bnav_statusbar_empty_view_include"/>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:background="#f7f7f7"
+                  android:orientation="vertical">
+        <com.baidu.navisdk.ui.widget.BNCommonTitleBar
+                android:id="@+id/location_share_title_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></com.baidu.navisdk.ui.widget.BNCommonTitleBar>
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <com.baidu.navisdk.module.locationshare.view.GroupListRecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></com.baidu.navisdk.module.locationshare.view.GroupListRecyclerView>
+            <com.baidu.navisdk.module.locationshare.view.IndexBar
+                    android:id="@+id/index_bar"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"></com.baidu.navisdk.module.locationshare.view.IndexBar>
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>

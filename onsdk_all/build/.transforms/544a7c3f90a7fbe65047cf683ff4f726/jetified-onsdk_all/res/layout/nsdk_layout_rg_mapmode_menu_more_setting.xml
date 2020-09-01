@@ -1,0 +1,1471 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/nav_view_menu_more_setting_panel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#F5F6F7"
+                android:orientation="vertical">
+    <include
+            android:id="@+id/bnav_top_empty_view"
+            layout="@layout/bnav_statusbar_empty_view_include"/>
+    <com.baidu.navisdk.ui.widget.BNCommonTitleBar
+            android:id="@+id/title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bnav_top_empty_view"/>
+    <ScrollView
+            android:id="@+id/bnav_rg_menu_more_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/title_bar"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/city_shortname"
+            android:layout_toRightOf="@+id/city_shortname"
+            android:orientation="vertical"
+            android:scrollbarAlwaysDrawVerticalTrack="false"
+            android:scrollbarSize="@dimen/navi_dimens_0dp"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="none">
+        <LinearLayout
+                android:id="@+id/bnav_scroll_content_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <LinearLayout
+                    android:id="@+id/bnav_car_plate_info_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="#FFFFFF">
+                <LinearLayout
+                        android:id="@+id/car_plate_setting_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_18dp"
+                        android:layout_marginRight="@dimen/navi_dimens_18dp"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+                    <TextView
+                            android:id="@+id/car_plate"
+                            style="@style/NavCommonListItemTitleText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:background="@null"
+                            android:gravity="center_vertical"
+                            android:maxLength="8"
+                            android:text="京AK267K"
+                            android:textSize="@dimen/navi_dimens_22dp"
+                            android:textStyle="bold"
+                            android:visibility="visible"/>
+                    <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/navi_dimens_7dp"
+                            android:orientation="horizontal">
+                        <TextView
+                                android:id="@+id/nav_car_plate_tips_tv"
+                                style="@style/NavCommonListItemTipsText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:layout_centerVertical="true"
+                                android:text="常用车辆，已开启限行避让"
+                                android:visibility="visible"/>
+                        <TextView
+                                android:id="@+id/car_plate_guide"
+                                style="@style/NavCommonListItemTipsText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/navi_dimens_5dp"
+                                android:layout_centerHorizontal="@+id/navi_set_arrow"
+                                android:layout_toLeftOf="@+id/navi_set_arrow"
+                                android:text="添加车牌"/>
+                        <ImageView
+                                android:id="@+id/navi_set_arrow"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_alignParentRight="true"
+                                android:src="@drawable/nsdk_drawable_common_ic_setting_right_arrow"/>
+                    </RelativeLayout>
+                </LinearLayout>
+                <View
+                        android:id="@+id/bnav_rg_menu_h_split_0"
+                        style="@style/NavCommonListSplitLine"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_18dp"
+                        android:layout_marginRight="@dimen/navi_dimens_18dp"/>
+                <LinearLayout
+                        android:id="@+id/nav_license_plates_limit_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginBottom="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_18dp"
+                        android:layout_marginRight="@dimen/navi_dimens_18dp">
+
+                    <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                        <TextView
+                                android:id="@+id/nav_license_plates_limit_title_tv"
+                                android:textSize="@dimen/navi_dimens_16dp"
+                                android:textColor="@color/nsdk_cl_text_a"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="车牌限行"/>
+                        <TextView
+                                android:id="@+id/nav_limit_tips_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/navi_dimens_3dp"
+                                android:layout_marginLeft="@dimen/navi_dimens_5dp"
+                                android:layout_toRightOf="@id/nav_license_plates_limit_title_tv"
+                                android:text=""
+                                android:textColor="#45cc6a"
+                                android:textSize="@dimen/navi_dimens_12dp"/>
+                        <TextView
+                                android:id="@+id/nav_license_plates_limit_tips_tv"
+                                style="@style/NavCommonListItemTipsText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/nav_license_plates_limit_title_tv"
+                                android:gravity="center_vertical"
+                                android:paddingTop="@dimen/navi_dimens_3dp"
+                                android:text="@string/setting_license_plates_limit_tips"/>
+                        <TextView
+                                android:id="@+id/nav_license_plates_limit_link_tv"
+                                style="@style/NavCommonListItemTipsText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/nav_license_plates_limit_title_tv"
+                                android:layout_toRightOf="@id/nav_license_plates_limit_tips_tv"
+                                android:gravity="center_vertical"
+                                android:paddingTop="@dimen/navi_dimens_5dp"
+                                android:text="查看规定"
+                                android:textColor="#3385ff"
+                                android:visibility="gone"/>
+                        <ImageView
+                                android:id="@+id/nav_license_plates_limit_condition_cb"
+                                style="@style/NavCommonListCheckBox"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:contentDescription="@null"/>
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <TextView
+                    android:id="@+id/nav_common_use_tv"
+                    style="@style/NavCommonListItemTipsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/navi_dimens_12dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_15dp"
+                    android:text="常用设置"/>
+            <LinearLayout
+                    android:id="@+id/nsdk_common_setting_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/navi_dimens_6dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_6dp"
+                    android:layout_marginRight="@dimen/navi_dimens_6dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/nsdk_drawable_rg_setting_page_card_bg">
+
+                <RadioGroup
+                        android:id="@+id/nav_simple_guide_mode_selector_rg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                        android:layout_marginRight="@dimen/navi_dimens_10dp"
+                        android:orientation="horizontal">
+
+                    <RadioButton
+                            android:id="@+id/nav_default_mode_rb"
+                            style="@style/nav_more_setting_selector_rg"
+                            android:layout_width="@dimen/navi_dimens_0dp"
+                            android:layout_height="@dimen/navi_dimens_77dp"
+                            android:layout_marginRight="@dimen/navi_dimens_17dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bnav_guide_panel_default_mode_setting_selector"
+                            android:button="@null"
+                            android:gravity="center"/>
+
+                    <RadioButton
+                            android:id="@+id/nav_simple_mode_rb"
+                            style="@style/nav_more_setting_selector_rg"
+                            android:layout_width="@dimen/navi_dimens_0dp"
+                            android:layout_height="@dimen/navi_dimens_77dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bnav_guide_panel_simple_mode_setting_selector"
+                            android:button="@null"
+                            android:gravity="center"/>
+                </RadioGroup>
+
+                <LinearLayout
+                        android:id="@+id/bnav_rg_more_setting_guide_mode_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_7dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                        android:layout_marginRight="@dimen/navi_dimens_10dp"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            android:id="@+id/bnav_rg_more_setting_default_mode_text"
+                            android:textSize="@dimen/navi_dimens_16dp"
+                            android:textColor="@color/nsdk_cl_text_a"
+                            android:layout_width="@dimen/navi_dimens_0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/navi_dimens_15dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="经典模式"/>
+
+                    <TextView
+                            android:id="@+id/bnav_rg_more_setting_simple_mode_text"
+                            android:textSize="@dimen/navi_dimens_16dp"
+                            android:textColor="@color/nsdk_cl_text_a"
+                            android:layout_width="@dimen/navi_dimens_0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="简约模式"/>
+                </LinearLayout>
+
+                <View
+                        android:id="@+id/bnav_rg_menu_h_split_1"
+                        style="@style/NavCommonListSplitLine"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"/>
+
+                <RelativeLayout
+                        android:id="@+id/nav_view_car_logo_select_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"
+                        android:layout_gravity="center_vertical"
+                        android:baselineAligned="false"
+                        android:clickable="false"
+                        android:gravity="center_vertical">
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:orientation="vertical">
+
+                        <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:orientation="horizontal">
+
+                            <TextView
+                                    android:id="@+id/nav_logo_tv"
+                                    android:textSize="@dimen/navi_dimens_16dp"
+                                    android:textColor="@color/nsdk_cl_text_a"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="个性化导航车标"/>
+
+                            <ImageView
+                                    android:id="@+id/bnav_rg_menu_car_logo_red_guide"
+                                    android:layout_width="@dimen/navi_dimens_6dp"
+                                    android:layout_height="@dimen/navi_dimens_6dp"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/nsdk_drawable_download_update_num_bg"
+                                    android:visibility="gone"/>
+                        </LinearLayout>
+
+                        <TextView
+                                android:id="@+id/nav_logo_tips_tv"
+                                style="@style/NavCommonListItemTipsText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:layout_marginTop="@dimen/navi_dimens_5dp"
+                                android:text="精彩个性化导航车标随心换"/>
+
+                    </LinearLayout>
+
+                    <ImageView
+                            android:id="@+id/nav_logo_right_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/nsdk_drawable_common_ic_setting_right_arrow"
+                            android:visibility="visible"/>
+
+                    <TextView
+                            android:id="@+id/nav_logo_selected_tv"
+                            style="@style/NavCommonListItemInfoText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@id/nav_logo_right_iv"
+                            android:singleLine="true"
+                            android:text=""/>
+                </RelativeLayout>
+
+                <View
+                        android:id="@+id/bnav_rg_menu_h_split_14"
+                        style="@style/NavCommonListSplitLine"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"/>
+
+                <RelativeLayout
+                        android:id="@+id/nav_view_3d_car_logo_select_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginBottom="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"
+                        android:layout_gravity="center_vertical"
+                        android:baselineAligned="false"
+                        android:clickable="false"
+                        android:gravity="center_vertical">
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:orientation="vertical">
+
+                        <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:orientation="horizontal">
+
+                            <TextView
+                                    android:id="@+id/nav_3d_logo_tv"
+                                    android:textSize="@dimen/navi_dimens_16dp"
+                                    android:textColor="@color/nsdk_cl_text_a"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="使用3D车标"/>
+                            <TextView
+                                    android:layout_width="@dimen/navi_dimens_27dp"
+                                    android:layout_height="@dimen/navi_dimens_15dp"
+                                    android:layout_marginTop="-2dp"
+                                    android:gravity="center"
+                                    android:layout_marginLeft="3dp"
+                                    android:background="@drawable/nsdk_drawable_route_sort_default_tips_bg"
+                                    android:text="@string/nsdk_bluetooth_panel_default_recommend"
+                                    android:textColor="@color/nsdk_route_sort_setting_default"
+                                    android:textSize="@dimen/navi_dimens_10dp"/>
+
+                        </LinearLayout>
+
+                        <TextView
+                                android:id="@+id/nav_3d_logo_tips_tv"
+                                style="@style/NavCommonListItemTipsText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:layout_marginTop="@dimen/navi_dimens_5dp"
+                                android:text="切换到3D车标，从此与众不同"/>
+
+                    </LinearLayout>
+                    <ImageView
+                            android:id="@+id/nav_3d_logo_cb"
+                            style="@style/NavCommonListCheckBox"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:contentDescription="@null"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <TextView
+                    android:id="@+id/nav_voice_text_tv"
+                    style="@style/NavCommonListItemTipsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/navi_dimens_12dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_15dp"
+                    android:text="导航中语音"/>
+            <LinearLayout
+                    android:id="@+id/nsdk_navi_voice_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/navi_dimens_6dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_6dp"
+                    android:layout_marginRight="@dimen/navi_dimens_6dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/nsdk_drawable_rg_setting_page_card_bg">
+                <RadioGroup
+                        android:id="@+id/nav_view_voice_selector_rg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_15dp"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/navi_dimens_8dp"
+                        android:paddingRight="@dimen/navi_dimens_8dp">
+
+                    <RadioButton
+                            android:id="@+id/nav_voice_play_rb"
+                            style="@style/nav_more_setting_selector_rg"
+                            android:layout_width="@dimen/navi_dimens_0dp"
+                            android:layout_height="@dimen/navi_dimens_30dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/nsdk_drawable_rg_more_setting_toogle_button_left_bg"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="导航播报"/>
+
+                    <RadioButton
+                            android:id="@+id/nav_voice_mute_rb"
+                            style="@style/nav_more_setting_selector_rg"
+                            android:layout_width="@dimen/navi_dimens_0dp"
+                            android:layout_height="@dimen/navi_dimens_30dp"
+                            android:layout_marginLeft="-2px"
+                            android:layout_marginRight="-2px"
+                            android:layout_weight="1"
+                            android:background="@drawable/nsdk_drawable_rg_more_setting_toogle_button_middle_bg"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="静音"/>
+
+                    <RadioButton
+                            android:id="@+id/nav_voice_warning_rb"
+                            style="@style/nav_more_setting_selector_rg"
+                            android:layout_width="@dimen/navi_dimens_0dp"
+                            android:layout_height="@dimen/navi_dimens_30dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/nsdk_drawable_rg_more_setting_toogle_button_right_bg"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="仅提示音"/>
+
+                </RadioGroup>
+
+                <View
+                        android:id="@+id/bnav_rg_menu_h_split_2"
+                        style="@style/NavCommonListSplitLine"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"/>
+
+                <!--播报内容 start-->
+                <RelativeLayout
+                        android:id="@+id/bnav_rg_menu_broadcast_content_select_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:baselineAligned="false"
+                        android:clickable="false"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp">
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:orientation="vertical">
+
+                        <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                            <TextView
+                                    android:id="@+id/bnav_rg_menu_broadcast_tv"
+                                    android:textSize="@dimen/navi_dimens_16dp"
+                                    android:textColor="@color/nsdk_cl_text_a"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="播报内容"/>
+
+
+                            <TextView
+                                    android:id="@+id/nav_rg_broadcast_content_guide"
+                                    android:layout_width="@dimen/navi_dimens_38dp"
+                                    android:layout_height="@dimen/navi_dimens_15dp"
+                                    android:layout_marginLeft="@dimen/navi_dimens_5dp"
+                                    android:layout_toRightOf="@+id/nav_power_saver_setting_tv"
+                                    android:background="@drawable/nsdk_drawable_rg_more_setting_new_function_bg"
+                                    android:gravity="center"
+                                    android:text="新功能"
+                                    android:textColor="#EC4739"
+                                    android:textSize="@dimen/navi_dimens_10dp"
+                                    android:visibility="visible"/>
+                        </LinearLayout>
+
+                        <TextView
+                                android:id="@+id/bnav_rg_menu_broadcast_tips_tv"
+                                style="@style/NavCommonListItemTipsText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:layout_marginTop="@dimen/navi_dimens_5dp"
+                                android:text="@string/nsdk_string_diy_speak_subtitle_enabled"/>
+                    </LinearLayout>
+
+                    <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true">
+
+                        <ImageView
+                                android:id="@+id/bnav_rg_menu_broadcast_right_iv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/nsdk_drawable_common_ic_setting_right_arrow"
+                                android:visibility="visible"/>
+
+                        <TextView
+                                android:id="@+id/bnav_rg_menu_broadcast_selected_tv"
+                                style="@style/NavCommonListItemTipsText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/navi_dimens_5dp"
+                                android:layout_toLeftOf="@id/bnav_rg_menu_broadcast_right_iv"
+                                android:singleLine="true"
+                                tools:text="正在使用标准模式"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+                <!--播报内容 end-->
+
+                <View
+                        android:id="@+id/bnav_rg_menu_h_split_3"
+                        style="@style/NavCommonListSplitLine"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"/>
+
+                <!--明星语音 start-->
+                <RelativeLayout
+                        android:id="@+id/bnav_rg_menu_nav_voice_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginBottom="@dimen/navi_dimens_13dp"
+                        android:layout_gravity="center_vertical"
+                        android:baselineAligned="false"
+                        android:clickable="false"
+                        android:gravity="center_vertical">
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:orientation="vertical">
+
+                        <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:orientation="horizontal">
+
+                            <TextView
+                                    android:id="@+id/bnav_rg_menu_nav_voice_tv"
+                                    android:textSize="@dimen/navi_dimens_16dp"
+                                    android:textColor="@color/nsdk_cl_text_a"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:singleLine="true"
+                                    android:text="明星语音"/>
+
+                            <ImageView
+                                    android:id="@+id/bnav_rg_menu_voice_red_guide"
+                                    android:layout_width="@dimen/navi_dimens_6dp"
+                                    android:layout_height="@dimen/navi_dimens_6dp"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/nsdk_drawable_download_update_num_bg"
+                                    android:visibility="gone"
+                                    tools:visibility="visible"/>
+                        </LinearLayout>
+
+                        <TextView
+                                android:id="@+id/bnav_rg_menu_nav_voice_tips_tv"
+                                style="@style/NavCommonListItemTipsText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:paddingTop="@dimen/navi_dimens_5dp"
+                                android:text="个性语音随心换"/>
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true">
+
+                        <ImageView
+                                android:id="@+id/nav_voice_arrow_iv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/nsdk_drawable_common_ic_setting_right_arrow"
+                                android:visibility="visible"/>
+
+                        <TextView
+                                android:id="@+id/nav_voice_language_text_tv"
+                                style="@style/NavCommonListItemTipsText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/navi_dimens_5dp"
+                                android:layout_toLeftOf="@id/nav_voice_arrow_iv"
+                                android:singleLine="true"
+                                android:textColor="#3385ff"
+                                tools:text="普通话播报中"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+                <!--播报内容 end-->
+            </LinearLayout>
+
+
+            <TextView
+                    android:id="@+id/nav_during_tv"
+                    style="@style/NavCommonListItemTipsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/navi_dimens_13dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_15dp"
+                    android:text="导航中显示内容"/>
+            <LinearLayout
+                    android:id="@+id/nsdk_navi_display_content_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/navi_dimens_6dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_6dp"
+                    android:layout_marginRight="@dimen/navi_dimens_6dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/nsdk_drawable_rg_setting_page_card_bg">
+                <TextView
+                        android:id="@+id/nav_guide_angle_text_tv"
+                        android:textSize="@dimen/navi_dimens_16dp"
+                        android:textColor="@color/nsdk_cl_text_a"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:text="导航视角"/>
+
+                <RadioGroup
+                        android:id="@+id/nav_view_guide_angle_selector_rg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_7dp"
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp">
+
+                    <RadioButton
+                            android:id="@+id/nav_guide_angle_follow_rb"
+                            style="@style/nav_more_setting_selector_rg"
+                            android:layout_width="@dimen/navi_dimens_0dp"
+                            android:layout_height="@dimen/navi_dimens_30dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/nsdk_drawable_rg_more_setting_toogle_button_left_bg"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="跟随车头"/>
+
+                    <RadioButton
+                            android:id="@+id/nav_guide_angle_true_north_rb"
+                            style="@style/nav_more_setting_selector_rg"
+                            android:layout_width="@dimen/navi_dimens_0dp"
+                            android:layout_height="@dimen/navi_dimens_30dp"
+                            android:layout_marginLeft="-2px"
+                            android:layout_marginRight="-2px"
+                            android:layout_weight="1"
+                            android:background="@drawable/nsdk_drawable_rg_more_setting_toogle_button_middle_bg"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="正北朝上"/>
+
+                    <RadioButton
+                            android:id="@+id/nav_guide_angle_hud_rb"
+                            style="@style/nav_more_setting_selector_rg"
+                            android:layout_width="@dimen/navi_dimens_0dp"
+                            android:layout_height="@dimen/navi_dimens_30dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/nsdk_drawable_rg_more_setting_toogle_button_right_bg"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="HUD"/>
+
+                </RadioGroup>
+
+                <View
+                        android:id="@+id/bnav_rg_menu_h_split_4"
+                        style="@style/NavCommonListSplitLine"
+                        android:layout_marginTop="@dimen/navi_dimens_16dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"/>
+
+
+                <TextView
+                        android:id="@+id/nav_day_night_mode_tv"
+                        android:textSize="@dimen/navi_dimens_16dp"
+                        android:textColor="@color/nsdk_cl_text_a"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:text="日夜模式"/>
+
+                <RadioGroup
+                        android:id="@+id/nav_view_night_mode_selector_rg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_7dp"
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp">
+
+                    <RadioButton
+                            android:id="@+id/nav_night_mode_auto_rb"
+                            style="@style/nav_more_setting_selector_rg"
+                            android:layout_width="@dimen/navi_dimens_0dp"
+                            android:layout_height="@dimen/navi_dimens_30dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/nsdk_drawable_rg_more_setting_toogle_button_left_bg"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="自动"/>
+
+                    <RadioButton
+                            android:id="@+id/nav_day_mode_rb"
+                            style="@style/nav_more_setting_selector_rg"
+                            android:layout_width="@dimen/navi_dimens_0dp"
+                            android:layout_height="@dimen/navi_dimens_30dp"
+                            android:layout_marginLeft="-2px"
+                            android:layout_marginRight="-2px"
+                            android:layout_weight="1"
+                            android:background="@drawable/nsdk_drawable_rg_more_setting_toogle_button_middle_bg"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="白天"/>
+
+                    <RadioButton
+                            android:id="@+id/nav_night_mode_rb"
+                            style="@style/nav_more_setting_selector_rg"
+                            android:layout_width="@dimen/navi_dimens_0dp"
+                            android:layout_height="@dimen/navi_dimens_30dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/nsdk_drawable_rg_more_setting_toogle_button_right_bg"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="夜间"/>
+                </RadioGroup>
+
+                <View
+                        android:id="@+id/bnav_rg_menu_h_split_5"
+                        style="@style/NavCommonListSplitLine"
+                        android:layout_marginTop="@dimen/navi_dimens_16dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"/>
+
+
+                <TextView
+                        android:id="@+id/nav_overview_text_tv"
+                        android:textSize="@dimen/navi_dimens_16dp"
+                        android:textColor="@color/nsdk_cl_text_a"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:text="全程路况概览"/>
+
+                <RadioGroup
+                        android:id="@+id/nav_view_overview_selector_rg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_7dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                        android:layout_marginRight="@dimen/navi_dimens_10dp"
+                        android:orientation="horizontal">
+
+                    <RadioButton
+                            android:id="@+id/nav_overview_thumbnail_rb"
+                            style="@style/nav_more_setting_selector_rg"
+                            android:layout_width="@dimen/navi_dimens_0dp"
+                            android:layout_height="@dimen/navi_dimens_77dp"
+                            android:layout_marginRight="@dimen/navi_dimens_17dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bnav_moresetting_map_switch_selector"
+                            android:button="@null"
+                            android:gravity="center"/>
+
+                    <RadioButton
+                            android:id="@+id/nav_overview_road_condition_rb"
+                            style="@style/nav_more_setting_selector_rg"
+                            android:layout_width="@dimen/navi_dimens_0dp"
+                            android:layout_height="@dimen/navi_dimens_77dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bnav_moresetting_road_condition_bar_selector"
+                            android:button="@null"
+                            android:gravity="center"/>
+                </RadioGroup>
+
+                <LinearLayout
+                        android:id="@+id/bnav_rg_fullview_mode_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                        android:layout_marginRight="@dimen/navi_dimens_10dp"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            android:id="@+id/bnav_map_switch_text"
+                            style="@style/NavCommonListItemTitleText"
+                            android:layout_width="@dimen/navi_dimens_0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/navi_dimens_15dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="全览小窗"/>
+
+                    <TextView
+                            android:id="@+id/bnav_road_condition_bar_text"
+                            style="@style/NavCommonListItemTitleText"
+                            android:layout_width="@dimen/navi_dimens_0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="路况条"/>
+                </LinearLayout>
+
+                <View
+                        android:id="@+id/bnav_rg_menu_h_split_6"
+                        style="@style/NavCommonListSplitLine"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"/>
+
+
+                <RelativeLayout
+                        android:id="@+id/nav_scale_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp">
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
+
+                        <TextView
+                                android:id="@+id/nav_scale_tv"
+                                android:textSize="@dimen/navi_dimens_16dp"
+                                android:textColor="@color/nsdk_cl_text_a"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="导航比例尺智能缩放"/>
+
+                        <TextView
+                                android:id="@+id/nav_scale_tips_tv"
+                                style="@style/NavCommonListItemTipsText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:paddingTop="@dimen/navi_dimens_5dp"
+                                android:text="导航中地图自动放大或缩小"/>
+                    </LinearLayout>
+
+                    <ImageView
+                            android:id="@+id/nav_scale_cb"
+                            style="@style/NavCommonListCheckBox"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:contentDescription="@null"/>
+                </RelativeLayout>
+
+                <View
+                        android:id="@+id/bnav_rg_menu_h_split_7"
+                        style="@style/NavCommonListSplitLine"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"/>
+
+
+                <RelativeLayout
+                        android:id="@+id/nav_real_enlarge_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"
+                        android:gravity="center_vertical">
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
+
+                        <TextView
+                                android:id="@+id/nav_real_enlarge_tv"
+                                android:textSize="@dimen/navi_dimens_16dp"
+                                android:textColor="@color/nsdk_cl_text_a"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="显示路口放大图"/>
+
+                        <TextView
+                                android:id="@+id/nav_real_enlarge_tips_tv"
+                                style="@style/NavCommonListItemTipsText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:paddingTop="@dimen/navi_dimens_5dp"
+                                android:text="未下载离线导航包，会使用数据流量"/>
+                    </LinearLayout>
+
+                    <ImageView
+                            android:id="@+id/nav_real_enlarge_cb"
+                            style="@style/NavCommonListCheckBox"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:contentDescription="@null"/>
+                </RelativeLayout>
+
+                <!--<View-->
+                <!--android:id="@+id/bnav_rg_menu_h_split_9"-->
+                <!--style="@style/NavCommonListSplitLine"-->
+                <!--android:layout_marginLeft="@dimen/navi_dimens_18dp"-->
+                <!--android:layout_marginRight="@dimen/navi_dimens_18dp" />-->
+
+                <!--<RelativeLayout-->
+                <!--android:id="@+id/nav_3d_dynamic_layout"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/nsdk_more_setting_menu_item_height"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:background="#ffffff"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:paddingLeft="@dimen/navi_dimens_18dp"-->
+                <!--android:paddingRight="@dimen/navi_dimens_18dp"-->
+                <!--android:visibility="visible">-->
+
+                <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:orientation="vertical">-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/nav_3d_dynamic_tv"-->
+                <!--style="@style/NavCommonListItemTitleText"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="3D动态导航" />-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/nav_3d_dynamic_tips_tv"-->
+                <!--style="@style/NavCommonListItemTipsText"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:paddingTop="@dimen/navi_dimens_5dp"-->
+                <!--android:text="暂时只支持北上广深等城市" />-->
+                <!--</LinearLayout>-->
+
+                <!--<ImageView-->
+                <!--android:id="@+id/nav_3d_dynamic_cb"-->
+                <!--style="@style/NavCommonListCheckBox"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:contentDescription="@null" />-->
+                <!--</RelativeLayout>-->
+
+                <View
+                        android:id="@+id/bnav_rg_menu_h_split_8"
+                        style="@style/NavCommonListSplitLine"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"/>
+
+
+                <RelativeLayout
+                        android:id="@+id/nav_show_car_logo_to_end_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginBottom="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"
+                        android:visibility="visible">
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
+
+                        <TextView
+                                android:id="@+id/nav_show_car_logo_to_end_tv"
+                                android:textSize="@dimen/navi_dimens_16dp"
+                                android:textColor="@color/nsdk_cl_text_a"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="显示车标到终点红色连线"/>
+
+                        <TextView
+                                android:id="@+id/nav_show_car_logo_to_end_tips_tv"
+                                style="@style/NavCommonListItemTipsText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:paddingTop="@dimen/navi_dimens_5dp"
+                                android:text="红线连接终点并指向终点方向"/>
+                    </LinearLayout>
+
+                    <ImageView
+                            android:id="@+id/nav_show_car_logo_to_end_cb"
+                            style="@style/NavCommonListCheckBox"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:contentDescription="@null"/>
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <TextView
+                    android:id="@+id/nav_bluetooth_choice_tv"
+                    style="@style/NavCommonListItemTipsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/navi_dimens_13dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_15dp"
+                    android:text="@string/nsdk_bluetooth_setting_title"/>
+
+            <LinearLayout
+                    android:id="@+id/nsdk_bluetooth_connection_setting_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/navi_dimens_6dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_6dp"
+                    android:layout_marginRight="@dimen/navi_dimens_6dp"
+                    android:background="@drawable/nsdk_drawable_rg_setting_page_card_bg"
+                    android:orientation="vertical">
+
+                <include layout="@layout/nsdk_layout_setting_bluetooth_mode_setting"
+                         android:layout_height="wrap_content"
+                         android:layout_width="wrap_content"
+                         android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                         android:layout_marginRight="@dimen/navi_dimens_14dp"/>
+
+            </LinearLayout>
+
+            <TextView
+                    android:id="@+id/nav_additional_right_tv"
+                    style="@style/NavCommonListItemTipsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/navi_dimens_13dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_15dp"
+                    android:text="辅助功能"/>
+            <LinearLayout
+                    android:id="@+id/nsdk_additional_right_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/navi_dimens_6dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_6dp"
+                    android:layout_marginRight="@dimen/navi_dimens_6dp"
+                    android:layout_marginBottom="@dimen/navi_dimens_6dp"
+                    android:background="@drawable/nsdk_drawable_rg_setting_page_card_bg"
+                    android:orientation="vertical">
+                <RelativeLayout
+                        android:id="@+id/nav_calling_play_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"
+                        android:baselineAligned="false"
+                        android:clickable="false"
+                        android:gravity="center_vertical">
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
+
+                        <TextView
+                                android:id="@+id/nav_calling_play_title"
+                                android:textSize="@dimen/navi_dimens_16dp"
+                                android:textColor="@color/nsdk_cl_text_a"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="通话时收听语音播报"/>
+
+                        <TextView
+                                android:id="@+id/nav_calling_play_tips"
+                                style="@style/NavCommonListItemTipsText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:paddingTop="@dimen/navi_dimens_5dp"
+                                android:text="通话期间，实时收听导航播报"/>
+                    </LinearLayout>
+
+                    <ImageView
+                            android:id="@+id/nav_calling_play_checkbox"
+                            style="@style/NavCommonListCheckBox"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:contentDescription="@null"/>
+                </RelativeLayout>
+
+                <View
+                        android:id="@+id/bnav_rg_menu_h_split_9"
+                        style="@style/NavCommonListSplitLine"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"/>
+
+                <TextView
+                        android:id="@+id/nav_music_volume_tv"
+                        android:textSize="@dimen/navi_dimens_16dp"
+                        android:textColor="@color/nsdk_cl_text_a"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/nsdk_more_setting_btn_panel_title_top_margin"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"
+                        android:text="语音播报时音乐播放控制"/>
+
+                <RadioGroup
+                        android:id="@+id/nav_view_music_volume_selector_rg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_7dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"
+                        android:orientation="horizontal">
+
+                    <RadioButton
+                            android:id="@+id/nav_music_volume_lower_rb"
+                            style="@style/nav_more_setting_selector_rg"
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/nsdk_drawable_rg_more_setting_toogle_button_left_bg"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="降低音乐"/>
+
+                    <RadioButton
+                            android:id="@+id/nav_music_volume_stop_rb"
+                            style="@style/nav_more_setting_selector_rg"
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/nsdk_drawable_rg_more_setting_toogle_button_right_bg"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="暂停音乐"/>
+
+                </RadioGroup>
+
+                <TextView
+                        android:id="@+id/tv_music_volume_tips"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_7dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:text="@string/setting_val_lower"
+                        android:textColor="#999"
+                        android:textSize="13dp"/>
+
+                <View
+                        android:id="@+id/bnav_rg_menu_h_split_10"
+                        style="@style/NavCommonListSplitLine"
+                        android:layout_marginTop="@dimen/navi_dimens_15dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"/>
+
+                <RelativeLayout
+                        android:id="@+id/nav_park_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"
+                        android:baselineAligned="false"
+                        android:clickable="false">
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
+
+                        <TextView
+                                android:id="@+id/nav_park_tv"
+                                android:textSize="@dimen/navi_dimens_16dp"
+                                android:textColor="@color/nsdk_cl_text_a"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="目的地停车场推送"/>
+
+                        <TextView
+                                android:id="@+id/nav_park_tips_tv"
+                                style="@style/NavCommonListItemTipsText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:paddingTop="@dimen/navi_dimens_5dp"
+                                android:text="到达目的地后智能推荐停车场"/>
+                    </LinearLayout>
+
+                    <ImageView
+                            android:id="@+id/nav_park_cb"
+                            style="@style/NavCommonListCheckBox"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:contentDescription="@null"/>
+                </RelativeLayout>
+
+                <View
+                        android:id="@+id/bnav_rg_menu_h_split_11"
+                        style="@style/NavCommonListSplitLine"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"/>
+
+                <RelativeLayout
+                        android:id="@+id/nav_float_setting_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"
+                        android:gravity="center_vertical">
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
+
+                        <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                            <TextView
+                                    android:id="@+id/nav_float_setting_tv"
+                                    android:textSize="@dimen/navi_dimens_16dp"
+                                    android:textColor="@color/nsdk_cl_text_a"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="后台导航信息推送"/>
+
+                            <ImageView
+                                    android:id="@+id/bnav_rg_float_setting_red_guide"
+                                    android:layout_width="@dimen/navi_dimens_6dp"
+                                    android:layout_height="@dimen/navi_dimens_6dp"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/nsdk_drawable_download_update_num_bg"
+                                    android:visibility="gone"/>
+                        </LinearLayout>
+
+                        <TextView
+                                android:id="@+id/nav_float_setting_tips_tv"
+                                style="@style/NavCommonListItemTipsText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:paddingTop="@dimen/navi_dimens_5dp"
+                                android:text="后台导航期间，诱导信息实时推送"/>
+                    </LinearLayout>
+
+                    <ImageView
+                            android:id="@+id/nav_float_setting_cb"
+                            style="@style/NavCommonListCheckBox"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:contentDescription="@null"/>
+                </RelativeLayout>
+
+                <View
+                        android:id="@+id/bnav_rg_menu_h_split_12"
+                        style="@style/NavCommonListSplitLine"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"/>
+
+                <RelativeLayout
+                        android:id="@+id/nav_scenic_setting_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp">
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
+
+                        <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                            <TextView
+                                    android:id="@+id/nav_scenic_setting_tv"
+                                    android:textSize="@dimen/navi_dimens_16dp"
+                                    android:textColor="@color/nsdk_cl_text_a"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="景区播报"/>
+
+                            <ImageView
+                                    android:id="@+id/bnav_rg_scenic_setting_red_guide"
+                                    android:layout_width="@dimen/navi_dimens_6dp"
+                                    android:layout_height="@dimen/navi_dimens_6dp"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/nsdk_drawable_download_update_num_bg"
+                                    android:visibility="gone"/>
+                        </LinearLayout>
+
+                        <TextView
+                                android:id="@+id/nav_scenic_setting_tips_tv"
+                                style="@style/NavCommonListItemTipsText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:paddingTop="@dimen/navi_dimens_5dp"
+                                android:text="途中可收听景区简介播报"/>
+                    </LinearLayout>
+
+                    <ImageView
+                            android:id="@+id/nav_scenic_setting_cb"
+                            style="@style/NavCommonListCheckBox"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:contentDescription="@null"/>
+                </RelativeLayout>
+
+
+                <View
+                        android:id="@+id/bnav_rg_menu_h_split_13"
+                        style="@style/NavCommonListSplitLine"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:layout_marginRight="@dimen/navi_dimens_8dp"/>
+
+                <RelativeLayout
+                        android:id="@+id/nav_power_saver_setting_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_13dp"
+                        android:layout_marginBottom="@dimen/navi_dimens_13dp"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical">
+
+                    <TextView
+                            android:id="@+id/nav_power_saver_setting_tv"
+                            android:textSize="@dimen/navi_dimens_16dp"
+                            android:textColor="@color/nsdk_cl_text_a"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                            android:text="智能省电模式"/>
+
+                    <TextView
+                            android:id="@+id/nav_power_saver_setting_mark"
+                            android:layout_width="@dimen/navi_dimens_27dp"
+                            android:layout_height="@dimen/navi_dimens_15dp"
+                            android:layout_marginTop="@dimen/navi_dimens_4dp"
+                            android:layout_marginLeft="@dimen/navi_dimens_5dp"
+                            android:layout_toRightOf="@+id/nav_power_saver_setting_tv"
+                            android:background="@drawable/nsdk_drawable_route_sort_default_tips_bg"
+                            android:gravity="center"
+                            android:text="省电"
+                            android:textColor="#3385ff"
+                            android:textSize="@dimen/navi_dimens_10dp"
+                            android:visibility="visible"/>
+
+                    <ImageView
+                            android:id="@+id/bnav_rg_power_saver_setting_red_guide"
+                            android:layout_width="@dimen/navi_dimens_6dp"
+                            android:layout_height="@dimen/navi_dimens_6dp"
+                            android:layout_toRightOf="@+id/nav_power_saver_setting_mark"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/nsdk_drawable_download_update_num_bg"
+                            android:visibility="gone"/>
+
+                    <TextView
+                            android:id="@+id/nav_power_saver_setting_tips_tv"
+                            style="@style/NavCommonListItemTipsText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/nav_power_saver_setting_tv"
+                            android:layout_marginTop="@dimen/navi_dimens_5dp"
+                            android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                            android:layout_marginRight="@dimen/navi_dimens_64dp"
+                            android:text="开启后自动调节亮度。电量低于20%，将暂时关闭“小度语音”高于20%自动开启“小度语音”"/>
+
+                    <ImageView
+                            android:id="@+id/nav_power_saver_setting_cb"
+                            style="@style/NavCommonListCheckBox"
+                            android:layout_marginRight="@dimen/navi_dimens_8dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:contentDescription="@null"/>
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+            android:id="@+id/city_shortname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="#d7d9db"
+            android:orientation="vertical"
+            android:padding="@dimen/navi_dimens_6dp"
+            android:visibility="gone"/>
+
+    <View
+            android:id="@+id/mark"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/city_shortname"
+            android:layout_marginTop="@dimen/navi_dimens_54dp"
+            android:clickable="true"
+            android:visibility="gone"/>
+
+</RelativeLayout>

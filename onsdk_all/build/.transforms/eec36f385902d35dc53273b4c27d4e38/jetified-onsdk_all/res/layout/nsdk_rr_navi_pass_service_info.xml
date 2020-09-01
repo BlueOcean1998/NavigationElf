@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/nsdk_rr_long_distance_service"
+    >
+
+    <RelativeLayout
+        android:id="@+id/car_service_rl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="2dp"
+        >
+
+        <TextView
+            android:id="@+id/car_service_tx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="邯郸服务区"
+            android:textStyle="bold"
+            android:textSize="12dp"
+            android:textColor="#3385ff"
+            android:layout_marginBottom="2dp"
+            />
+        <TextView
+            android:id="@+id/car_remain_dis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/car_service_tx"
+            android:layout_alignBottom="@id/car_service_tx"
+            android:text="340公里"
+            android:textColor="#3385ff"
+            android:layout_marginLeft="2dp"
+            android:textSize="9dp"
+            />
+        <TextView
+            android:id="@+id/car_remain_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="约4小时50分到达"
+            android:textSize="10dp"
+            android:textColor="#555555"
+            android:layout_below="@id/car_service_tx"
+            />
+
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/car_line"
+        android:layout_width="0.5dp"
+        android:layout_height="26dp"
+        android:layout_toRightOf="@id/car_service_rl"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="4dp"
+        android:background="#CCCC99"/>
+    <RelativeLayout
+        android:id="@+id/add_node_rl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="11dp"
+        android:layout_toRightOf="@id/car_line"
+        >
+        <ImageView
+            android:id="@+id/add_node_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/nsdk_rr_distance_add_node"
+            />
+
+        <TextView
+            android:id="@+id/add_node_tx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="途经点"
+            android:textStyle="bold"
+            android:textColor="#3385ff"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/add_node_img"
+            android:layout_marginLeft="2dp"
+            android:textSize="10dp"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>

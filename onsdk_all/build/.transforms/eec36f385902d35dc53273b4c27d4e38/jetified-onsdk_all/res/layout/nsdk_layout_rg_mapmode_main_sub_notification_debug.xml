@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bnav_rg_notification_debug_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:visibility="gone">
+
+    <Button
+        android:id="@+id/bnav_rg_common_notification_debug_show"
+        android:layout_width="@dimen/navi_dimens_80dp"
+        android:layout_height="@dimen/navi_dimens_50dp"
+        android:text="显示1" />
+
+    <Button
+        android:id="@+id/bnav_rg_common_notification_debug_hide"
+        android:layout_width="@dimen/navi_dimens_80dp"
+        android:layout_height="@dimen/navi_dimens_50dp"
+        android:text="隐藏1" />
+
+    <Button
+        android:id="@+id/bnav_rg_operable_notification_debug_show"
+        android:layout_width="@dimen/navi_dimens_80dp"
+        android:layout_height="@dimen/navi_dimens_50dp"
+        android:text="显示2" />
+
+    <Button
+        android:id="@+id/bnav_rg_operable_notification_debug_hide"
+        android:layout_width="@dimen/navi_dimens_80dp"
+        android:layout_height="@dimen/navi_dimens_50dp"
+        android:text="隐藏2" />
+
+</LinearLayout>

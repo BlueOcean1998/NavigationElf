@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/download_list_item_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/background_dark"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical" >
+
+
+    <RelativeLayout
+        android:id="@+id/info_relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_53dp"
+        android:descendantFocusability="blocksDescendants"
+        android:focusable="false">
+
+        <ImageView
+            android:id="@+id/imageview_btn_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:focusable="false"
+            android:paddingBottom="@dimen/navi_dimens_10dp"
+            
+            android:paddingRight="@dimen/navi_dimens_13dp"
+            android:paddingTop="@dimen/navi_dimens_10dp"
+            android:src="@drawable/nsdk_offline_data_status_download" />
+
+        
+        <TextView
+            android:id="@+id/textview_name"
+            style="@style/NSDK_Text.provinceListName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imageview_btn_taskStatus"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/navi_dimens_13dp"
+            android:focusable="false"
+            android:text="北京市" />
+
+        <TextView
+            android:id="@+id/textview_info"
+            style="@style/NSDK_Text.provinceListStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignWithParentIfMissing="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/imageview_btn_status"
+            android:layout_marginRight="@dimen/navi_dimens_10dp"
+            android:focusable="false"
+            android:singleLine="true"
+            android:text="23.4m/218M \n未下载" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar_downloading"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/navi_dimens_2dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:max="100"
+            android:progressDrawable="@drawable/nsdk_drawable_od_bg_progress_downloading_selector" >
+        </ProgressBar>
+        
+        <ProgressBar
+            android:id="@+id/progress_bar_downloading_night"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/navi_dimens_2dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:max="100"
+            android:progressDrawable="@drawable/nsdk_drawable_od_bg_progress_downloading_selector_night" >
+        </ProgressBar>
+
+        <ProgressBar
+            android:id="@+id/progress_bar_suspend"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/navi_dimens_2dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:max="100"
+            android:progressDrawable="@drawable/nsdk_drawable_od_bg_progress_suspend_selector" >
+        </ProgressBar>
+        <ProgressBar
+            android:id="@+id/progress_bar_suspend_night"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/navi_dimens_2dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:max="100"
+            android:progressDrawable="@drawable/nsdk_drawable_od_bg_progress_suspend_selector_night" >
+        </ProgressBar>
+        <com.baidu.navisdk.ui.download.view.BNOfflineDataMergeLoadingView
+	        android:id="@+id/merge_view"
+	        android:layout_width="fill_parent"
+	        android:layout_height="@dimen/navi_dimens_2dp"
+	        android:layout_alignParentBottom="true"
+	       /> 
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/list_item_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/navi_dimens_0dp"
+        android:layout_marginRight="@dimen/navi_dimens_0dp"
+        android:background="@drawable/nsdk_drawable_common_line_horizontal" />
+
+    <View
+        android:id="@+id/list_item_margin"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/navi_dimens_10dp"
+        android:background="@android:color/transparent" />
+
+</LinearLayout>

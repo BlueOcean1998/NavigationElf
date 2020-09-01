@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.module.lightnav.widget.LightNaviContaienrRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/bottom_ourter_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nsdk_light_navi_bottom_bar_height"
+        android:layout_alignParentBottom="true"
+        layout="@layout/nsdk_layout_light_navi_bottom_panel" />
+
+    <!-- 路线排序 bottom menu-->
+    <FrameLayout
+        android:id="@+id/bnav_rg_route_sort_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000"
+        android:visibility="gone">
+
+        <FrameLayout
+            android:id="@+id/bnav_rg_route_sort_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom" />
+    </FrameLayout>
+
+    <!--ugc 上报面板-->
+    <com.baidu.navisdk.module.ugc.report.ui.UgcReportPanelLayout
+        android:id="@+id/bnav_rg_ugc_menu_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <!-- UGC 详情view -->
+    <include layout="@layout/nsdk_layout_ugc_detail_panel" />
+
+    <RelativeLayout
+        android:id="@+id/ipo_toolbox_container_mask"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/nsdk_ugc_menu_background"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:id="@+id/ipo_toolbox_container"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/navi_dimens_85dp"
+            android:layout_marginRight="@dimen/navi_dimens_10dp"
+            android:visibility="visible"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+    </RelativeLayout>
+
+    <!--行程分享dialog大背景-->
+    <RelativeLayout
+        android:id="@+id/share_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/nsdk_share_route_bg"
+        tools:visibility="visible"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nsdk_string_rg_cp_safety_guide"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/navi_dimens_19dp"
+            android:layout_marginTop="@dimen/navi_dimens_206dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+    <!--沿途搜面板-->
+    <RelativeLayout
+        android:id="@+id/nearby_search_panel_outter_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:background="#66000000">
+
+        <RelativeLayout
+            android:id="@+id/nearby_search_panel_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+    <!--引导图-->
+    <ViewStub
+        android:id="@+id/user_guide_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/nsdk_layout_light_navi_user_guide" />
+
+</com.baidu.navisdk.module.lightnav.widget.LightNaviContaienrRelativeLayout>

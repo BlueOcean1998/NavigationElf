@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" xmlns:tools="http://schemas.android.com/tools">
+
+
+    <RelativeLayout
+        android:id="@+id/left_content"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/navi_dimens_56dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/nsdk_drawable_route_result_nearby_search_popup_add_left">
+
+        <TextView
+            android:id="@+id/poi_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:singleLine="true"
+            android:minEms="3"
+            android:maxEms="11"
+            android:layout_marginLeft="@dimen/navi_dimens_3dp"
+            android:layout_marginRight="@dimen/navi_dimens_5dp"
+            android:ellipsize="end"
+            android:text="地铁"
+            android:textSize="@dimen/navi_dimens_15dp"
+            android:textColor="#333333"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/route_cost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/poi_name"
+            android:layout_alignParentLeft="true"
+            android:maxLines="1"
+            android:maxEms="13"
+            android:ellipsize="end"
+            android:layout_marginLeft="@dimen/navi_dimens_3dp"
+            android:layout_marginRight="@dimen/navi_dimens_5dp"
+            tools:text="距您2.6公里"
+            tools:visibility="gone"
+            android:textSize="@dimen/navi_dimens_12dp"
+            android:textColor="#666666"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/shop_open_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/route_cost"
+            android:layout_alignParentLeft="true"
+            android:maxLines="1"
+            android:maxEms="13"
+            tools:visibility="gone"
+            android:ellipsize="end"
+            android:layout_marginLeft="@dimen/navi_dimens_3dp"
+            android:layout_marginRight="@dimen/navi_dimens_5dp"
+            android:textSize="@dimen/navi_dimens_12dp"
+            android:textColor="#666666"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/right_content"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@id/left_content"
+        android:layout_alignBottom="@id/left_content"
+        android:layout_toRightOf="@id/left_content"
+        android:gravity="center"
+        android:background="@drawable/nsdk_drawable_route_result_nearby_search_popup_add_right">
+
+        <ImageView
+            android:id="@+id/set_waypoint_img"
+            android:layout_width="@dimen/navi_dimens_14dp"
+            android:layout_height="@dimen/navi_dimens_18dp"
+            android:scaleType="fitCenter"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/nsdk_drawable_route_result_nearby_search_add_viapoint" />
+
+        <TextView
+            android:id="@+id/set_waypoint_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/navi_dimens_3dp"
+            android:layout_marginRight="@dimen/navi_dimens_5dp"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="@dimen/navi_dimens_1dp"
+            android:layout_below="@id/set_waypoint_img"
+            android:text="途经点"
+            android:textSize="@dimen/navi_dimens_12dp"
+            android:textColor="#ffffff" />
+    </RelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/pin_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_42dp"
+        android:layout_below="@id/right_content"
+        android:layout_centerHorizontal="true"
+        android:clickable="false"
+        android:background="#FFFFFFFF" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/nsdk_drawable_route_nearby_search_popup_down_arrow"
+        android:layout_marginTop="@dimen/nsdk_route_result_ny_arrow_margin_top"
+        android:layout_below="@id/left_content" />
+</RelativeLayout>

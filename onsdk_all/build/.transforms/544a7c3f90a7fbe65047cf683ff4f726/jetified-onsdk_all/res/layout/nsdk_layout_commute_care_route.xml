@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/bnav_top_empty_view"
+        layout="@layout/bnav_statusbar_empty_view_include" />
+
+    <com.baidu.navisdk.ui.widget.BNCommonTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bnav_top_empty_view" />
+
+    <RelativeLayout
+        android:id="@+id/tip_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_80dp"
+        android:layout_marginTop="@dimen/navi_dimens_6dp"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/navi_dimens_15dp"
+        android:paddingRight="@dimen/navi_dimens_15dp">
+
+        <ImageView
+            android:id="@+id/close_ic"
+            android:layout_width="@dimen/navi_dimens_10dp"
+            android:layout_height="@dimen/navi_dimens_10dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/navi_dimens_10dp"
+            android:layout_marginBottom="@dimen/navi_dimens_10dp"
+            tools:background="@drawable/nsdk_ipo_condition_close" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fir_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="第1行" />
+
+            <TextView
+                android:id="@+id/sec_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fir_line"
+                tools:text="第2行" />
+
+            <TextView
+                android:id="@+id/thd_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/sec_line"
+                tools:text="第3行" />
+        </LinearLayout>
+    </RelativeLayout>
+    <!-- 底部tab -->
+
+</LinearLayout>

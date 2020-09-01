@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/nsdk_rg_common_view_bg"
+    android:minHeight="@dimen/nsdk_rg_not_intervene_height" >
+
+    <TextView
+        android:id="@+id/connect_notify_set"
+        android:layout_width="@dimen/navi_dimens_80dp"
+        android:layout_height="@dimen/navi_dimens_32dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="@dimen/navi_dimens_16dp"
+        android:background="@drawable/nsdk_drawable_rg_route_switch_button"
+        android:gravity="center"
+        android:text="在线重算"
+        android:textColor="#ffffff"
+        android:textSize="14sp" />
+
+    <com.baidu.navisdk.ui.widget.AlwaysMarqueeTextView
+        android:id="@+id/connect_notify_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/navi_dimens_16dp"
+        android:layout_marginRight="@dimen/navi_dimens_16dp"
+        android:layout_toLeftOf="@id/connect_notify_set"
+        android:clickable="false"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
+        android:text="联网失败转离线算路无路况"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
+
+</RelativeLayout>

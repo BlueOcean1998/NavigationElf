@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/nsdk_voice_radiobutton_bg_checked"></solid>
+
+    <stroke
+        android:width="@dimen/navi_dimens_1dp"
+        android:color="@color/nsdk_voice_radiobutton_bg_checked" />
+
+    <corners
+        android:bottomLeftRadius="0dp"
+        android:bottomRightRadius="@dimen/navi_dimens_6dp"
+        android:topLeftRadius="0dp"
+        android:topRightRadius="@dimen/navi_dimens_6dp" />
+</shape>

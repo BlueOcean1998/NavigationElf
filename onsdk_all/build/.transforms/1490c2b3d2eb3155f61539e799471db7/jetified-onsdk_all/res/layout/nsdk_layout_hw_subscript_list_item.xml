@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:background="@drawable/nsdk_drawable_rg_hw_bg_green_bottom">
+
+    <RelativeLayout
+        android:id="@+id/hw_service_top_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/navi_dimens_5dp"
+        android:layout_marginLeft="@dimen/nsdk_rg_service_subscribe_list_item_service_name_margin_left"
+        android:layout_marginTop="@dimen/navi_dimens_6dp">
+
+        <LinearLayout
+            android:id="@+id/hw_service_icon_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/hw_item_icon_park"
+                android:layout_width="@dimen/navi_dimens_24dp"
+                android:layout_height="@dimen/navi_dimens_24dp"
+                android:src="@drawable/nsdk_drawable_rg_hw_service_park"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
+            <ImageView
+                android:id="@+id/hw_item_icon_petrol_station"
+                android:layout_width="@dimen/navi_dimens_24dp"
+                android:layout_height="@dimen/navi_dimens_24dp"
+                android:layout_marginLeft="@dimen/navi_dimens_2dp"
+                android:src="@drawable/nsdk_drawable_rg_hw_service_petrol_station"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
+            <ImageView
+                android:id="@+id/hw_item_icon_charging_station"
+                android:layout_width="@dimen/navi_dimens_24dp"
+                android:layout_height="@dimen/navi_dimens_24dp"
+                android:layout_marginLeft="@dimen/navi_dimens_2dp"
+                android:src="@drawable/nsdk_drawable_rg_hw_service_charging_station"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
+            <ImageView
+                android:id="@+id/hw_item_icon_diningroom"
+                android:layout_width="@dimen/navi_dimens_24dp"
+                android:layout_height="@dimen/navi_dimens_24dp"
+                android:layout_marginLeft="@dimen/navi_dimens_2dp"
+                android:src="@drawable/nsdk_drawable_rg_hw_service_diningroom"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
+            <ImageView
+                android:id="@+id/hw_item_icon_wc"
+                android:layout_width="@dimen/navi_dimens_24dp"
+                android:layout_height="@dimen/navi_dimens_24dp"
+                android:layout_marginLeft="@dimen/navi_dimens_2dp"
+                android:src="@drawable/nsdk_drawable_rg_hw_service_toilet"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
+            <ImageView
+                android:id="@+id/hw_item_icon_shop"
+                android:layout_width="@dimen/navi_dimens_24dp"
+                android:layout_height="@dimen/navi_dimens_24dp"
+                android:layout_marginLeft="@dimen/navi_dimens_2dp"
+                android:src="@drawable/nsdk_drawable_rg_hw_service_shop"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
+            <ImageView
+                android:id="@+id/hw_item_icon_garage"
+                android:layout_width="@dimen/navi_dimens_24dp"
+                android:layout_height="@dimen/navi_dimens_24dp"
+                android:layout_marginLeft="@dimen/navi_dimens_2dp"
+                android:src="@drawable/nsdk_drawable_rg_hw_service_garage"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
+            <ImageView
+                android:id="@+id/hw_item_icon_recreation"
+                android:layout_width="@dimen/navi_dimens_24dp"
+                android:layout_height="@dimen/navi_dimens_24dp"
+                android:layout_marginLeft="@dimen/navi_dimens_2dp"
+                android:src="@drawable/nsdk_drawable_rg_hw_service_recreation"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
+            <ImageView
+                android:id="@+id/hw_item_icon_gas"
+                android:layout_width="@dimen/navi_dimens_24dp"
+                android:layout_height="@dimen/navi_dimens_24dp"
+                android:layout_marginLeft="@dimen/navi_dimens_2dp"
+                android:src="@drawable/nsdk_drawable_rg_hw_service_gas"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/hw_service_exit_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/navi_dimens_23dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/nsdk_drawable_rg_hw_bg_exit_text"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/navi_dimens_4dp"
+            android:paddingRight="@dimen/navi_dimens_4dp"
+            android:visibility="gone"
+            tools:visibility="gone">
+
+            <TextView
+                android:id="@+id/bnavi_rg_hw_service_panel_exit_or_enter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="出口"
+                android:textColor="@color/nsdk_rg_hw_service_exit_code_bottom"
+                android:textSize="@dimen/nsdk_rg_hw_service_area_panel_text_exit_code"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/bnavi_rg_hw_service_panel_exit_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/navi_dimens_12dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/nsdk_rg_hw_service_exit_code_bottom"
+                android:textSize="@dimen/nsdk_rg_hw_service_area_panel_text_exit_code"
+                android:textStyle="bold"
+                tools:text="114A-2413GAS" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/hw_item_icon_toll_station"
+            android:layout_width="@dimen/navi_dimens_24dp"
+            android:layout_height="@dimen/navi_dimens_24dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/nsdk_drawable_rg_hw_service_toll_station"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/hw_service_name_and_dist_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/hw_service_top_layout"
+        android:layout_toLeftOf="@+id/service_subscribe_layout"
+        android:layout_marginLeft="@dimen/nsdk_rg_service_subscribe_list_item_service_name_margin_left"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/hw_service_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/navi_dimens_6dp"
+            android:singleLine="true"
+            android:textColor="#fff"
+            android:textSize="@dimen/navi_dimens_16dp"
+            tools:text="呼伦贝尔伦贝尔服务区" />
+
+        <TextView
+            android:id="@+id/hw_service_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/nsdk_rg_service_subscribe_list_item_dist_margin_left"
+            android:singleLine="true"
+            android:textColor="#fff"
+            android:textSize="@dimen/navi_dimens_16dp"
+            tools:text="282公里" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/service_subscribe_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingRight="@dimen/nsdk_rg_service_subscribe_list_item_service_name_margin_left"
+        android:paddingLeft="@dimen/navi_dimens_7dp"
+        android:paddingTop="@dimen/navi_dimens_3dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/hw_service_script_icon"
+            android:layout_width="@dimen/navi_dimens_19dp"
+            android:layout_height="@dimen/navi_dimens_19dp"
+            android:src="@drawable/bnav_hw_subscript_selector" />
+
+        <TextView
+            android:id="@+id/hw_service_script_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/navi_dimens_5dp"
+            android:text="到达提醒"
+            android:textColor="#fff"
+            android:textSize="@dimen/navi_dimens_13dp" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="@drawable/bnav_route_banner_yellow_red_bg">
+
+    <LinearLayout
+        android:id="@+id/yellow_banner_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="12dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/yellow_tips_describe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                android:layout_marginRight="6dp"
+                android:textSize="14dp"
+                android:textColor="#E66661"
+                android:background="@drawable/nsdk_drawable_route_result_yellow_banner_describe_background"
+                tools:text="4/9"/>
+
+            <TextView
+                android:id="@+id/yellow_tips_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:textColor="#FFFFFF"
+                android:layout_gravity="center_vertical"
+                android:singleLine="true"
+                android:ellipsize="end"
+                tools:textStyle="bold"
+                tools:text="今日尾号限行，无法避开"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/yellow_tips_sub_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="2dp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            tools:text="终点在限行路段，请合理安排出行"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/yellow_tips_close_iv"
+        android:layout_width="19dp"
+        android:layout_height="match_parent"
+        android:scaleType="centerInside"
+        android:layout_marginRight="12dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="5dp"
+        android:src="@drawable/bnav_route_banner_yellow_tips_close"
+        tools:visibility="visible"/>
+</LinearLayout>

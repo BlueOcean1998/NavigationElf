@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
+  -->
+<com.baidu.navisdk.module.routeresult.view.support.module.routetab.BNRRBottomBar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="58dp"
+    android:background="@android:color/transparent"
+    android:clickable="true"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
+
+
+    <TextView
+        android:id="@+id/real_depart_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5dp"
+        android:clickable="true"
+        android:drawableLeft="@drawable/nsdk_route_result_depart_time"
+        android:drawableRight="@drawable/nsdk_route_result_future_depart_time_arrow_up"
+        android:drawablePadding="3dp"
+        android:gravity="center"
+        android:maxLines="1"
+        android:paddingTop="5dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="5dp"
+        android:textColor="@color/nsdk_route_result_radar_btn_text_selector"
+        android:textSize="16dp"
+        android:visibility="gone"
+        tools:text="今天11:00 出发"
+        tools:textColor="#333333"
+        tools:visibility="gone" />
+
+
+    <TextView
+        android:id="@+id/add_notice"
+        android:layout_width="119dp"
+        android:layout_height="38dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/nsdk_light_navi_to_nav_bg_selector"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="@string/nsdk_route_result_add_to_assistant"
+        android:textColor="@color/nsdk_route_result_to_nav_btn_text_selector"
+        android:textSize="16dp"
+        tools:textColor="#ffffff"
+        tools:visibility="gone" />
+
+
+    <TextView
+        android:id="@+id/depart_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:clickable="true"
+        android:drawableLeft="@drawable/nsdk_route_result_depart_time"
+        android:drawableRight="@drawable/nsdk_route_result_future_depart_time_arrow_up"
+        android:drawablePadding="3dp"
+        android:gravity="center"
+        android:paddingTop="5dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="5dp"
+        android:text="@string/nsdk_route_result_depart_time"
+        android:textColor="#333333"
+        tools:visibility="visible" />
+
+
+    <TextView
+        android:id="@+id/to_pro_guide"
+        android:layout_width="119dp"
+        android:layout_height="38dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/nsdk_light_navi_to_nav_bg_selector"
+        android:gravity="center"
+        android:text="@string/nsdk_route_result_start_guide"
+        android:textColor="@color/nsdk_route_result_to_nav_btn_text_selector"
+        android:textSize="16dp"
+        tools:textColor="#ffffff"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/to_pro_guide_offline"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/nsdk_light_navi_to_nav_bg_selector"
+        android:gravity="center"
+        android:text="@string/nsdk_route_result_start_guide"
+        android:textColor="@color/nsdk_route_result_to_nav_btn_text_selector"
+        android:textSize="16dp"
+        tools:textColor="#ffffff"
+        tools:visibility="gone" />
+
+    <TextView
+        android:id="@+id/to_light"
+        android:layout_width="74dp"
+        android:layout_height="38dp"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toLeftOf="@id/to_pro_guide"
+        android:background="@drawable/nsdk_route_result_light_btn_bg_selector"
+        android:gravity="center"
+        android:text="@string/nsdk_route_result_to_light"
+        android:textColor="@color/nsdk_route_result_radar_btn_text_selector"
+        android:textSize="16dp"
+        tools:textColor="#3385ff"
+        tools:visibility="gone" />
+
+    <TextView
+        android:id="@+id/to_commute"
+        android:layout_width="100dp"
+        android:layout_height="38dp"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toLeftOf="@id/to_pro_guide"
+        android:background="@drawable/nsdk_route_result_commute_btn_bg_selector"
+        android:gravity="center"
+        android:text="@string/nsdk_route_result_to_commute"
+        android:textColor="@color/nsdk_route_result_commute_btn_text_selector"
+        android:textSize="16dp"
+        tools:textColor="#333333"
+        tools:visibility="visible" />
+
+    <LinearLayout
+        android:id="@+id/national_contentview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/national_route_light_nav"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="0dp"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/national_to_ligh"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toLeftOf="@id/to_pro_guide"
+                android:background="@drawable/nsdk_route_result_light_btn_bg_selector"
+                android:gravity="center"
+                android:text="@string/nsdk_route_result_to_light"
+                android:textColor="@color/nsdk_route_result_radar_btn_text_selector"
+                android:textSize="16dp"
+                tools:textColor="#3385ff"
+                tools:visibility="visible" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/national_route_pro_nav"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="0dp"
+            android:layout_weight="2.1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/national_to_pro"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/nsdk_light_navi_to_nav_bg_selector"
+                android:gravity="center"
+                android:text="@string/nsdk_route_result_start_guide_national"
+                android:textColor="@color/nsdk_route_result_to_nav_btn_text_selector"
+                android:textSize="16dp"
+                tools:textColor="#ffffff"
+                tools:visibility="visible" />
+        </LinearLayout>
+    </LinearLayout>
+</com.baidu.navisdk.module.routeresult.view.support.module.routetab.BNRRBottomBar>

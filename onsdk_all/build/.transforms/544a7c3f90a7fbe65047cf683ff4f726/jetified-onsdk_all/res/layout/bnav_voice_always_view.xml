@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="android.widget.RelativeLayout">
+
+    <!--小度语音按钮，跟随操作态周期-->
+    <com.baidu.navisdk.ui.routeguide.asr.view.BNVoiceBtn
+        android:id="@+id/xd_voice_btn"
+        style="@style/NavXdEntryStyle"
+        tools:visibility="visible"
+        tools:src="@drawable/nsdk_voice_awake_icon_00012"
+        android:background="@drawable/nsdk_voice_head_bg"
+        android:visibility="visible"/>
+
+    <!--小度主动播报态-->
+    <RelativeLayout
+        android:id="@+id/bnav_rg_xd_voice_guide_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/xd_voice_btn"
+        android:layout_alignLeft="@id/xd_voice_btn">
+
+    </RelativeLayout>
+
+    <!--<TextView-->
+        <!--android:id="@+id/xd_voice_btn_tips"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_toRightOf="@id/xd_voice_btn"-->
+        <!--android:layout_alignTop="@id/xd_voice_btn"-->
+        <!--android:layout_marginLeft="2dp"-->
+        <!--android:layout_marginTop="-3dp"-->
+        <!--android:textColor="@color/nsdk_rg_voice_always_tips_text_color"-->
+        <!--android:background="@drawable/nsdk_xd_btn_tips_bubble"-->
+        <!--android:text="    点我来跟我对话啦   "-->
+        <!--android:textSize="@dimen/navi_dimens_13dp"-->
+        <!--tools:visibility="visible"-->
+        <!--android:visibility="gone"/>-->
+
+</merge>

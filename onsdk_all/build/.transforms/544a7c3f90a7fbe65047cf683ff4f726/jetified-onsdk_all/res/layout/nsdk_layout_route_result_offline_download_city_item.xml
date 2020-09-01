@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="10dp"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/offline_top_line"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="-5dp"
+            android:layout_above="@+id/offline_city_point"
+            android:src="@drawable/nsdk_drawable_route_result_offline_city_line"
+            android:scaleType="fitXY"/>
+
+        <ImageView
+            android:id="@+id/offline_bottom_line"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="-5dp"
+            android:layout_below="@+id/offline_city_point"
+            android:src="@drawable/nsdk_drawable_route_result_offline_city_line"
+            android:scaleType="fitXY"/>
+
+        <ImageView
+            android:id="@+id/offline_city_point"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_centerInParent="true"
+            tools:src="@drawable/nsdk_drawable_route_result_offline_start_point"
+            android:scaleType="centerInside"/>
+
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/offline_city_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="#333333"
+        android:textSize="15dp"
+        tools:text="北京市"/>
+
+</LinearLayout>

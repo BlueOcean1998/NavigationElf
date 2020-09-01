@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/fl_voice_container"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:id="@+id/fl_voice_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_156dp"
+        tools:background="@drawable/bnav_rg_voice_panel_voice_info">
+
+        <com.baidu.mapframework.voice.widget.VoiceContentAnimView
+            android:id="@+id/vw_content_anim"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <LinearLayout
+            android:id="@+id/ll_voice_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/tv_voice_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/navi_dimens_5dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="小度来了，你可以这么说"
+                android:textColor="#fff"
+                android:textSize="@dimen/navi_dimens_14dp"
+                tools:visibility="visible"
+                android:visibility="gone"/>
+
+            <com.baidu.mapframework.voice.widget.EllipsizingTextView
+                android:id="@+id/tv_voice_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/navi_dimens_15dp"
+                android:layout_marginRight="@dimen/navi_dimens_15dp"
+                android:ellipsize="start"
+                android:gravity="center"
+                android:maxLines="2"
+                android:text="附近的酒店"
+                android:textColor="#fff"
+                android:textSize="@dimen/navi_dimens_23dp"
+                tools:visibility="visible"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_voice_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/navi_dimens_28dp"
+            tools:visibility="visible"
+            android:visibility="gone">
+
+        </FrameLayout>
+
+    </FrameLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_operate_area"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_44dp"
+        android:layout_gravity="top">
+
+        <com.baidu.mapframework.voice.widget.VoiceHeadView
+            android:id="@+id/vw_head"
+            android:layout_width="@dimen/navi_dimens_39dp"
+            android:layout_height="@dimen/navi_dimens_28dp"
+            android:layout_marginLeft="@dimen/navi_dimens_15dp"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/tv_voice_state"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:textColor="#fff"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/navi_dimens_3dp"
+            android:layout_toRightOf="@id/vw_head"
+            tools:text="我正在听"
+            android:textSize="@dimen/navi_dimens_14dp"/>
+
+
+        <ImageView
+            android:id="@+id/ll_voice_close"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/nsdk_voice_aid_close"
+            android:includeFontPadding="false"
+            android:gravity="center_vertical"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="@dimen/navi_dimens_18dp"
+            android:paddingLeft="@dimen/navi_dimens_13dp"/>
+    </RelativeLayout>
+
+</FrameLayout>

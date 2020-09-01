@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:id="@+id/grid_img"
+        android:layout_width="@dimen/navi_dimens_61dp"
+        android:layout_height="@dimen/navi_dimens_61dp"
+        tools:src="@drawable/nsdk_route_report_icon_sub_1" />
+
+    <TextView
+        android:id="@+id/grid_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/navi_dimens_5dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="#333"
+        android:textSize="12sp"
+        tools:text="终点有误" />
+</LinearLayout>

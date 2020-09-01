@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bnav_rg_vdr_guide_layout"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nsdk_rg_top_panel_height"
+    android:paddingTop="@dimen/nsdk_rg_guide_panel_shadow_top"
+    android:paddingBottom="@dimen/nsdk_rg_guide_panel_shadow_bottom"
+    tools:background="@drawable/bnav_rg_guide_top_panel">
+
+
+    <ImageView
+        android:id="@+id/bnav_rg_vdr_guide_turn_icon"
+        android:layout_width="@dimen/nsdk_rg_icon_turn_zise"
+        android:layout_height="@dimen/nsdk_rg_icon_turn_zise"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/nsdk_rg_top_guide_turn_icon_margin"
+        android:layout_marginRight="@dimen/nsdk_rg_top_guide_turn_icon_margin"
+        android:scaleType="centerInside"
+        android:src="@drawable/nsdk_drawable_rg_ic_turn_along"
+        android:visibility="visible" />
+
+
+    <RelativeLayout
+        android:id="@+id/bnav_rg_vdr_direction_mode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/bnav_rg_vdr_guide_turn_icon"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/bnav_rg_vdr_guide_go_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/nsdk_rg_cp_icon_edge_margin"
+            android:text="@string/nsdk_string_hw_go"
+            android:textColor="@color/nsdk_text_rg_normal_info"
+            android:textSize="@dimen/nsdk_text_size_rg_normal_info"
+            android:textStyle="bold"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/bnav_rg_vdr_go_where_multi_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:textColor="@color/nsdk_rg_main_info"
+            android:textSize="@dimen/nsdk_text_size_rg_normal_info"
+            android:layout_toRightOf="@id/bnav_rg_vdr_guide_go_tv"
+            android:layout_marginRight="@dimen/navi_dimens_74dp"
+            android:layout_alignBaseline="@id/bnav_rg_vdr_guide_go_tv"
+            android:layout_marginLeft="@dimen/navi_dimens_8dp"
+            android:textStyle="bold"
+            tools:text="上地信息路" />
+
+        <TextView
+            android:id="@+id/bnav_rg_vdr_direction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/nsdk_rg_cp_icon_edge_margin"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/bnav_string_hw_direction"
+            android:textColor="@color/nsdk_text_rg_normal_info"
+            android:textSize="@dimen/nsdk_text_size_rg_normal_info"
+            android:layout_below="@id/bnav_rg_vdr_guide_go_tv"
+            android:textStyle="bold" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@id/bnav_rg_divider">
+
+    <RelativeLayout
+        android:id="@+id/fuzzy_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/fuzzy_logo"
+            android:layout_width="@dimen/navi_dimens_80dp"
+            android:layout_height="@dimen/navi_dimens_80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/navi_dimens_40dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/bnav_drawable_set_off" />
+
+        <TextView
+            android:id="@+id/fuzzy_tv_prefix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fuzzy_logo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/nsdk_rg_cp_icon_edge_margin"
+            android:text="@string/nsdk_string_rg_fuzzy_panel_prefix"
+            android:textColor="@color/nsdk_rg_main_info"
+            android:textSize="@dimen/nsdk_text_size_rg_normal_info"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/fuzzy_tv"
+            android:layout_width="@dimen/navi_dimens_140dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fuzzy_tv_prefix"
+            android:layout_marginTop="@dimen/navi_dimens_5dp"
+            android:layout_centerHorizontal="true"
+            android:clickable="false"
+            android:ellipsize="end"
+            android:gravity="center_horizontal"
+            android:maxLines="2"
+            android:lineSpacingExtra="@dimen/navi_dimens_8dp"
+            android:text=""
+            android:textColor="@color/nsdk_rg_main_info"
+            android:textSize="@dimen/nsdk_text_size_rg_normal_info"
+            android:textStyle="bold" />
+    </RelativeLayout>
+</RelativeLayout>

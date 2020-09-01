@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/toolbox_btn_container"
+        android:layout_centerInParent="true"
+        android:layout_width="@dimen/navi_dimens_57dp"
+        android:layout_height="@dimen/navi_dimens_57dp"
+        android:gravity="center"
+        android:background="@drawable/nsdk_light_navi_btn_bg_common_selector"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/tool_box_closed_state_iv"
+                android:layout_height="@dimen/navi_dimens_28dp"
+                android:layout_width="@dimen/navi_dimens_28dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/nsdk_light_navi_toolbox" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/nsdk_cl_text_h"
+                android:layout_marginTop="@dimen/nsdk_rg_control_button_text_margin_top"
+                android:textSize="@dimen/nsdk_rg_control_panel_btn_text_size"
+                android:text="工具箱" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/yellow_banner_red_tool"
+        android:layout_width="@dimen/navi_dimens_4dp"
+        android:layout_height="@dimen/navi_dimens_4dp"
+        android:layout_marginTop="@dimen/navi_dimens_11dp"
+        android:layout_marginRight="@dimen/navi_dimens_10dp"
+        android:visibility="gone"
+        android:layout_alignRight="@id/toolbox_btn_container"
+        android:background="@drawable/nsdk_yellow_banner_red_flag" />
+
+</RelativeLayout>

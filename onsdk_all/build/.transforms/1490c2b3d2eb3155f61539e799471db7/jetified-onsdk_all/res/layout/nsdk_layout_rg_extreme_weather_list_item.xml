@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
+  -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/nsdk_drawable_rg_weather_item_bg"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingRight="@dimen/nsdk_rg_service_subscribe_list_item_service_name_margin_left"
+    android:paddingLeft="@dimen/nsdk_rg_service_subscribe_list_item_service_name_margin_left"
+    android:paddingTop="@dimen/navi_dimens_14dp"
+    android:paddingBottom="@dimen/navi_dimens_14dp">
+
+    <ImageView
+        android:id="@+id/bnav_extreme_weather_icon"
+        android:layout_width="@dimen/navi_dimens_36dp"
+        android:layout_height="@dimen/navi_dimens_36dp"
+        android:layout_marginRight="@dimen/navi_dimens_10dp"
+        android:scaleType="fitCenter"
+        tools:src="@drawable/nsdk_drawable_route_result_weather_storm_rain" />
+
+    <RelativeLayout
+        android:id="@+id/bnav_extreme_weather_right_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/bnav_extreme_weather_route_event_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/navi_dimens_10dp"
+            android:includeFontPadding="false"
+            android:textSize="@dimen/navi_dimens_16dp"
+            android:layout_marginTop="@dimen/navi_dimens_6dp"
+            android:layout_marginBottom="@dimen/navi_dimens_5dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="#d0021b"
+            tools:text="路面严重积雪" />
+
+
+        <TextView
+            android:id="@+id/bnav_extreme_weather_route_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bnav_extreme_weather_route_event_tv"
+            android:layout_marginBottom="@dimen/navi_dimens_6dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="#333333"
+            android:textSize="@dimen/navi_dimens_12dp"
+            tools:text="沈海高速" />
+
+        <TextView
+            android:id="@+id/bnav_extreme_weather_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/bnav_extreme_weather_route_name"
+            android:layout_marginLeft="@dimen/navi_dimens_10dp"
+            android:layout_toRightOf="@id/bnav_extreme_weather_route_name"
+            android:layout_marginRight="@dimen/navi_dimens_10dp"
+            android:textColor="#333333"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="@dimen/navi_dimens_12dp"
+            tools:text="10公里" />
+
+        <TextView
+            android:id="@+id/bnav_extreme_weather_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/bnav_extreme_weather_route_name"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/navi_dimens_10dp"
+            android:textColor="#333333"
+            android:textSize="@dimen/navi_dimens_12dp"
+            tools:text="-10℃" />
+    </RelativeLayout>
+
+
+</LinearLayout>

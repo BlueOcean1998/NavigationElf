@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid
+                    android:color="@color/nsdk_rg_operable_notification_low_priority_cancel_background_pressed">
+            </solid>
+            <corners
+                    android:radius="50dp">
+            </corners>
+            <stroke
+                    android:width="1px"
+                    android:color="@color/nsdk_cl_bg_a_alpha_forty">
+            </stroke>
+        </shape>
+
+    </item>
+    <item android:state_pressed="false">
+        <shape android:shape="rectangle">
+            <solid
+                    android:color="@color/nsdk_rg_operable_notification_low_priority_cancel_background">
+            </solid>
+            <corners
+                    android:radius="50dp">
+            </corners>
+            <stroke
+                    android:width="1px"
+                    android:color="@color/nsdk_cl_bg_a">
+            </stroke>
+        </shape>
+    </item>
+</selector>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/nsdk_rg_common_view_bg"
+                android:minHeight="@dimen/nsdk_rg_not_intervene_height" >
+
+    <com.baidu.navisdk.ui.widget.AlwaysMarqueeTextView
+            android:id="@+id/common_card_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/navi_dimens_16dp"
+            android:layout_marginRight="@dimen/navi_dimens_16dp"
+            android:gravity="center"
+            android:clickable="false"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:text="正在使用推荐方案"
+            android:textColor="#b3b3b3"
+            android:textSize="16sp" />
+
+</RelativeLayout>

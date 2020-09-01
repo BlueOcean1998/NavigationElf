@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/ugc_sub_detail_falg_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/navi_dimens_18dp"
+            android:text="*"
+            android:textColor="#EE2C2C"
+            android:textSize="@dimen/navi_dimens_13dp" />
+
+        <TextView
+            android:id="@+id/ugc_sub_lane_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/navi_dimens_25dp"
+            android:layout_marginLeft="@dimen/navi_dimens_25dp"
+            android:singleLine="true"
+            android:text="车道信息"
+            android:textColor="#333333"
+            android:textSize="@dimen/navi_dimens_12dp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ugc_report_sub_item_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/navi_dimens_25dp"
+        android:layout_marginLeft="@dimen/navi_dimens_25dp"
+        android:layout_marginTop="@dimen/navi_dimens_8dp"
+        android:layout_marginBottom="@dimen/navi_dimens_8dp"
+        android:orientation="horizontal"/>
+
+</LinearLayout>

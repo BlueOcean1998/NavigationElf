@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:gravity="center_vertical"
+    android:paddingLeft="@dimen/navi_dimens_10dp"
+    android:paddingRight="@dimen/navi_dimens_10dp"
+    android:paddingTop="@dimen/navi_dimens_10dp" 
+    android:paddingBottom="@dimen/navi_dimens_10dp">
+    
+   <ImageView
+            android:id="@+id/left_imageview"
+            android:layout_width="@dimen/navi_dimens_48dp"
+            android:layout_height="@dimen/navi_dimens_48dp"
+            android:layout_alignParentLeft="true"
+            android:clickable="true"
+            android:gravity="center"
+            android:background="@drawable/bnav_titlebar_back_bg_selector"
+            android:scaleType="centerInside"
+            />
+   
+    <ImageView
+            android:id="@+id/right_imageview"
+            android:layout_width="@dimen/navi_dimens_48dp"
+            android:layout_height="@dimen/navi_dimens_48dp"
+            android:layout_alignParentRight="true"
+            android:clickable="true"
+            android:gravity="center"
+            android:background="@drawable/nsdk_carmode_maptitlebar_back"
+            android:scaleType="centerInside"
+            android:visibility="gone"
+            />
+    <TextView android:id="@+id/middle_text"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:gravity="center"
+         android:textSize="20sp"
+         android:textColor="#ffffff"
+         android:layout_centerInParent="true"/>
+
+
+</RelativeLayout>

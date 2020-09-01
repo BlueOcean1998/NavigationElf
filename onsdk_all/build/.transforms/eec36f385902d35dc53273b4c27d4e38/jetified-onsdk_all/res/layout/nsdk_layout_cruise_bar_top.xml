@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_cruise_top" 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="horizontal"
+    android:background="@drawable/nsdk_drawable_common_bg_prj_card_middle_normal_night"
+    >
+
+    <LinearLayout 
+        android:id="@+id/layout_cruise_camera" 
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="@dimen/navi_dimens_5dp"
+        >
+        <ImageView
+	         android:id="@+id/img_cruise_camera"
+	         android:layout_width="wrap_content"
+	         android:layout_height="wrap_content"
+	         android:layout_gravity="center_vertical"
+	         android:src="@drawable/nsdk_drawable_rg_cruise_peccanrycamera"
+            />
+    </LinearLayout>
+
+    <!--View
+        android:id="@+id/line_cruise_top_1"
+        android:layout_width="@dimen/navi_dimens_1dp"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="@dimen/navi_dimens_10dp"
+        android:layout_marginTop="@dimen/navi_dimens_10dp"
+        android:background="@drawable/nsdk_drawable_common_line_vertical" /-->
+    
+
+    <FrameLayout android:id="@+id/layout_cruise_camera_info"
+        android:layout_weight="1"
+        android:layout_width="@dimen/navi_dimens_0dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/navi_dimens_20dp"
+        android:paddingBottom="@dimen/navi_dimens_20dp"
+        android:paddingLeft="@dimen/navi_dimens_10dp"
+        >
+	
+	        <!-- 当前速度信息 -->
+	    <LinearLayout android:id="@+id/layout_cruise_speed_info" 
+	        android:orientation="vertical"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center_vertical"
+	        android:visibility="invisible"
+	        >
+	        <LinearLayout android:id="@+id/layout_cruise_speed"
+	            android:orientation="horizontal"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content">
+	            <TextView 
+	                android:id="@+id/text_cruise_speed"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:textSize="32sp"
+	                android:textStyle="bold"
+	                android:textColor="@android:color/white"
+	                android:text="120"/>
+	            <TextView 
+	                android:id="@+id/text_cruise_speed_unit"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:paddingLeft="@dimen/navi_dimens_10dp"
+	                android:textSize="28sp"
+	                android:textColor="#ffa1a1a1"
+	                android:text="@string/nsdk_string_cruise_speed_unit"/>
+	        </LinearLayout>
+	        <LinearLayout android:id="@+id/layout_cruise_speed_title"
+	            android:orientation="horizontal"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content">
+	            <TextView 
+	                android:id="@+id/text_cruise_speed_title"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:textSize="30sp"
+	                android:textStyle="bold"
+	                android:textColor="@android:color/white"
+	                android:text="@string/nsdk_string_cruise_current_speed"/>
+	
+	         </LinearLayout>
+	    </LinearLayout>
+	    
+	     <!-- ============ 电子眼信息 ============ -->
+	    <LinearLayout android:id="@+id/layout_cruise_top_info" 
+	        android:orientation="vertical"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center_vertical"
+	        android:visibility="visible"
+	        >
+	        <LinearLayout android:id="@+id/layout_cruise_distance"
+	            android:orientation="horizontal"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content">
+	            <TextView 
+	                android:id="@+id/text_cruise_distance"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:textSize="30sp"
+	                android:textStyle="bold"
+	                android:textColor="@android:color/white"
+	                android:text="700米"/>
+	            <TextView 
+	                android:id="@+id/text_cruise_distance_suffix"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:textSize="24sp"
+	                android:textColor="#ffa1a1a1"
+	                android:text="@string/nsdk_string_cruise_distance_suffix"/>
+	        </LinearLayout>
+	        <LinearLayout android:id="@+id/layout_cruise_camera_desc"
+	            android:orientation="horizontal"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content">
+	            <TextView 
+	                android:id="@+id/text_cruise_camera_desc_prefix"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:textSize="24sp"
+	                android:textStyle="bold"
+	                android:textColor="#ffa1a1a1"
+	                android:text="@string/nsdk_string_cruise_camera_desc_prefix"/>
+	            <TextView 
+	                android:id="@+id/text_cruise_camera_type"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:textSize="30sp"
+	                android:textColor="@android:color/white"
+	                android:text="限速拍照"/>
+	         </LinearLayout>
+	    </LinearLayout>
+     </FrameLayout>
+
+    <!--View
+        android:id="@+id/line_cruise_bottom_2"  
+        android:layout_width="@dimen/navi_dimens_1dp"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="@dimen/navi_dimens_10dp"
+        android:layout_marginTop="@dimen/navi_dimens_10dp"
+        android:background="@drawable/nsdk_drawable_common_line_vertical" /-->
+
+    <LinearLayout 
+        android:id="@+id/layout_cruise_satellite_info" 
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:padding="@dimen/navi_dimens_3dp"
+        android:gravity="top"
+        >
+         <ImageView
+             android:id="@+id/img_cruise_satellite"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:src="@drawable/nsdk_drawable_rg_ic_satellite_green"
+             />
+         <TextView 
+             android:id="@+id/text_cruise_satellite_num"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="@dimen/navi_dimens_3dp"
+             android:textSize="16sp"
+             android:textColor="#ff2121ff"
+             android:text="12"/>
+    </LinearLayout>
+
+</LinearLayout>

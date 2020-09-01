@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/route_search_filter_fast_slow"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bnav_common_cp_button_selector"
+        android:orientation="vertical"
+        android:layout_marginBottom="9dp"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/route_search_filter_category_fast"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="快充"
+            android:textSize="10dp"
+            android:textColor="#333333"
+            android:background="#ffffff"/>
+
+        <Button
+            android:id="@+id/route_search_filter_category_slow"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="慢充"
+            android:textSize="10dp"
+            android:textColor="#333333"
+            android:background="#ffffff"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/route_search_filter_brands"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bnav_common_cp_button_selector">
+
+        <FrameLayout
+            android:id="@+id/route_search_start_arrow_layout"
+            android:layout_width="match_parent"
+            android:layout_height="13dp">
+            <ImageView
+                android:id="@+id/route_search_start_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_gravity="center"
+                android:src="@drawable/nsdk_nearby_search_up_arrow"
+                android:scaleType="fitXY"/>
+        </FrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/route_search_filter_brands_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:scrollbars="none">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <FrameLayout
+            android:id="@+id/route_search_end_arrow_layout"
+            android:layout_width="match_parent"
+            android:layout_height="13dp">
+            <ImageView
+                android:id="@+id/route_search_end_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_gravity="center"
+                android:src="@drawable/nsdk_nearby_search_down_arrow"
+                android:scaleType="fitXY"/>
+        </FrameLayout>
+    </LinearLayout>
+
+</LinearLayout>

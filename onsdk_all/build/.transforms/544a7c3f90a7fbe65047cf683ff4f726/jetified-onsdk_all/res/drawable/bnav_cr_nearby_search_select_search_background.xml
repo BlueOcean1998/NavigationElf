@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2017 Baidu, Inc. All Rights Reserved.
+  -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="@dimen/navi_dimens_12dp"/>
+    <stroke android:color="#3385ff" android:width="@dimen/navi_dimens_1dp"/>
+    <size android:height="@dimen/navi_dimens_24dp"/>
+</shape>

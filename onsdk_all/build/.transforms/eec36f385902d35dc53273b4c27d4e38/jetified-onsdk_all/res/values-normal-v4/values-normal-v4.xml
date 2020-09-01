@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="nsdk_cruise_guide_text_size">16sp</dimen>
+    <dimen name="nsdk_cruise_guide_title_text_size">18sp</dimen>
+</resources>

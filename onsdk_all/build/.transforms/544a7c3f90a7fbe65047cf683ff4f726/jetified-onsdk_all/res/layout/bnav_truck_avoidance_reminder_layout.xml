@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="@dimen/nsdk_rg_cur_car_speed_anim_panel_size"
+                android:layout_height="@dimen/nsdk_rg_truck_avoidance_panel_height">
+
+    <com.baidu.navisdk.ui.routeguide.subview.widget.RGTruckAvoidanceBGView
+        android:id="@+id/circle_background_panel"
+        android:layout_width="@dimen/nsdk_rg_truck_avoidance_panel_circle_size"
+        android:layout_height="@dimen/nsdk_rg_truck_avoidance_panel_circle_size"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/aboidance_reminder_info"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/navi_dimens_21dp"
+        android:minWidth="@dimen/nsdk_rg_truck_avoidance_panel_size"
+        android:background="@drawable/bnav_truck_aboidance_text_info_bg"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/nsdk_route_yellow_banner_text_white"
+        android:textSize="@dimen/navi_dimens_14dp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        tools:text="0.0km处"/>
+
+</RelativeLayout>

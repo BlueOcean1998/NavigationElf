@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#18181c">
+
+    <!-- 标题栏 -->
+    <RelativeLayout
+        android:id="@+id/title_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nsdk_ugc_details_title_height"
+        android:gravity="center_vertical"
+    >
+
+        <!-- 退出按钮 -->
+        <ImageView
+            android:id="@+id/back_preview_pic"
+            android:layout_width="@dimen/navi_dimens_45dp"
+            android:layout_height="@dimen/navi_dimens_45dp"
+            android:padding="@dimen/navi_dimens_10dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:scaleType="fitCenter"
+            android:src="@drawable/bnav_ugc_preview_back_white"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="预览"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:textColor="#ffffff"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/textView2"/>
+
+        <ImageView
+            android:id="@+id/delete_preview_pic"
+            android:layout_width="@dimen/navi_dimens_36dp"
+            android:layout_height="@dimen/navi_dimens_36dp"
+            android:padding="@dimen/navi_dimens_10dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:src="@drawable/bnav_ugc_preview_delete_icon"/>
+    </RelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/iv_preview_pic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"/>
+
+
+</LinearLayout>

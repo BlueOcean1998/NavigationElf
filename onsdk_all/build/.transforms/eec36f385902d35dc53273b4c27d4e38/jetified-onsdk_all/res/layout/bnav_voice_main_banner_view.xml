@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:id="@+id/voice_banner_img"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/navi_dimens_35dp"
+            android:layout_marginTop="@dimen/navi_dimens_95dp"
+            android:id="@+id/voice_banner_title"
+            android:text="迪丽热巴"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/navi_dimens_33dp"
+            android:visibility="gone"
+    />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/voice_banner_title"
+            android:layout_marginTop="@dimen/navi_dimens_60dp"
+            android:id="@+id/voic_banner_subtitle"
+            android:text="她是一种精神"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/navi_dimens_20dp"
+            android:visibility="gone"
+
+            />
+
+    <ImageView
+            android:id="@+id/voice_banner_video"
+            android:layout_alignLeft="@id/voice_banner_title"
+            android:layout_width="@dimen/navi_dimens_42dp"
+            android:layout_height="@dimen/navi_dimens_42dp"
+            android:src="@drawable/bnav_voice_video_play"
+            android:layout_marginTop="@dimen/navi_dimens_152dp"
+            android:visibility="gone"
+    />
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/navi_dimens_21dp"
+            android:layout_marginBottom="@dimen/navi_dimens_30dp"
+    >
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textSize="@dimen/navi_dimens_18dp"
+                android:textColor="#FFFFFF"
+                android:id="@+id/voice_banner_indicator_cur"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/3"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/navi_dimens_12dp"
+                android:id="@+id/voice_banner_indicator_all"/>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_checked="false" android:state_pressed="false" android:drawable="@drawable/nsdk_drawable_statusbtn_default_bg_left_carmode">
+        <!-- <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+            <item><shape android:shape="rectangle">
+
+                    填充的颜色
+                    <solid android:color="@color/nsdk_statusbutton_bg_default" />
+                    设置按钮的边缘线
+                    <stroke android:width="1dp" android:color="@color/nsdk_statusbutton_bg_pressed" />
+                    设置按钮的右边两个角为弧形
+            		<corners android:bottomLeftRadius="5dp" android:topLeftRadius="5dp" />
+                </shape></item>
+            <item android:bottom="1dp" android:left="1dp" android:top="1dp"><shape android:shape="rectangle">
+
+                    填充的颜色
+                    <solid android:color="@color/nsdk_statusbutton_bg_default" />
+                    设置按钮的右边两个角为弧形
+            		<corners android:bottomLeftRadius="5dp" android:topLeftRadius="5dp" />
+                </shape></item>
+        </layer-list> -->
+        
+        </item>
+    <item android:drawable="@drawable/nsdk_drawable_statusbtn_selected_bg_left_carmode">
+       <!--  <shape android:shape="rectangle">
+
+            填充的颜色
+            <solid android:color="@color/nsdk_statusbutton_bg_pressed" />
+            设置按钮的左边两个角为弧形
+            <corners android:bottomLeftRadius="5dp" android:topLeftRadius="5dp" />
+        </shape> -->
+        
+        </item>
+
+</selector>

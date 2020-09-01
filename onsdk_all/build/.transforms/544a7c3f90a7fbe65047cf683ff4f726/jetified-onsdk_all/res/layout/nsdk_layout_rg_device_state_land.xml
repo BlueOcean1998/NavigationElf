@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2016 Baidu, Inc. All Rights Reserved.
+  -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:gravity="top|right">
+
+    <!-- 卫星个数及图标 -->
+    <LinearLayout
+        android:id="@+id/bnav_rg_sg_satelite_panel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="right|bottom"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/bnav_rg_sg_satelite_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/navi_dimens_2dp"
+            android:textSize="@dimen/navi_dimens_12dp" />
+
+        <ImageView
+            android:id="@+id/bnav_rg_sg_satelite_icon"
+            android:layout_width="@dimen/nsdk_rg_device_state_icon_width"
+            android:layout_height="@dimen/nsdk_rg_device_state_icon_height"
+            android:src="@drawable/nsdk_drawable_rg_ic_satellite_red" />
+    </LinearLayout>
+
+    <!-- 服务区订阅个数 -->
+    <LinearLayout
+        android:id="@+id/bnav_rg_service_area_panel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/nsdk_rg_device_state_land_icon_margin_left"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="visible"
+        tools:background="#000">
+
+        <TextView
+            android:id="@+id/bnav_rg_service_area_subscribed_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/navi_dimens_2dp"
+            android:textSize="@dimen/navi_dimens_12dp"
+            android:textColor="#989EA7"
+            tools:text="10"/>
+
+        <ImageView
+            android:id="@+id/bnav_rg_service_area_subscribed_icon"
+            android:layout_width="@dimen/nsdk_rg_device_state_icon_width"
+            android:layout_height="@dimen/nsdk_rg_device_state_icon_height"
+            android:src="@drawable/nsdk_drawable_guide_panel_service_area_subscribed_ic" />
+    </LinearLayout>
+
+    <!-- 静音图标 -->
+    <ImageView
+        android:id="@+id/bnav_rg_sg_volume_icon"
+        android:layout_width="@dimen/nsdk_rg_device_state_icon_width"
+        android:layout_height="@dimen/nsdk_rg_device_state_icon_height"
+        android:layout_marginLeft="@dimen/nsdk_rg_device_state_land_icon_margin_left"
+        android:src="@drawable/nsdk_rg_ic_no_volume"
+        android:visibility="gone" />
+
+    <!--vdr 智能定位-->
+    <com.baidu.navisdk.ui.widget.BNDrawableTextView
+        android:id="@+id/bnav_rg_vdr_signal_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/nsdk_rg_vdr_signal_text_color"
+        android:textSize="@dimen/navi_dimens_12dp"
+        android:includeFontPadding="false"
+        android:text="@string/nsdk_vdr_location_tips"
+        android:layout_marginLeft="@dimen/nsdk_rg_device_state_land_icon_margin_left"
+        app:bn_text_drawable_width="@dimen/nsdk_rg_device_state_icon_width"
+        app:bn_text_drawable_height="@dimen/nsdk_rg_device_state_icon_height"
+        app:bn_text_drawable_location="right"
+        app:bn_text_drawable_src="@drawable/bnav_drawable_rg_vdr_signal"
+        android:drawablePadding="@dimen/navi_dimens_2dp"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+</LinearLayout>

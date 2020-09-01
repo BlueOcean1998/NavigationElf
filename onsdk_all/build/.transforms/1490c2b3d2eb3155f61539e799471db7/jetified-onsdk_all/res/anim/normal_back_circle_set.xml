@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:ordering="sequentially">
+    <set android:ordering="together">
+        <objectAnimator
+            android:propertyName="scaleX"
+            android:duration="450"
+            android:valueFrom="1"
+            android:valueTo="2"
+            android:valueType="floatType"
+            android:pivotX="50%"
+            android:pivotY="50%" />
+        <objectAnimator
+            android:propertyName="scaleY"
+            android:duration="450"
+            android:valueFrom="1"
+            android:valueTo="2"
+            android:valueType="floatType"
+            android:pivotX="50%"
+            android:pivotY="50%" />
+        <objectAnimator
+            android:propertyName="alpha"
+            android:duration="450"
+            android:valueFrom="0.5"
+            android:valueTo="0"
+            android:valueType="floatType"
+            android:pivotX="50%"
+            android:pivotY="50%" />
+    </set>
+    <set android:ordering="together">
+        <objectAnimator
+            android:propertyName="scaleX"
+            android:duration="450"
+            android:valueFrom="1"
+            android:valueTo="2"
+            android:valueType="floatType"
+            android:pivotX="50%"
+            android:pivotY="50%" />
+        <objectAnimator
+            android:propertyName="scaleY"
+            android:duration="450"
+            android:valueFrom="1"
+            android:valueTo="2"
+            android:valueType="floatType"
+            android:pivotX="50%"
+            android:pivotY="50%" />
+        <objectAnimator
+            android:propertyName="alpha"
+            android:duration="450"
+            android:valueFrom="0.5"
+            android:valueTo="0"
+            android:valueType="floatType"
+            android:pivotX="50%"
+            android:pivotY="50%" />
+    </set>
+
+</set>

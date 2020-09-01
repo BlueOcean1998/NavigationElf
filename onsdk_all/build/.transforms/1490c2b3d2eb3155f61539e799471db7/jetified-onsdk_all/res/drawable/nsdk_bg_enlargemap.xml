@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners
+            android:topLeftRadius="@dimen/nsdk_rg_guide_panel_radius"
+            android:topRightRadius="@dimen/nsdk_rg_guide_panel_radius"/>
+    <solid
+        android:color="#f9232830"/>
+</shape>

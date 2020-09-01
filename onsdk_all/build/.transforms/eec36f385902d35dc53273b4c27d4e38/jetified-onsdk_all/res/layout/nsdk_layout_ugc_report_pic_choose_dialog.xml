@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:background="@drawable/transparent"
+              android:clickable="false"
+              android:paddingRight="@dimen/navi_dimens_10dp"
+              android:paddingLeft="@dimen/navi_dimens_10dp"
+              android:paddingBottom="@dimen/navi_dimens_10dp"
+
+>
+
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:background="@drawable/bnav_common_cp_button_selector"
+    >
+        <TextView
+            android:id="@+id/choose_video_btn"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            android:text="拍视频"
+            android:textColor="#3385FF"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:background="@drawable/bnav_common_cp_ugc_button_selector"
+
+        />
+
+        <View
+            android:id="@+id/choose_video_line"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/nsdk_cl_bg_a"
+        />
+
+        <TextView
+            android:id="@+id/choose_camera_btn"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_57dp"
+            android:text="拍照"
+            android:textColor="#3385FF"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:background="@drawable/bnav_common_cp_ugc_button_selector"
+
+        />
+        <View
+            android:id="@+id/choose_camera_line"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/nsdk_cl_bg_a"
+        />
+        <TextView
+            android:id="@+id/choose_album_btn"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_57dp"
+            android:text="从手机相册选择"
+            android:textColor="#3385FF"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:background="@drawable/bnav_common_cp_ugc_button_selector"
+        />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/choose_pic_cancel_btn"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_57dp"
+        android:text="取消"
+        android:layout_marginTop="@dimen/navi_dimens_7dp"
+        android:textColor="#3385FF"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:background="@drawable/bnav_common_cp_button_selector"
+    />
+</LinearLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.ui.widget.BNLoadingView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/commute_route_bottom_loading_view"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/navi_dimens_100dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp" />

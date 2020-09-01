@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
+  -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tssv_persistent_area"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/nsdk_cl_bg_d"
+    android:orientation="vertical">
+
+    <include layout="@layout/nsdk_layout_ugc_detail_outline_title"/>
+
+    <LinearLayout
+        android:id="@+id/ugc_event_details_content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+        android:layout_marginRight="@dimen/navi_dimens_8dp"
+        android:paddingTop="@dimen/navi_dimens_15dp"
+        android:paddingBottom="@dimen/navi_dimens_10dp"
+        android:layout_marginTop="@dimen/navi_dimens_10dp"
+        android:background="@drawable/nsdk_ugc_event_details_background"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:orientation="horizontal">
+        <com.baidu.navisdk.module.ugc.eventdetails.view.BNRCEventDetailLabelsView
+            android:id="@+id/ugc_detail_labels_view"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <!-- pgc 来源布局 -->
+    <include
+        layout="@layout/nsdk_layout_ugc_detail_outline_pgc"
+        android:id="@+id/layout_pgc_source"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_18dp"
+        android:layout_marginLeft="@dimen/nsdk_ugc_details_card_padding_left_right"
+        android:layout_marginRight="@dimen/nsdk_ugc_details_card_padding_left_right"
+        android:layout_marginTop="@dimen/navi_dimens_18dp"
+        android:layout_marginBottom="@dimen/navi_dimens_18dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+    />
+</LinearLayout>

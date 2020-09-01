@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="@dimen/navi_dimens_284dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:minWidth="@dimen/navi_dimens_276dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ic_dialog_imageview"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_110dp"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/ic_dialog_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/navi_dimens_12dp"
+            android:paddingBottom="@dimen/navi_dimens_3dp"
+            android:paddingLeft="@dimen/navi_dimens_14dp"
+            android:paddingRight="@dimen/navi_dimens_14dp"
+            android:layout_gravity="left"
+            android:background="@android:color/white"
+            android:textColor="@color/nsdk_cl_text_a"
+            android:textSize="@dimen/navi_dimens_15dp"
+            android:textStyle="bold"
+            android:text="@string/nsdk_bluetooth_panel_speaker_title"
+            android:visibility="visible"/>
+
+        <LinearLayout
+            android:id="@+id/ic_dialog_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/navi_dimens_14dp"
+            android:paddingRight="@dimen/navi_dimens_14dp"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/ic_dialog_first_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/navi_dimens_10dp"
+                android:layout_marginBottom="@dimen/navi_dimens_10dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/ic_dialog_first_item_main_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/nsdk_cl_text_a"
+                        android:textSize="@dimen/navi_dimens_13dp"
+                        android:text="@string/nsdk_bluetooth_panel_speaker_title" />
+
+                    <TextView
+                        android:id="@+id/ic_dialog_first_item_sub_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ic_dialog_first_item_main_txt"
+                        android:layout_marginTop="@dimen/navi_dimens_5dp"
+                        android:text="@string/nsdk_bluetooth_panel_speaker_sub_title"
+                        android:textColor="@color/nsdk_cl_text_f"
+                        android:textSize="@dimen/navi_dimens_14dp"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/ic_dialog_first_item_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:button="@drawable/nsdk_rg_bluetooth_panel_checkbox_selector"
+                    android:checked="false"
+                    android:clickable="false" />
+
+            </RelativeLayout>
+
+            <View
+                style="@style/NavCommonListSplitLine" />
+
+            <RelativeLayout
+                android:id="@+id/ic_dialog_second_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/navi_dimens_10dp"
+                android:layout_marginBottom="@dimen/navi_dimens_10dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/ic_dialog_second_item_main_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/nsdk_cl_text_a"
+                        android:textSize="@dimen/navi_dimens_13dp"
+                        android:text="@string/nsdk_bluetooth_panel_speaker_title" />
+
+                    <TextView
+                        android:id="@+id/ic_dialog_second_item_sub_txt"
+                        style="@style/NavCommonListItemTipsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ic_dialog_second_item_main_txt"
+                        android:layout_marginTop="@dimen/navi_dimens_5dp"
+                        android:text="@string/nsdk_bluetooth_panel_speaker_sub_title"
+                        android:textColor="@color/nsdk_cl_text_f"
+                        android:textSize="@dimen/navi_dimens_14dp"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/ic_dialog_second_item_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:button="@drawable/nsdk_rg_bluetooth_panel_checkbox_selector"
+                    android:checked="false"
+                    android:clickable="false" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/confirm_btn"
+                android:layout_width="@dimen/navi_dimens_142dp"
+                android:layout_height="@dimen/navi_dimens_36dp"
+                android:layout_marginTop="@dimen/navi_dimens_10dp"
+                android:layout_marginBottom="@dimen/navi_dimens_20dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bnav_image_checkbox_dialog_button_selector"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="确定"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/navi_dimens_16dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

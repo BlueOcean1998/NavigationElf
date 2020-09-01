@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_container"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nsdk_light_navi_bottom_bar_height"
+    android:background="@android:color/white">
+
+    <!--to nav-->
+    <RelativeLayout
+        android:id="@+id/to_nav_container"
+        android:background="@drawable/nsdk_light_navi_to_nav_bg_selector"
+        android:layout_width="@dimen/navi_dimens_150dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_height="@dimen/navi_dimens_33dp"
+        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+        android:layout_marginRight="@dimen/navi_dimens_15dp">
+
+        <TextView
+            android:id="@+id/to_nav_text"
+            android:text="@string/nsdk_ipo_navi_to_nav"
+            android:drawableLeft="@drawable/nsdk_light_navi_triangle_selector"
+            android:layout_centerInParent="true"
+            android:drawablePadding="@dimen/navi_dimens_8dp"
+            android:gravity="center_vertical"
+            android:textColor="@drawable/nsdk_light_navi_to_nav_text_selector"
+            android:textSize="@dimen/navi_dimens_16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/will_arrive"
+        tools:text="预计17:30到达"
+        android:layout_marginLeft="@dimen/navi_dimens_15dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:gravity="center_vertical"
+        android:layout_toLeftOf="@id/to_nav_container"
+        android:textSize="@dimen/navi_dimens_17dp"
+        android:textStyle="bold"
+        android:textColor="@color/nsdk_cl_ipo_guide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

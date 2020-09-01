@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:tools="http://schemas.android.com/tools"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_ugc_detail_video_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        tools:background="@color/nsdk_common_black"
+        tools:src="@drawable/nsdk_ugc_event_detailes_comment_useful_bg"/>
+
+    <ImageView
+        android:id="@+id/iv_ugc_detail_video_play_btn"
+        android:layout_width="@dimen/navi_dimens_45dp"
+        android:layout_height="@dimen/navi_dimens_45dp"
+        android:src="@drawable/nsdk_ugc_detail_icon_play"
+        android:scaleType="fitCenter"
+        android:layout_gravity="center"/>
+
+</merge>

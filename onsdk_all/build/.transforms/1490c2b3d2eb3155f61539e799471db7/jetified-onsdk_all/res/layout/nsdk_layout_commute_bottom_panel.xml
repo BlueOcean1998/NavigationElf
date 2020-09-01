@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.ui.widget.BNUIBoundLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/scroll_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_8dp"
+        android:src="@drawable/nsdk_drawable_commute_tab_scroll_indicator"
+        android:scaleType="centerInside" />
+
+    <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/navi_dimens_20dp"
+        android:background="@drawable/nsdk_drawable_route_result_tab_background">
+
+        <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+            android:id="@+id/commute_route_bottom_loading"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_110dp"
+            android:visibility="gone" />
+
+        <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+            android:id="@+id/commute_guide_bottom_loading"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_110dp"
+            android:visibility="gone" />
+
+        <com.baidu.navisdk.commute.ui.widgets.scroll.CommuteRouteTabScrollView
+            android:id="@+id/commute_tab_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:visibility="gone"/>
+    </com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout>
+
+</com.baidu.navisdk.ui.widget.BNUIBoundLinearLayout>

@@ -2,6 +2,9 @@ package com.example.foxizz.navigation.util;
 
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -19,10 +22,19 @@ import com.baidu.mapapi.walknavi.adapter.IWRoutePlanListener;
 import com.baidu.mapapi.walknavi.model.WalkRoutePlanError;
 import com.baidu.mapapi.walknavi.params.WalkNaviLaunchParam;
 import com.baidu.mapapi.walknavi.params.WalkRouteNodeInfo;
+import com.baidu.navisdk.adapter.BNRoutePlanNode;
+import com.baidu.navisdk.adapter.BaiduNaviManagerFactory;
+import com.baidu.navisdk.adapter.IBNRoutePlanManager;
+import com.baidu.navisdk.adapter.IBaiduNaviManager;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.BNaviGuideActivity;
 import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.activity.WNaviGuideActivity;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.foxizz.navigation.demo.Tools.haveReadWriteAndLocationPermissions;
 import static com.example.foxizz.navigation.demo.Tools.isAirplaneModeOn;
@@ -69,7 +81,7 @@ public class MyNavigateHelper {
         switch(mainActivity.routePlanSelect) {
             //驾车导航
             case 0:
-
+                initDriveNavigateHelper();
                 break;
 
             //步行导航，公交导航
@@ -82,6 +94,92 @@ public class MyNavigateHelper {
                 initBikeNavigateHelper();
                 break;
         }
+    }
+
+    //初始化驾车导航引擎
+    private void initDriveNavigateHelper() {
+        BaiduNaviManagerFactory.getBaiduNaviManager().init(mainActivity, null, null,
+                new IBaiduNaviManager.INaviInitListener() {
+            @Override
+            public void onAuthResult(int status, final String msg) {
+                if(status != 0) {
+                    mainActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(mainActivity, "key校验失败, " + msg,
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void initStart() {
+
+            }
+
+            @Override
+            public void initSuccess() {
+                routeDrivePlanWithParam();
+            }
+
+            @Override
+            public void initFailed(int errCode) {
+                Toast.makeText(mainActivity, R.string.drive_navigate_init_fail + errCode,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    //初始化驾车路线规划
+    private void routeDrivePlanWithParam() {
+        //设置驾车导航的起点和终点
+        BNRoutePlanNode startNode = new BNRoutePlanNode.Builder()
+                .latitude(mainActivity.latLng.latitude)
+                .longitude(mainActivity.latLng.longitude)
+                .build();
+
+        BNRoutePlanNode endNode = new BNRoutePlanNode.Builder()
+                .latitude(mainActivity.endLocation.latitude)
+                .longitude(mainActivity.endLocation.longitude)
+                .build();
+
+        List<BNRoutePlanNode> list = new ArrayList<>();
+        list.add(startNode);
+        list.add(endNode);
+
+        BaiduNaviManagerFactory.getRoutePlanManager().routeplanToNavi(
+            list,
+            IBNRoutePlanManager.RoutePlanPreference.ROUTE_PLAN_PREFERENCE_DEFAULT,
+            null,
+            new Handler(Looper.getMainLooper()) {
+                @Override
+                public void handleMessage(@NotNull Message msg) {
+                    switch(msg.what) {
+                        case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_START:
+
+                            break;
+                        case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_SUCCESS:
+
+                            break;
+                        case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_FAILED:
+                            Toast.makeText(mainActivity.getApplicationContext(),
+                                    R.string.drive_route_plan_fail, Toast.LENGTH_SHORT).show();
+                            break;
+                        case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_TO_NAVI:
+                            Toast.makeText(mainActivity.getApplicationContext(),
+                                    "算路成功准备进入导航", Toast.LENGTH_SHORT).show();
+                            /*
+                            Intent intent = new Intent(mainActivity, DemoGuideActivity.class);
+                            mainActivity.startActivity(intent);
+                            */
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        );
     }
 
     //初始化步行导航引擎
@@ -200,6 +298,7 @@ public class MyNavigateHelper {
         });
     }
 
+    //初始化骑行路线规划
     private void routeBikePlanWithParam() {
         BikeNavigateHelper.getInstance().routePlanWithRouteNode(bikeParam, new IBRoutePlanListener() {
             @Override

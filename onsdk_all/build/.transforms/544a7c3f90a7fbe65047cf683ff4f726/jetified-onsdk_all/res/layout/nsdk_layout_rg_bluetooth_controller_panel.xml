@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bluetooth_panel_layout_bottom"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/nsdk_layout_route_sort_background"
+    android:layout_gravity="bottom"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/bluetooth_bottom_panel_title"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/navi_dimens_56dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="@string/nsdk_bluetooth_panel_setting_title"
+        android:textColor="#333333"
+        android:textSize="@dimen/navi_dimens_18dp" />
+
+    <View
+        android:id="@+id/bluetooth_panel_line_1"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/nsdk_cl_bg_d_mm" />
+
+    <include layout="@layout/nsdk_layout_setting_bluetooth_mode_panel" />
+
+</LinearLayout>

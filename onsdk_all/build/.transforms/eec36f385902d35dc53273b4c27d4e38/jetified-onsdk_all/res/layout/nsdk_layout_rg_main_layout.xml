@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bnav_rg_main_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <!-- 底图容器 -->
+    <LinearLayout
+        android:id="@+id/bnav_rg_map_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/bnav_mapmode_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--此处会动态add进来一个上层view容器，mRootGroup-->
+        <!--ViewGroup TODO-->
+
+        <!-- 点击监听蒙层 -->
+        <FrameLayout
+            android:id="@+id/bnav_rg_touch_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </FrameLayout>
+
+        <!--车主-->
+        <FrameLayout
+            android:id="@+id/bnav_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </FrameLayout>
+
+    </FrameLayout>
+
+</FrameLayout>

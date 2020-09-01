@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/nsdk_nav_notification_background"
+    android:elevation="@dimen/nsdk_rg_toolbox_margin_left">
+
+    <include
+        android:id="@+id/nsdk_title_layout"
+        layout="@layout/nsdk_layout_dest_reminder_title_info"/>
+
+    <RelativeLayout
+        android:id="@+id/dest_street_image_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_158dp"
+        android:layout_marginBottom="@dimen/navi_dimens_14dp"
+        android:layout_marginLeft="@dimen/nsdk_des_reminder_card_margin_left"
+        android:layout_marginRight="@dimen/nsdk_des_reminder_card_margin_left"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/iv_dest_street_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+        
+        <!--<TextView-->
+            <!--android:layout_width="@dimen/navi_dimens_88dp"-->
+            <!--android:layout_height="@dimen/navi_dimens_22dp"-->
+            <!--android:background="#7f000000"-->
+            <!--android:text="点击查看街景"-->
+            <!--android:textColor="#fff"-->
+            <!--android:gravity="center"-->
+            <!--android:textSize="@dimen/navi_dimens_13dp"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_alignParentBottom="true" />-->
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_31dp"
+        android:layout_marginLeft="@dimen/nsdk_des_reminder_card_margin_left"
+        android:layout_marginRight="@dimen/nsdk_des_reminder_card_margin_left"
+        android:layout_marginBottom="@dimen/navi_dimens_10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/nsdk_nearby_park_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/navi_dimens_11dp"
+            android:background="@drawable/nsdk_note_cancel_bt_bg_selector"
+            android:textColor="@color/nsdk_note_cancel_bt_txt_selector"
+            android:text="附近停车场"
+            android:visibility="gone"
+            />
+
+        <Button
+            android:id="@+id/nsdk_finish_navi_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/nsdk_note_confirm_bt_bg_selector"
+            android:textColor="@color/nsdk_note_confirm_bt_txt_selector"
+            android:text="已到达"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

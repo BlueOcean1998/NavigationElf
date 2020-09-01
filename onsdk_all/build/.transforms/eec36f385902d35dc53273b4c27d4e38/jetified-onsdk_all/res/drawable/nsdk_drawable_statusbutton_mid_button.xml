@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="false" android:state_pressed="false" >
+        <shape android:shape="rectangle">
+            <solid android:color="@color/nsdk_cl_bg_d" />
+            <stroke android:width="0.5dp" android:color="@color/nsdk_cl_bg_a" />
+            <corners android:bottomLeftRadius="0.1px"/>
+        </shape>
+    </item>
+    <item >
+       <shape android:shape="rectangle">
+            <solid android:color="@color/nsdk_cl_link_a" />
+        </shape>
+    </item>
+</selector>

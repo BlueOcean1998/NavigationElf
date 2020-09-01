@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bnav_rg_enlarge_road_map_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/bnav_rg_enlarge_road_map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <include layout="@layout/bnav_statusbar_empty_view_include" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_0dp"
+            android:layout_marginLeft="@dimen/nsdk_rg_guide_panel_shadow_left"
+            android:layout_marginRight="@dimen/nsdk_rg_guide_panel_shadow_left"
+            android:layout_marginTop="@dimen/nsdk_rg_guide_panel_shadow_top"
+            android:layout_weight="1">
+
+            <View
+                android:id="@+id/bnav_rg_vector_enlarge_guide_info_background"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/nsdk_rg_enlarge_guide_info_height"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/nsdk_bg_enlargemap"
+                android:visibility="visible" />
+
+            <!-- 通用GLSurfaceView窗口 -->
+            <RelativeLayout
+                android:id="@+id/bnav_rg_common_window_view_rl"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/bnav_rg_vector_enlarge_guide_info_background"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <!--<LinearLayout-->
+                <!--android:id="@+id/bnav_rg_common_window_view"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:orientation="horizontal"></LinearLayout>-->
+            </RelativeLayout>
+
+            <com.baidu.navisdk.ui.routeguide.subview.widget.RGImageView
+                android:id="@+id/bnav_rg_enlarge_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/bnav_rg_vector_enlarge_guide_info_background"
+                android:scaleType="fitXY" />
+
+            <View
+                android:id="@+id/bnav_rg_enlarge_image_mask"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#59000000"
+                android:scaleType="fitXY"
+                android:visibility="invisible" />
+
+            <RelativeLayout
+                android:id="@+id/bnav_rg_enlarge_info"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/nsdk_rg_enlarge_guide_info_height"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/nsdk_bg_enlargemap">
+
+                <ProgressBar
+                    android:id="@+id/bnav_rg_enlarge_progress"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/nsdk_drawable_rg_enlargeroadmap_progressbar" />
+
+                <TextView
+                    android:id="@+id/bnav_rg_enlarge_remain_dist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginBottom="@dimen/navi_dimens_3dp"
+                    android:layout_marginLeft="@dimen/nsdk_rg_enlarge_remain_dist_margin_left"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/navi_dimens_24dp"
+                    android:textStyle="bold"
+                    tools:text="100" />
+
+                <TextView
+                    android:id="@+id/bnav_rg_enlarge_remain_dist_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/nsdk_rg_enlarge_guide_info_margin_bottom"
+                    android:layout_marginLeft="@dimen/nsdk_rg_enlarge_remain_dist_unit_margin_left"
+                    android:layout_toRightOf="@id/bnav_rg_enlarge_remain_dist"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/navi_dimens_16dp"
+                    android:textStyle="bold"
+                    tools:text="米" />
+
+                <LinearLayout
+                    android:id="@+id/bnav_rg_enlarge_exit_code_turn_icon_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/nsdk_rg_enlarge_guide_info_margin_bottom"
+                    android:layout_marginLeft="@dimen/nsdk_rg_enlarge_remain_dist_unit_margin_left"
+                    android:layout_toRightOf="@id/bnav_rg_enlarge_remain_dist_unit"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/bnav_rg_enlarge_turn_icon"
+                        android:layout_width="@dimen/nsdk_rg_enlarge_next_turn_size"
+                        android:layout_height="@dimen/nsdk_rg_enlarge_next_turn_size"
+                        android:layout_marginBottom="@dimen/navi_dimens_3dp"
+                        android:src="@drawable/nsdk_drawable_rg_ic_turn_front" />
+
+                    <TextView
+                        android:id="@+id/bnav_rg_enlarge_high_way_exit_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/nsdk_rg_enlarge_remain_dist_unit_margin_left"
+                        android:background="@drawable/nsdk_drawable_rg_enlarge_map_exit_bg"
+                        android:paddingLeft="@dimen/navi_dimens_1dp"
+                        android:paddingRight="@dimen/navi_dimens_1dp"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/navi_dimens_16dp"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        tools:text="出口" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/bnav_rg_enter_enlarge_next_road"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/nsdk_rg_enlarge_guide_info_margin_bottom"
+                    android:layout_marginLeft="@dimen/nsdk_rg_enlarge_enter_text_margin_left"
+                    android:layout_toRightOf="@id/bnav_rg_enlarge_exit_code_turn_icon_container"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/navi_dimens_16dp"
+                    android:textStyle="bold"
+                    tools:text="进入" />
+
+                <TextView
+                    android:id="@+id/bnav_rg_enlarge_next_road"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/nsdk_rg_enlarge_guide_info_margin_bottom"
+                    android:layout_marginLeft="@dimen/nsdk_rg_enlarge_remain_dist_unit_margin_left"
+                    android:layout_toRightOf="@id/bnav_rg_enter_enlarge_next_road"
+                    android:ellipsize="end"
+                    android:maxWidth="@dimen/navi_dimens_234dp"
+                    android:singleLine="true"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/navi_dimens_16dp"
+                    android:textStyle="bold"
+                    tools:text="上地信息路" />
+
+                <TextView
+                    android:id="@+id/bnav_rg_enlarge_direction_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/bnav_rg_enlarge_next_road"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/nsdk_rg_enlarge_guide_info_margin_bottom"
+                    android:textColor="#ffffff"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textSize="@dimen/navi_dimens_16dp"
+                    android:textStyle="bold"
+                    android:visibility="visible"
+                    android:text=" 方向 " />
+
+
+                <!--随后-->
+                <LinearLayout
+                    android:id="@+id/bnav_rg_next_turn_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/nsdk_rg_enlarge_guide_info_margin_bottom"
+                    android:layout_toRightOf="@id/bnav_rg_enlarge_direction_label"
+                    android:gravity="bottom"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_next_turn_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=",随后"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/navi_dimens_16dp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/bnav_rg_next_turn_image"
+                        android:layout_width="@dimen/nsdk_rg_enlarge_next_turn_size"
+                        android:layout_height="@dimen/nsdk_rg_enlarge_next_turn_size"
+                        android:layout_marginBottom="@dimen/navi_dimens_2dp"
+                        android:src="@drawable/nsdk_drawable_rg_ic_turn_front" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/bnav_rg_enlarge_open_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/navi_dimens_0dp"
+                android:paddingBottom="@dimen/navi_dimens_0dp"
+                android:scaleType="centerInside" />
+
+            <AbsoluteLayout
+                android:id="@+id/bnav_rg_enlarge_carpos_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <com.baidu.navisdk.ui.routeguide.subview.widget.RGImageView
+                    android:id="@+id/bnav_rg_enlarge_carpos_image"
+                    android:layout_width="@dimen/navi_dimens_42dp"
+                    android:layout_height="@dimen/navi_dimens_44dp"
+                    android:layout_x="0px"
+                    android:layout_y="0px"
+                    android:src="@drawable/nsdk_drawable_rg_vector_map_car"
+                    android:visibility="invisible" />
+            </AbsoluteLayout>
+
+            <FrameLayout
+                android:id="@+id/bnav_rg_street_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/navi_dimens_80dp"
+                android:gravity="center_vertical"
+                android:visibility="invisible">
+
+                <ImageView
+                    android:id="@+id/bnav_rg_street_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/nsdk_drawable_rg_street_view_icon" />
+            </FrameLayout>
+            <!-- 车速码表 -->
+            <include
+                layout="@layout/nsdk_layout_rg_cur_car_speed_include"
+                android:layout_width="@dimen/nsdk_rg_cur_car_speed_anim_panel_size"
+                android:layout_height="@dimen/nsdk_rg_cur_car_speed_anim_panel_size"
+                android:layout_below="@id/bnav_rg_vector_enlarge_guide_info_background" />
+
+        </RelativeLayout>
+
+        <!--下阴影-->
+        <ImageView
+            android:id="@+id/bnav_enlarge_bottom_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nsdk_rg_enlarge_bottom_shadow_height"
+            android:layout_marginBottom="@dimen/nsdk_rg_guide_panel_shadow_left"
+            android:layout_marginLeft="@dimen/nsdk_rg_guide_panel_shadow_left"
+            android:layout_marginRight="@dimen/nsdk_rg_guide_panel_shadow_left"
+            android:background="@drawable/nsdk_common_shadow_bottom" />
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="#0000ff00">
+
+    <FrameLayout
+        android:id="@+id/commute_debug_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="300dp" />
+
+    <RelativeLayout
+        android:id="@+id/commute_notification_panel_root_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:id="@+id/commute_navi_ugc_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ViewStub
+        android:id="@+id/center_ugc_layout_view_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/nsdk_layout_ugc_detail_panel" />
+
+    <FrameLayout
+        android:id="@+id/commute_addr_selector"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:id="@+id/commute_distance_error_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:id="@+id/commute_addr_setting_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:id="@+id/commute_navi_setting_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible" />
+
+    <ViewStub
+        android:id="@+id/commute_license_view_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/nsdk_layout_commute_licence_guide" />
+
+    <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+        android:id="@+id/commute_operate_observer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout>

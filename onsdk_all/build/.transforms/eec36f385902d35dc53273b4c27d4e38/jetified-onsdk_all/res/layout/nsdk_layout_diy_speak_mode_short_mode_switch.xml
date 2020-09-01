@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nsdk_more_setting_menu_item_height">
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+            <TextView
+                    style="@style/NavCommonListItemTitleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="音频播放时切换为简洁模式"/>
+
+            <TextView
+                    style="@style/NavCommonListItemTipsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingTop="@dimen/navi_dimens_5dp"
+                    android:text="导航中播放音频时，自动切换为简洁播报模式"/>
+        </LinearLayout>
+
+        <ImageView
+                android:id="@+id/nsdk_diy_speak_music_auto_change_img"
+                style="@style/NavCommonListCheckBox"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@null"/>
+    </RelativeLayout>
+</RelativeLayout>

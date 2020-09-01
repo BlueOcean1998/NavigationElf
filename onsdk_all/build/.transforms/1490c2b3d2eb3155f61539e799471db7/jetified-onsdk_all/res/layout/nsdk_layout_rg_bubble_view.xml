@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+ 	xmlns:android="http://schemas.android.com/apk/res/android"
+ 	android:id="@+id/bubble_view"
+	android:orientation="horizontal"
+	android:layout_width="wrap_content"
+	android:background="@drawable/nsdk_drawable_rg_popup_pointer_button"
+	android:clickable="true" android:focusable="true" android:layout_height="wrap_content">
+	<LinearLayout
+		android:orientation="vertical"
+		android:id="@+id/mainView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_vertical|center_horizontal"
+		android:layout_marginLeft="@dimen/navi_dimens_3dp"
+		android:clickable="true"
+		android:layout_marginRight="@dimen/navi_dimens_3dp" android:paddingLeft="7sp" android:paddingRight="7sp">
+		<TextView
+		    android:id="@+id/titleTV"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center_vertical|center_horizontal"
+		    android:singleLine="true"
+		    android:text="Name"
+		    android:textColor="#ffffff"
+		    android:textSize="16sp" >
+		</TextView>
+	</LinearLayout>
+</LinearLayout>

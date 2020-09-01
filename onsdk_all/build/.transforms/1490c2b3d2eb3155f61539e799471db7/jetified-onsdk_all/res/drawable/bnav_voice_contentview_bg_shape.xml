@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/nsdk_rg_cp_voice_panel_content_view_bg" />
+    <corners
+        android:topLeftRadius="@dimen/navi_dimens_0dp"
+        android:topRightRadius="@dimen/navi_dimens_0dp"
+        android:bottomLeftRadius="@dimen/navi_dimens_7dp"
+        android:bottomRightRadius="@dimen/navi_dimens_7dp"/>
+</shape>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="14dp"
+              android:layout_height="wrap_content"
+              android:layout_gravity="bottom"
+              android:gravity="center"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/time_tx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:text="29分"
+        android:textColor="#666666"
+        android:textSize="11dp"
+    />
+    <TextView
+        android:id="@+id/eta_tag_tx"
+        android:layout_width="18dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/nsdk_drawable_rr_eta_tangle_shape"
+        android:layout_marginTop="7.5dp"
+        android:layout_marginBottom="7.5dp"
+    />
+    <TextView
+        android:id="@+id/date_tx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="周一"
+        android:textSize="12dp"
+        android:textColor="#666666"
+    />
+</LinearLayout>

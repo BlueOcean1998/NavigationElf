@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--底部面板-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bnavi_hw_petrol_station_panel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:background="@drawable/nsdk_drawable_rg_hw_bg_green_top"
+    android:visibility="gone"
+    android:gravity="center"
+    tools:visibility="visible">
+
+    <!--第二收费站面板-->
+    <LinearLayout
+        android:id="@+id/bnavi_hw_service_panel_bottom_single_type_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:gravity="bottom"
+        tools:visibility="gone">
+
+        <ImageView
+            android:id="@+id/bnavi_hw_service_single_type_panel_icon"
+            android:layout_width="@dimen/nsdk_rg_hw_service_area_panel_icon_width"
+            android:layout_height="@dimen/nsdk_rg_hw_service_area_panel_icon_height"
+            android:scaleType="fitXY"
+            android:layout_marginBottom="@dimen/navi_dimens_6dp"
+            android:src="@drawable/nsdk_drawable_rg_hw_service_toll_station" />
+
+        <TextView
+            android:id="@+id/bnavi_hw_service_bottom_single_type_panel_remain_dist"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:singleLine="true"
+            tools:text="2.6"
+            android:text="2.6"
+            android:gravity="right"
+            android:textColor="@color/nsdk_rg_hw_service_info"
+            android:textSize="@dimen/nsdk_rg_hw_service_area_panel_text_dist" />
+
+        <TextView
+            android:id="@+id/bnavi_rg_hw_service_bottom_gate_panel_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/nsdk_rg_hw_service_area_panel_icon_width"
+            android:layout_alignBaseline="@id/bnavi_hw_service_bottom_single_type_panel_remain_dist"
+            android:singleLine="true"
+            android:text="km"
+            android:textColor="@color/nsdk_rg_hw_service_info"
+            android:textSize="@dimen/nsdk_rg_hw_service_area_panel_text_unit" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/bnavi_hw_service_bottom_normal_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/bnavi_hw_service_normal_panel_icon_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/bnavi_hw_service_bottom_normal_panel_ic_park"
+                android:layout_width="@dimen/nsdk_rg_hw_service_area_panel_icon_width"
+                android:layout_height="@dimen/nsdk_rg_hw_service_area_panel_icon_height"
+                android:layout_marginRight="@dimen/nsdk_rg_hw_service_area_panel_top_icon_margin_left"
+                tools:src="@drawable/nsdk_drawable_rg_hw_service_park"/>
+
+            <ImageView
+                android:id="@+id/bnavi_hw_service_bottom_normal_panel_ic_petrol_station"
+                android:layout_width="@dimen/nsdk_rg_hw_service_area_panel_icon_width"
+                android:layout_height="@dimen/nsdk_rg_hw_service_area_panel_icon_height"
+                android:layout_marginRight="@dimen/nsdk_rg_hw_service_area_panel_top_icon_margin_left"
+                tools:src="@drawable/nsdk_drawable_rg_hw_service_petrol_station" />
+
+            <ImageView
+                android:id="@+id/bnavi_hw_service_bottom_normal_panel_ic_dining_room"
+                android:layout_width="@dimen/nsdk_rg_hw_service_area_panel_icon_width"
+                android:layout_height="@dimen/nsdk_rg_hw_service_area_panel_icon_height"
+                android:layout_marginRight="@dimen/nsdk_rg_hw_service_area_panel_top_icon_margin_left"
+                tools:src="@drawable/nsdk_drawable_rg_hw_service_diningroom"/>
+
+            <ImageView
+                android:id="@+id/bnavi_hw_service_bottom_normal_panel_ic_wc"
+                android:layout_width="@dimen/nsdk_rg_hw_service_area_panel_icon_width"
+                android:layout_height="@dimen/nsdk_rg_hw_service_area_panel_icon_height"
+                tools:src="@drawable/nsdk_drawable_rg_hw_service_toilet" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/bnavi_rg_hw_service_bottom_normal_panel_remain_dist"
+                tools:text="2.4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="@dimen/nsdk_rg_hw_service_area_panel_top_name_margin_left"
+                android:layout_marginTop="-1dp"
+                android:singleLine="true"
+                android:textColor="@color/nsdk_rg_hw_service_info"
+                android:textSize="@dimen/nsdk_rg_hw_service_area_panel_text_dist"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/bnavi_rg_hw_service_bottom_normal_panel_top_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="-0.3dp"
+                android:singleLine="true"
+                tools:text="km"
+                android:textColor="@color/nsdk_rg_hw_service_info"
+                android:textSize="@dimen/nsdk_rg_hw_service_area_panel_text_unit"
+                android:visibility="visible" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

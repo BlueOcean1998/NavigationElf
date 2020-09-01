@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.ui.widget.CustomLinearScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bnav_rg_toolbox_scroollview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_gravity="bottom"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/sub_fade_layer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_0dp" />
+
+    <LinearLayout
+        android:id="@+id/bnav_rg_main_menu_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bnav_rg_bg_tool_box"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/sub_scroll_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/nsdk_rg_bottom_panel_height"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/bnav_rg_toolbox_quit_ly"
+                    android:layout_width="@dimen/navi_dimens_48dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bnav_rg_toolbox_quit_pressed_bg"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/navi_dimens_2dp"
+                    android:visibility="invisible">
+
+                    <ImageView
+                        android:id="@+id/bnav_rg_toolbox_quit_iv"
+                        android:layout_width="@dimen/navi_dimens_22dp"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/nsdk_drawable_toolbox_icon_quit_nav" />
+
+                    <TextView
+                        android:id="@+id/bnav_rg_toolbox_quit_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_2dp"
+                        android:text="退出"
+                        android:textColor="@color/nsdk_cl_text_h"
+                        android:textSize="@dimen/navi_dimens_12dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/bnav_rg_toolbox_quit_divider"
+                    style="@style/NavRGToolBoxItemDivider"
+                    android:layout_height="@dimen/navi_dimens_29dp"
+                    android:visibility="invisible"/>
+
+                <TextView
+                    android:id="@+id/bnav_rg_toolbox_open_more_option"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textColor="@color/nsdk_cl_text_b_mm_title"
+                    android:textSize="@dimen/navi_dimens_18dp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:text="更多选项"></TextView>
+
+                <View
+                    android:id="@+id/bnav_rg_toolbox_open_close_divider"
+                    style="@style/NavRGToolBoxItemDivider"
+                    android:layout_height="@dimen/navi_dimens_29dp"
+                    android:background="@color/nsdk_cl_rg_bg_c"/>
+
+                <!-- 收起 -->
+                <LinearLayout
+                    android:id="@+id/bnav_rg_toolbox_close_ll"
+                    android:layout_width="@dimen/navi_dimens_48dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bnav_rg_toolbox_quit_pressed_bg"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/navi_dimens_2dp">
+
+                    <ImageView
+                        android:id="@+id/bnav_rg_toolbox_close_iv"
+                        android:layout_width="@dimen/navi_dimens_22dp"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/nsdk_drawable_toolbox_icon_close_toolbox" />
+
+                    <TextView
+                        android:id="@+id/bnav_rg_toolbox_close_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_2dp"
+                        android:text="收起"
+                        android:textColor="@color/nsdk_cl_text_b_mm_title"
+                        android:textSize="@dimen/navi_dimens_12dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/bnav_rg_toolbox_settings_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.baidu.navisdk.ui.widget.CustomLinearScrollView>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nav_view_bluetooth_usb_guide_panel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f2f2f2"
+    android:orientation="vertical">
+
+    <com.baidu.navisdk.ui.widget.EmptyTopLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white" />
+
+    <com.baidu.navisdk.ui.widget.BNCommonTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:id="@+id/bnav_rg_bluetooth_usb_guide_scroll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:scrollbarAlwaysDrawVerticalTrack="false"
+        android:scrollbarSize="@dimen/navi_dimens_0dp"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbars="none">
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/navi_dimens_10dp"
+            android:background="#ffffff"
+            android:orientation="vertical">
+
+            <View style="@style/NavCommonListSplitLine" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/navi_dimens_50dp"
+                android:layout_marginLeft="@dimen/navi_dimens_15dp"
+                android:gravity="center_vertical"
+                android:text="@string/nsdk_string_rg_bluetooth_usb_guide_problem"
+                android:textColor="#333333"
+                android:textSize="15sp" />
+
+            <View
+                style="@style/NavCommonListSplitLine"
+                android:layout_marginLeft="@dimen/navi_dimens_15dp"
+                android:layout_marginRight="@dimen/navi_dimens_15dp" />
+
+            <TextView
+                android:id="@+id/bnav_rg_bluetooth_usb_guide_problem_discription_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/navi_dimens_15dp"
+                android:layout_marginRight="@dimen/navi_dimens_15dp"
+                android:layout_marginTop="@dimen/navi_dimens_20dp"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="@dimen/navi_dimens_8dp"
+                android:text="@string/nsdk_string_rg_bluetooth_guide_problem_discription"
+                android:textColor="#333333"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/navi_dimens_8dp">
+
+                <ImageView
+                    android:layout_width="@dimen/navi_dimens_8dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/navi_dimens_15dp"
+                    android:src="@drawable/nsdk_drawable_rg_mapmode_bluetooth_usb_guide_blue_oval" />
+
+                <TextView
+                    android:id="@+id/bnav_rg_bluetooth_usb_guide_subtitle_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                    android:text="@string/nsdk_string_rg_bluetooth_usb_guide_fix"
+                    android:textColor="#333333"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/bnav_rg_bluetooth_usb_guide_fix_discription_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/navi_dimens_33dp"
+                android:layout_marginRight="@dimen/navi_dimens_15dp"
+                android:layout_marginTop="@dimen/navi_dimens_10dp"
+                android:lineSpacingExtra="@dimen/navi_dimens_8dp"
+                android:text="@string/nsdk_string_rg_bluetooth_guide_fix_discription"
+                android:textColor="#666666"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:id="@+id/bnav_rg_bluetooth_usb_guide_still_no_volum_ll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/navi_dimens_10dp">
+
+                <ImageView
+                    android:layout_width="@dimen/navi_dimens_8dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/navi_dimens_15dp"
+                    android:src="@drawable/nsdk_drawable_rg_mapmode_bluetooth_usb_guide_blue_oval" />
+
+                <TextView
+                    android:id="@+id/bnav_rg_bluetooth_usb_guide_subtitle_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                    android:text="@string/nsdk_string_rg_bluetooth_usb_guide_still_no_volum"
+                    android:textColor="#333333"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/bnav_rg_bluetooth_usb_guide_still_no_volum_discription_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/navi_dimens_33dp"
+                android:layout_marginRight="@dimen/navi_dimens_15dp"
+                android:layout_marginTop="@dimen/navi_dimens_10dp"
+                android:lineSpacingExtra="@dimen/navi_dimens_8dp"
+                android:text="@string/nsdk_string_rg_bluetooth_guide_still_no_volum_discription"
+                android:textColor="#666666"
+                android:textSize="15sp" />
+
+            <View
+                style="@style/NavCommonListSplitLine"
+                android:layout_marginTop="@dimen/navi_dimens_22dp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

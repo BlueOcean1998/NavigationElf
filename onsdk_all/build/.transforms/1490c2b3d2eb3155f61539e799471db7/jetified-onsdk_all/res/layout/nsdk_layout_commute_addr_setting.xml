@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <com.baidu.mapframework.widget.EmptyTopLayout
+        android:id="@+id/rr_empty_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_54dp">
+
+        <ImageView
+            android:id="@+id/commute_route_back"
+            android:layout_width="@dimen/navi_dimens_54dp"
+            android:layout_height="@dimen/navi_dimens_54dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/nsdk_ugc_icon_back"
+            android:scaleType="centerInside" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/navi_dimens_30dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/nsdk_drawable_commute_addr_setting" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/navi_dimens_30dp"
+        android:layout_gravity="center_horizontal"
+        android:textStyle="bold"
+        android:text="设置家和公司地址"
+        android:textColor="#333333"
+        android:textSize="@dimen/navi_dimens_20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/navi_dimens_3dp"
+        android:layout_marginBottom="@dimen/navi_dimens_20dp"
+        android:layout_gravity="center_horizontal"
+        android:textStyle="bold"
+        android:text="结合驾驶习惯安排您的高效上下班路线"
+        android:textColor="#333333"
+        android:textSize="@dimen/navi_dimens_20dp" />
+
+    <LinearLayout
+        android:id="@+id/commute_user_guide_licence_warning_container"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/navi_dimens_40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="-8dp"
+        android:layout_marginBottom="@dimen/navi_dimens_5dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/commute_user_guide_agree_licence_checkbox"
+            android:layout_width="@dimen/navi_dimens_40dp"
+            android:layout_height="@dimen/navi_dimens_40dp"
+            android:src="@drawable/nsdk_drawable_commute_user_guide_licence_agree_black_selector"
+            android:scaleType="centerInside" />
+
+        <TextView
+            android:id="@+id/commute_user_guide_agree_licence_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="-10dp"
+            android:layout_gravity="center_vertical"
+            android:text="@string/nsdk_commute_user_guide_licence_tip"
+            android:textColor="#333333"
+            android:textSize="@dimen/navi_dimens_13dp" />
+
+        <TextView
+            android:id="@+id/commute_user_guide_agree_licence_entrance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/nsdk_commute_user_guide_licence_entrance"
+            android:textColor="#3385ff"
+            android:textSize="@dimen/navi_dimens_13dp" />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/commute_setting_addr"
+        android:layout_width="@dimen/navi_dimens_255dp"
+        android:layout_height="@dimen/navi_dimens_38dp"
+        android:layout_marginBottom="@dimen/navi_dimens_10dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="设置通勤信息"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/navi_dimens_15dp"
+        android:background="@drawable/nsdk_light_navi_to_nav_bg_selector" />
+
+    <TextView
+        android:id="@+id/commute_not_setting_addr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingLeft="@dimen/navi_dimens_5dp"
+        android:paddingRight="@dimen/navi_dimens_5dp"
+        android:paddingTop="@dimen/navi_dimens_5dp"
+        android:paddingBottom="@dimen/navi_dimens_5dp"
+        android:text="暂不设置"
+        android:textColor="#999999"
+        android:textSize="@dimen/navi_dimens_13dp" />
+
+</LinearLayout>

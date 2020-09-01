@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/route_detail_info"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <!--TODO 后续若不再增加布局，注意降低层级-->
+    <RelativeLayout
+        android:id="@+id/route_detail_info_old"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/cross_cost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            tools:text="999元"
+            android:visibility="visible" />
+
+        <View
+            android:id="@+id/divide_line1"
+            android:layout_width="3dp"
+            android:layout_height="3dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/cross_cost"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/red_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_toRightOf="@id/divide_line1"
+            tools:text="10个红绿灯"
+            android:visibility="visible" />
+
+        <View
+            android:id="@+id/divide_line2"
+            android:layout_width="3dp"
+            android:layout_height="3dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/red_light"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/taxi_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_toRightOf="@id/divide_line2"
+            tools:text="打车费666元"
+            android:visibility="visible" />
+
+        <View
+            android:id="@+id/divide_line3"
+            android:layout_width="3dp"
+            android:layout_height="3dp"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@id/taxi_price"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/jam_mitter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_toRightOf="@id/divide_line3"
+            tools:text="一点都不拥堵"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/route_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:textSize="16sp"
+        android:singleLine="true"
+        android:ellipsize="end" />
+</RelativeLayout>

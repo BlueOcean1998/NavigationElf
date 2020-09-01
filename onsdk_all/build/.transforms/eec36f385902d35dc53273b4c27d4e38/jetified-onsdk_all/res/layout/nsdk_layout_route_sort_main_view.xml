@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nsdk_route_sort_panel_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@drawable/nsdk_layout_route_sort_background"
+    android:focusableInTouchMode="true"
+    android:longClickable="true">
+
+    <TextView
+        android:id="@+id/nsdk_route_sort_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/navi_dimens_50dp"
+        android:layout_centerHorizontal="true"
+        android:drawableLeft="@drawable/nsdk_route_sort_setting_title_icon"
+        android:drawablePadding="@dimen/navi_dimens_5dp"
+        android:text="@string/nsdk_string_route_sort_title"
+        android:includeFontPadding="false"
+        android:gravity="center_vertical"
+        android:textColor="@color/nsdk_route_sort_title"
+        android:textSize="@dimen/navi_dimens_18dp"/>
+
+    <View
+        android:id="@+id/nsdk_route_sort_h1"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/nsdk_route_sort_title_tv"
+        android:background="@color/nsdk_cl_bg_d_mm"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/nsdk_route_sort_gv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/navi_dimens_6dp"
+        android:paddingRight="@dimen/navi_dimens_6dp"
+        android:layout_below="@id/nsdk_route_sort_h1"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="none"/>
+
+    <View
+        android:id="@+id/nsdk_route_sort_h3"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/nsdk_route_sort_gv"
+        android:background="@color/nsdk_cl_bg_d_mm"/>
+
+    <!-- 记住路线偏好 -->
+    <RelativeLayout
+        android:id="@+id/nsdk_remember_route_prefer_item"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_60dp"
+        android:layout_below="@id/nsdk_route_sort_h3"
+        android:paddingLeft="@dimen/navi_dimens_15dp"
+        android:paddingRight="@dimen/navi_dimens_15dp">
+        <TextView
+            android:id="@+id/nsdk_remember_route_prefer_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textColor="@color/nsdk_route_sort_title"
+            android:textSize="@dimen/navi_dimens_16dp"
+            android:text="@string/nsdk_string_remember_route_prefer"/>
+
+        <ImageView
+            android:id="@+id/nsdk_remember_route_prefer_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@null"/>
+
+        <TextView
+            android:id="@+id/nsdk_remember_route_prefer_sub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/nsdk_remember_route_prefer_title"
+            android:layout_toLeftOf="@id/nsdk_remember_route_prefer_switch"
+            android:layout_marginLeft="@dimen/navi_dimens_8dp"
+            android:layout_marginRight="@dimen/navi_dimens_8dp"
+            android:textColor="@color/nsdk_route_sort_summary_text"
+            android:gravity="left"
+            android:layout_centerVertical="true"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="@dimen/navi_dimens_12dp"
+            android:layout_marginTop="@dimen/navi_dimens_8dp"
+            android:text="@string/nsdk_string_route_prefer_take_effect_permanent"/>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/nsdk_route_sort_h2"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/nsdk_remember_route_prefer_item"
+        android:background="@color/nsdk_cl_bg_d_mm"/>
+
+    <!-- 驾驶习惯 -->
+    <RelativeLayout
+        android:id="@+id/nsdk_driving_habit_select_enter"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_60dp"
+        android:paddingLeft="@dimen/navi_dimens_15dp"
+        android:paddingRight="@dimen/navi_dimens_15dp"
+        android:layout_below="@id/nsdk_route_sort_h2"
+        tools:visibility="visible"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/nsdk_route_sort_select_prefer_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textColor="@color/nsdk_route_sort_title"
+            android:textSize="@dimen/navi_dimens_16dp"
+            android:text="@string/nsdk_string_select_driving_habit"/>
+
+
+        <ImageView
+            android:id="@+id/nsdk_route_prefer_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/nsdk_driving_habit_right_arrow"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+
+        <TextView
+            android:id="@+id/nsdk_route_sort_select_prefer_sub_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/nsdk_route_prefer_img"
+            android:layout_toRightOf="@id/nsdk_route_sort_select_prefer_title"
+            android:layout_marginLeft="@dimen/navi_dimens_8dp"
+            android:layout_marginRight="@dimen/navi_dimens_8dp"
+            android:textColor="@color/nsdk_route_sort_summary_text"
+            android:gravity="left"
+            android:layout_centerVertical="true"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="@dimen/navi_dimens_12dp"
+            android:layout_marginTop="@dimen/navi_dimens_8dp"
+            tools:text="1111111111111222223333444"/>
+    </RelativeLayout>
+
+    <!--记住偏好气泡-->
+    <TextView
+        android:id="@+id/nsdk_remember_prefer_bubble"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="@string/nsdk_string_remember_prefer_bubble"
+        android:paddingLeft="@dimen/navi_dimens_8dp"
+        android:paddingRight="@dimen/navi_dimens_8dp"
+        android:gravity="center_vertical"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/navi_dimens_13dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/navi_dimens_15dp"
+        android:layout_marginBottom="-20dp"
+        android:layout_above="@id/nsdk_remember_route_prefer_item"
+        android:background="@drawable/nsdk_route_prefer_bubble_bg"/>
+
+</RelativeLayout>

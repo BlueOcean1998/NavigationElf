@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <RelativeLayout
+        android:id="@+id/detail_pass_city_rl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/nsdk_rr_pass_city_bg_select_right"
+        android:visibility="visible"
+        >
+
+        <TextView
+            android:id="@+id/pass_city_tx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#3385ff"
+            android:textSize="12dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:text="石家庄"
+            />
+
+        <RelativeLayout
+            android:id="@+id/route_ll"
+            android:layout_below="@id/pass_city_tx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            >
+
+            <TextView
+                android:id="@+id/total_dis_tx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="500公里"
+                android:textColor="#555555"
+                android:textSize="10dp"
+                />
+            <TextView
+                android:id="@+id/total_time_tx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_toRightOf="@id/total_dis_tx"
+                android:text="小时"
+                android:textColor="#555555"
+                android:textSize="10dp"
+                />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/line_tx"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#99b5b5b5"
+            android:layout_below="@id/route_ll"
+            android:layout_marginLeft="2dp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginRight="2dp"
+            />
+
+        <ImageView
+            android:id="@+id/detail_climate_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line_tx"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="0.5dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/nsdk_rr_bad_weather_bg"
+            android:layout_marginBottom="1dp"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@+id/climate_tx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line_tx"
+            android:layout_toRightOf="@id/detail_climate_img"
+            android:textColor="#555555"
+            android:layout_marginLeft="2dp"
+            android:layout_marginBottom="1dp"
+            android:textSize="10dp"
+            android:text="天气"/>
+        <TextView
+            android:id="@+id/temprature_tx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line_tx"
+            android:layout_toRightOf="@id/climate_tx"
+            android:layout_marginLeft="2dp"
+            android:layout_marginBottom="1dp"
+            android:text="温度"
+            android:textColor="#555555"
+            android:textSize="10dp"
+            />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/short_pass_rl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:background="@drawable/nsdk_rr_pass_city_bg_right"
+        >
+
+        <TextView
+            android:id="@+id/short_pass_city_tx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="市"
+            android:paddingTop="2dp"
+            android:textColor="#555555"
+            android:textSize="10dp"
+            />
+        <ImageView
+            android:id="@+id/climate_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:visibility="gone"
+            android:layout_toRightOf="@id/short_pass_city_tx"
+            android:layout_marginLeft="2dp"
+            android:background="@drawable/nsdk_rr_bad_weather_bg"
+            />
+    </RelativeLayout>
+</RelativeLayout>

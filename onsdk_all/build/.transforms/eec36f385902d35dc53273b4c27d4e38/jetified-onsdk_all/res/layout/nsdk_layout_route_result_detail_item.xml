@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
+  -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/route_result_content_view"
+    android:orientation="vertical"
+    android:background="@drawable/nsdk_route_result_center_background"
+    android:layout_width="match_parent"
+    android:layout_height="70dp">
+
+    <RelativeLayout
+        android:id="@+id/left_container"
+        android:layout_width="28dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="25dp"
+        android:layout_marginLeft="13dp">
+
+        <View
+            android:id="@+id/connect_line_up"
+            android:layerType="software"
+            android:background="@drawable/bnav_bg_rr_detail_vertical_line"
+            android:layout_centerHorizontal="true"
+            android:layout_width="70dp"
+            android:layout_marginLeft="-30dp"
+            android:layout_marginRight="-30dp"
+            android:layout_height="5dp"/>
+
+        <ImageView
+            android:id="@+id/icon"
+            android:background="#ffffff"
+            android:layout_below="@id/connect_line_up"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="5dp"
+            android:layout_centerInParent="false"
+            tools:src="@drawable/nsdk_map_route_start"/>
+
+        <View
+            android:id="@+id/connect_line_down"
+            android:layerType="software"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/icon"
+            android:background="@drawable/bnav_bg_rr_detail_vertical_line"
+            android:layout_centerHorizontal="true"
+            android:layout_width="70dp"
+            android:layout_marginLeft="-30dp"
+            android:layout_marginRight="-30dp"
+            android:layout_height="27dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/right_ourter_container"
+        android:layout_toRightOf="@id/left_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/nsdk_rr_detail_item_selector">
+        <LinearLayout
+            android:id="@+id/text_container"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_road_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:gravity="center|left"
+                android:textColor="#333333"
+                android:textSize="16dp"
+                android:text="高新高速公路"/>
+
+            <TextView
+                android:id="@+id/tv_action"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:gravity="center|left"
+                android:textColor="#999999"
+                android:textSize="14dp"
+                android:text="行驶100公里"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <View
+        android:id="@+id/bottom_divider"
+        android:layout_width="match_parent"
+        android:background="#EAEAEA"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="10dp"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@id/right_ourter_container"
+        android:layout_alignRight="@id/right_ourter_container"
+        />
+</RelativeLayout>

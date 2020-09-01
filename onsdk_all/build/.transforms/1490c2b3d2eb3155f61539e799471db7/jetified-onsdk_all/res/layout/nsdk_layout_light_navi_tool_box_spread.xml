@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@android:color/white"
+    android:layout_width="@dimen/nsdk_light_navi_tool_box_container_width"
+    android:layout_height="@dimen/nsdk_light_navi_tool_box_container_height">
+
+    <!--TODO 如果没有title等其他布局，后期降低层级-->
+    <GridView
+        android:id="@+id/grid_view"
+        android:layout_width="@dimen/nsdk_light_navi_tool_box_container_width"
+        android:layout_height="@dimen/nsdk_light_navi_tool_box_container_height"
+        android:layout_gravity="center"
+        android:columnWidth="@dimen/nsdk_light_navi_tool_box_menu_width"
+        android:gravity="center"
+        android:listSelector="@android:color/transparent"
+        android:stretchMode="columnWidth"
+        android:numColumns="3"
+        android:scrollbars="none"
+        android:scrollbarStyle="outsideOverlay"/>
+
+</RelativeLayout>

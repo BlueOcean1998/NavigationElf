@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.module.lightnav.widget.LightNaviContaienrRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+
+    <RelativeLayout
+        android:id="@+id/map_control_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/navi_dimens_0dp"
+        android:background="@android:color/transparent">
+
+        <!--码表-->
+        <RelativeLayout
+            android:id="@+id/speed_container"
+            android:layout_marginLeft="@dimen/navi_dimens_10dp"
+            android:layout_marginTop="@dimen/navi_dimens_10dp"
+            android:layout_width="@dimen/navi_dimens_66dp"
+            android:layout_height="@dimen/navi_dimens_66dp"
+            tools:background="#00f1f1"/>
+
+        <!--区间测速-->
+        <com.baidu.navisdk.ui.speed.interval.IntervalSpeedView
+            android:id="@+id/interval_speed_view"
+            android:visibility="gone"
+            android:layout_marginLeft="@dimen/navi_dimens_10dp"
+            android:layout_marginTop="@dimen/navi_dimens_10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:background="#00f1f1"
+            tools:visibility="visible"/>
+
+        <!--左侧 普通图区控件-->
+        <RelativeLayout
+            android:id="@+id/map_control_left_panel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/navi_dimens_5dp"
+            android:paddingRight="@dimen/navi_dimens_5dp"
+            android:layout_alignParentBottom="false"
+            android:layout_marginBottom="@dimen/navi_dimens_0dp"
+            android:visibility="visible"
+            android:background="@android:color/transparent"
+            tools:background="@android:color/holo_green_dark"
+            tools:visibility="visible">
+
+            <!--左侧 下部图区控件-->
+            <RelativeLayout
+                android:id="@+id/map_left_common_panel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:layout_alignParentBottom="true"
+                android:background="@android:color/transparent"
+                tools:background="@android:color/holo_red_light"
+                tools:visibility="visible">
+                <!--路线偏好-->
+                <LinearLayout
+                    android:id="@+id/bnav_prefer_container"
+                    android:layout_width="@dimen/navi_dimens_105dp"
+                    android:layout_height="@dimen/navi_dimens_57dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/nsdk_light_navi_btn_bg_common_selector"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    tools:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/prefer_tv"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textColor="#333333"
+                        android:text="@string/nsdk_ipo_navi_route_prefer"
+                        android:textSize="@dimen/navi_dimens_15dp"
+                        android:layout_width="wrap_content"
+                        android:textStyle="bold"
+                        android:layout_height="wrap_content" />
+
+                    <ImageView
+                        android:id="@+id/bnav_rg_cp_route_sort_iv"
+                        android:layout_width="@dimen/navi_dimens_8dp"
+                        android:layout_height="@dimen/navi_dimens_12dp"
+                        android:layout_marginLeft="@dimen/navi_dimens_5dp"
+                        android:src="@drawable/nsdk_navi_route_sort" />
+                </LinearLayout>
+
+                <!--定位-->
+                <RelativeLayout
+                    android:id="@+id/location_layout"
+                    android:layout_width="@dimen/navi_dimens_57dp"
+                    android:layout_height="@dimen/navi_dimens_57dp"
+                    android:layout_marginBottom="@dimen/navi_dimens_0dp"
+                    android:layout_above="@id/bnav_prefer_container"
+                    android:background="@drawable/nsdk_light_navi_btn_bg_common_selector"
+                    android:clickable="true"
+                    android:gravity="center"
+                    tools:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/location_btn"
+                        android:layout_width="@dimen/navi_dimens_28dp"
+                        android:layout_height="@dimen/navi_dimens_28dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/nsdk_light_navi_location" />
+                </RelativeLayout>
+
+                <!--上报-->
+                <com.baidu.navisdk.module.ugc.report.ui.UgcLightReportButton
+                    android:id="@+id/ugc_report_layout"
+                    android:layout_width="@dimen/navi_dimens_57dp"
+                    android:layout_height="@dimen/navi_dimens_57dp"
+                    android:layout_above="@id/location_layout"
+                    android:clickable="true"
+                    android:background="@drawable/nsdk_light_navi_btn_bg_common_selector"
+                    app:is_bold_report="true"
+                    app:iv_height="@dimen/navi_dimens_26dp"
+                    app:iv_icon_src="@drawable/nsdk_light_navi_report"
+                    app:iv_text_padding="0dp"
+                    app:iv_width="@dimen/navi_dimens_26dp"
+                    app:ugc_btn_page="lightNavi"
+                    tools:visibility="visible" />
+            </RelativeLayout>
+            <!--主辅路、桥上桥下-->
+            <LinearLayout
+                android:id="@+id/road_bridge_switch_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_above="@id/map_left_common_panel"
+                android:orientation="vertical"
+                tools:visibility="visible">
+
+                <!--主辅路切换-->
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_rl_main_auxiliary_switch"
+                    android:layout_width="@dimen/navi_dimens_57dp"
+                    android:layout_height="@dimen/navi_dimens_57dp"
+                    android:background="@drawable/nsdk_light_navi_btn_bg_common_selector"
+                    android:layout_above="@id/location_layout"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/bnav_rg_iv_main_auxiliary_switch"
+                            android:layout_width="@dimen/navi_dimens_33dp"
+                            android:layout_height="@dimen/navi_dimens_25dp"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/nsdk_light_navi_to_main_road" />
+
+                        <TextView
+                            android:id="@+id/bnav_rg_tv_main_auxiliary_switch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="在主路"
+                            android:textStyle="bold"
+                            android:layout_marginTop="@dimen/navi_dimens_0dp"
+                            android:textColor="@color/nsdk_cl_text_h"
+                            android:textSize="@dimen/nsdk_rg_control_panel_btn_text_size" />
+                    </LinearLayout>
+                </RelativeLayout>
+                <!--桥上桥下切换-->
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_rl_bridge_switch"
+                    android:layout_width="@dimen/navi_dimens_57dp"
+                    android:layout_height="@dimen/navi_dimens_57dp"
+                    android:background="@drawable/nsdk_light_navi_btn_bg_common_selector"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/bnav_rg_iv_bridge_switch"
+                            android:layout_width="@dimen/navi_dimens_33dp"
+                            android:layout_height="@dimen/navi_dimens_25dp"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/nsdk_light_navi_on_bridge" />
+
+                        <TextView
+                            android:id="@+id/bnav_rg_tv_bridge_switch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="在桥上"
+                            android:textStyle="bold"
+                            android:layout_marginTop="@dimen/navi_dimens_0dp"
+                            android:textColor="@color/nsdk_cl_text_h"
+                            android:textSize="@dimen/nsdk_rg_control_panel_btn_text_size" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
+        <!-- 缩放比例 -->
+        <!-- map_scale_level_layout 设置一个固定的高度是为了避免"子layout的marginBottom 属性失效"-->
+        <RelativeLayout
+            android:id="@+id/map_scale_level_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/navi_dimens_57dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/navi_dimens_5dp"
+            android:layout_toRightOf="@id/map_control_left_panel"
+            android:layout_alignWithParentIfMissing="true"
+            android:layout_marginLeft="@dimen/navi_dimens_0dp"
+            tools:visibility="visible">
+
+            <RelativeLayout
+                android:layout_alignParentBottom="true"
+                android:id="@+id/scale_inner_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/scale_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="100米"
+                    android:textColor="#333333"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/scale_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/navi_dimens_7dp"
+                    android:layout_below="@id/scale_title"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/nsdk_common_ic_scale_indicator"
+                    android:paddingTop="@dimen/navi_dimens_0dp" />
+
+                <TextView
+                    android:id="@+id/app_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/scale_indicator"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/nsdk_map_watermark"
+                    android:paddingTop="@dimen/navi_dimens_2dp"
+                    android:textColor="#0000bb"
+                    android:textSize="10sp"
+                    tools:visibility="gone" />
+
+            </RelativeLayout>
+
+            <!--百度地图logo-->
+            <ImageView
+                android:id="@+id/baidu_map_logo"
+                android:layout_centerInParent="false"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/navi_dimens_5dp"
+                android:layout_width="@dimen/navi_dimens_46dp"
+                android:layout_height="@dimen/navi_dimens_16dp"
+                android:src="@drawable/nsdk_baidu_map_logo"
+                android:visibility="gone"
+                tools:visibility="visible" />
+        </RelativeLayout>
+
+        <!--工具箱-->
+        <include
+            android:id="@+id/toolbox_outer_container"
+            layout="@layout/nsdk_layout_light_navi_tool_box"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/navi_dimens_5dp"
+            android:layout_marginRight="@dimen/navi_dimens_5dp"
+            android:visibility="visible"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+
+        <!--沿途搜清除按钮-->
+        <LinearLayout
+            android:id="@+id/nearby_search_clear"
+            android:layout_width="@dimen/navi_dimens_58dp"
+            android:layout_height="@dimen/navi_dimens_58dp"
+            android:layout_marginTop="@dimen/navi_dimens_5dp"
+            android:layout_marginRight="@dimen/navi_dimens_5dp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/nsdk_light_navi_btn_bg_selector"
+            android:orientation="vertical"
+            tools:visibility="gone">
+
+            <ImageView
+                android:id="@+id/tool_box_closed_state_iv"
+                android:layout_height="@dimen/navi_dimens_19dp"
+                android:layout_width="@dimen/navi_dimens_19dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/nsdk_drawable_common_empty_poi" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:textColor="#333333"
+                android:layout_marginTop="@dimen/navi_dimens_0dp"
+                android:textSize="@dimen/navi_dimens_13dp"
+                android:text="@string/nsdk_light_navi_clear"
+                tools:text="清除" />
+
+        </LinearLayout>
+        <!--右侧 图区控件-->
+        <RelativeLayout
+            android:id="@+id/map_control_right_panel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/navi_dimens_5dp"
+            android:visibility="visible"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/transparent"
+            tools:visibility="visible">
+            <!--刷新-->
+            <LinearLayout
+                android:id="@+id/bnav_rg_cp_replan"
+                android:layout_width="@dimen/navi_dimens_57dp"
+                android:layout_height="@dimen/navi_dimens_57dp"
+                android:background="@drawable/nsdk_light_navi_btn_bg_common_selector"
+                android:gravity="center"
+                android:orientation="vertical"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/bnav_iv_rg_cp_replan"
+                        android:layout_width="@dimen/navi_dimens_28dp"
+                        android:layout_height="@dimen/navi_dimens_28dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/nsdk_light_navi_refresh" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/nsdk_cl_text_h"
+                        android:textSize="@dimen/nsdk_rg_control_panel_btn_text_size"
+                        android:layout_marginTop="@dimen/nsdk_rg_control_button_text_margin_top"
+                        android:text="刷新" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </RelativeLayout>
+        <!--用户协议相关-->
+        <LinearLayout
+            android:id="@+id/bnav_rg_user_right_rl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/bnav_lv_rg_road_condition_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/user_cur_milea_ll"
+                android:layout_width="49dp"
+                android:layout_height="49dp"
+                android:background="@drawable/bnav_user_cur_milea_bg"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/user_current_milea_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="16"
+                    android:textColor="#3eca8c"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/user_current_milea_tips_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-5dp"
+                    android:text="本月公里"
+                    android:textColor="#aaaaaa"
+                    android:textSize="8dp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/user_right_upgrade_tips_ll"
+                android:layout_width="wrap_content"
+                android:layout_height="37dp"
+                android:layout_marginTop="3dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="17dp"
+                    android:background="@drawable/bnav_user_right_upgrade_tips_arrow" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bnav_user_right_upgrade_tips_bg"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:id="@+id/user_right_upgrade_tips_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="剩余xxx公里晋级"
+                        android:textColor="#ffffff"
+                        android:textSize="12dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- 沿途搜filter view-->
+        <FrameLayout
+            android:id="@+id/nearby_search_filter_root_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:visibility="visible"
+            android:layout_marginLeft="@dimen/navi_dimens_10dp"
+            android:layout_marginBottom="@dimen/navi_dimens_5dp"
+            tools:layout_height="200dp"
+            tools:layout_width="100dp"
+            tools:visibility="gone">
+
+            <FrameLayout
+                android:id="@+id/nearby_search_filter_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:layout_height="200dp"
+                tools:layout_width="100dp"
+                tools:visibility="gone">
+
+            </FrameLayout>
+        </FrameLayout>
+
+    </RelativeLayout>
+
+
+</com.baidu.navisdk.module.lightnav.widget.LightNaviContaienrRelativeLayout>

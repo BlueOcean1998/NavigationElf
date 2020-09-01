@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#66000000"
+    android:clickable="true"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/ugc_report_main_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_0dp"
+        android:layout_weight="1" >
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ugc_report_main_Flevel_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/nsdk_cl_bg_d"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:id="@+id/ugc_report_operationalAct_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_27dp"
+            android:orientation="horizontal"
+              android:visibility="gone"  >
+
+            <ImageView
+                android:id="@+id/ugc_report_operationalAct_banner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical" />
+
+            <View
+                android:layout_width="@dimen/navi_dimens_10dp"
+                android:layout_height="@dimen/navi_dimens_10dp" 
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/ugc_report_operationalAct_banner_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="ceshi"
+                android:textColor="#333333"
+                android:textSize="17sp" 
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#e6e6e6" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_15dp" />
+
+        <GridView
+            android:id="@+id/ugc_report_main_grideview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:horizontalSpacing="@dimen/navi_dimens_41dp"
+            android:listSelector="@drawable/bnav_common_ugc_bground_selector"
+            android:numColumns="4"
+            android:scrollbarFadeDuration="0"
+            android:scrollbars="none"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="@dimen/navi_dimens_15dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_15dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#e6e6e6" />
+
+         <RelativeLayout
+            android:id="@+id/ugc_report_software_direction_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_55dp"
+            android:background="@drawable/bnav_common_ugc_bground_selector" 
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/ugc_report_software_direction_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/navi_dimens_55dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/navi_dimens_15dp"
+                android:gravity="center_vertical"
+                android:text="反馈地点变化"
+                android:textColor="#333333"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/ugc_report_software_direction_imageview"
+                android:layout_width="@dimen/navi_dimens_9dp"
+                android:layout_height="@dimen/navi_dimens_14dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/navi_dimens_15dp"
+                android:src="@drawable/nsdk_ugc_report_goto_icon" />
+
+            <TextView
+                android:id="@+id/ugc_report_software_direction_right_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/navi_dimens_10dp"
+                android:layout_toLeftOf="@+id/ugc_report_software_direction_imageview"
+                android:gravity="center_vertical"
+                android:text="新增、纠错"
+                android:textColor="#999999"
+                android:textSize="14sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ugc_report_main_Slevel_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/nsdk_cl_bg_d"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/ugc_report_subback_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_49dp"
+            android:background="@drawable/bnav_common_ugc_bground_selector" >
+
+            <TextView
+                android:id="@+id/ugc_report_subtitle_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/navi_dimens_49dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:text="拥堵"
+                android:textColor="#333333"
+                android:textSize="17sp" />
+
+            <RelativeLayout
+                android:layout_width="@dimen/navi_dimens_40dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true" >
+
+                <ImageView
+                    android:id="@+id/ugc_report_subback_imageview"
+                    android:layout_width="@dimen/navi_dimens_9dp"
+                    android:layout_height="@dimen/navi_dimens_15dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/navi_dimens_15dp"
+                    android:src="@drawable/nsdk_ugc_report_back_icon" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#e7e7e7" />
+
+        <LinearLayout
+            android:id="@+id/ugc_report_subtype_show_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_100dp"
+            android:orientation="horizontal" >
+
+            <RelativeLayout
+                android:id="@+id/ugc_report_navi_sub_show_layout1"
+                android:layout_width="@dimen/navi_dimens_0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bnav_common_ugc_bground_selector" >
+
+                <ImageView
+                    android:id="@+id/ugc_report_navi_sub_show_iview1"
+                    android:layout_width="@dimen/navi_dimens_56dp"
+                    android:layout_height="@dimen/navi_dimens_56dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/navi_dimens_12dp" />
+
+                <ImageView
+                    android:id="@+id/ugc_report_navi_sub_choose_iview1"
+                    android:layout_width="@dimen/navi_dimens_17dp"
+                    android:layout_height="@dimen/navi_dimens_17dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="-17dp"
+                    android:layout_marginTop="@dimen/navi_dimens_12dp"
+                    android:layout_toRightOf="@+id/ugc_report_navi_sub_show_iview1"
+                    android:background="@drawable/nsdk_ugc_report_delete_icon" />
+
+                <TextView
+                    android:id="@+id/ugc_report_navi_sub_show_tview1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ugc_report_navi_sub_show_iview1"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/navi_dimens_9dp"
+                    android:gravity="center_horizontal"
+                    android:text="禁左"
+                    android:textColor="#666666"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/ugc_report_navi_sub_show_layout2"
+                android:layout_width="@dimen/navi_dimens_0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bnav_common_ugc_bground_selector" >
+
+                <ImageView
+                    android:id="@+id/ugc_report_navi_sub_show_iview2"
+                    android:layout_width="@dimen/navi_dimens_56dp"
+                    android:layout_height="@dimen/navi_dimens_56dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/navi_dimens_12dp" />
+
+                <ImageView
+                    android:id="@+id/ugc_report_navi_sub_choose_iview2"
+                    android:layout_width="@dimen/navi_dimens_17dp"
+                    android:layout_height="@dimen/navi_dimens_17dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="-17dp"
+                    android:layout_marginTop="@dimen/navi_dimens_12dp"
+                    android:layout_toRightOf="@+id/ugc_report_navi_sub_show_iview2"
+                    android:background="@drawable/nsdk_ugc_report_delete_icon" />
+
+                <TextView
+                    android:id="@+id/ugc_report_navi_sub_show_tview2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ugc_report_navi_sub_show_iview2"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/navi_dimens_9dp"
+                    android:gravity="center_horizontal"
+                    android:text="禁掉头"
+                    android:textColor="#666666"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/ugc_report_navi_sub_show_layout3"
+                android:layout_width="@dimen/navi_dimens_0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bnav_common_ugc_bground_selector" >
+
+                <ImageView
+                    android:id="@+id/ugc_report_navi_sub_show_iview3"
+                    android:layout_width="@dimen/navi_dimens_56dp"
+                    android:layout_height="@dimen/navi_dimens_56dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/navi_dimens_12dp" />
+
+                <ImageView
+                    android:id="@+id/ugc_report_navi_sub_choose_iview3"
+                    android:layout_width="@dimen/navi_dimens_17dp"
+                    android:layout_height="@dimen/navi_dimens_17dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="-17dp"
+                    android:layout_marginTop="@dimen/navi_dimens_12dp"
+                    android:layout_toRightOf="@+id/ugc_report_navi_sub_show_iview3"
+                    android:background="@drawable/nsdk_ugc_report_delete_icon" />
+
+                <TextView
+                    android:id="@+id/ugc_report_navi_sub_show_tview3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ugc_report_navi_sub_show_iview3"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/navi_dimens_9dp"
+                    android:gravity="center_horizontal"
+                    android:text="禁掉头"
+                    android:textColor="#666666"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#e7e7e7" />
+
+        <LinearLayout
+            android:id="@+id/ugc_report_main_map_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/nsdk_cl_bg_d"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navi_dimens_70dp"
+                android:orientation="horizontal" >
+
+                <RelativeLayout
+                    android:layout_width="@dimen/navi_dimens_0dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_weight="1" >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:orientation="horizontal" >
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal" >
+
+                            <ImageView
+                                android:id="@+id/ugc_report_photo_capture_imageview"
+                                android:layout_width="@dimen/navi_dimens_22dp"
+                                android:layout_height="@dimen/navi_dimens_19dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/nsdk_ugc_report_camera_icon" />
+
+                            <View
+                                android:layout_width="@dimen/navi_dimens_7dp"
+                                android:layout_height="@dimen/navi_dimens_1dp" />
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/ugc_report_photo_show_layout"
+                            android:layout_width="@dimen/navi_dimens_40dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center" >
+
+                            <ImageView
+                                android:id="@+id/ugc_report_photo_show_imageview"
+                                android:layout_width="@dimen/navi_dimens_34dp"
+                                android:layout_height="@dimen/navi_dimens_34dp"
+                                android:layout_centerVertical="true"
+                                 />
+
+                            <ImageView
+                                android:id="@+id/ugc_report_photo_delete_imageview"
+                                android:layout_width="@dimen/navi_dimens_11dp"
+                                android:layout_height="@dimen/navi_dimens_11dp"
+                                android:layout_above="@+id/ugc_report_photo_show_imageview"
+                                android:layout_marginBottom="-5dp"
+                                android:layout_marginLeft="-6dp"
+                                android:layout_toRightOf="@+id/ugc_report_photo_show_imageview"
+                                android:background="@drawable/nsdk_ugc_report_photo_delete_icon" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/ugc_report_photo_capture_tview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/navi_dimens_49dp"
+                            android:layout_marginLeft="@dimen/navi_dimens_5dp"
+                            android:background="@drawable/bnav_common_ugc_bground_selector"
+                            android:gravity="center_vertical"
+                            android:padding="@dimen/navi_dimens_0dp"
+                            android:text="拍摄照片"
+                            android:textColor="#3385ff"
+                            android:textSize="17sp" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="@dimen/navi_dimens_49dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="#e7e7e7" />
+
+                <RelativeLayout
+                    android:layout_width="@dimen/navi_dimens_0dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_weight="1" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:orientation="horizontal" >
+
+                        <LinearLayout
+                            android:id="@+id/ugc_report_descritext_show_layout"
+                            android:layout_width="@dimen/navi_dimens_0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_weight="1"
+                            android:orientation="horizontal" >
+
+                            <View
+                                android:layout_width="@dimen/navi_dimens_8dp"
+                                android:layout_height="@dimen/navi_dimens_1dp" />
+
+                            <EditText
+                                android:id="@+id/ugc_report_sub_descri_etext"
+                                android:layout_width="@dimen/navi_dimens_0dp"
+                                android:layout_height="@dimen/navi_dimens_56dp"
+                                android:layout_centerVertical="true"
+                                android:layout_weight="1"
+                                android:background="#f5f5f5"
+                                android:hint="添加描述..."
+                                android:paddingLeft="@dimen/navi_dimens_8dp"
+                                android:text=""
+                                android:textColor="#333333"
+                                android:textSize="13sp" />
+
+                            <View
+                                android:layout_width="@dimen/navi_dimens_8dp"
+                                android:layout_height="@dimen/navi_dimens_1dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ugc_report_descrisounds_show_layout"
+                            android:layout_width="@dimen/navi_dimens_0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:visibility="gone" >
+
+                            <View
+                                android:layout_width="@dimen/navi_dimens_22dp"
+                                android:layout_height="@dimen/navi_dimens_1dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:paddingLeft="@dimen/navi_dimens_0dp"
+                                android:text="语音描述"
+                                android:textColor="#333333"
+                                android:textSize="17sp" />
+
+                            <View
+                                android:layout_width="@dimen/navi_dimens_9dp"
+                                android:layout_height="@dimen/navi_dimens_1dp" />
+
+                            <TextView
+                                android:id="@+id/ugc_report_sounds_timesum_tview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:paddingLeft="@dimen/navi_dimens_0dp"
+                                android:text="2"
+                                android:textColor="#3385ff"
+                                android:textSize="17sp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/ugc_report_sounds_imageview"
+                            android:layout_width="@dimen/navi_dimens_29dp"
+                            android:layout_height="@dimen/navi_dimens_29dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/nsdk_ugc_report_voice_icon" />
+
+                        <View
+                            android:layout_width="@dimen/navi_dimens_8dp"
+                            android:layout_height="@dimen/navi_dimens_10dp" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#e6e6e6" />
+
+            <LinearLayout
+                android:id="@+id/ugc_report_position_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navi_dimens_63dp" >
+
+                <View
+                    android:layout_width="@dimen/navi_dimens_15dp"
+                    android:layout_height="@dimen/navi_dimens_1dp" />
+
+                <ImageView
+                    android:id="@+id/ugc_report_position_imageview"
+                    android:layout_width="@dimen/navi_dimens_12dp"
+                    android:layout_height="@dimen/navi_dimens_17dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/nsdk_ugc_report_map_point_icon" />
+
+                <View
+                    android:layout_width="@dimen/navi_dimens_10dp"
+                    android:layout_height="@dimen/navi_dimens_1dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="上报位置:"
+                    android:textColor="#333333"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/ugc_report_position_decri_tview"
+                    android:layout_width="@dimen/navi_dimens_0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:ellipsize="end"
+          			android:singleLine="true"
+          			android:paddingLeft="@dimen/navi_dimens_4dp"
+                    android:textColor="#333333"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="@dimen/navi_dimens_12dp"
+                    android:layout_height="@dimen/navi_dimens_1dp" />
+
+                <TextView
+                    android:id="@+id/ugc_report_position_change_tview"
+                    android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:text="更换位置"
+                    android:textColor="#3385ff"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="@dimen/navi_dimens_17dp"
+                    android:layout_height="@dimen/navi_dimens_1dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/ugc_report_reported_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_49dp"
+            android:background="#3385ff"
+            android:text="立刻上报"
+            android:textColor="@drawable/bnav_common_ugc_text_selector"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+</LinearLayout>

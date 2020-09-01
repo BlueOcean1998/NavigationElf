@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="@dimen/navi_dimens_287dp"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/top_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="12.5dp"
+            android:paddingLeft="@dimen/navi_dimens_19dp"
+            android:paddingRight="@dimen/navi_dimens_19dp"
+            android:paddingTop="12.5dp" >
+
+            <TextView
+                android:id="@+id/title_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4.5dp"
+                android:gravity="center"
+                android:textColor="#ff3f484b"
+                android:textSize="21sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/content_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/navi_dimens_23dp"
+                android:layout_marginTop="@dimen/navi_dimens_23dp"
+                android:gravity="left"
+                android:textColor="#ff3f484b"
+                android:textSize="18sp" >
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/first_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingTop="@dimen/navi_dimens_10dp"
+                android:paddingBottom="@dimen/navi_dimens_10dp"
+                android:clickable="true"
+                android:gravity="center"
+                android:maxWidth="@dimen/navi_dimens_100dp"
+                android:minWidth="@dimen/navi_dimens_100dp"
+                android:text="取消"
+                android:textColor="@color/nsdk_color_dialog_content_text"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/second_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/navi_dimens_10dp"
+                android:paddingBottom="@dimen/navi_dimens_10dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:gravity="center"
+                android:maxWidth="@dimen/navi_dimens_100dp"
+                android:minWidth="@dimen/navi_dimens_100dp"
+                android:text="确定"
+                android:textColor="@color/nsdk_color_dialog_content_text"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/title_bar_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#333333"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <FrameLayout
+                android:id="@+id/content_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:minWidth="@dimen/navi_dimens_112dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

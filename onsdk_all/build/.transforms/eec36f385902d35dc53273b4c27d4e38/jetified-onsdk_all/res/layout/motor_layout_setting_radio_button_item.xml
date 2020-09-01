@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+
+<RadioButton
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/motor_setting_selector_rg"
+    android:layout_width="@dimen/navi_dimens_0dp"
+    tools:layout_width="@dimen/navi_dimens_90dp"
+    android:layout_height="@dimen/navi_dimens_30dp"
+    android:layout_weight="1"
+    tools:background="@drawable/nsdk_drawable_rg_more_setting_toogle_button_middle_bg"
+    android:button="@null"
+    android:gravity="center"
+    tools:text="正北朝上" />
+

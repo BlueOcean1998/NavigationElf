@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bnav_rg_toolbox_settings"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/bnav_rg_toolbox_divider_h1"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/nsdk_cl_rg_bg_c" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/navi_dimens_15dp"
+        android:layout_marginRight="@dimen/navi_dimens_15dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/bnav_rg_toolbox_route_sort"
+            style="@style/NavRGToolBoxItemText"
+            android:drawableTop="@drawable/nsdk_drawable_toolbox_route_sort"
+            android:text="路线偏好"
+            android:textColor="@color/nsdk_cl_text_b_mm" />
+
+        <RelativeLayout
+            android:id="@+id/layout_guide_voice"
+            android:layout_width="@dimen/navi_dimens_0dp"
+            android:layout_height="@dimen/navi_dimens_84dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/bnav_rg_toolbox_guide_voice"
+                style="@style/NavRGToolBoxItemText"
+                android:layout_width="match_parent"
+                android:drawableTop="@drawable/nsdk_drawable_toolbox_guide_voice"
+                android:text="明星语音"
+                android:textColor="@color/nsdk_cl_text_b_mm" />
+
+            <View
+                android:id="@+id/bnav_tg_toolbox_guide_voice_new_tag"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/navi_dimens_20dp"
+                android:layout_marginRight="@dimen/navi_dimens_27dp"
+                android:background="@drawable/nsdk_yellow_banner_red_flag"
+                android:visibility="gone"
+                tools:visibility="visible" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_location_shar"
+            android:layout_width="@dimen/navi_dimens_0dp"
+            android:layout_height="@dimen/navi_dimens_84dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/bnav_rg_toolbox_location_share"
+                style="@style/NavRGToolBoxItemText"
+                android:layout_width="match_parent"
+                android:drawableTop="@drawable/nsdk_drawable_location_share_toolbox_entry_icon"
+                android:text="组队出行"
+                android:textColor="@color/nsdk_cl_text_b_mm" />
+
+            <View
+                android:id="@+id/bnav_tg_toolbox_location_share_new_tag"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/navi_dimens_20dp"
+                android:layout_marginRight="@dimen/navi_dimens_22dp"
+                android:background="@drawable/nsdk_yellow_banner_red_flag"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/bnav_rg_toolbox_divider_h2"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/navi_dimens_17dp"
+        android:layout_marginRight="@dimen/navi_dimens_17dp"
+        android:background="@color/nsdk_cl_rg_bg_c" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/navi_dimens_15dp"
+        android:layout_marginRight="@dimen/navi_dimens_15dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/layout_orientation_change"
+            android:layout_width="@dimen/navi_dimens_0dp"
+            android:layout_height="@dimen/navi_dimens_84dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/bnav_rg_toolbox_orientation_change"
+                style="@style/NavRGToolBoxItemText"
+                android:layout_width="match_parent"
+                android:drawableTop="@drawable/nsdk_drawable_toolbox_orientation_changed_landscape"
+                android:text="横屏导航" />
+
+            <View
+                android:id="@+id/bnav_tg_toolbox_orientation_change_new_tag"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/navi_dimens_20dp"
+                android:layout_marginRight="@dimen/navi_dimens_27dp"
+                android:background="@drawable/nsdk_yellow_banner_red_flag"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/bnav_rg_toolbox_car3d_mode"
+            style="@style/NavRGToolBoxItemText"
+            android:drawableTop="@drawable/nsdk_drawable_toolbox_car3d_mode"
+            android:text="跟随车头" />
+
+        <TextView
+            android:id="@+id/bnav_rg_toolbox_cat_plate_setting"
+            style="@style/NavRGToolBoxItemText"
+            android:drawableTop="@drawable/nsdk_drawable_toolbox_car_plate_closed"
+            android:text="车牌限行"
+            android:textColor="@color/nsdk_cl_text_b_mm" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/bnav_rg_menu_more_setting_tv"
+        android:layout_width="@dimen/navi_dimens_188dp"
+        android:layout_height="@dimen/navi_dimens_31dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/navi_dimens_12dp"
+        android:layout_marginBottom="@dimen/navi_dimens_17dp"
+        android:background="@drawable/nsdk_drawable_toolbox_more_setting_bg_selector"
+        android:gravity="center"
+        android:text="更多设置"
+        android:textColor="@color/nsdk_toolbox_more_setting_txt_selector"
+        android:textSize="@dimen/navi_dimens_16dp" />
+</LinearLayout>

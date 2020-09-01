@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/eta_rl"
+        android:layout_width="match_parent"
+        android:layout_height="173dp"
+        tools:background="#00ff00"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/date_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="14dp"
+            android:textSize="13dp"
+            android:text="过去一周耗时"
+            android:textColor="#333333"/>
+
+        <LinearLayout
+            android:id="@+id/to_future_container"
+            android:layout_alignBottom="@id/date_title"
+            android:layout_alignTop="@id/date_title"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginRight="14dp"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/future_trip_entrance"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textSize="13dp"
+                android:drawablePadding="5dp"
+                android:includeFontPadding="false"
+                android:drawableRight="@drawable/nsdk_drawable_route_result_eta_panel_to_future_trip"
+                android:text="@string/nsdk_future_trip_route_result_eta_panel_entrance"
+                android:textColor="#999999" />
+        </LinearLayout>
+
+        <!--柱状图及星期-->
+        <LinearLayout
+            android:id="@+id/tangle_ll"
+            android:layout_width="match_parent"
+            android:layout_height="126dp"
+            android:layout_below="@id/date_title"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:gravity="bottom"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <include
+                layout="@layout/nsdk_layout_rr_eta_date_time_item_eta_date_time_item"
+                android:id="@+id/first_eta_rectangle"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </include>
+
+            <include
+                layout="@layout/nsdk_layout_rr_eta_date_time_item_eta_date_time_item"
+                android:id="@+id/second_eta_rectangle"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </include>
+
+            <include
+                layout="@layout/nsdk_layout_rr_eta_date_time_item_eta_date_time_item"
+                android:id="@+id/third_eta_rectangle"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </include>
+
+            <include
+                layout="@layout/nsdk_layout_rr_eta_date_time_item_eta_date_time_item"
+                android:id="@+id/fourth_eta_rectangle"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </include>
+
+            <include
+                layout="@layout/nsdk_layout_rr_eta_date_time_item_eta_date_time_item"
+                android:id="@+id/forth_eta_rectangle"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </include>
+
+            <include
+                layout="@layout/nsdk_layout_rr_eta_date_time_item_eta_date_time_item"
+                android:id="@+id/six_eta_rectangle"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </include>
+
+            <include
+                layout="@layout/nsdk_layout_rr_eta_date_time_item_eta_date_time_item"
+                android:id="@+id/seven_eta_rectangle"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </include>
+
+        </LinearLayout>
+        <!--柱状图中间虚线,topMargin动态设置-->
+        <View
+            android:id="@+id/mid_line"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            tools:background="#ff0055"
+            android:background="@drawable/nsdk_drawable_rr_eta_dash_shape"
+            android:layout_marginLeft="13dp"
+            android:layerType="software"
+            android:layout_marginRight="13dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="148dp"/>
+    </RelativeLayout>
+    <!--柱状图底部虚线,代码中动态设置-->
+    <View
+        android:layout_marginTop="148dp"
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        tools:background="#ff22ff"
+        android:background="@drawable/nsdk_drawable_rr_eta_dash_shape"
+        android:layout_marginLeft="13dp"
+        android:layerType="software"
+        android:layout_marginRight="13dp"
+        android:layout_centerHorizontal="true"/>
+    <!--在时机面板上touch action down的时候出现放大view显示时间-->
+    <TextView
+        android:id="@+id/float_tab"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="114dp"
+        android:layout_marginBottom="11dp"
+        android:gravity="center_horizontal"
+        android:paddingTop="16dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/nsdk_drawable_rr_car_touch_eta_mid"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:visibility="invisible"
+        android:text="10:30出发"/>
+
+    <!-- <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="366dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="12dp"
+        android:text="1"/>
+    -->
+
+    <!--正常字体时间面板-->
+    <RelativeLayout
+        android:id="@+id/eta_time_scrll_container"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginRight="26dp"
+        tools:background="#0000ff"
+        android:layout_marginLeft="26dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/eta_rl">
+
+        <com.baidu.navisdk.module.routeresult.view.support.module.eta.TimeHorizontalScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:scrollbars="none"
+            android:fadeScrollbars="true"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true">
+
+            <LinearLayout
+                android:id="@+id/move_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical"></LinearLayout>
+
+        </com.baidu.navisdk.module.routeresult.view.support.module.eta.TimeHorizontalScrollView>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/nsdk_drawale_rr_car_eta_line"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="4.5dp"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/nsdk_drawale_rr_car_eta_line"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"/>
+    </RelativeLayout>
+
+    <!--底部时间面板的蒙层-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="174dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        tools:background="#ff0000">
+
+        <TextView
+            android:id="@+id/mask_center"
+            android:layout_width="56dp"
+            android:layout_centerHorizontal="true"
+            android:layout_height="match_parent"
+            android:background="#00ffffff" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_toLeftOf="@id/mask_center"
+            android:layout_height="match_parent"
+            android:background="@drawable/nsdk_drawable_rr_eta_time_left_shape"
+            tools:background="@android:color/holo_orange_dark" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_toRightOf="@id/mask_center"
+            android:layout_height="match_parent"
+            android:background="@drawable/nsdk_drawable_rr_eta_time_right_shape"
+            tools:background="@android:color/holo_blue_dark" />
+    </RelativeLayout>
+
+    <!--底部大字体时间面板：选中时间（中间）背景-->
+    <ImageView
+        android:layout_width="52dp"
+        android:layout_height="33dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="181dp"
+        android:background="@drawable/nsdk_drawable_rr_eta_select_time_bg"
+        android:visibility="visible"/>
+    <!--底部大字体时间面板：滑动view-->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginRight="26dp"
+        android:layout_marginLeft="26dp"
+        android:layout_marginTop="5dp"
+        android:visibility="visible"
+        android:layout_below="@id/eta_rl">
+
+        <com.baidu.navisdk.module.routeresult.view.support.module.eta.TimeHorizontalScrollView
+            android:layout_width="match_parent"
+            android:scrollbars="none"
+            android:id="@+id/top_scroll_view"
+            android:fadeScrollbars="true"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true">
+
+            <LinearLayout
+                android:id="@+id/large_move_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical"></LinearLayout>
+
+        </com.baidu.navisdk.module.routeresult.view.support.module.eta.TimeHorizontalScrollView>
+    </RelativeLayout>
+
+
+</RelativeLayout>

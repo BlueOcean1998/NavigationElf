@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="@dimen/navi_dimens_80dp"
+              android:layout_height="@dimen/navi_dimens_80dp"
+              android:orientation="vertical">
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/navi_dimens_60dp"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+        <ImageView
+                android:id="@+id/location_share_member_list_item_head"
+                android:layout_width="@dimen/navi_dimens_55dp"
+                android:layout_height="@dimen/navi_dimens_55dp"
+                android:layout_gravity="center_horizontal"
+                android:padding="@dimen/navi_dimens_2dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/nsdk_drawable_location_share_default_head_icon"/>
+
+        <ImageView
+                android:id="@+id/location_share_member_list_item_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="-12dp"
+                android:src="@drawable/nsdk_drawable_location_share_head_badge_captain"/>
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/location_share_member_list_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-3dp"
+            android:layout_gravity="center_horizontal"
+            android:ellipsize="end"
+            android:maxEms="4"
+            android:maxLines="1"
+            android:text="youngtze_2015"
+            android:textColor="#333333"/>
+</LinearLayout>

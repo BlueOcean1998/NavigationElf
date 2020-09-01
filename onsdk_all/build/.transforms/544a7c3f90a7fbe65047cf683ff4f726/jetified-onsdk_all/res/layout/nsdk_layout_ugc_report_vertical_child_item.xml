@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/navi_dimens_56dp"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    >
+ 
+    <TextView
+        android:id="@+id/child_text"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/navi_dimens_55dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/navi_dimens_16dp"
+        android:gravity="center_vertical"
+        android:text="道路不通"
+        android:textColor="@color/nsdk_cl_text_b"
+        android:textSize="16sp" />
+
+    <View
+        android:id = "@+id/child_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/navi_dimens_16dp"      
+        android:layout_marginRight="@dimen/navi_dimens_16dp"     
+        android:background="@color/nsdk_cl_text_d" />
+
+</LinearLayout>

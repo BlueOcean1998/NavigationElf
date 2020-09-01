@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/nsdk_more_setting_menu_item_height"
+    tools:parentTag="android.widget.RelativeLayout">
+
+    <CheckBox
+        android:id="@+id/motor_setting_check_item_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:button="@drawable/nsdk_motor_settings_panel_checkbox_selector"
+        android:checked="false"
+        android:clickable="false" />
+
+
+    <TextView
+        android:id="@+id/motor_setting_check_item_title"
+        style="@style/MotorSettingItemTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:maxLines="1"
+        tools:text="@string/nsdk_bluetooth_panel_speaker_title" />
+
+    <TextView
+        android:id="@+id/motor_setting_check_item_explain"
+        style="@style/MotorSettingItemTipsText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/motor_setting_check_item_title"
+        android:layout_marginTop="@dimen/motor_explain_view_margin_top"
+        android:layout_marginRight="@dimen/motor_explain_view_margin_right"
+        android:layout_toLeftOf="@id/motor_setting_check_item_checkbox"
+        android:maxLines="3"
+        tools:text="@string/nsdk_bluetooth_panel_speaker_sub_title" />
+
+
+</merge>

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f6f7f8">
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:orientation="vertical">
+        <include
+            android:id="@+id/bnav_top_empty_view"
+            layout="@layout/bnav_statusbar_empty_view_include"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bnav_top_empty_view">
+
+            <ImageView
+                android:id="@+id/back_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/bnav_titlebar_ic_back_new"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textSize="18dp"
+                android:textColor="#333333"
+                android:text="下载途经省市离线地图"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/split_line"
+        android:layout_below="@id/header"
+        style="@style/NavCommonListSplitLine"/>
+
+    <RelativeLayout
+        android:id="@+id/memory_size"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_below="@id/split_line"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:background="#ffffff">
+
+        <TextView
+            android:id="@+id/offline_map_total_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:textColor="#2c81ff"
+            tools:text="途经以下城市，离线包共420M"/>
+
+        <TextView
+            android:id="@+id/phone_memory_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:textSize="12dp"
+            android:textColor="#999999"
+            tools:text="手机可用空间14.5G/共256G"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/memory_size"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="7dp"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:background="@drawable/nsdk_drawable_route_result_offline_download_card_background"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="102dp">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="23dp"
+                    android:textSize="15dp"
+                    android:textColor="#999999"
+                    android:text="出发城市"/>
+
+                <TextView
+                    android:id="@+id/start_city_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:textSize="26dp"
+                    android:textColor="#333333"
+                    android:singleLine="true"
+                    android:maxWidth="131dp"
+                    tools:text="北京市"/>
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/nsdk_drawable_route_result_offline_download_arrow"
+                android:scaleType="center"
+                android:layout_marginTop="63dp"
+                android:layout_centerHorizontal="true"/>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="23dp"
+                    android:layout_alignParentRight="true"
+                    android:textSize="15dp"
+                    android:textColor="#999999"
+                    android:text="到达城市"/>
+
+                <TextView
+                    android:id="@+id/end_city_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:layout_alignParentRight="true"
+                    android:textSize="26dp"
+                    android:textColor="#333333"
+                    android:singleLine="true"
+                    android:maxWidth="131dp"
+                    tools:text="上海市"/>
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <View
+            style="@style/NavCommonListSplitLine"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="6dp"
+            android:textSize="15dp"
+            android:textColor="#999999"
+            android:text="以下为途经城市"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/approach_city_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="78dp"
+            android:scrollbars="none"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/download"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/nsdk_offline_download_button_shadow"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/download_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="12dp"
+            android:textColor="#999999"
+            android:text="下载后没网也能导航"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="80dp"
+            android:layout_gravity="center_horizontal">
+
+            <ProgressBar
+                android:id="@+id/download_progress"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:indeterminateDrawable="@android:drawable/progress_indeterminate_horizontal"
+                android:indeterminateOnly="false"
+                android:max="100"
+                android:progress="40"
+                android:progressDrawable="@drawable/nsdk_drawable_route_result_offline_download_progress"
+                android:indeterminate="false"/>
+
+            <TextView
+                android:id="@+id/download_status"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="16dp"
+                android:textColor="#ffffff"
+                android:text="开始下载"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</RelativeLayout>

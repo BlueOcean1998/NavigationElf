@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <com.baidu.navisdk.ui.widget.EmptyTopLayout
+        android:id="@+id/top_empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white" />
+
+
+    <RelativeLayout
+        android:id="@+id/nsdk_route_prefer_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_50dp"
+        android:layout_below="@id/top_empty_view">
+        <ImageView
+            android:id="@+id/nsdk_route_prefer_back_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/navi_dimens_15dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/bnav_titlebar_ic_back_new"/>
+
+        <TextView
+            android:id="@+id/nsdk_route_prefer_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/navi_dimens_18dp"
+            android:textColor="@color/nsdk_route_sort_title"
+            android:text="@string/nsdk_string_route_prefer_setting"/>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/nsdk_route_prefer_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/nsdk_route_prefer_status_bar"
+        android:background="#f7f7f7"/>
+
+    <FrameLayout
+        android:id="@+id/nsdk_driving_habit_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+</RelativeLayout>

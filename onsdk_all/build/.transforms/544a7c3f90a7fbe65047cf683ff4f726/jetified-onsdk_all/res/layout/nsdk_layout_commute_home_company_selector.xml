@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/nsdk_layout_commute_route_top_panel"/>
+
+    <LinearLayout
+        android:id="@+id/commute_home_company_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/navi_dimens_10dp"
+            android:layout_marginRight="@dimen/navi_dimens_10dp"
+            android:background="#eaeaea"/>
+
+        <LinearLayout
+            android:id="@+id/commute_home_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_50dp"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/navi_dimens_26dp"
+            android:layout_marginRight="@dimen/navi_dimens_26dp">
+
+            <ImageView
+                android:layout_width="@dimen/navi_dimens_20dp"
+                android:layout_height="@dimen/navi_dimens_20dp"
+                android:src="@drawable/nsdk_drawable_commute_home"
+                android:scaleType="centerInside"
+                android:layout_gravity="center_vertical"/>
+
+            <TextView
+                android:id="@+id/commute_home_addr"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/navi_dimens_3dp"
+                android:textColor="#333333"
+                android:textSize="@dimen/navi_dimens_15dp"
+                android:layout_gravity="center_vertical"
+                tools:text="世界之窗"/>
+
+            <TextView
+                android:id="@+id/commute_home_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="去设置"
+                android:textSize="@dimen/navi_dimens_13dp"
+                android:textColor="#979797"
+                android:drawableRight="@drawable/nsdk_drawable_commute_go_setting"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/navi_dimens_26dp"
+            android:layout_marginRight="@dimen/navi_dimens_26dp"
+            android:background="#eaeaea"/>
+
+        <LinearLayout
+            android:id="@+id/commute_company_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_50dp"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/navi_dimens_26dp"
+            android:layout_marginRight="@dimen/navi_dimens_26dp">
+
+            <ImageView
+                android:layout_width="@dimen/navi_dimens_20dp"
+                android:layout_height="@dimen/navi_dimens_20dp"
+                android:src="@drawable/nsdk_drawable_commute_company"
+                android:scaleType="centerInside"
+                android:layout_gravity="center_vertical"/>
+
+            <TextView
+                android:id="@+id/commute_company_addr"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/navi_dimens_3dp"
+                android:textColor="#333333"
+                android:textSize="@dimen/navi_dimens_15dp"
+                android:layout_gravity="center_vertical"
+                tools:text="百度国际大厦"/>
+
+            <TextView
+                android:id="@+id/commute_company_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="去设置"
+                android:textSize="@dimen/navi_dimens_13dp"
+                android:textColor="#979797"
+                android:drawableRight="@drawable/nsdk_drawable_commute_go_setting"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

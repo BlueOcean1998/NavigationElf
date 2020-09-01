@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tv_event_sub_type1"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@drawable/nsdk_ugc_event_detailes_background"
+    android:gravity="center"
+    android:textColor="@color/nsdk_cl_link_a"
+    tools:text="追尾"
+    android:textSize="@dimen/navi_dimens_12dp"/>

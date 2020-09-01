@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--高速看板-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bnavi_derection_area_panel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:background="@null"
+    android:minHeight="@dimen/navi_dimens_56dp"
+    tools:background="@drawable/nsdk_drawable_rg_hw_bg_green_top"
+    android:orientation="vertical"
+    android:visibility="visible">
+
+
+    <TextView
+        android:id="@+id/bnavi_rg_direction_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/navi_dimens_5dp"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/navi_dimens_21dp"
+        android:layout_marginBottom="@dimen/navi_dimens_3dp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:paddingLeft="@dimen/navi_dimens_4dp"
+        android:paddingRight="@dimen/navi_dimens_4dp"
+        android:background="@drawable/nsdk_drawable_rg_hw_bg_exit_text"
+        android:textColor="@color/nsdk_rg_hw_service_exit_code_top"
+        android:textSize="@dimen/nsdk_rg_hw_service_area_panel_text_exit_code"
+        android:textStyle="bold"
+        tools:text="出口 11"
+        android:visibility="visible"
+        tools:visibility="gone"/>
+
+
+    <TextView
+        android:id="@+id/bnavi_rg_direction_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="@dimen/nsdk_rg_hw_service_area_panel_max_width"
+        android:layout_marginTop="@dimen/navi_dimens_3dp"
+        android:textColor="@color/nsdk_rg_hw_service_info"
+        android:textSize="@dimen/nsdk_rg_hw_service_area_panel_text_exit_code"
+        android:textStyle="bold"
+        tools:text="华侨城华侨城 方向" />
+
+</LinearLayout>

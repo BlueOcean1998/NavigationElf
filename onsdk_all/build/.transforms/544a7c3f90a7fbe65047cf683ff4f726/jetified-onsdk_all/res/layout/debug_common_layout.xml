@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#00000000"
+                android:orientation="vertical"
+                >
+	<Button 
+        android:id="@+id/debug_refresh_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/navi_dimens_100dp"
+        android:background="#5500ff00"
+        android:textColor="#ff0000"
+        android:textSize="12sp"
+        android:text="Refresh"
+        android:padding="@dimen/navi_dimens_10dp"
+        />
+	<!-- android:layout_marginTop="@dimen/navi_dimens_100dp" -->
+	<TextView 
+        android:id="@+id/debug_info_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/navi_dimens_2dp"
+        android:layout_marginRight="@dimen/navi_dimens_2dp"
+        android:textColor="#ff0000"
+        android:textSize="12sp"
+        android:lines="8"
+        android:hint="info here"
+        android:background="#11000000"
+        />
+    <ListView 
+        android:id="@+id/debug_key_value_lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#11000000"
+        >
+        
+    </ListView>
+    
+    
+    
+    
+</LinearLayout>

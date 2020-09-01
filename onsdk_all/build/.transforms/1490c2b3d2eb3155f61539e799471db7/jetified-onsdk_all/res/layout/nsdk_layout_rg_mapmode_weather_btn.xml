@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
+  -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/nsdk_rg_control_panel_btn_width"
+    android:layout_height="@dimen/nsdk_rg_control_panel_btn_height"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/nsdk_rg_selector_common_control_btn_bg"
+    android:visibility="gone"
+    tools:visibility="visible"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/bnav_rg_cp_weather_iv"
+        android:layout_width="@dimen/navi_dimens_28dp"
+        android:layout_height="@dimen/navi_dimens_28dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/nsdk_drawable_common_ic_weather" />
+
+    <TextView
+        android:id="@+id/bnav_rg_cp_weather_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/nsdk_rg_control_button_text_margin_top"
+        android:text="天气"
+        android:textColor="@color/nsdk_cl_text_h"
+        android:textSize="@dimen/nsdk_rg_control_panel_btn_text_size"
+        android:textStyle="bold" />
+
+</LinearLayout>

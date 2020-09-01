@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2015 Baidu, Inc. All Rights Reserved.
+  -->
+<com.baidu.navisdk.module.routeresultbase.view.support.module.routetab.BNRRMultiTabsBar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/route_tabs_bar"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:orientation="horizontal"
+    android:layout_gravity="center_vertical">
+
+</com.baidu.navisdk.module.routeresultbase.view.support.module.routetab.BNRRMultiTabsBar>

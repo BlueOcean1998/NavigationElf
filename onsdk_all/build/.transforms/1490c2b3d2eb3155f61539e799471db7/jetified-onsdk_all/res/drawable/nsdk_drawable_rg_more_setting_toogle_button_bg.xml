@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="false">
+        <shape>
+            <corners android:bottomLeftRadius="@dimen/navi_dimens_2dp" android:bottomRightRadius="@dimen/navi_dimens_2dp" android:topLeftRadius="@dimen/navi_dimens_2dp" android:topRightRadius="@dimen/navi_dimens_2dp" />
+            <solid android:color="@color/nsdk_cl_text_e" />
+            <stroke android:width="2px" android:color="#3385ff" />
+        </shape>
+    </item>
+
+    <item android:state_checked="true">
+        <shape>
+            <corners android:bottomLeftRadius="@dimen/navi_dimens_2dp" android:bottomRightRadius="@dimen/navi_dimens_2dp" android:topLeftRadius="@dimen/navi_dimens_2dp" android:topRightRadius="@dimen/navi_dimens_2dp" />
+            <solid android:color="#3385ff" />
+            <stroke android:width="2px" android:color="#3385ff" />
+        </shape>
+    </item>
+</selector>

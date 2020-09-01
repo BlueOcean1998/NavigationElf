@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 免责声明 add by nichenjian -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/navi_dimens_44dp"
+        android:background="@color/nsdk_disclaimer_bg_color"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_50dp"
+            android:background="@color/nsdk_disclaimer_header_color"
+            android:gravity="center"
+            android:text="免责声明"
+            android:textColor="@color/nsdk_common_black"
+            android:textSize="20sp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#b6b6b6"/>
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/navi_dimens_25dp"
+                android:paddingRight="@dimen/navi_dimens_25dp"
+                android:paddingTop="@dimen/navi_dimens_6dp">
+
+                <com.baidu.navisdk.ui.disclaimer.view.DisclaimerLineView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/navi_dimens_25dp"
+                    app:nsdk_content="此导航提供的信息仅供您出行作为参考，请不要作为您出行的唯一依据。"/>
+
+                <com.baidu.navisdk.ui.disclaimer.view.DisclaimerLineView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/navi_dimens_25dp"
+                    app:nsdk_content="在您驾车时，请避免操作此产品，以免发生人身危险。"/>
+
+                <com.baidu.navisdk.ui.disclaimer.view.DisclaimerLineView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/navi_dimens_25dp"
+                    app:nsdk_content="本产品完全免费，产生的网络流量费，由运营商收取。"/>
+
+                <com.baidu.navisdk.ui.disclaimer.view.DisclaimerLineView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/navi_dimens_25dp"
+                    app:nsdk_content="导航会持续使用GPS定位服务，切换至后台播报时，仍会保持GPS连接，相比其他操作会消耗更多的电量。"/>
+
+                <com.baidu.navisdk.ui.disclaimer.view.DisclaimerLineView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/navi_dimens_25dp"
+                    app:nsdk_content="因违反交通法规及上述忠告而发生的一切损失，本产品不承担任何责任。"/>
+
+                <CheckBox
+                    android:id="@+id/disclaimer_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="下次不再提醒"
+                    android:textColor="@color/nsdk_common_black"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/disclaimer_button_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_44dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/disclaimer_reject_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/nsdk_disclaimer_btn_bg_selector"
+            android:gravity="center"
+            android:text="拒绝"
+            android:textColor="@color/nsdk_common_black"
+            android:textSize="18sp"/>
+
+        <View
+            android:layout_width="@dimen/navi_dimens_1dp"
+            android:layout_height="match_parent"
+            android:background="#d0d0d0"/>
+
+        <TextView
+            android:id="@+id/disclaimer_receive_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/nsdk_disclaimer_btn_bg_selector"
+            android:gravity="center"
+            android:text="接受"
+            android:textColor="@color/nsdk_common_black"
+            android:textSize="18sp"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_1dp"
+        android:layout_above="@+id/disclaimer_button_container"
+        android:background="#d0d0d0"/>
+</RelativeLayout>

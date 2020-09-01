@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2016 Baidu, Inc. All Rights Reserved.
+  -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:state_checked="true" android:color="@color/nsdk_cl_text_e"  />
+    <item android:state_pressed="true" android:color="@color/nsdk_cl_text_e"  />
+    <item android:state_focused="true" android:color="@color/nsdk_cl_text_e"  />
+    <item android:state_selected="true" android:color="@color/nsdk_cl_text_e"  />
+    <item android:color="@color/nsdk_imge_text_dailog_btn_text_normal"  />
+</selector>

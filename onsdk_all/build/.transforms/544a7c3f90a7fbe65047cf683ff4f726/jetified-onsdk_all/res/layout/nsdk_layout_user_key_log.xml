@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/navi_dimens_300dp"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="@dimen/navi_dimens_300dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/nsdk_drawable_common_loading_box"
+        android:orientation="vertical"
+        android:padding="@dimen/navi_dimens_20dp">
+
+        <LinearLayout
+            android:id="@+id/eye_spy_paper_issue_id_ly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/navi_dimens_5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/Button_DebugToolText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="问题 ID  " />
+
+            <TextView
+                android:id="@+id/eye_spy_paper_issue_id"
+                android:layout_width="@dimen/navi_dimens_0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                android:layout_marginRight="@dimen/navi_dimens_10dp"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:text="1708021522"
+                android:textSize="@dimen/navi_dimens_15dp" />
+
+            <TextView
+                android:id="@+id/eye_spy_paper_issue_id_copy"
+                style="@style/Button_DebugToolButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="复制" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/eye_spy_paper_screen_shot_ly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/navi_dimens_5dp"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/navi_dimens_10dp">
+
+            <TextView
+                style="@style/Button_DebugToolText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="手机截屏" />
+
+            <TextView
+                android:id="@+id/eye_spy_paper_screen_shot_status"
+                android:layout_width="@dimen/navi_dimens_0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                android:layout_marginRight="@dimen/navi_dimens_10dp"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:text="已记录"
+                android:textSize="@dimen/navi_dimens_15dp" />
+
+            <TextView
+                android:id="@+id/eye_spy_paper_screen_shot_onemore"
+                style="@style/Button_DebugToolButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="再来一张"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/eye_spy_paper_take_picure_ly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/navi_dimens_5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/Button_DebugToolText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="路况拍照" />
+
+            <TextView
+                android:id="@+id/eye_spy_paper_take_picure_status"
+                android:layout_width="@dimen/navi_dimens_0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                android:layout_marginRight="@dimen/navi_dimens_10dp"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:text="已记录"
+                android:textSize="@dimen/navi_dimens_15dp" />
+
+            <TextView
+                android:id="@+id/eye_spy_paper_take_picure"
+                style="@style/Button_DebugToolButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="拍照" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/eye_spy_paper_userop_ly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/navi_dimens_5dp"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/navi_dimens_10dp">
+
+            <TextView
+                style="@style/Button_DebugToolText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="操作日志" />
+
+            <TextView
+                android:id="@+id/eye_spy_paper_userop_log_status"
+                style="@style/Button_DebugToolText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="已记录" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/eye_spy_paper_key_log_ly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/navi_dimens_5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/Button_DebugToolText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="关键日志" />
+
+            <TextView
+                android:id="@+id/eye_spy_paper_key_log_status"
+                style="@style/Button_DebugToolText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="已记录" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/eye_spy_paper_sys_log_ly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/navi_dimens_5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/Button_DebugToolText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="系统日志" />
+
+            <TextView
+                android:id="@+id/eye_spy_paper_sys_log_status"
+                style="@style/Button_DebugToolText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="已记录" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/eye_spy_paper_program_aspect_ly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/navi_dimens_5dp"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/navi_dimens_10dp">
+
+            <TextView
+                style="@style/Button_DebugToolText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="程序切面" />
+
+            <TextView
+                android:id="@+id/eye_spy_paper_program_aspect_status"
+                style="@style/Button_DebugToolText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="已记录" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/eye_spy_paper_sys_trace_ly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/navi_dimens_5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/Button_DebugToolText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="线程堆栈" />
+
+            <TextView
+                android:id="@+id/eye_spy_paper_sys_trace_status"
+                style="@style/Button_DebugToolText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="已记录" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/eye_spy_paper_desp_ly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/navi_dimens_5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/Button_DebugToolText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="问题描述" />
+
+            <EditText
+                android:id="@+id/eye_spy_paper_desp_et"
+                style="@style/Button_DebugToolText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textSize="@dimen/navi_dimens_15dp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/eye_spy_paper_open_normal_log_ly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/navi_dimens_5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/Button_DebugToolText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="打开日志开关" />
+
+            <ImageView
+                android:id="@+id/eye_spy_paper_open_normal_log_checkbox"
+                style="@style/NavCommonListCheckBox"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@null" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/eye_spy_paper_add_to_testplan_ly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/navi_dimens_5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/Button_DebugToolText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="不再加入测试计划" />
+
+            <ImageView
+                android:id="@+id/eye_spy_paper_add_to_testplan_checkbox"
+                style="@style/NavCommonListCheckBox"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@null" />
+
+        </RelativeLayout>
+
+        <TextView
+            style="@style/Button_DebugToolText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/navi_dimens_5dp"
+            android:gravity="left"
+            android:text="@string/nsdk_string_rg_eye_spy_paper_test_planer_tips"
+            android:textSize="@dimen/navi_dimens_12dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/navi_dimens_15dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/eye_spy_paper_cancle"
+                style="@style/Button_DebugToolButton"
+                android:layout_width="@dimen/navi_dimens_0dp"
+                android:layout_height="@dimen/navi_dimens_30dp"
+                android:layout_weight="1"
+                android:text="取消" />
+
+            <Button
+                android:id="@+id/eye_spy_paper_upload"
+                style="@style/Button_DebugToolButton"
+                android:layout_width="@dimen/navi_dimens_0dp"
+                android:layout_height="@dimen/navi_dimens_30dp"
+                android:layout_marginLeft="@dimen/navi_dimens_15dp"
+                android:layout_weight="1"
+                android:text="上报(10s)" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
+
+

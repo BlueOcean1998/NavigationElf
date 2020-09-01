@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="15dp"
+        android:text="货车导航免责声明"
+        android:textColor="@color/nav_phonedeclare_title"
+        android:textSize="20sp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="感谢您使用百度地图货车导航。为了使您更加放心的使用百度地图导航，百度地图将向您介绍百度 地图导航在运行中部分用户数据使用情况，以便您可以更好的了解和行使个人权益。"
+            android:textColor="@color/nav_phonedeclare_content"
+            android:textSize="13sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="20dp"
+            android:background="#dddddd" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="位置服务"
+            android:textColor="@color/nav_phonedeclare_title"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:text="百度地图导航为您提供了基于 GPS、基站、Wi-Fi 等综合的定位服务能力，当您开启设备定位功能 并开始使用我们提供的上述位置服务时，我们会收集您的动态位置信息以为您提供相应的导航服务。其 中包括定位、路线计算、实时路况、智能躲避拥堵、智能路线推荐、智能交通信息推荐等相关的导航服务。"
+            android:textColor="@color/nav_phonedeclare_content"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="设备信息"
+            android:textColor="@color/nav_phonedeclare_title"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:text="在为您提供导航服务时，根据您的使用情况，百度地图需要获悉您的部分设备信息，并了解您的设 备在访问服务时的相关权限状态，以便导航完成您的指令、相关的功能服务以及您与设备间的互动。因 此请您了解百度地图无法通过自动或者手动等方式更改这些设置。"
+            android:textColor="@color/nav_phonedeclare_content"
+            android:textSize="13sp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="为了您的权益，在使用百度地图导航前，请您认真阅读并充分理解《百度地图隐私政策》及《用户 服务协议》。如您有任何疑问，请您通过百度地图官方客服渠道进行询问和反馈，我们将认真向您解答 或做出相应回复。一旦您开始使用百度地图导航和相关服务，即表示您已经充分理解并同意上述协议。 该提示协议即构成对您具有约束力的法律文件。"
+            android:textColor="@color/nav_phonedeclare_content"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:text="免责声明"
+            android:textColor="@color/nav_phonedeclare_title"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="23dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:src="@drawable/bnav_phonedeclare_dot" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:text="本导航提供的信息仅供您作为参考，请不要作为您驾驶货车出行的唯一依据，同时请参考道路实际情况 和交通法规驾驶。"
+                android:textColor="@color/nav_phonedeclare_content"
+                android:textSize="13dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:src="@drawable/bnav_phonedeclare_dot" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:text="当您正在驾驶货车时，请严禁操作本导航，并确保在安全的前提下使用本导航，以免发生交通事故、人 身危险及其他不必要的损失。"
+                android:textColor="@color/nav_phonedeclare_content"
+                android:textSize="13dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:src="@drawable/bnav_phonedeclare_dot" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:text="我们将根据您输入的货车车辆信息为您提供路线规划、路况信息及导航服务，因此请您务必谨慎、正确 填写货车车辆信息。"
+                android:textColor="@color/nav_phonedeclare_content"
+                android:textSize="13dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:src="@drawable/bnav_phonedeclare_dot" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:text="货车导航相关服务为在线服务，您所在的网络环境可能会对服务影响。当您使用相关服务时会产生的一 定的网络流量费用，该费用由电信运营商收取。"
+                android:textColor="@color/nav_phonedeclare_content"
+                android:textSize="13dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:src="@drawable/bnav_phonedeclare_dot" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:text="因违法、违规及上述忠告而发生的一切损失，本产品不承担责任"
+                android:textColor="@color/nav_phonedeclare_content"
+                android:textSize="13dp" />
+        </LinearLayout>
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="20dp">-->
+
+            <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:paddingTop="5dp"-->
+                <!--android:src="@drawable/bnav_phonedeclare_dot" />-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="17dp"-->
+                <!--android:layout_marginLeft="7dp"-->
+                <!--android:text="导航功能适用范围：仅限小客车、微型车、小型客车（七座（含）以下）、家用轿车、出租车（其他运营车不在使用范围）；-->
+<!--包含但不限于卡车、货车、客车、拖挂车、公交车等车辆类型不在适用范围内。"-->
+                <!--android:textColor="@color/nav_phonedeclare_content"-->
+                <!--android:textSize="13dp" />-->
+        <!--</LinearLayout>-->
+    </LinearLayout>
+
+
+</LinearLayout>

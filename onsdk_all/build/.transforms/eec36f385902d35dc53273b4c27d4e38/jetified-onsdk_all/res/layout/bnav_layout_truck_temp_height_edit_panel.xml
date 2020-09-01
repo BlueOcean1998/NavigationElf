@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:baidu="http://schemas.android.com/apk/res-auto"
+    tools:parentTag="android.widget.LinearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="13dp"
+        android:textSize="18dp"
+        android:textColor="#333333"
+        android:text="@string/truck_edit_temp_height_title"/>
+
+    <TextView
+        android:id="@+id/tv_describe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="12dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="#999999"
+        android:text="@string/truck_edit_temp_height_describe"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#EAEAEA"/>
+
+    <com.baidu.navisdk.module.futuretrip.BNRRNumberPickerView
+        android:id="@+id/height_switch_layout"
+        tools:background="@android:color/darker_gray"
+        android:layout_width="match_parent"
+        android:layout_height="174dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        baidu:npv_ShowDivider="true"
+        baidu:npv_WrapSelectorWheel="false"
+        baidu:npv_TextSizeSelected="24dp"
+        baidu:npv_TextSizeNormal="20dp"
+        baidu:npv_ItemPaddingHorizontal="0dp"
+        baidu:npv_TextGravity="mid"
+        baidu:npv_DividerIgnorePadding="true"
+        baidu:npv_TextColorSelected="#333333"
+        baidu:npv_TextColorNormal="#A9A7A7"
+        baidu:npv_DividerColor="#f4f4f4"
+        baidu:npv_ShowCount="5"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#EAEAEA"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textSize="15dp"
+            android:textColor="#999999"
+            android:paddingTop="18dp"
+            android:paddingBottom="18dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="20dp"
+            android:text="取消"/>
+
+        <TextView
+            android:id="@+id/btn_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:textSize="15dp"
+            android:paddingTop="18dp"
+            android:paddingBottom="18dp"
+            android:textColor="#3385FF"
+            android:paddingLeft="20dp"
+            android:paddingRight="16dp"
+            android:text="确定"/>
+    </RelativeLayout>
+
+</merge>

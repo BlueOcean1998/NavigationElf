@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bnav_common_bg_pressed_mask_selector"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/navi_dimens_13dp"
+        android:paddingBottom="@dimen/navi_dimens_13dp">
+
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <ImageView
+                android:id="@+id/voice_item_download_icon"
+                android:layout_width="@dimen/navi_dimens_75dp"
+                android:layout_height="@dimen/navi_dimens_75dp"
+                android:scaleType="fitXY" />
+
+        <ImageView
+                android:id="@+id/voice_item_download_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        <ImageView
+                android:id="@+id/voice_item_download_audition"
+                android:layout_width="@dimen/navi_dimens_40dp"
+                android:layout_height="@dimen/navi_dimens_20dp"
+                android:layout_alignBottom="@id/voice_item_download_icon"
+                android:background="@drawable/nsdk_voice_download_audition_btn_bg"
+                android:scaleType="center"
+                android:src="@drawable/bnav_voice_audition_stop" />
+    </RelativeLayout>
+
+    <LinearLayout
+            android:id="@+id/voice_item_download_title_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/navi_dimens_8dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+        <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+            <TextView
+                    android:id="@+id/voice_item_download_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="周星星经典语音"
+                    android:textColor="#333333"
+                    android:textSize="@dimen/navi_dimens_16dp" />
+
+        </RelativeLayout>
+
+        <TextView
+                android:id="@+id/voice_item_download_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/navi_dimens_11dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="“他是一种经典，更是修养”"
+                android:textColor="#999999"
+                android:textSize="@dimen/navi_dimens_12dp" />
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+        <com.baidu.navisdk.ui.navivoice.widget.BNDownloadProgressButton
+                android:id="@+id/voice_item_download_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/navi_dimens_11dp"
+                app:backgroud_strokeWidth="@dimen/navi_dimens_1dp"
+                app:process_color="@color/nsdk_voice_status_btn_procrss_color"
+                app:radius="@dimen/navi_dimens_15dp" />
+
+        <ImageView
+                android:id="@+id/voice_item_download_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/navi_dimens_7dp"
+                android:layout_marginTop="@dimen/navi_dimens_5dp"
+                android:src="@drawable/nsdk_voice_item_more" />
+    </LinearLayout>
+</LinearLayout>

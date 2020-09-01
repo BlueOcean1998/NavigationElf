@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:apps="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <com.baidu.navisdk.module.vehiclemanager.widgets.BNSettingTextRadioGroup
+        android:id="@+id/motor_nav_voice_play_mode_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/motor_setting_item_margin_left_right"
+        android:layout_marginTop="@dimen/navi_dimens_7dp"
+        android:layout_marginRight="@dimen/motor_setting_radio_group_item_margin_right"
+        android:orientation="horizontal"
+        apps:radio_content_array="@array/motor_setting_nav_voice_item"
+        apps:radio_init_daynight="false"/>
+
+    <View
+        android:id="@+id/motor_menu_h_split_voice_1"
+        android:layout_marginTop="@dimen/motor_setting_item_margin_top_bottom"
+        style="@style/MotorCommonListSplitLine" />
+
+
+    <com.baidu.navisdk.module.vehiclemanager.widgets.BNSettingExplainSelectItem
+        android:id="@+id/motor_star_voice_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/MotorSettingItemMarginStyle"
+        apps:select_item_tip="个性语音随心换"
+        apps:select_item_title="明星语音"
+        apps:select_item_selected_tip_color="@color/nsdk_cl_text_g"/>
+
+
+</merge>

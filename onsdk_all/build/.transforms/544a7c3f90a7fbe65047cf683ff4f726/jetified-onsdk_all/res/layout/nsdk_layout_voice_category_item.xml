@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+	 <TextView
+        android:id="@+id/voice_category_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/navi_dimens_10dp"
+        android:paddingTop="@dimen/navi_dimens_15dp"
+        android:paddingBottom="@dimen/navi_dimens_9dp"
+        android:textSize="14sp"
+        android:textColor="@color/nsdk_voice_category_text_color"
+        android:background="@color/nsdk_voice_category_bg_color" 
+        android:text="@string/nsdk_string_voice_main_my_voice"
+        />
+</LinearLayout>

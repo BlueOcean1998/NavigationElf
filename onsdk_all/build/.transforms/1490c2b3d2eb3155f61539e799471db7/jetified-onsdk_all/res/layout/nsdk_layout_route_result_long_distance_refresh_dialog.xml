@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="@dimen/navi_dimens_290dp"
+              android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/long_dis_refrsh_info_tx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:maxEms="12"
+        android:layout_marginTop="45dp"
+        android:layout_marginBottom="45dp"
+        android:textSize="17sp"
+        android:textColor="#333333"
+        android:text="距您上次算路信息已发生变化，请刷新后重新获取路线" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/long_dist_route_cancel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="38dp"
+            android:layout_marginRight="20dp"
+            android:textSize="15sp"
+            android:textColor="@drawable/nsdk_drawable_route_result_long_distance_refresh_left_btn_color"
+            android:background="@drawable/nsdk_drawable_route_result_long_distance_refresh_left_btn_background"
+            android:text="取消" />
+
+        <Button
+            android:id="@+id/long_dist_route_refresh"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="38dp"
+            android:textSize="15sp"
+            android:textColor="#ffffff"
+            android:background="@drawable/nsdk_drawable_route_result_long_distance_refresh_right_btn_background"
+            android:text="刷新" />
+    </LinearLayout>
+</LinearLayout>

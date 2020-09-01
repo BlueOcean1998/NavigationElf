@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#FFFFFF">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <com.baidu.navisdk.ui.widget.EmptyTopLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <com.baidu.navisdk.ui.widget.BNCommonTitleBar
+                android:id="@+id/voice_star_view_top_title_bar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:middleContentText="@string/nsdk_string_voice_square_title"/>
+    </LinearLayout>
+
+    <FrameLayout
+            android:id="@+id/voice_star_view_fragment_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+    ></FrameLayout>
+</LinearLayout>

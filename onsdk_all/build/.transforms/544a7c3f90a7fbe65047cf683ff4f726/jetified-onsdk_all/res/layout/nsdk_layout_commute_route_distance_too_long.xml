@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <com.baidu.mapframework.widget.EmptyTopLayout
+        android:id="@+id/rr_empty_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent" />
+
+    <ImageView
+        android:id="@+id/commute_long_distance_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rr_empty_top_layout"
+        android:layout_marginTop="@dimen/navi_dimens_80dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/nsdk_drawable_commute_distance_too_long" />
+
+    <TextView
+        android:id="@+id/commute_long_distance_text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/commute_long_distance_img"
+        android:layout_marginTop="@dimen/navi_dimens_35dp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:text="距离公司较远"
+        android:textColor="#333333"
+        android:textSize="@dimen/navi_dimens_20dp" />
+
+    <TextView
+        android:id="@+id/commute_long_distance_text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/commute_long_distance_text1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/navi_dimens_3dp"
+        android:layout_marginBottom="@dimen/navi_dimens_5dp"
+        android:textStyle="bold"
+        android:text="无法推荐熟悉的通勤路线"
+        android:textColor="#333333"
+        android:textSize="@dimen/navi_dimens_20dp" />
+
+    <TextView
+        android:id="@+id/commute_long_distance_text3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/commute_long_distance_text2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/navi_dimens_57dp"
+        android:text="建议您使用专业导航模式"
+        android:textColor="#999999"
+        android:textSize="@dimen/navi_dimens_15dp" />
+
+    <TextView
+        android:id="@+id/commute_jump_to_nav"
+        android:layout_width="@dimen/navi_dimens_255dp"
+        android:layout_height="@dimen/navi_dimens_38dp"
+        android:layout_below="@id/commute_long_distance_text3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/navi_dimens_10dp"
+        android:gravity="center"
+        android:text="查看专业导航"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/navi_dimens_15dp"
+        android:background="@drawable/nsdk_light_navi_to_nav_bg_selector" />
+
+    <FrameLayout
+        android:id="@+id/commute_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:layout_below="@id/rr_empty_top_layout" />
+
+</RelativeLayout>

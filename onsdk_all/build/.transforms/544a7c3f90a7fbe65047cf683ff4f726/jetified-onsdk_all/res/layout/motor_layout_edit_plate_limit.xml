@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:apps="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/motor_setting_plate_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/nsdk_cl_bg_d"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/motor_nav_plate_info_tv"
+        style="@style/MotorSettingItemTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/motor_setting_plate_info_margin_left_right"
+        android:layout_marginLeft="@dimen/motor_setting_plate_info_margin_left_right"
+        android:layout_marginTop="@dimen/motor_setting_item_margin_top_bottom"
+        android:text="@string/motor_plate_info" />
+
+    <com.baidu.navisdk.module.motorbike.view.support.module.setting.widgets.MotorPlateView
+        android:id="@+id/motor_setting_edit_plate"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/motor_setting_plate_layout_height"
+        android:layout_marginLeft="@dimen/motor_setting_plate_info_margin_left_right"
+        android:layout_marginTop="@dimen/motor_setting_item_title_padding"
+        android:layout_marginRight="@dimen/motor_setting_plate_info_margin_left_right"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/navi_dimens_16dp"
+        android:paddingRight="@dimen/navi_dimens_10dp"
+        tools:background="@drawable/motor_drawable_add_plate_bg" />
+
+    <View
+        android:id="@+id/motor_menu_h_split_plate_1"
+        style="@style/MotorCommonListSplitLine"
+        android:layout_marginLeft="@dimen/motor_setting_plate_info_margin_left_right"
+        android:layout_marginTop="@dimen/navi_dimens_18dp"
+        android:layout_marginRight="@dimen/motor_setting_plate_info_margin_left_right" />
+
+    <com.baidu.navisdk.module.vehiclemanager.widgets.BNSettingExplainSwitchItem
+        android:id="@+id/motor_plate_limit_setting_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/motor_setting_plate_info_margin_left_right"
+        android:layout_marginTop="@dimen/motor_setting_item_margin_top_bottom"
+        android:layout_marginRight="@dimen/navi_dimens_20dp"
+        android:layout_marginBottom="@dimen/motor_setting_item_margin_top_bottom"
+        apps:switch_item_tip="@string/motor_avoid_limit_tips"
+        apps:switch_item_title="@string/motor_avoid_limit" />
+
+
+</LinearLayout>

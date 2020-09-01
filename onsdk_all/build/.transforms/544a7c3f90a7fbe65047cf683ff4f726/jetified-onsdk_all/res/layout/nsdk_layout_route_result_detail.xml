@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
+  -->
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/detail_place_holder"
+        android:layout_width="match_parent"
+        android:layout_height="148dp"/>
+
+    <com.baidu.navisdk.ui.widget.BNLoadingView
+        android:id="@+id/detail_loading_view"
+        android:layout_width="match_parent"
+        android:layout_height="148dp"
+        android:visibility="gone"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusableInTouchMode="false"/>
+
+</FrameLayout>

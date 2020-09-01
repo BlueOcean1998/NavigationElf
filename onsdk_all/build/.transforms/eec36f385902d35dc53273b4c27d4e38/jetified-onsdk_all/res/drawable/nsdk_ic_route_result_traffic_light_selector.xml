@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
+  -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true" android:drawable="@drawable/nsdk_ic_route_result_traffic_light_select" />
+    <item android:drawable="@drawable/nsdk_ic_route_result_traffic_light_normal" />
+</selector>

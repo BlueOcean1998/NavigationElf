@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_horizontal"
+              android:clickable="true"
+              android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/ugc_report_child_iview"
+        style="@style/nsdk_ugc_report_grid_item_img_style"
+        tools:src="@drawable/nsdk_type_default_trafic_jam"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/ugc_report_child_tview"
+        style="@style/nsdk_ugc_report_grid_item_text_style"
+        tools:text="拥堵"/>
+
+</LinearLayout>

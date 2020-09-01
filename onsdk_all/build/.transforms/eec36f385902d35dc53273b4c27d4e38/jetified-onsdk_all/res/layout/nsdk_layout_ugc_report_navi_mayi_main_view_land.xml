@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ugc_map_navi_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="bottom"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:background="#fbfbfb">
+    <LinearLayout
+        android:id="@+id/ugc_report_navi_mayi_title"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/navi_dimens_53dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="@dimen/navi_dimens_19dp"
+            android:layout_height="@dimen/navi_dimens_19dp"
+            android:src="@drawable/nsdk_ugc_report_navi_mayi_ic_baocuo"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nsdk_string_ugc_report_route_error"
+            android:textSize="@dimen/navi_dimens_16dp"
+            android:layout_marginLeft="@dimen/navi_dimens_3dp"
+            android:textColor="#333333"/>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/ugc_report_navi_mayi_gap"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nsdk_ugc_report_view_line_height"
+        android:background="#eaeaea"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ugc_report_navi_mayi_recyclerview"
+        android:layout_width="@dimen/navi_dimens_338dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/navi_dimens_10dp"
+        android:scrollbars="none"/>
+</LinearLayout>
+

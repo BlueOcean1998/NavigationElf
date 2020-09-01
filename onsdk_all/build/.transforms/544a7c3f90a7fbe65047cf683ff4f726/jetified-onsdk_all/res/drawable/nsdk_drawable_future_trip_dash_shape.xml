@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- android:shape指定形状类型 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:shape="line">
+
+    <stroke
+        android:dashWidth="3dp"
+        android:dashGap="3dp"
+        android:color="#80bbbbbb"
+        android:width="1dp"
+    />
+</shape>

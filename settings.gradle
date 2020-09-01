@@ -1,2 +1,3 @@
+include ':onsdk_all'
 rootProject.name='Navigation'
 include ':app'

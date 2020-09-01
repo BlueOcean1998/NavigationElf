@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.ui.widget.BNUIBoundRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="6dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:clipChildren="false">
+
+    <com.baidu.navisdk.ui.widget.EmptyTopLayout
+        android:id="@+id/empty_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF" />
+
+    <RelativeLayout
+        android:id="@+id/top_bar"
+        android:layout_below="@id/empty_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:gravity="center_vertical"
+        android:paddingBottom="6dp"
+        android:paddingLeft="13dp"
+        android:paddingRight="8dp"
+        android:paddingTop="6dp"
+        android:background="@android:color/white"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/back_btn"
+            android:background="@drawable/nsdk_ugc_icon_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:textSize="15dp"
+            android:text="路况预测" />
+    </RelativeLayout>
+
+    <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNLinearLayout
+        android:id="@+id/rc_prediction_yellow_tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginTop="6dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_below="@id/top_bar"
+        android:orientation="horizontal"
+        android:background="@drawable/bnav_route_banner_yellow_white_bg"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/yellow_tips_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="2dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:layout_gravity="center_vertical"
+            android:textSize="14dp"
+            android:textColor="#28303A"
+            android:maxLines="1"
+            android:text="挖水电费啊啊啊去问问无无无无无请问发放我问问呃呃呃呃呃呃呃"
+            android:ellipsize="end" />
+
+        <TextView
+            android:id="@+id/remind_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提醒我"
+            android:textSize="13dp"
+            android:textColor="#333333"
+            android:includeFontPadding="false"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/nsdk_drawable_rc_prediction_remind_btn" />
+
+        <ImageView
+            android:id="@+id/yellow_tips_close_iv"
+            android:layout_width="19dp"
+            android:layout_height="29dp"
+            android:scaleType="fitXY"
+            android:paddingLeft="5dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="5dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/bnav_route_banner_yellow_tips_close" />
+    </com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNLinearLayout>
+
+    <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+        android:id="@+id/bottom_collection"
+        android:layout_width="match_parent"
+        android:layout_height="148dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/nsdk_drawable_route_result_white_round_corner_bg"
+        android:clipChildren="false">
+
+        <com.baidu.navisdk.ui.widget.BNLoadingView
+            android:id="@+id/loading_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            tools:visibility="gone"/>
+
+        <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNLinearLayout
+            android:id="@+id/prediction_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:clipChildren="false"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            tools:visibility="visible">
+
+            <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginTop="18dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/jam_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+                    android:layout_marginRight="4dp"
+                    android:src="@drawable/nsdk_drawable_rc_prediction_will_unimpeded"
+                    android:scaleType="fitXY" />
+
+                <TextView
+                    android:id="@+id/jam_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:textSize="16dp"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:text="阿斯蒂芬我问问无无封完委曲求撒地方去群群群发我QQ群全" />
+            </com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNLinearLayout>
+
+            <TextView
+                android:id="@+id/route_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:text="可拖拽查看详细路况发我QQ群群无无无无无无无柔柔弱弱若若我问问"
+                android:textSize="12dp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textColor="#999999" />
+
+            <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNRelativeLayout
+                android:id="@+id/bubble_container"
+                android:layout_width="match_parent"
+                android:layout_height="26dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:clipChildren="false">
+                <TextView
+                    android:id="@+id/start_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="12dp"
+                    android:textColor="#333333"
+                    tools:text="15:30出发"/>
+
+                <TextView
+                    android:id="@+id/end_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="5dp"
+                    android:textSize="12dp"
+                    android:textColor="#333333"
+                    tools:text="16:30到达"/>
+
+                <TextView
+                    android:id="@+id/rect_bubble"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/nsdk_drawable_route_result_prediction_rect_normal"
+                    android:layout_above="@+id/tri_bubble"
+                    android:includeFontPadding="false"
+                    android:gravity="center"
+                    android:textColor="#ffffff"
+                    android:textSize="12dp"
+                    tools:text="16:00"/>
+
+                <ImageView
+                    android:id="@+id/tri_bubble"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    tools:layout_marginLeft="3dp"
+                    android:background="@drawable/nsdk_drawable_route_result_prediction_tri_normal"/>
+            </com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNRelativeLayout>
+
+
+            <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:clipChildren="false">
+                <SeekBar
+                    android:id="@+id/prediction_seek_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:maxHeight="3dp"
+                    android:minHeight="3dp"
+                    android:paddingLeft="0dp"
+                    android:paddingRight="0dp"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/nsdk_drawable_route_result_road_condition_prediction_progress"
+                    android:thumb="@drawable/nsdk_drawable_route_result_prediction_thumb_normal"
+                    tools:splitTrack="false"/>
+            </com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout>
+        </com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNLinearLayout>
+    </com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout>
+
+</com.baidu.navisdk.ui.widget.BNUIBoundRelativeLayout>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#ff000000" >
+
+	<com.baidu.navisdk.ui.widget.EmptyTopLayout
+		android:id="@+id/empty_top_layout"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+
+    <com.baidu.navisdk.ui.routeguide.subview.hud.RGHUDView
+        android:id="@+id/bnav_rg_hud_dialog_main"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+		android:layout_below="@id/empty_top_layout"/>
+    
+    
+    <RelativeLayout 
+        android:id="@+id/bnav_rg_bottom_btns"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        
+        <TextView
+            android:id="@+id/bnav_rg_btn_hud_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/navi_dimens_16dp"
+            android:layout_marginBottom="@dimen/navi_dimens_13dp"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:text="@string/nsdk_string_rg_hud_back"
+            android:textStyle="bold"
+            android:visibility="visible"/>
+        
+        <TextView
+	        android:id="@+id/bnav_rg_btn_hud_mirror_back"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        android:layout_alignParentBottom="true"
+	        android:layout_alignParentLeft="true"
+	        android:layout_marginLeft="@dimen/navi_dimens_16dp"
+	        android:layout_marginBottom="@dimen/navi_dimens_13dp"
+	        android:textColor="#ffffff"
+	        android:textSize="16sp"
+	        android:text="@string/nsdk_string_rg_hud_back"
+	        android:textStyle="bold"
+	        android:visibility="invisible"/>
+		    
+	<!-- <Button
+		    android:id="@+id/bnav_rg_btn_ar"
+		    android:layout_width="@dimen/navi_dimens_48dp"
+		    android:layout_height="@dimen/navi_dimens_47dp"
+		    android:gravity="center"
+		    android:layout_alignParentBottom="true"
+	        android:layout_alignParentRight="true"
+	        android:layout_marginRight="@dimen/navi_dimens_8dp"
+	        android:layout_marginBottom="@dimen/navi_dimens_6dp"
+		    android:background="@drawable/nsdk_drawable_common_bg_prj_card_selector"
+		    android:text="@string/nsdk_string_rg_ar_button"
+		    android:textColor="#4c535e"
+		    android:textStyle="bold" 
+		    android:visibility="visible"/>
+	    -->
+	    <TextView
+		    android:id="@+id/bnav_rg_btn_hud"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:gravity="center"
+		    android:layout_alignParentRight="true"
+		    android:layout_alignParentBottom="true"
+	        android:layout_marginBottom="@dimen/navi_dimens_13dp"
+	        android:layout_marginRight="@dimen/navi_dimens_16dp"
+	        android:textSize="16sp"
+		    android:text="@string/nsdk_string_rg_hud_mirror"
+			android:textColor="#ffffff"
+		    android:textStyle="bold"
+		    android:visibility="visible" />
+	    <TextView
+            android:id="@+id/bnav_rg_btn_hud_mirror"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/navi_dimens_13dp"
+            android:layout_marginRight="@dimen/navi_dimens_16dp"
+            android:text="@string/nsdk_string_rg_hud_mirror"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:textStyle="bold" 
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+</RelativeLayout>

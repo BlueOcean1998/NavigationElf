@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ugc_rc_details_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@null">
+
+
+    <!-- 标题栏 -->
+    <RelativeLayout
+        android:id="@+id/title_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <include
+            android:id="@+id/ugc_details_statusbar_view"
+            layout="@layout/bnav_statusbar_empty_view_include" />
+
+        <!-- 退出按钮 -->
+        <ImageView
+            android:id="@+id/back_container"
+            android:layout_width="@dimen/navi_dimens_45dp"
+            android:layout_height="@dimen/nsdk_ugc_details_title_height"
+            android:layout_below="@id/ugc_details_statusbar_view"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:padding="@dimen/navi_dimens_10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/nsdk_ugc_details_back_ic" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/nsdk_ugc_details_title_height"
+            android:layout_below="@id/ugc_details_statusbar_view"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="详情"
+            android:textColor="#333"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="#dcdcdc" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/detail_contents"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 详情概要容器 -->
+        <LinearLayout
+            android:id="@+id/outline_container_outer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            android:visibility="invisible"
+            tools:layout_height="@dimen/navi_dimens_155dp"
+            tools:visibility="visible" />
+
+        <!-- 概要loading容器 -->
+        <RelativeLayout
+            android:id="@+id/contents_loading_state_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_155dp"
+            android:layout_alignParentBottom="true"
+            android:background="#ffffff" />
+
+        <!-- 跟随listview高度变化的背景 -->
+        <View
+            android:id="@+id/ugc_comments_listview_bg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_0dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/nsdk_ugc_background" />
+
+        <!-- 上拉刷新loading容器,在listview上拉后就露出 -->
+        <LinearLayout
+            android:id="@+id/ugc_comments_loading_footer_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nsdk_ugc_detail_loading_footer_height"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <!-- 添加评论 -->
+        <LinearLayout
+            android:id="@+id/post_comment_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nsdk_ugc_detail_post_comment_height"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navi_dimens_1dp"
+                android:background="@drawable/nsdk_ugc_detail_post_comment_shadow" />
+
+            <include layout="@layout/nsdk_layout_ugc_detail_post_comment" />
+        </LinearLayout>
+
+        <!-- 详情内容listview -->
+        <com.baidu.navisdk.ui.widget.ptrrecyclerview.PullToRefreshRecyclerView
+            android:id="@+id/ugc_comments_listview"
+            style="@style/ptr_list_style"
+            android:background="@null"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <!-- 图片放大 -->
+    <ImageView
+        android:id="@+id/img_full_screen_iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000"
+        android:scaleType="fitCenter"
+        android:visibility="gone" />
+</RelativeLayout>

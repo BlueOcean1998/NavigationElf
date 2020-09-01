@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="@dimen/navi_dimens_5dp"
+        android:paddingLeft="@dimen/navi_dimens_5dp"
+        android:layout_centerVertical="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="@dimen/navi_dimens_12dp"
+                android:id="@+id/label_ic"
+                android:layout_gravity="center_vertical"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/nsdk_light_navi_label_1_selector"
+                android:layout_height="@dimen/navi_dimens_12dp" />
+
+            <TextView
+                android:id="@+id/plan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/navi_dimens_5dp"
+                android:singleLine="true"
+                android:textSize="@dimen/navi_dimens_12dp"
+                android:includeFontPadding="false"
+                tools:text="方案N" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/time"
+            android:textSize="@dimen/navi_dimens_18dp"
+            android:textStyle="bold"
+            android:singleLine="true"
+            tools:text="time"
+            android:gravity="center"
+            android:layout_below="@id/plan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/light_navi_tab_dis_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/time"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/distance"
+                android:textSize="@dimen/navi_dimens_12dp"
+                android:singleLine="true"
+                tools:text="100公里"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/traffic_light"
+                android:textSize="@dimen/navi_dimens_12dp"
+                android:layout_marginLeft="@dimen/navi_dimens_4dp"
+                android:singleLine="true"
+                tools:text="40"
+                android:gravity="center"
+                android:drawableLeft="@drawable/nsdk_light_navi_traffic_selector"
+                android:drawablePadding="@dimen/navi_dimens_1dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:visibility="visible"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/total_prices"
+                android:textSize="@dimen/navi_dimens_12dp"
+                android:layout_marginLeft="@dimen/navi_dimens_4dp"
+                android:singleLine="true"
+                tools:text="相同"
+                android:gravity="center"
+                android:drawableLeft="@drawable/nsdk_ic_route_result_road_toll_selector"
+                android:drawablePadding="@dimen/navi_dimens_1dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                tools:visibility="visible"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:background="#eaeaea" />
+
+    <ImageView
+        android:id="@+id/bottom_trangle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bnav_light_tab_bottom_triangle" />
+
+</RelativeLayout>

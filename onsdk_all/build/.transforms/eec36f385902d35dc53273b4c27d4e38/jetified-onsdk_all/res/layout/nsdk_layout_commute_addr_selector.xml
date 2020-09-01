@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.baidu.mapframework.widget.EmptyTopLayout
+        android:id="@+id/rr_empty_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"/>
+
+    <View
+        android:id="@+id/commute_addr_selector_mask"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000"
+        android:alpha="0.1"/>
+
+    <FrameLayout
+        android:id="@+id/commute_home_company_selector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-2dp"
+        android:layout_below="@id/rr_empty_top_layout"
+        android:background="@drawable/nsdk_drawable_commute_background">
+    </FrameLayout>
+</RelativeLayout>

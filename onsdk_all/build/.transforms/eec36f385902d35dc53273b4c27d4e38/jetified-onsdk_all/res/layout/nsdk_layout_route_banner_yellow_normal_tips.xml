@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
+  -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bnav_route_banner_yellow_red_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/yellow_tips_iv"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginLeft="5dp"
+            android:scaleType="fitXY"
+            android:layout_marginRight="7dp" />
+
+        <TextView
+            android:id="@+id/yellow_tips_tv"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:gravity="center_vertical"
+            android:textSize="14dp"
+            android:textColor="#ffffff"
+            android:ellipsize="end"/>
+
+        <ImageView
+            android:id="@+id/yellow_tips_close_iv"
+            android:layout_width="19dp"
+            android:layout_height="29dp"
+            android:scaleType="fitXY"
+            android:paddingLeft="5dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="5dp"
+            android:src="@drawable/bnav_route_banner_yellow_tips_close" />
+    </LinearLayout>
+</RelativeLayout>

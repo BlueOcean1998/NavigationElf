@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/nsdk_title_layout"
+        layout="@layout/nsdk_layout_dest_reminder_title_info"/>
+
+    <Button
+        android:id="@+id/nsdk_i_know_btn"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_31dp"
+        android:layout_below="@id/nsdk_title_layout"
+        android:layout_marginLeft="@dimen/nsdk_des_reminder_card_margin_left"
+        android:layout_marginRight="@dimen/nsdk_des_reminder_card_margin_left"
+        android:layout_marginBottom="@dimen/navi_dimens_10dp"
+        android:background="@drawable/nsdk_note_confirm_bt_bg_selector"
+        android:text="我知道了"
+        />
+
+</LinearLayout>

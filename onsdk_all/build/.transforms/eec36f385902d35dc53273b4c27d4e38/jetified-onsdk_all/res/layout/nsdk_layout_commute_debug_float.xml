@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/holo_red_light"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <EditText
+        android:id="@+id/commute_debug_cmd_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="命令码"
+        android:textSize="11dp" />
+
+    <TextView
+        android:id="@+id/commute_debug_cmd_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="#00ff50"
+        android:text="确定"
+        android:textSize="14dp" />
+
+</LinearLayout>

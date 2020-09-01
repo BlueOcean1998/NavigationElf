@@ -1,0 +1,1239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/ll_loading_box"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/nsdk_drawable_common_loading_box"
+        android:minWidth="@dimen/navi_dimens_210dp"
+        android:padding="@dimen/navi_dimens_16dp">
+
+        <ImageView
+            android:id="@+id/iv_dialog_close"
+            android:layout_width="@dimen/navi_dimens_25dp"
+            android:layout_height="@dimen/navi_dimens_25dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/navi_dimens_3dp"
+            android:layout_marginLeft="@dimen/navi_dimens_10dp"
+            android:layout_marginStart="@dimen/navi_dimens_10dp"
+            android:src="@drawable/nsdk_rg_ic_loading_close" />
+
+        <TextView
+            android:id="@+id/iv_debug_mode"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_25dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/navi_dimens_10dp"
+            android:layout_marginStart="@dimen/navi_dimens_10dp"
+            android:text="工程模式"
+            android:textSize="18sp" />
+
+
+        <ScrollView
+            android:id="@+id/bnav_rg_menu_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_dialog_close"
+            android:background="@color/nsdk_cl_bg_d">
+
+            <LinearLayout
+                android:id="@+id/bnav_rg_menu_func_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:id="@+id/bnav_rg_menu_h_divider_0"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/navi_dimens_1dp"
+                    android:background="@color/nsdk_cl_bg_b" />
+
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_menu_factory_build_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_build_time_tv"
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="构建时间" />
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_build_item_tv"
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="false"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:layout_toRightOf="@id/bnav_rg_menu_build_time_tv" />
+
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/bnav_rg_menu_h_divider_1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/navi_dimens_1dp"
+                    android:background="@color/nsdk_cl_bg_b" />
+
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_menu_factory_java_log"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_java_log_tv"
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="JavaLog" />
+
+                    <com.baidu.navisdk.ui.widget.StatusButton
+                        android:id="@+id/bnav_rg_menu_java_log_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:gravity="center_vertical" />
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/bnav_rg_menu_h_divider_2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/navi_dimens_1dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                    android:layout_marginRight="@dimen/navi_dimens_10dp"
+                    android:background="@color/nsdk_cl_bg_b" />
+
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_menu_factory_native_log"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_native_log_tv"
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="NativeLog" />
+
+                    <com.baidu.navisdk.ui.widget.StatusButton
+                        android:id="@+id/bnav_rg_menu_native_log_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:gravity="center_vertical" />
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/bnav_rg_menu_h_divider_3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/navi_dimens_1dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                    android:layout_marginRight="@dimen/navi_dimens_10dp"
+                    android:background="@color/nsdk_cl_bg_b" />
+
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_menu_factory_monkey"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_monkey_tv"
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="Monkey" />
+
+                    <com.baidu.navisdk.ui.widget.StatusButton
+                        android:id="@+id/bnav_rg_menu_monkey_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:gravity="center_vertical" />
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/bnav_rg_menu_h_divider_4"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/navi_dimens_1dp"
+                    android:background="@color/nsdk_cl_bg_b" />
+
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_menu_vmsr_switch_ly"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_vmsr_switch_tv"
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="动静检测开关" />
+
+                    <com.baidu.navisdk.ui.widget.StatusButton
+                        android:id="@+id/bnav_rg_menu_vmsr_switch_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:gravity="center_vertical" />
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/bnav_rg_menu_h_divider_5"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/navi_dimens_1dp"
+                    android:background="@color/nsdk_cl_bg_b" />
+
+                <RelativeLayout
+                        android:id="@+id/bnav_rg_menu_vmsr_verify_ly"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                        android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                        android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                            android:id="@+id/bnav_rg_menu_vmsr_verify_tv"
+                            style="@style/Text_NaviSettingsText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                            android:text="动静检测校验关闭" />
+
+                    <com.baidu.navisdk.ui.widget.StatusButton
+                            android:id="@+id/bnav_rg_menu_vmsr_verify_checkbox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                            android:gravity="center_vertical" />
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/bnav_rg_menu_h_divider_6"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/navi_dimens_1dp"
+                    android:background="@color/nsdk_cl_bg_b" />
+
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_menu_factory_gps_debug"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_gps_debug_tv"
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="gps弹框显示" />
+
+                    <com.baidu.navisdk.ui.widget.StatusButton
+                        android:id="@+id/bnav_rg_menu_gps_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:gravity="center_vertical" />
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/bnav_rg_menu_h_divider_10"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/navi_dimens_1dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                    android:layout_marginRight="@dimen/navi_dimens_10dp"
+                    android:background="@color/nsdk_cl_bg_b" />
+
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_menu_performstat_user_test"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_performstat_user_test_tv"
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="性能测试开关" />
+
+                    <com.baidu.navisdk.ui.widget.StatusButton
+                        android:id="@+id/bnav_rg_performstat_user_test_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:gravity="center_vertical" />
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/bnav_rg_menu_h_divider_21"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/navi_dimens_1dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                    android:layout_marginRight="@dimen/navi_dimens_10dp"
+                    android:background="@color/nsdk_cl_bg_b" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_tts_vocoder_debug_tv"
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="TTS合成引擎速度优化等级VOCODER参数值" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_menu_factory_tts_vocoder_debug"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <com.baidu.navisdk.ui.widget.StatusButton
+                        android:id="@+id/bnav_rg_menu_tts_vocoder_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:gravity="center_vertical" />
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/bnav_rg_menu_h_divider_7"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/navi_dimens_1dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                    android:layout_marginRight="@dimen/navi_dimens_10dp"
+                    android:background="@color/nsdk_cl_bg_b" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_tts_speed_debug_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:layout_marginTop="@dimen/navi_dimens_10dp"
+                        android:text="TTS语速(默认为5)："
+                        android:textColor="@color/nsdk_cl_text_a"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_tts_speed_num_debug_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@id/bnav_rg_menu_tts_speed_debug_tv"
+                        android:layout_marginTop="@dimen/navi_dimens_10dp"
+                        android:layout_toRightOf="@id/bnav_rg_menu_tts_speed_debug_tv"
+                        android:text="5"
+                        android:textColor="@color/nsdk_common_bottom_text_red_color"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@id/bnav_rg_menu_tts_speed_debug_tv"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="(除金莎外的个性语音有效)" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_menu_factory_tts_speed_debug"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <ImageView
+                        android:id="@+id/bnav_rg_menu_tts_speed_debug_up_iv"
+                        android:layout_width="@dimen/navi_dimens_60dp"
+                        android:layout_height="@dimen/navi_dimens_30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:background="@drawable/bnav_common_cp_button_selector"
+                        android:scaleType="center"
+                        android:src="@drawable/nsdk_ipo_main_icon_zoomin" />
+
+                    <ImageView
+                        android:id="@+id/bnav_rg_menu_tts_speed_debug_down_iv"
+                        android:layout_width="@dimen/navi_dimens_60dp"
+                        android:layout_height="@dimen/navi_dimens_30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/navi_dimens_10dp"
+                        android:layout_toLeftOf="@id/bnav_rg_menu_tts_speed_debug_up_iv"
+                        android:background="@drawable/bnav_common_cp_button_selector"
+                        android:scaleType="center"
+                        android:src="@drawable/nsdk_ipo_main_icon_zoomout" />
+
+                    <Button
+                        android:id="@+id/bnav_rg_menu_tts_speed_debug_reset_btn"
+                        android:layout_width="@dimen/navi_dimens_60dp"
+                        android:layout_height="@dimen/navi_dimens_30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/navi_dimens_10dp"
+                        android:layout_toLeftOf="@id/bnav_rg_menu_tts_speed_debug_down_iv"
+                        android:background="@drawable/bnav_common_cp_button_selector"
+                        android:scaleType="center"
+                        android:text="重置"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/bnav_rg_menu_h_divider_12"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/navi_dimens_1dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                    android:layout_marginRight="@dimen/navi_dimens_10dp"
+                    android:background="@color/nsdk_cl_bg_b" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_tts_vol_debug_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:layout_marginTop="@dimen/navi_dimens_10dp"
+                        android:text="TTS音量(默认为9)："
+                        android:textColor="@color/nsdk_cl_text_a"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_tts_vol_num_debug_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@id/bnav_rg_menu_tts_vol_debug_tv"
+                        android:layout_marginTop="@dimen/navi_dimens_10dp"
+                        android:layout_toRightOf="@id/bnav_rg_menu_tts_vol_debug_tv"
+                        android:text="7"
+                        android:textColor="@color/nsdk_common_bottom_text_red_color"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@id/bnav_rg_menu_tts_vol_debug_tv"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="(金莎音量比其他音量大1格，重启后生效!)"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_menu_factory_tts_vol_debug"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <ImageView
+                        android:id="@+id/bnav_rg_menu_tts_vol_debug_up_iv"
+                        android:layout_width="@dimen/navi_dimens_60dp"
+                        android:layout_height="@dimen/navi_dimens_30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:background="@drawable/bnav_common_cp_button_selector"
+                        android:scaleType="center"
+                        android:src="@drawable/nsdk_ipo_main_icon_zoomin" />
+
+                    <ImageView
+                        android:id="@+id/bnav_rg_menu_tts_vol_debug_down_iv"
+                        android:layout_width="@dimen/navi_dimens_60dp"
+                        android:layout_height="@dimen/navi_dimens_30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/navi_dimens_10dp"
+                        android:layout_toLeftOf="@id/bnav_rg_menu_tts_vol_debug_up_iv"
+                        android:background="@drawable/bnav_common_cp_button_selector"
+                        android:scaleType="center"
+                        android:src="@drawable/nsdk_ipo_main_icon_zoomout" />
+
+                    <Button
+                        android:id="@+id/bnav_rg_menu_tts_vol_debug_reset_btn"
+                        android:layout_width="@dimen/navi_dimens_60dp"
+                        android:layout_height="@dimen/navi_dimens_30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/navi_dimens_10dp"
+                        android:layout_toLeftOf="@id/bnav_rg_menu_tts_vol_debug_down_iv"
+                        android:background="@drawable/bnav_common_cp_button_selector"
+                        android:scaleType="center"
+                        android:text="重置"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/bnav_rg_menu_h_divider_14"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/navi_dimens_1dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                    android:layout_marginRight="@dimen/navi_dimens_10dp"
+                    android:background="@color/nsdk_cl_bg_b" />
+
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_menu_factory_notification_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_java_notification_tv"
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="消息系统调试" />
+
+                    <com.baidu.navisdk.ui.widget.StatusButton
+                        android:id="@+id/bnav_rg_menu_java_notification_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:gravity="center_vertical" />
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/bnav_rg_menu_h_divider_13"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/navi_dimens_1dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                    android:layout_marginRight="@dimen/navi_dimens_10dp"
+                    android:background="@color/nsdk_cl_bg_b" />
+
+                <View
+                    android:id="@+id/bnav_rg_menu_h_divider_11"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/navi_dimens_1dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                    android:layout_marginRight="@dimen/navi_dimens_10dp"
+                    android:background="@color/nsdk_cl_bg_b" />
+
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_menu_factory_https_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_java_https_tv"
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="h5切https" />
+
+                    <com.baidu.navisdk.ui.widget.StatusButton
+                        android:id="@+id/bnav_rg_menu_java_https_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:gravity="center_vertical" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_menu_factory_debug_url"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_factory_debug_url_tv"
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="点我进入http地址管理" />
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/bnav_rg_menu_h_divider_8"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/navi_dimens_1dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                    android:layout_marginRight="@dimen/navi_dimens_10dp"
+                    android:background="@color/nsdk_cl_bg_b" />
+
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_menu_factory_driving_tool_debug"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <RelativeLayout
+                        android:id="@+id/bnav_rg_menu_factory_driving_tool_open_rl"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                        android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                        <TextView
+                            android:id="@+id/bnav_rg_menu_driving_tool_debug_tv"
+                            style="@style/Text_NaviSettingsText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                            android:text="路测工具" />
+
+                        <com.baidu.navisdk.ui.widget.StatusButton
+                            android:id="@+id/bnav_rg_menu_driving_tool_checkbox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignTop="@id/bnav_rg_menu_driving_tool_debug_tv"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                            android:gravity="center_vertical"
+                            android:visibility="visible" />
+
+                        <Button
+                            android:id="@+id/bnav_rg_menu_start_driving_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/bnav_rg_menu_driving_tool_debug_tv"
+                            android:text="多人路测"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/bnav_rg_menu_single_driving_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/bnav_rg_menu_driving_tool_debug_tv"
+                            android:text="单人路测"
+                            android:visibility="gone" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/bnav_rg_menu_pull_list_rl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/bnav_rg_menu_factory_driving_tool_open_rl"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:id="@+id/task_ll"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/task_tx"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                                android:text="任务"
+                                android:textSize="14sp" />
+
+                            <Spinner
+                                android:id="@+id/bnav_rg_menu_task_list_sp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@id/task_tx"
+                                android:text="tasklist" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/bnav_menu_route_ll"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/task_ll"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="轨迹"
+                                android:textSize="14sp" />
+
+                            <Spinner
+                                android:id="@+id/bnav_rg_menu_road_line_sp"
+                                android:layout_width="@dimen/navi_dimens_200dp"
+                                android:layout_height="wrap_content" />
+
+                            <Button
+                                android:id="@+id/bnav_rg_menu_new_road_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="新建"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/task_ll"
+                            android:layout_centerHorizontal="true"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/bnav_rg_menu_multiple_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/navi_dimens_20dp"
+                                android:text="多人路测"
+                                android:textSize="14sp" />
+
+                            <Button
+                                android:id="@+id/bnav_rg_menu_stop_driving_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="关闭路测"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/bnav_rg_menu_h_divider_9"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/navi_dimens_1dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                    android:layout_marginRight="@dimen/navi_dimens_10dp"
+                    android:background="@color/nsdk_cl_bg_b" />
+
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_menu_factory_root_switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_root_screen_tx"
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="ROOT定时截屏" />
+
+                    <com.baidu.navisdk.ui.widget.StatusButton
+                        android:id="@+id/bnav_rg_menu_root_screen_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:gravity="center_vertical" />
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/bnav_rg_menu_h_divider_20"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/navi_dimens_1dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                    android:layout_marginRight="@dimen/navi_dimens_10dp"
+                    android:background="@color/nsdk_cl_bg_b" />
+
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_menu_factory_image_switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_image_log_tx"
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="图像引擎日志" />
+
+                    <com.baidu.navisdk.ui.widget.StatusButton
+                        android:id="@+id/bnav_rg_menu_image_log_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:gravity="center_vertical" />
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/bnav_rg_menu_h_divider_22"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/navi_dimens_1dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                    android:layout_marginRight="@dimen/navi_dimens_10dp"
+                    android:background="@color/nsdk_cl_bg_b" />
+
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_calc_road_version_rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_calc_road_version_tv"
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="算路version开关" />
+
+                    <EditText
+                        android:id="@+id/bnav_rg_calc_road_version_et"
+                        android:layout_width="@dimen/navi_dimens_70dp"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/bnav_rg_calc_road_version_btn"
+                        android:gravity="center_vertical"
+                        android:inputType="number"
+                        android:numeric="integer"
+                        android:text="0" />
+
+                    <Button
+                        android:id="@id/bnav_rg_calc_road_version_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:gravity="center_vertical"
+                        android:text="确定" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_routeguide_version_rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_routeguide_version_tv"
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="诱导version字典" />
+
+                    <EditText
+                        android:id="@+id/bnav_rg_routeguide_version_et"
+                        android:layout_width="@dimen/navi_dimens_70dp"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/bnav_rg_routeguide_version_btn"
+                        android:gravity="center_vertical"
+                        android:inputType="number"
+                        android:numeric="integer"
+                        android:text="0" />
+
+                    <Button
+                        android:id="@id/bnav_rg_routeguide_version_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:gravity="center_vertical"
+                        android:text="确定" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                        android:id="@+id/bnav_rg_bluetooth_sample_level_rl"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                        android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                        android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                            android:id="@+id/bnav_rg_bluetooth_sample_level_tv"
+                            style="@style/Text_NaviSettingsText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                            android:text="蓝牙Blank频率" />
+
+                    <EditText
+                            android:id="@+id/bnav_rg_bluetooth_sample_level_et"
+                            android:layout_width="@dimen/navi_dimens_70dp"
+                            android:layout_height="match_parent"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@+id/bnav_rg_bluetooth_sample_level_btn"
+                            android:gravity="center_vertical"
+                            android:inputType="numberDecimal"
+                            android:text="-1" />
+
+                    <Button
+                            android:id="@id/bnav_rg_bluetooth_sample_level_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                            android:gravity="center_vertical"
+                            android:text="确定" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_cloud_config_decrypt_rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_cloud_config_decrypt_tv"
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="一键解码云端配置文件" />
+
+                    <Button
+                        android:id="@+id/bnav_rg_cloud_config_decrypt_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:gravity="center_vertical"
+                        android:text="确定" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_menu_factory_antic"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height"
+                    android:visibility="gone">
+
+                    <TextView
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="反作弊" />
+
+                    <com.baidu.navisdk.ui.widget.StatusButton
+                        android:id="@+id/bnav_rg_menu_antic_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:gravity="center_vertical" />
+                </RelativeLayout>
+
+                <!--VDR-->
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_menu_vdr_switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_vdr_tx"
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="VDR" />
+
+                    <com.baidu.navisdk.ui.widget.StatusButton
+                        android:id="@+id/bnav_rg_menu_vdr_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:gravity="center_vertical" />
+                </RelativeLayout>
+
+                <!--LeadCanary-->
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_menu_leak_switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_leak_tx"
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="内存监测" />
+
+                    <com.baidu.navisdk.ui.widget.StatusButton
+                        android:id="@+id/bnav_rg_menu_leak_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:gravity="center_vertical" />
+                </RelativeLayout>
+
+                <!--GPS关闭VDR生效开发-->
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_menu_vdr_gps_switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_vdr_gps_tx"
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="GPS关闭VDR生效" />
+
+                    <com.baidu.navisdk.ui.widget.StatusButton
+                        android:id="@+id/bnav_rg_menu_vdr_gps_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:gravity="center_vertical" />
+                </RelativeLayout>
+                <!--GPS关闭VDR生效开发-->
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_menu_future_trip_switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_future_trip_tx"
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="使用新版未来出行" />
+
+                    <com.baidu.navisdk.ui.widget.StatusButton
+                        android:id="@+id/bnav_rg_menu_future_trip_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:gravity="center_vertical" />
+                </RelativeLayout>
+
+                <!--VDR模拟-->
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_menu_mock_vdr_switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_mock_vdr_tx"
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="VDR轨迹模拟" />
+
+                    <com.baidu.navisdk.ui.widget.StatusButton
+                        android:id="@+id/bnav_rg_menu_mock_vdr_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:gravity="center_vertical" />
+                </RelativeLayout>
+                <!--commute debug开发-->
+                <RelativeLayout
+                    android:id="@+id/bnav_rg_menu_commute_switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/nsdk_rg_menu_item_height"
+                    android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                    android:minHeight="@dimen/nsdk_rg_menu_item_height">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_menu_commute_tx"
+                        style="@style/Text_NaviSettingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                        android:text="commute debug" />
+
+                    <com.baidu.navisdk.ui.widget.StatusButton
+                        android:id="@+id/bnav_rg_menu_commute_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/nsdk_rg_text_margin"
+                        android:gravity="center_vertical" />
+                </RelativeLayout>
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bnav_rl_expandable_debug_url"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:gravity="top"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <EditText
+            android:id="@+id/bnav_rg_expandable_debug_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/navi_dimens_14dp"
+            android:hint="搜一搜，更省力"/>
+
+        <ExpandableListView
+            android:id="@+id/bnav_rg_expandable_debug_url"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:layout_above="@+id/bnav_rg_expandable_close_tv"
+            android:layout_below="@id/bnav_rg_expandable_debug_input" />
+
+        <TextView
+            android:id="@id/bnav_rg_expandable_close_tv"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_48dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/navi_dimens_16dp"
+            android:layout_marginLeft="@dimen/navi_dimens_16dp"
+            android:layout_marginRight="@dimen/navi_dimens_16dp"
+            android:layout_marginTop="@dimen/navi_dimens_16dp"
+            android:background="@drawable/bnav_lineframe_button_selector"
+            android:gravity="center"
+            android:text="@string/nsdk_string_close"
+            android:textColor="@color/nsdk_cl_text_a"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+</FrameLayout>

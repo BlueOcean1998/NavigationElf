@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:clickable="true"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    tools:parentTag="android.widget.RelativeLayout">
+
+    <TextView
+        android:id="@+id/motor_to_pro_guide"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/nsdk_light_navi_to_nav_bg_selector"
+        android:gravity="center"
+        android:text="@string/nsdk_route_result_start_guide"
+        android:layout_marginLeft="@dimen/navi_dimens_50dp"
+        android:layout_marginRight="@dimen/navi_dimens_50dp"
+        android:textColor="@color/nsdk_route_result_to_nav_btn_text_selector"
+        android:textSize="16dp"
+        tools:textColor="#ffffff"
+        tools:visibility="visible" />
+
+</merge>

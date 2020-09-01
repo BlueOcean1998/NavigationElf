@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/poi_title_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:scaleType="centerInside"
+        android:src="@drawable/nsdk_rr_route_error_pic" />
+
+    <LinearLayout
+        android:id="@+id/route_error_repeat_button"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+    >
+
+        <TextView
+            android:id="@+id/route_error_text_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="路线规划失败，"
+            android:layout_gravity="center"
+            android:textColor="#666666"
+            android:textSize="12dp" />
+
+
+        <TextView
+            android:id="@+id/route_error_repeat_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="重试"
+            android:layout_gravity="center"
+            android:textColor="#3385ff"
+            android:textSize="12dp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

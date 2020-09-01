@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/nsdk_rg_transparent"
+              android:orientation="vertical"
+              tools:visibility="visible"
+              android:visibility="gone">
+
+    <LinearLayout
+        android:id="@+id/bnav_rg_operable_notification_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/nsdk_rg_toolbox_margin_left"
+        android:background="@drawable/nsdk_nav_notification_background"
+        android:elevation="@dimen/nsdk_rg_toolbox_margin_left"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/bnav_rg_operable_notification_title_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/nsdk_rg_operable_notify_height">
+
+            <ImageView
+                android:id="@+id/bnav_rg_operable_notification_icon"
+                android:layout_width="@dimen/navi_dimens_40dp"
+                android:layout_height="@dimen/navi_dimens_40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/navi_dimens_11dp"
+                android:layout_marginTop="@dimen/navi_dimens_11dp"
+                android:layout_marginBottom="@dimen/navi_dimens_11dp"
+                android:scaleType="fitCenter"
+                tools:visibility="visible"
+                tools:src="@drawable/nsdk_ic_dest_arrive_reminder"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/bnav_rg_operable_notification_title_text_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/navi_dimens_9dp"
+                android:layout_marginRight="@dimen/navi_dimens_18dp"
+                android:layout_marginTop="@dimen/navi_dimens_17dp"
+                android:layout_marginBottom="@dimen/navi_dimens_17dp"
+                android:layout_toRightOf="@id/bnav_rg_operable_notification_icon"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/bnav_rg_operable_notification_maintitle_text"
+                        android:layout_width="@dimen/navi_dimens_0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:includeFontPadding="false"
+                        android:enabled="false"
+                        android:focusable="false"
+                        android:background="@null"
+                        android:maxLines="2"
+                        tools:text = "这是一个较长的主标题，你可以看见是否折行显示并以点点点结束"
+                        tools:textColor="@android:color/black"
+                        android:textColor="@color/nsdk_rg_operable_notification_maintitle"
+                        android:textSize="@dimen/navi_dimens_18dp"
+                        android:textStyle="bold"
+                        tools:visibility="visible"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/bnav_rg_operable_notification_maintitle_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/navi_dimens_6dp"
+                        android:background="@drawable/nsdk_notification_title_tag_bg"
+                        android:gravity="center"
+                        android:includeFontPadding="false"
+                        android:maxLines="1"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/navi_dimens_12dp"
+                        tools:visibility="visible"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/bnav_rg_operable_notification_subtitle_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/navi_dimens_3dp"
+                    android:ellipsize="end"
+                    android:includeFontPadding="false"
+                    android:singleLine="true"
+                    tools:text = "subtitle"
+                    tools:textColor="@android:color/black"
+                    android:textColor="@color/nsdk_rg_operable_notification_subtitle"
+                    android:textSize="@dimen/navi_dimens_16dp"
+                    tools:visibility="visible"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/bnav_rg_operable_notification_btn_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_54dp"
+            android:divider="@drawable/nsdk_drawable_divider_medium"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/navi_dimens_16dp"
+            android:paddingLeft="@dimen/navi_dimens_9dp"
+            android:paddingRight="@dimen/navi_dimens_9dp">
+
+            <RelativeLayout
+                android:id="@+id/bnav_rg_operable_notification_cancel_btn_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/navi_dimens_9dp"
+                android:layout_marginRight="@dimen/navi_dimens_9dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                tools:visibility="visible"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/bnav_rg_operable_notification_cancel_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    tools:text="cancle"
+                    tools:textColor="@android:color/black"
+                    android:textColor="@color/nsdk_rg_operable_notification_low_priority_cancel_text"
+                    android:textSize="@dimen/navi_dimens_16dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/bnav_rg_operable_notification_confirm_btn_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/navi_dimens_9dp"
+                android:layout_marginRight="@dimen/navi_dimens_9dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                tools:visibility="visible"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/bnav_rg_operable_notification_confirm_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    tools:text="confirm"
+                    tools:textColor="@android:color/black"
+                    android:textColor="@color/nsdk_rg_operable_notification_low_priority_confirm_text"
+                    android:textSize="@dimen/navi_dimens_16dp" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

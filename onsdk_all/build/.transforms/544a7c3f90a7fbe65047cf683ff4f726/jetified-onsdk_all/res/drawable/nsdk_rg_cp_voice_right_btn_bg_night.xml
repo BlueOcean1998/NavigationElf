@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="false" android:drawable="@drawable/nsdk_rg_cp_voice_right_button_bg_night">
+    </item>
+    <item android:state_pressed="true" android:drawable="@drawable/nsdk_rg_cp_voice_right_button_pressed_bg_night">
+    </item>
+</selector>

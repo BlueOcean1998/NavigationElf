@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <bitmap android:alpha="0.6" android:src="@drawable/nsdk_voice_main_view_record_bg_icon" />
+    </item>
+    <item android:state_pressed="false">
+        <bitmap android:alpha="1.0" android:src="@drawable/nsdk_voice_main_view_record_bg_icon" />
+    </item>
+</selector>

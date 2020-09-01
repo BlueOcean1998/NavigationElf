@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:tools="http://schemas.android.com/tools"
+       tools:parentTag="android.widget.LinearLayout"
+       tools:orientation="vertical"
+       tools:layout_width="@dimen/navi_dimens_38dp"
+       tools:layout_height="@dimen/navi_dimens_38dp"
+       tools:gravity="center"
+>
+    <ImageView
+        android:id="@+id/bnav_rg_ic_ugc_report_iv_innavi"
+        android:layout_width="@dimen/nsdk_rg_control_panel_icon_size"
+        android:layout_height="@dimen/nsdk_rg_control_panel_icon_size"
+        android:scaleType="centerInside"
+        android:src="@drawable/nsdk_rg_ic_ugc_report_innavi"/>
+
+    <TextView
+        android:id="@+id/bnav_rg_ic_ugc_report_tv_innavi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="上报"
+        android:layout_marginTop="@dimen/nsdk_rg_control_button_text_margin_top"
+        android:textColor="#333333"
+        android:textSize="@dimen/nsdk_rg_control_panel_btn_text_size"
+        android:textStyle="bold"/>
+</merge>

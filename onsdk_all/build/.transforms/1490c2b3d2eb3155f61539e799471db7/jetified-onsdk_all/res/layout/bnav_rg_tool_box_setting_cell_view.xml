@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="android.widget.RelativeLayout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/bnav_rg_toolbox_cell_tv"
+        style="@style/NavRGToolBoxItemText"
+        android:layout_width="match_parent"
+        android:textColor="@color/nsdk_cl_text_b_mm"
+        tools:drawableTop="@drawable/nsdk_drawable_toolbox_orientation_changed_landscape"
+        tools:text="横屏导航" />
+
+    <View
+        android:id="@+id/bnav_tg_toolbox_cell_new_tag"
+        android:layout_width="4dp"
+        android:layout_height="4dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/navi_dimens_12dp"
+        android:layout_marginTop="@dimen/navi_dimens_18dp"
+        android:background="@drawable/nsdk_yellow_banner_red_flag"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/bnav_rg_toolbox_text_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textSize="@dimen/navi_dimens_8dp"
+        tools:text="标准"
+        android:padding="@dimen/navi_dimens_1dp"
+        android:textColor="@color/nsdk_cl_link_a"
+        android:background="@drawable/nsdk_drawable_toolbox_speak_mode_tip_shape"
+        android:layout_marginRight="@dimen/navi_dimens_4dp"
+        android:layout_marginTop="@dimen/navi_dimens_9dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
+
+    <ImageView
+        android:id="@+id/bnav_rg_toolbox_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/nsdk_cl_rg_bg_c"
+        android:visibility="gone"
+        android:layout_alignBottom="@id/bnav_rg_toolbox_cell_tv"/>
+
+</merge>

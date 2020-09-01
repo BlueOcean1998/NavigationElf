@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/nsdk_nav_notification_background"
+    android:elevation="@dimen/nsdk_rg_toolbox_margin_left"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/nsdk_des_reminder_card_margin_left"
+    android:paddingTop="@dimen/navi_dimens_20dp"
+    android:paddingRight="@dimen/nsdk_des_reminder_card_margin_left"
+    android:paddingBottom="@dimen/navi_dimens_20dp">
+
+    <TextView
+        android:id="@+id/motor_dest_arrive_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:drawableLeft="@drawable/nsdk_ic_dest_arrive_reminder"
+        android:drawablePadding="@dimen/navi_dimens_10dp"
+        android:includeFontPadding="false"
+        android:gravity="center_vertical"
+        android:text="已到达目的地，当前导航结束"
+        android:textColor="@color/nsdk_des_reminder_title_main_text"
+        android:textSize="@dimen/navi_dimens_18dp" />
+
+
+    <Button
+        android:id="@+id/motor_dest_arrive_finish_navi_btn"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_31dp"
+        android:layout_below="@id/motor_dest_arrive_content"
+        android:layout_marginTop="@dimen/navi_dimens_30dp"
+        android:background="@drawable/nsdk_note_confirm_bt_bg_selector"
+        tools:text="退出导航(10s)"
+        android:textColor="@color/nsdk_note_confirm_bt_txt_selector" />
+</RelativeLayout>

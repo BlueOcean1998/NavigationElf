@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--标准面板、停车区-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bnavi_hw_service_normal_panel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:background="@drawable/nsdk_drawable_rg_hw_bg_green_top"
+    android:visibility="visible">
+
+    <LinearLayout
+        android:id="@+id/bnavi_hw_service_normal_panel_icon_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/bnavi_hw_service_normal_panel_ic_1"
+            android:layout_width="@dimen/nsdk_rg_hw_service_area_panel_icon_width"
+            android:layout_height="@dimen/nsdk_rg_hw_service_area_panel_icon_height"
+            android:layout_marginRight="@dimen/nsdk_rg_hw_service_area_panel_top_icon_margin_left"
+            tools:src="@drawable/nsdk_drawable_rg_hw_service_park"
+            android:visibility="gone"
+            tools:visibility="visible"
+            />
+
+        <ImageView
+            android:id="@+id/bnavi_hw_service_normal_panel_ic_2"
+            android:layout_width="@dimen/nsdk_rg_hw_service_area_panel_icon_width"
+            android:layout_height="@dimen/nsdk_rg_hw_service_area_panel_icon_height"
+            android:layout_marginRight="@dimen/nsdk_rg_hw_service_area_panel_top_icon_margin_left"
+            tools:src="@drawable/nsdk_drawable_rg_hw_service_petrol_station"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
+        <ImageView
+            android:id="@+id/bnavi_hw_service_normal_panel_ic_3"
+            android:layout_width="@dimen/nsdk_rg_hw_service_area_panel_icon_width"
+            android:layout_height="@dimen/nsdk_rg_hw_service_area_panel_icon_height"
+            android:layout_marginRight="@dimen/nsdk_rg_hw_service_area_panel_top_icon_margin_left"
+            tools:src="@drawable/nsdk_drawable_rg_hw_service_diningroom"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
+        <ImageView
+            android:id="@+id/bnavi_hw_service_normal_panel_ic_4"
+            android:layout_width="@dimen/nsdk_rg_hw_service_area_panel_icon_width"
+            android:layout_height="@dimen/nsdk_rg_hw_service_area_panel_icon_height"
+            tools:src="@drawable/nsdk_drawable_rg_hw_service_toilet"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/bnavi_rg_hw_service_panel_top_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/navi_dimens_5dp"
+        android:layout_gravity="right"
+        android:singleLine="true"
+        android:ellipsize="end"
+        tools:text="花桥水电费水电费收到"
+        android:textColor="@color/nsdk_rg_hw_service_info"
+        android:textSize="@dimen/nsdk_rg_hw_service_area_panel_text_name" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="-3dp"
+        android:gravity="bottom">
+
+        <ImageView
+            android:id="@+id/bnavi_rg_hw_service_panel_subscript_icon"
+            android:layout_width="@dimen/nsdk_rg_hw_service_area_subscript_icon_size"
+            android:layout_height="@dimen/nsdk_rg_hw_service_area_subscript_icon_size"
+            android:src="@drawable/nsdk_drawable_rg_hw_service_subscribed"
+            android:layout_marginRight="@dimen/navi_dimens_5dp"
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/navi_dimens_5dp"
+            tools:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/bnavi_rg_hw_service_panel_top_remain_dist"
+            tools:text="2.4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/nsdk_rg_hw_service_area_panel_top_name_margin_left"
+            android:gravity="right"
+            android:singleLine="true"
+            android:textColor="@color/nsdk_rg_hw_service_info"
+            android:textSize="@dimen/nsdk_rg_hw_service_area_panel_text_dist"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/bnavi_rg_hw_service_panel_top_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            tools:text="km"
+            android:textColor="@color/nsdk_rg_hw_service_info"
+            android:textSize="@dimen/nsdk_rg_hw_service_area_panel_text_unit"
+            android:visibility="visible" />
+    </LinearLayout>
+
+</LinearLayout>

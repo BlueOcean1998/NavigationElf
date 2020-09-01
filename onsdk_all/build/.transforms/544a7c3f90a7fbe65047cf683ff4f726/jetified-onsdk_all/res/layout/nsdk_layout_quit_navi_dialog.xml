@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/navi_dimens_260dp"
+    android:layout_height="wrap_content" 
+    android:orientation="vertical"
+     android:background="@drawable/bnav_common_cp_button_selector"
+    >
+    
+	<TextView 
+	    android:layout_width="match_parent"
+	    android:layout_height="@dimen/navi_dimens_88dp"
+	    android:text="确认退出导航？"
+	    android:textColor="#666"
+	    android:gravity="center"
+	    android:textSize="@dimen/navi_dimens_15dp"
+	    />
+	<View
+	    android:layout_width="match_parent"
+	    android:layout_height="1px" 
+	    android:background="@color/nsdk_cl_bg_a"
+	    />
+	<TextView 
+	    android:id="@+id/complete_ugc_info_tv"
+	    android:layout_width="match_parent"
+	    android:layout_height="@dimen/navi_dimens_42dp"
+	    android:text="完善上报信息"
+	    android:textColor="#3385ff"
+	    android:gravity="center"
+	    android:textSize="@dimen/navi_dimens_15dp"
+	     android:background="@drawable/bnav_common_cp_ugc_button_selector"
+	   
+	    />
+		<View
+	    android:layout_width="match_parent"
+	    android:layout_height="1px" 
+	    android:background="@color/nsdk_cl_bg_a"
+	    />
+	<TextView 
+	    android:id="@+id/quit_navi_tv"
+	    android:layout_width="match_parent"
+	    android:layout_height="@dimen/navi_dimens_42dp"
+	    android:text="直接退出"
+	    android:textColor="#666"
+	    android:gravity="center"
+	    android:textSize="@dimen/navi_dimens_15dp"
+	    android:background="@drawable/bnav_common_cp_ugc_button_selector"
+	    />
+	
+	<TextView 
+	    android:id="@+id/cancle_tv"
+	    android:layout_width="match_parent"
+	    android:layout_height="@dimen/navi_dimens_42dp"
+	    
+	    android:text="取消"
+	    android:textColor="#666"
+	    android:gravity="center"
+	    android:background="@drawable/bnav_common_cp_ugc_button_selector"
+	    android:textSize="@dimen/navi_dimens_15dp"
+	    android:visibility="gone"
+	    />
+</LinearLayout>

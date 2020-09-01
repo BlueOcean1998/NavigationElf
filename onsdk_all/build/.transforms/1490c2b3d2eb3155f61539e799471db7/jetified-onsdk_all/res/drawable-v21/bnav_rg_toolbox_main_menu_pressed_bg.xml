@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+        android:color="@color/nsdk_pressed_ripple_day">
+    <item android:id="@android:id/mask"
+          android:drawable="@color/nsdk_toolbox_main_menu_pressed_ripple_day_bg"></item>
+</ripple>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/nsdk_future_trip_main_panel_item_width"
+    android:layout_height="@dimen/navi_dimens_33dp"
+    tools:background="@android:color/holo_green_light">
+
+    <!--fot test start-->
+    <ImageView
+        android:layout_width="@dimen/navi_dimens_52dp"
+        android:layout_height="@dimen/navi_dimens_33dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/nsdk_drawable_rr_eta_select_time_bg"
+        android:visibility="gone"
+        tools:visibility="visible" />
+    <!--fot test end-->
+
+    <TextView
+        android:id="@+id/time_tx"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/transparent"
+        android:visibility="visible"
+        android:singleLine="true"
+        android:ellipsize="none"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:textSize="@dimen/navi_dimens_12dp"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:textColor="#3385ff"
+        tools:text="周一"
+        tools:textSize="@dimen/navi_dimens_11dp" />
+
+</RelativeLayout>
+

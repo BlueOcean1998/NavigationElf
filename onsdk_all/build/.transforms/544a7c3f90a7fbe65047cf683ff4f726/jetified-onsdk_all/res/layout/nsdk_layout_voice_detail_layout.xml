@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <com.baidu.navisdk.ui.widget.EmptyTopLayout
+        android:id="@+id/nsdk_empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#fff"></com.baidu.navisdk.ui.widget.EmptyTopLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.baidu.navisdk.ui.widget.BNCommonTitleBar
+            android:id="@+id/voice_detail_title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            app:middleContentText="@string/nsdk_string_voice_detail_title" />
+
+        <RelativeLayout
+            android:id="@+id/local_voice_detail_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/voice_detail_title_bar"
+            android:background="@color/nsdk_voice_local_info_bg_color"
+            android:padding="@dimen/navi_dimens_18dp">
+
+            <ImageView
+                android:id="@+id/voice_detail_head_view"
+                android:layout_width="@dimen/navi_dimens_84dp"
+                android:layout_height="@dimen/navi_dimens_84dp"
+                android:layout_marginRight="@dimen/navi_dimens_18dp"
+                android:src="@drawable/nsdk_voice_common_head_view" />
+
+            <TextView
+                android:id="@+id/voice_detail_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/voice_detail_head_view"
+                android:layout_toRightOf="@id/voice_detail_head_view"
+                android:text="刘德华"
+                android:textColor="@color/nsdk_voice_main_text_name_color"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/voice_detail_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/voice_detail_head_view"
+                android:layout_toRightOf="@id/voice_detail_head_view"
+                android:text="300kb"
+                android:textColor="@color/nsdk_voice_main_text_size_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/voice_detail_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:drawablePadding="@dimen/navi_dimens_10dp"
+                android:drawableTop="@drawable/nsdk_voice_detail_edit_enable"
+                android:text="编辑"
+                android:textColor="@color/nsdk_voice_main_progress_percent_color"
+                android:textSize="14sp" />
+
+            <View
+                android:id="@+id/voice_detail_divider"
+                android:layout_width="0.5dp"
+                android:layout_height="@dimen/navi_dimens_45dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/navi_dimens_52dp"
+                android:background="@color/nsdk_voice_main_text_size_color" />
+
+            <TextView
+                android:id="@+id/voice_detail_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/voice_detail_name"
+                android:layout_centerVertical="true"
+                android:text="测试数据"
+                android:textColor="@color/nsdk_voice_main_text_size_color"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/net_voice_detail_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/voice_detail_title_bar"
+            android:visibility="gone">
+
+            <WebView
+                android:id="@+id/voice_detail_webview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true" />
+
+            <ProgressBar
+                android:id="@+id/voice_detail_progress_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navi_dimens_2dp"
+                android:layout_alignParentTop="true"
+                android:background="#3f51b5"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/nsdk_voice_webview_progressbar"
+                android:visibility="visible" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/local_voice_detail_info_show"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/local_voice_detail_info"
+            android:background="@color/nsdk_voice_local_info_show_bg_color"
+            android:visibility="visible">
+
+            <RelativeLayout
+                android:layout_width="@dimen/navi_dimens_280dp"
+                android:layout_height="@dimen/navi_dimens_280dp"
+                android:layout_centerInParent="true">
+
+                <ImageView
+                    android:id="@+id/local_voice_info_headview"
+                    android:layout_width="@dimen/navi_dimens_120dp"
+                    android:layout_height="@dimen/navi_dimens_120dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/nsdk_voice_common_head_view" />
+
+                <ImageView
+                    android:id="@+id/local_voice_info_earth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/nsdk_voice_detail_earth" />
+
+                <ImageView
+                    android:id="@+id/local_voice_info_play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/nsdk_voice_detail_play" />
+
+                <ImageView
+                    android:id="@+id/local_voice_info_car"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/local_voice_info_play"
+                    android:layout_marginBottom="-10dp"
+                    android:layout_marginRight="-40dp"
+                    android:layout_toLeftOf="@+id/local_voice_info_play"
+                    android:src="@drawable/nsdk_voice_detail_car" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/voice_square_loading_fail_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/voice_detail_title_bar"
+            android:background="@color/bnav_voice_square_loading_fail_background"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/voice_square_loading_fail_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/nsdk_voice_square_loading_fail" />
+
+            <TextView
+                android:id="@+id/voice_square_loading_fail_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/navi_dimens_20dp"
+                android:text="@string/nsdk_string_voice_square_loading_fail_text"
+                android:textColor="@color/bnav_voice_square_loading_fail_text"
+                android:textSize="@dimen/navi_dimens_20dp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

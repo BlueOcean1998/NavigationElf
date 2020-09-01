@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#18181c"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <com.baidu.navisdk.ui.widget.EmptyTopLayout
+        android:id="@+id/empty_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></com.baidu.navisdk.ui.widget.EmptyTopLayout>
+
+    <com.baidu.navisdk.module.routeresultbase.view.support.widgit.RouteResultLoadingImageView
+        android:id="@+id/download_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
+
+    <LinearLayout
+        android:id="@+id/video_loading_failed"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="40dp"
+        android:visibility="visible"
+        tools:visibility="gone"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/iv_bus_network_fail_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:scaleType="centerInside"
+            android:background="@drawable/bus_network_fail_icon" />
+
+
+        <TextView
+            android:id="@+id/tv_network_fail_prompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="15dp"
+            android:text="啊咧~加载失败了"
+            android:textSize="14dp"
+            android:textColor="#999999"/>
+
+        <TextView
+            android:id="@+id/tv_try_again_btn"
+            android:layout_width="115dp"
+            android:layout_height="39dp"
+            android:gravity="center"
+            android:text="重试"
+            android:textSize="16dp"
+            android:textColor="#b1b1b1"
+            android:background="@drawable/bus_network_fail_view_try_again_bg_selector"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/video_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        >
+
+    </RelativeLayout>
+
+    <com.baidu.navisdk.ui.widget.BNCommonTitleBar
+        android:id="@+id/voice_video_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/nsdk_rg_transparent"
+        app:leftContentImage="@drawable/nsdk_drawable_voice_video_player_back"
+        android:layout_below="@id/empty_top_layout"
+        app:middleContentText="@string/nsdk_voice_video">
+
+    </com.baidu.navisdk.ui.widget.BNCommonTitleBar>
+
+</RelativeLayout>

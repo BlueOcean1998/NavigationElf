@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.baidu.navisdk.ui.routeguide.subview.widget.ServiceAreaRelativeLayout
+        android:id="@+id/bnavi_hw_service_area_content_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentRight="true">
+
+        <LinearLayout
+            android:id="@+id/bnavi_hw_service_area_bottom_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/nsdk_drawable_rg_hw_bg_blue_top"
+            android:layout_below="@+id/bnavi_hw_service_area_top_layout"
+            android:gravity="right"
+            android:layout_marginTop="-5dp"
+            android:visibility="gone"
+            tools:visibility="visible"></LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bnavi_hw_service_area_top_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:background="@drawable/nsdk_drawable_rg_hw_bg_green_top"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible"></LinearLayout>
+
+
+    </com.baidu.navisdk.ui.routeguide.subview.widget.ServiceAreaRelativeLayout>
+    
+    <TextView
+        android:id="@+id/bnavi_hw_service_area_first_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/nsdk_rr_right_bubble_bg"
+        android:layout_toLeftOf="@id/bnavi_hw_service_area_content_layout"
+        android:textColor="#fff"
+        android:textSize="@dimen/navi_dimens_13dp"
+        android:gravity="center"
+        android:text="@string/bnav_string_hw_service_first_tips"
+        android:layout_marginTop="@dimen/navi_dimens_10dp"
+        android:layout_marginRight="@dimen/navi_dimens_8dp"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+</RelativeLayout>

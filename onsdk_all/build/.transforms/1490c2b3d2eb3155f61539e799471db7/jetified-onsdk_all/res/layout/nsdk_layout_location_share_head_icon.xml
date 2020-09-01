@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/location_share_head_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/nsdk_drawable_location_share_head_name_bg"
+        android:drawableLeft="@drawable/nsdk_drawable_location_share_head_badge_captain"
+        android:drawablePadding="@dimen/navi_dimens_5dp"
+        android:gravity="center"
+        android:text="youngzte_2015"
+        android:textColor="#333333"
+        android:textSize="@dimen/navi_dimens_13dp" />
+
+    <RelativeLayout
+        android:id="@+id/location_share_head_bubble_rl"
+        android:layout_marginTop="-16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/nsdk_drawable_location_share_head_bubble_normal">
+
+        <ImageView
+            android:id="@+id/location_share_head_bubble_normal_iv"
+            android:layout_width="@dimen/navi_dimens_33dp"
+            android:layout_height="@dimen/navi_dimens_33dp"
+            android:layout_centerInParent="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/nsdk_drawable_location_share_default_head_icon" />
+        <ImageView
+            android:id="@+id/location_share_head_bubble_large_iv"
+            android:layout_width="@dimen/navi_dimens_42dp"
+            android:layout_height="@dimen/navi_dimens_42dp"
+            android:layout_centerInParent="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/nsdk_drawable_location_share_default_head_icon" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_marginTop="-12dp"
+        android:id="@+id/location_share_head_location_dot_self_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/nsdk_drawable_location_share_head_location_dot_self" />
+
+    <ImageView
+        android:layout_marginTop="-12dp"
+        android:id="@+id/location_share_head_location_dot_member_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="fitCenter"
+        android:src="@drawable/nsdk_drawable_location_share_head_location_dot_member_online" />
+
+</LinearLayout>

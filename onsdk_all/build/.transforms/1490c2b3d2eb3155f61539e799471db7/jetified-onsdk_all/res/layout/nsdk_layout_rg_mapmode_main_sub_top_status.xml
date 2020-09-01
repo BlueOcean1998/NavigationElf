@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bnav_rg_top_status_panel"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nsdk_rg_top_status_port_height"
+    android:background="@color/nsdk_cl_bg_e"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/nsdk_rg_cp_icon_edge_margin"
+    android:paddingRight="@dimen/nsdk_rg_cp_icon_edge_margin">
+
+    <!-- 总距离时间显示文本 -->
+
+    <TextView
+        android:id="@+id/bnav_rg_sg_total_dist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/nsdk_cl_text_e"
+        android:textSize="@dimen/navi_dimens_18dp" />
+
+    <TextView
+        android:id="@+id/bnav_rg_sg_arrive_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/nsdk_rg_cp_icon_edge_margin"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/nsdk_cl_text_e"
+        android:textSize="@dimen/navi_dimens_18dp" />
+
+    <com.baidu.navisdk.ui.widget.BNDigitalClock
+        android:id="@+id/bnav_rg_sg_current_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="right"
+        android:singleLine="true"
+        android:textColor="@color/nsdk_cl_text_c"
+        android:textSize="@dimen/navi_dimens_18dp"
+        android:visibility="gone" />
+</LinearLayout>

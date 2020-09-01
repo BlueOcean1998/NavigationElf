@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tl="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <com.baidu.navisdk.ui.navivoice.widget.BNVoiceCustomScrollView2
+            android:id="@+id/voice_main_view_scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/voice_main_view_top_pager"
+                        android:layout_width="match_parent"
+                        android:background="#FFFFFF"
+                        android:layout_height="@dimen/nsdk_voice_main_banner_height"></androidx.viewpager.widget.ViewPager>
+
+
+                <com.baidu.navisdk.ui.navivoice.widget.BNSlidingTabLayout
+                        android:id="@+id/voice_main_view_tabLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/navi_dimens_54dp"
+                        android:layout_marginTop="@dimen/nsdk_voice_main_banner_margin_sliding"
+                        android:background="@drawable/nsdk_voice_user_sliding_layout_bg"
+                        tl:bn_tl_indicator_color="#000000"
+                        tl:bn_tl_indicator_height="1.5dp"
+                        tl:bn_tl_indicator_width_equal_title="true"
+                        tl:bn_tl_tab_padding="22dp"
+                        tl:bn_tl_tab_space_equal="true"
+                        tl:bn_tl_textSelectColor="#000000"
+                        tl:bn_tl_textUnselectColor="#999999"
+                        tl:bn_tl_textsize="@dimen/navi_dimens_17dp"
+                        tl:bn_tl_underline_color="#E3E3E3"
+                        tl:bn_tl_underline_height="2px"></com.baidu.navisdk.ui.navivoice.widget.BNSlidingTabLayout>
+
+
+                <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/voice_main_view_viewpager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/voice_main_view_tabLayout"
+                        android:background="#FFFFFF">
+
+                </androidx.viewpager.widget.ViewPager>
+            </RelativeLayout>
+
+        </LinearLayout>
+    </com.baidu.navisdk.ui.navivoice.widget.BNVoiceCustomScrollView2>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <com.baidu.navisdk.ui.widget.EmptyTopLayout
+                android:id="@+id/voice_main_view_topLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        <ImageView
+                android:id="@+id/voice_main_view_back"
+                android:layout_width="@dimen/navi_dimens_28dp"
+                android:layout_height="@dimen/navi_dimens_28dp"
+                android:layout_below="@id/voice_main_view_topLayout"
+                android:layout_marginLeft="@dimen/navi_dimens_15dp"
+                android:layout_marginTop="@dimen/navi_dimens_6dp"
+                android:src="@drawable/nsdk_voice_main_view_top_back_bg" />
+
+        <TextView
+                android:id="@+id/voice_main_view_help"
+                android:layout_width="@dimen/navi_dimens_48dp"
+                android:layout_height="@dimen/navi_dimens_28dp"
+                android:layout_below="@id/voice_main_view_topLayout"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/navi_dimens_6dp"
+                android:layout_marginRight="@dimen/navi_dimens_15dp"
+                android:background="@drawable/nsdk_voice_main_view_top_view_bg"
+                android:gravity="center"
+                android:text="帮助"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/navi_dimens_13dp" />
+
+    </RelativeLayout>
+
+
+    <com.baidu.navisdk.ui.widget.BNLoadingView
+            android:id="@+id/voice_main_view_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    </com.baidu.navisdk.ui.widget.BNLoadingView>
+
+    <LinearLayout
+            android:id="@+id/voice_main_view_temp_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+        <com.baidu.navisdk.ui.widget.EmptyTopLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        <com.baidu.navisdk.ui.widget.BNCommonTitleBar
+                android:id="@+id/voice_main_view_temp_top_title_bar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navi_dimens_50dp"
+                app:middleContentText="@string/nsdk_string_voice_square_title" />
+    </LinearLayout>
+
+
+    <LinearLayout
+            android:id="@+id/nsdk_main_view_to_record_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/navi_dimens_34dp"
+            android:background="@drawable/nsdk_voice_main_view_record_bg"
+            android:gravity="center">
+
+        <ImageView
+                android:layout_width="@dimen/navi_dimens_40dp"
+                android:layout_height="@dimen/navi_dimens_40dp"
+                android:src="@drawable/nsdk_voice_main_view_record_icon_selector" />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="录制我的语音"
+                android:textColor="@color/nsdk_voice_main_view_record_text_selector"
+                android:textSize="@dimen/navi_dimens_17dp" />
+    </LinearLayout>
+</RelativeLayout>

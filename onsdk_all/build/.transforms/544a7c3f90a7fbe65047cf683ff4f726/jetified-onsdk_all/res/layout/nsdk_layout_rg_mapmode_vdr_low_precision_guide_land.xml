@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bnav_rg_vdr_guide_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible"
+    tools:background="@drawable/bnav_rg_guide_top_panel">
+
+
+    <TextView
+        android:id="@+id/bnav_rg_vdr_guide_go_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/navi_dimens_32dp"
+        android:text="@string/nsdk_string_hw_go"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/nsdk_text_rg_normal_info"
+        android:textSize="@dimen/nsdk_text_size_rg_normal_info"
+        android:textStyle="bold"
+        android:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/bnav_rg_vdr_guide_turn_icon"
+        android:layout_width="@dimen/nsdk_rg_icon_turn_zise"
+        android:layout_height="@dimen/nsdk_rg_icon_turn_zise"
+        android:layout_below="@id/bnav_rg_vdr_guide_go_tv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/navi_dimens_6dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/nsdk_drawable_rg_ic_turn_along"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/bnav_rg_vdr_go_where_multi_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/navi_dimens_10dp"
+        android:layout_below="@id/bnav_rg_vdr_guide_turn_icon"
+        android:clickable="false"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:maxLines="2"
+        android:text=""
+        android:textColor="@color/nsdk_rg_main_info"
+        android:textSize="@dimen/navi_dimens_22dp"
+        android:textStyle="bold"
+        tools:text="滨海大道辅路" />
+
+    <TextView
+        android:id="@+id/bnav_rg_vdr_direction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/nsdk_rg_cp_icon_edge_margin"
+        android:layout_below="@id/bnav_rg_vdr_go_where_multi_tv"
+        android:gravity="center_horizontal"
+        android:text="@string/bnav_string_hw_direction"
+        android:textColor="@color/nsdk_text_rg_normal_info"
+        android:textSize="@dimen/nsdk_text_size_rg_normal_info"
+        android:textStyle="bold" />
+</RelativeLayout>

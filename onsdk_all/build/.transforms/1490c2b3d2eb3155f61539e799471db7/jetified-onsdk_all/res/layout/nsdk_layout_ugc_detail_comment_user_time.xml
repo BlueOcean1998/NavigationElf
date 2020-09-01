@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_reporter"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="用户"
+        android:gravity="center_vertical"
+        android:textColor="@color/nsdk_ugc_txt_normal"
+        android:textSize="12sp"/>
+
+    <ImageView
+        android:id="@+id/iv_ugc_detail_comment_user_level"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/tv_reporter"
+        tools:src="@drawable/nsdk_ugc_detail_user_level_1"
+        android:scaleType="fitCenter"
+        tools:visibility="visible"
+        android:visibility="gone"/>
+
+    <View
+        android:id="@+id/ugc_comment_reporter_time_line"
+        android:layout_width="1px"
+        android:layout_marginTop="@dimen/navi_dimens_7dp"
+        android:layout_marginBottom="@dimen/navi_dimens_7dp"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/iv_ugc_detail_comment_user_level"
+        android:layout_marginLeft="@dimen/navi_dimens_5dp"
+        android:background="#eaeaea"/>
+
+    <TextView
+        android:id="@+id/tv_time_stamp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:textSize="12sp"
+        android:text="5分钟前"
+        android:layout_toRightOf="@id/ugc_comment_reporter_time_line"
+        android:layout_marginLeft="@dimen/navi_dimens_5dp"
+        android:textColor="@color/nsdk_ugc_txt_normal"/>
+
+    <TextView
+        android:id="@+id/tv_ugc_detail_comment_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nsdk_string_ugc_top_comment"
+        android:background="@drawable/nsdk_ugc_event_detailes_comment_label_bg_top"
+        android:textColor="#fff"
+        android:layout_toRightOf="@id/tv_time_stamp"
+        android:layout_marginLeft="@dimen/navi_dimens_10dp"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:includeFontPadding="false"
+        tools:visibility="visible"
+        android:textSize="10sp"/>
+
+    <LinearLayout
+        android:id="@+id/ugc_comment_feedback_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/navi_dimens_18dp"
+        android:minWidth="@dimen/navi_dimens_44dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:orientation="horizontal"
+        android:background="@drawable/nsdk_ugc_event_detailes_comment_useful_bg"
+        android:paddingLeft="@dimen/navi_dimens_9dp"
+        android:paddingRight="@dimen/navi_dimens_9dp"
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/iv_ugc_comment_useful"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/nsdk_ugc_useful_normal"/>
+        <TextView
+            android:id="@+id/tv_ugc_comment_useful_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#333333"
+            android:textSize="12sp"
+            android:maxLines="1"
+            android:maxLength="4"
+            tools:text="101444"
+            android:layout_marginLeft="@dimen/navi_dimens_4dp"/>
+    </LinearLayout>
+
+</RelativeLayout>

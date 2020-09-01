@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/nav_voice_switch_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/nsdk_more_setting_btn_panel_title_bottom_margin"
+        android:paddingRight="@dimen/nsdk_more_setting_menu_item_padding_right">
+
+        <ImageView
+            android:id="@+id/left_imageview"
+            android:layout_width="@dimen/navi_dimens_48dp"
+            android:layout_height="@dimen/navi_dimens_48dp"
+            android:clickable="true"
+            android:gravity="center"
+            android:scaleType="centerInside"
+            android:src="@drawable/bnav_titlebar_ic_back_new" />
+
+        <TextView
+            android:id="@+id/nav_voice_text_tv"
+            style="@style/NavCommonListItemTitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:maxLines="1"
+            android:text="播报内容"
+            android:textColor="@color/bnav_titlebar_middle_text"
+            android:textSize="@dimen/navi_dimens_18dp" />
+    </RelativeLayout>
+
+    <RadioGroup
+        android:id="@+id/nav_view_voice_selector_rg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/nsdk_bg_drawable_white_bottom_shadow"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/nsdk_more_setting_menu_item_padding_left"
+        android:paddingRight="@dimen/nsdk_more_setting_menu_item_padding_right"
+        android:paddingBottom="@dimen/navi_dimens_20dp">
+
+        <RadioButton
+            android:id="@+id/nav_diy_voice_simple_rb"
+            style="@style/nav_more_setting_selector_rg.speak_mode"
+            android:layout_width="@dimen/navi_dimens_0dp"
+            android:layout_height="@dimen/navi_dimens_30dp"
+            android:layout_marginRight="@dimen/navi_dimens_15dp"
+            android:layout_weight="1"
+            android:background="@drawable/bnav_selector_diy_speak_radio_group"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/nsdk_diy_speak_items_simple" />
+
+        <RadioButton
+            android:id="@+id/nav_diy_voice_standard_rb"
+            style="@style/nav_more_setting_selector_rg.speak_mode"
+            android:layout_width="@dimen/navi_dimens_0dp"
+            android:layout_height="@dimen/navi_dimens_30dp"
+            android:layout_marginRight="@dimen/navi_dimens_15dp"
+            android:layout_weight="1"
+            android:background="@drawable/bnav_selector_diy_speak_default"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/nsdk_diy_speak_items_standard" />
+
+        <RadioButton
+            android:id="@+id/nav_diy_voice_detail_rb"
+            style="@style/nav_more_setting_selector_rg.speak_mode"
+            android:layout_width="@dimen/navi_dimens_0dp"
+            android:layout_height="@dimen/navi_dimens_30dp"
+            android:layout_marginRight="@dimen/navi_dimens_15dp"
+            android:layout_weight="1"
+            android:background="@drawable/bnav_selector_diy_speak_radio_group"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/nsdk_diy_speak_items_detail" />
+
+        <RadioButton
+            android:id="@+id/nav_diy_voice_custom_rb"
+            style="@style/nav_more_setting_selector_rg.speak_mode"
+            android:layout_width="@dimen/navi_dimens_0dp"
+            android:layout_height="@dimen/navi_dimens_30dp"
+            android:layout_weight="1"
+            android:background="@drawable/bnav_selector_diy_speak_radio_group"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/nsdk_diy_speak_items_user_define" />
+
+    </RadioGroup>
+</LinearLayout>

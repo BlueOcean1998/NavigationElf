@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="76dp"
+        android:layout_height="83dp">
+        <RelativeLayout
+            android:id="@+id/inner_container"
+            tools:background="@android:color/holo_green_dark"
+            android:gravity="center_vertical"
+            android:layout_width="76dp"
+            android:layout_height="83dp">
+
+            <RelativeLayout
+                android:id="@+id/toolbox_iv_collection"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:clipChildren="false"
+                android:layout_centerHorizontal="true">
+
+                <ImageView
+                    android:id="@+id/toolbox_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/nsdk_drawable_route_result_charging_station"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    android:id="@+id/toolbox_label"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:textColor="#ffffff"
+                    android:textSize="6dp"
+                    android:gravity="center"
+                    android:text="3"
+                    tools:visibility="visible"
+                    android:background="@drawable/nsdk_drawable_route_result_toolbox_red_circle"/>
+
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/toolbox_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_centerHorizontal="true"
+                android:singleLine="true"
+                android:ellipsize="middle"
+                android:textColor="#444444"
+                android:textSize="13dp"
+                android:layout_below="@id/toolbox_iv_collection"
+                android:text="@string/nsdk_route_result_charging_station"/>
+        </RelativeLayout>
+        <!--小红点-->
+        <ImageView
+            android:id="@+id/toolbox_red_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:visibility="visible"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            android:background="@drawable/nsdk_drawable_route_result_toolbox_red_point"/>
+    </RelativeLayout>
+</RelativeLayout>

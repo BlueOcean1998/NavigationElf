@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tl="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+
+    <com.baidu.navisdk.ui.navivoice.widget.BNSlidingTabLayout
+            android:id="@+id/slidingTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_70dp"
+            tl:bn_tl_tab_space_equal="true"
+            tl:bn_tl_textSelectColor="#333333"
+            tl:bn_tl_textUnselectColor="#999999"
+            tl:bn_tl_textsize="@dimen/navi_dimens_14dp"
+    ></com.baidu.navisdk.ui.navivoice.widget.BNSlidingTabLayout>
+
+    <com.baidu.navisdk.ui.navivoice.widget.BNVoiceUnScrollViewPager
+            android:id="@+id/voice_me_fragment_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    </com.baidu.navisdk.ui.navivoice.widget.BNVoiceUnScrollViewPager>
+
+</LinearLayout>

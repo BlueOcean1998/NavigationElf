@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bnav_rg_notification_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nsdk_rg_checkbox_notify_height"
+        android:background="@drawable/nsdk_nav_notification_background"
+        android:layout_margin="@dimen/nsdk_rg_toolbox_margin_left"
+        android:elevation="@dimen/nsdk_rg_toolbox_margin_left">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/navi_dimens_10dp"
+            android:layout_marginTop="@dimen/navi_dimens_9dp"
+            android:textColor="#333333"
+            android:textSize="@dimen/navi_dimens_14dp"
+            android:textStyle="bold"
+            tools:text="测试消息标题" />
+
+        <LinearLayout
+            android:id="@+id/ll_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_title"
+            android:gravity="center"
+            android:orientation="horizontal"></LinearLayout>
+
+
+        <Button
+            android:id="@+id/btn_bottom_button"
+            android:layout_width="@dimen/navi_dimens_127dp"
+            android:layout_height="@dimen/navi_dimens_25dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/navi_dimens_12dp"
+            android:background="@drawable/nsdk_note_cancel_bt_bg_selector"
+            android:text="关闭"
+            android:textColor="@color/nsdk_note_cancel_bt_txt_selector"
+            android:textSize="@dimen/navi_dimens_13dp" />
+    </RelativeLayout>
+
+</RelativeLayout>

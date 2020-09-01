@@ -1,0 +1,40 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/navi_dimens_32dp"
+    android:orientation="horizontal" >
+    <RadioGroup
+        android:id="@+id/rbtngroup"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+     <RadioButton
+        android:layout_width="@dimen/navi_dimens_50dp"
+        android:layout_height="match_parent"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:background="@drawable/nsdk_drawable_statusbutton_left_button_carmode"
+        android:textColor="@drawable/nsdk_drawable_statusbutton_textcolor_carmode"
+        android:button="@null" />
+    
+
+    <RadioButton
+        android:layout_width="@dimen/navi_dimens_50dp"
+        android:layout_height="match_parent"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:background="@drawable/nsdk_drawable_statusbutton_mid_button_carmode"
+        android:textColor="@drawable/nsdk_drawable_statusbutton_textcolor_carmode"
+        android:button="@null" />
+
+    <RadioButton
+        android:layout_width="@dimen/navi_dimens_50dp"
+        android:layout_height="match_parent"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:background="@drawable/nsdk_drawable_statusbutton_right_button_carmode"
+        android:textColor="@drawable/nsdk_drawable_statusbutton_textcolor_carmode"
+        android:button="@null" />
+   </RadioGroup>
+</LinearLayout>

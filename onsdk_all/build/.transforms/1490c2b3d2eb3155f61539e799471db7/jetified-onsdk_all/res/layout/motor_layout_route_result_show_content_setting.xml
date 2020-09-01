@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:apps="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/motor_route_result_setting_page"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/motor_rr_setting_page_bg"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/motor_rr_setting_top_empty_view"
+        layout="@layout/bnav_statusbar_empty_view_include"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/nsdk_cl_bg_d"/>
+
+    <com.baidu.navisdk.ui.widget.BNCommonTitleBar
+        android:id="@+id/truck_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        apps:middleContentText="@string/motor_nav_show_content_setting" />
+
+    <ScrollView
+        android:id="@+id/motor_rr_setting_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:scrollbarAlwaysDrawVerticalTrack="false"
+        android:scrollbarSize="@dimen/navi_dimens_0dp"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/motor_rr_setting_scroll_content_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/motor_rr_show_content_group_ly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/motor_setting_page_margin_left_right"
+                android:layout_marginTop="@dimen/motor_setting_margin_top_group_title"
+                android:layout_marginRight="@dimen/motor_setting_page_margin_left_right"
+                android:background="@drawable/nsdk_drawable_rg_setting_page_card_bg"
+                android:orientation="vertical">
+
+                <include layout="@layout/motor_layout_settings_nav_show_content" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

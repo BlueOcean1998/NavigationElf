@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2016 Baidu, Inc. All Rights Reserved.
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="right|center_vertical"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/bnav_rg_next_turn_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/nsdk_rg_top_panel_height"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@color/nsdk_rg_transparent"
+        android:paddingRight="@dimen/navi_dimens_24dp">
+
+        <ImageView
+            android:id="@+id/bnav_rg_sg_next_turn_icon"
+            android:layout_width="@dimen/navi_dimens_21dp"
+            android:layout_height="@dimen/navi_dimens_21dp"
+            android:src="@drawable/nsdk_ic_lane_turn_around_left"/>
+
+        <TextView
+            android:id="@+id/bnav_rg_sg_next_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/navi_dimens_10dp"
+            android:textColor="#fff"
+            android:textSize="@dimen/navi_dimens_14dp"
+            android:text="随后"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</LinearLayout>

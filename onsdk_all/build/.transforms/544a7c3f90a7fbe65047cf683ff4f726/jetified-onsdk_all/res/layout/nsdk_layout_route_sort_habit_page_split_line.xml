@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bnav_driving_habit_page_split_line"
+    style="@style/NavCommonListSplitLine"
+    android:background="#f7f7f7"
+    android:layout_height="@dimen/navi_dimens_10dp"/>

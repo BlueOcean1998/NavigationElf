@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:minHeight="8dp"
+             android:background="@color/nsdk_ugc_background">
+
+    <TextView
+        android:id="@+id/tv_ugc_detail_new_comment_num"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/nsdk_ugc_details_new_comment_loading_height"
+        android:minWidth="148dp"
+        android:textSize="12sp"
+        android:textColor="#333333"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:drawablePadding="6dp"
+        android:includeFontPadding="false"
+        android:drawableLeft="@drawable/nsdk_ugc_new_comment_num"
+        android:background="@drawable/nsdk_ugc_event_detailes_new_comment_num_bg"
+        tools:text="@string/nsdk_string_ugc_detail_new_comment_num"
+        android:minLines="1"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+
+    <LinearLayout
+        android:id="@+id/layout_ugc_detail_new_comment_loading"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nsdk_ugc_details_new_comment_loading_height"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#333333"
+            android:text="@string/nsdk_string_ugc_loading"/>
+    </LinearLayout>
+
+
+</FrameLayout>

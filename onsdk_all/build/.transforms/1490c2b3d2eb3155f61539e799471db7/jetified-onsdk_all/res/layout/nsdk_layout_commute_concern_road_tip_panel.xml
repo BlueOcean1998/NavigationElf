@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bnav_common_bg"
+    android:paddingLeft="@dimen/navi_dimens_13dp"
+    android:paddingTop="@dimen/navi_dimens_13dp"
+    android:paddingRight="@dimen/navi_dimens_13dp"
+    android:paddingBottom="@dimen/navi_dimens_13dp">
+
+    <ImageView
+        android:id="@+id/concern_road_tip_close_bt"
+        android:layout_width="@dimen/navi_dimens_20dp"
+        android:layout_height="@dimen/navi_dimens_20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/navi_dimens_3dp"
+        android:layout_marginRight="@dimen/navi_dimens_13dp"
+        android:src="@drawable/nsdk_drawable_toolbox_car_plate_closed" />
+
+    <TextView
+        android:id="@+id/concern_road_tip_0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/nsdk_commute_concern_road_tip_0" />
+
+    <TextView
+        android:id="@+id/concern_road_tip_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/concern_road_tip_0"
+        android:layout_marginTop="@dimen/navi_dimens_5dp"
+        android:drawableLeft="@drawable/nsdk_drawable_commute_common_point"
+        android:drawablePadding="@dimen/navi_dimens_2dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/nsdk_commute_concern_road_tip_1"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/concern_road_tip_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/concern_road_tip_1"
+        android:layout_marginTop="@dimen/navi_dimens_5dp"
+        android:drawableLeft="@drawable/nsdk_drawable_commute_common_point"
+        android:drawablePadding="@dimen/navi_dimens_2dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/nsdk_commute_concern_road_tip_2"
+        android:textStyle="bold" />
+
+</RelativeLayout>

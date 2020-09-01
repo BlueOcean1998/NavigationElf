@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:apps="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/motor_route_result_setting_page"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/motor_rr_setting_page_bg"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/motor_rr_setting_top_empty_view"
+        layout="@layout/bnav_statusbar_empty_view_include"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/nsdk_cl_bg_d"/>
+
+    <com.baidu.navisdk.ui.widget.BNCommonTitleBar
+        android:id="@+id/motor_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <ScrollView
+        android:id="@+id/motor_rr_setting_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:scrollbarAlwaysDrawVerticalTrack="false"
+        android:scrollbarSize="@dimen/navi_dimens_0dp"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/motor_rr_setting_scroll_content_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/motor_layout_edit_plate_limit" />
+
+            <TextView
+                android:id="@+id/motor_rr_more_setting_tv"
+                style="@style/MotorSettingGroupTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/motor_setting_page_second_title_margin_left_right"
+                android:layout_marginLeft="@dimen/motor_setting_page_second_title_margin_left_right"
+                android:layout_marginTop="@dimen/motor_setting_item_margin_top_bottom"
+                android:text="@string/motor_more_setting" />
+
+            <LinearLayout
+                android:id="@+id/motor_rr_more_group_ly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/motor_setting_page_margin_left_right"
+                android:layout_marginTop="@dimen/motor_setting_margin_top_group_title"
+                android:layout_marginRight="@dimen/motor_setting_page_margin_left_right"
+                android:background="@drawable/nsdk_drawable_rg_setting_page_card_bg"
+                android:orientation="vertical">
+
+                <com.baidu.navisdk.module.vehiclemanager.widgets.BNSettingExplainSelectItem
+                    android:id="@+id/motor_rr_set_logo_item"
+                    style="@style/MotorSettingItemMarginStyle.RRHome"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    apps:select_item_tip="@string/motor_set_logo_tips"
+                    apps:select_item_title="@string/motor_navi_logo" />
+
+                <View
+                    android:id="@+id/motor_rr_menu_h_split_1"
+                    style="@style/MotorCommonListSplitLine" />
+
+                <com.baidu.navisdk.module.vehiclemanager.widgets.BNSettingExplainSelectItem
+                    android:id="@+id/motor_rr_navi_voice_item"
+                    style="@style/MotorSettingItemMarginStyle.RRHome"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    apps:select_item_tip="@string/motor_setting_voice_tips"
+                    apps:select_item_title="@string/motor_nav_voice_setting" />
+
+                <View
+                    android:id="@+id/motor_rr_menu_h_split_2"
+                    style="@style/MotorCommonListSplitLine" />
+
+                <com.baidu.navisdk.module.vehiclemanager.widgets.BNSettingExplainSelectItem
+                    android:id="@+id/motor_rr_navi_show_content_item"
+                    style="@style/MotorSettingItemMarginStyle.RRHome"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    apps:select_item_tip="@string/motor_setting_show_content_tips"
+                    apps:select_item_title="@string/motor_nav_show_content_setting" />
+
+                <View
+                    android:id="@+id/motor_rr_menu_h_split_3"
+                    style="@style/MotorCommonListSplitLine" />
+
+                <com.baidu.navisdk.module.vehiclemanager.widgets.BNSettingExplainSelectItem
+                    android:id="@+id/motor_rr_assist_function_item"
+                    style="@style/MotorSettingItemMarginStyle.RRHome"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    apps:select_item_tip="@string/motor_setting_assits_tips"
+                    apps:select_item_title="@string/motor_nav_assist_function_setting" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

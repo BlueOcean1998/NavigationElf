@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:topRightRadius="@dimen/navi_dimens_3dp" android:bottomRightRadius="@dimen/navi_dimens_3dp"/>
+    <solid android:color="@color/nsdk_rg_cp_voice_panel_item_pressed"/>
+</shape>

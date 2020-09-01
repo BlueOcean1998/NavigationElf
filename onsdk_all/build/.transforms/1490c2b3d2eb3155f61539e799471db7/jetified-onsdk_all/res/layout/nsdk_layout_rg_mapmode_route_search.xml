@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/route_search_inner_panel"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="@drawable/nsdk_layout_route_sort_background"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_52dp">
+
+        <TextView
+            android:id="@+id/tv_route_search_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:textSize="@dimen/navi_dimens_18dp"
+            android:textColor="@color/nsdk_cl_text_a"
+            android:drawableLeft="@drawable/nsdk_drawable_rg_route_search_title_icon"
+            android:drawablePadding="@dimen/navi_dimens_5dp"
+            android:text="@string/nsdk_string_nearby_search_more" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/iv_h_divider_1"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/nsdk_cl_bg_d_mm" />
+
+    <LinearLayout
+        android:id="@+id/ll_route_search_select_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/navi_dimens_5dp"
+        android:layout_marginRight="@dimen/navi_dimens_5dp"
+        android:layout_marginBottom="@dimen/navi_dimens_12dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/bnav_rs_gas_station"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:background="@drawable/nsdk_common_bt_pressed_bg"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/bnav_rs_gas_station_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/navi_dimens_31dp"
+                    android:src="@drawable/nsdk_drawable_rg_route_search_gas_station" />
+
+                <TextView
+                    android:id="@+id/bnav_rs_gas_station_tv"
+                    style="@style/Text_NaviMenuRouteSearchText"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/navi_dimens_12dp"
+                    android:layout_marginBottom="@dimen/navi_dimens_19dp"
+                    android:text="@string/nsdk_string_nearby_search_as_gas_station" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/iv_v_divider_1"
+                style="@style/NavRGTRouteSortItemDivider" />
+
+            <LinearLayout
+                android:id="@+id/bnav_rs_charging_station"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/nsdk_common_bt_pressed_bg"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/bnav_rs_charging_station_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/navi_dimens_31dp"
+                    android:src="@drawable/nsdk_drawable_rg_route_search_charging_station" />
+
+                <TextView
+                    android:id="@+id/bnav_rs_charging_station_tv"
+                    style="@style/Text_NaviMenuRouteSearchText"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/navi_dimens_12dp"
+                    android:layout_marginBottom="@dimen/navi_dimens_19dp"
+                    android:text="@string/nsdk_string_nearby_search_as_charging_station" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/iv_v_divider_2"
+                style="@style/NavRGTRouteSortItemDivider" />
+
+            <LinearLayout
+                android:id="@+id/bnav_rs_toilet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/nsdk_common_bt_pressed_bg"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/bnav_rs_toilet_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/navi_dimens_31dp"
+                    android:src="@drawable/nsdk_drawable_rg_route_search_toilet" />
+
+                <TextView
+                    android:id="@+id/bnav_rs_toilet_tv"
+                    style="@style/Text_NaviMenuRouteSearchText"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/navi_dimens_12dp"
+                    android:layout_marginBottom="@dimen/navi_dimens_19dp"
+                    android:text="@string/nsdk_string_nearby_search_as_toilet" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/iv_h_divider_2"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/nsdk_cl_bg_d_mm" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/bnav_rs_bank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/nsdk_common_bt_pressed_bg"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <ImageView
+                        android:id="@+id/bnav_rs_bank_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/navi_dimens_31dp"
+                        android:src="@drawable/nsdk_drawable_rg_route_search_bank" />
+
+                <TextView
+                        android:id="@+id/bnav_rs_bank_tv"
+                        style="@style/Text_NaviMenuRouteSearchText"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/navi_dimens_12dp"
+                        android:layout_marginBottom="@dimen/navi_dimens_19dp"
+                        android:text="@string/nsdk_string_nearby_search_as_bank" />
+            </LinearLayout>
+
+            <View
+                    android:id="@+id/iv_v_divider_4"
+                    style="@style/NavRGTRouteSortItemDivider" />
+
+            <LinearLayout
+                android:id="@+id/bnav_rs_hotel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/nsdk_common_bt_pressed_bg"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <ImageView
+                        android:id="@+id/bnav_rs_hotel_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navi_dimens_31dp"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/nsdk_drawable_rg_route_search_hotel" />
+
+                <TextView
+                        android:id="@+id/bnav_rs_hotel_tv"
+                        style="@style/Text_NaviMenuRouteSearchText"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/navi_dimens_12dp"
+                        android:layout_marginBottom="@dimen/navi_dimens_19dp"
+                        android:text="@string/nsdk_string_nearby_search_as_hotel" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/iv_v_divider_3"
+                style="@style/NavRGTRouteSortItemDivider" />
+
+            <LinearLayout
+                android:id="@+id/bnav_rs_spots"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/nsdk_common_bt_pressed_bg"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/bnav_rs_spots_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/navi_dimens_31dp"
+                    android:src="@drawable/nsdk_drawable_rg_route_search_spots" />
+
+                <TextView
+                    android:id="@+id/bnav_rs_spots_tv"
+                    style="@style/Text_NaviMenuRouteSearchText"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/navi_dimens_12dp"
+                    android:layout_marginBottom="@dimen/navi_dimens_19dp"
+                    android:text="@string/nsdk_string_nearby_search_as_spots" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

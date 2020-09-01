@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/navi_rg_rl_volume"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.baidu.navisdk.ui.widget.EmptyTopLayout
+            android:id="@+id/status_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/navi_rg_ll_volume"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/status_bar"
+            android:layout_marginLeft="@dimen/navi_dimens_58dp"
+            android:layout_marginRight="@dimen/navi_dimens_58dp"
+            android:layout_marginTop="@dimen/navi_dimens_163dp"
+            android:background="@drawable/bnav_common_cp_button_selector"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navi_dimens_54dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/bnav_rg_volume_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/navi_dimens_20dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/nsdk_drawable_rg_no_voice_icon" />
+
+                <ProgressBar
+                    android:id="@+id/navi_rg_pg_volume"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/navi_dimens_5dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                    android:layout_marginRight="@dimen/navi_dimens_20dp"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:progressDrawable="@drawable/nsdk_drawable_od_bg_progress_volume_adjust_selector"></ProgressBar>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/navi_rg_pg_default_volume_split_line"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                android:layout_marginRight="@dimen/navi_dimens_10dp"
+                android:background="@color/nsdk_cl_bg_b"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/navi_rg_default_volume_describe_tv"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navi_dimens_43dp"
+                android:gravity="center"
+                android:text="@string/nsdk_string_rg_tts_default_volume_dialog_description_tips"
+                android:textColor="#3385ff"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</FrameLayout>

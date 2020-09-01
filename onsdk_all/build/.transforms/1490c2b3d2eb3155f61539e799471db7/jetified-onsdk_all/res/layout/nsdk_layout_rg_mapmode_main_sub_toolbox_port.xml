@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.ui.widget.CustomLinearScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bnav_rg_toolbox_scroollview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_gravity="bottom"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/sub_fade_layer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_0dp" />
+
+    <LinearLayout
+        android:id="@+id/bnav_rg_main_menu_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bnav_rg_bg_tool_box"
+        android:orientation="vertical">
+        <!-- 竖屏BottomBar -->
+        <FrameLayout
+            android:id="@+id/bnav_rg_toolbox_bottom_bar_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nsdk_rg_bottom_panel_height"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal">
+        </FrameLayout>
+        <!-- 竖屏设置区 -->
+        <LinearLayout
+            android:id="@+id/sub_scroll_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/bnav_rg_toolbox_settings_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.baidu.navisdk.ui.widget.CustomLinearScrollView>

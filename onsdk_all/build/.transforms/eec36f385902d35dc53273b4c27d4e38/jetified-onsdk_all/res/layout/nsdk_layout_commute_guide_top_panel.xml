@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.ui.widget.BNUIBoundRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:layout_height="@dimen/navi_dimens_110dp"
+    android:background="@drawable/nsdk_drawable_commute_background">
+    <!-- 注意：代码中动态设置尺寸及margin数据-->
+    <RelativeLayout
+        android:id="@+id/commute_guide_normal_layout"
+        android:layout_width="match_parent"
+        android:paddingLeft="30px"
+        android:paddingRight="30px"
+        android:layout_height="@dimen/navi_dimens_46dp"
+        android:layout_marginBottom="@dimen/navi_dimens_0dp"
+        android:layout_marginTop="@dimen/navi_dimens_0dp">
+
+        <RelativeLayout
+            android:id="@+id/commute_guide_normal_layout_inner_container"
+            android:layout_width="match_parent"
+            tools:visibility="visible"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/turn_icon"
+                android:layout_width="@dimen/navi_dimens_21dp"
+                android:layout_height="@dimen/navi_dimens_21dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/navi_dimens_13dp"
+                android:visibility="gone"
+                tools:background="#00f0f0"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/turn_info_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/navi_dimens_5dp"
+                android:layout_toRightOf="@id/turn_icon"
+                android:textColor="#333333"
+                android:textSize="@dimen/navi_dimens_19dp"
+                tools:textStyle="bold"
+                android:gravity="center"
+                android:visibility="gone"
+                tools:text="27"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/turn_info_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textColor="#333333"
+                android:gravity="center"
+                android:layout_toRightOf="@id/turn_info_num"
+                android:textSize="@dimen/navi_dimens_19dp"
+                android:visibility="gone"
+                tools:text="米"
+                tools:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/commute_guide_ele_info_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/turn_info_unit"
+                android:gravity="right"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/navi_dimens_10dp"
+                android:paddingRight="@dimen/navi_dimens_10dp">
+
+
+                <ImageView
+                    android:id="@+id/electronic_eye_icon"
+                    android:layout_width="@dimen/navi_dimens_21dp"
+                    android:layout_height="@dimen/navi_dimens_21dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/nsdk_drawable_commute_ele_eye"
+                    android:visibility="gone"
+                    tools:background="#00ff00"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/electronic_eye_distance_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    tools:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_marginLeft="@dimen/navi_dimens_6dp"
+                    android:textColor="#333333"
+                    android:textSize="@dimen/navi_dimens_19dp"
+                    android:visibility="gone"
+                    tools:text="77"
+                    tools:visibility="visible" />
+                <TextView
+                    android:id="@+id/electronic_eye_distance_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textColor="#333333"
+                    android:gravity="center"
+                    android:textSize="@dimen/navi_dimens_19dp"
+                    android:visibility="gone"
+                    tools:text="公里"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/electronic_eye_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:textColor="#333333"
+                    android:textSize="@dimen/navi_dimens_19dp"
+                    android:visibility="gone"
+                    tools:text="区间终点测速终点"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/no_electronic_eye_default_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="@string/nsdk_commute_guide_persist_check_ele_eye"
+                    android:textColor="#999999"
+                    android:visibility="visible"
+                    tools:visibility="gone" />
+            </LinearLayout>
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/commute_guide_panel_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/nsdk_commute_guide_re_cal_ing"
+            android:visibility="gone"
+            tools:visibility="gone" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/commute_guide_top_panel_divider"
+        android:layout_width="wrap_content"
+        android:layout_height="1.5px"
+        android:layout_marginLeft="@dimen/navi_dimens_10dp"
+        android:layout_marginRight="@dimen/navi_dimens_10dp"
+        android:layout_alignLeft="@id/commute_guide_normal_layout"
+        android:layout_alignRight="@id/commute_guide_normal_layout"
+        android:layout_below="@id/commute_guide_normal_layout"
+        android:background="#e3e3e3"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <include
+        android:id="@+id/commute_guide_notify_layout"
+        layout="@layout/nsdk_layout_commute_guide_commute_notify"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/navi_dimens_13dp"
+        android:paddingRight="@dimen/navi_dimens_13dp"
+        android:layout_below="@id/commute_guide_top_panel_divider"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+
+</com.baidu.navisdk.ui.widget.BNUIBoundRelativeLayout>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ugc_report_main_Flevel_Layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fbfbfb"
+    android:orientation="vertical"
+    tools:visibility="visible"
+    android:visibility="gone">
+
+    <RelativeLayout
+        android:id="@+id/ugc_report_popup_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_54dp"
+        android:background="#fbfbfb"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/ugc_report_popup_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/nsdk_ugc_report_navi_mayi_ic_baocuo"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/ugc_report_panel_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/ugc_report_popup_icon"
+            android:text="@string/nsdk_string_rg_ugc_road_report_problem"
+            android:layout_marginLeft="@dimen/navi_dimens_4dp"
+            android:textColor="#333333"
+            android:textSize="16sp"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="-1px"
+        android:background="#d7d8d9"/>
+
+    <GridView
+        android:id="@+id/ugc_report_main_grideview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/navi_dimens_5dp"
+        android:layout_marginRight="@dimen/navi_dimens_5dp"
+        android:layout_marginTop="@dimen/navi_dimens_15dp"
+        android:layout_marginBottom="@dimen/navi_dimens_15dp"
+        android:gravity="center"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="4"
+        android:scrollbarFadeDuration="0"
+        android:scrollbars="none"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="@dimen/navi_dimens_15dp"/>
+</LinearLayout>

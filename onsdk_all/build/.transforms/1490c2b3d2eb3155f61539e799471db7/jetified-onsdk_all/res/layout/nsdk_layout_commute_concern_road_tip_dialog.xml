@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="@string/nsdk_commute_care_toad_setting_tip_main_title" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="@string/nsdk_commute_care_toad_setting_tip_sub_title" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4px"
+        android:background="@drawable/nsdk_drawable_commute_care_road_setting_dialog_horiz_divider" />
+
+    <LinearLayout
+        android:id="@+id/commute_guide_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/nsdk_drawable_commute_care_road_setting_dialog_vertical_divider"
+        android:showDividers="middle">
+
+        <TextView
+            android:id="@+id/commute_care_road_ignore_setting_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/nsdk_commute_care_road_ignore_setting" />
+
+        <TextView
+            android:id="@+id/commute_care_road_setting_now_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="#3385ff"
+            android:text="@string/nsdk_commute_care_road_setting_now" />
+    </LinearLayout>
+</LinearLayout>

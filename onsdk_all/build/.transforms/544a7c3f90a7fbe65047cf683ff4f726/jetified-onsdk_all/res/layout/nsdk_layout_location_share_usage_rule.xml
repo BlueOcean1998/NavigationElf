@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#ffffff"
+              android:orientation="vertical">
+    <include
+            android:id="@+id/bnav_top_empty_view"
+            layout="@layout/bnav_statusbar_empty_view_include"/>
+
+    <com.baidu.navisdk.ui.widget.BNCommonTitleBar
+            android:id="@+id/location_share_title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bnav_top_empty_view">
+    </com.baidu.navisdk.ui.widget.BNCommonTitleBar>
+    <ScrollView android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:paddingLeft="@dimen/navi_dimens_15dp"
+                      android:paddingRight="@dimen/navi_dimens_15dp"
+                      android:orientation="vertical">
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/loaction_share_usage_rule_0"
+                      android:layout_marginTop="@dimen/navi_dimens_5dp"
+                      android:text="百度提醒您:在使用“组队出行服务”(以下简称本产品)前，请您务必仔细阅读并透彻理解本服务条款。一旦您选择使用本产品，即表示您认可并接受本服务条款现有内容及其可能随时更新的内容:"
+                      android:textSize="@dimen/navi_dimens_12dp"
+                      android:lineSpacingExtra="@dimen/navi_dimens_3dp"/>
+            <LinearLayout android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="@dimen/navi_dimens_4dp"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="1.  "
+                          android:textSize="@dimen/navi_dimens_12dp"/>
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/loaction_share_usage_rule_1"
+                          android:text="驾驶员在驾驶途中请勿操作本产品，以防发生交通事故或其他危险情况。"
+                          android:textSize="@dimen/navi_dimens_12dp"
+                          android:lineSpacingExtra="@dimen/navi_dimens_3dp"/>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="@dimen/navi_dimens_4dp"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="2.  "
+                          android:textSize="@dimen/navi_dimens_12dp"/>
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/loaction_share_usage_rule_2"
+                          android:text="在使用本产品时，您将会在队伍组建期内与队内人员共享位置、登陆账号的用户名、头像等信息。"
+                          android:textSize="@dimen/navi_dimens_12dp"
+                          android:lineSpacingExtra="@dimen/navi_dimens_3dp"/>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="@dimen/navi_dimens_4dp"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="3.  "
+                          android:textSize="@dimen/navi_dimens_12dp"/>
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/loaction_share_usage_rule_3"
+                          android:text="使用本产品过程中会产生网络流量费用，该费用由您的电信服务提供商收取，具体收费标准请咨询您的电信服务提供商。"
+                          android:textSize="@dimen/navi_dimens_12dp"
+                          android:lineSpacingExtra="@dimen/navi_dimens_3dp"/>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="@dimen/navi_dimens_4dp"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="4.  "
+                          android:textSize="@dimen/navi_dimens_12dp"/>
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/loaction_share_usage_rule_4"
+                          android:text="因网络状况、通讯线路、第三方网站或服务商等任何原因而导致您不能正常使用本产品，百度不承担任何由此导致的法律责任。"
+                          android:textSize="@dimen/navi_dimens_12dp"
+                          android:lineSpacingExtra="@dimen/navi_dimens_3dp"/>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="@dimen/navi_dimens_4dp"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="5.  "
+                          android:textSize="@dimen/navi_dimens_12dp"/>
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/loaction_share_usage_rule_5"
+                          android:text="产品不会主动向外提供您的个人信息，除非这些信息是您自己主动提供的，或搜索引擎基于服务必要性而获得，并为向您提供更便捷、更好的服务而收集。您自己主动提供信息的情况可能包括您向潜在队友提供邀请码进而导致其获取您的实时位置信息等。"
+                          android:textSize="@dimen/navi_dimens_12dp"
+                          android:lineSpacingExtra="@dimen/navi_dimens_3dp"/>
+            </LinearLayout>
+
+
+            <LinearLayout android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="@dimen/navi_dimens_4dp"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="6.  "
+                          android:textSize="@dimen/navi_dimens_12dp"/>
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/loaction_share_usage_rule_6"
+                          android:text="当您使用本产品时，您会向百度发送您当前的位置信息，百度会尽最大可能保护该信息。除非经您亲自许可(如:您要共享这个位置给您的好友)，或根据相关法律、法规的强制性规定须披露外，百度不会将您的真实位置暴露或直接提供给任意第三方。百度使用这些信息进行必要的数据分析，并以此为基础，开发新功能或改进百度产品和服务的整体质量，以期为您提供更好的服务或定制服务。"
+                          android:textSize="@dimen/navi_dimens_12dp"
+                          android:lineSpacingExtra="@dimen/navi_dimens_3dp"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="@dimen/navi_dimens_4dp"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="7.  "
+                          android:textSize="@dimen/navi_dimens_12dp"/>
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/loaction_share_usage_rule_7"
+                          android:text="本产品是“百度地图导航”的一项服务，百度向您提供这一服务时同样会遵守《百度地图服务条款》。"
+                          android:textSize="@dimen/navi_dimens_12dp"
+                          android:lineSpacingExtra="@dimen/navi_dimens_3dp"/>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="@dimen/navi_dimens_4dp"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="8.  "
+                          android:textSize="@dimen/navi_dimens_12dp"/>
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/loaction_share_usage_rule_8"
+                          android:text="@string/nsdk_location_share_usage_rule"
+                          android:textSize="@dimen/navi_dimens_12dp"
+                          android:lineSpacingExtra="@dimen/navi_dimens_3dp"/>
+            </LinearLayout>
+
+
+            <LinearLayout android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="@dimen/navi_dimens_4dp"
+                          android:layout_marginBottom="@dimen/navi_dimens_8dp"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="9.  "
+                          android:textSize="@dimen/navi_dimens_12dp"/>
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/loaction_share_usage_rule_9"
+                          android:text="百度拥有对上述条款的最终解释权。"
+                          android:textSize="@dimen/navi_dimens_12dp"
+                          android:lineSpacingExtra="@dimen/navi_dimens_3dp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

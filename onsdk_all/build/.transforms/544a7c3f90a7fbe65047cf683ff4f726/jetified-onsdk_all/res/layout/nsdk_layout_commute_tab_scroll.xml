@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNLinearLayout
+        android:id="@+id/tab_scroll_container"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+            android:id="@+id/commute_tab_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+    </com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNLinearLayout>
+
+</com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout>

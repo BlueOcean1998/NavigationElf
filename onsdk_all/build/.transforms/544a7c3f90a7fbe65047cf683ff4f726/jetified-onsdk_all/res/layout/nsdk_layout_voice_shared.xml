@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.baidu.navisdk.ui.widget.EmptyTopLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></com.baidu.navisdk.ui.widget.EmptyTopLayout>
+
+    <com.baidu.navisdk.ui.widget.BNCommonTitleBar
+        android:id="@+id/voice_shared_view_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:middleContentText="@string/nsdk_string_voice_detail_title"/>
+
+    <RelativeLayout
+        android:id="@+id/voice_square_loading_success_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/voice_square_title_bar"
+        android:orientation="vertical">
+
+        <WebView
+            android:id="@+id/voice_webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true" />
+
+        <ProgressBar
+            android:id="@+id/voice_progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_2dp"
+            android:layout_alignParentTop="true"
+            android:background="#3f51b5"
+            android:max="100"
+            android:progress="0"
+            android:progressDrawable="@drawable/nsdk_voice_webview_progressbar"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</LinearLayout>

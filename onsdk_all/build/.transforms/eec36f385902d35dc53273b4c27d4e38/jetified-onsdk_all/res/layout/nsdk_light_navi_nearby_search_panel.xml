@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" xmlns:tools="http://schemas.android.com/tools"
+              android:layout_alignParentBottom="true"
+              android:background="@drawable/nsdk_layout_route_sort_light_background"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/nav_nearby_search_title_rl"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_52dp"
+        android:background="#FFFFFF">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/navi_dimens_1dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/nsdk_drawable_rg_route_search_title_icon"
+                android:scaleType="fitXY"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/navi_dimens_5dp"
+                android:text="沿途搜索"
+                android:textColor="@color/nsdk_cl_text_a"
+                android:textSize="@dimen/navi_dimens_18dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/nearby_nearby_select_search"
+            android:layout_width="@dimen/navi_dimens_70dp"
+            android:layout_height="@dimen/navi_dimens_24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/navi_dimens_15dp"
+            android:gravity="center"
+            android:text="地图选点"
+            android:textColor="#3385ff"
+            android:textSize="@dimen/navi_dimens_12dp"
+            android:background="@drawable/bnav_cr_nearby_search_select_search_background"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/nsdk_cl_bg_d_mm" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/nearby_search_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/navi_dimens_5dp"
+        android:layout_marginRight="@dimen/navi_dimens_5dp"
+        android:layout_marginBottom="@dimen/navi_dimens_12dp"
+        android:scrollbars="none"
+        android:visibility="visible"/>
+
+</LinearLayout>

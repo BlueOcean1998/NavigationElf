@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
+  -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/content_container"
+        android:layout_width="wrap_content"
+        android:layout_height="54dp"
+        tools:background="@drawable/nsdk_drawable_route_result_base_pop"
+        android:background="@drawable/nsdk_drawable_route_result_base_pop">
+
+        <RelativeLayout
+            android:id="@+id/left_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/poi_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:singleLine="true"
+                android:minEms="3"
+                android:maxEms="11"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="5dp"
+                android:ellipsize="end"
+                android:text="地铁旁边的五星级酒店边上的报刊亭"
+                android:textSize="15dp"
+                android:textColor="#333333"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/route_cost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/poi_name"
+                android:layout_alignParentLeft="true"
+                android:maxLines="1"
+                android:maxEms="13"
+                android:ellipsize="end"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="5dp"
+                android:text="距您2.6公里"
+                tools:visibility="visible"
+                android:textSize="12dp"
+                android:textColor="#666666"
+                android:visibility="visible"/>
+
+            <TextView
+                android:id="@+id/shop_open_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/route_cost"
+                android:layout_alignParentLeft="true"
+                android:maxLines="1"
+                android:maxEms="13"
+                android:ellipsize="end"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="5dp"
+                android:textSize="12dp"
+                android:textColor="#666666"
+                android:visibility="visible"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/right_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/left_content"
+            android:gravity="center"
+            tools:background="@drawable/nsdk_drawable_route_result_dest_pop_bg_right_blue"
+            android:background="@drawable/nsdk_drawable_route_result_dest_pop_bg_right_blue">
+
+            <ImageView
+                android:id="@+id/set_waypoint_img"
+                android:layout_width="14dp"
+                android:layout_height="18dp"
+                android:scaleType="fitCenter"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/nsdk_drawable_route_result_nearby_search_add_viapoint"/>
+
+            <TextView
+                android:id="@+id/set_waypoint_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="5dp"
+                android:layout_centerHorizontal="true"
+                android:paddingTop="1dp"
+                android:layout_below="@id/set_waypoint_img"
+                android:text="途经点"
+                android:textSize="9dp"
+                android:textColor="#ffffff"/>
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/pin_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_below="@id/content_container"
+        android:layout_centerHorizontal="true"
+        android:clickable="false"
+        android:visibility="visible"
+        android:background="#FFFFFF00"/>
+</RelativeLayout>

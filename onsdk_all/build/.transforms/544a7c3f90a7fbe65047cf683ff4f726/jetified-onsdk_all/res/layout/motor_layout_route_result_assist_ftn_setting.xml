@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:apps="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/motor_route_result_setting_page"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/motor_rr_setting_page_bg"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/motor_rr_setting_top_empty_view"
+        layout="@layout/bnav_statusbar_empty_view_include"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/nsdk_cl_bg_d" />
+
+    <com.baidu.navisdk.ui.widget.BNCommonTitleBar
+        android:id="@+id/motor_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        apps:middleContentText="@string/motor_nav_assist_function_setting" />
+
+
+    <ScrollView
+        android:id="@+id/motor_rr_setting_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:scrollbarAlwaysDrawVerticalTrack="false"
+        android:scrollbarSize="@dimen/navi_dimens_0dp"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbars="none">
+
+
+        <LinearLayout
+            android:id="@+id/motor_rr_assist_ftn_bluetooth_group_ly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/motor_setting_page_margin_left_right"
+            android:layout_marginTop="@dimen/motor_setting_margin_top_group_title"
+            android:layout_marginRight="@dimen/motor_setting_page_margin_left_right"
+            android:background="@drawable/nsdk_drawable_rg_setting_page_card_bg"
+            android:orientation="vertical">
+
+
+            <com.baidu.navisdk.module.vehiclemanager.widgets.BNSettingExplainSwitchItem
+                android:id="@+id/motor_calling_play_layout"
+                style="@style/MotorSettingItemMarginStyle.SwitchItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:switch_item_tip="@string/motor_calling_play_tips"
+                apps:switch_item_title="@string/motor_calling_play_title" />
+
+            <View
+                android:id="@+id/motor_menu_h_split_assist_ftn_1"
+                style="@style/MotorCommonListSplitLine" />
+
+            <com.baidu.navisdk.module.vehiclemanager.widgets.BNSettingExplainSwitchItem
+                android:id="@+id/motor_float_setting_layout"
+                style="@style/MotorSettingItemMarginStyle.SwitchItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:switch_item_tip="@string/motor_setting_float_tips"
+                apps:switch_item_title="@string/motor_setting_float_title" />
+
+
+            <View
+                android:id="@+id/motor_menu_h_split_assist_ftn_3"
+                style="@style/MotorCommonListSplitLine" />
+
+            <com.baidu.navisdk.module.vehiclemanager.widgets.BNSettingExplainSwitchItem
+                android:id="@+id/motor_scenic_layout"
+                style="@style/MotorSettingItemMarginStyle.SwitchItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:switch_item_tip="@string/motor_scenic_play_tips"
+                apps:switch_item_title="@string/motor_scenic_play_title" />
+
+            <View
+                android:id="@+id/motor_menu_h_split_assist_ftn_2"
+                style="@style/MotorCommonListSplitLine" />
+
+            <com.baidu.navisdk.module.vehiclemanager.widgets.BNSettingExplainSwitchItem
+                android:id="@+id/motor_power_saver_layout"
+                style="@style/MotorSettingItemMarginStyle.SwitchItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/motor_setting_item_margin_top_bottom"
+                apps:add_view_margin_left="@dimen/navi_dimens_10dp"
+                apps:add_view_rightOfTitle="@layout/motor_layout_power_saver_mark"
+                apps:switch_item_tip="@string/motor_power_saver_tips"
+                apps:switch_item_title="@string/motor_power_saver_title" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

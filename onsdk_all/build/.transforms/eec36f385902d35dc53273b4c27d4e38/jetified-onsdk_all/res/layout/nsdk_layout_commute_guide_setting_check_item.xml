@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/top_layout"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/navi_dimens_69dp"
+    android:background="@android:color/white"
+    android:paddingLeft="@dimen/navi_dimens_28dp"
+    android:paddingRight="@dimen/navi_dimens_20dp">
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#e3e3e3"
+        tools:visibility="visible"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/inner_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nsdk_commute_setting_sound_title"
+            android:gravity="center"
+            android:textColor="@color/nsdk_cl_text_a"
+            android:textSize="@dimen/navi_dimens_19dp"
+            tools:text="@string/nsdk_commute_setting_sound_title" />
+
+        <TextView
+            android:id="@+id/sub_title"
+            style="@style/NavCommonListItemTipsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/navi_dimens_13dp"
+            android:textColor="#333333"
+            android:paddingTop="@dimen/navi_dimens_5dp"
+            android:text="@string/setting_license_plates_limit_tips"
+            tools:text="@string/nsdk_commute_setting_sound_sub_title" />
+
+        <ImageView
+            android:id="@+id/cb"
+            style="@style/NavCommonListCheckBox"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@null"
+            tools:src="@drawable/nsdk_set_checkin_icon" />
+    </RelativeLayout>
+</RelativeLayout>
+

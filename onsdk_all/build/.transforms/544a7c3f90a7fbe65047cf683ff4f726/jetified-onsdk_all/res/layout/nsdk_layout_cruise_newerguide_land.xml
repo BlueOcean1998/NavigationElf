@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minWidth="@dimen/navi_dimens_280dp"
+    android:background="#f7f6f6"
+    android:orientation="vertical"
+    >
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/navi_dimens_15dp"
+    android:paddingRight="@dimen/navi_dimens_15dp"
+    >
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/navi_dimens_10dp"
+        android:layout_marginBottom="@dimen/navi_dimens_10dp"
+        android:gravity="center"
+        android:textColor="#333333"
+        android:textSize="@dimen/nsdk_cruise_guide_title_text_size"
+        android:textStyle="bold"
+        android:text="电子狗说明"
+     />
+
+    <LinearLayout 
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginBottom="@dimen/navi_dimens_10dp"
+	    android:orientation="horizontal"
+	    >
+	    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textColor="#3399ff"
+        android:textSize="@dimen/nsdk_cruise_guide_text_size"
+        android:text="1."/>
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#666666"
+        android:textSize="@dimen/nsdk_cruise_guide_text_size"
+        android:text="行车过程中自动检测电子眼"
+     />
+	</LinearLayout>
+    
+ <LinearLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/navi_dimens_10dp"
+        android:orientation="horizontal"
+        >
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textColor="#3399ff"
+        android:textSize="@dimen/nsdk_cruise_guide_text_size"
+        android:text="2."/>
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#666666"
+        android:textSize="@dimen/nsdk_cruise_guide_text_size"
+        android:text="检测到前方电子眼时自动播报"
+     />
+    </LinearLayout>
+    
+ <LinearLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/navi_dimens_10dp"
+        android:orientation="horizontal"
+        >
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textColor="#3399ff"
+        android:textSize="@dimen/nsdk_cruise_guide_text_size"
+        android:text="3."/>
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#666666"
+        android:textSize="@dimen/nsdk_cruise_guide_text_size"
+        android:text="下载离线数据即可0流量使用"
+     />
+    </LinearLayout>
+</LinearLayout>
+
+     <Button
+         android:id="@+id/cruise_newerguid_btn"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:paddingTop="@dimen/navi_dimens_10dp"
+         android:paddingBottom="@dimen/navi_dimens_10dp"
+         android:background="@drawable/nsdk_drawable_common_btn_white_selector"
+         android:clickable="true"
+         android:gravity="center"
+         android:minWidth="@dimen/navi_dimens_100dp"
+         android:text="@string/nsdk_string_dl_newerguide_dlg_btn"
+         android:textColor="#176de5"
+         android:textSize="@dimen/nsdk_cruise_guide_title_text_size" />
+
+</LinearLayout>

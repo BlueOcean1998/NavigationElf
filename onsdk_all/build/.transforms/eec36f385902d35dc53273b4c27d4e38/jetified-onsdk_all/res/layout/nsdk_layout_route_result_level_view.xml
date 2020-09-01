@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="6dp"
+    android:layout_marginBottom="13dp"
+    android:gravity="center_horizontal"
+    android:visibility="visible"
+    tools:parentTag="android.widget.RelativeLayout"
+    tools:layout_height="22dp">
+
+    <TextView
+        android:id="@+id/level_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textColor="#ffffff"
+        android:textSize="11dp"/>
+
+    <TextView
+        android:id="@+id/level_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textColor="#000000"
+        android:textSize="11dp"/>
+
+    <TextView
+        android:id="@+id/level_drawable"
+        android:layout_width="wrap_content"
+        android:layout_height="6dp"
+        android:gravity="center"
+        tools:layout_width="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="3dp"
+        android:background="@drawable/nsdk_rr_level_scale_icon"/>
+
+    <!--百度地图logo-->
+    <ImageView
+        android:id="@+id/baidu_map_logo"
+        android:layout_width="46dp"
+        android:layout_height="16dp"
+        android:src="@drawable/nsdk_baidu_map_logo"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="3dp"
+        tools:visibility="visible" />
+
+</merge>

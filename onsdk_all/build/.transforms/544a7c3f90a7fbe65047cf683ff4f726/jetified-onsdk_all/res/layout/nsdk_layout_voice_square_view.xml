@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <com.baidu.navisdk.ui.widget.EmptyTopLayout
+        android:id="@+id/nsdk_empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#fff"></com.baidu.navisdk.ui.widget.EmptyTopLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.baidu.navisdk.ui.widget.BNCommonTitleBar
+            android:id="@+id/voice_square_title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            app:middleContentText="@string/nsdk_string_voice_square_title" />
+
+        <RelativeLayout
+            android:id="@+id/voice_square_loading_success_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/voice_square_title_bar"
+            android:orientation="vertical">
+
+            <WebView
+                android:id="@+id/voice_square_webview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true" />
+
+            <ProgressBar
+                android:id="@+id/voice_square_progress_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navi_dimens_2dp"
+                android:layout_alignParentTop="true"
+                android:background="#3f51b5"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/nsdk_voice_webview_progressbar"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/voice_square_loading_fail_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/voice_square_title_bar"
+            android:background="@color/bnav_voice_square_loading_fail_background"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/voice_square_loading_fail_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/nsdk_voice_square_loading_fail" />
+
+            <TextView
+                android:id="@+id/voice_square_loading_fail_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/navi_dimens_20dp"
+                android:text="@string/nsdk_string_voice_square_loading_fail_text"
+                android:textColor="@color/bnav_voice_square_loading_fail_text"
+                android:textSize="@dimen/navi_dimens_20dp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/voice_square_clickable_false_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/voice_square_title_bar"
+            android:visibility="gone"></RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

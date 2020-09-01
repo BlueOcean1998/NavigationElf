@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.ui.navivoice.widget.BNVoiceCustomScrollView2
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tl="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/voice_user_fragment_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tl="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <include
+            android:id="@+id/voice_user_me_record_layout"
+            layout="@layout/nsdk_voice_user_mine_record_layout"
+            android:visibility="gone"
+            />
+
+    <LinearLayout
+            android:id="@+id/voice_user_tip_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nsdk_voice_user_me_record_height"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/navi_dimens_6dp"
+            android:gravity="center">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="嘿，这里是其他人录的语音"
+                android:textColor="#333333"
+                android:textSize="@dimen/navi_dimens_16dp"
+                android:drawableLeft="@drawable/nsdk_voice_user_text_icon"
+                android:drawablePadding="10dp"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hey,  here are voice packages recorded by others"
+                android:layout_marginTop="@dimen/navi_dimens_6dp"
+                android:textColor="#CECECE"
+        />
+    </LinearLayout>
+
+    <com.baidu.navisdk.ui.navivoice.widget.BNSlidingTabLayout
+            android:id="@+id/slidingTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nsdk_voice_user_sliding_layout"
+            tl:bn_tl_tab_width="@dimen/navi_dimens_76dp"
+            tl:bn_tl_textSelectColor="#333333"
+            tl:bn_tl_textUnselectColor="#999999"
+            tl:bn_tl_textsize="@dimen/navi_dimens_14dp"
+    ></com.baidu.navisdk.ui.navivoice.widget.BNSlidingTabLayout>
+
+    <com.baidu.navisdk.ui.navivoice.widget.BNVoiceUnScrollViewPager
+            android:id="@+id/voice_user_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    </com.baidu.navisdk.ui.navivoice.widget.BNVoiceUnScrollViewPager>
+
+</LinearLayout>
+
+</com.baidu.navisdk.ui.navivoice.widget.BNVoiceCustomScrollView2>

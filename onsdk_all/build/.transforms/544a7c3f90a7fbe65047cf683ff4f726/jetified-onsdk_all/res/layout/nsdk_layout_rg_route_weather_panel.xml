@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
+  -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:minWidth="@dimen/navi_dimens_115dp"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/nsdk_rg_weather_panel_height"
+    android:gravity="center_vertical"
+    android:background="@drawable/nsdk_drawable_rg_weather_panel_bg"
+    android:visibility="gone"
+    tools:visibility="visible"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/bnav_rg_weather_panel_traffic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/navi_dimens_16dp"
+        android:textColor="#d0021b"
+        android:maxLines="1"
+        android:maxEms="8"
+        android:ellipsize="end"
+        tools:text="路面严重积雪"/>
+
+    <LinearLayout
+        android:id="@+id/bnav_rg_weather_panel_bottom_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/bnav_rg_weather_panel_dis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/navi_dimens_16dp"
+            android:textColor="#333"
+            tools:text="15"/>
+
+        <TextView
+            android:id="@+id/bnav_rg_weather_panel_dis_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/navi_dimens_12dp"
+            android:textColor="#333"
+            tools:text="km"/>
+    </LinearLayout>
+</LinearLayout>

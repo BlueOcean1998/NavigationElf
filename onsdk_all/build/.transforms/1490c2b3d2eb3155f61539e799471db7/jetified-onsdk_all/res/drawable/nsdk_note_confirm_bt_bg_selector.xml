@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid
+                    android:color="@color/nsdk_rg_operable_notification_low_priority_confirm_background_pressed">
+            </solid>
+            <corners
+                    android:radius="50dp">
+            </corners>
+        </shape>
+
+    </item>
+    <item android:state_pressed="false">
+        <shape android:shape="rectangle">
+            <solid
+                    android:color="@color/nsdk_rg_operable_notification_low_priority_confirm_background">
+            </solid>
+            <corners
+                    android:radius="50dp">
+            </corners>
+        </shape>
+    </item>
+</selector>

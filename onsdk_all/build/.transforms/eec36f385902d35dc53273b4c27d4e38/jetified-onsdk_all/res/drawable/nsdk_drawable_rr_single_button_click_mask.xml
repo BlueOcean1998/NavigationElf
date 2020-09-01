@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/nsdk_route_result_toolbox_single_item_normal" android:state_pressed="false"/>
+    <item android:drawable="@drawable/nsdk_route_result_toolbox_single_item_pressed"/>
+</selector>

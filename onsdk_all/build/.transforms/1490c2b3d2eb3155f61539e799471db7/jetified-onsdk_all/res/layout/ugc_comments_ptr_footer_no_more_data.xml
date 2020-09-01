@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/no_more_comments_container"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <LinearLayout
+            android:id="@+id/no_more_comments"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_32dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@color/nsdk_ugc_background"
+            android:visibility="gone">
+        <View
+                android:layout_width="@dimen/navi_dimens_8dp"
+                android:layout_height="1px"
+                android:background="@color/nsdk_ugc_txt_normal"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/navi_dimens_3dp"
+            android:layout_marginRight="@dimen/navi_dimens_3dp"
+            android:textSize="12sp"
+            android:text="没有更多评论"
+            android:textColor="@color/nsdk_ugc_txt_normal"/>
+        <View
+                android:layout_width="@dimen/navi_dimens_8dp"
+                android:layout_height="1px"
+                android:background="@color/nsdk_ugc_txt_normal"/>
+    </LinearLayout>
+</LinearLayout>

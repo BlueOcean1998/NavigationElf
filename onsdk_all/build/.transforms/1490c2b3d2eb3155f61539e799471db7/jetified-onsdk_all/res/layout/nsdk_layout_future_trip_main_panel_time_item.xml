@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/nsdk_future_trip_main_panel_item_width"
+    android:layout_height="@dimen/nsdk_future_trip_main_panel_item_height"
+    tools:background="@android:color/holo_green_light">
+
+
+    <RelativeLayout
+        android:id="@+id/duration_tx_container"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/navi_dimens_33dp">
+
+        <TextView
+            android:id="@+id/time_tx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/navi_dimens_11dp"
+            android:gravity="center"
+            android:maxLines="1"
+            android:layout_centerInParent="true"
+            android:textColor="#999999"
+            tools:text="周一" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/eta_tag_tx"
+        android:layout_width="@dimen/nsdk_future_trip_main_panel_item_progress_width"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/duration_tx_container"
+        android:background="@drawable/nsdk_drawable_rr_eta_tangle_shape"
+        android:layout_marginBottom="@dimen/navi_dimens_0dp"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:id="@+id/duration_tx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/eta_tag_tx"
+        android:maxLines="2"
+        android:gravity="center"
+        android:visibility="visible"
+        tools:text="29分"
+        android:layout_centerHorizontal="true"
+        android:textColor="#666666"
+        android:textSize="@dimen/navi_dimens_12dp" />
+</RelativeLayout>
+

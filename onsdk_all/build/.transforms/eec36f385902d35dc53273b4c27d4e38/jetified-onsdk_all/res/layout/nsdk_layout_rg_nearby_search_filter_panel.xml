@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="bottom">
+
+    <!--&lt;!&ndash; 沿途搜索筛选框 &ndash;&gt;-->
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/bnav_rg_nearby_search_filter_button"-->
+        <!--android:layout_width="@dimen/nsdk_rg_control_panel_btn_width"-->
+        <!--android:layout_height="@dimen/nsdk_rg_control_panel_btn_height"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:background="@drawable/bnav_common_cp_button_selector"-->
+        <!--android:gravity="center"-->
+        <!--android:visibility="gone">-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="vertical">-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/bnav_rg_nearby_search_filter_iv"-->
+                <!--android:layout_width="@dimen/nsdk_rg_control_panel_icon_size"-->
+                <!--android:layout_height="@dimen/nsdk_rg_control_panel_icon_size"-->
+                <!--android:scaleType="centerInside"-->
+                <!--android:src="@drawable/nsdk_rg_ic_nearby_search_charging_btn_normal" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/bnav_rg_nearby_search_filter_tv"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="充电站"-->
+                <!--android:textColor="@color/cl_text_h"-->
+                <!--android:textSize="@dimen/navi_dimens_9dp" />-->
+        <!--</LinearLayout>-->
+    <!--</RelativeLayout>-->
+
+    <FrameLayout
+        android:id="@+id/bnav_rg_nearby_search_filter_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_alignParentLeft="true"/>
+
+</RelativeLayout>

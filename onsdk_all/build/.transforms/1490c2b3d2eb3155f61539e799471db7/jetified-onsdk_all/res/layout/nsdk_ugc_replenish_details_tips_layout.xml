@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:tools="http://schemas.android.com/tools"
+       tools:parentTag="android.widget.LinearLayout"
+       android:orientation="vertical"
+       android:background="@color/nsdk_rg_transparent"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/navi_dimens_12dp">
+
+        <ImageView
+            android:id="@+id/ugc_replenish_event_icon"
+            android:layout_width="@dimen/navi_dimens_15dp"
+            android:layout_height="@dimen/navi_dimens_15dp"
+            android:scaleType="fitCenter"
+            tools:src="@drawable/nsdk_ugc_interaction_small_shigu"/>
+
+        <TextView
+            android:id="@+id/ugc_replenish_event_hints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/navi_dimens_5dp"
+            android:textSize="12sp"
+            android:textColor="#333333"
+            android:gravity="center_vertical"
+            tools:text="最近上报事故事件，10分钟前"/>
+
+        <TextView
+            android:id="@+id/ugc_replenish_event_verify"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/navi_dimens_22dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:layout_marginLeft="@dimen/navi_dimens_10dp"
+            android:gravity="center"
+            android:background="@drawable/bnav_common_ugc_blue_corners_button_selector"
+            android:text="事件不存在"
+            android:textColor="@color/nsdk_ugc_report_blue_txt_btn_selector"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/ugc_replenish_event_add"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/navi_dimens_22dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:layout_marginLeft="@dimen/navi_dimens_10dp"
+            android:gravity="center"
+            android:background="@drawable/bnav_common_ugc_blue_corners_button_selector"
+            android:text="补充详情"
+            android:textColor="@color/nsdk_ugc_report_blue_txt_btn_selector"
+            android:textSize="12sp"/>
+    </LinearLayout>
+
+    <View android:layout_width="match_parent"
+          android:layout_height="2px"
+          android:layout_marginTop="@dimen/navi_dimens_12dp"
+          android:layerType="software"
+          android:background="@drawable/bnav_ugc_replenish_details_dash_line"/>
+
+</merge>

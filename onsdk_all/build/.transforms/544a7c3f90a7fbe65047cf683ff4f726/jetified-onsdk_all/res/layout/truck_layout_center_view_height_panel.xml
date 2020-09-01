@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/nsdk_truck_center_view_height_panel_width"
+    android:layout_height="@dimen/nsdk_truck_center_view_height_panel_height"
+    tools:parentTag="android.widget.LinearLayout"
+    android:background="@drawable/nsdk_drawable_rr_bottom_button_click_mask"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_height_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/nsdk_truck_tall_limit_icon"
+        android:gravity="center"
+        android:textSize="12dp"
+        android:textColor="#333333"
+        android:textStyle="bold"
+        tools:text="3.2"/>
+
+    <TextView
+        android:id="@+id/tv_height_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10dp"
+        android:layout_marginTop="1dp"
+        android:textColor="#333333"
+        android:text="总高度"/>
+
+
+</merge>

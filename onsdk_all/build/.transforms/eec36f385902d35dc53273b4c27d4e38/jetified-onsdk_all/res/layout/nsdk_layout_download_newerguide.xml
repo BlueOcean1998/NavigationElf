@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:scrollbars="none"
+    android:background="@drawable/nsdk_drawable_common_bg_card_normal"
+    -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minWidth="@dimen/navi_dimens_280dp"
+    android:background="#f7f6f6"
+    android:orientation="vertical"
+    >
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/navi_dimens_15dp"
+    android:paddingRight="@dimen/navi_dimens_15dp"
+    >
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/navi_dimens_5dp"
+        android:layout_marginBottom="@dimen/navi_dimens_10dp"
+        android:gravity="center"
+        android:textColor="#ff3f484b"
+        android:textSize="21sp"
+        android:textStyle="bold"
+        android:text="@string/nsdk_string_dl_newerguide_dlg_title"
+     />
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/navi_dimens_15dp"
+        android:layout_marginTop="@dimen/navi_dimens_5dp"
+        android:textColor="#ff3f484b"
+        android:textSize="18sp"
+        android:text="@string/nsdk_string_dl_newerguide_dlg_msg"
+     />
+
+    <ImageView android:id="@+id/image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/nsdk_drawable_download_newerguide"
+     />
+    </LinearLayout>
+    
+      <TextView
+          android:id="@+id/confirm_btn"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/navi_dimens_20dp"
+          android:paddingTop="@dimen/navi_dimens_10dp"
+          android:paddingBottom="@dimen/navi_dimens_10dp"
+          android:background="@drawable/nsdk_drawable_common_btn_white_selector"
+          android:clickable="true"
+          android:gravity="center"
+          android:minWidth="@dimen/navi_dimens_100dp"
+          android:text="@string/nsdk_string_dl_newerguide_dlg_btn"
+          android:textColor="#4384f0"
+          android:textSize="20sp" />
+
+</LinearLayout>
+<!-- /ScrollView-->

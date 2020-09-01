@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2015 Baidu, Inc. All Rights Reserved.
+  -->
+<com.baidu.navisdk.module.lightnav.widget.LightNaviContaienrRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/tabs_layout"
+    android:background="@android:color/transparent"
+    android:clickable="false">
+
+    <ImageView
+        android:id="@+id/tabs_shadow"
+        android:background="@drawable/nsdk_light_navi_tabs_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_6dp" />
+
+    <RelativeLayout
+        android:id="@+id/tab_container"
+        android:layout_below="@id/tabs_shadow"
+        android:paddingBottom="@dimen/nsdk_light_navi_bottom_bar_height"
+        android:layout_width="match_parent"
+        android:background="@android:color/white"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/tabs_ourter"
+            layout="@layout/nsdk_layout_light_navi_tabs" />
+
+        <include
+            android:id="@+id/single_tab_ourter"
+            layout="@layout/nsdk_layout_light_navi_single_tab" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/loading_view"
+        android:layout_width="match_parent"
+        android:visibility="visible"
+        android:layout_below="@id/tabs_shadow"
+        android:layout_height="wrap_content" />
+</com.baidu.navisdk.module.lightnav.widget.LightNaviContaienrRelativeLayout>

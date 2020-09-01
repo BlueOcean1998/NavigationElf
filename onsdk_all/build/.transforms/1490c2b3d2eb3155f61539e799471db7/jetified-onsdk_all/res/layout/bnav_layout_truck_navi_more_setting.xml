@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:apps="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/truck_route_result_setting_page"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/nsdk_cl_bg_c"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/truck_navi_setting_top_empty_view"
+        layout="@layout/bnav_statusbar_empty_view_include"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.baidu.navisdk.ui.widget.BNCommonTitleBar
+        android:id="@+id/truck_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:id="@+id/truck_navi_setting_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:scrollbarAlwaysDrawVerticalTrack="false"
+        android:scrollbarSize="@dimen/navi_dimens_0dp"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/truck_navi_setting_scroll_content_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.baidu.navisdk.module.trucknavi.view.widgets.TruckVehicleInfoView
+                android:id="@+id/truck_setting_edit_plate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:truck_vehicle_info_view_support_day_night="true"
+                android:layout_marginTop="@dimen/motor_setting_item_title_padding"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" />
+
+            <TextView
+                android:id="@+id/truck_navi_more_setting_tv"
+                style="@style/MotorSettingGroupTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/motor_setting_page_margin_left_right"
+                android:layout_marginLeft="@dimen/motor_setting_page_margin_left_right"
+                android:layout_marginTop="@dimen/motor_setting_item_margin_top_bottom"
+                android:text="@string/motor_nav_show_content_setting" />
+
+            <LinearLayout
+                android:id="@+id/truck_navi_show_content_group_ly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/motor_setting_page_margin_left_right"
+                android:layout_marginTop="@dimen/motor_setting_margin_top_group_title"
+                android:layout_marginRight="@dimen/motor_setting_page_margin_left_right"
+                android:background="@drawable/nsdk_drawable_rg_setting_page_card_bg"
+                android:orientation="vertical">
+
+                <include layout="@layout/truck_layout_settings_nav_show_content" />
+
+                <View
+                    android:id="@+id/truck_menu_h_split_nav_1"
+                    style="@style/NavCommonListSplitLine"
+                    android:layout_marginLeft="@dimen/motor_setting_item_margin_left_right"
+                    android:layout_marginRight="@dimen/motor_setting_item_margin_left_right" />
+
+                <!--<com.baidu.navisdk.module.vehiclemanager.widgets.BNSettingExplainSwitchItem-->
+                    <!--android:id="@+id/truck_nav_show_enlarged_item"-->
+                    <!--style="@style/MotorSettingItemMarginStyle"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--apps:switch_item_tip="未下载离线导航包，会使用数据流量"-->
+                    <!--apps:switch_item_title="显示路口放大图" />-->
+
+                <!--<View-->
+                    <!--android:id="@+id/truck_menu_h_split_nav_2"-->
+                    <!--style="@style/NavCommonListSplitLine"-->
+                    <!--android:layout_marginLeft="@dimen/motor_setting_item_margin_left_right"-->
+                    <!--android:layout_marginRight="@dimen/motor_setting_item_margin_left_right" />-->
+
+                <com.baidu.navisdk.module.vehiclemanager.widgets.BNSettingExplainSelectItem
+                    android:id="@+id/truck_nav_logo_item"
+                    style="@style/MotorSettingItemMarginStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    apps:select_item_tip="精彩个性化车标随心换"
+                    apps:select_item_title="导航车标" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/truck_navi_voice_setting_tv"
+                style="@style/MotorSettingGroupTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/motor_setting_page_margin_left_right"
+                android:layout_marginLeft="@dimen/motor_setting_page_margin_left_right"
+                android:layout_marginTop="@dimen/motor_setting_item_margin_top_bottom"
+                android:text="@string/motor_nav_voice_setting" />
+
+            <LinearLayout
+                android:id="@+id/truck_navi_voice_group_ly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/motor_setting_page_margin_left_right"
+                android:layout_marginTop="@dimen/motor_setting_margin_top_group_title"
+                android:layout_marginRight="@dimen/motor_setting_page_margin_left_right"
+                android:background="@drawable/nsdk_drawable_rg_setting_page_card_bg"
+                android:orientation="vertical">
+
+                <include layout="@layout/truck_layout_settings_nav_voice" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/truck_navi_assist_setting_tv"
+                style="@style/MotorSettingGroupTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/motor_setting_page_margin_left_right"
+                android:layout_marginLeft="@dimen/motor_setting_page_margin_left_right"
+                android:layout_marginTop="@dimen/motor_setting_item_margin_top_bottom"
+                android:text="@string/motor_nav_assist_function_setting" />
+
+            <LinearLayout
+                android:id="@+id/truck_navi_assist_group_ly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/motor_setting_page_margin_left_right"
+                android:layout_marginTop="@dimen/motor_setting_margin_top_group_title"
+                android:layout_marginRight="@dimen/motor_setting_page_margin_left_right"
+                android:background="@drawable/nsdk_drawable_rg_setting_page_card_bg"
+                android:orientation="vertical">
+
+
+                <com.baidu.navisdk.module.vehiclemanager.widgets.BNSettingExplainSwitchItem
+                    android:id="@+id/truck_calling_play_layout"
+                    style="@style/MotorSettingItemMarginStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    apps:switch_item_tip="@string/motor_calling_play_tips"
+                    apps:switch_item_title="@string/motor_calling_play_title" />
+
+                <!--<View
+                    android:id="@+id/truck_menu_h_split_nav_3"
+                    style="@style/NavCommonListSplitLine"
+                    android:layout_marginLeft="@dimen/motor_setting_item_margin_left_right"
+                    android:layout_marginRight="@dimen/motor_setting_item_margin_left_right" />
+
+                <BNSettingExplainSwitchItem
+                    android:id="@+id/truck_park_setting_layout"
+                    style="@style/MotorSettingItemMarginStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    apps:switch_item_tip="到达目的地后智能推荐停车场"
+                    apps:switch_item_title="目的地停车场推送" />-->
+
+                <View
+                    android:id="@+id/truck_menu_h_split_nav_4"
+                    style="@style/NavCommonListSplitLine"
+                    android:layout_marginLeft="@dimen/motor_setting_item_margin_left_right"
+                    android:layout_marginRight="@dimen/motor_setting_item_margin_left_right" />
+
+                <com.baidu.navisdk.module.vehiclemanager.widgets.BNSettingExplainSwitchItem
+                    android:id="@+id/truck_float_setting_layout"
+                    style="@style/MotorSettingItemMarginStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    apps:switch_item_tip="@string/motor_setting_float_tips"
+                    apps:switch_item_title="@string/motor_setting_float_title" />
+
+                <!--<View-->
+                    <!--android:id="@+id/truck_menu_h_split_nav_5"-->
+                    <!--style="@style/NavCommonListSplitLine"-->
+                    <!--android:layout_marginLeft="@dimen/motor_setting_item_margin_left_right"-->
+                    <!--android:layout_marginRight="@dimen/motor_setting_item_margin_left_right" />-->
+
+
+                <!--<BNSettingExplainSwitchItem-->
+                    <!--android:id="@+id/truck_scenic_layout"-->
+                    <!--style="@style/MotorSettingItemMarginStyle"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--apps:switch_item_tip="@string/motor_scenic_play_tips"-->
+                    <!--apps:switch_item_title="@string/motor_scenic_play_title" />-->
+
+                <View
+                    android:id="@+id/truck_menu_h_split_nav_6"
+                    style="@style/NavCommonListSplitLine"
+                    android:layout_marginLeft="@dimen/motor_setting_item_margin_left_right"
+                    android:layout_marginRight="@dimen/motor_setting_item_margin_left_right" />
+
+                <com.baidu.navisdk.module.vehiclemanager.widgets.BNSettingExplainSwitchItem
+                    android:id="@+id/truck_power_saver_layout"
+                    style="@style/MotorSettingItemMarginStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/motor_setting_item_margin_top_bottom"
+                    apps:add_view_margin_left="@dimen/navi_dimens_10dp"
+                    apps:add_view_rightOfTitle="@layout/motor_layout_power_saver_mark"
+                    apps:switch_item_tip="@string/motor_power_saver_tips"
+                    apps:switch_item_title="@string/motor_power_saver_title" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

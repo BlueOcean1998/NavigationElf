@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/nsdk_driving_tool_bg" >
+
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+                    
+        <SurfaceView 
+            android:id="@+id/surface_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+        <Button 
+            android:id="@+id/video_btn"
+            android:layout_width="@dimen/navi_dimens_100dp"
+            android:layout_height="@dimen/navi_dimens_50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:background="@color/nsdk_driving_tool_bg"
+            android:text="stop"
+            />
+        <TextView 
+            android:id="@+id/time_tx"
+            android:layout_width="@dimen/navi_dimens_50dp"
+            android:layout_height="@dimen/navi_dimens_50dp"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:layout_toLeftOf="@id/video_btn"
+            android:text="00:10"
+            android:textSize="14sp"
+            />
+    </RelativeLayout>
+</FrameLayout>

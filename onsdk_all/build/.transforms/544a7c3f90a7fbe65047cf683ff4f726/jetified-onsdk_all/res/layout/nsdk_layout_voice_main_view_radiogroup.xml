@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RadioGroup
+        android:id="@+id/nsdk_main_view_radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/nsdk_voice_radiogroup_bg"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/nsdk_main_view_radio_to_square"
+            android:layout_width="@dimen/navi_dimens_89dp"
+            android:layout_height="@dimen/navi_dimens_31dp"
+            android:background="@drawable/nsdk_voice_radiobutton_square_selector"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="语音广场"
+            android:textColor="@color/nsdk_voice_main_viewradiobutton_text_color" />
+
+        <RadioButton
+            android:id="@+id/nsdk_main_view_radio_to_download"
+            android:layout_width="@dimen/navi_dimens_89dp"
+            android:layout_height="@dimen/navi_dimens_31dp"
+            android:background="@drawable/nsdk_voice_radiobutton_download_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="已下载"
+            android:textColor="@color/nsdk_voice_main_viewradiobutton_text_color" />
+    </RadioGroup>
+</LinearLayout>

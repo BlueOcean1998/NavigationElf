@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--状态栏-->
+    <com.baidu.navisdk.ui.widget.EmptyTopLayout
+        android:id="@+id/top_empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white" />
+
+    <!--title-->
+    <RelativeLayout
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nsdk_truck_perimeter_title_height"
+        android:layout_below="@id/top_empty_view"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:paddingLeft="13dp"
+        android:paddingTop="6dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="6dp"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/back_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingTop="4dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="4dp"
+            android:src="@drawable/nsdk_ugc_icon_back" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/nsdk_route_result_perimeter"
+            android:textColor="#333"
+            android:textSize="@dimen/navi_dimens_20dp" />
+    </RelativeLayout>
+
+    <!--顶部可滑动标签-->
+    <HorizontalScrollView
+        android:id="@+id/truck_perimeter_horizontal_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nsdk_truck_perimeter_tabs_height"
+        android:layout_below="@id/top_bar"
+        android:background="@null"
+        android:scrollbars="none"
+        tools:background="@color/banv_poi_search_text">
+
+        <com.baidu.navisdk.module.trucknavi.view.support.module.perimeter.views.PerimeterPageTabs
+            android:id="@+id/truck_perimeter_tab_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </HorizontalScrollView>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:layout_below="@id/top_bar"
+        android:background="@drawable/nsdk_route_search_input_shadow_bg" />
+
+    <!--定位-->
+    <ImageView
+        android:id="@+id/location_btn"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="@dimen/nsdk_truck_perimeter_padding_bottom"
+        android:background="@drawable/nsdk_drawable_rr_nomal_button_mask"
+        android:clickable="true"
+        android:contentDescription="我的位置"
+        android:scaleType="center"
+        android:src="@drawable/nsdk_rr_location_icon" />
+
+    <!--比例尺-->
+    <com.baidu.navisdk.module.routeresultbase.view.support.module.level.BNRRLevelView
+        android:id="@+id/level_container"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignBottom="@id/location_btn"
+        android:layout_marginLeft="6dp"
+        android:layout_toRightOf="@id/location_btn"
+        android:gravity="center_horizontal"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/truck_ugc_report_btn"
+        android:layout_width="@dimen/nsdk_truck_perimeter_report_btn_width"
+        android:layout_height="@dimen/nsdk_truck_perimeter_report_btn_height"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/nsdk_truck_perimeter_padding_bottom"
+        android:background="@drawable/nsdk_truck_perimeter_report_btn_bg"
+        android:gravity="center"
+        android:text="我要上报"
+        android:textColor="#fff" />
+
+    <!--
+      - 用于修复小米9手机上点击上报按钮，底部区域显示有误
+      - 必须路径：在查看周边页熄屏在进入查看周边页点击我要上报
+    -->
+    <View
+        android:layout_width="1px"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true" />
+
+    <!--ugc 上报面板-->
+    <com.baidu.navisdk.module.ugc.report.ui.UgcReportPanelLayout
+        android:id="@+id/bnav_rg_ugc_menu_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <!-- UGC 详情view -->
+    <include layout="@layout/nsdk_layout_ugc_detail_panel" />
+
+
+</RelativeLayout>

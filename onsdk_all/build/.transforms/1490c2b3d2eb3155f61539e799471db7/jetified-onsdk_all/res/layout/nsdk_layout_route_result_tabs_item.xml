@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingTop="7dp"
+    android:paddingBottom="7dp">
+
+    <TextView
+        android:id="@+id/prefer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/nsdk_route_result_tab_desc_selector"
+        android:textSize="12dp"
+        tools:text="方案一 距离短" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:singleLine="true"
+        android:textColor="@color/nsdk_route_result_tab_time_selector"
+        android:textSize="19dp"
+        tools:text="时间" />
+
+
+    <LinearLayout
+        android:id="@+id/bottom_collection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:singleLine="true"
+            android:textColor="@color/nsdk_color_route_result_tab_traffic_info_selector"
+            android:textSize="12dp"
+            tools:text="distance" />
+
+        <TextView
+            android:id="@+id/traffic_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/time"
+            android:layout_marginLeft="6dp"
+            android:drawableLeft="@drawable/nsdk_ic_route_result_traffic_light_selector"
+            android:drawablePadding="1dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:singleLine="true"
+            android:textColor="@color/nsdk_color_route_result_tab_traffic_info_selector"
+            android:textSize="12dp"
+            android:visibility="visible"
+            tools:text="12"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/protection_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/time"
+            android:layout_marginLeft="6dp"
+            android:drawableLeft="@drawable/nsdk_ic_route_result_road_toll_selector"
+            android:drawablePadding="1dp"
+            android:gravity="center_horizontal"
+            android:includeFontPadding="false"
+            android:singleLine="true"
+            android:textColor="@color/nsdk_color_route_result_tab_traffic_info_selector"
+            android:textSize="12dp"
+            android:visibility="visible"
+            tools:text="100"
+            tools:visibility="visible" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/oil_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/time"
+        android:layout_marginTop="4dp"
+        android:drawableLeft="@drawable/nsdk_ic_route_result_road_oil_fare_selector"
+        android:drawablePadding="1dp"
+        android:gravity="center_horizontal"
+        android:includeFontPadding="false"
+        android:singleLine="true"
+        android:textColor="@color/nsdk_color_route_result_tab_traffic_info_selector"
+        android:textSize="12dp"
+        tools:text="油费100" />
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/bottom_oil_money_layout"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="4dp"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/oil_text"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:includeFontPadding="false"-->
+            <!--android:singleLine="true"-->
+            <!--android:textColor="@color/nsdk_color_route_result_tab_traffic_info_selector"-->
+            <!--android:textSize="12dp"-->
+            <!--android:text="油费"/>-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/oil_money"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/time"-->
+            <!--android:layout_marginLeft="6dp"-->
+            <!--android:layout_marginTop="4dp"-->
+            <!--android:drawableLeft="@drawable/nsdk_ic_route_result_road_oil_fare_selector"-->
+            <!--android:drawablePadding="1dp"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:includeFontPadding="false"-->
+            <!--android:singleLine="true"-->
+            <!--android:textColor="@color/nsdk_color_route_result_tab_traffic_info_selector"-->
+            <!--android:textSize="12dp"-->
+            <!--tools:text="油费 100" />-->
+    <!--</LinearLayout>-->
+
+</LinearLayout>

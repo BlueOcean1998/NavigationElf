@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          android:id="@+id/rr_right_bubble_txt"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:maxWidth="300dp"
+          android:maxLines="1"
+          android:ellipsize="end"
+          android:text="@string/nsdk_string_route_sort_prefer_bubble_tip"
+          android:paddingLeft="8dp"
+          android:paddingRight="14dp"
+          android:gravity="center_vertical"
+          android:textColor="@android:color/white"
+          android:textSize="13dp"
+          android:visibility="visible"
+          tools:visibility="visible"
+          android:background="@drawable/nsdk_rr_right_bubble_bg"/>

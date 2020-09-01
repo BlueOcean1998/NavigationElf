@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bnav_rg_toolbox_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nsdk_rg_control_panel_btn_height"
+    android:layout_gravity="bottom"
+    android:visibility="gone"
+    tools:visibility="visible">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nsdk_rg_control_panel_btn_height">
+        <!--退出-->
+        <LinearLayout
+            android:id="@+id/bnav_rg_toolbox_quit_ly"
+            android:layout_width="@dimen/nsdk_rg_control_panel_btn_width"
+            android:layout_height="@dimen/nsdk_rg_control_panel_btn_height"
+            android:layout_marginLeft="@dimen/nsdk_rg_control_panel_margin_left"
+            android:background="@drawable/nsdk_rg_selector_common_control_btn_bg"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/bnav_rg_toolbox_quit_iv"
+                android:layout_width="@dimen/navi_dimens_28dp"
+                android:layout_height="@dimen/navi_dimens_28dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/nsdk_drawable_toolbox_icon_quit_nav_land" />
+
+            <TextView
+                android:id="@+id/bnav_rg_toolbox_quit_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/nsdk_rg_control_button_text_margin_top"
+                android:text="退出"
+                android:textStyle="bold"
+                android:textColor="@color/nsdk_cl_text_h"
+                android:textSize="@dimen/nsdk_rg_control_panel_btn_text_size" />
+        </LinearLayout>
+
+        <!-- 更多 -->
+        <RelativeLayout
+            android:id="@+id/bnav_rg_toolbox_open_close_ry"
+            android:layout_width="@dimen/nsdk_rg_control_panel_btn_width"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/bnav_rg_toolbox_quit_ly"
+            android:background="@drawable/nsdk_rg_selector_common_control_btn_bg"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/bnav_rg_toolbox_open_close_iv"
+                android:layout_width="@dimen/navi_dimens_28dp"
+                android:layout_height="@dimen/navi_dimens_28dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/nsdk_drawable_toolbox_icon_open_toolbox_land" />
+
+            <TextView
+                android:layout_below="@id/bnav_rg_toolbox_open_close_iv"
+                android:id="@+id/bnav_rg_toolbox_open_close_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/nsdk_rg_control_button_text_margin_top"
+                android:text="更多"
+                android:layout_centerHorizontal="true"
+                android:textStyle="bold"
+                android:textColor="@color/nsdk_cl_text_h"
+                android:textSize="@dimen/nsdk_rg_control_panel_btn_text_size" />
+            <View
+                android:visibility="gone"
+                android:id="@+id/bnav_rg_toolbox_new_tag_v"
+                android:layout_width="@dimen/navi_dimens_4dp"
+                android:layout_height="@dimen/navi_dimens_4dp"
+                android:background="@drawable/nsdk_yellow_banner_red_flag"
+                android:layout_below="@id/bnav_rg_toolbox_open_close_iv"
+                android:layout_toRightOf="@id/bnav_rg_toolbox_open_close_tv"
+                />
+        </RelativeLayout>
+        <!--正在计算路线-->
+        <TextView
+            android:id="@+id/bnav_rg_toolbox_loading_no_progress"
+            android:layout_width="@dimen/navi_dimens_136dp"
+            android:layout_height="@dimen/navi_dimens_52dp"
+            android:layout_marginTop="@dimen/navi_dimens_4dp"
+            android:background="@drawable/bnav_rg_toolbox_bottombar_land_item_bg"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="正在计算路线"
+            android:textColor="@color/nsdk_cl_text_b_mm_title"
+            android:textSize="@dimen/navi_dimens_18dp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:visibility="gone"/>
+        <!--继续导航-->
+        <TextView
+            android:id="@+id/bnav_rg_toolbox_continue_nav"
+            android:layout_width="@dimen/navi_dimens_112dp"
+            android:layout_height="@dimen/navi_dimens_52dp"
+            android:layout_marginTop="@dimen/navi_dimens_4dp"
+            android:background="@drawable/bnav_rg_toolbox_bottombar_land_item_bg"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/nsdk_string_rg_sg_continue_nav"
+            android:textColor="@color/nsdk_cl_text_g"
+            android:textSize="@dimen/navi_dimens_18dp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+        <!-- 多路线按钮 -->
+        <LinearLayout
+            android:id="@+id/bnav_rg_toolbox_resume_switch_layout"
+            android:layout_width="@dimen/navi_dimens_200dp"
+            android:layout_height="@dimen/navi_dimens_52dp"
+            android:layout_marginTop="@dimen/navi_dimens_4dp"
+            android:background="@drawable/bnav_rg_toolbox_bottombar_land_item_bg"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/bnav_rg_toolbox_resume_tv"
+                android:layout_width="@dimen/navi_dimens_0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/navi_dimens_5dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/nsdk_string_rg_resume_navigator"
+                android:textColor="@color/nsdk_cl_text_a_mm"
+                android:textSize="@dimen/navi_dimens_18dp"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/bnav_rg_toolbox_resume_switch_line_divider"
+                android:layout_width="1px"
+                android:layout_height="@dimen/navi_dimens_35dp"
+                android:layout_marginLeft="@dimen/navi_dimens_5dp"
+                android:layout_marginRight="@dimen/navi_dimens_5dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/nsdk_cl_bg_d_mm" />
+
+            <TextView
+                android:id="@+id/bnav_rg_toolbox_switch_route_tv"
+                android:layout_width="@dimen/navi_dimens_0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/navi_dimens_5dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/nsdk_string_rg_switch_navigator"
+                android:textColor="@color/nsdk_cl_text_g"
+                android:textSize="@dimen/navi_dimens_18dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/bnav_rg_toolbox_clear_poi_tv"
+            android:layout_width="@dimen/navi_dimens_210dp"
+            android:layout_height="@dimen/navi_dimens_52dp"
+            android:layout_marginTop="@dimen/navi_dimens_4dp"
+            android:background="@drawable/bnav_rg_toolbox_bottombar_land_item_bg"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="清空结果并继续导航"
+            android:textColor="@color/nsdk_cl_text_g"
+            android:textSize="@dimen/navi_dimens_18dp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:visibility="gone"/>
+
+        <include
+            android:id="@+id/bnav_rg_toolbox_rp_watting"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nsdk_rg_control_panel_btn_height"
+            android:layout_centerHorizontal="true"
+            layout="@layout/nsdk_layout_rg_mapmode_toolbox_rp_watting" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

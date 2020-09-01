@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+
+    <!--语音面板容器-->
+    <RelativeLayout
+            android:id="@+id/bnav_rg_voice_panel_layout"
+            android:layout_width="@dimen/navi_dimens_355dp"
+            android:layout_height="@dimen/navi_dimens_156dp"
+            >
+
+    </RelativeLayout>
+
+</LinearLayout>

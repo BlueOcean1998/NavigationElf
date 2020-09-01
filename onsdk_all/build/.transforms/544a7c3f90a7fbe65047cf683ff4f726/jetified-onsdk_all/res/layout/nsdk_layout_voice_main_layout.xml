@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/nsdk_voice_common_background"
+    android:orientation="vertical">
+
+    <com.baidu.navisdk.ui.widget.EmptyTopLayout
+        android:id="@+id/nsdk_empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#fff"></com.baidu.navisdk.ui.widget.EmptyTopLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.baidu.navisdk.ui.widget.BNCommonTitleBar
+            android:id="@+id/voice_main_title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            app:middleContentText="@string/nsdk_string_voice_main_title" />
+
+        <ListView
+            android:id="@+id/voice_main_my_voice_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/voice_main_enter_square_btn"
+            android:layout_below="@id/voice_main_title_bar"
+            android:background="@color/nsdk_voice_common_background"
+            android:divider="@drawable/nsdk_divide_list"
+            android:dividerHeight="0.5dip"
+            android:focusable="false"
+            android:headerDividersEnabled="true"
+            android:scrollbars="none" />
+
+        <LinearLayout
+            android:id="@+id/voice_main_enter_square_btn"
+            android:layout_width="match_parent"
+            android:layout_height="80.5dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/nsdk_cl_bg_b" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navi_dimens_48dp"
+                android:layout_margin="@dimen/navi_dimens_16dp"
+                android:background="@drawable/bnav_common_cp_button_selector"
+                android:gravity="center"
+                android:text="@string/nsdk_string_voice_main_voice_square"
+                android:textColor="@color/nsdk_cl_link_a"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/nsdk_nav_notification_background"
+    android:elevation="@dimen/nsdk_rg_toolbox_margin_left">
+
+    <include
+        android:id="@+id/nsdk_title_layout"
+        layout="@layout/nsdk_layout_dest_reminder_title_info"/>
+
+    <View
+        android:id="@+id/nsdk_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/nsdk_des_reminder_card_margin_left"
+        android:layout_marginRight="@dimen/nsdk_des_reminder_card_margin_left"
+        android:background="@color/nsdk_des_reminder_divider_line"/>
+
+    <LinearLayout
+        android:id="@+id/nsdk_travel_detail_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/navi_dimens_12dp"
+        android:paddingBottom="@dimen/navi_dimens_12dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_already_time_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/nsdk_des_reminder_travel_detail_main_text"
+                android:textSize="@dimen/navi_dimens_21dp"
+                tools:text="00:00:00"/>
+
+            <TextView
+                android:id="@+id/tv_already_time_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/nsdk_des_reminder_travel_detail_sub_text"
+                android:textSize="@dimen/navi_dimens_14dp"
+                android:text="已用时"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_already_travel_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/nsdk_des_reminder_travel_detail_main_text"
+                android:textSize="@dimen/navi_dimens_21dp"
+                tools:text="000"/>
+
+            <TextView
+                android:id="@+id/tv_already_travel_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/nsdk_des_reminder_travel_detail_sub_text"
+                android:textSize="@dimen/navi_dimens_14dp"
+                android:text="已行驶(km)"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_average_speed_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/nsdk_des_reminder_travel_detail_main_text"
+                android:textSize="@dimen/navi_dimens_21dp"
+                android:textStyle="bold"
+                tools:text="000"/>
+
+            <TextView
+                android:id="@+id/tv_average_speed_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/nsdk_des_reminder_travel_detail_sub_text"
+                android:textSize="@dimen/navi_dimens_14dp"
+                android:text="均速(km/h)"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_31dp"
+        android:layout_marginLeft="@dimen/nsdk_des_reminder_card_margin_left"
+        android:layout_marginRight="@dimen/nsdk_des_reminder_card_margin_left"
+        android:layout_marginBottom="@dimen/navi_dimens_10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/nsdk_finish_navi_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_below="@id/nsdk_title_layout"
+            android:layout_marginRight="@dimen/navi_dimens_11dp"
+            android:background="@drawable/nsdk_note_cancel_bt_bg_selector"
+            android:text="结束导航"
+            android:textColor="@color/nsdk_note_cancel_bt_txt_selector"
+            android:textSize="@dimen/navi_dimens_16dp"
+            />
+
+        <Button
+            android:id="@+id/nsdk_continue_navi_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_below="@id/nsdk_title_layout"
+            android:background="@drawable/nsdk_note_confirm_bt_bg_selector"
+            android:textColor="@color/nsdk_note_confirm_bt_txt_selector"
+            android:text="继续当前导航"
+            android:textSize="@dimen/navi_dimens_16dp"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>

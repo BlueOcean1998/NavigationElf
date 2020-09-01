@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
+  -->
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/nsdk_drawable_blue_tips_bg"
+    android:text="@string/bnav_string_exterem_weather_first_tips"
+    android:gravity="center"
+    android:textColor="#fff"
+    android:visibility="gone"
+    tools:visibility="visible"
+    android:textSize="@dimen/navi_dimens_13dp" />
+

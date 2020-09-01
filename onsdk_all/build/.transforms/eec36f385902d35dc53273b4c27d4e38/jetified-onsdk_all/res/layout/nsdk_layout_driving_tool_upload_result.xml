@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/nsdk_drawable_common_loading_box" >
+    
+    <TextView 
+        android:id="@+id/upload_result_tx"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_100dp"
+        android:hint="没有文件上传失败."
+        android:layout_centerHorizontal="true"
+        android:textColor="#FF0000"
+        android:textSize="@dimen/nsdk_text_size_rg_cp_fullview"
+        />
+     <View  
+         android:id="@+id/line_sp"
+         android:layout_width="match_parent"
+         android:layout_height="@dimen/navi_dimens_2dp"
+         android:layout_below="@id/upload_result_tx"
+         android:background="@drawable/nsdk_drawable_common_line_horizontal" />
+       <TextView 
+	       android:id="@+id/upload_succes_result_tx"
+	       android:layout_width="match_parent"
+	       android:layout_height="@dimen/navi_dimens_100dp"
+	       android:layout_below="@id/line_sp"
+	       android:layout_centerHorizontal="true"
+	       android:hint="没有文件上传成功"
+	       android:textSize="@dimen/nsdk_text_size_rg_cp_fullview"
+       />
+    <Button 
+        android:id="@+id/continue_upload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/upload_succes_result_tx"
+        android:text="继续上传"
+        android:textSize="@dimen/nsdk_text_size_rg_cp_fullview"
+        />
+
+</RelativeLayout>
