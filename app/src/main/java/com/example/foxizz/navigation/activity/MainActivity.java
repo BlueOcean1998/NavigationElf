@@ -49,7 +49,6 @@ import com.baidu.mapapi.search.poi.PoiCitySearchOption;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.example.foxizz.navigation.R;
-import com.example.foxizz.navigation.demo.Tools;
 import com.example.foxizz.navigation.schemedata.SchemeAdapter;
 import com.example.foxizz.navigation.schemedata.SchemeItem;
 import com.example.foxizz.navigation.searchdata.SearchAdapter;
@@ -71,9 +70,10 @@ import static com.example.foxizz.navigation.demo.Tools.isNetworkConnected;
 import static com.example.foxizz.navigation.demo.Tools.rotateExpandIcon;
 
 /**
- * app_name: Navigation
+ * app_name: NavigationElf
  * author: Foxizz
- * time: 2020-04-30
+ * accomplish_date: 2020-04-30
+ * last_modify_date: 2020-09-01
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -444,8 +444,7 @@ public class MainActivity extends AppCompatActivity {
         if(ori == Configuration.ORIENTATION_LANDSCAPE) {//横屏时
             bodyLength = point.x;
             bodyShort = point.y;
-        }
-        else if(ori == Configuration.ORIENTATION_PORTRAIT) {//竖屏时
+        } else if(ori == Configuration.ORIENTATION_PORTRAIT) {//竖屏时
             bodyLength = point.y;
             bodyShort = point.x;
         }
@@ -466,12 +465,16 @@ public class MainActivity extends AppCompatActivity {
         startLayout.getLayoutParams().height = 0;
 
         searchAdapter = new SearchAdapter(this);//初始化搜索适配器
-        searchLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);//搜索布局行数为1
+        searchLayoutManager = new StaggeredGridLayoutManager(
+                1, StaggeredGridLayoutManager.VERTICAL
+        );//搜索布局行数为1
         searchResult.setAdapter(searchAdapter);//设置搜索适配器
         searchResult.setLayoutManager(searchLayoutManager);//设置搜索布局
 
         schemeAdapter = new SchemeAdapter(this);//初始化方案适配器
-        schemeLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);//方案布局行数为1
+        schemeLayoutManager = new StaggeredGridLayoutManager(
+                1, StaggeredGridLayoutManager.VERTICAL
+        );//方案布局行数为1
         schemeResult.setAdapter(schemeAdapter);//设置方案适配器
         schemeResult.setLayoutManager(schemeLayoutManager);//设置方案布局
 
@@ -642,12 +645,14 @@ public class MainActivity extends AppCompatActivity {
                 else return;
 
                 if(!isNetworkConnected(MainActivity.this)) {
-                    Toast.makeText(MainActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, getString(R.string.network_error),
+                            Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if(isAirplaneModeOn(MainActivity.this)) {
-                    Toast.makeText(MainActivity.this, getString(R.string.close_airplane_mode), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, getString(R.string.close_airplane_mode),
+                            Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -656,15 +661,21 @@ public class MainActivity extends AppCompatActivity {
                 if(searchContent.isEmpty()) return;
 
                 if(!expandFlag) {//展开搜索抽屉
-                    searchResult.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.adapter_alpha2));//动画2，出现;
-                    getValueAnimator(searchDrawer, 0, bodyLength / 2).start();//展开搜索抽屉
+                    searchResult.startAnimation(AnimationUtils.loadAnimation(
+                            MainActivity.this, R.anim.adapter_alpha2)
+                    );//动画2，出现;
+                    getValueAnimator(searchDrawer, 0, bodyLength / 2)
+                            .start();//展开搜索抽屉
                     rotateExpandIcon(searchExpand, 0, 180);//伸展按钮的旋转动画
                     expandFlag = true;//设置状态为展开
                 }
 
                 //收回键盘
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                if(imm != null) imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+                InputMethodManager imm = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                if(imm != null) imm.hideSoftInputFromWindow(
+                        getWindow().getDecorView().getWindowToken(), 0
+                );
 
                 String searchCity = null;//进行搜索的城市
 

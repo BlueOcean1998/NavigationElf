@@ -12,7 +12,6 @@ import com.baidu.mapapi.bikenavi.adapter.IBRoutePlanListener;
 import com.baidu.mapapi.bikenavi.model.BikeRoutePlanError;
 import com.baidu.mapapi.bikenavi.params.BikeNaviLaunchParam;
 import com.baidu.mapapi.bikenavi.params.BikeRouteNodeInfo;
-import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.baidu.mapapi.walknavi.WalkNavigateHelper;
 import com.baidu.mapapi.walknavi.adapter.IWEngineInitListener;
@@ -112,7 +111,9 @@ public class MyNavigateHelper {
                     }
 
                     //设置目的地
-                    double minDistance = DistanceUtil.getDistance(mainActivity.latLng, mainActivity.endLocation);
+                    double minDistance = DistanceUtil.getDistance(
+                            mainActivity.latLng, mainActivity.endLocation
+                    );
                     walkEndNode.setLocation(mainActivity.endLocation);
                     for(int i = 0; i < mainActivity.busStationLocations.size(); i++) {
                         double busStationDistance = DistanceUtil.getDistance(

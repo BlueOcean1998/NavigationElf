@@ -51,7 +51,8 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         //新建数据库，已存在则连接数据库
-        dbHelper = new DatabaseHelper(SettingsActivity.this, "Navigate.db", null, 1);
+        dbHelper = new DatabaseHelper(SettingsActivity.this,
+                "Navigate.db", null, 1);
 
         //标题栏
         Toolbar toolbar = findViewById(R.id.toolbar);

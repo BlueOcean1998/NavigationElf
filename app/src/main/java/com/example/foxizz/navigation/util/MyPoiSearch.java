@@ -210,11 +210,13 @@ public class MyPoiSearch {
                             //其它信息
                             String otherInfo = "";
 
-                            if(info.getTelephone() != null && !info.getTelephone().isEmpty()) {//获取联系方式
+                            //获取联系方式
+                            if(info.getTelephone() != null && !info.getTelephone().isEmpty()) {
                                 otherInfo += mainActivity.getString(R.string.phone_number) + info.getTelephone() + "\n";
                             }
 
-                            if(info.getShopHours() != null && !info.getShopHours().isEmpty()) {//获取营业时间
+                            //获取营业时间
+                            if(info.getShopHours() != null && !info.getShopHours().isEmpty()) {
                                 otherInfo += mainActivity.getString(R.string.shop_time) + info.getShopHours();
                                 try {
                                     boolean flag = false;

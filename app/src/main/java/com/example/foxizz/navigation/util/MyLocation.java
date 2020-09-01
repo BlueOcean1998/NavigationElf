@@ -83,7 +83,9 @@ public class MyLocation {
                         mainActivity.mBaiduMap.setMapStatus(msu);
                         MapStatus.Builder builder = new MapStatus.Builder();
                         builder.zoom(18.0f).target(mainActivity.latLng);
-                        mainActivity.mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+                        mainActivity.mBaiduMap.animateMapStatus(
+                                MapStatusUpdateFactory.newMapStatus(builder.build())
+                        );
                     }
 
                 } else {

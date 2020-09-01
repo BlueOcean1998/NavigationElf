@@ -154,7 +154,8 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
                  *
                  */
                 //获取所有站点信息
-                for(List<MassTransitRouteLine.TransitStep> transitSteps: schemeItem.getRouteLine().getNewSteps()) {
+                for(List<MassTransitRouteLine.TransitStep> transitSteps:
+                        schemeItem.getRouteLine().getNewSteps()) {
                     for (MassTransitRouteLine.TransitStep transitStep : transitSteps) {
                         //将获取到的站点信息临时保存
                         mainActivity.busStationLocations.add(transitStep.getEndLocation());
@@ -198,11 +199,13 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
                 SchemeItem schemeItem = mainActivity.schemeList.get(position);
 
                 if(schemeItem.getExpandFlag()) {
-                    expandLayout(mainActivity, holder.infoDrawer, holder.detailInfo,false, mainActivity.schemeResult, position);
+                    expandLayout(mainActivity, holder.infoDrawer, holder.detailInfo,false,
+                            mainActivity.schemeResult, position);
                     rotateExpandIcon(holder.schemeExpand, 180, 0);//旋转伸展按钮
                     schemeItem.setExpandFlag(false);//改变伸缩状态
                 } else {
-                    expandLayout(mainActivity, holder.infoDrawer, holder.detailInfo,true, mainActivity.schemeResult, position);
+                    expandLayout(mainActivity, holder.infoDrawer, holder.detailInfo,true,
+                            mainActivity.schemeResult, position);
                     rotateExpandIcon(holder.schemeExpand, 0, 180);//旋转伸展按钮
                     schemeItem.setExpandFlag(true);//改变伸缩状态
                 }

@@ -211,14 +211,15 @@ public class MyRoutePlanSearch {
                     StringBuilder allStationInfo = new StringBuilder();
                     StringBuilder simpleInfo = new StringBuilder();
                     //每条路线的所有段
-                    for(List<MassTransitRouteLine.TransitStep> transitSteps: massTransitRouteLine.getNewSteps()) {
+                    for(List<MassTransitRouteLine.TransitStep> transitSteps:
+                            massTransitRouteLine.getNewSteps()) {
                         //每一段的所有信息
                         for(MassTransitRouteLine.TransitStep transitStep: transitSteps) {
                             //只收集巴士和长途巴士的信息
-                            if(transitStep.getVehileType() //巴士
-                                    == MassTransitRouteLine.TransitStep.StepVehicleInfoType.ESTEP_BUS
-                            || transitStep.getVehileType() //长途巴士
-                                    == MassTransitRouteLine.TransitStep.StepVehicleInfoType.ESTEP_COACH ) {
+                            if(transitStep.getVehileType() == //巴士
+                                    MassTransitRouteLine.TransitStep.StepVehicleInfoType.ESTEP_BUS
+                            || transitStep.getVehileType() == //长途巴士
+                                    MassTransitRouteLine.TransitStep.StepVehicleInfoType.ESTEP_COACH ) {
                                 if(transitStep.getBusInfo() != null) {//巴士
                                     simpleInfo.append("—").append(transitStep.getBusInfo().getName());
                                     allStationInfo.append(transitStep.getBusInfo().getName());

@@ -32,18 +32,25 @@ public class Tools {
     //参数：上下文，需要伸缩的linearLayout，伸或缩
     public static void expandLayout(Context context, LinearLayout linearLayout, boolean flag) {
         if(flag) {
-            linearLayout.startAnimation(AnimationUtils.loadAnimation(context, R.anim.adapter_alpha2));//动画2，出现;
+            linearLayout.startAnimation(
+                    AnimationUtils.loadAnimation(context, R.anim.adapter_alpha2)
+            );//动画2，出现;
+
             //计算布局自适应时的高度
             int layoutHeight = 0;
+
             for(int i = 0; i < linearLayout.getChildCount(); i++) {
                 layoutHeight += linearLayout.getChildAt(i).getLayoutParams().height;
             }
 
             getValueAnimator(linearLayout, 0, layoutHeight).start();//展开动画
         } else {
-            linearLayout.startAnimation(AnimationUtils.loadAnimation(context, R.anim.adapter_alpha1));//动画1，消失;
+            linearLayout.startAnimation(
+                    AnimationUtils.loadAnimation(context, R.anim.adapter_alpha1)
+            );//动画1，消失;
 
             int layoutHeight = linearLayout.getHeight();//获取布局的高度
+
             getValueAnimator(linearLayout, layoutHeight, 0).start();//收起动画
         }
     }
@@ -67,25 +74,35 @@ public class Tools {
     //伸缩布局，同时固定点击的item
     //参数：上下文，需要伸缩的linearLayout，布局中的textView，伸或缩，需要回滚的recyclerView，回滚的位置
     public static void expandLayout(
-            Context context, LinearLayout linearLayout, TextView textView, boolean flag, final RecyclerView recyclerView, final int position) {
+            Context context, LinearLayout linearLayout, TextView textView, boolean flag,
+            final RecyclerView recyclerView, final int position) {
         if(flag) {
-            linearLayout.startAnimation(AnimationUtils.loadAnimation(context, R.anim.adapter_alpha2));//动画2，出现;
+            linearLayout.startAnimation(
+                    AnimationUtils.loadAnimation(context, R.anim.adapter_alpha2)
+            );//动画2，出现;
+
             //计算布局自适应时的高度
             int layoutHeight = textView.getLineHeight() * (textView.getLineCount() + 1);
 
-            getValueAnimator(linearLayout, 0, layoutHeight, recyclerView, position).start();//展开动画
+            getValueAnimator(linearLayout, 0, layoutHeight, recyclerView, position)
+                    .start();//展开动画
         } else {
-            linearLayout.startAnimation(AnimationUtils.loadAnimation(context, R.anim.adapter_alpha1));//动画1，消失;
+            linearLayout.startAnimation(
+                    AnimationUtils.loadAnimation(context, R.anim.adapter_alpha1)
+            );//动画1，消失;
 
             int layoutHeight = linearLayout.getHeight();//获取布局的高度
-            getValueAnimator(linearLayout, layoutHeight, 0, recyclerView, position).start();//收起动画
+
+            getValueAnimator(linearLayout, layoutHeight, 0, recyclerView, position)
+                    .start();//收起动画
         }
     }
 
     //获取改变控件尺寸，同时固定点击的item的动画
     //参数：需要改变高度的view，动画前的高度，动画后的高度，需要回滚的recyclerView，回滚的位置
     public static ValueAnimator getValueAnimator(
-            final View view, int startHeight, int endHeight, final RecyclerView recyclerView, final int position) {
+            final View view, int startHeight, int endHeight,
+            final RecyclerView recyclerView, final int position) {
         final ValueAnimator valueAnimator = ValueAnimator.ofInt(startHeight, endHeight);
         //valueAnimator.setDuration(300);//动画时间（默认就是300）
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -153,7 +170,8 @@ public class Tools {
     //获取飞行模式状态，有开启则返回true，没有则返回false
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public static boolean isAirplaneModeOn(Context context) {
-        return Settings.Global.getInt(context.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
+        return Settings.Global.getInt(context.getContentResolver(),
+                Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
     }
 
     //判断是否在时间内
