@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+        android:color="@color/nsdk_pressed_ripple_night">
+    <item android:id="@android:id/mask">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/nsdk_rg_guide_panel_radius"/>
+            <solid android:color="@color/nsdk_toolbox_main_menu_pressed_ripple_night_bg"/>
+        </shape>
+    </item>
+</ripple>

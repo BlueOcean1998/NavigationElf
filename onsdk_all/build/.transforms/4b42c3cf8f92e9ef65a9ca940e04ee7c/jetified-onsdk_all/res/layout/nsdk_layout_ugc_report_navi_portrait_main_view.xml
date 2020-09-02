@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ugc_map_navi_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:background="@drawable/nsdk_layout_route_sort_background"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/navi_dimens_53dp"
+        android:gravity="center"
+        android:drawablePadding="@dimen/navi_dimens_4dp"
+        android:drawableLeft="@drawable/nsdk_ugc_report_navi_ic_shangbao"
+        android:text="事件上报"
+        android:textColor="#333333"
+        android:textSize="@dimen/navi_dimens_16dp" />
+
+    <View
+        android:id="@+id/ugc_report_navi_mayi_gap"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nsdk_ugc_report_view_line_height"
+        android:background="#eaeaea" />
+
+    <com.baidu.navisdk.module.ugc.replenishdetails.UgcReplenishDetailsTipsLayout
+        android:id="@+id/ugc_replenish_details_hit_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ugc_map_navi_allitems_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/navi_dimens_18dp"
+        android:scrollbars="none" />
+</LinearLayout>

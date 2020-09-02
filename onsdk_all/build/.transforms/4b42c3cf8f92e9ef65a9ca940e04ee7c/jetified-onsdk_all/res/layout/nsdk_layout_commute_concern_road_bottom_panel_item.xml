@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/navi_dimens_230dp"
+    android:layout_height="@dimen/navi_dimens_130dp"
+    android:background="@drawable/nsdk_drawable_commute_care_road_item_bg_selector"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/navi_dimens_13dp"
+    android:paddingBottom="@dimen/navi_dimens_14dp">
+
+
+    <TextView
+        android:id="@+id/commute_road_index"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/navi_dimens_15dp"
+        android:textColor="@color/bnav_color_concern_road_item_text_selector"
+        android:maxLines="1"
+        tools:text="@tools:sample/cities" />
+
+    <TextView
+        android:id="@+id/commute_road_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/navi_dimens_5dp"
+        android:maxLines="1"
+        android:textColor="@color/bnav_color_concern_road_item_text_selector"
+        android:textSize="@dimen/navi_dimens_19dp"
+        tools:text="@tools:sample/full_names" />
+
+    <RelativeLayout
+        android:id="@+id/commute_collect_container"
+        android:layout_width="@dimen/navi_dimens_130dp"
+        android:layout_height="@dimen/navi_dimens_30dp"
+        android:layout_marginTop="@dimen/navi_dimens_19dp"
+        android:background="@drawable/nsdk_drawable_commute_care_road_bottom_panel_item_collect_bg_selector"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/commute_collect_iv"
+            android:layout_width="@dimen/navi_dimens_12dp"
+            android:layout_height="@dimen/navi_dimens_12dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/nsdk_drawable_collected" />
+
+        <TextView
+            android:id="@+id/commute_collect_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/navi_dimens_4dp"
+            android:layout_toRightOf="@id/commute_collect_iv"
+            android:gravity="center"
+            android:text="关注"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/navi_dimens_13dp" />
+
+    </RelativeLayout>
+</LinearLayout>

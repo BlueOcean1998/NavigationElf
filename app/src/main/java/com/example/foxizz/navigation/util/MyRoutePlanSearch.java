@@ -1,13 +1,10 @@
 package com.example.foxizz.navigation.util;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import androidx.annotation.RequiresApi;
 
 import com.baidu.mapapi.search.route.BikingRoutePlanOption;
 import com.baidu.mapapi.search.route.BikingRouteResult;
@@ -47,7 +44,6 @@ import static com.example.foxizz.navigation.demo.Tools.rotateExpandIcon;
 /**
  * 路线规划模块
  */
-@SuppressLint("Registered")
 public class MyRoutePlanSearch {
 
     private MainActivity mainActivity;
@@ -56,7 +52,6 @@ public class MyRoutePlanSearch {
     }
 
     //开始路线规划
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void startRoutePlanSearch() {
         if(!isNetworkConnected(mainActivity)) {//没有开网络
             Toast.makeText(mainActivity, mainActivity.getString(R.string.network_error), Toast.LENGTH_SHORT).show();
@@ -218,7 +213,7 @@ public class MyRoutePlanSearch {
                             //只收集巴士和长途巴士的信息
                             if(transitStep.getVehileType() == //巴士
                                     MassTransitRouteLine.TransitStep.StepVehicleInfoType.ESTEP_BUS
-                            || transitStep.getVehileType() == //长途巴士
+                                    || transitStep.getVehileType() == //长途巴士
                                     MassTransitRouteLine.TransitStep.StepVehicleInfoType.ESTEP_COACH ) {
                                 if(transitStep.getBusInfo() != null) {//巴士
                                     simpleInfo.append("—").append(transitStep.getBusInfo().getName());
@@ -294,7 +289,7 @@ public class MyRoutePlanSearch {
             @Override
             public void onGetIndoorRouteResult(IndoorRouteResult indoorRouteResult) {
                 if(indoorRouteResult.getRouteLines() == null
-                    || indoorRouteResult.getRouteLines().size() == 0)
+                        || indoorRouteResult.getRouteLines().size() == 0)
                     return;
 
                 //创建IndoorRouteOverlay实例

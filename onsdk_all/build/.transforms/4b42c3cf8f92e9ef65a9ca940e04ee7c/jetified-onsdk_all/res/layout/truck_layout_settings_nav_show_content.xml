@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:apps="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <TextView
+        android:id="@+id/truck_nav_guide_angle_tv"
+        style="@style/MotorSettingItemTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/motor_setting_item_margin_left_right"
+        android:layout_marginTop="@dimen/motor_setting_item_margin_top_bottom"
+        android:text="导航视角" />
+
+    <com.baidu.navisdk.module.vehiclemanager.widgets.BNSettingTextRadioGroup
+        android:id="@+id/truck_nav_guide_angle_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/motor_setting_item_margin_left_right"
+        android:layout_marginTop="@dimen/navi_dimens_7dp"
+        android:layout_marginRight="@dimen/motor_setting_item_margin_left_right"
+        android:orientation="horizontal"
+        apps:radio_content_array="@array/motor_setting_nav_guide_angle_item"
+        apps:radio_init_daynight="false"/>
+
+    <View
+        android:id="@+id/truck_menu_h_split_show_content_1"
+        style="@style/NavCommonListSplitLine"
+        android:layout_marginLeft="@dimen/motor_setting_item_margin_left_right"
+        android:layout_marginTop="@dimen/motor_setting_item_margin_top_bottom"
+        android:layout_marginRight="@dimen/motor_setting_item_margin_left_right" />
+
+    <TextView
+        android:id="@+id/truck_nav_day_night_mode_tv"
+        style="@style/MotorSettingItemTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/motor_setting_item_margin_left_right"
+        android:layout_marginTop="@dimen/motor_setting_item_margin_top_bottom"
+        android:text="日夜模式" />
+
+    <com.baidu.navisdk.module.vehiclemanager.widgets.BNSettingTextRadioGroup
+        android:id="@+id/truck_nav_day_night_mode_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/motor_setting_item_margin_left_right"
+        android:layout_marginTop="@dimen/navi_dimens_7dp"
+        android:layout_marginRight="@dimen/motor_setting_item_margin_left_right"
+        android:orientation="horizontal"
+        apps:radio_content_array="@array/motor_setting_day_night_mode_item"
+        apps:radio_init_daynight="false"/>
+
+    <View
+        android:id="@+id/truck_menu_h_split_show_content_2"
+        style="@style/NavCommonListSplitLine"
+        android:layout_marginLeft="@dimen/motor_setting_item_margin_left_right"
+        android:layout_marginTop="@dimen/motor_setting_item_margin_top_bottom"
+        android:layout_marginRight="@dimen/motor_setting_item_margin_left_right" />
+
+    <TextView
+        android:id="@+id/truck_nav_overview_tv"
+        style="@style/MotorSettingItemTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/motor_setting_item_margin_left_right"
+        android:layout_marginTop="@dimen/motor_setting_item_margin_top_bottom"
+        android:text="全程路况概览" />
+
+    <RadioGroup
+        android:id="@+id/truck_view_overview_selector_rg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/navi_dimens_10dp"
+        android:layout_marginTop="@dimen/navi_dimens_7dp"
+        android:layout_marginRight="@dimen/navi_dimens_10dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/truck_overview_thumbnail_rb"
+            style="@style/nav_more_setting_selector_rg"
+            android:layout_width="@dimen/navi_dimens_0dp"
+            android:layout_height="@dimen/navi_dimens_77dp"
+            android:layout_marginRight="@dimen/navi_dimens_17dp"
+            android:layout_weight="1"
+            android:background="@drawable/bnav_moresetting_map_switch_selector"
+            android:button="@null"
+            android:gravity="center" />
+
+        <RadioButton
+            android:id="@+id/truck_overview_road_condition_rb"
+            style="@style/nav_more_setting_selector_rg"
+            android:layout_width="@dimen/navi_dimens_0dp"
+            android:layout_height="@dimen/navi_dimens_77dp"
+            android:layout_weight="1"
+            android:background="@drawable/bnav_moresetting_road_condition_bar_selector"
+            android:button="@null"
+            android:gravity="center" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:id="@+id/truck_rg_fullview_mode_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/navi_dimens_10dp"
+        android:layout_marginTop="@dimen/motor_setting_item_margin_top_bottom"
+        android:layout_marginRight="@dimen/navi_dimens_10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/truck_map_switch_text"
+            style="@style/NavCommonListItemTitleText"
+            android:layout_width="@dimen/navi_dimens_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/navi_dimens_15dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="全览小窗" />
+
+        <TextView
+            android:id="@+id/truck_road_condition_bar_text"
+            style="@style/NavCommonListItemTitleText"
+            android:layout_width="@dimen/navi_dimens_0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="路况条" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/truck_menu_h_split_show_content_3"
+        style="@style/NavCommonListSplitLine"
+        android:layout_marginLeft="@dimen/motor_setting_item_margin_left_right"
+        android:layout_marginTop="@dimen/motor_setting_item_margin_top_bottom"
+        android:layout_marginRight="@dimen/motor_setting_item_margin_left_right" />
+
+    <com.baidu.navisdk.module.vehiclemanager.widgets.BNSettingExplainSwitchItem
+        android:id="@+id/truck_scale_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/MotorSettingItemMarginStyle"
+        apps:switch_item_tip="导航中地图自动放大或缩小"
+        apps:switch_item_title="导航比例尺智能缩放" />
+
+    <View
+        android:id="@+id/truck_menu_h_split_show_content_4"
+        style="@style/NavCommonListSplitLine"
+        android:layout_marginLeft="@dimen/motor_setting_item_margin_left_right"
+        android:layout_marginTop="@dimen/motor_setting_item_margin_top_bottom"
+        android:layout_marginRight="@dimen/motor_setting_item_margin_left_right"
+        android:background="@color/nsdk_cl_bg_b"/>
+
+    <com.baidu.navisdk.module.vehiclemanager.widgets.BNSettingExplainSwitchItem
+        android:id="@+id/truck_show_enlarged_item"
+        style="@style/MotorSettingItemMarginStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        apps:switch_item_tip="未下载离线导航包，使用数据流量"
+        apps:switch_item_title="显示路口放大图" />
+
+
+</merge>

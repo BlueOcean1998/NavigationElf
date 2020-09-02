@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="@dimen/navi_dimens_269dp"
+              android:layout_height="@dimen/navi_dimens_255dp"
+              android:background="@color/nsdk_cl_bg_d"
+              android:orientation="vertical"
+              android:gravity="center">
+
+    <TextView
+        android:id="@+id/nsdk_ugc_report_sounds_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nsdk_string_ugc_report_sounds_title"
+        android:textColor="@color/nsdk_cl_text_a"
+        android:textSize="22sp"/>
+
+    <TextView
+        android:id="@+id/nsdk_ugc_report_sounds_lefttime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/navi_dimens_11dp"
+        android:text="剩下"
+        android:textColor="@color/nsdk_ugc_txt_normal"
+        android:textSize="18sp"/>
+
+    <FrameLayout
+        android:id="@+id/nsdk_rg_asr_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/navi_dimens_22dp">
+
+        <ImageView
+            android:id="@+id/nsdk_ugc_report_sounds_record_process"
+            android:layout_width="@dimen/navi_dimens_74dp"
+            android:layout_height="@dimen/navi_dimens_74dp"
+            android:layout_gravity="center"
+            android:background="@drawable/nsdk_asr_process"
+            android:contentDescription="@null"/>
+
+        <ImageView
+            android:id="@+id/nsdk_ugc_report_sounds_start_iview"
+            android:layout_width="@dimen/navi_dimens_64dp"
+            android:layout_height="@dimen/navi_dimens_64dp"
+            android:layout_gravity="center"
+            android:contentDescription="@null"
+            android:src="@drawable/nsdk_drawable_asr_record"/>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/nsdk_ugc_report_sounds_startorstop_tview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nsdk_string_rg_asr_stop"
+        android:layout_marginTop="@dimen/navi_dimens_10dp"
+        android:textColor="@color/nsdk_cl_link_a"
+        android:textSize="16sp"/>
+
+</LinearLayout>

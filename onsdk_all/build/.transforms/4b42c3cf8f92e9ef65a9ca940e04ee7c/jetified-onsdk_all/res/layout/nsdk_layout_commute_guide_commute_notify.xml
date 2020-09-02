@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:layout_height="@dimen/navi_dimens_100dp"
+    android:paddingLeft="@dimen/navi_dimens_13dp"
+    android:paddingRight="@dimen/navi_dimens_13dp"
+    tools:parentTag="android.widget.RelativeLayout">
+    <!--场景类-->
+    <RelativeLayout
+        android:id="@+id/scene_notify_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        tools:visibility="gone">
+        <!--GPS弱-->
+        <TextView
+            android:id="@+id/scene_notify_gps_week_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/nsdk_commute_notify_gps_weak"
+            tools:visibility="visible" />
+    </RelativeLayout>
+
+
+    <!--诱导类，tips:代码中计算guide_notify_info的宽度-->
+    <RelativeLayout
+        android:id="@+id/guide_notify_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:paddingLeft="@dimen/navi_dimens_13dp"
+        android:paddingRight="@dimen/navi_dimens_10dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/guide_notify_icon"
+            android:layout_width="@dimen/navi_dimens_21dp"
+            android:layout_height="@dimen/navi_dimens_21dp"
+            android:layout_centerVertical="true"
+            tools:background="#00ff00" />
+
+        <TextView
+            android:id="@+id/guide_notify_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/navi_dimens_7dp"
+            android:layout_toRightOf="@id/guide_notify_icon"
+            android:ellipsize="end"
+            android:maxLines="2"
+            tools:textStyle="bold"
+            android:textColor="#ff4e4e"
+            android:textSize="@dimen/navi_dimens_17dp"
+            tools:text="前方西二旗大姐拥堵即将家具，更多" />
+        <TextView
+            android:id="@+id/commute_guide_notify_countdown_tv"
+            android:layout_centerInParent="true"
+            android:text=".........."
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+</RelativeLayout>

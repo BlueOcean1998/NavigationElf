@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:paddingLeft="@dimen/nsdk_ugc_details_card_padding_left_right"
+              android:paddingRight="@dimen/nsdk_ugc_details_card_padding_left_right"
+              android:background="@color/nsdk_cl_bg_d"
+              android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#eaeaea"/>
+
+    <LinearLayout
+        android:id="@+id/contents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/navi_dimens_15dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/img_thumbnail"
+            android:layout_width="@dimen/navi_dimens_69dp"
+            android:layout_height="@dimen/navi_dimens_69dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/navi_dimens_15dp"
+            android:background="@drawable/nsdk_rc_img_default_bg"
+            android:scaleType="fitXY"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.baidu.navisdk.module.ugc.eventdetails.view.BNRCEventDetailLabelsView
+                android:id="@+id/ugc_detail_comment_labels_view"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <View
+                android:id="@+id/label_divider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navi_dimens_12dp"
+                android:layout_below="@id/ugc_detail_comment_labels_view"/>
+
+            <TextView
+                android:id="@+id/tv_event_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="8"
+                android:text="拥堵"
+                android:textColor="#333"
+                android:textSize="13sp"
+                android:layout_below="@id/label_divider"
+                android:layout_alignWithParentIfMissing="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <com.baidu.navisdk.module.ugc.eventdetails.view.VideoWidget
+        android:id="@+id/ugc_event_comment_video_layout"
+        android:layout_width="@dimen/nsdk_ugc_event_details_video_width"
+        android:layout_height="@dimen/nsdk_ugc_event_details_video_height"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/navi_dimens_7dp"
+        tools:visibility="visible"/>
+
+    <include
+        layout="@layout/nsdk_layout_ugc_detail_comment_user_time"
+        android:layout_marginTop="@dimen/navi_dimens_7dp"
+        android:layout_height="@dimen/navi_dimens_24dp"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="@dimen/navi_dimens_10dp"/>
+</LinearLayout>

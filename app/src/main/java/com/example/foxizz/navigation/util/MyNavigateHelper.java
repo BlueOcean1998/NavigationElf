@@ -1,13 +1,10 @@
 package com.example.foxizz.navigation.util;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.widget.Toast;
-
-import androidx.annotation.RequiresApi;
 
 import com.baidu.mapapi.bikenavi.BikeNavigateHelper;
 import com.baidu.mapapi.bikenavi.adapter.IBEngineInitListener;
@@ -26,12 +23,13 @@ import com.baidu.navisdk.adapter.BNRoutePlanNode;
 import com.baidu.navisdk.adapter.BaiduNaviManagerFactory;
 import com.baidu.navisdk.adapter.IBNRoutePlanManager;
 import com.baidu.navisdk.adapter.IBaiduNaviManager;
+import com.baidu.navisdk.adapter.struct.BNTTsInitConfig;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.BNaviGuideActivity;
+import com.example.foxizz.navigation.activity.DNaviGuideActivity;
 import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.activity.WNaviGuideActivity;
-
-import org.jetbrains.annotations.NotNull;
+import com.example.foxizz.navigation.demo.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +48,90 @@ public class MyNavigateHelper {
     private WalkNaviLaunchParam walkParam;
     private BikeNaviLaunchParam bikeParam;
 
+    //初始化驾车导航引擎
+    public void initDriveNavigateHelper() {
+        BaiduNaviManagerFactory.getBaiduNaviManager().init(mainActivity,
+                Tools.getSDCardDir(),
+                Tools.getAppFolderName(mainActivity),
+            new IBaiduNaviManager.INaviInitListener() {
+                @Override
+                public void onAuthResult(int status, final String msg) {
+                    if(status != 0) {
+                        mainActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(mainActivity, "key校验失败, " + msg,
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void initStart() {
+
+                }
+
+                @Override
+                public void initSuccess() {
+                    //初始化语音合成模块
+                    initTTS();
+                }
+
+                @Override
+                public void initFailed(int errCode) {
+                    Toast.makeText(mainActivity, R.string.drive_navigate_init_fail + errCode,
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+    }
+
+    //初始化语音合成模块
+    private void initTTS() {
+        BaiduNaviManagerFactory.getTTSManager().initTTS(new BNTTsInitConfig.Builder()
+                .context(mainActivity)
+                .sdcardRootPath(Tools.getSDCardDir())
+                .appFolderName(Tools.getAppFolderName(mainActivity))
+                .appId(mainActivity.getString(R.string.app_id))
+                .appKey(mainActivity.getString(R.string.api_key))
+                .secretKey(mainActivity.getString(R.string.secret_key))
+                .build()
+        );
+    }
+
+    //初始化步行导航引擎
+    public void initWalkNavigateHelper() {
+        //步行引擎初始化
+        WalkNavigateHelper.getInstance().initNaviEngine(mainActivity, new IWEngineInitListener() {
+            @Override
+            public void engineInitSuccess() {
+                routeWalkPlanWithParam();
+            }
+
+            @Override
+            public void engineInitFail() {
+                Toast.makeText(mainActivity, mainActivity.getString(R.string.walk_navigate_init_fail), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    //初始化骑行导航引擎
+    public void initBikeNavigateHelper() {
+        //骑行引擎初始化
+        BikeNavigateHelper.getInstance().initNaviEngine(mainActivity, new IBEngineInitListener() {
+            @Override
+            public void engineInitSuccess() {
+                routeBikePlanWithParam();
+            }
+
+            @Override
+            public void engineInitFail() {
+                Toast.makeText(mainActivity, mainActivity.getString(R.string.bike_navigate_init_fail), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     //开始导航
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void startNavigate() {
         if(!isNetworkConnected(mainActivity)) {//没有开网络
             Toast.makeText(mainActivity, mainActivity.getString(R.string.network_error), Toast.LENGTH_SHORT).show();
@@ -81,54 +161,19 @@ public class MyNavigateHelper {
         switch(mainActivity.routePlanSelect) {
             //驾车导航
             case 0:
-                initDriveNavigateHelper();
+                routeDrivePlanWithParam();//开始驾车导航
                 break;
 
             //步行导航，公交导航
             case 1:case 3:
-                initWalkNavigateHelper();
+                initWalkNavigateHelper();//开始步行导航
                 break;
 
             //骑行导航
             case 2:
-                initBikeNavigateHelper();
+                initBikeNavigateHelper();//开始骑行导航
                 break;
         }
-    }
-
-    //初始化驾车导航引擎
-    private void initDriveNavigateHelper() {
-        BaiduNaviManagerFactory.getBaiduNaviManager().init(mainActivity, null, null,
-                new IBaiduNaviManager.INaviInitListener() {
-            @Override
-            public void onAuthResult(int status, final String msg) {
-                if(status != 0) {
-                    mainActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(mainActivity, "key校验失败, " + msg,
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void initStart() {
-
-            }
-
-            @Override
-            public void initSuccess() {
-                routeDrivePlanWithParam();
-            }
-
-            @Override
-            public void initFailed(int errCode) {
-                Toast.makeText(mainActivity, R.string.drive_navigate_init_fail + errCode,
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     //初始化驾车路线规划
@@ -149,117 +194,92 @@ public class MyNavigateHelper {
         list.add(endNode);
 
         BaiduNaviManagerFactory.getRoutePlanManager().routeplanToNavi(
-            list,
-            IBNRoutePlanManager.RoutePlanPreference.ROUTE_PLAN_PREFERENCE_DEFAULT,
-            null,
-            new Handler(Looper.getMainLooper()) {
-                @Override
-                public void handleMessage(@NotNull Message msg) {
-                    switch(msg.what) {
-                        case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_START:
+                list,
+                IBNRoutePlanManager.RoutePlanPreference.ROUTE_PLAN_PREFERENCE_DEFAULT,
+                null,
+                new Handler(Looper.getMainLooper()) {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        switch(msg.what) {
+                            case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_START:
 
-                            break;
-                        case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_SUCCESS:
+                                break;
+                            case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_SUCCESS:
 
-                            break;
-                        case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_FAILED:
-                            Toast.makeText(mainActivity.getApplicationContext(),
-                                    R.string.drive_route_plan_fail, Toast.LENGTH_SHORT).show();
-                            break;
-                        case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_TO_NAVI:
-                            Toast.makeText(mainActivity.getApplicationContext(),
-                                    "算路成功准备进入导航", Toast.LENGTH_SHORT).show();
-                            /*
-                            Intent intent = new Intent(mainActivity, DemoGuideActivity.class);
-                            mainActivity.startActivity(intent);
-                            */
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-        );
-    }
-
-    //初始化步行导航引擎
-    private void initWalkNavigateHelper() {
-        //获取步行导航控制类
-        //步行引擎初始化
-        WalkNavigateHelper.getInstance().initNaviEngine(mainActivity, new IWEngineInitListener() {
-            @Override
-            public void engineInitSuccess() {
-                //Toast.makeText(mainActivity, "步行引擎初始化成功", Toast.LENGTH_SHORT).show();
-
-                WalkRouteNodeInfo walkStartNode = new WalkRouteNodeInfo();
-                WalkRouteNodeInfo walkEndNode = new WalkRouteNodeInfo();
-
-                //设置起点
-                walkStartNode.setLocation(mainActivity.latLng);
-
-                //设置步行导航的终点
-                if(mainActivity.routePlanSelect == MainActivity.WALKING) {
-                    walkEndNode.setLocation(mainActivity.endLocation);
-
-                //计算公交导航的步行导航的终点
-                } else if(mainActivity.routePlanSelect == MainActivity.TRANSIT) {
-                    if(mainActivity.busStationLocations.get(0) == null) {
-                        Toast.makeText(mainActivity, mainActivity.getString(R.string.wait_for_route_plan_result), Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    //设置目的地
-                    double minDistance = DistanceUtil.getDistance(
-                            mainActivity.latLng, mainActivity.endLocation
-                    );
-                    walkEndNode.setLocation(mainActivity.endLocation);
-                    for(int i = 0; i < mainActivity.busStationLocations.size(); i++) {
-                        double busStationDistance = DistanceUtil.getDistance(
-                                mainActivity.latLng, mainActivity.busStationLocations.get(i)
-                        );
-                        if(busStationDistance < minDistance) {
-                            minDistance = busStationDistance;
-                            //最近的站点距离大于100m则将目的地设置为最近的站点
-                            if(minDistance > 100) {
-                                walkEndNode.setLocation(mainActivity.busStationLocations.get(i));
-                            //否则设置为最近的站点的下一个站点
-                            } else if(i != mainActivity.busStationLocations.size() - 1) {
-                                walkEndNode.setLocation(mainActivity.busStationLocations.get(i + 1));
-                            }
+                                break;
+                            case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_FAILED:
+                                Toast.makeText(mainActivity, R.string.drive_route_plan_fail,
+                                        Toast.LENGTH_SHORT).show();
+                                break;
+                            case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_TO_NAVI:
+                                mainActivity.startActivity(
+                                        new Intent(mainActivity, DNaviGuideActivity.class)
+                                );
+                                break;
+                            default:
+                                break;
                         }
                     }
                 }
-
-                walkParam = new WalkNaviLaunchParam()
-                        .startNodeInfo(walkStartNode)
-                        .endNodeInfo(walkEndNode);
-
-                walkParam.extraNaviMode(0);//普通步行导航
-
-                routeWalkPlanWithParam();//开始步行导航
-            }
-
-            @Override
-            public void engineInitFail() {
-                Toast.makeText(mainActivity, mainActivity.getString(R.string.walk_navigate_init_fail), Toast.LENGTH_SHORT).show();
-            }
-        });
+        );
     }
 
     //初始化步行路线规划
     private void routeWalkPlanWithParam() {
+        WalkRouteNodeInfo walkStartNode = new WalkRouteNodeInfo();
+        WalkRouteNodeInfo walkEndNode = new WalkRouteNodeInfo();
+
+        //设置起点
+        walkStartNode.setLocation(mainActivity.latLng);
+
+        //设置步行导航的终点
+        if(mainActivity.routePlanSelect == MainActivity.WALKING) {
+            walkEndNode.setLocation(mainActivity.endLocation);
+
+            //计算公交导航的步行导航的终点
+        } else if(mainActivity.routePlanSelect == MainActivity.TRANSIT) {
+            if(mainActivity.busStationLocations.get(0) == null) {
+                Toast.makeText(mainActivity, mainActivity.getString(R.string.wait_for_route_plan_result), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            //设置目的地
+            double minDistance = DistanceUtil.getDistance(
+                    mainActivity.latLng, mainActivity.endLocation
+            );
+            walkEndNode.setLocation(mainActivity.endLocation);
+            for(int i = 0; i < mainActivity.busStationLocations.size(); i++) {
+                double busStationDistance = DistanceUtil.getDistance(
+                        mainActivity.latLng, mainActivity.busStationLocations.get(i)
+                );
+                if(busStationDistance < minDistance) {
+                    minDistance = busStationDistance;
+                    //最近的站点距离大于100m则将目的地设置为最近的站点
+                    if(minDistance > 100) {
+                        walkEndNode.setLocation(mainActivity.busStationLocations.get(i));
+                        //否则设置为最近的站点的下一个站点
+                    } else if(i != mainActivity.busStationLocations.size() - 1) {
+                        walkEndNode.setLocation(mainActivity.busStationLocations.get(i + 1));
+                    }
+                }
+            }
+        }
+
+        walkParam = new WalkNaviLaunchParam()
+                .startNodeInfo(walkStartNode)
+                .endNodeInfo(walkEndNode);
+
+        walkParam.extraNaviMode(0);//普通步行导航
+
         WalkNavigateHelper.getInstance().routePlanWithRouteNode(walkParam, new IWRoutePlanListener() {
             @Override
             public void onRoutePlanStart() {
-                //Toast.makeText(mainActivity, "开始步行路线规划", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
             public void onRoutePlanSuccess() {
-                //Toast.makeText(mainActivity, "步行路线规划成功", Toast.LENGTH_SHORT).show();
-
-                Intent intent = new Intent(mainActivity, WNaviGuideActivity.class);
-                mainActivity.startActivity(intent);
+                mainActivity.startActivity(new Intent(mainActivity, WNaviGuideActivity.class));
             }
 
             @Override
@@ -269,49 +289,27 @@ public class MyNavigateHelper {
         });
     }
 
-    //初始化骑行导航引擎
-    private void initBikeNavigateHelper() {
-        //获取骑行导航控制类
-        //骑行引擎初始化
-        BikeNavigateHelper.getInstance().initNaviEngine(mainActivity, new IBEngineInitListener() {
-            @Override
-            public void engineInitSuccess() {
-                //Toast.makeText(mainActivity, "骑行引擎初始化成功", Toast.LENGTH_SHORT).show();
-
-                //获取定位点和目标点坐标
-                BikeRouteNodeInfo bikeStartNode = new BikeRouteNodeInfo();
-                bikeStartNode.setLocation(mainActivity.latLng);
-                BikeRouteNodeInfo bikeEndNode = new BikeRouteNodeInfo();
-                bikeEndNode.setLocation(mainActivity.searchList.get(0).getLatLng());
-
-                bikeParam = new BikeNaviLaunchParam()
-                        .startNodeInfo(bikeStartNode)
-                        .endNodeInfo(bikeEndNode);
-
-                routeBikePlanWithParam();//开始骑行导航
-            }
-
-            @Override
-            public void engineInitFail() {
-                Toast.makeText(mainActivity, mainActivity.getString(R.string.bike_navigate_init_fail), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     //初始化骑行路线规划
     private void routeBikePlanWithParam() {
+        //获取定位点和目标点坐标
+        BikeRouteNodeInfo bikeStartNode = new BikeRouteNodeInfo();
+        bikeStartNode.setLocation(mainActivity.latLng);
+        BikeRouteNodeInfo bikeEndNode = new BikeRouteNodeInfo();
+        bikeEndNode.setLocation(mainActivity.searchList.get(0).getLatLng());
+
+        bikeParam = new BikeNaviLaunchParam()
+                .startNodeInfo(bikeStartNode)
+                .endNodeInfo(bikeEndNode);
+
         BikeNavigateHelper.getInstance().routePlanWithRouteNode(bikeParam, new IBRoutePlanListener() {
             @Override
             public void onRoutePlanStart() {
-                //Toast.makeText(mainActivity, "开始骑行路线规划", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
             public void onRoutePlanSuccess() {
-                //Toast.makeText(mainActivity, "骑行路线规划成功", Toast.LENGTH_SHORT).show();
-
-                Intent intent = new Intent(mainActivity, BNaviGuideActivity.class);
-                mainActivity.startActivity(intent);
+                mainActivity.startActivity(new Intent(mainActivity, BNaviGuideActivity.class));
             }
 
             @Override

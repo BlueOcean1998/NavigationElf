@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
+  -->
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/bnav_rg_consecutive_lane_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/nsdk_rg_guide_panel_shadow_left"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:id="@+id/bnav_rg_lane_info_rr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@color/nsdk_rg_transparent"
+            android:visibility="gone"></RelativeLayout>
+    </RelativeLayout>
+
+    <!-- 右上角容器 -->
+    <RelativeLayout
+        android:id="@+id/bnav_top_right_panel_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:visibility="visible"
+        >
+
+        <!-- 天气看板-->
+        <ViewStub
+            android:id="@+id/bnav_rg_weather_panel_stub"
+            android:layout="@layout/nsdk_layout_rg_route_weather_panel"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/nsdk_rg_weather_panel_height"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="-6px"
+            android:layout_marginBottom="@dimen/navi_dimens_4dp"
+            android:minWidth="@dimen/nsdk_rg_hw_service_area_panel_min_width"
+            android:inflatedId="@+id/bnav_rg_weather_panel"/>
+
+        <!-- 新高速模式服务区信息 -->
+        <RelativeLayout
+            android:id="@+id/bnav_highway_service_area_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bnav_rg_weather_panel"
+            android:layout_alignParentRight="true"
+            android:visibility="gone"
+            >
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <!--辅助面板左上角view容器-->
+    <RelativeLayout
+        android:id="@+id/bnav_assist_panel_top_left_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <!--小度语音按钮，跟随操作态周期,动态添加进来，横竖屏采用同一个对象-->
+        <RelativeLayout
+            android:id="@+id/xd_voice_always_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </RelativeLayout>
+
+        <!--attention:动态调整topMargin-->
+        <RelativeLayout
+            android:id="@+id/travel_share_btn_container"
+            android:layout_width="@dimen/navi_dimens_62dp"
+            android:layout_height="@dimen/navi_dimens_62dp"
+            android:layout_marginTop="@dimen/navi_dimens_0dp"
+            android:layout_toRightOf="@id/xd_voice_always_container"
+            android:background="@drawable/nsdk_rg_selector_operate_state_travel_share_bg"
+            android:visibility="gone"
+            android:gravity="center"
+            tools:visibility="visible">
+            <ImageView
+                android:id="@+id/travel_share_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/nsdk_drawable_operate_state_travel_share_btn"
+                android:scaleType="centerInside"/>
+            <TextView
+                android:id="@+id/travel_share_tv"
+                android:layout_below="@id/travel_share_btn"
+                android:text="报行程"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/nsdk_cl_text_h"
+                android:layout_centerHorizontal="true"
+                android:textSize="@dimen/navi_dimens_10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bnav_rg_car_speed_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/xd_voice_always_container">
+            <!-- 车速码表 -->
+            <include
+                layout="@layout/nsdk_layout_rg_cur_car_speed_include"
+                android:layout_width="@dimen/nsdk_rg_cur_car_speed_anim_panel_size"
+                android:layout_height="@dimen/nsdk_rg_cur_car_speed_anim_panel_size" />
+            <!--区间测速-->
+            <LinearLayout
+                android:id="@+id/bnav_rg_interval_speed_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"></LinearLayout>
+        </RelativeLayout>
+
+        <!--货车避让面板-->
+        <LinearLayout
+            android:id="@+id/bnav_rg_truck_avoidance_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bnav_rg_car_speed_layout"
+            android:orientation="vertical"
+            android:visibility="gone"></LinearLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/xd_voice_btn_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/navi_dimens_40dp"
+        android:gravity="center"
+        android:layout_marginLeft="@dimen/nsdk_rg_voice_always_view_width"
+        android:layout_marginTop="@dimen/nsdk_rg_voice_always_view_padding_top"
+        android:textColor="@color/nsdk_rg_voice_always_tips_text_color"
+        android:background="@drawable/nsdk_xd_btn_tips_bubble"
+        android:text="   点我,说你想用的功能    "
+        android:textSize="@dimen/navi_dimens_13dp"
+        tools:visibility="visible"
+        android:visibility="gone"/>
+
+    <!-- 目的地停车场、全览小窗、路况条 -->
+    <RelativeLayout
+        android:id="@+id/bnav_rg_intervene_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <FrameLayout
+            android:id="@+id/bnav_rg_cp_assist_layout"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/bnav_rg_cp_map_switch"
+            android:layout_width="@dimen/navi_dimens_96dp"
+            android:layout_height="@dimen/navi_dimens_96dp"
+            android:layout_marginBottom="@dimen/navi_dimens_74dp"
+            android:layout_marginRight="@dimen/nsdk_rg_cp_icon_edge_margin"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/bnav_rg_cp_roadconditionbar_ly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="right"
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/nsdk_rg_control_panel_bottom_margin">
+
+            <com.baidu.navisdk.ui.routeguide.subview.widget.RGRoadConditionView
+                android:id="@+id/bnav_rg_cp_roadconditionbar"
+                android:layout_width="@dimen/nsdk_rg_road_condition_bar_width"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginRight="@dimen/nsdk_rg_road_condition_bar_margin_right"
+                android:layout_marginBottom="@dimen/navi_dimens_8dp"
+                android:visibility="visible"
+                android:background="@drawable/nsdk_drawable_roadcondition_fg"/>
+
+            <LinearLayout
+                android:id="@+id/bnav_rg_cp_fullview_mode_btn"
+                android:layout_width="@dimen/nsdk_rg_control_panel_btn_width"
+                android:layout_height="@dimen/nsdk_rg_control_panel_btn_height"
+                android:layout_marginRight="@dimen/navi_dimens_4dp"
+                android:background="@drawable/nsdk_rg_selector_common_control_btn_bg"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/bnav_rg_cp_fullview_mode_iv"
+                    android:layout_width="@dimen/navi_dimens_28dp"
+                    android:layout_height="@dimen/navi_dimens_28dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/nsdk_drawable_common_ic_fullview_mode" />
+
+                <TextView
+                    android:id="@+id/bnav_rg_cp_fullview_mode_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/nsdk_rg_control_button_text_margin_top"
+                    android:text="全览"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/nsdk_cl_text_h"
+                    android:textSize="@dimen/nsdk_rg_control_panel_btn_text_size"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+        </LinearLayout>
+        </FrameLayout>
+
+        <!--气象按钮-->
+        <include
+            android:id="@+id/bnav_rg_cp_weather_btn"
+            layout="@layout/nsdk_layout_rg_mapmode_weather_btn"
+            android:layout_width="@dimen/nsdk_rg_control_panel_btn_width"
+            android:layout_height="@dimen/nsdk_rg_control_panel_btn_height"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/navi_dimens_5dp"
+            android:layout_toLeftOf="@id/bnav_rg_cp_assist_layout"
+            tools:visibility="visible" />
+
+        <!--气象按钮气泡-->
+        <ViewStub
+            android:id="@+id/bnav_rg_cp_weather_first_tips_stub"
+            android:layout="@layout/nsdk_layout_rg_mapmode_weather_tips"
+            android:inflatedId="@+id/bnav_rg_cp_weather_first_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/bnav_rg_cp_weather_btn"
+            android:layout_marginBottom="@dimen/nsdk_cur_road_name_height"
+            android:layout_toLeftOf="@id/bnav_rg_cp_weather_btn" />
+
+
+        <!-- 扩展信息区域 -->
+
+        <LinearLayout
+            android:id="@+id/bnav_extends_info_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bnav_rg_cp_assist_layout"
+            android:background="@color/nsdk_rg_common_view_bg"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <!-- 路况更新失败面板容器 -->
+
+            <FrameLayout
+                android:id="@+id/bnav_rg_update_road_condition_fail"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/nsdk_rg_intervene_height"
+                android:visibility="gone">
+            </FrameLayout>
+
+            <!-- 目的地停车场面板容器 -->
+
+            <LinearLayout
+                android:id="@+id/bnav_rg_park_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/nsdk_rg_intervene_height"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone">
+            </LinearLayout>
+
+            <!-- 主辅路面板容器 -->
+
+            <FrameLayout
+                android:id="@+id/bnav_rg_main_auxiliary_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/nsdk_rg_intervene_height"
+                android:visibility="gone">
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/bnav_rg_off_screen_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/nsdk_rg_intervene_height"
+                android:visibility="gone">
+            </FrameLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</merge>

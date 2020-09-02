@@ -77,6 +77,11 @@
                 android:value="com.example.foxizz.navigation.activity.MainActivity" />
         </activity>
 
+        <!-- 驾车导航 -->
+        <activity
+            android:name=".activity.DNaviGuideActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+
         <!-- 步行导航 -->
         <activity
             android:name=".activity.WNaviGuideActivity"

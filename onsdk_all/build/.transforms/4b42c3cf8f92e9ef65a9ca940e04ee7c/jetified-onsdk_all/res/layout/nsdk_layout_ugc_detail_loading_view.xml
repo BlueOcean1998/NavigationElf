@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/load_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
+
+    <RelativeLayout
+        android:id="@+id/load_plan_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:id="@+id/progress_cycle_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true">
+
+            <com.baidu.navisdk.ui.widget.BNLoadingView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/load_plan_result"
+        android:layout_width="match_parent"
+        android:layout_height="161dp"
+        android:layout_centerVertical="true"
+        android:visibility="gone">
+
+        <com.baidu.navisdk.ui.widget.BNResultErrorView
+            android:id="@+id/route_error_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

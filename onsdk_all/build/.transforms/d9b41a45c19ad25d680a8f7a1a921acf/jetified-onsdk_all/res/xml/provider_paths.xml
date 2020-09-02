@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <external-path name="external_files" path="."/>
+    <external-path path="Android/data/com.baidu.BaiduMap/" name="files_root" />
+    <external-path path="." name="external_storage_root" />
+    <external-path name="swan_external" path="" />
+    <root-path name="name" path=""/>
+</paths>

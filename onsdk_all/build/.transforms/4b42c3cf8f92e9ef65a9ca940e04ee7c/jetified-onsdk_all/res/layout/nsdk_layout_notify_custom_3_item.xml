@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
+  -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/transparent">
+
+    <RelativeLayout
+        android:id="@+id/route_result_dest_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nsdk_route_result_notify_msg_height"
+        android:background="@drawable/nsdk_route_result_dest_recom_top">
+
+        <ImageView
+            android:id="@+id/action_close"
+            android:layout_width="29dp"
+            android:layout_height="29dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:scaleType="center"
+            android:layout_centerVertical="true"
+            android:src="@drawable/bnav_route_banner_yellow_tips_close"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:id="@+id/action_prefix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="12dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="#333333"
+            android:maxLines="1"
+            tools:text="您是否要去"
+            android:text="您是否要去" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="24dp"
+            android:orientation="horizontal"
+            android:layout_toLeftOf="@id/action_close"
+            android:layout_toRightOf="@id/action_prefix"
+            android:divider="@drawable/nsdk_route_car_end_recom_divider"
+            android:showDividers="middle"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="0dp"
+            android:layout_marginLeft="10dp"
+            android:background="@android:color/transparent">
+
+
+            <TextView
+                android:id="@+id/content_0"
+                style="@style/DestRecomText"
+                android:text="南进口"
+                tools:text="南进口(可通车)" />
+
+            <TextView
+                android:id="@+id/content_1"
+                style="@style/DestRecomText"
+                tools:text="北进口(可购物)"
+                android:text="北进口" />
+
+            <TextView
+                android:id="@+id/content_2"
+                android:text="西进口"
+                tools:visibility="visible"
+                tools:text="西进口(可住宿)"
+                style="@style/DestRecomText" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@drawable/nsdk_route_result_dest_recom_bottom" />
+
+</LinearLayout>

@@ -104,13 +104,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //初始化搜索记录
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void initSearchData() {
         mainActivity.searchList.clear();
 
         boolean flag = false;//是否刷新搜索记录
-        if(isNetworkConnected(mainActivity)//有网络连接
-                && !isAirplaneModeOn(mainActivity)) {//没有开飞行模式
+        if(isNetworkConnected(mainActivity) && //有网络连接
+                !isAirplaneModeOn(mainActivity)) {//没有开飞行模式
             flag = true;
             mainActivity.myPoiSearch.poiSearchType = MyPoiSearch.DETAIL_SEARCH_ALL;//设置为详细搜索全部
         }

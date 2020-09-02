@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="#ffffff">
+
+    <include
+            android:id="@+id/bnav_top_empty_view"
+            layout="@layout/bnav_statusbar_empty_view_include"/>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:background="#f7f7f7"
+                  android:orientation="vertical">
+        <com.baidu.navisdk.ui.widget.BNCommonTitleBar
+                android:id="@+id/location_share_title_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+        </com.baidu.navisdk.ui.widget.BNCommonTitleBar>
+        <ScrollView android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/navi_dimens_9dp"
+                    android:scrollbars="none">
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/location_share_setting_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/navi_dimens_6dp"
+                        android:paddingRight="@dimen/navi_dimens_6dp"
+                        android:background="#ffffff"></androidx.recyclerview.widget.RecyclerView>
+
+                <LinearLayout
+                        android:id="@+id/location_share_show_group_list_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#ffffff"
+                        android:orientation="vertical"
+                        android:paddingTop="@dimen/navi_dimens_8dp">
+
+                    <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/navi_dimens_1dp"
+                            android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                            android:layout_marginRight="@dimen/navi_dimens_10dp"
+                            android:background="#f7f7f7"></View>
+
+                    <TextView
+                            android:id="@+id/location_share_show_group_list_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="@dimen/navi_dimens_10dp"
+                            android:layout_marginTop="@dimen/navi_dimens_10dp"
+                            android:text="查看全部成员"
+                            android:textColor="#999999"
+                            android:textSize="@dimen/navi_dimens_14dp"></TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/navi_dimens_41dp"
+                        android:layout_marginTop="@dimen/navi_dimens_9dp"
+                        android:background="#ffffff"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/navi_dimens_16dp"
+                            android:text="队伍名称"
+                            android:textColor="#333333"
+                            android:textSize="@dimen/navi_dimens_14dp"/>
+
+                    <EditText
+                            android:id="@+id/location_share_group_name_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/navi_dimens_18dp"
+                            android:layout_marginRight="@dimen/navi_dimens_21dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="#ffffff"
+                            android:focusable="false"
+                            android:imeActionLabel="Done"
+                            android:imeOptions="actionDone"
+                            android:textColor="#333333"
+                            android:textColorHint="#333333"
+                            android:textSize="@dimen/navi_dimens_14dp"
+                            android:singleLine="true"
+                            android:maxLength="6"
+                            android:hint="1-6个汉字、字母、数字"/>
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/navi_dimens_41dp"
+                        android:layout_marginTop="@dimen/navi_dimens_9dp"
+                        android:background="#ffffff"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/navi_dimens_16dp"
+                            android:text="昵称设置"
+                            android:textColor="#333333"
+                            android:textSize="@dimen/navi_dimens_14dp"/>
+
+
+                    <EditText
+                            android:id="@+id/location_share_nick_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/navi_dimens_18dp"
+                            android:layout_marginRight="@dimen/navi_dimens_21dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="#ffffff"
+                            android:focusable="true"
+                            android:imeActionLabel="Done"
+                            android:imeOptions="actionDone"
+                            android:textColor="#333333"
+                            android:textColorHint="#333333"
+                            android:textSize="@dimen/navi_dimens_14dp"
+                            android:singleLine="true"
+                            android:hint="1-7个汉字或1-14个字母、数字"/>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/navi_dimens_20dp"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="队伍口令"
+                    android:textColor="#999999"
+                    android:textSize="@dimen/navi_dimens_14dp"/>
+            <TextView
+                    android:id="@+id/location_share_group_code"
+                    android:layout_marginLeft="@dimen/navi_dimens_15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="55835"
+                    android:textColor="#3385ff"
+                    android:textSize="@dimen/navi_dimens_14dp"/>
+        </LinearLayout>
+
+        <Button
+                android:id="@+id/location_share_delete_or_quit"
+                android:layout_width="@dimen/navi_dimens_200dp"
+                android:layout_height="@dimen/navi_dimens_36dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/navi_dimens_18dp"
+                android:background="@drawable/nsdk_drawable_location_share_quit_btn_bg"
+                android:text="解散并退出队伍"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/navi_dimens_14dp"/>
+    </LinearLayout>
+</LinearLayout>

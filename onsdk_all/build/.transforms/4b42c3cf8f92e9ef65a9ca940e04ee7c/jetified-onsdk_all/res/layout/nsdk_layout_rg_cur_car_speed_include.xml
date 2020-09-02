@@ -1,0 +1,50 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bnav_rg_cp_cur_car_speed_rl"
+    android:layout_width="@dimen/nsdk_rg_cur_car_speed_anim_panel_size"
+    android:layout_height="@dimen/nsdk_rg_cur_car_speed_anim_panel_size"
+    android:layout_margin="-6dp"
+    android:layout_marginBottom="2dp">
+
+    <View
+        android:id="@+id/bnav_rg_cp_cur_overspeed_anim_view"
+        android:layout_width="@dimen/nsdk_rg_interval_camera_panel_size"
+        android:layout_height="@dimen/nsdk_rg_interval_camera_panel_size"
+        android:layout_centerInParent="true"
+        android:background="@drawable/nsdk_drawable_rg_assist_overspeed_anim_bg" />
+
+    <RelativeLayout
+        android:id="@+id/bnav_rg_cp_car_speed_bg"
+        android:layout_width="@dimen/nsdk_rg_interval_camera_panel_size"
+        android:layout_height="@dimen/nsdk_rg_interval_camera_panel_size"
+        android:layout_centerInParent="true"
+        android:background="@drawable/nsdk_drawable_rg_assist_normal_speed"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/bnav_rg_cp_cur_car_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:letterSpacing="-0.03"
+                android:text="0"
+                android:textColor="#3884fc"
+                android:textSize="@dimen/navi_dimens_28dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/bnav_rg_cp_cur_car_speed_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-5dp"
+                android:text="km/h"
+                android:textColor="#3884fc"
+                android:textSize="@dimen/navi_dimens_10dp" />
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

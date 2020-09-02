@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bnav_cruise_menu"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/transparent">
+
+    <com.baidu.navisdk.ui.widget.EmptyTopLayout
+        android:id="@+id/top_empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white" />
+
+    <RelativeLayout
+        android:id="@+id/top_bar"
+        android:layout_below="@id/top_empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_54dp"
+        android:gravity="center_vertical"
+        android:paddingBottom="@dimen/navi_dimens_6dp"
+        android:paddingLeft="@dimen/navi_dimens_13dp"
+        android:paddingRight="@dimen/navi_dimens_8dp"
+        android:paddingTop="@dimen/navi_dimens_6dp"
+        android:background="@android:color/white"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/back_arrow"
+            android:background="@drawable/nsdk_ugc_icon_back"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:textSize="@dimen/navi_dimens_15dp"
+            android:text="出行规划" />
+    </RelativeLayout>
+
+
+    <!--主面板容器-->
+    <include
+        android:id="@+id/panel_container"
+        layout="@layout/nsdk_layout_future_trip_main_panel"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/navi_dimens_5dp"
+        android:layout_marginBottom="@dimen/navi_dimens_5dp"
+        android:layout_marginRight="@dimen/navi_dimens_5dp"
+        android:layout_height="@dimen/nsdk_future_trip_main_panel_height"
+        tools:background="@android:color/holo_orange_light" />
+
+    <!--图区-->
+    <RelativeLayout
+        android:id="@+id/map_widget_container"
+        android:layout_above="@id/panel_container"
+        android:layout_below="@id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="@android:color/holo_red_light">
+        <!--图区 右上角控件：天气+消息-->
+        <!--图区 左下角控件：回车位+比例尺-->
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/message_btn_container"
+        android:layout_width="@dimen/navi_dimens_42dp"
+        android:layout_height="@dimen/navi_dimens_42dp"
+        android:layout_below="@id/top_bar"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/navi_dimens_8dp"
+        android:layout_marginRight="@dimen/navi_dimens_5dp"
+        android:background="@drawable/nsdk_drawable_rr_nomal_button_mask">
+
+        <RelativeLayout
+            android:id="@+id/message_collection"
+            android:layout_width="@dimen/navi_dimens_24dp"
+            android:layout_height="@dimen/navi_dimens_20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/navi_dimens_3dp">
+
+            <ImageView
+                android:layout_width="@dimen/navi_dimens_24dp"
+                android:layout_height="@dimen/navi_dimens_20dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/nsdk_drawable_route_result_yellow_message" />
+
+            <TextView
+                android:id="@+id/message_label"
+                android:layout_width="@dimen/navi_dimens_8dp"
+                android:layout_height="@dimen/navi_dimens_8dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/navi_dimens_5dp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:text="3"
+                android:background="@drawable/nsdk_drawable_route_result_toolbox_red_circle" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/toolbox_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="@dimen/navi_dimens_9dp"
+            android:textColor="@color/nsdk_route_result_button_text_color"
+            android:layout_below="@id/message_collection"
+            android:text="消息"
+            android:singleLine="true"
+            android:ellipsize="middle"
+            android:visibility="visible" />
+
+    </RelativeLayout>
+
+    <!--黄条容器-->
+    <FrameLayout
+        android:id="@+id/single_yellow_banner_container"
+        android:layout_marginTop="@dimen/navi_dimens_10dp"
+        android:layout_marginLeft="@dimen/navi_dimens_10dp"
+        android:layout_marginRight="@dimen/navi_dimens_10dp"
+        android:layout_below="@id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!--定位-->
+    <RelativeLayout
+        android:id="@+id/location_layout"
+        android:layout_width="@dimen/navi_dimens_42dp"
+        android:layout_height="@dimen/navi_dimens_42dp"
+        android:layout_above="@id/panel_container"
+        android:layout_alignParentBottom="false"
+        android:layout_marginLeft="@dimen/navi_dimens_5dp"
+        android:layout_marginBottom="@dimen/navi_dimens_5dp"
+        android:background="@drawable/nsdk_drawable_rr_nomal_button_mask"
+        android:clickable="true"
+        android:gravity="center"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/location_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:scaleType="center"
+            android:src="@drawable/nsdk_rr_location_icon"
+            android:contentDescription="我的位置" />
+    </RelativeLayout>
+
+    <!--比例尺-->
+    <RelativeLayout
+        android:id="@+id/level_container"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/navi_dimens_22dp"
+        android:layout_alignBottom="@id/location_layout"
+        android:layout_marginBottom="@dimen/navi_dimens_5dp"
+        android:layout_toRightOf="@id/location_layout"
+        android:layout_marginLeft="@dimen/navi_dimens_6dp"
+        android:gravity="center_horizontal"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/level_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/navi_dimens_11dp" />
+
+        <TextView
+            android:id="@+id/level_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="#000000"
+            android:textSize="@dimen/navi_dimens_11dp" />
+
+        <TextView
+            android:id="@+id/level_drawable"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/navi_dimens_6dp"
+            android:gravity="center"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/nsdk_rr_level_scale_icon" />
+    </RelativeLayout>
+    <!--时间选择面板-->
+    <RelativeLayout
+        android:id="@+id/time_picker_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:id="@+id/time_picker_inner_container"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <!--ETA-->
+    <ViewStub
+        android:id="@+id/eta_view_stub"
+        android:layout="@layout/nsdk_layout_future_trip_eta"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ViewStub>
+
+    <ViewStub
+        android:id="@+id/multi_yellow_view_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/nsdk_layout_future_trip_multi_yellow_banner" />
+
+    <ViewStub
+        android:id="@+id/ugc_event_view_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/nsdk_layout_future_trip_ugc_banner" />
+</RelativeLayout>

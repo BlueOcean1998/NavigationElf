@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:background="@drawable/nsdk_route_result_dest_recom_top">
+        <LinearLayout
+            android:id="@+id/yellow_tips_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/first_tips_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/second_tips_container"
+                android:layout_marginTop="3dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            </LinearLayout>
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/yellow_tips_close_iv"
+            android:layout_width="29dp"
+            android:layout_height="29dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:scaleType="center"
+            android:layout_centerVertical="true"
+            android:src="@drawable/bnav_route_banner_yellow_tips_close"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"></ImageView>
+    </RelativeLayout>
+    <View android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@drawable/nsdk_route_result_dest_recom_bottom"/>
+</LinearLayout>
+

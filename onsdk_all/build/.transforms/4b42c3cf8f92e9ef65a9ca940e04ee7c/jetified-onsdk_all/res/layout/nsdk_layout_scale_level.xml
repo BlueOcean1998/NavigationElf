@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.ui.widget.BNUIBoundLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/map_scale_level_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="bottom"
+    android:orientation="horizontal"
+    tools:visibility="visible">
+
+
+    <RelativeLayout
+        android:id="@+id/scale_inner_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/scale_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="100米"
+            android:textColor="#333333"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/scale_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/navi_dimens_7dp"
+            android:layout_below="@id/scale_title"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/nsdk_common_ic_scale_indicator"
+            android:paddingTop="@dimen/navi_dimens_0dp" />
+
+        <TextView
+            android:id="@+id/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/scale_indicator"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/nsdk_map_watermark"
+            android:paddingTop="@dimen/navi_dimens_2dp"
+            android:textColor="#0000bb"
+            android:textSize="10sp"
+            android:visibility="gone"
+            tools:visibility="gone" />
+
+    </RelativeLayout>
+
+    <!--百度地图logo-->
+    <ImageView
+        android:id="@+id/baidu_map_logo"
+        android:layout_width="@dimen/navi_dimens_46dp"
+        android:layout_height="@dimen/navi_dimens_16dp"
+        android:layout_marginBottom="@dimen/navi_dimens_0dp"
+        android:src="@drawable/nsdk_baidu_map_logo"
+        android:visibility="gone"
+        tools:visibility="visible" />
+</com.baidu.navisdk.ui.widget.BNUIBoundLinearLayout>

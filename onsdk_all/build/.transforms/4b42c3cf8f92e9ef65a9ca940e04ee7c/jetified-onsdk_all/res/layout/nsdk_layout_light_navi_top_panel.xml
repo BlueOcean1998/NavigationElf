@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.module.lightnav.widget.LightNaviContaienrRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/content_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.baidu.navisdk.ui.widget.EmptyTopLayout
+            android:id="@+id/nsdk_top_empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white" />
+
+        <RelativeLayout
+            android:id="@+id/top_content_layout"
+            android:background="@android:color/white"
+            android:layout_width="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/navi_dimens_0dp"
+            android:paddingRight="@dimen/navi_dimens_15dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/top_back"
+                android:src="@drawable/nsdk_light_navi_return"
+                android:layout_height="@dimen/navi_dimens_20dp"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="@dimen/navi_dimens_7dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+            <!--默认文案 & title-->
+            <TextView
+                android:id="@+id/default_title"
+                android:layout_width="match_parent"
+                android:layout_centerVertical="true"
+                android:textStyle="normal"
+                android:text="@string/nsdk_light_navi_title"
+                android:layout_toRightOf="@id/top_back"
+                android:layout_marginLeft="@dimen/navi_dimens_0dp"
+                android:visibility="visible"
+                android:singleLine="true"
+                style="@style/LightGuidePanel"
+                android:ellipsize="end"
+                android:background="@android:color/transparent"
+                android:layout_height="wrap_content" />
+            <!--速度提示面板-->
+            <TextView
+                android:id="@+id/speed"
+                android:layout_width="match_parent"
+                android:layout_centerVertical="true"
+                tools:text="当前车速110km/h，限速109km/h"
+                android:layout_toRightOf="@id/top_back"
+                android:layout_marginLeft="@dimen/navi_dimens_0dp"
+                android:visibility="gone"
+                style="@style/LightGuidePanel"
+                android:background="@android:color/transparent"
+                android:layout_height="wrap_content" />
+            <!--小黄条-->
+            <TextView
+                android:clickable="false"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:id="@+id/ylw_tip"
+                style="@style/LightGuidePanel"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/top_back"
+                android:layout_marginLeft="@dimen/navi_dimens_0dp"
+                tools:text="正在展示小黄条"
+                android:ellipsize="end"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!--显示快速路线诱导信息-->
+            <TextView
+                android:clickable="false"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:id="@+id/top_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/top_back"
+                android:layout_marginLeft="@dimen/navi_dimens_0dp"
+                tools:text="为您找到更快路线"
+                style="@style/LightGuidePanel"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!--常规诱导信息-->
+            <include
+                android:id="@+id/simple_guide_convertview"
+                android:layout_toRightOf="@id/top_back"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="@dimen/navi_dimens_0dp"
+                android:visibility="gone"
+                layout="@layout/nsdk_layout_light_navi_guide" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_below="@id/content_container"
+        android:id="@+id/bottom_shadow"
+        android:background="@drawable/nsdk_light_navi_top_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_6dp" />
+</com.baidu.navisdk.module.lightnav.widget.LightNaviContaienrRelativeLayout>

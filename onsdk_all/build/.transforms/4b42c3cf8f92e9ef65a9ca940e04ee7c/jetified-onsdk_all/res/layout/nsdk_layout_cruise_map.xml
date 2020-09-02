@@ -1,0 +1,522 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bnav_cruise_ui_map_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:visibility="visible" >
+
+    <com.baidu.navisdk.ui.widget.EmptyTopLayout
+            android:id="@+id/top_empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/nsdk_cl_bg_e"></com.baidu.navisdk.ui.widget.EmptyTopLayout>
+
+    <!-- 卫星数目显示 -->
+
+    <RelativeLayout
+        android:id="@+id/bnav_rg_top_status_panel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nsdk_rg_top_status_port_height"
+        android:layout_below="@id/top_empty_view"
+        android:background="@color/nsdk_cl_bg_e" >
+
+        <LinearLayout
+            android:id="@+id/layout_cruise_satellite_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/nsdk_rg_cp_icon_edge_margin"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/img_cruise_satellite"
+                android:layout_width="@dimen/navi_dimens_16dp"
+                android:layout_height="@dimen/navi_dimens_16dp"
+                android:src="@drawable/nsdk_drawable_rg_ic_satellite_red" />
+
+            <TextView
+                android:id="@+id/text_cruise_satellite_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/navi_dimens_3dp"
+                android:text="0"
+                android:textColor="#b2ffffff"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bnav_rg_sg_battery_panel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/nsdk_rg_cp_icon_edge_margin"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/bnav_rg_sg_battery_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/navi_dimens_3dp"
+                android:text="35%"
+                android:textColor="#b2ffffff"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/bnav_rg_sg_battery_icon"
+                android:layout_width="@dimen/navi_dimens_16dp"
+                android:layout_height="@dimen/navi_dimens_16dp"
+                android:src="@drawable/nsdk_drawable_rg_ic_battery_red" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/bnav_rg_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/bnav_rg_top_status_panel"
+        android:background="@color/nsdk_cl_bg_b_night" />
+
+    <LinearLayout
+        android:id="@+id/layout_cruise_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nsdk_rg_top_panel_height"
+        android:layout_below="@id/bnav_rg_divider"
+        android:background="@color/nsdk_cl_bg_e"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/layout_cruise_camera_icon"
+            android:layout_width="@dimen/navi_dimens_120dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/navi_dimens_15dp"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/img_cruise_camera_icon"
+                android:layout_width="@dimen/navi_dimens_100dp"
+                android:layout_height="@dimen/navi_dimens_100dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/nsdk_drawable_rg_cruise_speed_panel" />
+
+            <ImageView
+                android:id="@+id/img_cruise_speed_indicator"
+                android:layout_width="@dimen/navi_dimens_100dp"
+                android:layout_height="@dimen/navi_dimens_100dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/nsdk_drawable_rg_cruise_speed_indicator" />
+
+            <TextView
+                android:id="@+id/text_cruise_camera_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="80"
+                android:textColor="@android:color/black"
+                android:textSize="36sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/layout_cruise_top_middle_info"
+            android:layout_width="@dimen/navi_dimens_0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="@dimen/navi_dimens_10dp" >
+
+            <!-- 网络状态，GPS状态显示 -->
+
+            <TextView
+                android:id="@+id/text_cruise_misc_status"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/nsdk_string_cruise_no_network_short"
+                android:textColor="@android:color/white"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:visibility="invisible" />
+
+            <!-- 当前速度信息 -->
+
+            <LinearLayout
+                android:id="@+id/layout_cruise_speed_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:visibility="visible" >
+
+                <LinearLayout
+                    android:id="@+id/layout_cruise_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/text_cruise_speed_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="@dimen/navi_dimens_10dp"
+                        android:text="@string/nsdk_string_cruise_current_speed"
+                        android:textColor="@color/nsdk_text_rg_normal_info"
+                        android:textSize="@dimen/nsdk_text_size_rg_normal_info" />
+
+                    <TextView
+                        android:id="@+id/text_cruise_speed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="120"
+                        android:textColor="@color/nsdk_rg_main_info"
+                        android:textSize="@dimen/nsdk_text_size_rg_num_info"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/text_cruise_speed_unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/navi_dimens_10dp"
+                        android:text="@string/nsdk_string_cruise_speed_unit"
+                        android:textColor="@color/nsdk_text_rg_normal_info"
+                        android:textSize="@dimen/nsdk_text_size_rg_normal_info" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ============ 电子眼信息 ============ -->
+
+            <LinearLayout
+                android:id="@+id/layout_cruise_camera_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:visibility="invisible" >
+
+                <LinearLayout
+                    android:id="@+id/layout_cruise_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/text_cruise_distance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="700米"
+                        android:textColor="@color/nsdk_rg_main_info"
+                        android:textSize="@dimen/nsdk_text_size_rg_num_info"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/text_cruise_distance_suffix"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/nsdk_string_cruise_distance_suffix"
+                        android:textColor="@color/nsdk_text_rg_normal_info"
+                        android:textSize="@dimen/nsdk_text_size_rg_normal_info" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_cruise_camera_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/text_cruise_camera_desc_prefix"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/nsdk_string_cruise_camera_desc_prefix"
+                        android:textColor="@color/nsdk_rg_main_info"
+                        android:textSize="@dimen/nsdk_text_size_rg_normal_info" />
+
+                    <TextView
+                        android:id="@+id/text_cruise_camera_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="闯红灯拍照"
+                        android:textColor="@color/nsdk_rg_main_info"
+                        android:textSize="@dimen/nsdk_text_size_rg_normal_info" />
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- 网络状态显示小面板 -->
+
+    <TextView
+        android:id="@+id/text_cruise_net_status"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_47dp"
+        android:layout_below="@id/layout_cruise_top"
+        android:background="#80000000"
+        android:gravity="center"
+        android:text="@string/nsdk_string_cruise_no_network_short"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!-- 底部栏：当前路名，退出按钮，设置按钮 -->
+
+    <LinearLayout
+        android:id="@+id/layout_cruise_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/nsdk_cruise_bg_bar"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="visible" >
+
+        <LinearLayout
+            android:id="@+id/bnav_cruise_rg_btn_quit"
+            android:layout_width="@dimen/navi_dimens_48dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/img_cruise_quit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/nsdk_drawable_common_btn_quit_selector" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/line_cruise_bottom_1"
+            android:layout_width="@dimen/navi_dimens_1dp"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="@dimen/navi_dimens_10dp"
+            android:layout_marginTop="@dimen/navi_dimens_10dp"
+            android:background="@drawable/nsdk_drawable_common_line_vertical" />
+
+        <LinearLayout
+            android:id="@+id/layout_cruise_road_info"
+            android:layout_width="@dimen/navi_dimens_0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/text_cruise_road_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/navi_dimens_5dp"
+                    android:text="@string/nsdk_string_cruise_current_road"
+                    android:textColor="@color/nsdk_cruise_text_road_title"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/text_cruise_road_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:maxLines="1"
+                    android:text="@string/nsdk_string_cruise_unknow_road"
+                    android:textColor="@color/nsdk_cruise_text_road_name"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/line_cruise_bottom_2"
+            android:layout_width="@dimen/navi_dimens_1dp"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="@dimen/navi_dimens_10dp"
+            android:layout_marginTop="@dimen/navi_dimens_10dp"
+            android:background="@drawable/nsdk_drawable_common_line_vertical" />
+
+        <LinearLayout
+            android:id="@+id/layout_cruise_setting"
+            android:layout_width="@dimen/navi_dimens_48dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/img_cruise_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/nsdk_drawable_common_btn_menu_selector" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 回车位及视图切换按钮 -->
+
+    <RelativeLayout
+        android:id="@+id/bnav_cruise_location_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/layout_cruise_bottom"
+        android:layout_alignParentLeft="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_marginBottom="@dimen/navi_dimens_8dp"
+        android:layout_marginLeft="@dimen/navi_dimens_8dp" >
+
+        <ImageButton
+            android:id="@+id/bnav_cruise_btn_location"
+            android:layout_width="@dimen/navi_dimens_48dp"
+            android:layout_height="@dimen/navi_dimens_48dp"
+            android:background="@drawable/nsdk_drawable_common_bg_prj_card_selector"
+            android:gravity="center"
+            android:scaleType="centerInside"
+            android:src="@drawable/nsdk_drawable_rg_ic_locate_car_point" />
+
+        <ProgressBar
+            android:id="@+id/bnav_cruise_location_progress"
+            style="@style/LocationProgressStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/nsdk_drawable_rg_ic_locate_loading"
+            android:visibility="invisible" >
+        </ProgressBar>
+    </RelativeLayout>
+
+    <!-- 比例尺 -->
+
+    <RelativeLayout
+        android:id="@+id/bnav_cruise_map_scale_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/bnav_cruise_location_layout"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+        android:layout_toRightOf="@id/bnav_cruise_location_layout" >
+
+        <TextView
+            android:id="@+id/bnav_cruise_scale_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="100米"
+            android:textColor="#333333"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/bnav_cruise_scale_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/navi_dimens_7dp"
+            android:layout_below="@id/bnav_cruise_scale_title"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/nsdk_drawable_rg_ic_scale_indicator" />
+
+        <ImageView
+            android:id="@+id/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bnav_cruise_scale_indicator"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/nsdk_drawable_map_watermark" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/map_control_panel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/layout_cruise_bottom"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/layout_cruise_top"
+        android:layout_marginBottom="@dimen/navi_dimens_8dp"
+        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+        android:layout_marginRight="@dimen/navi_dimens_8dp"
+        android:background="#00000000" >
+
+        <LinearLayout
+            android:id="@+id/bnav_cruise_zoom_panel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/bnav_cruise_btn_zoom_in"
+                android:layout_width="@dimen/navi_dimens_48dp"
+                android:layout_height="@dimen/navi_dimens_47dp"
+                android:background="@drawable/nsdk_drawable_common_bg_prj_card_top_selector"
+                android:gravity="center"
+                android:scaleType="centerInside"
+                android:src="@drawable/nsdk_drawable_rg_btn_zoom_in_normal" />
+
+            <View
+                android:id="@+id/line_left"
+                android:layout_width="@dimen/navi_dimens_46dp"
+                android:layout_height="0.5dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/nsdk_drawable_common_line_horizontal" />
+
+            <ImageView
+                android:id="@+id/bnav_cruise_btn_zoom_out"
+                android:layout_width="@dimen/navi_dimens_48dp"
+                android:layout_height="@dimen/navi_dimens_47dp"
+                android:background="@drawable/nsdk_drawable_common_bg_prj_card_bottom_selector"
+                android:gravity="center"
+                android:scaleType="centerInside"
+                android:src="@drawable/nsdk_drawable_rg_btn_zoom_out_normal" />
+        </LinearLayout>
+
+        <!-- ITS Button -->
+
+        <LinearLayout
+            android:id="@+id/bnav_cruise_btn_its_switch"
+            android:layout_width="@dimen/navi_dimens_48dp"
+            android:layout_height="@dimen/navi_dimens_47dp"
+            android:layout_above="@id/bnav_cruise_zoom_panel"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/navi_dimens_8dp"
+            android:background="@drawable/nsdk_drawable_common_bg_prj_card_selector"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/image_its_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/nsdk_drawable_common_ic_map_its_off" />
+
+            <TextView
+                android:id="@+id/its_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="路况"
+                android:textColor="@android:color/darker_gray"
+                android:visibility="gone" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/layout_cruise_menu_mask"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/nsdk_cruise_mask"
+        android:visibility="gone" />
+    <!-- 菜单父视图 -->
+
+    <FrameLayout
+        android:id="@+id/layout_cruise_menu_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true" />
+
+</RelativeLayout>

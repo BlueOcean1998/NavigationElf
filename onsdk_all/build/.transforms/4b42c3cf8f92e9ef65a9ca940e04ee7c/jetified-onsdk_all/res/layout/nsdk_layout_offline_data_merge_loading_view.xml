@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<FrameLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/layout_merge" 
+	android:layout_width="match_parent"
+	android:layout_height="@dimen/navi_dimens_2dp"
+	android:gravity="center"
+	android:visibility="gone"
+	android:background="#3477eb"
+	>
+         
+	<ImageView
+		android:id="@+id/img_merge"
+		android:layout_width="@dimen/navi_dimens_40dp"
+		android:layout_height="match_parent"
+		android:src="@drawable/nsdk_data_merge_front"
+		/>
+
+</FrameLayout>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/useful_container"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/navi_dimens_45dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/view_useful"
+        android:layout_width="@dimen/navi_dimens_0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/iv_useful"
+            style="@style/nsdk_ugc_detail_card_useful_img_sytle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/nsdk_ugc_useful_normal" />
+
+        <TextView
+            android:id="@+id/tv_useful"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:singleLine="true"
+            android:text="有用(0)"
+            android:textColor="@color/nsdk_ugc_txt_unfocused"
+            android:textSize="@dimen/nsdk_ugc_details_card_useful_text_size" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/navi_dimens_15dp"
+        android:layout_marginBottom="@dimen/navi_dimens_15dp"
+        android:background="#e7e7e7" />
+
+    <LinearLayout
+        android:id="@+id/view_useless"
+        android:layout_width="@dimen/navi_dimens_0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/iv_useless"
+            style="@style/nsdk_ugc_detail_card_useful_img_sytle"
+            android:src="@drawable/nsdk_ugc_useless_normal" />
+
+        <TextView
+            android:id="@+id/tv_useless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:singleLine="true"
+            android:text="没用(0)"
+            android:textColor="@color/nsdk_ugc_txt_unfocused"
+            android:textSize="@dimen/nsdk_ugc_details_card_useful_text_size" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/avoid_congestion_divider"
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/navi_dimens_15dp"
+        android:layout_marginBottom="@dimen/navi_dimens_15dp"
+        android:background="#e7e7e7" />
+
+    <LinearLayout
+        android:id="@+id/view_detail_comment"
+        android:layout_width="@dimen/navi_dimens_0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/iv_detail_comment"
+            style="@style/nsdk_ugc_detail_card_useful_img_sytle"
+            android:src="@drawable/nsdk_ugc_comment_normal" />
+
+        <TextView
+            android:id="@+id/tv_detail_comment"
+            tools:text="评论(0)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:singleLine="true"
+            android:textColor="@color/nsdk_ugc_txt_unfocused"
+            android:textSize="@dimen/nsdk_ugc_details_card_useful_text_size" />
+
+    </LinearLayout>
+</LinearLayout>

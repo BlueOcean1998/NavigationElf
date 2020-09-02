@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true"
+          android:color="@color/nsdk_rg_operable_notification_low_priority_confirm_text_pressed"/>
+    <item android:state_pressed="false"
+          android:color="@color/nsdk_rg_operable_notification_low_priority_confirm_text"/>
+</selector>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:gravity="center_vertical"
+    android:layout_height="@dimen/navi_dimens_46dp"
+    android:background="@drawable/nsdk_drawable_route_result_tab_background">
+
+    <com.baidu.navisdk.module.routeresultbase.view.support.widgit.LoadingAnimViewNew
+        android:id="@+id/commute_guide_top_loading"
+        android:layout_width="@dimen/navi_dimens_40dp"
+        android:layout_height="@dimen/navi_dimens_40dp"
+        android:layout_centerHorizontal="true"
+        app:autoStart="true"
+        app:backAnim="@anim/normal_back_circle_set"
+        app:backColor="#5088FF"
+        app:centerAnim="@anim/normal_center_image_set"
+        app:centerImage="@drawable/nsdk_drawable_du_loading" />
+</RelativeLayout>

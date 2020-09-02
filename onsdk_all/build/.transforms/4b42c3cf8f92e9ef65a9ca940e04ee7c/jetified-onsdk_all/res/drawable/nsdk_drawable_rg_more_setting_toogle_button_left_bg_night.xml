@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="false">
+        <shape>
+            <corners
+                    android:topLeftRadius="@dimen/navi_dimens_2dp"
+                    android:bottomLeftRadius="@dimen/navi_dimens_2dp">
+            </corners>
+            <solid android:color="@color/nsdk_cl_bg_d_night"/>
+            <stroke android:color="#3385ff" android:width="2px"/>
+        </shape>
+    </item>
+
+    <item android:state_checked="true">
+        <shape>
+            <corners
+                    android:topLeftRadius="@dimen/navi_dimens_2dp"
+                    android:bottomLeftRadius="@dimen/navi_dimens_2dp">
+            </corners>
+            <solid android:color="#3385ff"/>
+            <stroke android:color="#3385ff" android:width="2px"/>
+        </shape>
+    </item>
+</selector>

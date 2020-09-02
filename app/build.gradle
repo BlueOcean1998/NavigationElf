@@ -10,7 +10,7 @@ android {
         //noinspection OldTargetApi
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -48,7 +48,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
-    implementation project(path: ':onsdk_all')
+
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -60,7 +60,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
 
     implementation files('libs/BaiduLBS_Android.jar')
-    implementation files('libs/com.baidu.tts_2.6.1.108.20200217_5adcfb6.jar')
-    implementation files('libs/intellij_annotations.jar')
-    implementation files('libs/javapoet-1.9.0.jar')
+    implementation project(path: ':onsdk_all')
+    implementation project(path: ':NaviTts')
 }

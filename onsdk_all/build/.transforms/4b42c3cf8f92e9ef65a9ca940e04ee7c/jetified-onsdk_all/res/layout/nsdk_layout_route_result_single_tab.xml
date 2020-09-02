@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.module.routeresultbase.view.support.module.routetab.BNRRSingleTabBar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/route_car_tabs_container"
+    android:layout_width="match_parent"
+    android:layout_height="63dp"
+    android:paddingLeft="15dp"
+    android:clickable="false"
+    android:visibility="visible"
+    android:gravity="center_vertical">
+
+    <LinearLayout
+        android:id="@+id/first_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        tools:background="@android:color/holo_green_light"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/time"
+            android:textSize="19dp"
+            android:singleLine="true"
+            tools:text="time"
+            android:textColor="#333333"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/distance"
+            android:layout_marginLeft="10dp"
+            android:singleLine="true"
+            tools:text="distance"
+            android:textColor="#333333"
+            android:gravity="center_vertical"
+            android:textSize="19dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/sec_row"
+        tools:background="@android:color/holo_red_light"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/first_row"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/traffic_light_container"
+            android:layout_width="wrap_content"
+            tools:visibility="gone"
+            android:layout_marginRight="8dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/nsdk_ic_route_result_traffic_light_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/traffic_light"
+                android:layout_marginLeft="5dp"
+                android:singleLine="true"
+                tools:text="distance"
+                tools:visibility="visible"
+                android:textColor="#333333"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:layout_gravity="center_vertical"
+                android:textSize="12dp"
+                android:visibility="gone"
+                android:scaleType="centerInside"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/toll_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:scaleType="centerInside"
+                android:src="@drawable/nsdk_ic_route_result_road_toll_normal" />
+
+            <TextView
+                android:id="@+id/protection_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:singleLine="true"
+                android:textColor="#333333"
+                android:textSize="12dp"
+                android:visibility="gone"
+                tools:text="distance"
+                tools:visibility="visible" />
+        </LinearLayout>
+
+        <!--<TextView-->
+        <!--android:id="@+id/oil_text"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center"-->
+        <!--android:includeFontPadding="false"-->
+        <!--android:singleLine="true"-->
+        <!--android:text="油费"-->
+        <!--android:textColor="@color/nsdk_color_route_result_tab_traffic_info_selector"-->
+        <!--android:textSize="12dp" />-->
+
+        <TextView
+            android:id="@+id/oil_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/time"
+            android:layout_marginLeft="6dp"
+            android:drawableLeft="@drawable/nsdk_ic_route_result_road_oil_fare_selector"
+            android:drawablePadding="1dp"
+            android:gravity="center_horizontal"
+            android:includeFontPadding="false"
+            android:singleLine="true"
+            android:textColor="@color/nsdk_color_route_result_tab_traffic_info_selector"
+            android:textSize="12dp"
+            android:visibility="gone"
+            tools:text="油费100"
+            tools:visibility="visible" />
+    </LinearLayout>
+</com.baidu.navisdk.module.routeresultbase.view.support.module.routetab.BNRRSingleTabBar>

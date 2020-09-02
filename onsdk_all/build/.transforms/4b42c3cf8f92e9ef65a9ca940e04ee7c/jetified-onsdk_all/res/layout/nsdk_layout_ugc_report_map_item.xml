@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/nsdk_ugc_report_grid_margin"
+    android:layout_marginTop="@dimen/navi_dimens_10dp"
+    android:layout_marginRight="@dimen/nsdk_ugc_report_grid_margin"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/ugc_map_main_new_position_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="left"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ugc_map_main_new_position_iv"
+            android:layout_width="@dimen/nsdk_ugc_report_grid_item_img_size"
+            android:layout_height="@dimen/nsdk_ugc_report_grid_item_img_size"
+            android:src="@drawable/nsdk_ugc_map_main_new_position" />
+
+        <TextView
+            android:id="@+id/ugc_map_main_new_position_tv"
+            style="@style/nsdk_ugc_report_grid_item_text_style"
+            android:text="新增" />
+
+    </LinearLayout>
+</LinearLayout>

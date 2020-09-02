@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/navi_dimens_100dp">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:text="正在算路，请稍后"
+        android:textSize="@dimen/navi_dimens_17dp"
+        android:textColor="#333333" />
+
+    <RelativeLayout
+        android:id="@+id/commute_guide_selected_collection"
+        android:layout_width="@dimen/navi_dimens_135dp"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:id="@+id/commute_guide_exit_layout"
+            android:layout_width="@dimen/navi_dimens_55dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/navi_dimens_10dp"
+            android:gravity="center_vertical"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/exit_ic"
+                android:layout_width="@dimen/navi_dimens_20dp"
+                android:layout_height="@dimen/navi_dimens_20dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/nsdk_drawable_commute_guide_exit" />
+
+            <TextView
+                android:id="@+id/exit_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/navi_dimens_15dp"
+                android:layout_below="@id/exit_ic"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/navi_dimens_6dp"
+                android:singleLine="true"
+                android:text="退出"
+                android:textColor="#333333"
+                android:textSize="@dimen/navi_dimens_13dp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

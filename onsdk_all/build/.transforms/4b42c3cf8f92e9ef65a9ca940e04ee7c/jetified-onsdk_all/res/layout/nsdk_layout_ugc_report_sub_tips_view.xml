@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/nsdk_cl_bg_d"
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/ugc_sub_title_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_81dp">
+
+            <ImageView
+                android:id="@+id/ugc_sub_title_iv"
+                android:layout_width="@dimen/navi_dimens_41dp"
+                android:layout_height="@dimen/navi_dimens_41dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="@dimen/navi_dimens_20dp"
+                android:layout_marginLeft="@dimen/navi_dimens_15dp"
+                android:layout_marginTop="@dimen/navi_dimens_20dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/nsdk_drawable_rg_cruise_accident"/>
+
+            <TextView
+                android:id="@+id/ugc_sub_title_type_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/navi_dimens_15dp"
+                android:layout_marginTop="@dimen/navi_dimens_20dp"
+                android:layout_toRightOf="@id/ugc_sub_title_iv"
+                android:text="事故"
+                android:textColor="#333"
+                android:textSize="@dimen/navi_dimens_18dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/ugc_sub_title_position_info_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ugc_sub_title_type_tv"
+                android:layout_marginLeft="@dimen/navi_dimens_15dp"
+                android:layout_marginTop="@dimen/navi_dimens_5dp"
+                android:layout_toRightOf="@id/ugc_sub_title_iv"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="补充详情帮助更多用户"
+                android:textColor="#666"
+                android:textSize="@dimen/navi_dimens_12dp"/>
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nsdk_ugc_report_view_line_height"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#EAEAEA">
+        </View>
+        <LinearLayout
+            android:id="@+id/ugc_navi_tips_button_view_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/navi_dimens_15dp"
+            android:layout_marginBottom="@dimen/navi_dimens_15dp"
+            android:background="@color/nsdk_cl_bg_d"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/ugc_navi_upload_content_fill_btn"
+                android:layout_width="@dimen/navi_dimens_0dp"
+                android:layout_height="@dimen/navi_dimens_33dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/navi_dimens_15dp"
+                android:layout_weight="1"
+                android:background="@drawable/bnav_common_ugc_blue_corners_button_selector"
+                android:text="补充详情"
+                android:textColor="#3385ff"
+                android:textSize="@dimen/navi_dimens_15dp"/>
+
+            <Button
+                android:id="@+id/ugc_navi_upload_immediately_upload_btn"
+                android:layout_width="@dimen/navi_dimens_0dp"
+                android:layout_height="@dimen/navi_dimens_33dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/navi_dimens_15dp"
+                android:layout_marginRight="@dimen/navi_dimens_15dp"
+                android:layout_weight="1"
+                android:background="@drawable/bnav_common_ugc_blue_button_selector"
+                android:text="立即上报"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/navi_dimens_15dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

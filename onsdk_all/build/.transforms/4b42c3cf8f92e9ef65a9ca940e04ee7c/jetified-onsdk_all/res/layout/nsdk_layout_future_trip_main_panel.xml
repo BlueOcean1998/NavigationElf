@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+<com.baidu.navisdk.module.future.widgets.FutureTripContainerLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bnav_cruise_menu"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nsdk_future_trip_main_panel_height"
+    android:orientation="vertical"
+    android:layout_marginLeft="@dimen/navi_dimens_5dp"
+    android:layout_marginBottom="@dimen/navi_dimens_5dp"
+    android:layout_marginRight="@dimen/navi_dimens_5dp"
+    android:background="@drawable/nsdk_drawable_route_result_white_round_corner_bg"
+    tools:background="#ffffff">
+
+    <!--面板顶部栏-->
+    <RelativeLayout
+        android:id="@+id/panel_top_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nsdk_future_trip_main_panel_top_zone_height"
+        android:paddingLeft="@dimen/navi_dimens_5dp"
+        android:paddingRight="@dimen/navi_dimens_5dp"
+        tools:background="@android:color/holo_orange_light">
+
+        <LinearLayout
+            android:id="@+id/top_left"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <ImageView
+                android:id="@+id/left_ic"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/bnav_future_trip_main_panel_top_edge_left_iv_selector"
+                android:layout_width="@dimen/navi_dimens_13dp"
+                android:layout_height="@dimen/navi_dimens_13dp" />
+
+            <LinearLayout
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/left_ic"
+                android:orientation="vertical"
+                android:layout_marginLeft="@dimen/navi_dimens_2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/left_tv_top"
+                    style="@style/FutureTripEdgeBtnTvStyle"
+                    tools:text="100asdasdkm" />
+
+                <TextView
+                    android:id="@+id/left_tv_bottom"
+                    style="@style/FutureTripEdgeBtnTvStyle"
+                    tools:text="100km" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/time_container"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/navi_dimens_2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/time_arrive_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true">
+
+                <TextView
+                    android:id="@+id/arrive_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/arrive_time"
+                    android:layout_marginRight="@dimen/navi_dimens_1dp"
+                    android:layout_marginBottom="@dimen/navi_dimens_3dp"
+                    android:textColor="#333333"
+                    android:gravity="center"
+                    android:textSize="@dimen/navi_dimens_13dp"
+                    tools:text="周四" />
+
+                <TextView
+                    android:id="@+id/arrive_time"
+                    android:layout_toRightOf="@+id/arrive_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/navi_dimens_22dp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="#333333"
+                    tools:text="20:00"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/arrive_tail"
+                    android:text="到达"
+                    android:gravity="center"
+                    android:textColor="#333333"
+                    android:textSize="@dimen/navi_dimens_13dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_1dp"
+                    android:layout_marginBottom="@dimen/navi_dimens_3dp"
+                    android:layout_alignBottom="@+id/arrive_time"
+                    android:layout_toRightOf="@+id/arrive_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:layout_centerVertical="false" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/time_start_container"
+                android:layout_below="@id/time_arrive_container"
+                android:paddingRight="@dimen/navi_dimens_5dp"
+                android:paddingLeft="@dimen/navi_dimens_5dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/nsdk_future_trip_time_picker_entrance_bg"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/navi_dimens_21dp">
+
+                <ImageView
+                    android:id="@+id/calendar"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/nsdk_future_trip_calendar"
+                    android:layout_width="@dimen/navi_dimens_12dp"
+                    android:layout_height="@dimen/navi_dimens_11dp" />
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_toRightOf="@id/calendar"
+                    android:layout_width="1px"
+                    android:background="#DDDDDD"
+                    android:layout_marginBottom="@dimen/navi_dimens_0dp"
+                    android:layout_marginTop="@dimen/navi_dimens_0dp"
+                    android:layout_marginLeft="@dimen/navi_dimens_5dp"
+                    android:layout_marginRight="@dimen/navi_dimens_5dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/start"
+                    android:layout_toRightOf="@id/divider"
+                    android:layout_width="wrap_content"
+                    android:textColor="#333333"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/navi_dimens_12dp"
+                    android:layout_height="wrap_content"
+                    tools:text="今天 19:30 出发" />
+
+                <ImageView
+                    android:id="@+id/spread"
+                    android:layout_toRightOf="@id/start"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/navi_dimens_2dp"
+                    android:src="@drawable/nsdk_future_trip_shink"
+                    android:layout_width="@dimen/navi_dimens_7dp"
+                    android:layout_height="@dimen/navi_dimens_7dp" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/top_right"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/top_right_tv_container"
+                android:layout_centerVertical="true"
+                android:orientation="vertical"
+                android:gravity="right"
+                android:layout_marginRight="@dimen/navi_dimens_2dp"
+                android:layout_toLeftOf="@+id/right_ic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/right_tv_top"
+                    style="@style/FutureTripEdgeBtnTvStyle"
+                    tools:text="100kmsdf" />
+
+                <TextView
+                    android:id="@+id/right_tv_bottom"
+                    style="@style/FutureTripEdgeBtnTvStyle"
+                    tools:text="100km" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/right_ic"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/bnav_future_trip_main_panel_top_edge_right_iv_selector"
+                android:layout_width="@dimen/navi_dimens_13dp"
+                android:layout_height="@dimen/navi_dimens_13dp" />
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <!--顶部分割线-->
+    <View
+        android:id="@+id/top_divider"
+        android:background="#EAEAEA"
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/navi_dimens_1dp"
+        android:layout_marginBottom="@dimen/navi_dimens_4dp"
+        android:layout_height="@dimen/nsdk_future_trip_main_panel_mid_zone_height"
+        tools:background="@android:color/holo_red_light">
+
+        <View
+            android:id="@+id/top_line"
+            style="@style/FutureTripMainPanelLineStyle"
+            android:visibility="visible"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/navi_dimens_12dp"
+            android:layout_marginRight="@dimen/navi_dimens_12dp"
+            android:layout_marginBottom="@dimen/navi_dimens_105dp"
+            tools:visibility="visible" />
+
+        <View
+            android:id="@+id/mid_line"
+            style="@style/FutureTripMainPanelLineStyle"
+            android:visibility="visible"
+            android:layout_marginLeft="@dimen/navi_dimens_12dp"
+            android:layout_marginRight="@dimen/navi_dimens_12dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/navi_dimens_69dp"
+            tools:layout_centerInParent="true"
+            tools:visibility="visible" />
+
+        <View
+            android:id="@+id/vertical_mid_line"
+            android:visibility="visible"
+            android:background="#000000"
+            android:layout_centerHorizontal="true"
+            android:layout_width="1.5dp"
+            android:layout_height="match_parent"
+            tools:visibility="visible" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/histogram"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:background="@android:color/transparent" />
+
+        <ImageView
+            android:id="@+id/item_guide"
+            android:visibility="gone"
+            android:layout_marginLeft="74dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/navi_dimens_33dp"
+            android:background="@drawable/nsdk_drawable_future_trip_histogram_item_guide"
+            android:layout_width="@dimen/navi_dimens_107dp"
+            android:layout_height="@dimen/navi_dimens_17dp"
+            tools:visibility="visible" />
+
+        <View
+            android:id="@+id/bottom_divider"
+            android:background="#dadada"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/navi_dimens_10dp"
+            android:layout_marginRight="@dimen/navi_dimens_10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/navi_dimens_33dp"
+            tools:background="@drawable/nsdk_drawable_future_trip_dash_shape"
+            tools:layout_centerInParent="true" />
+
+
+        <!--y轴与与time的中心对齐-->
+        <ImageView
+            android:id="@+id/select_item_time_iv"
+            android:layout_width="@dimen/nsdk_future_trip_select_time_width"
+            android:layout_height="@dimen/nsdk_future_trip_select_time_height"
+            android:layout_marginBottom="2dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:visibility="visible"
+            android:background="@drawable/nsdk_drawable_future_trip_item_select_time_bg" />
+
+        <!--unused,just for test-->
+        <TextView
+            android:visibility="gone"
+            android:layout_centerHorizontal="true"
+            android:text="21:00出发"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/navi_dimens_9dp"
+            android:textSize="@dimen/navi_dimens_11dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:visibility="visible" />
+
+        <com.baidu.navisdk.module.future.widgets.FutureTripTimeListView
+            android:id="@+id/histogram_bottom_select"
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_height="@dimen/navi_dimens_33dp"
+            tools:background="@android:color/transparent"
+            tools:visibility="invisible" />
+
+
+    </RelativeLayout><!--顶部分割线-->
+    <View
+        android:background="#EAEAEA"
+        android:layout_width="match_parent"
+        android:layout_height="1px" /><!--底部view-->
+    <RelativeLayout
+        android:id="@+id/panel_bottom_container"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nsdk_future_trip_main_panel_bottom_zone_height"
+        android:paddingRight="@dimen/navi_dimens_10dp"
+        android:paddingLeft="@dimen/navi_dimens_10dp"
+        tools:background="@android:color/holo_blue_bright"
+        tools:visibility="visible">
+        <!--底部正常view-->
+        <TextView
+            android:id="@+id/distance"
+            style="@style/FutureTripBottomTvStyle"
+            tools:text="100km" />
+
+        <TextView
+            android:id="@+id/light"
+            style="@style/FutureTripBottomTvStyle"
+            android:layout_toRightOf="@id/distance"
+            android:layout_marginLeft="@dimen/navi_dimens_8dp"
+            android:drawablePadding="@dimen/navi_dimens_2dp"
+            android:drawableLeft="@drawable/nsdk_future_trip_light"
+            tools:text="22"
+            tools:textColor="#28303a" />
+
+        <TextView
+            android:id="@+id/toll"
+            style="@style/FutureTripBottomTvStyle"
+            android:layout_toRightOf="@id/light"
+            android:layout_marginLeft="@dimen/navi_dimens_8dp"
+            android:drawablePadding="@dimen/navi_dimens_2dp"
+            android:drawableLeft="@drawable/nsdk_future_trip_toll"
+            tools:text="23" />
+
+        <TextView
+            android:id="@+id/add_to_task"
+            android:layout_alignParentRight="true"
+            android:text="@string/nsdk_future_trip_add_to_assistant"
+            android:textSize="@dimen/navi_dimens_13dp"
+            android:paddingLeft="@dimen/navi_dimens_20dp"
+            android:paddingRight="@dimen/navi_dimens_20dp"
+            android:paddingTop="@dimen/navi_dimens_2dp"
+            android:paddingBottom="@dimen/navi_dimens_2dp"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:textColor="@color/nsdk_future_trip_add_assistant_btn_text_selector"
+            android:background="@drawable/nsdk_future_trip_add_to_assistant_selector"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/navi_dimens_25dp" />
+
+
+        <ImageView
+            android:id="@+id/loading_view"
+            android:visibility="visible"
+            android:layout_centerInParent="true"
+            android:src="@drawable/nsdk_future_trip_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/loading_tv"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="loading"
+            tools:visibility="visible" />
+    </RelativeLayout>
+
+</com.baidu.navisdk.module.future.widgets.FutureTripContainerLinearLayout>

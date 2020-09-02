@@ -35,7 +35,6 @@ public class MyLocation {
     private boolean isFirstLoc;//是否是首次定位
 
     //初始化定位
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void initLocationOption() {
         requestLocationTime = 0;//请求次数置0
         isFirstLoc = true;//首次定位
@@ -68,6 +67,7 @@ public class MyLocation {
 
                 if(refreshSearchList) {
                     mainActivity.dbHelper.initSearchData();//初始化搜索记录
+                    mainActivity.myNavigateHelper.initDriveNavigateHelper();//初始化驾车导航引擎
                     refreshSearchList = false;
                 }
 

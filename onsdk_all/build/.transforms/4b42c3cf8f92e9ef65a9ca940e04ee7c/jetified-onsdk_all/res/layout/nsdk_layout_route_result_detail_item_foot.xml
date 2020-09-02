@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
+  -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@drawable/nsdk_route_result_down_background"
+    android:layout_width="match_parent"
+    android:layout_height="60dp">
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f2f2f2" />
+
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_marginLeft="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:src="@drawable/nsdk_route_result_taxi_ic" />
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_toRightOf="@id/iv"
+        android:layout_marginLeft="7dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:textSize="16dp"
+        android:background="@android:color/transparent"
+        android:textColor="#333333"
+        tools:text="打车约100元"
+        android:gravity="center" />
+    <TextView
+        android:id="@+id/to_taxi"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="12dp"
+        android:layout_width="72dp"
+        android:layout_height="28dp"
+        android:layout_centerVertical="true"
+        android:textSize="12dp"
+        android:background="@drawable/nsdk_bg_route_detail_to_taxi_selector"
+        android:textColor="@color/nsdk_color_route_detail_to_taxi_btn_selector"
+        android:textStyle="bold"
+        android:text="去打车"
+        android:gravity="center" />
+</RelativeLayout>

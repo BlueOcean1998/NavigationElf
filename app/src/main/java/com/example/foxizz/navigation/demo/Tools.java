@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.Settings;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -14,7 +15,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +22,7 @@ import com.example.foxizz.navigation.R;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * 这是一个工具类，专门存放各种方法
@@ -151,6 +152,19 @@ public class Tools {
         return true;
     }
 
+    //获取SD卡路径
+    public static String getSDCardDir() {
+        return Environment.getExternalStorageDirectory().toString();
+    }
+
+    //获取app文件夹名
+    public static String getAppFolderName(Context context) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            return Objects.requireNonNull(context.getExternalCacheDir()).getPath();
+        }
+        return null;
+    }
+
     //获取网络连接状态，有则返回true，没有则返回false
     public static boolean isNetworkConnected(Context context) {
         if(context != null) {
@@ -168,10 +182,12 @@ public class Tools {
     }
 
     //获取飞行模式状态，有开启则返回true，没有则返回false
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public static boolean isAirplaneModeOn(Context context) {
-        return Settings.Global.getInt(context.getContentResolver(),
-                Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            return Settings.Global.getInt(context.getContentResolver(),
+                    Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
+        }
+        return true;
     }
 
     //判断是否在时间内

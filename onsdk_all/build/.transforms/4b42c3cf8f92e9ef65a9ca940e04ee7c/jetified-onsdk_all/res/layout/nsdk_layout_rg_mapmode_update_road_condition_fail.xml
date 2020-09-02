@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_road_condition_fail_item"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nsdk_rg_intervene_height"
+    android:background="@color/nsdk_cl_bg_d"
+    android:orientation="vertical" >
+
+    <View
+        android:id="@+id/bnav_rg_common_divider_road_condition_fail"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_1dp"
+        android:background="@color/nsdk_cl_bg_b" />
+
+    <TextView
+        android:id="@+id/road_condition_fail_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/navi_dimens_16dp"
+        android:layout_marginTop="@dimen/navi_dimens_12dp"
+        android:text="@string/nsdk_string_rg_update_road_condition_fail"
+        android:textColor="@color/nsdk_cl_text_a"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/road_condition_fail_known"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nsdk_rg_intervene_control_height"
+        android:layout_marginLeft="@dimen/navi_dimens_16dp"
+        android:layout_marginRight="@dimen/navi_dimens_16dp"
+        android:layout_marginTop="@dimen/navi_dimens_16dp"
+        android:background="@drawable/bnav_common_button_selector"
+        android:gravity="center"
+        android:text="@string/alert_know"
+        android:textColor="@color/nsdk_cl_text_e"
+        android:textSize="16sp" />
+
+</LinearLayout>

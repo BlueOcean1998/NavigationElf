@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:layout_width="@dimen/navi_dimens_48dp"
+        android:layout_height="@dimen/navi_dimens_48dp">
+
+        <TextView
+            android:id="@+id/route_search_filter_brand_button"
+            android:layout_width="@dimen/navi_dimens_30dp"
+            android:layout_height="@dimen/navi_dimens_48dp"
+            android:layout_gravity="center"
+            android:textSize="@dimen/navi_dimens_12dp"
+            android:text="中国银行"
+            android:gravity="center"
+            android:textColor="#333333"/>
+    </FrameLayout>
+
+    <View
+        android:id="@+id/route_search_filter_brand_split_line"
+        android:layout_width="@dimen/navi_dimens_32dp"
+        android:layout_height="0.5dp"
+        android:background="#e9e9e9"
+        android:layout_gravity="center_horizontal"/>
+
+</LinearLayout>

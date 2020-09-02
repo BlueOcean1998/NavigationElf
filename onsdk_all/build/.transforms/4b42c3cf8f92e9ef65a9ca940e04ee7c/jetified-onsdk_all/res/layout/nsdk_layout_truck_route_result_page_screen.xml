@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <!-- 气泡根布局 -->
+    <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+        android:id="@+id/bubble_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNRelativeLayout
+        android:id="@+id/half_screen_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 半屏卡片阴影view -->
+        <View
+            android:id="@+id/half_screen_mask_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.3"
+            android:background="@android:color/black"
+            android:visibility="gone"/>
+
+        <com.baidu.mapframework.widget.EmptyTopLayout
+            android:id="@+id/rr_empty_top_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"/>
+
+        <!-- 多条小黄条根布局 -->
+        <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+            android:id="@+id/yellow_banner_half_screen_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/rr_empty_top_layout"
+            android:layout_marginTop="136dp"
+            android:visibility="gone"/>
+
+        <!-- 路线偏好半屏根布局 -->
+        <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+            android:id="@+id/route_prefer_half_screen_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"/>
+
+        <!-- 沿途搜半屏根布局 -->
+        <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+            android:id="@+id/nearby_search_half_screen_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"/>
+
+        <!-- 工具箱展开根布局 -->
+        <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+            android:id="@+id/tool_box_half_screen_view_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rr_empty_top_layout"
+            android:layout_marginTop="136dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/navi_dimens_6dp"
+            android:visibility="gone"/>
+
+        <!-- ugc上报根布局 -->
+        <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+            android:id="@+id/ugc_report_half_screen_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"/>
+
+        <!-- ugc报错根布局 -->
+        <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+            android:id="@+id/ugc_report_half_error_screen_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"/>
+
+        <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+            android:id="@+id/future_trip_half_screen_view_container"
+            android:layout_alignParentBottom="true"
+            tools:background="@android:color/holo_green_light"
+            android:layout_width="match_parent"
+            android:layout_height="319dp"
+            android:visibility="gone"/>
+
+        <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+            android:id="@+id/long_distance_route_refresh_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="#ffffff"/>
+
+    </com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNRelativeLayout>
+
+    <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+        android:id="@+id/full_screen_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 路线偏好全屏根布局 -->
+        <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+            android:id="@+id/route_prefer_full_screen_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+
+        <!-- 路线结果页页设置根布局 -->
+        <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+            android:id="@+id/setting_full_screen_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+
+        <!-- ugc事件根布局 -->
+        <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+            android:id="@+id/ugc_event_half_screen_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"/>
+
+        <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+            android:id="@+id/offline_download_full_screen_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+
+    </com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout>
+
+    <!--货车修改临时装货高度容器-->
+    <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+        android:id="@+id/truck_edit_temp_height_panel_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout>
+
+    <!-- 引导蒙层阴影view -->
+    <View
+        android:id="@+id/guide_mask_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.3"
+        android:background="@android:color/black"
+        android:visibility="gone"/>
+
+    <!-- 路线结果页引导根布局 -->
+    <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+        android:id="@+id/guide_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+        android:id="@+id/debug_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+        android:id="@+id/watch_touch"
+        android:layout_width="match_parent"
+        android:background="@android:color/transparent"
+        android:layout_height="match_parent"/>
+
+
+</RelativeLayout>

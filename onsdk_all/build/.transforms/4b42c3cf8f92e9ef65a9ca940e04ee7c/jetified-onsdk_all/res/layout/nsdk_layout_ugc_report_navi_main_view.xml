@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ugc_map_navi_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:background="@drawable/nsdk_layout_route_sort_background"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="10dp">
+
+    <include
+        layout="@layout/nsdk_layout_ugc_report_navi_portrait_main_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/navi_dimens_48dp"/>
+
+    <FrameLayout
+        android:id="@+id/ugc_map_navi_mayi_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_48dp"
+        android:background="@color/nsdk_rg_transparent"
+        android:layout_gravity="bottom"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/ugc_map_navi_mayi_btn"
+            android:layout_width="@dimen/navi_dimens_308dp"
+            android:layout_height="@dimen/navi_dimens_44dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/navi_dimens_4dp"
+            android:background="@drawable/nsdk_ugc_map_navi_mayi_btn_normal"
+            android:gravity="center"
+            android:text="@string/nsdk_string_ugc_report_route_error"
+            android:textColor="@color/nsdk_ugc_navi_mayi_btn_text_selector" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_4dp"
+            android:background="@drawable/nsdk_ugc_detail_post_comment_shadow" />
+    </FrameLayout>
+
+</FrameLayout>

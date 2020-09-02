@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/bnav_rg_menu_trans_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nsdk_rg_top_panel_height"
+        android:background="#00000000" >
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bnav_rg_part_trans_bground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bnav_rg_ugc_menu_items"
+        android:layout_below="@id/bnav_rg_menu_trans_top" 
+        android:background="#00000000">
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@id/bnav_rg_ugc_menu_items"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/bnav_rg_menu_ugc_func_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/nsdk_cl_bg_d"
+            android:orientation="vertical" >
+            <View
+                android:id="@+id/bnav_rg_menu_h_divider_0"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/navi_dimens_1dp"
+                android:background="@color/nsdk_cl_bg_b" />
+            <RelativeLayout
+                android:id="@+id/bnav_rg_menu_route_block_item"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/nsdk_rg_ugc_menu_item_height"
+                android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                android:minHeight="@dimen/nsdk_rg_ugc_menu_item_height" >
+
+                <TextView
+                    android:id="@+id/bnav_rg_menu_route_block_item_tv"
+                    style="@style/Text_NaviUGCSettingsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                    android:text="@string/nsdk_string_route_block" />
+
+                <ImageView
+                    android:layout_width="@dimen/navi_dimens_24dp"
+                    android:layout_height="@dimen/navi_dimens_24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/navi_dimens_8dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center_vertical"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/nsdk_drawable_common_ic_list_right_arrow" />
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/bnav_rg_menu_h_divider_1"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/navi_dimens_1dp"
+                android:background="@color/nsdk_cl_bg_b" />
+
+            <RelativeLayout
+                android:id="@+id/bnav_rg_menu_trafic_flag_error_item"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/nsdk_rg_ugc_menu_item_height"
+                android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                android:minHeight="@dimen/nsdk_rg_ugc_menu_item_height" >
+
+                <TextView
+                    android:id="@+id/bnav_rg_menu_trafic_flag_error_item_tv"
+                    style="@style/Text_NaviUGCSettingsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                    android:text="@string/nsdk_string_trafic_flag_error" />
+
+                <ImageView
+                    android:layout_width="@dimen/navi_dimens_24dp"
+                    android:layout_height="@dimen/navi_dimens_24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/navi_dimens_8dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center_vertical"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/nsdk_drawable_common_ic_list_right_arrow" />
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/bnav_rg_menu_h_divider_2"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/navi_dimens_1dp"
+                android:background="@color/nsdk_cl_bg_b" />
+
+            <RelativeLayout
+                android:id="@+id/bnav_rg_menu_route_bad_item"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/nsdk_rg_ugc_menu_item_height"
+                android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                android:minHeight="@dimen/nsdk_rg_ugc_menu_item_height" >
+
+                <TextView
+                    android:id="@+id/bnav_rg_menu_route_bad_item_tv"
+                    style="@style/Text_NaviUGCSettingsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                    android:text="@string/nsdk_string_route_bad" />
+
+                <ImageView
+                    android:layout_width="@dimen/navi_dimens_24dp"
+                    android:layout_height="@dimen/navi_dimens_24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/navi_dimens_8dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center_vertical"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/nsdk_drawable_common_ic_list_right_arrow" />
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/bnav_rg_menu_h_divider_3"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/navi_dimens_1dp"
+                android:background="@color/nsdk_cl_bg_b" />
+
+            <RelativeLayout
+                android:id="@+id/bnav_rg_menu_route_added_item"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/nsdk_rg_ugc_menu_item_height"
+                android:background="@drawable/nsdk_drawable_common_bg_pressed_mask_selector"
+                android:minHeight="@dimen/nsdk_rg_ugc_menu_item_height" >
+
+                <TextView
+                    android:id="@+id/bnav_rg_menu_route_added_item_tv"
+                    style="@style/Text_NaviUGCSettingsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/nsdk_rg_text_margin"
+                    android:text="@string/nsdk_string_route_added" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/navi_dimens_8dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center_vertical"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/nsdk_drawable_common_ic_list_right_arrow" />
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/bnav_rg_menu_h_divider_4"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/navi_dimens_1dp"
+                android:background="@color/nsdk_cl_bg_b" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/bnav_rg_close_content_panel"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_80dp"
+            android:background="@color/nsdk_cl_bg_d" >
+
+            <Button
+                android:id="@+id/bnav_rg_menu_ugc_close"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navi_dimens_48dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/navi_dimens_16dp"
+                android:layout_marginLeft="@dimen/navi_dimens_16dp"
+                android:layout_marginRight="@dimen/navi_dimens_16dp"
+                android:layout_marginTop="@dimen/navi_dimens_16dp"
+                android:background="@drawable/bnav_lineframe_button_selector" />
+
+            <TextView
+                android:id="@+id/bnav_rg_menu_close_tv"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navi_dimens_48dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/navi_dimens_16dp"
+                android:layout_marginLeft="@dimen/navi_dimens_16dp"
+                android:layout_marginRight="@dimen/navi_dimens_16dp"
+                android:layout_marginTop="@dimen/navi_dimens_16dp"
+                android:gravity="center"
+                android:text="@string/nsdk_string_close"
+                android:textColor="@color/nsdk_cl_text_a"
+                android:textSize="16sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

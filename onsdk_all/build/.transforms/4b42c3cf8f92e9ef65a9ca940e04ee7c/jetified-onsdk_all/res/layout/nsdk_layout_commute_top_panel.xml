@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.baidu.mapframework.widget.EmptyTopLayout
+        android:id="@+id/rr_empty_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"/>
+
+    <FrameLayout
+        android:id="@+id/commute_guide_loading_container"
+        android:layout_below="@id/rr_empty_top_layout"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="wrap_content"/>
+
+    <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+        android:id="@+id/commute_route_top_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rr_empty_top_layout"
+        android:layout_marginTop="-2dp"
+        android:background="@drawable/nsdk_drawable_commute_background"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNFrameLayout
+        android:id="@+id/commute_guide_top_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rr_empty_top_layout"
+        android:visibility="gone"/>
+</com.baidu.navisdk.module.routeresultbase.view.support.widgit.BNRelativeLayout>

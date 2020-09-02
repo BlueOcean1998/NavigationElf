@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2015 Baidu, Inc. All Rights Reserved.
+  -->
+<com.baidu.navisdk.module.lightnav.view.LightNaviTabsBar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/light_tabs_bar"
+    android:layout_height="@dimen/nsdk_light_navi_bottom_tab_height"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="@android:color/transparent">
+
+
+        <include
+            android:id="@+id/route_0"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            layout="@layout/nsdk_layout_light_navi_tabs_item" />
+
+        <include
+            android:id="@+id/route_1"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            layout="@layout/nsdk_layout_light_navi_tabs_item" />
+
+        <include
+            android:id="@+id/route_2"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            layout="@layout/nsdk_layout_light_navi_tabs_item" />
+    </LinearLayout>
+
+</com.baidu.navisdk.module.lightnav.view.LightNaviTabsBar>

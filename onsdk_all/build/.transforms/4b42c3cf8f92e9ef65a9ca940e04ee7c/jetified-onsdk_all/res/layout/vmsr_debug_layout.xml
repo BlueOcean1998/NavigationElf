@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="220dp">
+
+    <ListView
+            android:id="@+id/vmsr_debug_list"
+            android:layout_width="@dimen/navi_dimens_300dp"
+            android:layout_height="@dimen/navi_dimens_200dp"
+            android:background="#A0000000">
+
+    </ListView>
+
+</LinearLayout>

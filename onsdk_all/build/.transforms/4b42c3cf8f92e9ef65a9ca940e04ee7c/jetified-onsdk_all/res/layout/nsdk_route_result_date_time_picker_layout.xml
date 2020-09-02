@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:baidu="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:clickable="false"
+    android:background="@android:color/white"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nsdk_route_result_future_trip_panel_height">
+
+    <TextView
+        android:id="@+id/title"
+        android:gravity="center"
+        android:clickable="false"
+        android:textColor="#333333"
+        android:textSize="15dp"
+        android:text="@string/nsdk_route_result_future_trip_title"
+        android:layout_width="match_parent"
+        android:layout_height="46dp" />
+
+    <View
+        android:id="@+id/divider_0"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f4f4f4" />
+
+    <RelativeLayout
+        android:clickable="true"
+        android:id="@+id/bus_ll_select_time"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_height="184dp">
+
+        <com.baidu.navisdk.module.futuretrip.BNRRNumberPickerView
+            tools:background="@android:color/darker_gray"
+            android:id="@+id/bus_np_date"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            baidu:npv_ShowDivider="true"
+            baidu:npv_WrapSelectorWheel="false"
+            baidu:npv_TextSizeSelected="20dp"
+            baidu:npv_TextSizeNormal="16dp"
+            baidu:npv_ItemPaddingHorizontal="0dp"
+            baidu:npv_TextGravity="right"
+            baidu:npv_DividerIgnorePadding="true"
+            baidu:npv_TextColorSelected="#333333"
+            baidu:npv_TextColorNormal="#999999"
+            baidu:npv_DividerColor="#f4f4f4"
+            baidu:npv_ShowCount="5" />
+
+        <com.baidu.navisdk.module.futuretrip.BNRRNumberPickerView
+            android:id="@+id/bus_np_hour"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            tools:background="@android:color/holo_orange_light"
+            android:layout_toRightOf="@+id/bus_np_date"
+            android:paddingLeft="58dp"
+            android:paddingRight="24dp"
+            baidu:npv_WrapSelectorWheel="false"
+            baidu:npv_ShowDivider="true"
+            baidu:npv_TextSizeSelected="20dp"
+            baidu:npv_TextSizeNormal="16dp"
+            baidu:npv_TextGravity="left"
+            baidu:npv_DividerIgnorePadding="true"
+            baidu:npv_TextColorSelected="#333333"
+            baidu:npv_TextColorNormal="#999999"
+            baidu:npv_DividerColor="#f4f4f4"
+            baidu:npv_ShowCount="5" />
+
+        <com.baidu.navisdk.module.futuretrip.BNRRNumberPickerView
+            android:id="@+id/bus_np_minute"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/bus_np_hour"
+            android:layout_toEndOf="@+id/bus_np_hour"
+            tools:background="@android:color/holo_blue_light"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            baidu:npv_ShowCount="5"
+            baidu:npv_DividerIgnorePadding="true"
+            baidu:npv_TextGravity="left"
+            baidu:npv_TextSizeSelected="20dp"
+            baidu:npv_TextSizeNormal="16dp"
+            baidu:npv_ShowDivider="true"
+            baidu:npv_DividerColor="#f4f4f4"
+            baidu:npv_TextColorSelected="#333333"
+            baidu:npv_TextColorNormal="#999999" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divider_1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:background="#f4f4f4" />
+
+    <RelativeLayout
+        android:id="@+id/bus_ll_select_time_title"
+        android:layout_width="match_parent"
+        android:layout_height="59dp"
+        android:clickable="false"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/bus_tv_time_cancel_btn"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:textColor="#999999"
+            android:layout_marginLeft="15dp"
+            android:text="退出"
+            android:textSize="15dp"
+            android:layout_height="59dp" />
+
+        <TextView
+            android:id="@+id/bus_tv_time_ok_btn"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:layout_marginRight="15dp"
+            android:textColor="#3385ff"
+            android:text="确定"
+            android:textSize="15dp"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+</LinearLayout>

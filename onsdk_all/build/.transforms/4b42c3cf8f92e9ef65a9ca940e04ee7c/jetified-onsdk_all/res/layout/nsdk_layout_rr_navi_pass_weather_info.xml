@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:id="@+id/big_weather_container"
+        android:layout_width="wrap_content"
+        android:layout_height="58dp"
+        android:background="@drawable/nsdk_rr_pass_weather_big_bubble"
+        android:visibility="gone"
+        tools:visibility="visible"
+        >
+        <ImageView
+            android:id="@+id/big_weather_icon"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            tools:src="@drawable/nsdk_drawable_route_result_weather_storm_rain"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="10dp"
+            android:scaleType="fitCenter"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="14dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/city_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:textColor="#333333"
+                tools:text="深圳段"/>
+
+            <TextView
+                android:id="@+id/weather_describe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10dp"
+                android:textColor="#333333"
+                android:layout_marginTop="4dp"
+                tools:text="暴雨 32℃"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/small_weather_container"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        tools:visibility="gone"
+        android:background="@drawable/nsdk_rr_pass_weather_small_left_bubble">
+        <ImageView
+            android:id="@+id/small_weather_icon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            tools:src="@drawable/nsdk_drawable_route_result_weather_storm_rain"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"/>
+    </FrameLayout>
+
+</FrameLayout>

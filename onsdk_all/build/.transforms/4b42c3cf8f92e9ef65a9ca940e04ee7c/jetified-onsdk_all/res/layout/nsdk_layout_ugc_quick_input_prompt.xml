@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baidu.navisdk.module.ugc.quickinput.sugs.QuickInputPromptView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/ugc_quick_input_prompt_tv1"
+        style="@style/nsdk_ugc_quick_input_item_text_style"
+        tools:text="好堵啊"/>
+
+    <View
+        android:id="@+id/ugc_quick_input_prompt_line1"
+        style="@style/nsdk_ugc_quick_input_item_underline_style"/>
+
+
+    <TextView
+        android:id="@+id/ugc_quick_input_prompt_tv2"
+        style="@style/nsdk_ugc_quick_input_item_text_style"
+        tools:text="太堵l"/>
+
+    <View
+        android:id="@+id/ugc_quick_input_prompt_line2"
+        style="@style/nsdk_ugc_quick_input_item_underline_style"/>
+
+    <TextView
+        android:id="@+id/ugc_quick_input_prompt_tv3"
+        style="@style/nsdk_ugc_quick_input_item_text_style"
+        tools:text="相当的堵啊"/>
+
+    <View
+        android:id="@+id/ugc_quick_input_prompt_line3"
+        style="@style/nsdk_ugc_quick_input_item_underline_style"/>
+
+    <TextView
+        android:id="@+id/ugc_quick_input_prompt_tv4"
+        style="@style/nsdk_ugc_quick_input_item_text_style"
+        tools:text="好堵啊"/>
+    <View
+        android:id="@+id/ugc_quick_input_prompt_line4"
+        style="@style/nsdk_ugc_quick_input_item_underline_style"/>
+
+</com.baidu.navisdk.module.ugc.quickinput.sugs.QuickInputPromptView>

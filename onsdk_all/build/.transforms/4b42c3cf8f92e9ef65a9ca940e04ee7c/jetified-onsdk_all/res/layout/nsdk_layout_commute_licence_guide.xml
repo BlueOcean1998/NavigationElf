@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <com.baidu.mapframework.widget.EmptyTopLayout
+        android:id="@+id/rr_empty_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent" />
+
+    <ImageView
+        android:id="@+id/commute_user_guide_ic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/nsdk_drawable_commute_user_guide_ic"
+        android:scaleType="fitCenter" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_54dp"
+        android:layout_below="@id/rr_empty_top_layout">
+
+        <ImageView
+            android:id="@+id/commute_route_back"
+            android:layout_width="@dimen/navi_dimens_54dp"
+            android:layout_height="@dimen/navi_dimens_54dp"
+            android:layout_centerVertical="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/nsdk_ugc_icon_back" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="-65dp"
+        android:layout_below="@id/commute_user_guide_ic"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/navi_dimens_35dp"
+            android:text="@string/nsdk_commute_user_guide_tip_0"
+            android:textColor="#333333"
+            android:textSize="@dimen/navi_dimens_18dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/navi_dimens_3dp"
+            android:text="@string/nsdk_commute_user_guide_tip_1"
+            android:textColor="#333333"
+            android:textSize="@dimen/navi_dimens_18dp" />
+
+        <LinearLayout
+            android:id="@+id/commute_user_guide_licence_warning_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/navi_dimens_10dp"
+            android:layout_marginTop="@dimen/navi_dimens_40dp"
+            android:paddingRight="@dimen/navi_dimens_10dp"
+            android:paddingTop="@dimen/navi_dimens_15dp"
+            android:paddingBottom="@dimen/navi_dimens_15dp"
+            android:visibility="visible">
+
+        <ImageView
+                android:id="@+id/commute_user_guide_agree_licence_checkbox"
+                android:layout_width="@dimen/navi_dimens_20dp"
+                android:layout_height="@dimen/navi_dimens_20dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/nsdk_drawable_commute_user_guide_licence_agree_black_selector" />
+
+            <TextView
+                android:id="@+id/commute_user_guide_agree_licence_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/nsdk_commute_user_guide_licence_tip"
+                android:textColor="#333333"
+                android:textSize="@dimen/navi_dimens_13dp" />
+
+            <TextView
+                android:id="@+id/commute_user_guide_agree_licence_entrance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/nsdk_commute_user_guide_licence_entrance"
+                android:textColor="#3385ff"
+                android:textSize="@dimen/navi_dimens_13dp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/commute_user_guide_ensure_use_function"
+            android:layout_width="@dimen/navi_dimens_300dp"
+            android:layout_height="@dimen/navi_dimens_38dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/navi_dimens_10dp"
+            android:background="@drawable/nsdk_light_navi_to_nav_bg_selector"
+            android:gravity="center"
+            android:text="@string/nsdk_commute_user_guide_ensure_use_function"
+            android:textColor="@android:color/white"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/commute_user_guide_ignore_function"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingLeft="@dimen/navi_dimens_5dp"
+            android:paddingTop="@dimen/navi_dimens_5dp"
+            android:paddingRight="@dimen/navi_dimens_5dp"
+            android:paddingBottom="@dimen/navi_dimens_5dp"
+            android:text="@string/nsdk_commute_user_guide_ignore_function"
+            android:textColor="#999999"
+            android:textSize="@dimen/navi_dimens_13dp" />
+    </LinearLayout>
+</RelativeLayout>

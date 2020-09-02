@@ -1,0 +1,765 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/navi_result_root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000">
+
+    <RelativeLayout
+        android:id="@+id/mapview_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00000000"></RelativeLayout>
+
+    <View
+        android:id="@+id/mapview_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></View>
+
+    <RelativeLayout
+        android:id="@+id/title_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_59dp"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical">
+
+        <!-- 退出按钮 -->
+
+        <LinearLayout
+            android:id="@+id/back_container"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/navi_dimens_13dp">
+
+            <ImageView
+                android:layout_width="@dimen/navi_dimens_44dp"
+                android:layout_height="@dimen/navi_dimens_44dp"
+                android:src="@drawable/nsdk_navi_result_titlebar_back_btn_selector" />
+        </LinearLayout>
+        <!-- 菜单按钮 -->
+
+        <LinearLayout
+            android:id="@+id/info_container"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingRight="@dimen/navi_dimens_13dp">
+
+            <ImageView
+                android:layout_width="@dimen/navi_dimens_44dp"
+                android:layout_height="@dimen/navi_dimens_44dp"
+                android:src="@drawable/nsdk_navi_result_titlebar_share_btn_selector" />
+        </LinearLayout>
+        <!-- 小黄条 -->
+
+        <LinearLayout
+            android:id="@+id/yellow_banner_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_44dp"
+            android:layout_marginLeft="@dimen/navi_dimens_10dp"
+            android:layout_marginRight="@dimen/navi_dimens_10dp"
+            android:layout_toLeftOf="@id/info_container"
+            android:layout_toRightOf="@id/back_container"
+            android:background="@drawable/nsdk_ipo_yellow_banner_bg"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <com.baidu.navisdk.ui.widget.AlwaysMarqueeTextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/navi_dimens_3dp"
+                android:layout_marginRight="@dimen/navi_dimens_3dp"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:text="保存轨迹用于再次导航? 点击保存"
+                android:textColor="#703a04"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/result_info_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/title_container">
+
+        <!-- 小黄条 -->
+
+        <LinearLayout
+            android:id="@+id/yellow_banner_container_bak"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_44dp"
+            android:layout_marginLeft="@dimen/navi_dimens_67dp"
+            android:layout_marginRight="@dimen/navi_dimens_67dp"
+            android:layout_marginTop="@dimen/navi_dimens_7dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/nsdk_ipo_yellow_banner_bg"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <com.baidu.navisdk.ui.widget.AlwaysMarqueeTextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/navi_dimens_3dp"
+                android:layout_marginRight="@dimen/navi_dimens_3dp"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:text="保存轨迹用于再次导航? 点击保存"
+                android:textColor="#703a04"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/walk_navi_container"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/navi_dimens_35dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/navi_dimens_19dp"
+            android:layout_marginTop="@dimen/navi_dimens_7dp"
+            android:background="@drawable/nsdk_navi_result_walk_navi_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="@dimen/navi_dimens_10dp"
+                android:layout_height="@dimen/navi_dimens_15dp"
+                android:layout_marginLeft="@dimen/navi_dimens_13dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/nsdk_navi_result_walk_navi_icon" />
+
+            <TextView
+                android:id="@+id/walk_navi_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/navi_dimens_6dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="#1f7cfe"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="@dimen/navi_dimens_6dp"
+                android:layout_height="@dimen/navi_dimens_10dp"
+                android:layout_marginLeft="@dimen/navi_dimens_6dp"
+                android:layout_marginRight="@dimen/navi_dimens_13dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/nsdk_navi_result_walk_navi_enter" />
+        </LinearLayout>
+
+        <com.baidu.navisdk.naviresult.TrackStatisticBar
+            android:id="@+id/track_statistic_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="@dimen/navi_dimens_13dp"
+            android:layout_marginTop="@dimen/navi_dimens_7dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_speed"
+                android:layout_width="@dimen/navi_dimens_35dp"
+                android:layout_height="@dimen/navi_dimens_35dp"
+                android:layout_marginBottom="@dimen/navi_dimens_6dp"
+                android:background="@drawable/nsdk_navi_result_statistics_single_item_bg_selected"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-3dp"
+                    android:text=""
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/navi_dimens_14dp" />
+
+                <TextView
+                    android:id="@+id/tv_caption_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-3dp"
+                    android:text="超速"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/navi_dimens_8dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_brake"
+                android:layout_width="@dimen/navi_dimens_35dp"
+                android:layout_height="@dimen/navi_dimens_35dp"
+                android:layout_marginBottom="@dimen/navi_dimens_6dp"
+                android:background="@drawable/nsdk_navi_result_statistics_single_item_bg_normal"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_brake"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-3dp"
+                    android:text=""
+                    android:textColor="#888888"
+                    android:textSize="@dimen/navi_dimens_14dp" />
+
+                <TextView
+                    android:id="@+id/tv_caption_brake"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-2dp"
+                    android:text="急刹车"
+                    android:textColor="#888888"
+                    android:textSize="@dimen/navi_dimens_8dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_turn"
+                android:layout_width="@dimen/navi_dimens_35dp"
+                android:layout_height="@dimen/navi_dimens_35dp"
+                android:layout_marginBottom="@dimen/navi_dimens_6dp"
+                android:background="@drawable/nsdk_navi_result_statistics_single_item_bg_normal"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_turn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-3dp"
+                    android:text=""
+                    android:textColor="#888888"
+                    android:textSize="@dimen/navi_dimens_14dp" />
+
+                <TextView
+                    android:id="@+id/tv_caption_turn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-2dp"
+                    android:text="急转弯"
+                    android:textColor="#888888"
+                    android:textSize="@dimen/navi_dimens_8dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_accelerate"
+                android:layout_width="@dimen/navi_dimens_35dp"
+                android:layout_height="@dimen/navi_dimens_35dp"
+                android:background="@drawable/nsdk_navi_result_statistics_single_item_bg_normal"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_accelerate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-3dp"
+                    android:text=""
+                    android:textColor="#888888"
+                    android:textSize="@dimen/navi_dimens_14dp" />
+
+                <TextView
+                    android:id="@+id/tv_caption_accelerate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-2dp"
+                    android:text="急加速"
+                    android:textColor="#888888"
+                    android:textSize="@dimen/navi_dimens_8dp" />
+            </LinearLayout>
+        </com.baidu.navisdk.naviresult.TrackStatisticBar>
+
+        <RelativeLayout
+            android:id="@+id/achievements_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="bottom">
+
+                <LinearLayout
+                    android:id="@+id/achievements_card_zone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/divider_above_speed_area"
+                    android:layout_gravity="bottom"
+                    android:orientation="vertical"
+                    android:visibility="invisible">
+
+                    <com.baidu.navisdk.naviresult.RightsProgressAnimateBar
+                        android:id="@+id/progress_area"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RelativeLayout
+                            android:id="@+id/current_progress_pointer_area"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="invisible">
+
+                            <com.baidu.navisdk.naviresult.OnSizeChangedRelativeLayout
+                                android:id="@+id/kilos_container"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/navi_dimens_42dp"
+                                android:alpha="0.9"
+                                android:background="@drawable/nsdk_navi_result_current_kilos_bg"
+                                android:paddingLeft="@dimen/navi_dimens_6dp"
+                                android:paddingRight="@dimen/navi_dimens_9dp">
+
+                                <LinearLayout
+                                    android:id="@+id/rights_lable_zone"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_alignParentLeft="true"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical">
+
+                                    <ImageView
+                                        android:id="@+id/rights_lable_ic"
+                                        android:layout_width="@dimen/navi_dimens_32dp"
+                                        android:layout_height="@dimen/navi_dimens_32dp"
+                                        android:scaleType="fitCenter"
+                                        android:src="@drawable/nsdk_navi_result_right_lable_default" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="@dimen/navi_dimens_5dp"
+                                    android:layout_toRightOf="@id/rights_lable_zone"
+                                    android:gravity="center_vertical|right"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/kilos_tv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:ellipsize="end"
+                                        android:gravity="center_vertical|right"
+                                        android:singleLine="true"
+                                        android:textColor="#ffffff"
+                                        android:textSize="15sp" />
+
+                                    <TextView
+                                        android:id="@+id/kilos_prompt"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:ellipsize="end"
+                                        android:gravity="center_vertical|right"
+                                        android:singleLine="true"
+                                        android:text="本次增加 "
+                                        android:textColor="#ffffff"
+                                        android:textSize="11sp" />
+                                </LinearLayout>
+                            </com.baidu.navisdk.naviresult.OnSizeChangedRelativeLayout>
+
+                            <ImageView
+                                android:id="@+id/kilos_pointer_ic"
+                                android:layout_width="@dimen/navi_dimens_9dp"
+                                android:layout_height="@dimen/navi_dimens_7dp"
+                                android:layout_below="@id/kilos_container"
+                                android:layout_marginLeft="@dimen/navi_dimens_4dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/nsdk_navi_result_kilos_pointer" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                                android:id="@+id/achievements_progress_bar"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/navi_dimens_20dp"
+                                android:layout_below="@id/current_progress_pointer_area"
+                                android:layout_gravity="bottom"
+                                android:layout_marginTop="@dimen/navi_dimens_3dp"
+                                android:clickable="false"
+                                android:orientation="horizontal">
+
+                            <View
+                                    android:id="@+id/progress_bar_bg"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:alpha="0.6"
+                                    android:background="#000000"
+                                    android:clickable="false" />
+
+                            <View
+                                    android:id="@+id/present_progress_bar"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/nsdk_navi_result_present_progress_bar_bg"
+                                    android:clickable="false" />
+
+                            <com.baidu.navisdk.naviresult.ProgressIncreasingBar
+                                    android:id="@+id/current_progress_bar"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_toRightOf="@id/present_progress_bar"
+                                    android:clickable="false" />
+                        </RelativeLayout>
+                    </com.baidu.navisdk.naviresult.RightsProgressAnimateBar>
+
+                    <LinearLayout
+                        android:id="@+id/rights_and_upgrade_area"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#ffffff"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:id="@+id/check_rights_zone"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/navi_dimens_39dp"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/navi_dimens_13dp"
+                            android:paddingRight="@dimen/navi_dimens_13dp">
+
+                            <TextView
+                                android:id="@+id/goal_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
+                                android:layout_toLeftOf="@+id/rights_tv"
+                                android:ellipsize="end"
+                                android:singleLine="true"
+                                android:text="@string/nsdk_string_navi_result_rights_info"
+                                android:textColor="#333333"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@id/rights_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toLeftOf="@+id/enter_right_ic"
+                                android:ellipsize="end"
+                                android:gravity="center"
+                                android:paddingRight="@dimen/navi_dimens_5dp"
+                                android:singleLine="true"
+                                android:text="查看特权"
+                                android:textColor="#333333"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:id="@id/enter_right_ic"
+                                android:layout_width="@dimen/navi_dimens_10dp"
+                                android:layout_height="@dimen/navi_dimens_10dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/nsdk_navi_result_enter_right_icon" />
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:id="@+id/privileges_area"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/nsdk_navi_result_privilege_card_container_bg"
+                            android:orientation="horizontal"
+                            android:paddingBottom="@dimen/navi_dimens_12dp"
+                            android:paddingLeft="@dimen/navi_dimens_13dp"
+                            android:paddingRight="@dimen/navi_dimens_13dp"></LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+            <View
+                android:id="@id/divider_above_speed_area"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_above="@+id/speed_area"
+                android:background="#e6e6e6" />
+
+            <LinearLayout
+                android:id="@id/speed_area"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navi_dimens_72dp"
+                android:layout_above="@+id/functional_area"
+                android:background="#ffffff"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/saved_time_view"
+                    android:layout_width="@dimen/navi_dimens_0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|center_horizontal"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/saved_time_icon"
+                            android:layout_width="@dimen/navi_dimens_13dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/navi_dimens_5dp"
+                            android:gravity="center"
+                            android:textColor="#ffffff"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:id="@+id/saved_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:textColor="#333333"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/saved_time_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/navi_dimens_6dp"
+                        android:singleLine="true"
+                        android:text="比预计晚"
+                        android:textColor="#999999"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/total_time_view"
+                    android:layout_width="@dimen/navi_dimens_0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/total_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:textColor="#333333"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/navi_dimens_6dp"
+                        android:singleLine="true"
+                        android:text="行驶时间"
+                        android:textColor="#999999"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/average_speed_view"
+                    android:layout_width="@dimen/navi_dimens_0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/average_speed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:textColor="#333333"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/navi_dimens_6dp"
+                        android:singleLine="true"
+                        android:text="平均时速"
+                        android:textColor="#999999"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/max_speed_view"
+                    android:layout_width="@dimen/navi_dimens_0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/max_speed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:textColor="#333333"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/navi_dimens_6dp"
+                        android:singleLine="true"
+                        android:text="最高时速"
+                        android:textColor="#999999"
+                        android:textSize="11sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@id/functional_area"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navi_dimens_49dp"
+                android:layout_alignParentBottom="true"
+                android:background="#ffffff"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/report_view"
+                    android:layout_width="@dimen/navi_dimens_0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/nsdk_navi_result_bottom_btn_bg"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/navi_dimens_17dp"
+                        android:layout_height="@dimen/navi_dimens_17dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/nsdk_navi_result_report_icon" />
+
+                    <TextView
+                        android:id="@+id/report_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/navi_dimens_7dp"
+                        android:gravity="center"
+                        android:text="报错"
+                        android:textColor="#666666"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/assurance_view"
+                    android:layout_width="@dimen/navi_dimens_0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/nsdk_navi_result_bottom_btn_bg"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="@dimen/navi_dimens_17dp"
+                        android:layout_height="@dimen/navi_dimens_17dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/nsdk_navi_result_compensation_icon" />
+
+                    <TextView
+                        android:id="@+id/assurance_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/navi_dimens_7dp"
+                        android:gravity="center"
+                        android:text="导航保障"
+                        android:textColor="#666666"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/history_view"
+                    android:layout_width="@dimen/navi_dimens_0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/nsdk_navi_result_bottom_btn_bg"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/navi_dimens_17dp"
+                        android:layout_height="@dimen/navi_dimens_17dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/nsdk_navi_result_history_icon" />
+
+                    <TextView
+                        android:id="@+id/history_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/navi_dimens_7dp"
+                        android:gravity="center"
+                        android:text="历史足迹"
+                        android:textColor="#666666"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <ViewStub
+        android:id="@+id/bnav_navi_end_guide_viewstub_1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/nsdk_layout_bnavi_navi_end_guide_1" />
+
+    <ViewStub
+        android:id="@+id/bnav_navi_end_guide_viewstub_2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/nsdk_layout_bnavi_navi_end_guide_2" />
+
+</RelativeLayout>

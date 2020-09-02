@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="false">
+           <shape android:shape="rectangle" >
+            <solid android:color="@color/nsdk_cl_bg_d"></solid>
+            <corners android:radius="@dimen/nsdk_rg_assist_panel_icon_radius" />
+            <stroke android:width="0.5dp" android:color="@color/nsdk_cl_bg_a"/>
+        </shape>
+    </item>
+    <item android:state_pressed="true">
+     <shape android:shape="rectangle">
+            <solid android:color="@color/nsdk_cl_click_d" />
+            <corners android:radius="@dimen/nsdk_rg_assist_panel_icon_radius" />
+            <stroke android:width="0.5dp" android:color="@color/nsdk_cl_bg_a"/>
+         </shape>
+    </item> 
+</selector>

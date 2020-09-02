@@ -15,7 +15,7 @@ import com.baidu.mapapi.bikenavi.adapter.IBRouteGuidanceListener;
 import com.baidu.mapapi.bikenavi.adapter.IBTTSPlayer;
 import com.baidu.mapapi.bikenavi.model.BikeRouteDetailInfo;
 import com.baidu.mapapi.walknavi.model.RouteGuideKind;
-import com.example.foxizz.navigation.util.MySpeech;
+import com.baidu.tts.client.SpeechSynthesizer;
 
 public class BNaviGuideActivity extends Activity {
 
@@ -23,13 +23,10 @@ public class BNaviGuideActivity extends Activity {
 
     private BikeNavigateHelper mNaviHelper;
 
-    private MySpeech mySpeech;//语音合成模块
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mNaviHelper.quit();
-        mySpeech.mSpeechSynthesizer.release();//释放实例
     }
 
     @Override
@@ -43,10 +40,6 @@ public class BNaviGuideActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         mNaviHelper = BikeNavigateHelper.getInstance();
-
-        //初始化语音合成模块
-        mySpeech = new MySpeech(this);
-        mySpeech.initSpeech();
 
         View view = mNaviHelper.onCreate(BNaviGuideActivity.this);
         if (view != null) {
@@ -65,7 +58,7 @@ public class BNaviGuideActivity extends Activity {
             public int playTTSText(String s, boolean b) {
                 Log.d("tts", s);
 
-                mySpeech.mSpeechSynthesizer.speak(s);//语音
+                SpeechSynthesizer.getInstance().speak(s);//语音播报
 
                 return 0;
             }

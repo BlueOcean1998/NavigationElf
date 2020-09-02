@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    
+    <RelativeLayout
+    android:id="@+id/top_layout"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/navi_dimens_60dp"
+    android:background="@color/nsdk_carmode_titlebar_bg"
+    android:gravity="center_vertical"
+     >
+    
+    <FrameLayout
+        android:id="@+id/left_content"
+        android:layout_width="wrap_content"
+        android:minWidth="@dimen/navi_dimens_100dp"
+        android:layout_height="match_parent"
+        android:visibility="gone" >
+
+       <ImageView
+        android:id="@+id/left_imageview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/nsdk_carmode_titlebar_btn_selector"
+        android:src="@drawable/bnav_titlebar_ic_back_normal"
+        android:scaleType="centerInside"
+        android:gravity="center"
+        android:clickable="true"
+        android:layout_marginRight="@dimen/navi_dimens_10dp"
+        android:minWidth="@dimen/navi_dimens_45dp" />
+       
+        <Button 
+            android:id="@+id/left_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/nsdk_carmode_titlebar_btn_selector"
+            android:text="全选"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_marginRight="@dimen/navi_dimens_10dp"
+            android:maxLength="4"
+            android:textColor="@drawable/nsdk_carmode_titlebar_text_selector"
+            android:minWidth="@dimen/navi_dimens_45dp"
+            android:visibility="gone"
+            />
+    </FrameLayout>    
+
+    <FrameLayout
+        android:id="@+id/right_content"
+        android:layout_width="wrap_content"
+        android:minWidth="@dimen/navi_dimens_100dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        >
+
+        <ImageView
+            android:id="@+id/right_imageview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:minWidth="@dimen/navi_dimens_45dp"
+            android:visibility="gone"
+            android:scaleType="centerInside"
+            android:background="@drawable/nsdk_carmode_titlebar_btn_selector"
+            />
+
+       <Button 
+            android:id="@+id/right_button"
+            android:paddingLeft="@dimen/navi_dimens_10dp"
+            android:paddingRight="@dimen/navi_dimens_10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:maxLength="4"
+            android:textSize="20sp"
+            android:textColor="@drawable/nsdk_carmode_titlebar_text_selector"
+            android:background="@drawable/nsdk_carmode_titlebar_btn_selector"
+            />
+    </FrameLayout>
+    
+     <FrameLayout
+        android:id="@+id/middle_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/right_content"
+        android:layout_toRightOf="@id/left_content"
+        android:clickable="true"
+        android:gravity="center" />
+      <TextView android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_centerInParent="true"
+         android:textSize="20sp"
+         android:id="@+id/middle_text"
+         android:gravity="center"/>
+
+</RelativeLayout>
+
+</FrameLayout>

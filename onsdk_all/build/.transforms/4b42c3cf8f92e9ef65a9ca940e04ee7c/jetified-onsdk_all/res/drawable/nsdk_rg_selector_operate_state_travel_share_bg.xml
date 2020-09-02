@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
+  -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="false" android:drawable="@drawable/nsdk_drawable_operate_state_travel_share_bg">
+    </item>
+    <item android:state_pressed="true" android:drawable="@drawable/nsdk_drawable_stravel_share_bg_pressed">
+    </item>
+</selector>

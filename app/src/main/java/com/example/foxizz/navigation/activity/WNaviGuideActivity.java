@@ -10,7 +10,7 @@ import com.baidu.mapapi.walknavi.adapter.IWTTSPlayer;
 import com.baidu.mapapi.walknavi.model.RouteGuideKind;
 import com.baidu.platform.comapi.walknavi.WalkNaviModeSwitchListener;
 import com.baidu.platform.comapi.walknavi.widget.ArCameraView;
-import com.example.foxizz.navigation.util.MySpeech;
+import com.baidu.tts.client.SpeechSynthesizer;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
@@ -30,13 +30,10 @@ public class WNaviGuideActivity extends Activity {
 
     private WalkNavigateHelper mNaviHelper;
 
-    private MySpeech mySpeech;//语音合成模块
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mNaviHelper.quit();
-        mySpeech.mSpeechSynthesizer.release();//释放实例
     }
 
     @Override
@@ -56,10 +53,6 @@ public class WNaviGuideActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         mNaviHelper = WalkNavigateHelper.getInstance();
-
-        //初始化语音合成模块
-        mySpeech = new MySpeech(this);
-        mySpeech.initSpeech();
 
         try {
             View view = mNaviHelper.onCreate(WNaviGuideActivity.this);
@@ -88,7 +81,7 @@ public class WNaviGuideActivity extends Activity {
             public int playTTSText(final String s, boolean b) {
                 Log.d(TAG, "tts: " + s);
 
-                mySpeech.mSpeechSynthesizer.speak(s);//语音
+                SpeechSynthesizer.getInstance().speak(s);//语音播报
 
                 return 0;
             }

@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/download_list_item_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/background_dark"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/info_relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_43dp"
+        android:descendantFocusability="blocksDescendants"
+        android:focusable="false">
+
+        <TextView
+            android:id="@+id/textview_name"
+            style="@style/NSDK_Text.provinceListName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/imageview_btn_taskStatus"
+            android:focusable="false"
+            android:paddingLeft="@dimen/navi_dimens_13dp"
+            android:textSize="14dp"
+            android:text="北京市" />
+
+        <ImageView
+            android:id="@+id/province_expand"
+            android:layout_width="@dimen/navi_dimens_10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/navi_dimens_28dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/nsdk_offline_data_download_arrow_down" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/list_item_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/navi_dimens_0dp"
+        android:layout_marginRight="@dimen/navi_dimens_0dp"
+        android:background="@drawable/nsdk_drawable_common_line_horizontal" />
+
+    <View
+        android:id="@+id/list_item_margin"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/navi_dimens_10dp"
+        android:background="@android:color/transparent" />
+
+</LinearLayout>

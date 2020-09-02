@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
+  -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#CC000000"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.baidu.navisdk.ui.widget.EmptyTopLayout
+        android:id="@+id/user_guide_empty_top"
+        android:layout_width="@dimen/nsdk_rg_simple_model_guide_panel_width"
+        android:layout_height="wrap_content"/>
+    <!--<ImageView-->
+        <!--android:id="@+id/content_container"-->
+        <!--android:layout_below="@+id/user_guide_empty_top"-->
+        <!--android:layout_marginTop="@dimen/navi_dimens_133dp"-->
+        <!--android:layout_marginLeft="@dimen/navi_dimens_10dp"-->
+        <!--android:src="@drawable/nsdk_drawable_navi_user_guide_top"-->
+        <!--android:scaleType="centerInside"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content">-->
+
+
+    <!--</ImageView>-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/bnav_remain_dis_desc"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:scaleType="centerInside"-->
+        <!--android:src="@drawable/nsdk_drawable_navi_user_guide_bottom"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
+
+</RelativeLayout>

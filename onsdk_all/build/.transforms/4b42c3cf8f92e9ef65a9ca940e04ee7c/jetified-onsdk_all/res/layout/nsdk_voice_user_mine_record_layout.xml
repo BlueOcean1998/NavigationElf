@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_98dp"
+        android:layout_marginTop="@dimen/navi_dimens_2dp"
+        android:background="@drawable/voice_user_me_record_bg"
+        >
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/navi_dimens_29dp"
+                android:paddingRight="@dimen/navi_dimens_29dp"
+                android:orientation="horizontal">
+                <androidx.cardview.widget.CardView 
+                        android:layout_width="@dimen/navi_dimens_46dp"
+                        android:layout_height="@dimen/navi_dimens_46dp"
+                        >
+                        <ImageView
+                                android:id="@+id/voice_user_me_record_icon"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/nsdk_voice_record_sign_in"
+                                android:background="#FFFFFF"
+                                android:scaleType="fitXY"
+                                />
+                        <ImageView
+                                android:id="@+id/voice_user_me_record_icon_shader"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="#80000000"/>
+                        <ImageView
+                                android:id="@+id/voice_user_me_record_audition"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/bnav_voice_audition_play"
+                                android:layout_gravity="center"/>
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/navi_dimens_8dp"
+                        android:orientation="vertical">
+                        <TextView
+                                android:id="@+id/voice_user_me_record_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="宝贝女儿的生声音"
+                                android:textSize="@dimen/navi_dimens_16dp"
+                                android:textColor="#333333"/>
+                        <TextView
+                                android:id="@+id/voice_user_me_record_subtitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="新鲜出炉的语音包"
+                                android:textSize="@dimen/navi_dimens_13dp"
+                                android:textColor="#999999"
+                                android:layout_marginTop="@dimen/navi_dimens_4dp"
+                        />
+                </LinearLayout>
+                
+                <com.baidu.navisdk.ui.navivoice.widget.BNDownloadProgressButton
+                        android:id="@+id/voice_user_me_record_download_button"
+                        android:layout_marginTop="@dimen/navi_dimens_5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                </com.baidu.navisdk.ui.navivoice.widget.BNDownloadProgressButton>
+
+                <ImageView
+                        android:id="@+id/voice_user_me_record_more"
+                        android:layout_marginLeft="@dimen/navi_dimens_7dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/nsdk_voice_item_more"/>
+
+        </LinearLayout>
+
+
+</RelativeLayout>

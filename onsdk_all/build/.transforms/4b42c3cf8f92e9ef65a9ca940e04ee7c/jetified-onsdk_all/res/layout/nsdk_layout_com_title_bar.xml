@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_50dp"
+        android:background="@color/bnav_titlebar_bg"
+        android:gravity="center_vertical">
+
+        <FrameLayout
+            android:id="@+id/left_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/left_imageview"
+                android:layout_width="@dimen/navi_dimens_48dp"
+                android:layout_height="@dimen/navi_dimens_48dp"
+                android:src="@drawable/bnav_titlebar_ic_back_new"
+                android:scaleType="centerInside"
+                android:gravity="center"
+                android:clickable="true"
+                android:layout_marginRight="@dimen/navi_dimens_10dp"/>
+
+            <Button
+                android:id="@+id/left_button"
+                android:paddingLeft="@dimen/navi_dimens_8dp"
+                android:paddingRight="@dimen/navi_dimens_8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/bnav_titlebar_btn_transparent_bg_selector"
+                android:text="全选"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_marginRight="@dimen/navi_dimens_10dp"
+                android:maxLength="4"
+                android:textColor="#ffffffff"
+                android:minWidth="@dimen/navi_dimens_45dp"
+                android:visibility="gone"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/right_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true">
+
+            <ImageView
+                android:id="@+id/right_imageview"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:minWidth="@dimen/navi_dimens_45dp"
+                android:visibility="gone"
+                android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                android:scaleType="centerInside"
+                android:background="@drawable/bnav_titlebar_btn_transparent_bg_selector"/>
+
+            <Button
+                android:id="@+id/right_button"
+                android:paddingLeft="@dimen/navi_dimens_8dp"
+                android:paddingRight="@dimen/navi_dimens_8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/bnav_titlebar_btn_transparent_bg_selector"
+                android:text="全选"
+                android:textSize="@dimen/navi_dimens_14dp"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                android:textColor="#333333"
+                android:minWidth="@dimen/navi_dimens_45dp"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/middle_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@id/right_content"
+            android:layout_toRightOf="@id/left_content"
+            android:clickable="true"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/middle_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/navi_dimens_16dp"
+            android:maxLines="1"
+            android:textColor="@color/bnav_titlebar_middle_text"
+            android:gravity="center"/>
+
+    </RelativeLayout>
+    <View
+        android:id="@+id/title_bar_divide_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#ddd"
+        android:layout_below="@id/top_layout"/>
+</RelativeLayout>

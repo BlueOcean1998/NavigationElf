@@ -48,6 +48,7 @@ import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.poi.PoiCitySearchOption;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
+import com.baidu.tts.client.SpeechSynthesizer;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.schemedata.SchemeAdapter;
 import com.example.foxizz.navigation.schemedata.SchemeItem;
@@ -73,7 +74,7 @@ import static com.example.foxizz.navigation.demo.Tools.rotateExpandIcon;
  * app_name: NavigationElf
  * author: Foxizz
  * accomplish_date: 2020-04-30
- * last_modify_date: 2020-09-01
+ * last_modify_date: 2020-09-02
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -299,6 +300,8 @@ public class MainActivity extends AppCompatActivity {
         mMapView.onDestroy();
         mPoiSearch.destroy();
         mSearch.destroy();
+        //释放语音合成实例
+        SpeechSynthesizer.getInstance().release();
     }
 
     //重新设置偏好
@@ -824,7 +827,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //申请权限，获得权限后定位
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void requestPermission() {
         String[] permissions = {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -852,7 +854,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void onRequestPermissionsResult(
             int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

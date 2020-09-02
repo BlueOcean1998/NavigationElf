@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bnav_navi_end_guide_1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bnav_navi_end_guide_1_bg">
+
+    <ImageView
+        android:id="@+id/bnav_navi_end_guide_1_iv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_dimens_44dp"
+        android:layout_marginLeft="@dimen/navi_dimens_67dp"
+        android:layout_marginRight="@dimen/navi_dimens_67dp"
+        android:layout_marginTop="7.5dp"
+        android:src="@drawable/bnav_navi_end_guide_1_iv" />
+</RelativeLayout>

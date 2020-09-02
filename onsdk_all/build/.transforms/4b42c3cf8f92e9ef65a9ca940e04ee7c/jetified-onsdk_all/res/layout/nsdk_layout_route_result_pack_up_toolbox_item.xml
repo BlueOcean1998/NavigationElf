@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical">
+
+
+    <RelativeLayout
+        android:id="@+id/toolbox_iv_collection"
+        android:layout_width="24dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="1dp"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/toolbox_iv"
+            android:layout_width="24dp"
+            android:layout_height="20dp"
+            android:src="@drawable/nsdk_drawable_route_result_charging_station"
+            android:scaleType="centerInside"/>
+
+        <TextView
+            android:id="@+id/toolbox_label"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:textColor="#ffffff"
+            android:textSize="5dp"
+            android:gravity="center"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:text="3"
+            android:background="@drawable/nsdk_drawable_route_result_toolbox_red_circle"/>
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/toolbox_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textSize="9dp"
+        android:textColor="@color/nsdk_route_result_button_text_color"
+        android:layout_below="@id/toolbox_iv_collection"
+        android:singleLine="true"
+        android:ellipsize="middle"
+        android:visibility="visible"/>
+
+</RelativeLayout>

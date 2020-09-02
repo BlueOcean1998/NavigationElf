@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
+  -->
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- 详情概览 -->
+    <LinearLayout
+        android:id="@+id/tssv_persistent_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/nsdk_cl_bg_d"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/navi_dimens_19dp"
+            android:paddingLeft="@dimen/nsdk_ugc_details_card_padding_left_right"
+            android:paddingRight="@dimen/nsdk_ugc_details_card_padding_left_right">
+
+
+            <ImageView
+                android:id="@+id/ic_event_type"
+                android:layout_width="@dimen/navi_dimens_40dp"
+                android:layout_height="@dimen/navi_dimens_40dp"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                tools:src="@drawable/nsdk_notification_traffic_restriction" />
+
+
+            <TextView
+                android:id="@+id/tv_event_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/ic_event_type"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:textColor="#333"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                tools:text="附近有加水加气" />
+
+
+            <TextView
+                android:id="@+id/tv_event_address_and_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_event_type"
+                android:layout_alignLeft="@id/tv_event_type"
+                android:layout_marginTop="@dimen/navi_dimens_4dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/nsdk_ugc_txt_normal"
+                android:textSize="14sp"
+                tools:text="北京海淀区上地十街10号" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/divider1"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="@dimen/navi_dimens_10dp"
+            android:background="#e7e7e7" />
+
+        <TextView
+            android:id="@+id/tv_event_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/nsdk_ugc_details_card_padding_left_right"
+            android:layout_marginTop="@dimen/navi_dimens_10dp"
+            android:layout_marginRight="@dimen/nsdk_ugc_details_card_padding_left_right"
+            android:background="@drawable/nsdk_ugc_event_detail_content_bg"
+            android:ellipsize="end"
+            android:lineSpacingMultiplier="1.3"
+            android:maxLines="4"
+            android:padding="10dp"
+            android:textColor="#333"
+            android:textSize="12sp"
+            tools:text="这附近有加水加气站，还挺便宜的，没问题还可以的，大家可以来看看，最多支持40字"
+            tools:visibility="visible" />
+
+        <com.baidu.navisdk.module.ugc.pictures.show.UgcDetailShowPicLayout
+            android:id="@+id/ugc_detail_show_pic_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_60dp"
+            android:layout_marginTop="@dimen/navi_dimens_10dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_marginLeft="@dimen/nsdk_ugc_details_card_padding_left_right"
+            android:layout_marginRight="@dimen/nsdk_ugc_details_card_padding_left_right" />
+
+        <!-- ugc 来源布局 -->
+        <LinearLayout
+            android:id="@+id/layout_ugc_source"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_17dp"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="@dimen/navi_dimens_10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/nsdk_ugc_details_card_padding_left_right"
+            android:paddingRight="@dimen/nsdk_ugc_details_card_padding_left_right">
+
+            <TextView
+                android:id="@+id/tv_event_reporter_ugc_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textSize="12sp"
+                tools:text="百度热心用户" />
+
+            <ImageView
+                android:id="@+id/iv_event_reporter_ugc_icon"
+                android:layout_width="@dimen/navi_dimens_14dp"
+                android:layout_height="@dimen/navi_dimens_14dp"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                tools:src="@drawable/nsdk_ugc_detail_user_level_1"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tv_event_reporter_ugc_supplement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textSize="12sp"
+                android:visibility="gone"
+                tools:text="等8人在此上报"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tv_event_time_stamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/navi_dimens_10dp"
+                android:maxLines="1"
+                android:textColor="@color/nsdk_ugc_txt_normal"
+                android:textSize="12sp"
+                tools:text="2019年07月03号" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/nsdk_ugc_details_card_padding_left_right"
+            android:layout_marginTop="@dimen/navi_dimens_10dp"
+            android:layout_marginRight="@dimen/nsdk_ugc_details_card_padding_left_right"
+            android:background="#e7e7e7" />
+
+        <include layout="@layout/nsdk_layout_ugc_detail_useful" />
+
+        <LinearLayout
+            android:id="@+id/event_detail_bottom_btn_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/nsdk_ugc_details_card_padding_left_right"
+            android:paddingTop="@dimen/navi_dimens_10dp"
+            android:paddingRight="@dimen/nsdk_ugc_details_card_padding_left_right"
+            android:paddingBottom="@dimen/navi_dimens_10dp">
+
+            <TextView
+                android:id="@+id/truck_ugc_add_via"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/navi_dimens_34dp"
+                android:layout_weight="1"
+                android:background="@drawable/nsdk_route_result_light_btn_bg_selector"
+                android:gravity="center"
+                android:text="@string/nsdk_string_rg_route_search_add_via"
+                android:textColor="#28303a" />
+
+            <TextView
+                android:id="@+id/truck_ugc_goto_here"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/navi_dimens_34dp"
+                android:layout_marginLeft="@dimen/navi_dimens_20dp"
+                android:layout_weight="1"
+                android:background="@drawable/nsdk_light_navi_to_nav_bg_selector"
+                android:gravity="center"
+                android:text="@string/nsdk_string_goto_here"
+                android:textColor="#fff"
+                tools:visibility="visible" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/v_pull_up"
+        android:layout_width="@dimen/navi_dimens_20dp"
+        android:layout_height="1dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/navi_dimens_4dp"
+        android:layout_marginBottom="@dimen/navi_dimens_2dp"
+        android:background="#dddddd" />
+</FrameLayout>
