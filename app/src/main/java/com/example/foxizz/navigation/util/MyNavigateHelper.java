@@ -1,5 +1,6 @@
 package com.example.foxizz.navigation.util;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
@@ -48,6 +49,9 @@ public class MyNavigateHelper {
     private WalkNaviLaunchParam walkParam;
     private BikeNaviLaunchParam bikeParam;
 
+    private static boolean enableDriveNavigate = false;//是否可以进行驾车导航
+    private ProgressDialog progressDialog;
+
     //初始化驾车导航引擎
     public void initDriveNavigateHelper() {
         BaiduNaviManagerFactory.getBaiduNaviManager().init(mainActivity,
@@ -74,6 +78,8 @@ public class MyNavigateHelper {
 
                 @Override
                 public void initSuccess() {
+                    enableDriveNavigate = true;
+
                     //初始化语音合成模块
                     initTTS();
                 }
@@ -84,6 +90,16 @@ public class MyNavigateHelper {
                             Toast.LENGTH_SHORT).show();
                 }
             });
+
+        initProgressDialog();
+    }
+
+    //初始化提示弹窗
+    private void initProgressDialog() {
+        progressDialog = new ProgressDialog(mainActivity);
+        progressDialog.setTitle(mainActivity.getString(R.string.hint));
+        progressDialog.setMessage(mainActivity.getString(R.string.route_plan_please_wait));
+        progressDialog.setCancelable(false);
     }
 
     //初始化语音合成模块
@@ -178,6 +194,8 @@ public class MyNavigateHelper {
 
     //初始化驾车路线规划
     private void routeDrivePlanWithParam() {
+        if(!enableDriveNavigate) return;
+
         //设置驾车导航的起点和终点
         BNRoutePlanNode startNode = new BNRoutePlanNode.Builder()
                 .latitude(mainActivity.latLng.latitude)
@@ -202,12 +220,13 @@ public class MyNavigateHelper {
                     public void handleMessage(Message msg) {
                         switch(msg.what) {
                             case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_START:
-
+                                progressDialog.show();
                                 break;
                             case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_SUCCESS:
-
+                                progressDialog.dismiss();
                                 break;
                             case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_FAILED:
+                                progressDialog.dismiss();
                                 Toast.makeText(mainActivity, R.string.drive_route_plan_fail,
                                         Toast.LENGTH_SHORT).show();
                                 break;
@@ -274,16 +293,18 @@ public class MyNavigateHelper {
         WalkNavigateHelper.getInstance().routePlanWithRouteNode(walkParam, new IWRoutePlanListener() {
             @Override
             public void onRoutePlanStart() {
-
+                progressDialog.show();
             }
 
             @Override
             public void onRoutePlanSuccess() {
+                progressDialog.dismiss();
                 mainActivity.startActivity(new Intent(mainActivity, WNaviGuideActivity.class));
             }
 
             @Override
             public void onRoutePlanFail(WalkRoutePlanError error) {
+                progressDialog.dismiss();
                 Toast.makeText(mainActivity, mainActivity.getString(R.string.walk_route_plan_fail), Toast.LENGTH_SHORT).show();
             }
         });
@@ -304,16 +325,18 @@ public class MyNavigateHelper {
         BikeNavigateHelper.getInstance().routePlanWithRouteNode(bikeParam, new IBRoutePlanListener() {
             @Override
             public void onRoutePlanStart() {
-
+                progressDialog.show();
             }
 
             @Override
             public void onRoutePlanSuccess() {
+                progressDialog.dismiss();
                 mainActivity.startActivity(new Intent(mainActivity, BNaviGuideActivity.class));
             }
 
             @Override
             public void onRoutePlanFail(BikeRoutePlanError bikeRoutePlanError) {
+                progressDialog.dismiss();
                 Toast.makeText(mainActivity, mainActivity.getString(R.string.bike_route_plan_fail), Toast.LENGTH_SHORT).show();
             }
         });

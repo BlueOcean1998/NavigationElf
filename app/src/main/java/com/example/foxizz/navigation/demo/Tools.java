@@ -2,7 +2,9 @@ package com.example.foxizz.navigation.demo;
 
 import android.Manifest;
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -16,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foxizz.navigation.R;
@@ -211,6 +214,19 @@ public class Tools {
         }
 
         return false;
+    }
+
+    //初始化设置（目前只有一个设置）
+    public static void initSettings(Context context) {
+        if(context instanceof Activity) {
+            Activity activity = (Activity) context;
+
+            //设置是否允许横屏
+            if(PreferenceManager.getDefaultSharedPreferences(context)
+                    .getBoolean("landscape", false))
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);//自动旋转
+            else activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//只允许竖屏
+        }
     }
 
 }

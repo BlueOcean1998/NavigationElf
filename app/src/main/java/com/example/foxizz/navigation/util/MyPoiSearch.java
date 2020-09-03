@@ -2,10 +2,7 @@ package com.example.foxizz.navigation.util;
 
 import android.annotation.SuppressLint;
 import android.database.Cursor;
-import android.os.Build;
 import android.widget.Toast;
-
-import androidx.annotation.RequiresApi;
 
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.CityInfo;
@@ -58,7 +55,6 @@ public class MyPoiSearch {
     public final static int DETAIL_SEARCH_ALL = 5;//详细搜索全部，用于数据库录入
 
     //初始化搜索目标信息
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void initSearch() {
         //获取Poi搜索实例
         mainActivity.mPoiSearch = PoiSearch.newInstance();
@@ -151,7 +147,6 @@ public class MyPoiSearch {
             }
 
             @SuppressLint({"SimpleDateFormat", "SetTextI18n"})
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onGetPoiDetailResult(PoiDetailSearchResult poiDetailResult) {
                 if(poiDetailResult == null//没有找到检索结果

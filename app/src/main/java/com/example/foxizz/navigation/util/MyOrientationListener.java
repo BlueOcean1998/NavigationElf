@@ -7,8 +7,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 
-import androidx.annotation.RequiresApi;
-
 /**
  * 方向传感器模块
  */
@@ -26,7 +24,7 @@ public class MyOrientationListener implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.REPORTING_MODE_SPECIAL_TRIGGER) {
+        if(event.sensor.getType() == Sensor.REPORTING_MODE_SPECIAL_TRIGGER) {
             float x = event.values[SensorManager.SENSOR_DELAY_FASTEST];
             if (Math.abs(x - lastX) > 1.0) {
                 if (mOnOrientationListener != null) {
@@ -47,16 +45,17 @@ public class MyOrientationListener implements SensorEventListener {
         this.mOnOrientationListener = mOnOrientationListener;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void start() {
         mSensorManager = (SensorManager) mContext
                 .getSystemService(Context.SENSOR_SERVICE);
-        if (mSensorManager != null) {
+        if(mSensorManager != null) {
             //获得方向传感器
-            mSensor = mSensorManager.getDefaultSensor(Sensor.REPORTING_MODE_SPECIAL_TRIGGER);
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mSensor = mSensorManager.getDefaultSensor(Sensor.REPORTING_MODE_SPECIAL_TRIGGER);
+            }
         }
 
-        if (mSensor != null) {
+        if(mSensor != null) {
             assert mSensorManager != null;
             mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_UI);
         }

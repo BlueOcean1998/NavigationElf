@@ -16,10 +16,13 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.database.DatabaseHelper;
+import com.example.foxizz.navigation.demo.SettingsConstants;
 
 import java.util.Objects;
 
@@ -44,7 +47,9 @@ public class SettingsActivity extends AppCompatActivity {
     private ImageButton destinationCityConfirm;//确定
     private ImageButton destinationCityCancel;//取消
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private static LocalBroadcastManager localBroadcastManager;//本地广播管理器
+    private static Intent resettingIntent;//用于发送设置广播
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,12 +62,12 @@ public class SettingsActivity extends AppCompatActivity {
         //标题栏
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         //自定义设置
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             initMySettings();
-        }
 
         //PreferenceScreen提供的设置
         getSupportFragmentManager()
@@ -72,7 +77,6 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     //自定义设置
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private void initMySettings() {
         mapStandardImage = findViewById(R.id.map_standard_image);
         mapStandardText = findViewById(R.id.map_standard_text);
@@ -89,19 +93,25 @@ public class SettingsActivity extends AppCompatActivity {
         switch(dbHelper.getSettings("map_type")) {
             case "0":
                 mapStandardImage.setImageResource(R.drawable.map_standard_on);
-                mapStandardText.setTextColor(getColor(R.color.deepblue));
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                    mapStandardText.setTextColor(getColor(R.color.deepblue));
                 break;
 
             case "1":
                 mapSatelliteImage.setImageResource(R.drawable.map_satellite_on);
-                mapSatelliteText.setTextColor(getColor(R.color.deepblue));
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                    mapSatelliteText.setTextColor(getColor(R.color.deepblue));
                 break;
 
             case "2":
                 mapTrafficImage.setImageResource(R.drawable.map_traffic_on);
-                mapTrafficText.setTextColor(getColor(R.color.deepblue));
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                    mapTrafficText.setTextColor(getColor(R.color.deepblue));
                 break;
         }
+
+        localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        resettingIntent = new Intent("com.example.foxizz.navigation.broadcast.SETTINGS_BROADCAST");
 
         //标准地图的点击事件
         mapStandardImage.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +128,10 @@ public class SettingsActivity extends AppCompatActivity {
 
                 //保存设置到数据库
                 dbHelper.modifySettings("map_type", "0");
+
+                //发送本地广播通知更新地图类型
+                localBroadcastManager.sendBroadcast(resettingIntent
+                        .putExtra("settings_type", SettingsConstants.SET_MAP_TYPE));
             }
         });
 
@@ -136,6 +150,10 @@ public class SettingsActivity extends AppCompatActivity {
 
                 //保存设置到数据库
                 dbHelper.modifySettings("map_type", "1");
+
+                //发送本地广播通知更新地图类型
+                localBroadcastManager.sendBroadcast(resettingIntent
+                        .putExtra("settings_type", SettingsConstants.SET_MAP_TYPE));
             }
         });
 
@@ -154,6 +172,10 @@ public class SettingsActivity extends AppCompatActivity {
 
                 //保存设置到数据库
                 dbHelper.modifySettings("map_type", "2");
+
+                //发送本地广播通知更新地图类型
+                localBroadcastManager.sendBroadcast(resettingIntent
+                        .putExtra("settings_type", SettingsConstants.SET_MAP_TYPE));
             }
         });
 
@@ -245,13 +267,52 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
-
         //创建PreferenceScreen
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
         }
 
+        //设置PreferenceScreen的点击事件
+        @Override
+        public boolean onPreferenceTreeClick(Preference preference) {
+            switch (preference.getKey()) {
+                case "landscape":
+                    //发送本地广播通知更新是否允许横屏
+                    localBroadcastManager.sendBroadcast(resettingIntent
+                            .putExtra("settings_type", SettingsConstants.SET_LANDSCAPE));
+                    break;
+                case "angle_3d":
+                    //发送本地广播通知更新否启用3D视角
+                    localBroadcastManager.sendBroadcast(resettingIntent
+                            .putExtra("settings_type", SettingsConstants.SET_ANGLE_3D));
+                    break;
+                case "map_rotation":
+                    //发送本地广播通知更新是否允许地图旋转
+                    localBroadcastManager.sendBroadcast(resettingIntent
+                            .putExtra("settings_type", SettingsConstants.SET_MAP_ROTATION));
+                    break;
+                case "scale_control":
+                    //发送本地广播通知更新是否显示比例尺
+                    localBroadcastManager.sendBroadcast(resettingIntent
+                            .putExtra("settings_type", SettingsConstants.SET_SCALE_CONTROL));
+                    break;
+                case "zoom_controls":
+                    //发送本地广播通知更新是否显示缩放按钮
+                    localBroadcastManager.sendBroadcast(resettingIntent
+                            .putExtra("settings_type", SettingsConstants.SET_ZOOM_CONTROLS));
+                    break;
+                case "compass":
+                    //发送本地广播通知更新是否显示指南针
+                    localBroadcastManager.sendBroadcast(resettingIntent
+                            .putExtra("settings_type", SettingsConstants.SET_COMPASS));
+                    break;
+                default:
+                    break;
+            }
+
+            return super.onPreferenceTreeClick(preference);
+        }
     }
 
 }

@@ -11,6 +11,7 @@ import com.baidu.mapapi.walknavi.model.RouteGuideKind;
 import com.baidu.platform.comapi.walknavi.WalkNaviModeSwitchListener;
 import com.baidu.platform.comapi.walknavi.widget.ArCameraView;
 import com.baidu.tts.client.SpeechSynthesizer;
+import com.example.foxizz.navigation.demo.Tools;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
@@ -23,7 +24,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-
+//步行导航诱导活动
 public class WNaviGuideActivity extends Activity {
 
     private final static String TAG = WNaviGuideActivity.class.getSimpleName();
@@ -163,6 +164,9 @@ public class WNaviGuideActivity extends Activity {
 
             }
         });
+
+        //初始化设置
+        Tools.initSettings(this);
     }
 
     @Override

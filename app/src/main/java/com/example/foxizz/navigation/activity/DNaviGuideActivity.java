@@ -23,7 +23,9 @@ import com.baidu.navisdk.adapter.BaiduNaviManagerFactory;
 import com.baidu.navisdk.adapter.IBNRouteGuideManager;
 import com.baidu.navisdk.adapter.IBNTTSManager;
 import com.baidu.navisdk.adapter.IBNaviListener;
+import com.example.foxizz.navigation.demo.Tools;
 
+//驾车导航诱导活动
 public class DNaviGuideActivity extends Activity {
 
     private static final String TAG = DNaviGuideActivity.class.getName();
@@ -103,6 +105,9 @@ public class DNaviGuideActivity extends Activity {
         super.onResume();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mRouteGuideManager.onResume();
+
+        //若在其它生命周期中调用该方法驾车导航内置设置会覆盖掉该app的设置
+        Tools.initSettings(this);
     }
 
     protected void onPause() {

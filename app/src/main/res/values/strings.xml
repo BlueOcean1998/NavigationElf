@@ -67,6 +67,7 @@
     <string name="suggest_to_walk">路程太短，建议步行</string>
     <string name="draw_route_fail">绘制路线失败</string>
 
+    <string name="route_plan_please_wait">正在计算路线，请稍候…</string>
     <string name="end_location_is_null">终点信息为空</string>
     <string name="wait_for_route_plan_result">请等待路线规划结果</string>
     <string name="drive_navigate_init_fail">驾车导航初始化失败，错误码：</string>

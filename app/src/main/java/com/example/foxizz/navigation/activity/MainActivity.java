@@ -6,17 +6,17 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Point;
@@ -50,6 +50,8 @@ import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.baidu.tts.client.SpeechSynthesizer;
 import com.example.foxizz.navigation.R;
+import com.example.foxizz.navigation.broadcastreceiver.SettingsReceiver;
+import com.example.foxizz.navigation.demo.Tools;
 import com.example.foxizz.navigation.schemedata.SchemeAdapter;
 import com.example.foxizz.navigation.schemedata.SchemeItem;
 import com.example.foxizz.navigation.searchdata.SearchAdapter;
@@ -74,18 +76,20 @@ import static com.example.foxizz.navigation.demo.Tools.rotateExpandIcon;
  * app_name: NavigationElf
  * author: Foxizz
  * accomplish_date: 2020-04-30
- * last_modify_date: 2020-09-02
+ * last_modify_date: 2020-09-03
  */
 public class MainActivity extends AppCompatActivity {
-
-    //设置相关
-    private SharedPreferences sharedPreferences;
-
 
     //地图控件
     public MapView mMapView;
     public BaiduMap mBaiduMap;
     public UiSettings mUiSettings;
+
+
+    //设置相关
+    private SharedPreferences sharedPreferences;
+    private SettingsReceiver settingsReceiver;//设置接收器
+    private LocalBroadcastManager localBroadcastManager;//本地广播管理器
 
 
     //方向传感器
@@ -229,7 +233,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -242,6 +245,8 @@ public class MainActivity extends AppCompatActivity {
         dbHelper = new DatabaseHelper(MainActivity.this, "Navigate.db", null, 1);
 
         InitMap();//初始化地图控件
+
+        initSettings();//初始化偏好设置
 
         initMyView();//初始化自定义控件
 
@@ -261,7 +266,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //管理地图的生命周期
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onStart() {
         super.onStart();
@@ -276,7 +280,8 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         mMapView.onResume();
 
-        reSettings();
+        //计算屏幕宽高，用于设置控件的高度
+        calculateWidthAndHeightOfScreen();
     }
 
     @Override
@@ -288,6 +293,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        //释放设置接收器实例
+        localBroadcastManager.unregisterReceiver(settingsReceiver);
+
         //开启定位的允许
         mBaiduMap.setMyLocationEnabled(false);
         //停止方向传感
@@ -302,55 +311,6 @@ public class MainActivity extends AppCompatActivity {
         mSearch.destroy();
         //释放语音合成实例
         SpeechSynthesizer.getInstance().release();
-    }
-
-    //重新设置偏好
-    @SuppressLint("SourceLockedOrientationActivity")
-    private void reSettings() {
-        //切换地图类型
-        switch(dbHelper.getSettings("map_type")) {
-            case "0"://标准地图
-                if(mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_NORMAL)
-                    mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-                mBaiduMap.setTrafficEnabled(false);
-                break;
-
-            case "1"://卫星地图
-                if(mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_SATELLITE)
-                    mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
-                mBaiduMap.setTrafficEnabled(false);
-                break;
-
-            case "2"://交通地图
-                if(mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_NORMAL)
-                    mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-                mBaiduMap.setTrafficEnabled(true);
-                break;
-        }
-
-        if(sharedPreferences.getBoolean("landscape", false))
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);//自动旋转
-        else setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//只允许竖屏
-
-        if(sharedPreferences.getBoolean("angle_3d", false))
-            mUiSettings.setOverlookingGesturesEnabled(true);//启用3D视角
-        else mUiSettings.setOverlookingGesturesEnabled(false);//禁用3D视角
-
-        if(sharedPreferences.getBoolean("map_rotation", false))
-            mUiSettings.setRotateGesturesEnabled(true);//启用地图旋转
-        else mUiSettings.setRotateGesturesEnabled(false);//禁用地图旋转
-
-        if(sharedPreferences.getBoolean("scale_control", false))
-            mMapView.showScaleControl(true);//显示比例尺
-        else mMapView.showScaleControl(false);//不显示比例尺
-
-        if(sharedPreferences.getBoolean("zoom_controls", false))
-            mMapView.showZoomControls(true);//显示缩放按钮
-        else mMapView.showZoomControls(false);//不显示缩放按钮
-
-        if(sharedPreferences.getBoolean("compass", true))
-            mUiSettings.setCompassEnabled(true);//显示指南针
-        else mUiSettings.setCompassEnabled(false);//不显示指南针
     }
 
     //初始化地图控件
@@ -397,6 +357,83 @@ public class MainActivity extends AppCompatActivity {
         */
     }
 
+    //设置地图类型
+    public void setMapType() {
+        //切换地图类型
+        switch(dbHelper.getSettings("map_type")) {
+            case "0"://标准地图
+                if(mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_NORMAL)
+                    mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+                mBaiduMap.setTrafficEnabled(false);
+                break;
+
+            case "1"://卫星地图
+                if(mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_SATELLITE)
+                    mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
+                mBaiduMap.setTrafficEnabled(false);
+                break;
+
+            case "2"://交通地图
+                if(mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_NORMAL)
+                    mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+                mBaiduMap.setTrafficEnabled(true);
+                break;
+        }
+    }
+
+    //设置是否启用3D视角
+    public void setAngle3D() {
+        if(sharedPreferences.getBoolean("angle_3d", false))
+            mUiSettings.setOverlookingGesturesEnabled(true);//启用3D视角
+        else mUiSettings.setOverlookingGesturesEnabled(false);//禁用3D视角
+    }
+
+    //设置是否允许地图旋转
+    public void setMapRotation() {
+        if(sharedPreferences.getBoolean("map_rotation", false))
+            mUiSettings.setRotateGesturesEnabled(true);//启用地图旋转
+        else mUiSettings.setRotateGesturesEnabled(false);//禁用地图旋转
+    }
+
+    //设置是否显示比例尺
+    public void setScaleControl() {
+        if(sharedPreferences.getBoolean("scale_control", false))
+            mMapView.showScaleControl(true);//显示比例尺
+        else mMapView.showScaleControl(false);//不显示比例尺
+    }
+
+    //设置是否显示缩放按钮
+    public void setZoomControls() {
+        if(sharedPreferences.getBoolean("zoom_controls", false))
+            mMapView.showZoomControls(true);//显示缩放按钮
+        else mMapView.showZoomControls(false);//不显示缩放按钮
+    }
+
+    //设置是否显示指南针
+    public void setCompass() {
+        if(sharedPreferences.getBoolean("compass", true))
+            mUiSettings.setCompassEnabled(true);//显示指南针
+        else mUiSettings.setCompassEnabled(false);//不显示指南针
+    }
+
+    //初始化偏好设置
+    private void initSettings() {
+        setMapType();
+        Tools.initSettings(this);
+        setAngle3D();
+        setMapRotation();
+        setScaleControl();
+        setZoomControls();
+        setCompass();
+
+        //注册本地广播接收器
+        settingsReceiver = new SettingsReceiver(this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.example.foxizz.navigation.broadcast.SETTINGS_BROADCAST");
+        localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        localBroadcastManager.registerReceiver(settingsReceiver, intentFilter);
+    }
+
     //初始化自定义控件
     private void initMyView() {
         settings = findViewById(R.id.settings_button);
@@ -437,20 +474,8 @@ public class MainActivity extends AppCompatActivity {
         infoButton = findViewById(R.id.info_button);
         startButton = findViewById(R.id.start_button);
 
-        //计算屏幕高度，用于下面的伸缩动画
-        Display defaultDisplay = getWindowManager().getDefaultDisplay();
-        Point point = new Point();
-        defaultDisplay.getSize(point);
-
-        Configuration configuration = this.getResources().getConfiguration();//获取设置的配置信息
-        int ori = configuration.orientation;//获取屏幕方向
-        if(ori == Configuration.ORIENTATION_LANDSCAPE) {//横屏时
-            bodyLength = point.x;
-            bodyShort = point.y;
-        } else if(ori == Configuration.ORIENTATION_PORTRAIT) {//竖屏时
-            bodyLength = point.y;
-            bodyShort = point.x;
-        }
+        //计算屏幕宽高，用于设置控件的高度
+        calculateWidthAndHeightOfScreen();
 
         //设置搜索抽屉的结果列表、详细信息布局的拖动布局、路线方案抽屉的结果列表、路线方案信息的拖动布局的高度
         searchResult.getLayoutParams().height = bodyLength / 2;
@@ -865,6 +890,24 @@ public class MainActivity extends AppCompatActivity {
             }
             else
                 Toast.makeText(this, getString(R.string.get_permission_fail), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //计算屏幕的宽高
+    public void calculateWidthAndHeightOfScreen() {
+        //计算屏幕宽高，用于设置控件的高度
+        Display defaultDisplay = getWindowManager().getDefaultDisplay();
+        Point point = new Point();
+        defaultDisplay.getSize(point);
+
+        Configuration configuration = this.getResources().getConfiguration();//获取设置的配置信息
+        int ori = configuration.orientation;//获取屏幕方向
+        if(ori == Configuration.ORIENTATION_LANDSCAPE) {//横屏时
+            bodyLength = point.x;
+            bodyShort = point.y;
+        } else if(ori == Configuration.ORIENTATION_PORTRAIT) {//竖屏时
+            bodyLength = point.y;
+            bodyShort = point.x;
         }
     }
 
