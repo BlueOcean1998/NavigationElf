@@ -19,7 +19,7 @@
 
     <string name="empty_bottom">清空</string>
     <string name="search_bottom">搜索</string>
-    <string name="search_hint">你要查找的地址</string>
+    <string name="search_hint">在此输入你要查找的地址</string>
     <string name="expand">伸缩</string>
 
     <string name="target_name">目标名</string>

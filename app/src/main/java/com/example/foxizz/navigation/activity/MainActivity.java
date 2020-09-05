@@ -2,7 +2,6 @@ package com.example.foxizz.navigation.activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -13,7 +12,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -22,7 +20,9 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
@@ -117,12 +117,12 @@ public class MainActivity extends AppCompatActivity {
 
     public LinearLayout searchLayout;//搜索布局
     public EditText searchEdit;//搜索输入框
-    public Button emptyButton;//清空按钮
+    public ImageButton emptyButton;//清空按钮
     public Button searchButton;//搜索按钮
     public ImageButton searchExpand;//搜索结果伸缩按钮
 
     public String searchContent = "";//搜索内容
-    public boolean expandFlag = false;//伸缩状态
+    public boolean searchExpandFlag = false;//搜索伸缩状态
     public int bodyLength;//屏幕的长
     public int bodyShort;//屏幕的宽
 
@@ -183,14 +183,16 @@ public class MainActivity extends AppCompatActivity {
     public MyNavigateHelper myNavigateHelper;
 
     public LinearLayout startLayout;//开始导航布局
-    public Button returnButton;//返回按钮
+    public Button backButton;//返回按钮
     public Button infoButton;//路线规划、详细信息切换按钮
     public Button startButton;//开始导航按钮
 
     public boolean infoFlag;//信息显示状态
 
 
-    //控制布局相关
+    //控制相关
+    private InputMethodManager imm;//键盘
+
     private ImageButton settings;//设置
     private ImageButton refresh;//刷新
     private ImageButton location;//定位
@@ -198,38 +200,10 @@ public class MainActivity extends AppCompatActivity {
     private long exitTime = 0;//实现再按一次退出程序时，用于保存系统时间
     private long clickTime = 0;//防止连续点击按钮
 
-    public void expandSelectLayout(boolean flag) {//伸缩选择布局
-        expandLayout(this, selectLayout, flag);
-    }
-
-    public void expandSearchLayout(boolean flag) {//伸缩搜索布局
-        expandLayout(this, searchLayout, flag);
-    }
-
     public void expandSearchDrawer(boolean flag) {//伸缩搜索抽屉
         expandLayout(this, searchDrawer, flag);
         if(flag) rotateExpandIcon(searchExpand, 0, 180);//旋转伸展按钮
         else rotateExpandIcon(searchExpand, 180, 0);//旋转伸展按钮
-    }
-
-    public void expandInfoLayout(boolean flag) {//伸缩详细信息布局
-        expandLayout(this, infoLayout, flag);
-    }
-
-    public void expandSchemeLayout(boolean flag) {//伸缩方案布局
-        expandLayout(this, schemeLayout, flag);
-    }
-
-    public void expandSchemeDrawer(boolean flag) {//伸缩方案抽屉
-        expandLayout(this, schemeDrawer, flag);
-    }
-
-    public void expandSchemeInfoDrawer(boolean flag) {//伸缩方案信息抽屉
-        expandLayout(this, schemeInfoDrawer, flag);
-    }
-
-    public void expandStartLayout(boolean flag) {//伸缩开始导航布局
-        expandLayout(this, startLayout, flag);
     }
 
 
@@ -418,6 +392,9 @@ public class MainActivity extends AppCompatActivity {
 
     //初始化偏好设置
     private void initSettings() {
+        //获取键盘对象
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
         setMapType();
         Tools.initSettings(this);
         setAngle3D();
@@ -470,7 +447,7 @@ public class MainActivity extends AppCompatActivity {
         schemeInfo = findViewById(R.id.scheme_info);
 
         startLayout = findViewById(R.id.start_layout);
-        returnButton = findViewById(R.id.return_button);
+        backButton = findViewById(R.id.return_button);
         infoButton = findViewById(R.id.info_button);
         startButton = findViewById(R.id.start_button);
 
@@ -601,139 +578,52 @@ public class MainActivity extends AppCompatActivity {
         schemeReturnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expandSelectLayout(true);//展开选择布局
-                expandSchemeLayout(false);//收起方案抽屉
-                expandStartLayout(true);//展开开始导航布局
+                Tools.expandLayout(MainActivity.this, selectLayout, true);//展开选择布局
+                Tools.expandLayout(MainActivity.this, schemeLayout, false);//收起方案抽屉
+                Tools.expandLayout(MainActivity.this, startLayout, true);//展开开始导航布局
                 infoFlag = false;//设置信息状态为交通选择
                 infoButton.setText(R.string.info_button2);//设置按钮为详细信息
                 schemeInfoFlag = 0;//设置状态为不显示
             }
         });
 
+        //监听输入框内容改变
+        searchEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                //根据是否有内容判断显示和隐藏清空按钮
+                if(!searchEdit.getText().toString().isEmpty()) {
+                    emptyButton.setVisibility(View.VISIBLE);
+                } else {
+                    emptyButton.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
         //清空按钮的点击事件
         emptyButton.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
-                if(isHistorySearchResult) {//如果是搜索历史记录
-                    //如果有搜索内容则清空
-                    if(!searchEdit.getText().toString().isEmpty()) {
-                        searchEdit.setText("");
-                        return;
-                    }
-
-                    //没有搜索记录
-                    if(!dbHelper.ifHasSearchData()) return;
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setTitle(getString(R.string.warning));
-                    builder.setMessage(getString(R.string.to_clear));
-
-                    builder.setPositiveButton(getString(R.string.clear), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            searchEdit.setText("");//清空搜索输出框
-
-                            if(expandFlag) {
-                                expandSearchDrawer(false);//收起展开的搜索抽屉
-                                expandFlag = false;//设置状态为收起
-                            }
-
-                            searchResult.stopScroll();//停止信息列表滑动
-
-                            dbHelper.deleteAllSearchData();//清空数据库中的搜索记录
-                        }
-                    });
-
-                    builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            //do nothing
-                        }
-                    });
-
-                    builder.show();
-
-                } else {//如果不是
-                    isHistorySearchResult = true;//现在是搜索历史记录了
-                    searchEdit.setText("");//清空搜索输出框
-                    searchResult.stopScroll();//停止信息列表滑动
-                    dbHelper.initSearchData();//初始化搜索记录
-                }
+                emptyButton.setVisibility(View.INVISIBLE);//隐藏清空按钮
+                searchEdit.setText("");//清空搜索内容
             }
         });
 
         //搜索按钮的点击事件
         searchButton.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
-                if((System.currentTimeMillis() - clickTime) > 1000) //连续点击间隔时间不能小于1秒
-                    clickTime = System.currentTimeMillis();
-                else return;
-
-                if(!isNetworkConnected(MainActivity.this)) {
-                    Toast.makeText(MainActivity.this, getString(R.string.network_error),
-                            Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if(isAirplaneModeOn(MainActivity.this)) {
-                    Toast.makeText(MainActivity.this, getString(R.string.close_airplane_mode),
-                            Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                searchContent = searchEdit.getText().toString();
-
-                if(searchContent.isEmpty()) return;
-
-                if(!expandFlag) {//展开搜索抽屉
-                    searchResult.startAnimation(AnimationUtils.loadAnimation(
-                            MainActivity.this, R.anim.adapter_alpha2)
-                    );//动画2，出现;
-                    getValueAnimator(searchDrawer, 0, bodyLength / 2)
-                            .start();//展开搜索抽屉
-                    rotateExpandIcon(searchExpand, 0, 180);//伸展按钮的旋转动画
-                    expandFlag = true;//设置状态为展开
-                }
-
-                //收回键盘
-                InputMethodManager imm = (InputMethodManager)
-                        getSystemService(Context.INPUT_METHOD_SERVICE);
-                if(imm != null) imm.hideSoftInputFromWindow(
-                        getWindow().getDecorView().getWindowToken(), 0
-                );
-
-                String searchCity = null;//进行搜索的城市
-
-                // 定位成功后才可以进行搜索
-                if(mCity != null) searchCity = mCity;
-
-                //如果数据库中的城市不为空，则换用数据库中的城市
-                String databaseCity = dbHelper.getSettings("destination_city");
-                if(!TextUtils.isEmpty(databaseCity)) searchCity = databaseCity;
-
-                if(searchCity == null) {
-                    requestPermission();//申请权限，获得权限后定位
-                    return;
-                }
-
-                searchResult.stopScroll();//停止信息列表滑动
-                mBaiduMap.clear();//清空地图上的所有标记点和绘制的路线
-                searchList.clear();//清空searchList
-                searchAdapter.notifyDataSetChanged();//通知adapter更新
-                isHistorySearchResult = false;//已经不是搜索历史记录了
-
-                if(sharedPreferences.getBoolean("search_around", false))
-                    myPoiSearch.poiSearchType = MyPoiSearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
-                else myPoiSearch.poiSearchType = MyPoiSearch.CITY_SEARCH;//设置搜索类型为城市内搜索
-
-                //开始城市内搜索
-                mPoiSearch.searchInCity(new PoiCitySearchOption()
-                        .city(searchCity)
-                        .keyword(searchContent)
-                        .cityLimit(false));//不限制搜索范围在城市内
+                startPoiSearch();//开始POI搜索
             }
         });
 
@@ -741,66 +631,43 @@ public class MainActivity extends AppCompatActivity {
         searchExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(expandFlag) {//如果是展开状态
+                if(searchExpandFlag) {//如果是展开状态
                     expandSearchDrawer(false);//收起搜索抽屉
-                    expandFlag = false;//设置状态为收起
+                    searchExpandFlag = false;//设置状态为收起
                 } else {//如果是收起状态
                     expandSearchDrawer(true);//展开搜索抽屉
-                    expandFlag = true;//设置状态为展开
+                    searchExpandFlag = true;//设置状态为展开
                 }
             }
         });
 
         //返回按钮的点击事件
-        returnButton.setOnClickListener(new View.OnClickListener() {
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(schemeInfoFlag == 2) {//如果方案布局为单个方案
-                    expandSchemeDrawer(true);//展开方案抽屉
-                    expandSchemeInfoDrawer(false);//收起方案信息抽屉
-                    schemeInfoFlag = 1;//设置状态为方案列表
-                    expandStartLayout(false);//收起开始导航布局
-
-                    //调整方案布局的高度
-                    getValueAnimator(schemeLayout,
-                            bodyLength / 4, bodyLength / 2).start();
-                } else {
-                    expandSelectLayout(false);//收起选择布局
-                    expandSearchLayout(true);//展开搜索布局
-                    if(!expandFlag) {
-                        expandSearchDrawer(true);//展开被收起的搜索抽屉
-                        expandFlag = true;//设置状态为展开
-                    }
-                    expandInfoLayout(false);//收起详细信息布局
-                    expandStartLayout(false);//收起开始导航布局
-
-                    if(schemeInfoFlag == 1) {//如果方案布局为方案列表
-                        expandSchemeLayout(false);//收起方案布局
-                        schemeInfoFlag = 0;//设置状态为不显示
-                    }
-                }
+                backToUpperStory();//返回上一层
             }
         });
 
         //路线规划、详细信息、交通选择切换按钮的点击事件
         infoButton.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
                 if(schemeInfoFlag != 0) {//如果方案布局已经展开
-                    expandSelectLayout(true);//展开选择布局
+                    expandLayout(MainActivity.this, selectLayout, true);//展开选择布局
+                    expandLayout(MainActivity.this,schemeLayout, false);//收起方案布局
+
                     infoButton.setText(R.string.info_button2);//设置按钮为详细信息
                     infoFlag = false;//设置信息状态为交通选择
-
-                    expandSchemeLayout(false);//收起方案布局
                     schemeInfoFlag = 0;//设置状态为不显示
                     return;
                 }
 
                 if(infoFlag) {//如果显示为详细信息
+                    expandLayout(MainActivity.this, selectLayout, true);//展开选择布局
+                    expandLayout(MainActivity.this, infoLayout, false);//收起详细信息布局
+
                     infoButton.setText(R.string.info_button2);//设置按钮为详细信息
-                    expandSelectLayout(true);//展开选择布局
-                    expandInfoLayout(false);//收起详细信息布局
                     infoFlag = false;//设置信息状态交通选择
 
                     //重置交通类型为步行
@@ -813,8 +680,8 @@ public class MainActivity extends AppCompatActivity {
                     myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
                 } else {//如果显示为交通选择
                     infoButton.setText(R.string.info_button1);//设置按钮为路线
-                    expandSelectLayout(false);//收起选择布局
-                    expandInfoLayout(true);//展开详细信息布局
+                    expandLayout(MainActivity.this, selectLayout, false);//收起选择布局
+                    expandLayout(MainActivity.this, infoLayout, true);//展开详细信息布局
                     infoFlag = true;//设置信息状态为详细信息
                 }
             }
@@ -822,7 +689,6 @@ public class MainActivity extends AppCompatActivity {
 
         //开始导航按钮的点击事件
         startButton.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
                 myNavigateHelper.startNavigate();//开始导航
@@ -911,20 +777,159 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //重写，实现再按一次退出以及关闭抽屉
+    //返回上一层
+    private void backToUpperStory() {
+        if(schemeInfoFlag == 2) {//如果方案布局为单个方案
+            expandLayout(MainActivity.this, schemeDrawer, true);//展开方案抽屉
+            expandLayout(MainActivity.this, schemeInfoDrawer, false);//收起方案信息抽屉
+            expandLayout(MainActivity.this, startLayout, false);//收起开始导航布局
+
+            //调整方案布局的高度
+            getValueAnimator(schemeLayout,
+                    bodyLength / 4, bodyLength / 2).start();
+
+            schemeInfoFlag = 1;//设置状态为方案列表
+        } else {
+            expandLayout(MainActivity.this, selectLayout, false);//收起选择布局
+            expandLayout(MainActivity.this, searchLayout, true);//展开搜索布局
+            if(!searchExpandFlag) {
+                expandSearchDrawer(true);//展开被收起的搜索抽屉
+                searchExpandFlag = true;//设置状态为展开
+            }
+            expandLayout(MainActivity.this, infoLayout, false);//收起详细信息布局
+            expandLayout(MainActivity.this, startLayout, false);//收起开始导航布局
+
+            if(schemeInfoFlag == 1) {//如果方案布局为方案列表
+                expandLayout(MainActivity.this, schemeLayout, false);//收起方案布局
+                schemeInfoFlag = 0;//设置状态为不显示
+            }
+        }
+    }
+
+    //判断是否可以返回上一层
+    private boolean canBack() {
+        return !(selectLayout.getHeight() == 0 &&
+                searchLayout.getHeight() != 0 &&
+                infoLayout.getHeight() == 0 &&
+                startLayout.getHeight() == 0);
+    }
+
+    //开始POI搜索
+    private void startPoiSearch() {
+        if((System.currentTimeMillis() - clickTime) > 1000) //连续点击间隔时间不能小于1秒
+            clickTime = System.currentTimeMillis();
+        else return;
+
+        if(!isNetworkConnected(MainActivity.this)) {
+            Toast.makeText(MainActivity.this, getString(R.string.network_error),
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(isAirplaneModeOn(MainActivity.this)) {
+            Toast.makeText(MainActivity.this, getString(R.string.close_airplane_mode),
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        searchContent = searchEdit.getText().toString();
+
+        if(searchContent.isEmpty()) {//如果搜索内容为空
+            if(!isHistorySearchResult) {//如果不是搜索历史记录
+                searchResult.stopScroll();//停止信息列表滑动
+                dbHelper.initSearchData();//初始化搜索记录
+                isHistorySearchResult = true;//现在是搜索历史记录了
+            }
+            return;
+        }
+
+        if(!searchExpandFlag) {//展开搜索抽屉
+            searchResult.startAnimation(AnimationUtils.loadAnimation(
+                    MainActivity.this, R.anim.adapter_alpha2)
+            );//动画2，出现;
+            getValueAnimator(searchDrawer, 0, bodyLength / 2)
+                    .start();//展开搜索抽屉
+            rotateExpandIcon(searchExpand, 0, 180);//伸展按钮的旋转动画
+            searchExpandFlag = true;//设置状态为展开
+        }
+
+        if(imm != null) imm.hideSoftInputFromWindow(
+                getWindow().getDecorView().getWindowToken(), 0
+        );//收回键盘
+
+        String searchCity = null;//进行搜索的城市
+
+        // 定位成功后才可以进行搜索
+        if(mCity != null) searchCity = mCity;
+
+        //如果数据库中的城市不为空，则换用数据库中的城市
+        String databaseCity = dbHelper.getSettings("destination_city");
+        if(!TextUtils.isEmpty(databaseCity)) searchCity = databaseCity;
+
+        if(searchCity == null) {
+            requestPermission();//申请权限，获得权限后定位
+            return;
+        }
+
+        searchResult.stopScroll();//停止信息列表滑动
+        mBaiduMap.clear();//清空地图上的所有标记点和绘制的路线
+        searchList.clear();//清空searchList
+        searchAdapter.notifyDataSetChanged();//通知adapter更新
+        isHistorySearchResult = false;//已经不是搜索历史记录了
+
+        if(sharedPreferences.getBoolean("search_around", false))
+            myPoiSearch.poiSearchType = MyPoiSearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
+        else myPoiSearch.poiSearchType = MyPoiSearch.CITY_SEARCH;//设置搜索类型为城市内搜索
+
+        //开始城市内搜索
+        mPoiSearch.searchInCity(new PoiCitySearchOption()
+                .city(searchCity)
+                .keyword(searchContent)
+                .cityLimit(false));//不限制搜索范围在城市内
+    }
+
+    //监听按键抬起事件
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        //如果是返回键
         if(keyCode == KeyEvent.KEYCODE_BACK) {
-            if((System.currentTimeMillis() - exitTime) > 2000) {
+            //如果焦点在searchEdit上
+            if(MainActivity.this.getWindow().getDecorView().findFocus() == searchEdit) {
+                searchEdit.clearFocus();//使搜索输入框失去焦点
+                return true;//只收回键盘
+            }
+            if(canBack()) {//如果可以返回
+                backToUpperStory();//返回上一层
+                return true;
+            }
+            if(!isHistorySearchResult) {//如果不是搜索历史记录
+                searchResult.stopScroll();//停止信息列表滑动
+                dbHelper.initSearchData();//初始化搜索记录
+                isHistorySearchResult = true;//现在是搜索历史记录了
+                return true;
+            }
+            if(searchExpandFlag) {//收起搜索抽屉
+                expandSearchDrawer(false);
+                searchExpandFlag = false;
+                return true;
+            }
+            if((System.currentTimeMillis() - exitTime) > 2000) {//弹出再按一次退出提示
                 Toast.makeText(this, getString(R.string.exit_app), Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
-            } else {
-                finish();
-                System.exit(0);
+                return true;
             }
+        }
+
+        //如果是Enter键
+        if(keyCode == KeyEvent.KEYCODE_ENTER) {
+            startPoiSearch();//开始POI搜索
+            searchEdit.requestFocus();//搜索框重新获得焦点
+            if(imm != null) imm.hideSoftInputFromWindow(
+                    getWindow().getDecorView().getWindowToken(), 0
+            );//收回键盘
             return true;
         }
-        return super.onKeyDown(keyCode, event);
+        return super.onKeyUp(keyCode, event);
     }
 
 }

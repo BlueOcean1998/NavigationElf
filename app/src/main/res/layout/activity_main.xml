@@ -127,24 +127,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/layout_background_white">
-            <Button
-                android:id="@+id/empty_bottom"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:layout_margin="6dp"
-                android:layout_gravity="center"
-                android:background="@drawable/button_background_colorful"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:text="@string/empty_bottom"/>
 
             <EditText
                 android:id="@+id/search_edit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="7"
+                android:layout_weight="9"
+                android:layout_margin="6dp"
                 android:padding="9dp"
                 android:background="@drawable/edit_background"
                 android:textColor="@color/black"
@@ -156,12 +146,25 @@
                 android:importantForAutofill="no"
                 android:inputType="none" />
 
+            <ImageButton
+                android:id="@+id/empty_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="-42dp"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:src="@drawable/ic_baseline_cancel_24"
+                android:contentDescription="@string/expand"
+                android:visibility="invisible"
+                tools:ignore="RtlHardcoded" />
+
             <Button
                 android:id="@+id/search_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:layout_margin="6dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_gravity="center"
                 android:background="@drawable/button_background_colorful"
                 android:textColor="@color/black"
@@ -173,7 +176,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:layout_marginRight="6dp"
+                android:layout_marginRight="3dp"
                 android:layout_gravity="center"
                 android:background="@null"
                 android:src="@drawable/ic_expand_less_black_30dp"

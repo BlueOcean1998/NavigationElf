@@ -111,18 +111,17 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
                 int position = holder.getAdapterPosition();
                 SchemeItem schemeItem = mainActivity.schemeList.get(position);
 
-                mainActivity.expandSchemeDrawer(false);//收起方案抽屉
-                mainActivity.expandSchemeInfoDrawer(true);//展开方案信息抽屉
+                Tools.expandLayout(mainActivity, mainActivity.schemeDrawer, false);//收起方案抽屉
+                Tools.expandLayout(mainActivity, mainActivity.schemeInfoDrawer, true);//展开方案信息抽屉
+                Tools.expandLayout(mainActivity, mainActivity.startLayout, true);//展开开始导航布局
 
                 //调整方案布局的高度
                 Tools.getValueAnimator(mainActivity.schemeLayout,
                         mainActivity.bodyLength / 2,
                         mainActivity.bodyLength / 4).start();
 
-                mainActivity.schemeInfoFlag = 2;//如果方案布局为单个方案
                 mainActivity.infoButton.setText(R.string.info_button3);//设置按钮为交通选择
-                mainActivity.expandStartLayout(true);//展开开始导航布局
-
+                mainActivity.schemeInfoFlag = 2;//如果方案布局为单个方案
 
                 //设置方案信息
                 mainActivity.schemeInfo.setText(schemeItem.getAllStationInfo()

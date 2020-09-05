@@ -22,6 +22,7 @@ import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.MainActivity;
+import com.example.foxizz.navigation.demo.Tools;
 import com.example.foxizz.navigation.overlayutil.BikingRouteOverlay;
 import com.example.foxizz.navigation.overlayutil.DrivingRouteOverlay;
 import com.example.foxizz.navigation.overlayutil.IndoorRouteOverlay;
@@ -129,13 +130,14 @@ public class MyRoutePlanSearch {
                         .from(startNode)
                         .to(endNode));
 
-                mainActivity.expandSelectLayout(false);//收起选择布局
-
                 mainActivity.schemeInfoDrawer.getLayoutParams().height = 0;//设置方案信息抽屉的高度为0
-                mainActivity.expandSchemeLayout(true);//展开方案布局
-                mainActivity.expandSchemeDrawer(true);//展开方案抽屉
+
+                Tools.expandLayout(mainActivity, mainActivity.selectLayout, false);//收起选择布局
+                Tools.expandLayout(mainActivity, mainActivity.schemeLayout, true);//展开方案布局
+                Tools.expandLayout(mainActivity, mainActivity.schemeDrawer, true);//展开方案抽屉
+                Tools.expandLayout(mainActivity, mainActivity.startLayout, false);//收起开始导航布局
+
                 mainActivity.schemeInfoFlag = 1;//设置状态为方案列表
-                mainActivity.expandStartLayout(false);//收起开始导航布局
                 break;
         }
     }

@@ -26,6 +26,7 @@ import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.MainActivity;
+import com.example.foxizz.navigation.demo.Tools;
 import com.example.foxizz.navigation.util.MyPoiSearch;
 
 import static com.example.foxizz.navigation.demo.Tools.isAirplaneModeOn;
@@ -114,8 +115,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
                 click(holder);
 
+                Tools.expandLayout(mainActivity, mainActivity.infoLayout, true);//展开详细信息布局
+
                 mainActivity.infoButton.setText(R.string.info_button1);//设置按钮为路线
-                mainActivity.expandInfoLayout(true);//展开详细信息布局
                 mainActivity.infoFlag = true;//设置信息状态为详细信息
 
                 //获取点击的item
@@ -155,8 +157,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                     } else {
                         click(holder);
 
+                        Tools.expandLayout(mainActivity, mainActivity.selectLayout, true);//展开选择布局
+
                         mainActivity.infoButton.setText(R.string.info_button2);//设置按钮为详细信息
-                        mainActivity.expandSelectLayout(true);//展开选择布局
                         mainActivity.infoFlag = false;//设置信息状态为交通选择
 
                         //重置交通类型为步行
@@ -236,12 +239,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         int position = holder.getAdapterPosition();
         SearchItem searchItem = mainActivity.searchList.get(position);
 
-        mainActivity.expandSearchLayout(false);//收起搜索布局
-        if(mainActivity.expandFlag) {
+        Tools.expandLayout(mainActivity, mainActivity.searchLayout, false);//收起搜索布局
+        if(mainActivity.searchExpandFlag) {
             mainActivity.expandSearchDrawer(false);//收起展开的搜索抽屉
-            mainActivity.expandFlag = false;//设置状态为收起
+            mainActivity.searchExpandFlag = false;//设置状态为收起
         }
-        mainActivity.expandStartLayout(true);//展开开始导航布局
+        Tools.expandLayout(mainActivity, mainActivity.startLayout, true);//展开开始导航布局
 
         //设置终点坐标
         mainActivity.endLocation = searchItem.getLatLng();

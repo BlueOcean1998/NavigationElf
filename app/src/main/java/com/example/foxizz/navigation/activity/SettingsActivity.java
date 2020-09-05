@@ -1,12 +1,16 @@
 package com.example.foxizz.navigation.activity;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -14,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -28,7 +33,8 @@ import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private DatabaseHelper dbHelper;
+    //数据库相关
+    private static DatabaseHelper dbHelper;
 
     //设置地图类型
     private ImageView mapStandardImage;//标准地图
@@ -49,6 +55,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     private static LocalBroadcastManager localBroadcastManager;//本地广播管理器
     private static Intent resettingIntent;//用于发送设置广播
+
+    private InputMethodManager imm;//键盘
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +82,9 @@ public class SettingsActivity extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.settings, new SettingsFragment())
                 .commit();
+
+        //获取键盘对象
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
     //自定义设置
@@ -237,14 +248,7 @@ public class SettingsActivity extends AppCompatActivity {
         destinationCityConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                destinationCityConfirm.setVisibility(View.GONE);//隐藏确定按钮
-                destinationCityCancel.setVisibility(View.GONE);//隐藏取消按钮
-
-                if(textCity.isEmpty())//若输入的城市信息为空
-                    //置空数据库中的城市信息
-                    dbHelper.modifySettings("destination_city", null);
-                //将城市信息录入数据库
-                else dbHelper.modifySettings("destination_city", textCity);
+                commitCity();//提交输入的城市
             }
         });
 
@@ -307,12 +311,60 @@ public class SettingsActivity extends AppCompatActivity {
                     localBroadcastManager.sendBroadcast(resettingIntent
                             .putExtra("settings_type", SettingsConstants.SET_COMPASS));
                     break;
+                case "search_around":
+                    break;
+                case "clean_record":
+                    AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                    builder.setTitle(getString(R.string.warning));
+                    builder.setMessage(getString(R.string.to_clear));
+
+                    builder.setPositiveButton(getString(R.string.clear), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dbHelper.deleteAllSearchData();//清空数据库中的搜索记录
+                        }
+                    });
+
+                    builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //do nothing
+                        }
+                    });
+
+                    builder.show();
                 default:
                     break;
             }
 
             return super.onPreferenceTreeClick(preference);
         }
+    }
+
+    //提交输入的城市
+    private void commitCity() {
+        destinationCityConfirm.setVisibility(View.GONE);//隐藏确定按钮
+        destinationCityCancel.setVisibility(View.GONE);//隐藏取消按钮
+
+        if(textCity.isEmpty())//若输入的城市信息为空
+            //置空数据库中的城市信息
+            dbHelper.modifySettings("destination_city", null);
+            //将城市信息录入数据库
+        else dbHelper.modifySettings("destination_city", textCity);
+    }
+
+    //监听按键抬起事件
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        //如果是Enter键
+        if(keyCode == KeyEvent.KEYCODE_ENTER) {
+            commitCity();//提交输入的城市
+            if(imm != null) imm.hideSoftInputFromWindow(
+                    getWindow().getDecorView().getWindowToken(), 0
+            );//收回键盘
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
     }
 
 }

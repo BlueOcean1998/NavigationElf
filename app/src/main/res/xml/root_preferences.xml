@@ -1,5 +1,4 @@
 <PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
@@ -49,6 +48,9 @@
             app:title="禁用周边搜索"
             app:summary="当城市内搜索到的内容过多时，不再会自动转为周边搜索"
             app:defaultValue="false" />
+        <Preference
+            app:key="clean_record"
+            app:title="清空搜索记录" />
     </PreferenceCategory>
 
 </PreferenceScreen>
