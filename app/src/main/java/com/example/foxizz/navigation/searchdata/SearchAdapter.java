@@ -25,7 +25,7 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.example.foxizz.navigation.R;
-import com.example.foxizz.navigation.activity.MainActivity;
+import com.example.foxizz.navigation.activity.fragment.MainFragment;
 import com.example.foxizz.navigation.demo.Tools;
 import com.example.foxizz.navigation.util.MyPoiSearch;
 
@@ -37,10 +37,10 @@ import static com.example.foxizz.navigation.demo.Tools.isNetworkConnected;
  */
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
 
-    private MainActivity mainActivity;
+    private MainFragment mainFragment;
     //构造器
-    public SearchAdapter(MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
+    public SearchAdapter(MainFragment mainFragment) {
+        this.mainFragment = mainFragment;
     }
 
     private long clickTime = 0;
@@ -69,20 +69,20 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     //获取item数量
     @Override
     public int getItemCount() {
-        return mainActivity.searchList.size();
+        return mainFragment.searchList.size();
     }
 
     //获取SearchItem的数据
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        SearchItem searchItem = mainActivity.searchList.get(position);
+        SearchItem searchItem = mainFragment.searchList.get(position);
         holder.targetName.setText(searchItem.getTargetName());
         holder.address.setText(searchItem.getAddress());
         holder.distance.setText(searchItem.getDistance() + "km");
 
         //底部显示提示信息
-        if(position == mainActivity.searchList.size() - 1)
+        if(position == mainFragment.searchList.size() - 1)
             holder.endText.setVisibility(View.VISIBLE);
         else
             holder.endText.setVisibility(View.GONE);
@@ -103,35 +103,38 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             public void onClick(View view) {
                 if(unableToClick()) return;
 
-                if(!isNetworkConnected(mainActivity)) {
-                    Toast.makeText(mainActivity, mainActivity.getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+                if(!isNetworkConnected(mainFragment.requireActivity())) {
+                    Toast.makeText(mainFragment.requireActivity(),
+                            R.string.network_error, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if(isAirplaneModeOn(mainActivity)) {
-                    Toast.makeText(mainActivity, mainActivity.getString(R.string.close_airplane_mode), Toast.LENGTH_SHORT).show();
+                if(isAirplaneModeOn(mainFragment.requireActivity())) {
+                    Toast.makeText(mainFragment.requireActivity(),
+                            R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 click(holder);
 
-                Tools.expandLayout(mainActivity, mainActivity.infoLayout, true);//展开详细信息布局
+                Tools.expandLayout(mainFragment.requireActivity(),
+                        mainFragment.infoLayout, true);//展开详细信息布局
 
-                mainActivity.infoButton.setText(R.string.info_button1);//设置按钮为路线
-                mainActivity.infoFlag = true;//设置信息状态为详细信息
+                mainFragment.infoButton.setText(R.string.info_button1);//设置按钮为路线
+                mainFragment.infoFlag = true;//设置信息状态为详细信息
 
                 //获取点击的item
                 int position = holder.getAdapterPosition();
-                SearchItem searchItem = mainActivity.searchList.get(position);
+                SearchItem searchItem = mainFragment.searchList.get(position);
 
                 //移动视角到指定位置
                 LatLngBounds.Builder builder = new LatLngBounds.Builder();
                 builder.include(searchItem.getLatLng());
                 MapStatusUpdate msu= MapStatusUpdateFactory.newLatLngBounds(builder.build());
-                mainActivity.mBaiduMap.setMapStatus(msu);
+                mainFragment.mBaiduMap.setMapStatus(msu);
 
                 //清空地图上的所有标记点和绘制的路线
-                mainActivity.mBaiduMap.clear();
+                mainFragment.mBaiduMap.clear();
                 //构建Marker图标
                 BitmapDescriptor bitmap = BitmapDescriptorFactory
                         .fromResource(R.drawable.ic_to_location);
@@ -140,7 +143,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                         .position(searchItem.getLatLng())
                         .icon(bitmap);
                 //在地图上添加Marker，并显示
-                mainActivity.mBaiduMap.addOverlay(option);
+                mainFragment.mBaiduMap.addOverlay(option);
             }
         });
 
@@ -151,28 +154,31 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             public void onClick(View view) {
                 if(unableToClick()) return;
 
-                if(isNetworkConnected(mainActivity)) {
-                    if(isAirplaneModeOn(mainActivity)) {
-                        Toast.makeText(mainActivity, mainActivity.getString(R.string.close_airplane_mode), Toast.LENGTH_SHORT).show();
+                if(isNetworkConnected(mainFragment.requireActivity())) {
+                    if(isAirplaneModeOn(mainFragment.requireActivity())) {
+                        Toast.makeText(mainFragment.requireActivity(),
+                                R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
                     } else {
                         click(holder);
 
-                        Tools.expandLayout(mainActivity, mainActivity.selectLayout, true);//展开选择布局
+                        Tools.expandLayout(mainFragment.requireActivity(),
+                                mainFragment.selectLayout, true);//展开选择布局
 
-                        mainActivity.infoButton.setText(R.string.info_button2);//设置按钮为详细信息
-                        mainActivity.infoFlag = false;//设置信息状态为交通选择
+                        mainFragment.infoButton.setText(R.string.info_button2);//设置按钮为详细信息
+                        mainFragment.infoFlag = false;//设置信息状态为交通选择
 
                         //重置交通类型为步行
-                        mainActivity.routePlanSelect = MainActivity.WALKING;
-                        mainActivity.selectButton1.setBackgroundResource(R.drawable.button_background_gray);
-                        mainActivity.selectButton2.setBackgroundResource(R.drawable.button_background_black);
-                        mainActivity.selectButton3.setBackgroundResource(R.drawable.button_background_gray);
-                        mainActivity.selectButton4.setBackgroundResource(R.drawable.button_background_gray);
+                        mainFragment.routePlanSelect = MainFragment.WALKING;
+                        mainFragment.selectButton1.setBackgroundResource(R.drawable.button_background_gray);
+                        mainFragment.selectButton2.setBackgroundResource(R.drawable.button_background_black);
+                        mainFragment.selectButton3.setBackgroundResource(R.drawable.button_background_gray);
+                        mainFragment.selectButton4.setBackgroundResource(R.drawable.button_background_gray);
 
-                        mainActivity.myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
+                        mainFragment.myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
                     }
                 } else {
-                    Toast.makeText(mainActivity, mainActivity.getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mainFragment.requireActivity(),
+                            R.string.network_error, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -184,29 +190,29 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 if(unableToClick()) return false;
 
                 final int position = holder.getAdapterPosition();
-                final SearchItem searchItem = mainActivity.searchList.get(position);
+                final SearchItem searchItem = mainFragment.searchList.get(position);
 
-                if(mainActivity.isHistorySearchResult) {//如果是搜索历史记录
-                    AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
-                    builder.setTitle(mainActivity.getString(R.string.hint));
+                if(mainFragment.isHistorySearchResult) {//如果是搜索历史记录
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mainFragment.requireActivity());
+                    builder.setTitle(mainFragment.getString(R.string.hint));
                     builder.setMessage("你确定要删除'" + searchItem.getTargetName() + "'吗？");
 
-                    builder.setPositiveButton(mainActivity.getString(R.string.delete), new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton(mainFragment.getString(R.string.delete), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             //在searchList中寻找这条记录
-                            for(int i = 0; i < mainActivity.searchList.size(); i++) {
-                                if(searchItem.getUid().equals(mainActivity.searchList.get(i).getUid())) {
-                                    mainActivity.searchList.remove(searchItem);//移除搜索列表的这条记录
+                            for(int i = 0; i < mainFragment.searchList.size(); i++) {
+                                if(searchItem.getUid().equals(mainFragment.searchList.get(i).getUid())) {
+                                    mainFragment.searchList.remove(searchItem);//移除搜索列表的这条记录
                                     notifyItemRemoved(i);//通知adapter移除这条记录
                                 }
                             }
 
-                            mainActivity.dbHelper.deleteSearchData(searchItem.getUid());//删除数据库中的搜索记录
+                            mainFragment.dbHelper.deleteSearchData(searchItem.getUid());//删除数据库中的搜索记录
                         }
                     });
 
-                    builder.setNegativeButton(mainActivity.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton(mainFragment.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             //do nothing
@@ -217,9 +223,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
                 } else {//如果不是
                     //在searchList中寻找这条记录
-                    for(int i = 0; i < mainActivity.searchList.size(); i++) {
-                        if(searchItem.getUid().equals(mainActivity.searchList.get(i).getUid())) {
-                            mainActivity.searchList.remove(searchItem);//移除搜索列表的这条记录
+                    for(int i = 0; i < mainFragment.searchList.size(); i++) {
+                        if(searchItem.getUid().equals(mainFragment.searchList.get(i).getUid())) {
+                            mainFragment.searchList.remove(searchItem);//移除搜索列表的这条记录
                             notifyItemRemoved(i);//通知adapter移除这条记录
                         }
                     }
@@ -237,20 +243,22 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     private void click(ViewHolder holder) {
         //获取点击的item
         int position = holder.getAdapterPosition();
-        SearchItem searchItem = mainActivity.searchList.get(position);
+        SearchItem searchItem = mainFragment.searchList.get(position);
 
-        Tools.expandLayout(mainActivity, mainActivity.searchLayout, false);//收起搜索布局
-        if(mainActivity.searchExpandFlag) {
-            mainActivity.expandSearchDrawer(false);//收起展开的搜索抽屉
-            mainActivity.searchExpandFlag = false;//设置状态为收起
+        Tools.expandLayout(mainFragment.requireActivity(),
+                mainFragment.searchLayout, false);//收起搜索布局
+        if(mainFragment.searchExpandFlag) {
+            mainFragment.expandSearchDrawer(false);//收起展开的搜索抽屉
+            mainFragment.searchExpandFlag = false;//设置状态为收起
         }
-        Tools.expandLayout(mainActivity, mainActivity.startLayout, true);//展开开始导航布局
+        Tools.expandLayout(mainFragment.requireActivity(),
+                mainFragment.startLayout, true);//展开开始导航布局
 
         //设置终点坐标
-        mainActivity.endLocation = searchItem.getLatLng();
+        mainFragment.endLocation = searchItem.getLatLng();
 
-        mainActivity.myPoiSearch.poiSearchType = MyPoiSearch.DETAIL_SEARCH;//设置为直接详细搜索
-        mainActivity.mPoiSearch.searchPoiDetail(//进行详细信息搜索
+        mainFragment.myPoiSearch.poiSearchType = MyPoiSearch.DETAIL_SEARCH;//设置为直接详细搜索
+        mainFragment.mPoiSearch.searchPoiDetail(//进行详细信息搜索
                 (new PoiDetailSearchOption()).poiUids(searchItem.getUid()));
     }
 

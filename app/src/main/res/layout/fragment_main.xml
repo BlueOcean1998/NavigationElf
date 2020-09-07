@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/map_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:layout_gravity="top|end"
+        android:background="@null">
+        <ImageButton
+            android:id="@+id/settings_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button_background_alpha"
+            android:src="@drawable/ic_settings_black_30dp"
+            android:contentDescription="@string/settings" />
+
+        <ImageButton
+            android:id="@+id/refresh_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button_background_alpha"
+            android:src="@drawable/ic_refresh_black_30dp"
+            android:contentDescription="@string/refresh" />
+
+        <ImageButton
+            android:id="@+id/location_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button_background_alpha"
+            android:src="@drawable/ic_my_location_black_30dp"
+            android:contentDescription="@string/location" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_gravity="bottom"
+        android:clickable="true"
+        android:focusable="true">
+        <LinearLayout
+            android:id="@+id/select_layout"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:background="@drawable/layout_background_gray">
+
+            <Button
+                android:id="@+id/select_button1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="6dp"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:text="@string/select_button1"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:id="@+id/select_button2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="6dp"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:text="@string/select_button2"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:id="@+id/select_button3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="6dp"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:text="@string/select_button3"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:id="@+id/select_button4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="6dp"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:text="@string/select_button4"
+                tools:ignore="ButtonStyle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/search_layout"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/layout_background_white">
+
+            <EditText
+                android:id="@+id/search_edit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="9"
+                android:layout_margin="6dp"
+                android:padding="9dp"
+                android:background="@drawable/edit_background"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray"
+                android:textSize="16sp"
+                android:hint="@string/search_hint"
+                android:singleLine="true"
+                android:maxLength="42"
+                android:importantForAutofill="no"
+                android:inputType="none" />
+
+            <ImageButton
+                android:id="@+id/empty_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="-42dp"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:src="@drawable/ic_baseline_cancel_24"
+                android:contentDescription="@string/expand"
+                android:visibility="invisible"
+                tools:ignore="RtlHardcoded" />
+
+            <Button
+                android:id="@+id/search_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_gravity="center"
+                android:background="@drawable/button_background_colorful"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:text="@string/search_button" />
+
+            <ImageButton
+                android:id="@+id/search_expand"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginRight="3dp"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:src="@drawable/ic_expand_less_black_30dp"
+                android:contentDescription="@string/expand"
+                tools:ignore="RtlHardcoded" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/search_drawer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:padding="6dp"
+            android:background="@drawable/layout_background_white">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/search_result"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/info_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:background="@drawable/layout_background_lightgray">
+            <ScrollView
+                android:id="@+id/info_scroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:ignore="UselessParent">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/info_target_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:enabled="true"
+                        android:textIsSelectable="true"
+                        android:focusable="true"
+                        android:longClickable="true"
+                        android:textColor="@color/black"
+                        android:text="@string/target_name"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/info_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:enabled="true"
+                        android:textIsSelectable="true"
+                        android:focusable="true"
+                        android:longClickable="true"
+                        android:textColor="@color/black"
+                        android:text="@string/address"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/info_distance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:gravity="end"
+                        android:enabled="true"
+                        android:textIsSelectable="true"
+                        android:focusable="true"
+                        android:longClickable="true"
+                        android:textColor="@color/black"
+                        android:text="@string/distance"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/info_others"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:enabled="true"
+                        android:textIsSelectable="true"
+                        android:focusable="true"
+                        android:longClickable="true"
+                        android:textColor="@color/black"
+                        android:text="@string/others"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/scheme_layout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:background="@drawable/layout_background_white">
+            <ImageButton
+                android:id="@+id/scheme_return_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/button_background_skyblue"
+                android:src="@drawable/ic_expand_more_black_30dp"
+                android:contentDescription="@string/expand" />
+
+            <LinearLayout
+                android:id="@+id/scheme_drawer"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/scheme_result"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/scheme_info_drawer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ScrollView
+                    android:id="@+id/scheme_info_scroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:ignore="UselessParent">
+                    <TextView
+                        android:id="@+id/scheme_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="6dp"
+                        android:enabled="true"
+                        android:focusable="true"
+                        android:longClickable="true"
+                        android:text="@string/scheme_info"
+                        android:textColor="@color/black"
+                        android:textIsSelectable="true"
+                        android:textSize="16sp" />
+                </ScrollView>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/start_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/layout_background_lightgray"
+            android:orientation="horizontal"
+            android:padding="6dp">
+
+            <Button
+                android:id="@+id/return_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:background="@drawable/button_background_seablue"
+                android:text="@string/return_button"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:id="@+id/info_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:background="@drawable/button_background_skyblue"
+                android:textColor="@color/white"
+                android:text="@string/info_button1"
+                android:textSize="18sp"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:id="@+id/start_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="18dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:background="@drawable/button_background_deepblue"
+                android:textColor="@color/white"
+                android:text="@string/start_button"
+                android:textSize="18sp"
+                tools:ignore="ButtonStyle" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

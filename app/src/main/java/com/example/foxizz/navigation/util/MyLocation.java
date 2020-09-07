@@ -1,10 +1,7 @@
 package com.example.foxizz.navigation.util;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
 import android.widget.Toast;
-
-import androidx.annotation.RequiresApi;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -16,7 +13,7 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.example.foxizz.navigation.R;
-import com.example.foxizz.navigation.activity.MainActivity;
+import com.example.foxizz.navigation.activity.fragment.MainFragment;
 
 /**
  * 定位模块
@@ -24,9 +21,9 @@ import com.example.foxizz.navigation.activity.MainActivity;
 @SuppressLint("Registered")
 public class MyLocation {
 
-    private MainActivity mainActivity;
-    public MyLocation(MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
+    private MainFragment mainFragment;
+    public MyLocation(MainFragment mainFragment) {
+        this.mainFragment = mainFragment;
     }
 
     public boolean refreshSearchList;//是否刷新搜索列表
@@ -40,50 +37,50 @@ public class MyLocation {
         isFirstLoc = true;//首次定位
 
         //定位服务的客户端。宿主程序在客户端声明此类，并调用，目前只支持在主线程中启动
-        mainActivity.mLocationClient = new LocationClient(mainActivity);
+        mainFragment.mLocationClient = new LocationClient(mainFragment.requireActivity());
 
         //定位监听
-        mainActivity.mLocationClient.registerLocationListener(new BDAbstractLocationListener() {
+        mainFragment.mLocationClient.registerLocationListener(new BDAbstractLocationListener() {
             @Override
             public void onReceiveLocation(BDLocation location) {
                 //mapView 销毁后不在处理新接收的位置
-                if(location == null || mainActivity.mMapView == null) return;
+                if(location == null || mainFragment.mMapView == null) return;
 
                 //获取定位数据
-                mainActivity.latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                mainActivity.mLocType = location.getLocType();
-                mainActivity.mRadius = location.getRadius();
-                mainActivity.mLatitude = location.getLatitude();
-                mainActivity.mLongitude = location.getLongitude();
-                mainActivity.mCity = location.getCity();
+                mainFragment.latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                mainFragment.mLocType = location.getLocType();
+                mainFragment.mRadius = location.getRadius();
+                mainFragment.mLatitude = location.getLatitude();
+                mainFragment.mLongitude = location.getLongitude();
+                mainFragment.mCity = location.getCity();
 
                 //更新定位
-                mainActivity.locData = new MyLocationData.Builder()
-                        .accuracy(mainActivity.mRadius)
-                        .direction(mainActivity.mLastX)
-                        .latitude(mainActivity.mLatitude)
-                        .longitude(mainActivity.mLongitude).build();
-                mainActivity.mBaiduMap.setMyLocationData(mainActivity.locData);//设置定位数据
+                mainFragment.locData = new MyLocationData.Builder()
+                        .accuracy(mainFragment.mRadius)
+                        .direction(mainFragment.mLastX)
+                        .latitude(mainFragment.mLatitude)
+                        .longitude(mainFragment.mLongitude).build();
+                mainFragment.mBaiduMap.setMyLocationData(mainFragment.locData);//设置定位数据
 
                 if(refreshSearchList) {
-                    mainActivity.dbHelper.initSearchData();//初始化搜索记录
-                    mainActivity.myNavigateHelper.initDriveNavigateHelper();//初始化驾车导航引擎
+                    mainFragment.dbHelper.initSearchData();//初始化搜索记录
+                    mainFragment.myNavigateHelper.initDriveNavigateHelper();//初始化驾车导航引擎
                     refreshSearchList = false;
                 }
 
-                if(mainActivity.mLocType == BDLocation.TypeGpsLocation //GPS定位结果
-                        || mainActivity.mLocType == BDLocation.TypeNetWorkLocation //网络定位结果
-                        || mainActivity.mLocType == BDLocation.TypeOffLineLocation) {//离线定位结果
-                    //Toast.makeText(MainActivity.this,location.getAddrStr(), Toast.LENGTH_SHORT).show();
+                if(mainFragment.mLocType == BDLocation.TypeGpsLocation //GPS定位结果
+                        || mainFragment.mLocType == BDLocation.TypeNetWorkLocation //网络定位结果
+                        || mainFragment.mLocType == BDLocation.TypeOffLineLocation) {//离线定位结果
+                    //Toast.makeText(mainFragment.requireActivity(), location.getAddrStr(), Toast.LENGTH_SHORT).show();
                     if(isFirstLoc) {
                         isFirstLoc = false;
 
                         //移动视角并改变缩放等级
-                        MapStatusUpdate msu= MapStatusUpdateFactory.newLatLng(mainActivity.latLng);
-                        mainActivity.mBaiduMap.setMapStatus(msu);
+                        MapStatusUpdate msu= MapStatusUpdateFactory.newLatLng(mainFragment.latLng);
+                        mainFragment.mBaiduMap.setMapStatus(msu);
                         MapStatus.Builder builder = new MapStatus.Builder();
-                        builder.zoom(18.0f).target(mainActivity.latLng);
-                        mainActivity.mBaiduMap.animateMapStatus(
+                        builder.zoom(18.0f).target(mainFragment.latLng);
+                        mainFragment.mBaiduMap.animateMapStatus(
                                 MapStatusUpdateFactory.newMapStatus(builder.build())
                         );
                     }
@@ -94,18 +91,22 @@ public class MyLocation {
                         requestLocationTime++;//请求次数+1
                     } else {
                         //弹出错误提示
-                        switch (mainActivity.mLocType) {
+                        switch (mainFragment.mLocType) {
                             case BDLocation.TypeServerError://服务器错误
-                                Toast.makeText(mainActivity, R.string.server_error, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mainFragment.requireActivity(),
+                                        R.string.server_error, Toast.LENGTH_SHORT).show();
                                 break;
                             case BDLocation.TypeNetWorkException://网络错误
-                                Toast.makeText(mainActivity, mainActivity.getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mainFragment.requireActivity(),
+                                        R.string.network_error, Toast.LENGTH_SHORT).show();
                                 break;
                             case BDLocation.TypeCriteriaException://手机模式错误
-                                Toast.makeText(mainActivity, R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mainFragment.requireActivity(),
+                                        R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
                                 break;
                             default:
-                                Toast.makeText(mainActivity, R.string.unknown_error, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mainFragment.requireActivity(),
+                                        R.string.unknown_error, Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }
@@ -148,9 +149,9 @@ public class MyLocation {
         //设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者
         //option.setOpenAutoNotifyMode(3000, 1, LocationClientOption.LOC_SENSITIVITY_HIGHT);
         //需将配置好的LocationClientOption对象，通过setLocOption方法传递给LocationClient对象使用
-        mainActivity.mLocationClient.setLocOption(option);
+        mainFragment.mLocationClient.setLocOption(option);
         //开启定位
-        mainActivity.mLocationClient.start();
+        mainFragment.mLocationClient.start();
     }
 
 }

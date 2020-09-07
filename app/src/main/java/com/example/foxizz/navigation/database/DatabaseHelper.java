@@ -4,9 +4,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Build;
+import android.util.Log;
 
-import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -14,8 +15,11 @@ import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.search.core.PoiDetailInfo;
 import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
+import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.activity.SettingsActivity;
+import com.example.foxizz.navigation.activity.fragment.MainFragment;
+import com.example.foxizz.navigation.activity.fragment.UserFragment;
 import com.example.foxizz.navigation.searchdata.SearchItem;
 import com.example.foxizz.navigation.util.MyPoiSearch;
 
@@ -43,11 +47,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + "time long)";//记录时间
 
     private MainActivity mainActivity;
+    private MainFragment mainFragment;
+    private UserFragment userFragment;
     private SettingsActivity settingsActivity;
     public DatabaseHelper(Context context, String name,
                           SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
-        if(context instanceof MainActivity) mainActivity = (MainActivity) context;
+        if(context instanceof MainActivity) {
+            mainActivity = (MainActivity) context;
+            FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
+            Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_layout);
+            if(fragment instanceof MainFragment) mainFragment = (MainFragment) fragment;
+            if(fragment instanceof UserFragment) userFragment = (UserFragment) fragment;
+        }
         if(context instanceof SettingsActivity) settingsActivity = (SettingsActivity) context;
     }
 
@@ -98,20 +110,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         cursor.getDouble(cursor.getColumnIndex("latitude")),
                         cursor.getDouble(cursor.getColumnIndex("longitude"))));
                 MapStatusUpdate msu= MapStatusUpdateFactory.newLatLngBounds(builder.build());
-                mainActivity.mBaiduMap.setMapStatus(msu);
+                mainFragment.mBaiduMap.setMapStatus(msu);
             }
         }
     }
 
     //初始化搜索记录
     public void initSearchData() {
-        mainActivity.searchList.clear();
+        mainFragment.searchList.clear();
 
         boolean flag = false;//是否刷新搜索记录
         if(isNetworkConnected(mainActivity) && //有网络连接
                 !isAirplaneModeOn(mainActivity)) {//没有开飞行模式
             flag = true;
-            mainActivity.myPoiSearch.poiSearchType = MyPoiSearch.DETAIL_SEARCH_ALL;//设置为详细搜索全部
+            mainFragment.myPoiSearch.poiSearchType = MyPoiSearch.DETAIL_SEARCH_ALL;//设置为详细搜索全部
         }
 
         db = this.getReadableDatabase();
@@ -130,11 +142,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 searchItem.setAddress(cursor.getString(cursor.getColumnIndex("address")));
                 searchItem.setDistance(0.0);
 
-                mainActivity.searchList.add(searchItem);
+                mainFragment.searchList.add(searchItem);
 
                 if(flag) {
                     //通过网络重新获取搜索信息
-                    mainActivity.mPoiSearch.searchPoiDetail(
+                    mainFragment.mPoiSearch.searchPoiDetail(
                             (new PoiDetailSearchOption()).poiUids(searchItem.getUid()));
                 }
 
@@ -143,7 +155,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         db.close();
 
-        mainActivity.searchAdapter.notifyDataSetChanged();
+        mainFragment.searchAdapter.notifyDataSetChanged();
     }
 
     //是否有搜索记录
@@ -193,8 +205,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //清空搜索记录
     public void deleteAllSearchData() {
-        mainActivity.searchList.clear();//清空搜索列表
-        mainActivity.searchAdapter.notifyDataSetChanged();//通知adapter更新
+        mainFragment.searchList.clear();//清空搜索列表
+        mainFragment.searchAdapter.notifyDataSetChanged();//通知adapter更新
 
         db = this.getWritableDatabase();
         db.execSQL("delete from SearchData");

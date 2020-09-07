@@ -20,6 +20,7 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.search.route.MassTransitRouteLine;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.MainActivity;
+import com.example.foxizz.navigation.activity.fragment.MainFragment;
 import com.example.foxizz.navigation.demo.Tools;
 import com.example.foxizz.navigation.overlayutil.MassTransitRouteOverlay;
 
@@ -33,10 +34,10 @@ import static com.example.foxizz.navigation.demo.Tools.rotateExpandIcon;
  */
 public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder> {
 
-    private MainActivity mainActivity;
+    private MainFragment mainFragment;
     //构造器
-    public SchemeAdapter(MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
+    public SchemeAdapter(MainFragment mainFragment) {
+        this.mainFragment = mainFragment;
     }
 
     private long clickTime = 0;
@@ -65,14 +66,14 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
     //获取item数量
     @Override
     public int getItemCount() {
-        return mainActivity.schemeList.size();
+        return mainFragment.schemeList.size();
     }
 
     //获取SearchItem的数据
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        SchemeItem schemeItem = mainActivity.schemeList.get(position);
+        SchemeItem schemeItem = mainFragment.schemeList.get(position);
         holder.simpleInfo.setText(schemeItem.getSimpleInfo());
         holder.detailInfo.setText(schemeItem.getDetailInfo());
 
@@ -87,7 +88,7 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
         }
 
         //底部显示提示信息
-        if(position == mainActivity.schemeList.size() - 1)
+        if(position == mainFragment.schemeList.size() - 1)
             holder.endText.setVisibility(View.VISIBLE);
         else
             holder.endText.setVisibility(View.GONE);
@@ -109,32 +110,35 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
                 if(unableToClick()) return;
 
                 int position = holder.getAdapterPosition();
-                SchemeItem schemeItem = mainActivity.schemeList.get(position);
+                SchemeItem schemeItem = mainFragment.schemeList.get(position);
 
-                Tools.expandLayout(mainActivity, mainActivity.schemeDrawer, false);//收起方案抽屉
-                Tools.expandLayout(mainActivity, mainActivity.schemeInfoDrawer, true);//展开方案信息抽屉
-                Tools.expandLayout(mainActivity, mainActivity.startLayout, true);//展开开始导航布局
+                Tools.expandLayout(mainFragment.requireActivity(),
+                        mainFragment.schemeDrawer, false);//收起方案抽屉
+                Tools.expandLayout(mainFragment.requireActivity(),
+                        mainFragment.schemeInfoDrawer, true);//展开方案信息抽屉
+                Tools.expandLayout(mainFragment.requireActivity(),
+                        mainFragment.startLayout, true);//展开开始导航布局
 
                 //调整方案布局的高度
-                Tools.getValueAnimator(mainActivity.schemeLayout,
-                        mainActivity.bodyLength / 2,
-                        mainActivity.bodyLength / 4).start();
+                Tools.getValueAnimator(mainFragment.schemeLayout,
+                        mainFragment.bodyLength / 2,
+                        mainFragment.bodyLength / 4).start();
 
-                mainActivity.infoButton.setText(R.string.info_button3);//设置按钮为交通选择
-                mainActivity.schemeInfoFlag = 2;//如果方案布局为单个方案
+                mainFragment.infoButton.setText(R.string.info_button3);//设置按钮为交通选择
+                mainFragment.schemeInfoFlag = 2;//如果方案布局为单个方案
 
                 //设置方案信息
-                mainActivity.schemeInfo.setText(schemeItem.getAllStationInfo()
+                mainFragment.schemeInfo.setText(schemeItem.getAllStationInfo()
                         + "\n" + schemeItem.getDetailInfo() + "\n");
 
                 //清空临时保存的公交站点信息
-                mainActivity.busStationLocations.clear();
+                mainFragment.busStationLocations.clear();
 
                 //创建MassTransitRouteOverlay实例
-                MassTransitRouteOverlay overlay = new MassTransitRouteOverlay(mainActivity.mBaiduMap);
+                MassTransitRouteOverlay overlay = new MassTransitRouteOverlay(mainFragment.mBaiduMap);
 
                 //清空地图上的所有标记点和绘制的路线
-                mainActivity.mBaiduMap.clear();
+                mainFragment.mBaiduMap.clear();
                 //构建Marker图标
                 BitmapDescriptor bitmap = BitmapDescriptorFactory
                         .fromResource(R.drawable.ic_to_location);
@@ -157,7 +161,7 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
                         schemeItem.getRouteLine().getNewSteps()) {
                     for (MassTransitRouteLine.TransitStep transitStep : transitSteps) {
                         //将获取到的站点信息临时保存
-                        mainActivity.busStationLocations.add(transitStep.getEndLocation());
+                        mainFragment.busStationLocations.add(transitStep.getEndLocation());
 
                         //构建MarkerOption，用于在地图上添加Marker
                         OverlayOptions option = new MarkerOptions()
@@ -165,7 +169,7 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
                                 .icon(bitmap);
 
                         //在地图上添加Marker，并显示
-                        mainActivity.mBaiduMap.addOverlay(option);
+                        mainFragment.mBaiduMap.addOverlay(option);
                     }
                 }
 
@@ -178,7 +182,8 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
                     //将路线放在最佳视野位置
                     overlay.zoomToSpan();
                 } catch (Exception ignored) {
-                    Toast.makeText(mainActivity, mainActivity.getString(R.string.draw_route_fail), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mainFragment.requireActivity(),
+                            R.string.draw_route_fail, Toast.LENGTH_SHORT).show();
                 }
 
                 /*
@@ -195,16 +200,16 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
             @Override
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
-                SchemeItem schemeItem = mainActivity.schemeList.get(position);
+                SchemeItem schemeItem = mainFragment.schemeList.get(position);
 
                 if(schemeItem.getExpandFlag()) {
-                    expandLayout(mainActivity, holder.infoDrawer, holder.detailInfo,false,
-                            mainActivity.schemeResult, position);
+                    expandLayout(mainFragment.requireActivity(), holder.infoDrawer, holder.detailInfo,
+                            false, mainFragment.schemeResult, position);
                     rotateExpandIcon(holder.schemeExpand, 180, 0);//旋转伸展按钮
                     schemeItem.setExpandFlag(false);//改变伸缩状态
                 } else {
-                    expandLayout(mainActivity, holder.infoDrawer, holder.detailInfo,true,
-                            mainActivity.schemeResult, position);
+                    expandLayout(mainFragment.requireActivity(), holder.infoDrawer, holder.detailInfo,
+                            true, mainFragment.schemeResult, position);
                     rotateExpandIcon(holder.schemeExpand, 0, 180);//旋转伸展按钮
                     schemeItem.setExpandFlag(true);//改变伸缩状态
                 }

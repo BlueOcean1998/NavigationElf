@@ -20,7 +20,7 @@ import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.example.foxizz.navigation.R;
-import com.example.foxizz.navigation.activity.MainActivity;
+import com.example.foxizz.navigation.activity.fragment.MainFragment;
 import com.example.foxizz.navigation.searchdata.SearchItem;
 
 import java.math.BigDecimal;
@@ -41,9 +41,9 @@ public class MyPoiSearch {
     private final static int TO_NEARBY_SEARCH_MIN_NUM = 100;//触发周边搜索需要的最小目标点数量
     private final static int NEARBY_SEARCH_DISTANCE = 5000;//周边搜索的距离
 
-    private MainActivity mainActivity;
-    public MyPoiSearch(MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
+    private MainFragment mainFragment;
+    public MyPoiSearch(MainFragment mainFragment) {
+        this.mainFragment = mainFragment;
     }
 
     public int poiSearchType;//使用的搜索类型
@@ -57,7 +57,7 @@ public class MyPoiSearch {
     //初始化搜索目标信息
     public void initSearch() {
         //获取Poi搜索实例
-        mainActivity.mPoiSearch = PoiSearch.newInstance();
+        mainFragment.mPoiSearch = PoiSearch.newInstance();
 
         OnGetPoiSearchResultListener listener = new OnGetPoiSearchResultListener() {
             @Override
@@ -71,9 +71,9 @@ public class MyPoiSearch {
 
                             for(CityInfo cityInfo: poiResult.getSuggestCityList()) {
                                 //开始别的城市内搜索
-                                mainActivity.mPoiSearch.searchInCity(new PoiCitySearchOption()
+                                mainFragment.mPoiSearch.searchInCity(new PoiCitySearchOption()
                                         .city(cityInfo.city)
-                                        .keyword(mainActivity.searchContent));
+                                        .keyword(mainFragment.searchContent));
                             }
                         }
                         return;
@@ -84,11 +84,12 @@ public class MyPoiSearch {
                         poiSearchType = CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
 
                         //开始城市内搜索
-                        mainActivity.mPoiSearch.searchInCity(new PoiCitySearchOption()
-                                .city(mainActivity.mCity)
-                                .keyword(mainActivity.searchContent));
+                        mainFragment.mPoiSearch.searchInCity(new PoiCitySearchOption()
+                                .city(mainFragment.mCity)
+                                .keyword(mainFragment.searchContent));
                     } else {
-                        Toast.makeText(mainActivity, mainActivity.getString(R.string.find_nothing), Toast.LENGTH_LONG).show();
+                        Toast.makeText(mainFragment.requireActivity(),
+                                mainFragment.getString(R.string.find_nothing), Toast.LENGTH_LONG).show();
                     }
                     return;
                 }
@@ -127,7 +128,7 @@ public class MyPoiSearch {
                                         && info.getType() != PoiInfo.POITYPE.SUBWAY_STATION
                                         && info.getType() != PoiInfo.POITYPE.SUBWAY_LINE) {
                                     //uid的集合，最多可以传入10个uid，多个uid之间用英文逗号分隔。
-                                    mainActivity.mPoiSearch.searchPoiDetail(//进行详细信息搜索
+                                    mainFragment.mPoiSearch.searchPoiDetail(//进行详细信息搜索
                                             (new PoiDetailSearchOption()).poiUids(info.getUid()));
                                 }
                             }
@@ -138,10 +139,10 @@ public class MyPoiSearch {
                         poiSearchType = NEARBY_SEARCH;//设置搜索类型为周边搜索
 
                         //开始周边搜索
-                        mainActivity.mPoiSearch.searchNearby(new PoiNearbySearchOption()
-                                .location(mainActivity.latLng)
+                        mainFragment.mPoiSearch.searchNearby(new PoiNearbySearchOption()
+                                .location(mainFragment.latLng)
                                 .radius(NEARBY_SEARCH_DISTANCE)
-                                .keyword(mainActivity.searchContent));
+                                .keyword(mainFragment.searchContent));
                     }
                 }
             }
@@ -151,7 +152,8 @@ public class MyPoiSearch {
             public void onGetPoiDetailResult(PoiDetailSearchResult poiDetailResult) {
                 if(poiDetailResult == null//没有找到检索结果
                         || poiDetailResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {
-                    Toast.makeText(mainActivity, mainActivity.getString(R.string.find_nothing), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mainFragment.requireActivity(),
+                            mainFragment.getString(R.string.find_nothing), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -171,32 +173,32 @@ public class MyPoiSearch {
                             searchItem.setUid(info.getUid());
 
                             //获取并设置目标名
-                            mainActivity.infoTargetName.setText(info.getName());
+                            mainFragment.infoTargetName.setText(info.getName());
                             searchItem.setTargetName(info.getName());
 
                             //获取并设置目标地址
-                            mainActivity.infoAddress.setText(info.getAddress());
+                            mainFragment.infoAddress.setText(info.getAddress());
                             searchItem.setAddress(info.getAddress());
 
                             LatLng tLatLng = info.getLocation();//获取目标坐标
                             searchItem.setLatLng(tLatLng);//设置目标坐标
 
                             //获取定位点到目标点的距离（单位：m，结果除以1000转化为km）
-                            double distance = (DistanceUtil.getDistance(mainActivity.latLng, tLatLng) / 1000);
+                            double distance = (DistanceUtil.getDistance(mainFragment.latLng, tLatLng) / 1000);
                             //保留两位小数
                             BigDecimal bd = new BigDecimal(distance);
                             distance = bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                            mainActivity.infoDistance.setText(distance + "km");
+                            mainFragment.infoDistance.setText(distance + "km");
                             searchItem.setDistance(distance);
 
                             //寻找搜索列表中Uid相同的item
-                            for(int i = 0; i < mainActivity.searchList.size(); i++) {
-                                if(mainActivity.searchList.get(i).getUid().equals(info.getUid())) {
+                            for(int i = 0; i < mainFragment.searchList.size(); i++) {
+                                if(mainFragment.searchList.get(i).getUid().equals(info.getUid())) {
                                     if(poiSearchType == DETAIL_SEARCH) {
-                                        mainActivity.searchList.remove(i);//移除原本位置的item
-                                        mainActivity.searchList.add(0, searchItem);//将其添加到头部
+                                        mainFragment.searchList.remove(i);//移除原本位置的item
+                                        mainFragment.searchList.add(0, searchItem);//将其添加到头部
                                     } else if(poiSearchType == DETAIL_SEARCH_ALL) {
-                                        mainActivity.searchList.set(i, searchItem);//直接修改原位置的item
+                                        mainFragment.searchList.set(i, searchItem);//直接修改原位置的item
                                     }
                                     break;
                                 }
@@ -207,12 +209,12 @@ public class MyPoiSearch {
 
                             //获取联系方式
                             if(info.getTelephone() != null && !info.getTelephone().isEmpty()) {
-                                otherInfo += mainActivity.getString(R.string.phone_number) + info.getTelephone() + "\n";
+                                otherInfo += mainFragment.getString(R.string.phone_number) + info.getTelephone() + "\n";
                             }
 
                             //获取营业时间
                             if(info.getShopHours() != null && !info.getShopHours().isEmpty()) {
-                                otherInfo += mainActivity.getString(R.string.shop_time) + info.getShopHours();
+                                otherInfo += mainFragment.getString(R.string.shop_time) + info.getShopHours();
                                 try {
                                     boolean flag = false;
 
@@ -228,8 +230,8 @@ public class MyPoiSearch {
                                         }
                                     }
 
-                                    if(flag) otherInfo += mainActivity.getString(R.string.shopping);
-                                    else otherInfo += mainActivity.getString(R.string.relaxing);
+                                    if(flag) otherInfo += mainFragment.getString(R.string.shopping);
+                                    else otherInfo += mainFragment.getString(R.string.relaxing);
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
@@ -237,10 +239,10 @@ public class MyPoiSearch {
                             }
 
                             if(info.getPrice() != 0) {//获取平均消费
-                                otherInfo += mainActivity.getString(R.string.price) + info.getPrice() + "元\n";
+                                otherInfo += mainFragment.getString(R.string.price) + info.getPrice() + "元\n";
                             }
 
-                            mainActivity.infoOthers.setText(otherInfo);//设置其它信息
+                            mainFragment.infoOthers.setText(otherInfo);//设置其它信息
                         }
 
                     } else {//间接的详细信息搜索
@@ -257,13 +259,13 @@ public class MyPoiSearch {
                             searchItem.setLatLng(tLatLng);//设置目标坐标
 
                             //获取定位点到目标点的距离（单位：m，结果除以1000转化为km）
-                            double distance = (DistanceUtil.getDistance(mainActivity.latLng, tLatLng) / 1000);
+                            double distance = (DistanceUtil.getDistance(mainFragment.latLng, tLatLng) / 1000);
                             //保留两位小数
                             BigDecimal bd = new BigDecimal(distance);
                             distance = bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                             searchItem.setDistance(distance);//设置定位点到目标点的距离
 
-                            mainActivity.searchList.add(searchItem);//添加搜到的内容到searchList
+                            mainFragment.searchList.add(searchItem);//添加搜到的内容到searchList
                         }
 
                         /*经过测试，随机排序更为合理
@@ -280,8 +282,8 @@ public class MyPoiSearch {
 
                     }
 
-                    mainActivity.searchAdapter.notifyDataSetChanged();//通知searchAdapter更新
-                    mainActivity.searchResult.scrollToPosition(0);//移动回头部
+                    mainFragment.searchAdapter.notifyDataSetChanged();//通知searchAdapter更新
+                    mainFragment.searchResult.scrollToPosition(0);//移动回头部
                 }
             }
 
@@ -297,15 +299,15 @@ public class MyPoiSearch {
             }
         };
 
-        mainActivity.mPoiSearch.setOnGetPoiSearchResultListener(listener);
+        mainFragment.mPoiSearch.setOnGetPoiSearchResultListener(listener);
     }
 
     //将详细搜索结果录入数据库或更新数据库中这条记录的内容
     private void insertOrUpdateSearchDatabase(PoiDetailInfo info) {
-        Cursor cursor = mainActivity.dbHelper.getSearchData(info.getUid());
+        Cursor cursor = mainFragment.dbHelper.getSearchData(info.getUid());
         if(cursor != null) {
-            if(cursor.getCount() > 0) mainActivity.dbHelper.updateSearchData(info);//有则更新
-            else mainActivity.dbHelper.insertSearchData(info);//没有则添加
+            if(cursor.getCount() > 0) mainFragment.dbHelper.updateSearchData(info);//有则更新
+            else mainFragment.dbHelper.insertSearchData(info);//没有则添加
 
             cursor.close();
         }
