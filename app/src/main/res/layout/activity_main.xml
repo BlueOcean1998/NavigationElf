@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@drawable/layout_background_white">
+        android:background="@null">
 
         <Button
             android:id="@+id/main_button"
@@ -24,9 +24,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="center"
-            android:background="@drawable/button_background_colorful"
+            android:background="@null"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:text="@string/main_button"
             tools:ignore="ButtonStyle" />
 
@@ -38,7 +38,7 @@
             android:layout_gravity="center"
             android:background="@null"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:text="@string/user_button"
             tools:ignore="ButtonStyle" />
     </LinearLayout>

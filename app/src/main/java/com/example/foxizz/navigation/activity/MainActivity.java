@@ -9,7 +9,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
@@ -19,9 +18,11 @@ import com.example.foxizz.navigation.activity.fragment.UserFragment;
  * app_name: NavigationElf
  * author: Foxizz
  * accomplish_date: 2020-04-30
- * last_modify_date: 2020-09-07
+ * last_modify_date: 2020-09-08
  */
 public class MainActivity extends AppCompatActivity {
+
+    private FragmentManager fragmentManager;
 
     private Fragment fragmentLayout;
     private MainFragment mainFragment;
@@ -38,20 +39,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //初始化碎片
-        startFragmentAdd(new MainFragment());
+        initFragments();
 
         //初始化控件
-        mainButton = findViewById(R.id.main_button);
-        userButton = findViewById(R.id.user_button);
+        initView();
 
         //设置首页按钮的点击事件
         mainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //切换碎片
-                startFragmentAdd(new MainFragment());
-                mainButton.setBackgroundResource(R.drawable.button_background_colorful);
-                userButton.setBackgroundResource(R.drawable.background_null);
+                replaceFragment(mainFragment);//切换碎片
+
+                mainButton.setTextColor(getResources().getColor(R.color.skyblue));
+                userButton.setTextColor(getResources().getColor(R.color.black));
+
+                if(mainFragment.imm != null) mainFragment.imm.hideSoftInputFromWindow(
+                        getWindow().getDecorView().getWindowToken(), 0
+                );//收回键盘
             }
         });
 
@@ -59,10 +63,14 @@ public class MainActivity extends AppCompatActivity {
         userButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //切换碎片
-                startFragmentAdd(new UserFragment());
-                mainButton.setBackgroundResource(R.drawable.background_null);
-                userButton.setBackgroundResource(R.drawable.button_background_colorful);
+                replaceFragment(userFragment);//切换碎片
+
+                mainButton.setTextColor(getResources().getColor(R.color.black));
+                userButton.setTextColor(getResources().getColor(R.color.skyblue));
+
+                if(mainFragment.imm != null) mainFragment.imm.hideSoftInputFromWindow(
+                        getWindow().getDecorView().getWindowToken(), 0
+                );//收回键盘
             }
         });
     }
@@ -111,27 +119,32 @@ public class MainActivity extends AppCompatActivity {
         return super.onKeyUp(keyCode, event);
     }
 
-    //初始化、切换碎片
-    private void startFragmentAdd(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        if(fragmentLayout == null) {
-            fragmentTransaction.add(R.id.fragment_layout, fragment).commit();
-            fragmentLayout = fragment;
-            if(fragmentLayout instanceof MainFragment) mainFragment = (MainFragment) fragmentLayout;
-            if(fragmentLayout instanceof UserFragment) userFragment = (UserFragment) fragmentLayout;
-        }
-        if(fragmentLayout != fragment) {
-            //先判断是否被add过
-            if(!fragment.isAdded()) {
-                //隐藏当前的fragment，add下一个到Activity中
-                fragmentTransaction.hide(fragmentLayout).add(R.id.fragment_layout, fragment).commit();
-            } else {
-                //隐藏当前的fragment，显示下一个
-                fragmentTransaction.hide(fragmentLayout).show(fragment).commit();
-            }
+    //初始化碎片
+    private void initFragments() {
+        fragmentManager = getSupportFragmentManager();
+
+        fragmentLayout = mainFragment = new MainFragment();
+        userFragment = new UserFragment();
+
+        fragmentManager.beginTransaction()
+                .add(R.id.fragment_layout, userFragment).hide(userFragment)
+                .add(R.id.fragment_layout, mainFragment).commit();
+    }
+
+    //切换碎片
+    private void replaceFragment(Fragment fragment) {
+        if(fragmentLayout != fragment) {//与显示的碎片不同才切换
+            fragmentManager.beginTransaction().hide(fragmentLayout).show(fragment).commit();
             fragmentLayout = fragment;
         }
+    }
+
+    //初始化控件
+    private void initView() {
+        mainButton = findViewById(R.id.main_button);
+        userButton = findViewById(R.id.user_button);
+        mainButton.setTextColor(getResources().getColor(R.color.skyblue));
+        userButton.setTextColor(getResources().getColor(R.color.black));
     }
 
 }

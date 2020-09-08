@@ -247,7 +247,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
         Tools.expandLayout(mainFragment.requireActivity(),
                 mainFragment.searchLayout, false);//收起搜索布局
-        if(mainFragment.searchExpandFlag) {
+        if(mainFragment.searchExpandFlag) {//如果状态为展开
             mainFragment.expandSearchDrawer(false);//收起展开的搜索抽屉
             mainFragment.searchExpandFlag = false;//设置状态为收起
         }

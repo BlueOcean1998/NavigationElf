@@ -52,7 +52,6 @@ import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.baidu.tts.client.SpeechSynthesizer;
 import com.example.foxizz.navigation.R;
-import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.activity.SettingsActivity;
 import com.example.foxizz.navigation.broadcastreceiver.SettingsReceiver;
 import com.example.foxizz.navigation.database.DatabaseHelper;
@@ -76,6 +75,7 @@ import static com.example.foxizz.navigation.demo.Tools.isAirplaneModeOn;
 import static com.example.foxizz.navigation.demo.Tools.isNetworkConnected;
 import static com.example.foxizz.navigation.demo.Tools.rotateExpandIcon;
 
+//首页
 public class MainFragment extends Fragment {
 
     //地图控件
@@ -580,6 +580,19 @@ public class MainFragment extends Fragment {
             }
         });
 
+        //输入框的点击事件
+        searchEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {
+                    if(!searchExpandFlag) {//如果状态为收起
+                        expandSearchDrawer(true);//展开搜索抽屉
+                        searchExpandFlag = true;//设置状态为展开
+                    }
+                }
+            }
+        });
+
         //监听输入框内容改变
         searchEdit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -624,7 +637,7 @@ public class MainFragment extends Fragment {
         searchExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(searchExpandFlag) {//如果是展开状态
+                if(searchExpandFlag) {//如果状态为展开
                     expandSearchDrawer(false);//收起搜索抽屉
                     searchExpandFlag = false;//设置状态为收起
                 } else {//如果是收起状态
@@ -791,8 +804,8 @@ public class MainFragment extends Fragment {
         } else {
             expandLayout(requireActivity(), selectLayout, false);//收起选择布局
             expandLayout(requireActivity(), searchLayout, true);//展开搜索布局
-            if(!searchExpandFlag) {
-                expandSearchDrawer(true);//展开被收起的搜索抽屉
+            if(!searchExpandFlag) {//如果状态为收起
+                expandSearchDrawer(true);//展开搜索抽屉
                 searchExpandFlag = true;//设置状态为展开
             }
             expandLayout(requireActivity(), infoLayout, false);//收起详细信息布局
@@ -841,12 +854,7 @@ public class MainFragment extends Fragment {
         }
 
         if(!searchExpandFlag) {//展开搜索抽屉
-            searchResult.startAnimation(AnimationUtils.loadAnimation(
-                    requireActivity(), R.anim.adapter_alpha2)
-            );//动画2，出现;
-            getValueAnimator(searchDrawer, 0, bodyLength / 2)
-                    .start();//展开搜索抽屉
-            rotateExpandIcon(searchExpand, 0, 180);//伸展按钮的旋转动画
+            expandSearchDrawer(true);//展开搜索抽屉
             searchExpandFlag = true;//设置状态为展开
         }
 
