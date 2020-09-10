@@ -1,4 +1,4 @@
-package com.example.foxizz.navigation.schemedata;
+package com.example.foxizz.navigation.activity.adapter;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -19,15 +19,15 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.search.route.MassTransitRouteLine;
 import com.example.foxizz.navigation.R;
-import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
-import com.example.foxizz.navigation.demo.Tools;
-import com.example.foxizz.navigation.overlayutil.MassTransitRouteOverlay;
+import com.example.foxizz.navigation.data.SchemeItem;
+import com.example.foxizz.navigation.util.Tools;
+import com.example.foxizz.navigation.demo.overlayutil.MassTransitRouteOverlay;
 
 import java.util.List;
 
-import static com.example.foxizz.navigation.demo.Tools.expandLayout;
-import static com.example.foxizz.navigation.demo.Tools.rotateExpandIcon;
+import static com.example.foxizz.navigation.util.Tools.expandLayout;
+import static com.example.foxizz.navigation.util.Tools.rotateExpandIcon;
 
 /**
  * 路线规划信息列表的适配器

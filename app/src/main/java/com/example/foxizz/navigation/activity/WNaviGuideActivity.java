@@ -11,7 +11,7 @@ import com.baidu.mapapi.walknavi.model.RouteGuideKind;
 import com.baidu.platform.comapi.walknavi.WalkNaviModeSwitchListener;
 import com.baidu.platform.comapi.walknavi.widget.ArCameraView;
 import com.baidu.tts.client.SpeechSynthesizer;
-import com.example.foxizz.navigation.demo.Tools;
+import com.example.foxizz.navigation.util.Tools;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;

@@ -23,7 +23,7 @@ import com.baidu.navisdk.adapter.BaiduNaviManagerFactory;
 import com.baidu.navisdk.adapter.IBNRouteGuideManager;
 import com.baidu.navisdk.adapter.IBNTTSManager;
 import com.baidu.navisdk.adapter.IBNaviListener;
-import com.example.foxizz.navigation.demo.Tools;
+import com.example.foxizz.navigation.util.Tools;
 
 //驾车导航诱导活动
 public class DNaviGuideActivity extends Activity {

@@ -1,4 +1,4 @@
-package com.example.foxizz.navigation.overlayutil;
+package com.example.foxizz.navigation.demo.overlayutil;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BaiduMap.OnPolylineClickListener;

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2016 Baidu, Inc. All Rights Reserved.
  */
-package com.example.foxizz.navigation.overlayutil;
+package com.example.foxizz.navigation.demo.overlayutil;
 
 import android.graphics.Color;
 import android.os.Bundle;

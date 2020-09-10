@@ -1,4 +1,4 @@
-package com.example.foxizz.navigation.searchdata;
+package com.example.foxizz.navigation.data;
 
 import androidx.annotation.NonNull;
 

@@ -26,8 +26,8 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.example.foxizz.navigation.R;
-import com.example.foxizz.navigation.database.DatabaseHelper;
-import com.example.foxizz.navigation.demo.SettingsConstants;
+import com.example.foxizz.navigation.data.DatabaseHelper;
+import com.example.foxizz.navigation.broadcastreceiver.SettingsConstants;
 
 import java.util.Objects;
 
@@ -77,10 +77,10 @@ public class SettingsActivity extends AppCompatActivity {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             initMySettings();
 
-        //PreferenceScreen提供的设置
+        //初始化PreferenceScreen
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.settings, new SettingsFragment())
+                .replace(R.id.settings_preferences, new PreferenceScreen())
                 .commit();
 
         //获取键盘对象
@@ -270,17 +270,17 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-    public static class SettingsFragment extends PreferenceFragmentCompat {
+    public static class PreferenceScreen extends PreferenceFragmentCompat {
         //创建PreferenceScreen
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.root_preferences, rootKey);
+            setPreferencesFromResource(R.xml.settings_preferences, rootKey);
         }
 
         //设置PreferenceScreen的点击事件
         @Override
         public boolean onPreferenceTreeClick(Preference preference) {
-            switch (preference.getKey()) {
+            switch(preference.getKey()) {
                 case "landscape":
                     //发送本地广播通知更新是否允许横屏
                     localBroadcastManager.sendBroadcast(resettingIntent
@@ -336,7 +336,6 @@ public class SettingsActivity extends AppCompatActivity {
                 default:
                     break;
             }
-
             return super.onPreferenceTreeClick(preference);
         }
     }

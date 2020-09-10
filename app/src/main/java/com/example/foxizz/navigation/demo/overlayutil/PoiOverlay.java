@@ -1,4 +1,4 @@
-package com.example.foxizz.navigation.overlayutil;
+package com.example.foxizz.navigation.demo.overlayutil;
 
 import android.os.Bundle;
 
@@ -9,7 +9,6 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.Polyline;
 import com.baidu.mapapi.search.poi.PoiResult;
-import com.example.foxizz.navigation.overlayutil.OverlayManager;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.foxizz.navigation.util;
+package com.example.foxizz.navigation.demo;
 
 import android.annotation.SuppressLint;
 import android.database.Cursor;
@@ -21,7 +21,7 @@ import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
-import com.example.foxizz.navigation.searchdata.SearchItem;
+import com.example.foxizz.navigation.data.SearchItem;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
@@ -29,7 +29,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.example.foxizz.navigation.demo.Tools.isEffectiveDate;
+import static com.example.foxizz.navigation.util.Tools.isEffectiveDate;
 
 /**
  * 搜索模块

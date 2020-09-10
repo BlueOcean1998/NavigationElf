@@ -1,4 +1,4 @@
-package com.example.foxizz.navigation.database;
+package com.example.foxizz.navigation.data;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -19,11 +19,10 @@ import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.activity.SettingsActivity;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
 import com.example.foxizz.navigation.activity.fragment.UserFragment;
-import com.example.foxizz.navigation.searchdata.SearchItem;
-import com.example.foxizz.navigation.util.MyPoiSearch;
+import com.example.foxizz.navigation.demo.MyPoiSearch;
 
-import static com.example.foxizz.navigation.demo.Tools.isAirplaneModeOn;
-import static com.example.foxizz.navigation.demo.Tools.isNetworkConnected;
+import static com.example.foxizz.navigation.util.Tools.isAirplaneModeOn;
+import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
 
 /**
  * 搜索到的信息的数据库

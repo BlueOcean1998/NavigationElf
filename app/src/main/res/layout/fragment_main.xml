@@ -27,7 +27,7 @@
             android:layout_margin="6dp"
             android:layout_gravity="center"
             android:background="@drawable/button_background_alpha"
-            android:src="@drawable/ic_settings_black_30dp"
+            android:src="@drawable/ic_settings_gray_30dp"
             android:contentDescription="@string/settings" />
 
         <ImageButton
@@ -37,7 +37,7 @@
             android:layout_margin="6dp"
             android:layout_gravity="center"
             android:background="@drawable/button_background_alpha"
-            android:src="@drawable/ic_refresh_black_30dp"
+            android:src="@drawable/ic_refresh_gray_30dp"
             android:contentDescription="@string/refresh" />
 
         <ImageButton
@@ -47,7 +47,7 @@
             android:layout_margin="6dp"
             android:layout_gravity="center"
             android:background="@drawable/button_background_alpha"
-            android:src="@drawable/ic_my_location_black_30dp"
+            android:src="@drawable/ic_my_location_gray_30dp"
             android:contentDescription="@string/location" />
     </LinearLayout>
 
@@ -153,7 +153,7 @@
                 android:layout_marginLeft="-42dp"
                 android:layout_gravity="center"
                 android:background="@null"
-                android:src="@drawable/ic_baseline_cancel_24"
+                android:src="@drawable/ic_baseline_cancel_gray_30dp"
                 android:contentDescription="@string/expand"
                 android:visibility="invisible"
                 tools:ignore="RtlHardcoded" />

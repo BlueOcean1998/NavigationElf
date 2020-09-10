@@ -1,4 +1,4 @@
-package com.example.foxizz.navigation.searchdata;
+package com.example.foxizz.navigation.activity.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
@@ -26,11 +26,12 @@ import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
-import com.example.foxizz.navigation.demo.Tools;
-import com.example.foxizz.navigation.util.MyPoiSearch;
+import com.example.foxizz.navigation.data.SearchItem;
+import com.example.foxizz.navigation.util.Tools;
+import com.example.foxizz.navigation.demo.MyPoiSearch;
 
-import static com.example.foxizz.navigation.demo.Tools.isAirplaneModeOn;
-import static com.example.foxizz.navigation.demo.Tools.isNetworkConnected;
+import static com.example.foxizz.navigation.util.Tools.isAirplaneModeOn;
+import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
 
 /**
  * 搜索到的信息列表的适配器

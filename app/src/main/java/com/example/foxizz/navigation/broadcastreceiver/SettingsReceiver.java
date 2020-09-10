@@ -7,8 +7,7 @@ import android.content.Intent;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
-import com.example.foxizz.navigation.demo.SettingsConstants;
-import com.example.foxizz.navigation.demo.Tools;
+import com.example.foxizz.navigation.util.Tools;
 
 //设置接收器
 public class SettingsReceiver extends BroadcastReceiver {

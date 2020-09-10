@@ -1,4 +1,4 @@
-package com.example.foxizz.navigation.demo;
+package com.example.foxizz.navigation.broadcastreceiver;
 
 //设置操作常量
 public class SettingsConstants {

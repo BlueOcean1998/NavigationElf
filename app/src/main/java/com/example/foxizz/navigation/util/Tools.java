@@ -1,4 +1,4 @@
-package com.example.foxizz.navigation.demo;
+package com.example.foxizz.navigation.util;
 
 import android.Manifest;
 import android.animation.ValueAnimator;

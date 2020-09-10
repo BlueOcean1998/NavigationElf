@@ -1,4 +1,4 @@
-package com.example.foxizz.navigation.util;
+package com.example.foxizz.navigation.demo;
 
 import android.annotation.SuppressLint;
 import android.view.View;
@@ -22,13 +22,13 @@ import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
-import com.example.foxizz.navigation.demo.Tools;
-import com.example.foxizz.navigation.overlayutil.BikingRouteOverlay;
-import com.example.foxizz.navigation.overlayutil.DrivingRouteOverlay;
-import com.example.foxizz.navigation.overlayutil.IndoorRouteOverlay;
-import com.example.foxizz.navigation.overlayutil.TransitRouteOverlay;
-import com.example.foxizz.navigation.overlayutil.WalkingRouteOverlay;
-import com.example.foxizz.navigation.schemedata.SchemeItem;
+import com.example.foxizz.navigation.demo.overlayutil.BikingRouteOverlay;
+import com.example.foxizz.navigation.demo.overlayutil.DrivingRouteOverlay;
+import com.example.foxizz.navigation.demo.overlayutil.IndoorRouteOverlay;
+import com.example.foxizz.navigation.demo.overlayutil.TransitRouteOverlay;
+import com.example.foxizz.navigation.demo.overlayutil.WalkingRouteOverlay;
+import com.example.foxizz.navigation.data.SchemeItem;
+import com.example.foxizz.navigation.util.Tools;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -36,11 +36,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import static com.example.foxizz.navigation.demo.Tools.expandLayout;
-import static com.example.foxizz.navigation.demo.Tools.haveReadWriteAndLocationPermissions;
-import static com.example.foxizz.navigation.demo.Tools.isAirplaneModeOn;
-import static com.example.foxizz.navigation.demo.Tools.isNetworkConnected;
-import static com.example.foxizz.navigation.demo.Tools.rotateExpandIcon;
+import static com.example.foxizz.navigation.util.Tools.expandLayout;
+import static com.example.foxizz.navigation.util.Tools.haveReadWriteAndLocationPermissions;
+import static com.example.foxizz.navigation.util.Tools.isAirplaneModeOn;
+import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
+import static com.example.foxizz.navigation.util.Tools.rotateExpandIcon;
 
 /**
  * 路线规划模块

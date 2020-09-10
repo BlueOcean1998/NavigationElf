@@ -1,4 +1,4 @@
-package com.example.foxizz.navigation.util;
+package com.example.foxizz.navigation.demo;
 
 import android.annotation.SuppressLint;
 import android.widget.Toast;

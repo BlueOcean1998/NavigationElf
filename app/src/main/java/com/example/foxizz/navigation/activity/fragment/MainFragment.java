@@ -17,7 +17,6 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,26 +53,26 @@ import com.baidu.tts.client.SpeechSynthesizer;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.SettingsActivity;
 import com.example.foxizz.navigation.broadcastreceiver.SettingsReceiver;
-import com.example.foxizz.navigation.database.DatabaseHelper;
-import com.example.foxizz.navigation.demo.Tools;
-import com.example.foxizz.navigation.schemedata.SchemeAdapter;
-import com.example.foxizz.navigation.schemedata.SchemeItem;
-import com.example.foxizz.navigation.searchdata.SearchAdapter;
-import com.example.foxizz.navigation.searchdata.SearchItem;
-import com.example.foxizz.navigation.util.MyLocation;
-import com.example.foxizz.navigation.util.MyNavigateHelper;
+import com.example.foxizz.navigation.data.DatabaseHelper;
+import com.example.foxizz.navigation.util.Tools;
+import com.example.foxizz.navigation.activity.adapter.SchemeAdapter;
+import com.example.foxizz.navigation.data.SchemeItem;
+import com.example.foxizz.navigation.activity.adapter.SearchAdapter;
+import com.example.foxizz.navigation.data.SearchItem;
+import com.example.foxizz.navigation.demo.MyLocation;
+import com.example.foxizz.navigation.demo.MyNavigateHelper;
 import com.example.foxizz.navigation.util.MyOrientationListener;
-import com.example.foxizz.navigation.util.MyPoiSearch;
-import com.example.foxizz.navigation.util.MyRoutePlanSearch;
+import com.example.foxizz.navigation.demo.MyPoiSearch;
+import com.example.foxizz.navigation.demo.MyRoutePlanSearch;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.foxizz.navigation.demo.Tools.expandLayout;
-import static com.example.foxizz.navigation.demo.Tools.getValueAnimator;
-import static com.example.foxizz.navigation.demo.Tools.isAirplaneModeOn;
-import static com.example.foxizz.navigation.demo.Tools.isNetworkConnected;
-import static com.example.foxizz.navigation.demo.Tools.rotateExpandIcon;
+import static com.example.foxizz.navigation.util.Tools.expandLayout;
+import static com.example.foxizz.navigation.util.Tools.getValueAnimator;
+import static com.example.foxizz.navigation.util.Tools.isAirplaneModeOn;
+import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
+import static com.example.foxizz.navigation.util.Tools.rotateExpandIcon;
 
 //首页
 public class MainFragment extends Fragment {
@@ -478,9 +477,7 @@ public class MainFragment extends Fragment {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(
-                        MainFragment.this.requireActivity(), SettingsActivity.class
-                );
+                Intent intent = new Intent(requireActivity(), SettingsActivity.class);
                 if(mCity != null) intent.putExtra("mCity", mCity);
                 startActivity(intent);
             }

@@ -18,7 +18,7 @@ import com.example.foxizz.navigation.activity.fragment.UserFragment;
  * app_name: NavigationElf
  * author: Foxizz
  * accomplish_date: 2020-04-30
- * last_modify_date: 2020-09-08
+ * last_modify_date: 2020-09-10
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +27,13 @@ public class MainActivity extends AppCompatActivity {
     private Fragment fragmentLayout;
     private MainFragment mainFragment;
     private UserFragment userFragment;
+
+    public MainFragment getMainFragment() {
+        return mainFragment;
+    }
+    public UserFragment getUserFragment() {
+        return userFragment;
+    }
 
     private Button mainButton;
     private Button userButton;
@@ -75,50 +82,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //监听按键抬起事件
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        //如果是返回键
-        if(keyCode == KeyEvent.KEYCODE_BACK) {
-            //如果焦点在searchEdit上
-            if(MainActivity.this.getWindow().getDecorView().findFocus() == mainFragment.searchEdit) {
-                mainFragment.searchEdit.clearFocus();//使搜索输入框失去焦点
-                return true;//只收回键盘
-            }
-            if(mainFragment.canBack()) {//如果可以返回
-                mainFragment.backToUpperStory();//返回上一层
-                return true;
-            }
-            if(!mainFragment.isHistorySearchResult) {//如果不是搜索历史记录
-                mainFragment.searchResult.stopScroll();//停止信息列表滑动
-                mainFragment.dbHelper.initSearchData();//初始化搜索记录
-                mainFragment.isHistorySearchResult = true;//现在是搜索历史记录了
-                return true;
-            }
-            if(mainFragment.searchExpandFlag) {//收起搜索抽屉
-                mainFragment.expandSearchDrawer(false);
-                mainFragment.searchExpandFlag = false;
-                return true;
-            }
-            if((System.currentTimeMillis() - exitTime) > 2000) {//弹出再按一次退出提示
-                Toast.makeText(this, getString(R.string.exit_app), Toast.LENGTH_SHORT).show();
-                exitTime = System.currentTimeMillis();
-                return true;
-            }
-        }
-
-        //如果是Enter键
-        if(keyCode == KeyEvent.KEYCODE_ENTER) {
-            mainFragment.startPoiSearch();//开始POI搜索
-            mainFragment.searchEdit.requestFocus();//搜索框重新获得焦点
-            if(mainFragment.imm != null) mainFragment.imm.hideSoftInputFromWindow(
-                    getWindow().getDecorView().getWindowToken(), 0
-            );//收回键盘
-            return true;
-        }
-        return super.onKeyUp(keyCode, event);
-    }
-
     //初始化碎片
     private void initFragments() {
         fragmentManager = getSupportFragmentManager();
@@ -145,6 +108,60 @@ public class MainActivity extends AppCompatActivity {
         userButton = findViewById(R.id.user_button);
         mainButton.setTextColor(getResources().getColor(R.color.skyblue));
         userButton.setTextColor(getResources().getColor(R.color.black));
+    }
+
+    //监听按键抬起事件
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        //mainFragment
+        if(fragmentLayout == mainFragment) {
+            //如果是返回键
+            if(keyCode == KeyEvent.KEYCODE_BACK) {
+                //如果焦点在searchEdit上
+                if(MainActivity.this.getWindow().getDecorView().findFocus() == mainFragment.searchEdit) {
+                    mainFragment.searchEdit.clearFocus();//使搜索输入框失去焦点
+                    return true;//只收回键盘
+                }
+                if(mainFragment.canBack()) {//如果可以返回
+                    mainFragment.backToUpperStory();//返回上一层
+                    return true;
+                }
+                if(!mainFragment.isHistorySearchResult) {//如果不是搜索历史记录
+                    mainFragment.searchResult.stopScroll();//停止信息列表滑动
+                    mainFragment.dbHelper.initSearchData();//初始化搜索记录
+                    mainFragment.isHistorySearchResult = true;//现在是搜索历史记录了
+                    return true;
+                }
+                if(mainFragment.searchExpandFlag) {//收起搜索抽屉
+                    mainFragment.expandSearchDrawer(false);
+                    mainFragment.searchExpandFlag = false;
+                    return true;
+                }
+                if((System.currentTimeMillis() - exitTime) > 2000) {//弹出再按一次退出提示
+                    Toast.makeText(this, getString(R.string.exit_app), Toast.LENGTH_SHORT).show();
+                    exitTime = System.currentTimeMillis();
+                    return true;
+                }
+            }
+
+            //如果是Enter键
+            if(keyCode == KeyEvent.KEYCODE_ENTER) {
+                mainFragment.startPoiSearch();//开始POI搜索
+                mainFragment.searchEdit.requestFocus();//搜索框重新获得焦点
+                if(mainFragment.imm != null) mainFragment.imm.hideSoftInputFromWindow(
+                        getWindow().getDecorView().getWindowToken(), 0
+                );//收回键盘
+                return true;
+            }
+        //userFragment
+        } else if(fragmentLayout == userFragment) {
+            //回到首页
+            replaceFragment(mainFragment);
+            mainButton.setTextColor(getResources().getColor(R.color.skyblue));
+            userButton.setTextColor(getResources().getColor(R.color.black));
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
     }
 
 }

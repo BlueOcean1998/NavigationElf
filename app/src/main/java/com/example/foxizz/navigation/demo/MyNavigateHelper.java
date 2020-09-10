@@ -1,4 +1,4 @@
-package com.example.foxizz.navigation.util;
+package com.example.foxizz.navigation.demo;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -30,14 +30,14 @@ import com.example.foxizz.navigation.activity.BNaviGuideActivity;
 import com.example.foxizz.navigation.activity.DNaviGuideActivity;
 import com.example.foxizz.navigation.activity.WNaviGuideActivity;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
-import com.example.foxizz.navigation.demo.Tools;
+import com.example.foxizz.navigation.util.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.foxizz.navigation.demo.Tools.haveReadWriteAndLocationPermissions;
-import static com.example.foxizz.navigation.demo.Tools.isAirplaneModeOn;
-import static com.example.foxizz.navigation.demo.Tools.isNetworkConnected;
+import static com.example.foxizz.navigation.util.Tools.haveReadWriteAndLocationPermissions;
+import static com.example.foxizz.navigation.util.Tools.isAirplaneModeOn;
+import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
 
 public class MyNavigateHelper {
 
