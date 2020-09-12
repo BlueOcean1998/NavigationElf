@@ -21,12 +21,13 @@ import com.baidu.mapapi.search.route.MassTransitRouteLine;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
 import com.example.foxizz.navigation.data.SchemeItem;
-import com.example.foxizz.navigation.util.Tools;
-import com.example.foxizz.navigation.demo.overlayutil.MassTransitRouteOverlay;
+import com.example.foxizz.navigation.mybaidumap.overlayutil.MassTransitRouteOverlay;
 
 import java.util.List;
 
+import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
 import static com.example.foxizz.navigation.util.Tools.expandLayout;
+import static com.example.foxizz.navigation.util.Tools.getValueAnimator;
 import static com.example.foxizz.navigation.util.Tools.rotateExpandIcon;
 
 /**
@@ -112,15 +113,12 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
                 int position = holder.getAdapterPosition();
                 SchemeItem schemeItem = mainFragment.schemeList.get(position);
 
-                Tools.expandLayout(mainFragment.requireActivity(),
-                        mainFragment.schemeDrawer, false);//收起方案抽屉
-                Tools.expandLayout(mainFragment.requireActivity(),
-                        mainFragment.schemeInfoDrawer, true);//展开方案信息抽屉
-                Tools.expandLayout(mainFragment.requireActivity(),
-                        mainFragment.startLayout, true);//展开开始导航布局
+                expandLayout(mainFragment.schemeDrawer, false);//收起方案抽屉
+                expandLayout(mainFragment.schemeInfoDrawer, true);//展开方案信息抽屉
+                expandLayout(mainFragment.startLayout, true);//展开开始导航布局
 
                 //调整方案布局的高度
-                Tools.getValueAnimator(mainFragment.schemeLayout,
+                getValueAnimator(mainFragment.schemeLayout,
                         mainFragment.bodyLength / 2,
                         mainFragment.bodyLength / 4).start();
 
@@ -182,16 +180,8 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
                     //将路线放在最佳视野位置
                     overlay.zoomToSpan();
                 } catch (Exception ignored) {
-                    Toast.makeText(mainFragment.requireActivity(),
-                            R.string.draw_route_fail, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.draw_route_fail, Toast.LENGTH_SHORT).show();
                 }
-
-                /*
-                } catch (Exception e) {
-                    Toast.makeText(mainActivity, mainActivity.getString(R.string.can_not_get_station_info), Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
-                */
             }
         });
 

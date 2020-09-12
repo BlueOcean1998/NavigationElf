@@ -51,6 +51,7 @@
     <string name="app_id">19031902</string>
     <string name="api_key">Y5HQLSAsKHcmmU2Yv2NGtST0nhBVj0iZ</string>
     <string name="secret_key">FA6eK7iTuT3btn37ruG1OC4mhPyiepd5</string>
+    <string name="key_checkout_fail">key校验失败, </string>
 
     <string name="get_permission_fail">获取权限失败，若要定位请手动开启</string>
     <string name="close_airplane_mode">请检查是否有关闭飞行模式</string>

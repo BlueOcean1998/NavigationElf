@@ -1,4 +1,4 @@
-package com.example.foxizz.navigation.demo.overlayutil;
+package com.example.foxizz.navigation.mybaidumap.overlayutil;
 
 import android.graphics.Color;
 import android.util.Log;
@@ -49,7 +49,7 @@ public class BusLineOverlay extends OverlayManager {
         if (mBusLineResult == null || mBusLineResult.getStations() == null) {
             return null;
         }
-        List<OverlayOptions> overlayOptionses = new ArrayList<OverlayOptions>();
+        List<OverlayOptions> overlayOptionses = new ArrayList<>();
         for (BusLineResult.BusStation station : mBusLineResult.getStations()) {
             overlayOptionses.add(new MarkerOptions()
                     .position(station.getLocation())
@@ -59,7 +59,7 @@ public class BusLineOverlay extends OverlayManager {
                                                     .fromAssetWithDpi("Icon_bus_station.png")));
         }
 
-        List<LatLng> points = new ArrayList<LatLng>();
+        List<LatLng> points = new ArrayList<>();
         for (BusLineResult.BusStep step : mBusLineResult.getSteps()) {
             if (step.getWayPoints() != null) {
                 points.addAll(step.getWayPoints());

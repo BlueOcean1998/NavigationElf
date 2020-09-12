@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
+
 //步行导航诱导活动
 public class WNaviGuideActivity extends Activity {
 
@@ -174,7 +176,7 @@ public class WNaviGuideActivity extends Activity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == ArCameraView.WALK_AR_PERMISSION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                Toast.makeText(WNaviGuideActivity.this, "没有相机权限,请打开后重试", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "没有相机权限,请打开后重试", Toast.LENGTH_SHORT).show();
             } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 mNaviHelper.startCameraAndSetMapView(WNaviGuideActivity.this);
             }

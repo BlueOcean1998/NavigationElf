@@ -1,4 +1,4 @@
-package com.example.foxizz.navigation.demo.overlayutil;
+package com.example.foxizz.navigation.mybaidumap.overlayutil;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -44,7 +44,7 @@ public class DrivingRouteOverlay extends OverlayManager {
             return null;
         }
 
-        List<OverlayOptions> overlayOptionses = new ArrayList<OverlayOptions>();
+        List<OverlayOptions> overlayOptionses = new ArrayList<>();
         // step node
         if (mRouteLine.getAllStep() != null
                 && mRouteLine.getAllStep().size() > 0) {
@@ -100,8 +100,8 @@ public class DrivingRouteOverlay extends OverlayManager {
             int stepNum = steps.size();
             
             
-            List<LatLng> points = new ArrayList<LatLng>();
-            ArrayList<Integer> traffics = new ArrayList<Integer>();
+            List<LatLng> points = new ArrayList<>();
+            ArrayList<Integer> traffics = new ArrayList<>();
             int totalTraffic = 0;
             for (int i = 0; i < stepNum ; i++) {
                 if (i == stepNum - 1) {
@@ -130,7 +130,7 @@ public class DrivingRouteOverlay extends OverlayManager {
 //            }
             boolean isDotLine = false;
             
-            if (traffics != null && traffics.size() > 0) {
+            if (traffics.size() > 0) {
                 isDotLine = true;
             }
             PolylineOptions option = new PolylineOptions().points(points).textureIndex(traffics)
@@ -171,7 +171,7 @@ public class DrivingRouteOverlay extends OverlayManager {
         return 0;
     }
     public List<BitmapDescriptor> getCustomTextureList() {
-        ArrayList<BitmapDescriptor> list = new ArrayList<BitmapDescriptor>();
+        ArrayList<BitmapDescriptor> list = new ArrayList<>();
         list.add(BitmapDescriptorFactory.fromAsset("Icon_road_blue_arrow.png"));
         list.add(BitmapDescriptorFactory.fromAsset("Icon_road_green_arrow.png"));
         list.add(BitmapDescriptorFactory.fromAsset("Icon_road_yellow_arrow.png"));

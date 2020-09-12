@@ -27,9 +27,10 @@ import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
 import com.example.foxizz.navigation.data.SearchItem;
-import com.example.foxizz.navigation.util.Tools;
-import com.example.foxizz.navigation.demo.MyPoiSearch;
+import com.example.foxizz.navigation.mybaidumap.MyPoiSearch;
 
+import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
+import static com.example.foxizz.navigation.util.Tools.expandLayout;
 import static com.example.foxizz.navigation.util.Tools.isAirplaneModeOn;
 import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
 
@@ -104,22 +105,19 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             public void onClick(View view) {
                 if(unableToClick()) return;
 
-                if(!isNetworkConnected(mainFragment.requireActivity())) {
-                    Toast.makeText(mainFragment.requireActivity(),
-                            R.string.network_error, Toast.LENGTH_SHORT).show();
+                if(!isNetworkConnected()) {//没有网络连接
+                    Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if(isAirplaneModeOn(mainFragment.requireActivity())) {
-                    Toast.makeText(mainFragment.requireActivity(),
-                            R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
+                if(isAirplaneModeOn()) {//没有关飞行模式
+                    Toast.makeText(getContext(), R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 click(holder);
 
-                Tools.expandLayout(mainFragment.requireActivity(),
-                        mainFragment.infoLayout, true);//展开详细信息布局
+                expandLayout(mainFragment.infoLayout, true);//展开详细信息布局
 
                 mainFragment.infoButton.setText(R.string.info_button1);//设置按钮为路线
                 mainFragment.infoFlag = true;//设置信息状态为详细信息
@@ -155,32 +153,30 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             public void onClick(View view) {
                 if(unableToClick()) return;
 
-                if(isNetworkConnected(mainFragment.requireActivity())) {
-                    if(isAirplaneModeOn(mainFragment.requireActivity())) {
-                        Toast.makeText(mainFragment.requireActivity(),
-                                R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
-                    } else {
-                        click(holder);
-
-                        Tools.expandLayout(mainFragment.requireActivity(),
-                                mainFragment.selectLayout, true);//展开选择布局
-
-                        mainFragment.infoButton.setText(R.string.info_button2);//设置按钮为详细信息
-                        mainFragment.infoFlag = false;//设置信息状态为交通选择
-
-                        //重置交通类型为步行
-                        mainFragment.routePlanSelect = MainFragment.WALKING;
-                        mainFragment.selectButton1.setBackgroundResource(R.drawable.button_background_gray);
-                        mainFragment.selectButton2.setBackgroundResource(R.drawable.button_background_black);
-                        mainFragment.selectButton3.setBackgroundResource(R.drawable.button_background_gray);
-                        mainFragment.selectButton4.setBackgroundResource(R.drawable.button_background_gray);
-
-                        mainFragment.myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
-                    }
-                } else {
-                    Toast.makeText(mainFragment.requireActivity(),
-                            R.string.network_error, Toast.LENGTH_SHORT).show();
+                if(!isNetworkConnected()) {//没有网络连接
+                    Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
+                    return;
                 }
+                if(isAirplaneModeOn()) {//没有关飞行模式
+                    Toast.makeText(getContext(), R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                click(holder);
+
+                expandLayout(mainFragment.selectLayout, true);//展开选择布局
+
+                mainFragment.infoButton.setText(R.string.info_button2);//设置按钮为详细信息
+                mainFragment.infoFlag = false;//设置信息状态为交通选择
+
+                //重置交通类型为步行
+                mainFragment.routePlanSelect = MainFragment.WALKING;
+                mainFragment.selectButton1.setBackgroundResource(R.drawable.button_background_gray);
+                mainFragment.selectButton2.setBackgroundResource(R.drawable.button_background_black);
+                mainFragment.selectButton3.setBackgroundResource(R.drawable.button_background_gray);
+                mainFragment.selectButton4.setBackgroundResource(R.drawable.button_background_gray);
+
+                mainFragment.myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
             }
         });
 
@@ -209,7 +205,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                                 }
                             }
 
-                            mainFragment.dbHelper.deleteSearchData(searchItem.getUid());//删除数据库中的搜索记录
+                            mainFragment.searchDataHelper.deleteSearchData(searchItem.getUid());//删除数据库中的搜索记录
                         }
                     });
 
@@ -246,14 +242,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         int position = holder.getAdapterPosition();
         SearchItem searchItem = mainFragment.searchList.get(position);
 
-        Tools.expandLayout(mainFragment.requireActivity(),
-                mainFragment.searchLayout, false);//收起搜索布局
+        expandLayout(mainFragment.searchLayout, false);//收起搜索布局
         if(mainFragment.searchExpandFlag) {//如果状态为展开
             mainFragment.expandSearchDrawer(false);//收起展开的搜索抽屉
             mainFragment.searchExpandFlag = false;//设置状态为收起
         }
-        Tools.expandLayout(mainFragment.requireActivity(),
-                mainFragment.startLayout, true);//展开开始导航布局
+        expandLayout(mainFragment.startLayout, true);//展开开始导航布局
 
         //设置终点坐标
         mainFragment.endLocation = searchItem.getLatLng();

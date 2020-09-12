@@ -1,7 +1,6 @@
-package com.example.foxizz.navigation.demo;
+package com.example.foxizz.navigation.mybaidumap;
 
 import android.annotation.SuppressLint;
-import android.database.Cursor;
 import android.widget.Toast;
 
 import com.baidu.mapapi.model.LatLng;
@@ -29,6 +28,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
 import static com.example.foxizz.navigation.util.Tools.isEffectiveDate;
 
 /**
@@ -88,8 +88,7 @@ public class MyPoiSearch {
                                 .city(mainFragment.mCity)
                                 .keyword(mainFragment.searchContent));
                     } else {
-                        Toast.makeText(mainFragment.requireActivity(),
-                                mainFragment.getString(R.string.find_nothing), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), mainFragment.getString(R.string.find_nothing), Toast.LENGTH_LONG).show();
                     }
                     return;
                 }
@@ -101,7 +100,7 @@ public class MyPoiSearch {
                             || poiSearchType == CONSTRAINT_CITY_SEARCH)) {
 
                         /*这些是测试时给程序员看的
-                        Toast.makeText(mainActivity,
+                        Toast.makeText(getContext(),
                                 "总共查到" + poiResult.getTotalPoiNum() + "个兴趣点, 分为"
                                         + poiResult.getTotalPageNum() + "页", Toast.LENGTH_SHORT).show();
 
@@ -152,8 +151,7 @@ public class MyPoiSearch {
             public void onGetPoiDetailResult(PoiDetailSearchResult poiDetailResult) {
                 if(poiDetailResult == null//没有找到检索结果
                         || poiDetailResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {
-                    Toast.makeText(mainFragment.requireActivity(),
-                            mainFragment.getString(R.string.find_nothing), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), mainFragment.getString(R.string.find_nothing), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -163,7 +161,7 @@ public class MyPoiSearch {
                         for(PoiDetailInfo info: poiDetailResult.getPoiDetailInfoList()) {
                             //将结果保存到数据库
                             if(poiSearchType ==DETAIL_SEARCH)
-                                insertOrUpdateSearchDatabase(info);
+                                mainFragment.searchDataHelper.insertOrUpdateSearchDatabase(info);
 
                             //更新搜索结果列表
                             SearchItem searchItem = new SearchItem();
@@ -300,17 +298,6 @@ public class MyPoiSearch {
         };
 
         mainFragment.mPoiSearch.setOnGetPoiSearchResultListener(listener);
-    }
-
-    //将详细搜索结果录入数据库或更新数据库中这条记录的内容
-    private void insertOrUpdateSearchDatabase(PoiDetailInfo info) {
-        Cursor cursor = mainFragment.dbHelper.getSearchData(info.getUid());
-        if(cursor != null) {
-            if(cursor.getCount() > 0) mainFragment.dbHelper.updateSearchData(info);//有则更新
-            else mainFragment.dbHelper.insertSearchData(info);//没有则添加
-
-            cursor.close();
-        }
     }
 
 }

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2016 Baidu, Inc. All Rights Reserved.
  */
-package com.example.foxizz.navigation.demo.overlayutil;
+package com.example.foxizz.navigation.mybaidumap.overlayutil;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -75,7 +75,7 @@ public class MassTransitRouteOverlay extends OverlayManager {
             return null;
         }
 
-        List<OverlayOptions> overlayOptionses = new ArrayList<OverlayOptions>();
+        List<OverlayOptions> overlayOptionses = new ArrayList<>();
         List<List<MassTransitRouteLine.TransitStep>> steps = mRouteLine.getNewSteps();
         if (isSameCity ) {
             // 同城 (同城时，每个steps的get(i)对应的List是一条step的不同方案，此处都选第一条进行绘制，即get（0））
@@ -105,7 +105,7 @@ public class MassTransitRouteOverlay extends OverlayManager {
             // polyline
             for ( int i = 0; i < steps.size(); i++ ) {
                 MassTransitRouteLine.TransitStep step = steps.get(i).get(0);
-                int color = 0;
+                int color;
                 if (step.getVehileType() != MassTransitRouteLine.TransitStep
                         .StepVehicleInfoType.ESTEP_WALK) {
                     // color = Color.argb(178, 0, 78, 255);
@@ -156,7 +156,7 @@ public class MassTransitRouteOverlay extends OverlayManager {
 
                 for (int j = 0; j < steps.get(i).size(); j++ ) {
                     MassTransitRouteLine.TransitStep step = steps.get(i).get(j);
-                    int color = 0;
+                    int color;
                     if (step.getVehileType() != MassTransitRouteLine.TransitStep
                             .StepVehicleInfoType.ESTEP_WALK) {
                         // color = Color.argb(178, 0, 78, 255);

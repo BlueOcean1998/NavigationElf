@@ -1,4 +1,4 @@
-package com.example.foxizz.navigation.demo.overlayutil;
+package com.example.foxizz.navigation.mybaidumap.overlayutil;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -42,7 +42,7 @@ public class TransitRouteOverlay extends OverlayManager {
             return null;
         }
 
-        List<OverlayOptions> overlayOptionses = new ArrayList<OverlayOptions>();
+        List<OverlayOptions> overlayOptionses = new ArrayList<>();
         // step node
         if (mRouteLine.getAllStep() != null
                 && mRouteLine.getAllStep().size() > 0) {
@@ -91,7 +91,7 @@ public class TransitRouteOverlay extends OverlayManager {
                 if (step.getWayPoints() == null) {
                     continue;
                 }
-                int color = 0;
+                int color;
                 if (step.getStepType() != TransitRouteLine.TransitStep.TransitRouteStepType.WAKLING) {
 //                    color = Color.argb(178, 0, 78, 255);
                     color = getLineColor() != 0 ? getLineColor() : Color.argb(178, 0, 78, 255);

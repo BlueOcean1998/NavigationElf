@@ -7,11 +7,11 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/user_layout"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:orientation="horizontal">
         <FrameLayout
+            android:id="@+id/portrait_layout"
             android:layout_width="150dp"
             android:layout_height="150dp">
             <ImageView
@@ -31,6 +31,7 @@
         </FrameLayout>
 
         <LinearLayout
+            android:id="@+id/info_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

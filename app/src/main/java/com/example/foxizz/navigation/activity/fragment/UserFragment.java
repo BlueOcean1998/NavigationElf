@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,12 +24,20 @@ import com.example.foxizz.navigation.activity.SettingsActivity;
 //我的
 public class UserFragment extends Fragment {
 
+    private FrameLayout portraitLayout;//头像布局
+    private ImageView userPortrait;//用户头像
+    private LinearLayout infoLayout;//信息布局
+    private TextView userName;//用户名
+    private TextView userEmail;//用户email
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
+
+        initUserLayout(view);//初始化用户布局
 
         //初始化PreferenceScreen
         requireActivity().getSupportFragmentManager()
@@ -34,6 +46,30 @@ public class UserFragment extends Fragment {
                 .commit();
 
         return view;
+    }
+
+    //初始化用户布局
+    private void initUserLayout(View view) {
+        portraitLayout = view.findViewById(R.id.portrait_layout);
+        userPortrait = view.findViewById(R.id.user_portrait);
+
+        infoLayout = view.findViewById(R.id.info_layout);
+        userName = view.findViewById(R.id.user_name);
+        userEmail = view.findViewById(R.id.user_email);
+
+        portraitLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        infoLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     public static class PreferenceScreen extends PreferenceFragmentCompat {

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2016 Baidu, Inc. All Rights Reserved.
  */
-package com.example.foxizz.navigation.demo.overlayutil;
+package com.example.foxizz.navigation.mybaidumap.overlayutil;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -49,7 +49,7 @@ public class BikingRouteOverlay extends OverlayManager {
             return null;
         }
 
-        List<OverlayOptions> overlayList = new ArrayList<OverlayOptions>();
+        List<OverlayOptions> overlayList = new ArrayList<>();
         if (mRouteLine.getAllStep() != null
                 && mRouteLine.getAllStep().size() > 0) {
             for (BikingRouteLine.BikingStep step : mRouteLine.getAllStep()) {
@@ -105,7 +105,7 @@ public class BikingRouteOverlay extends OverlayManager {
             for (BikingRouteLine.BikingStep step : mRouteLine.getAllStep()) {
                 List<LatLng> watPoints = step.getWayPoints();
                 if (watPoints != null) {
-                    List<LatLng> points = new ArrayList<LatLng>();
+                    List<LatLng> points = new ArrayList<>();
                     if (lastStepLastPoint != null) {
                         points.add(lastStepLastPoint);
                     }

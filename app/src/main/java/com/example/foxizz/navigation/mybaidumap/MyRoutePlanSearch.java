@@ -1,4 +1,4 @@
-package com.example.foxizz.navigation.demo;
+package com.example.foxizz.navigation.mybaidumap;
 
 import android.annotation.SuppressLint;
 import android.view.View;
@@ -22,13 +22,12 @@ import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
-import com.example.foxizz.navigation.demo.overlayutil.BikingRouteOverlay;
-import com.example.foxizz.navigation.demo.overlayutil.DrivingRouteOverlay;
-import com.example.foxizz.navigation.demo.overlayutil.IndoorRouteOverlay;
-import com.example.foxizz.navigation.demo.overlayutil.TransitRouteOverlay;
-import com.example.foxizz.navigation.demo.overlayutil.WalkingRouteOverlay;
+import com.example.foxizz.navigation.mybaidumap.overlayutil.BikingRouteOverlay;
+import com.example.foxizz.navigation.mybaidumap.overlayutil.DrivingRouteOverlay;
+import com.example.foxizz.navigation.mybaidumap.overlayutil.IndoorRouteOverlay;
+import com.example.foxizz.navigation.mybaidumap.overlayutil.TransitRouteOverlay;
+import com.example.foxizz.navigation.mybaidumap.overlayutil.WalkingRouteOverlay;
 import com.example.foxizz.navigation.data.SchemeItem;
-import com.example.foxizz.navigation.util.Tools;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -36,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
 import static com.example.foxizz.navigation.util.Tools.expandLayout;
 import static com.example.foxizz.navigation.util.Tools.haveReadWriteAndLocationPermissions;
 import static com.example.foxizz.navigation.util.Tools.isAirplaneModeOn;
@@ -54,15 +54,13 @@ public class MyRoutePlanSearch {
 
     //开始路线规划
     public void startRoutePlanSearch() {
-        if(!isNetworkConnected(mainFragment.requireActivity())) {//没有开网络
-            Toast.makeText(mainFragment.requireActivity(),
-                    R.string.network_error, Toast.LENGTH_SHORT).show();
+        if(!isNetworkConnected()) {//没有网络连接
+            Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(isAirplaneModeOn(mainFragment.requireActivity())) {//开启了飞行模式
-            Toast.makeText(mainFragment.requireActivity(),
-                    R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
+        if(isAirplaneModeOn()) {//没有关飞行模式
+            Toast.makeText(getContext(), R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -72,14 +70,12 @@ public class MyRoutePlanSearch {
         }
 
         if(mainFragment.latLng == null) {//还没有得到定位
-            Toast.makeText(mainFragment.requireActivity(),
-                    R.string.wait_for_location_result, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.wait_for_location_result, Toast.LENGTH_SHORT).show();
             return;
         }
 
         if(mainFragment.endLocation == null) {
-            Toast.makeText(mainFragment.requireActivity(),
-                    R.string.end_location_is_null, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.end_location_is_null, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -119,7 +115,7 @@ public class MyRoutePlanSearch {
                         if(view != null) {
                             LinearLayout infoDrawer = view.findViewById(R.id.info_drawer);
                             ImageButton schemeExpand = view.findViewById(R.id.scheme_expand);
-                            expandLayout(mainFragment.requireActivity(), infoDrawer, false);
+                            expandLayout(infoDrawer, false);
                             rotateExpandIcon(schemeExpand, 180, 0);//旋转伸展按钮
                             mainFragment.schemeList.get(i).setExpandFlag(false);
                             mainFragment.schemeAdapter.notifyDataSetChanged();//通知adapter更新
@@ -136,14 +132,10 @@ public class MyRoutePlanSearch {
 
                 mainFragment.schemeInfoDrawer.getLayoutParams().height = 0;//设置方案信息抽屉的高度为0
 
-                Tools.expandLayout(mainFragment.requireActivity(),
-                        mainFragment.selectLayout, false);//收起选择布局
-                Tools.expandLayout(mainFragment.requireActivity(),
-                        mainFragment.schemeLayout, true);//展开方案布局
-                Tools.expandLayout(mainFragment.requireActivity(),
-                        mainFragment.schemeDrawer, true);//展开方案抽屉
-                Tools.expandLayout(mainFragment.requireActivity(),
-                        mainFragment.startLayout, false);//收起开始导航布局
+                expandLayout(mainFragment.selectLayout, false);//收起选择布局
+                expandLayout(mainFragment.schemeLayout, true);//展开方案布局
+                expandLayout(mainFragment.schemeDrawer, true);//展开方案抽屉
+                expandLayout(mainFragment.startLayout, false);//收起开始导航布局
 
                 mainFragment.schemeInfoFlag = 1;//设置状态为方案列表
                 break;
@@ -161,8 +153,7 @@ public class MyRoutePlanSearch {
             public void onGetWalkingRouteResult(WalkingRouteResult walkingRouteResult) {
                 if(walkingRouteResult.getRouteLines() == null
                         || walkingRouteResult.getRouteLines().size() == 0) {
-                    Toast.makeText(mainFragment.requireActivity(),
-                            R.string.suggest_not_to_walk, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.suggest_not_to_walk, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -183,8 +174,7 @@ public class MyRoutePlanSearch {
             public void onGetTransitRouteResult(TransitRouteResult transitRouteResult) {
                 if(transitRouteResult.getRouteLines() == null
                         || transitRouteResult.getRouteLines().size() == 0) {
-                    Toast.makeText(mainFragment.requireActivity(),
-                            R.string.suggest_to_walk, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.suggest_to_walk, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -205,8 +195,7 @@ public class MyRoutePlanSearch {
             public void onGetMassTransitRouteResult(MassTransitRouteResult massTransitRouteResult) {
                 if(massTransitRouteResult.getRouteLines() == null
                         || massTransitRouteResult.getRouteLines().size() == 0) {
-                    Toast.makeText(mainFragment.requireActivity(),
-                            R.string.suggest_to_walk, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.suggest_to_walk, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -323,8 +312,7 @@ public class MyRoutePlanSearch {
             public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
                 if(bikingRouteResult.getRouteLines() == null
                         || bikingRouteResult.getRouteLines().size() == 0) {
-                    Toast.makeText(mainFragment.requireActivity(),
-                            R.string.suggest_not_to_bike, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.suggest_not_to_bike, Toast.LENGTH_SHORT).show();
                     return;
                 }
 

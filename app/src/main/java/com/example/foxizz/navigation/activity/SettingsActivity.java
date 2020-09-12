@@ -3,6 +3,7 @@ package com.example.foxizz.navigation.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,7 +20,6 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.Preference;
@@ -28,13 +28,15 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.data.DatabaseHelper;
 import com.example.foxizz.navigation.broadcastreceiver.SettingsConstants;
+import com.example.foxizz.navigation.data.SearchDataHelper;
 
 import java.util.Objects;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseActivity {
 
-    //数据库相关
-    private static DatabaseHelper dbHelper;
+    //数据相关
+    private SharedPreferences sharedPreferences;
+    private static SearchDataHelper searchDataHelper;
 
     //设置地图类型
     private ImageView mapStandardImage;//标准地图
@@ -46,7 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     //设置目的地所在城市
     private String mCity;//所在城市
-    private String databaseCity;//数据库中的城市
+    private String saveCity;//存储的城市
     private String textCity;//输入框内输入的城市
     private Button destinationCityButton;//回到所在城市
     private EditText destinationCityEditText;//目标城市
@@ -63,9 +65,12 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        //新建数据库，已存在则连接数据库
-        dbHelper = new DatabaseHelper(SettingsActivity.this,
-                "Navigate.db", null, 1);
+        //获取SharedPreferences
+        sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
+        //获取搜索数据帮助对象
+        searchDataHelper = new SearchDataHelper(this,
+                new DatabaseHelper(SettingsActivity.this,
+                        "Navigate.db", null, 1));
 
         //标题栏
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -101,20 +106,20 @@ public class SettingsActivity extends AppCompatActivity {
         destinationCityConfirm = findViewById(R.id.destination_city_confirm);
         destinationCityCancel = findViewById(R.id.destination_city_cancel);
 
-        switch(dbHelper.getSettings("map_type")) {
-            case "0":
+        switch(sharedPreferences.getInt("map_type", 0)) {
+            case 0:
                 mapStandardImage.setImageResource(R.drawable.map_standard_on);
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                     mapStandardText.setTextColor(getColor(R.color.deepblue));
                 break;
 
-            case "1":
+            case 1:
                 mapSatelliteImage.setImageResource(R.drawable.map_satellite_on);
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                     mapSatelliteText.setTextColor(getColor(R.color.deepblue));
                 break;
 
-            case "2":
+            case 2:
                 mapTrafficImage.setImageResource(R.drawable.map_traffic_on);
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                     mapTrafficText.setTextColor(getColor(R.color.deepblue));
@@ -137,8 +142,8 @@ public class SettingsActivity extends AppCompatActivity {
                 mapTrafficImage.setImageResource(R.drawable.map_traffic_off);
                 mapTrafficText.setTextColor(getColor(R.color.black));
 
-                //保存设置到数据库
-                dbHelper.modifySettings("map_type", "0");
+                //保存设置到sharedPreferences
+                sharedPreferences.edit().putInt("map_type", 0).apply();
 
                 //发送本地广播通知更新地图类型
                 localBroadcastManager.sendBroadcast(resettingIntent
@@ -159,8 +164,8 @@ public class SettingsActivity extends AppCompatActivity {
                 mapTrafficImage.setImageResource(R.drawable.map_traffic_off);
                 mapTrafficText.setTextColor(getColor(R.color.black));
 
-                //保存设置到数据库
-                dbHelper.modifySettings("map_type", "1");
+                //保存设置到sharedPreferences
+                sharedPreferences.edit().putInt("map_type", 1).apply();
 
                 //发送本地广播通知更新地图类型
                 localBroadcastManager.sendBroadcast(resettingIntent
@@ -181,8 +186,8 @@ public class SettingsActivity extends AppCompatActivity {
                 mapTrafficImage.setImageResource(R.drawable.map_traffic_on);
                 mapTrafficText.setTextColor(getColor(R.color.deepblue));
 
-                //保存设置到数据库
-                dbHelper.modifySettings("map_type", "2");
+                //保存设置到sharedPreferences
+                sharedPreferences.edit().putInt("map_type", 2).apply();
 
                 //发送本地广播通知更新地图类型
                 localBroadcastManager.sendBroadcast(resettingIntent
@@ -198,9 +203,9 @@ public class SettingsActivity extends AppCompatActivity {
         mCity = intent.getStringExtra("mCity");
 
         //设置城市信息
-        databaseCity = dbHelper.getSettings("destination_city");
-        if(!TextUtils.isEmpty(databaseCity))//如果数据库中的城市信息不为空
-            destinationCityEditText.setText(databaseCity);//设置城市信息
+        saveCity = sharedPreferences.getString("destination_city", null);
+        if(!TextUtils.isEmpty(saveCity))//如果存储的城市信息不为空
+            destinationCityEditText.setText(saveCity);//设置城市信息
 
         //设置提示信息为所在城市
         destinationCityEditText.setHint(mCity);
@@ -209,11 +214,9 @@ public class SettingsActivity extends AppCompatActivity {
         destinationCityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //置空数据库中的城市信息
-                dbHelper.modifySettings("destination_city", "");
-                databaseCity = "";
-
+                saveCity = null;
                 destinationCityEditText.setText("");//清空输入框
+                commitCity();//提交输入的城市
             }
         });
 
@@ -234,7 +237,7 @@ public class SettingsActivity extends AppCompatActivity {
                 //获取输入框内的城市信息
                 textCity = destinationCityEditText.getText().toString();
 
-                if(!textCity.equals(databaseCity)) {//不等于数据库中的城市名
+                if(!textCity.equals(saveCity)) {//不等于存储的城市名
                     destinationCityConfirm.setVisibility(View.VISIBLE);//显示确定按钮
                     destinationCityCancel.setVisibility(View.VISIBLE);//显示取消按钮
                 } else {
@@ -259,11 +262,11 @@ public class SettingsActivity extends AppCompatActivity {
                 destinationCityConfirm.setVisibility(View.GONE);//隐藏确定按钮
                 destinationCityCancel.setVisibility(View.GONE);//隐藏取消按钮
 
-                if(TextUtils.isEmpty(databaseCity))//如果数据库中的城市信息为空
+                if(TextUtils.isEmpty(saveCity))//如果存储的城市信息为空
                     destinationCityEditText.setText("");//清空输入框
                 else {
-                    destinationCityEditText.setText(databaseCity);//恢复城市数据
-                    destinationCityEditText.setSelection(databaseCity.length());//移动焦点到末尾
+                    destinationCityEditText.setText(saveCity);//恢复城市数据
+                    destinationCityEditText.setSelection(saveCity.length());//移动焦点到末尾
                 }
             }
         });
@@ -321,7 +324,7 @@ public class SettingsActivity extends AppCompatActivity {
                     builder.setPositiveButton(getString(R.string.clear), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            dbHelper.deleteAllSearchData();//清空数据库中的搜索记录
+                            searchDataHelper.deleteAllSearchData();//清空数据库中的搜索记录
                         }
                     });
 
@@ -346,10 +349,10 @@ public class SettingsActivity extends AppCompatActivity {
         destinationCityCancel.setVisibility(View.GONE);//隐藏取消按钮
 
         if(textCity.isEmpty())//若输入的城市信息为空
-            //置空数据库中的城市信息
-            dbHelper.modifySettings("destination_city", null);
-            //将城市信息录入数据库
-        else dbHelper.modifySettings("destination_city", textCity);
+            //置空sharedPreferences中的城市信息
+            sharedPreferences.edit().putString("destination_city", null).apply();
+            //将城市信息录入sharedPreferences
+        else sharedPreferences.edit().putString("destination_city", textCity).apply();
     }
 
     //监听按键抬起事件

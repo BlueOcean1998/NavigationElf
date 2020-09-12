@@ -1,4 +1,4 @@
-package com.example.foxizz.navigation.demo.overlayutil;
+package com.example.foxizz.navigation.mybaidumap.overlayutil;
 
 
 import android.os.Bundle;
@@ -48,7 +48,7 @@ public class IndoorPoiOverlay extends OverlayManager {
         if (mIndoorPoiResult == null || mIndoorPoiResult.getmArrayPoiInfo() == null) {
             return null;
         }
-        List<OverlayOptions> markerList = new ArrayList<OverlayOptions>();
+        List<OverlayOptions> markerList = new ArrayList<>();
         int markerSize = 0;
         for (int i = 0; i < mIndoorPoiResult.getmArrayPoiInfo().size()
                 && markerSize < MAX_POI_SIZE; i++) {
@@ -70,7 +70,6 @@ public class IndoorPoiOverlay extends OverlayManager {
     /**
      * 获取该 IndoorPoiOverlay 的 indoorpoi数据
      *
-     * @return
      */
     public PoiIndoorResult getIndoorPoiResult() {
         return mIndoorPoiResult;
@@ -82,7 +81,6 @@ public class IndoorPoiOverlay extends OverlayManager {
      * @param i
      *            被点击的poi在
      *            {@link com.baidu.mapapi.search.poi.PoiIndoorResult#getmArrayPoiInfo()} } 中的索引
-     * @return
      */
     public boolean onPoiClick(int i) {
         return false;

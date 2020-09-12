@@ -1,4 +1,4 @@
-package com.example.foxizz.navigation.demo.overlayutil;
+package com.example.foxizz.navigation.mybaidumap.overlayutil;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BaiduMap.OnPolylineClickListener;
@@ -28,24 +28,23 @@ import static com.baidu.mapapi.map.BaiduMap.OnMarkerClickListener;
  */
 public abstract class OverlayManager implements OnMarkerClickListener, OnPolylineClickListener {
 
-    BaiduMap mBaiduMap = null;
+    BaiduMap mBaiduMap;
     private List<OverlayOptions> mOverlayOptionList = null;
 
     List<Overlay> mOverlayList = null;
 
     /**
      * 通过一个BaiduMap 对象构造
-     * 
-     * @param baiduMap
+     *
      */
     public OverlayManager(BaiduMap baiduMap) {
         mBaiduMap = baiduMap;
         // mBaiduMap.setOnMarkerClickListener(this);
         if (mOverlayOptionList == null) {
-            mOverlayOptionList = new ArrayList<OverlayOptions>();
+            mOverlayOptionList = new ArrayList<>();
         }
         if (mOverlayList == null) {
-            mOverlayList = new ArrayList<Overlay>();
+            mOverlayList = new ArrayList<>();
         }
     }
 

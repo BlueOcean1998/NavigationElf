@@ -1,4 +1,4 @@
-package com.example.foxizz.navigation.demo;
+package com.example.foxizz.navigation.mybaidumap;
 
 import android.annotation.SuppressLint;
 import android.widget.Toast;
@@ -14,6 +14,8 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
+
+import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
 
 /**
  * 定位模块
@@ -63,7 +65,7 @@ public class MyLocation {
                 mainFragment.mBaiduMap.setMyLocationData(mainFragment.locData);//设置定位数据
 
                 if(refreshSearchList) {
-                    mainFragment.dbHelper.initSearchData();//初始化搜索记录
+                    mainFragment.searchDataHelper.initSearchData();//初始化搜索记录
                     mainFragment.myNavigateHelper.initDriveNavigateHelper();//初始化驾车导航引擎
                     refreshSearchList = false;
                 }
@@ -71,7 +73,7 @@ public class MyLocation {
                 if(mainFragment.mLocType == BDLocation.TypeGpsLocation //GPS定位结果
                         || mainFragment.mLocType == BDLocation.TypeNetWorkLocation //网络定位结果
                         || mainFragment.mLocType == BDLocation.TypeOffLineLocation) {//离线定位结果
-                    //Toast.makeText(mainFragment.requireActivity(), location.getAddrStr(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), location.getAddrStr(), Toast.LENGTH_SHORT).show();
                     if(isFirstLoc) {
                         isFirstLoc = false;
 
@@ -93,20 +95,16 @@ public class MyLocation {
                         //弹出错误提示
                         switch (mainFragment.mLocType) {
                             case BDLocation.TypeServerError://服务器错误
-                                Toast.makeText(mainFragment.requireActivity(),
-                                        R.string.server_error, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), R.string.server_error, Toast.LENGTH_SHORT).show();
                                 break;
                             case BDLocation.TypeNetWorkException://网络错误
-                                Toast.makeText(mainFragment.requireActivity(),
-                                        R.string.network_error, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
                                 break;
                             case BDLocation.TypeCriteriaException://手机模式错误
-                                Toast.makeText(mainFragment.requireActivity(),
-                                        R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
                                 break;
                             default:
-                                Toast.makeText(mainFragment.requireActivity(),
-                                        R.string.unknown_error, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), R.string.unknown_error, Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }

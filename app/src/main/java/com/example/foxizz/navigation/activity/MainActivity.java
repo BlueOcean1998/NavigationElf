@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -14,13 +13,15 @@ import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
 import com.example.foxizz.navigation.activity.fragment.UserFragment;
 
+import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
+
 /**
  * app_name: NavigationElf
  * author: Foxizz
  * accomplish_date: 2020-04-30
- * last_modify_date: 2020-09-10
+ * last_modify_date: 2020-09-11
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private FragmentManager fragmentManager;
 
@@ -128,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if(!mainFragment.isHistorySearchResult) {//如果不是搜索历史记录
                     mainFragment.searchResult.stopScroll();//停止信息列表滑动
-                    mainFragment.dbHelper.initSearchData();//初始化搜索记录
+                    mainFragment.searchDataHelper.initSearchData();//初始化搜索记录
                     mainFragment.isHistorySearchResult = true;//现在是搜索历史记录了
                     return true;
                 }
@@ -138,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
                 if((System.currentTimeMillis() - exitTime) > 2000) {//弹出再按一次退出提示
-                    Toast.makeText(this, getString(R.string.exit_app), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.exit_app), Toast.LENGTH_SHORT).show();
                     exitTime = System.currentTimeMillis();
                     return true;
                 }

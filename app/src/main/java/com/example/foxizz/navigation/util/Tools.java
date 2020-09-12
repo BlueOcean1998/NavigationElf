@@ -27,17 +27,19 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
+import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
+
 /**
  * 这是一个工具类，专门存放各种方法
  */
 public class Tools {
 
     //伸缩布局
-    //参数：上下文，需要伸缩的linearLayout，伸或缩
-    public static void expandLayout(Context context, LinearLayout linearLayout, boolean flag) {
+    //参数：需要伸缩的linearLayout，伸或缩
+    public static void expandLayout(LinearLayout linearLayout, boolean flag) {
         if(flag) {
             linearLayout.startAnimation(
-                    AnimationUtils.loadAnimation(context, R.anim.adapter_alpha2)
+                    AnimationUtils.loadAnimation(getContext(), R.anim.adapter_alpha2)
             );//动画2，出现;
 
             //计算布局自适应时的高度
@@ -50,7 +52,7 @@ public class Tools {
             getValueAnimator(linearLayout, 0, layoutHeight).start();//展开动画
         } else {
             linearLayout.startAnimation(
-                    AnimationUtils.loadAnimation(context, R.anim.adapter_alpha1)
+                    AnimationUtils.loadAnimation(getContext(), R.anim.adapter_alpha1)
             );//动画1，消失;
 
             int layoutHeight = linearLayout.getHeight();//获取布局的高度
@@ -169,25 +171,23 @@ public class Tools {
     }
 
     //获取网络连接状态，有则返回true，没有则返回false
-    public static boolean isNetworkConnected(Context context) {
-        if(context != null) {
-            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo mNetworkInfo = null;
-            if(mConnectivityManager != null) {
-                mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
-            }
-            if(mNetworkInfo != null) {
-                return mNetworkInfo.isAvailable();
-            }
+    public static boolean isNetworkConnected() {
+        ConnectivityManager mConnectivityManager = (ConnectivityManager) getContext()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mNetworkInfo = null;
+        if(mConnectivityManager != null) {
+            mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+        }
+        if(mNetworkInfo != null) {
+            return mNetworkInfo.isAvailable();
         }
         return false;
     }
 
     //获取飞行模式状态，有开启则返回true，没有则返回false
-    public static boolean isAirplaneModeOn(Context context) {
+    public static boolean isAirplaneModeOn() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            return Settings.Global.getInt(context.getContentResolver(),
+            return Settings.Global.getInt(getContext().getContentResolver(),
                     Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
         }
         return true;

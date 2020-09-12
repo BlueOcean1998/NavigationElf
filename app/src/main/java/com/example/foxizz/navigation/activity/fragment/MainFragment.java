@@ -54,16 +54,17 @@ import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.SettingsActivity;
 import com.example.foxizz.navigation.broadcastreceiver.SettingsReceiver;
 import com.example.foxizz.navigation.data.DatabaseHelper;
+import com.example.foxizz.navigation.data.SearchDataHelper;
 import com.example.foxizz.navigation.util.Tools;
 import com.example.foxizz.navigation.activity.adapter.SchemeAdapter;
 import com.example.foxizz.navigation.data.SchemeItem;
 import com.example.foxizz.navigation.activity.adapter.SearchAdapter;
 import com.example.foxizz.navigation.data.SearchItem;
-import com.example.foxizz.navigation.demo.MyLocation;
-import com.example.foxizz.navigation.demo.MyNavigateHelper;
+import com.example.foxizz.navigation.mybaidumap.MyLocation;
+import com.example.foxizz.navigation.mybaidumap.MyNavigateHelper;
 import com.example.foxizz.navigation.util.MyOrientationListener;
-import com.example.foxizz.navigation.demo.MyPoiSearch;
-import com.example.foxizz.navigation.demo.MyRoutePlanSearch;
+import com.example.foxizz.navigation.mybaidumap.MyPoiSearch;
+import com.example.foxizz.navigation.mybaidumap.MyRoutePlanSearch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +85,6 @@ public class MainFragment extends Fragment {
 
 
     //设置相关
-    private SharedPreferences sharedPreferences;
     private SettingsReceiver settingsReceiver;//设置接收器
     private LocalBroadcastManager localBroadcastManager;//本地广播管理器
 
@@ -137,7 +137,6 @@ public class MainFragment extends Fragment {
     public TextView infoOthers;//目标的其它信息（联系方式，营业时间等）
 
     public boolean isHistorySearchResult = true;//是否是搜索历史记录
-    public DatabaseHelper dbHelper;//搜索记录数据库
 
 
     //路线规划相关
@@ -197,10 +196,16 @@ public class MainFragment extends Fragment {
     private long clickTime = 0;//防止连续点击按钮
 
     public void expandSearchDrawer(boolean flag) {//伸缩搜索抽屉
-        expandLayout(requireActivity(), searchDrawer, flag);
+        expandLayout(searchDrawer, flag);
         if(flag) rotateExpandIcon(searchExpand, 0, 180);//旋转伸展按钮
         else rotateExpandIcon(searchExpand, 180, 0);//旋转伸展按钮
     }
+
+    //数据相关
+    private SharedPreferences sharedPreferences1;
+    private SharedPreferences sharedPreferences2;
+    public SearchDataHelper searchDataHelper;
+
 
     @Nullable
     @Override
@@ -210,10 +215,12 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         //获取偏好设置
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-
-        //新建数据库，已存在则连接数据库
-        dbHelper = new DatabaseHelper(requireActivity(), "Navigate.db", null, 1);
+        sharedPreferences1 = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        sharedPreferences2 = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
+        //获取搜索数据帮助对象
+        searchDataHelper = new SearchDataHelper(requireActivity(),
+                new DatabaseHelper(requireActivity(),
+                        "Navigate.db", null, 1));
 
         InitMap(view);//初始化地图控件
 
@@ -310,7 +317,7 @@ public class MainFragment extends Fragment {
         mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
 
         //移动视角到最近的一条搜索记录
-        dbHelper.moveToLastSearchRecordLocation();
+        searchDataHelper.moveToLastSearchRecordLocation();
 
         /*离线地图要下载离线包，现在暂时不用
         //下载离线地图
@@ -323,7 +330,7 @@ public class MainFragment extends Fragment {
                 if(records != null && records.size() == 1) {
                     mOffline.start(records.get(0).cityID);
                     mOffline.update(records.get(0).cityID);
-                    Toast.makeText(MainFragment.this, "正在下载离线地图", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "正在下载离线地图", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -333,20 +340,20 @@ public class MainFragment extends Fragment {
     //设置地图类型
     public void setMapType() {
         //切换地图类型
-        switch(dbHelper.getSettings("map_type")) {
-            case "0"://标准地图
+        switch(sharedPreferences2.getInt("map_type", 0)) {
+            case 0://标准地图
                 if(mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_NORMAL)
                     mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
                 mBaiduMap.setTrafficEnabled(false);
                 break;
 
-            case "1"://卫星地图
+            case 1://卫星地图
                 if(mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_SATELLITE)
                     mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
                 mBaiduMap.setTrafficEnabled(false);
                 break;
 
-            case "2"://交通地图
+            case 2://交通地图
                 if(mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_NORMAL)
                     mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
                 mBaiduMap.setTrafficEnabled(true);
@@ -356,35 +363,35 @@ public class MainFragment extends Fragment {
 
     //设置是否启用3D视角
     public void setAngle3D() {
-        if(sharedPreferences.getBoolean("angle_3d", false))
+        if(sharedPreferences1.getBoolean("angle_3d", false))
             mUiSettings.setOverlookingGesturesEnabled(true);//启用3D视角
         else mUiSettings.setOverlookingGesturesEnabled(false);//禁用3D视角
     }
 
     //设置是否允许地图旋转
     public void setMapRotation() {
-        if(sharedPreferences.getBoolean("map_rotation", false))
+        if(sharedPreferences1.getBoolean("map_rotation", false))
             mUiSettings.setRotateGesturesEnabled(true);//启用地图旋转
         else mUiSettings.setRotateGesturesEnabled(false);//禁用地图旋转
     }
 
     //设置是否显示比例尺
     public void setScaleControl() {
-        if(sharedPreferences.getBoolean("scale_control", false))
+        if(sharedPreferences1.getBoolean("scale_control", false))
             mMapView.showScaleControl(true);//显示比例尺
         else mMapView.showScaleControl(false);//不显示比例尺
     }
 
     //设置是否显示缩放按钮
     public void setZoomControls() {
-        if(sharedPreferences.getBoolean("zoom_controls", false))
+        if(sharedPreferences1.getBoolean("zoom_controls", false))
             mMapView.showZoomControls(true);//显示缩放按钮
         else mMapView.showZoomControls(false);//不显示缩放按钮
     }
 
     //设置是否显示指南针
     public void setCompass() {
-        if(sharedPreferences.getBoolean("compass", true))
+        if(sharedPreferences1.getBoolean("compass", true))
             mUiSettings.setCompassEnabled(true);//显示指南针
         else mUiSettings.setCompassEnabled(false);//不显示指南针
     }
@@ -568,9 +575,9 @@ public class MainFragment extends Fragment {
         schemeReturnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Tools.expandLayout(requireActivity(), selectLayout, true);//展开选择布局
-                Tools.expandLayout(requireActivity(), schemeLayout, false);//收起方案抽屉
-                Tools.expandLayout(requireActivity(), startLayout, true);//展开开始导航布局
+                expandLayout(selectLayout, true);//展开选择布局
+                expandLayout(schemeLayout, false);//收起方案抽屉
+                expandLayout(startLayout, true);//展开开始导航布局
                 infoFlag = false;//设置信息状态为交通选择
                 infoButton.setText(R.string.info_button2);//设置按钮为详细信息
                 schemeInfoFlag = 0;//设置状态为不显示
@@ -657,8 +664,8 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(schemeInfoFlag != 0) {//如果方案布局已经展开
-                    expandLayout(requireActivity(), selectLayout, true);//展开选择布局
-                    expandLayout(requireActivity(),schemeLayout, false);//收起方案布局
+                    expandLayout(selectLayout, true);//展开选择布局
+                    expandLayout(schemeLayout, false);//收起方案布局
 
                     infoButton.setText(R.string.info_button2);//设置按钮为详细信息
                     infoFlag = false;//设置信息状态为交通选择
@@ -667,8 +674,8 @@ public class MainFragment extends Fragment {
                 }
 
                 if(infoFlag) {//如果显示为详细信息
-                    expandLayout(requireActivity(), selectLayout, true);//展开选择布局
-                    expandLayout(requireActivity(), infoLayout, false);//收起详细信息布局
+                    expandLayout(selectLayout, true);//展开选择布局
+                    expandLayout(infoLayout, false);//收起详细信息布局
 
                     infoButton.setText(R.string.info_button2);//设置按钮为详细信息
                     infoFlag = false;//设置信息状态交通选择
@@ -683,8 +690,8 @@ public class MainFragment extends Fragment {
                     myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
                 } else {//如果显示为交通选择
                     infoButton.setText(R.string.info_button1);//设置按钮为路线
-                    expandLayout(requireActivity(), selectLayout, false);//收起选择布局
-                    expandLayout(requireActivity(), infoLayout, true);//展开详细信息布局
+                    expandLayout(selectLayout, false);//收起选择布局
+                    expandLayout(infoLayout, true);//展开详细信息布局
                     infoFlag = true;//设置信息状态为详细信息
                 }
             }
@@ -742,7 +749,7 @@ public class MainFragment extends Fragment {
             myLocation.refreshSearchList = true;//刷新搜索列表
             myLocation.initLocationOption();//初始化定位
         } else {
-            dbHelper.initSearchData();//初始化搜索记录
+            searchDataHelper.initSearchData();//初始化搜索记录
             //申请权限
             ActivityCompat.requestPermissions(requireActivity(), permissionList.toArray(tmpList), 0);
         }
@@ -758,7 +765,7 @@ public class MainFragment extends Fragment {
                 myLocation.initLocationOption();//初始化定位
             }
             else
-                Toast.makeText(requireActivity(), R.string.get_permission_fail, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.get_permission_fail, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -789,9 +796,9 @@ public class MainFragment extends Fragment {
     //返回上一层
     public void backToUpperStory() {
         if(schemeInfoFlag == 2) {//如果方案布局为单个方案
-            expandLayout(requireActivity(), schemeDrawer, true);//展开方案抽屉
-            expandLayout(requireActivity(), schemeInfoDrawer, false);//收起方案信息抽屉
-            expandLayout(requireActivity(), startLayout, false);//收起开始导航布局
+            expandLayout(schemeDrawer, true);//展开方案抽屉
+            expandLayout(schemeInfoDrawer, false);//收起方案信息抽屉
+            expandLayout(startLayout, false);//收起开始导航布局
 
             //调整方案布局的高度
             getValueAnimator(schemeLayout,
@@ -799,17 +806,17 @@ public class MainFragment extends Fragment {
 
             schemeInfoFlag = 1;//设置状态为方案列表
         } else {
-            expandLayout(requireActivity(), selectLayout, false);//收起选择布局
-            expandLayout(requireActivity(), searchLayout, true);//展开搜索布局
+            expandLayout(selectLayout, false);//收起选择布局
+            expandLayout(searchLayout, true);//展开搜索布局
             if(!searchExpandFlag) {//如果状态为收起
                 expandSearchDrawer(true);//展开搜索抽屉
                 searchExpandFlag = true;//设置状态为展开
             }
-            expandLayout(requireActivity(), infoLayout, false);//收起详细信息布局
-            expandLayout(requireActivity(), startLayout, false);//收起开始导航布局
+            expandLayout(infoLayout, false);//收起详细信息布局
+            expandLayout(startLayout, false);//收起开始导航布局
 
             if(schemeInfoFlag == 1) {//如果方案布局为方案列表
-                expandLayout(requireActivity(), schemeLayout, false);//收起方案布局
+                expandLayout(schemeLayout, false);//收起方案布局
                 schemeInfoFlag = 0;//设置状态为不显示
             }
         }
@@ -829,13 +836,13 @@ public class MainFragment extends Fragment {
             clickTime = System.currentTimeMillis();
         else return;
 
-        if(!isNetworkConnected(requireActivity())) {
-            Toast.makeText(requireActivity(), R.string.network_error, Toast.LENGTH_SHORT).show();
+        if(!isNetworkConnected()) {//没有网络连接
+            Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(isAirplaneModeOn(requireActivity())) {
-            Toast.makeText(requireActivity(), R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
+        if(isAirplaneModeOn()) {//没有关飞行模式
+            Toast.makeText(getContext(), R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -844,7 +851,7 @@ public class MainFragment extends Fragment {
         if(searchContent.isEmpty()) {//如果搜索内容为空
             if(!isHistorySearchResult) {//如果不是搜索历史记录
                 searchResult.stopScroll();//停止信息列表滑动
-                dbHelper.initSearchData();//初始化搜索记录
+                searchDataHelper.initSearchData();//初始化搜索记录
                 isHistorySearchResult = true;//现在是搜索历史记录了
             }
             return;
@@ -864,9 +871,9 @@ public class MainFragment extends Fragment {
         // 定位成功后才可以进行搜索
         if(mCity != null) searchCity = mCity;
 
-        //如果数据库中的城市不为空，则换用数据库中的城市
-        String databaseCity = dbHelper.getSettings("destination_city");
-        if(!TextUtils.isEmpty(databaseCity)) searchCity = databaseCity;
+        //如果存储的城市不为空，则换用存储的城市
+        String saveCity =  sharedPreferences2.getString("destination_city", null);
+        if(!TextUtils.isEmpty(saveCity)) searchCity = saveCity;
 
         if(searchCity == null) {
             requestPermission();//申请权限，获得权限后定位
@@ -879,7 +886,7 @@ public class MainFragment extends Fragment {
         searchAdapter.notifyDataSetChanged();//通知adapter更新
         isHistorySearchResult = false;//已经不是搜索历史记录了
 
-        if(sharedPreferences.getBoolean("search_around", false))
+        if(sharedPreferences1.getBoolean("search_around", false))
             myPoiSearch.poiSearchType = MyPoiSearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
         else myPoiSearch.poiSearchType = MyPoiSearch.CITY_SEARCH;//设置搜索类型为城市内搜索
 
