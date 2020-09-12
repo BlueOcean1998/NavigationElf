@@ -68,8 +68,7 @@ public class SettingsActivity extends BaseActivity {
         //获取SharedPreferences
         sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
         //获取搜索数据帮助对象
-        searchDataHelper = new SearchDataHelper(this,
-                new DatabaseHelper(SettingsActivity.this,
+        searchDataHelper = new SearchDataHelper(new DatabaseHelper(SettingsActivity.this,
                         "Navigate.db", null, 1));
 
         //标题栏
@@ -324,7 +323,9 @@ public class SettingsActivity extends BaseActivity {
                     builder.setPositiveButton(getString(R.string.clear), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            searchDataHelper.deleteAllSearchData();//清空数据库中的搜索记录
+                            searchDataHelper.deleteAllSearchData(
+                                    ((MainActivity) requireActivity()).getMainFragment()
+                            );//清空数据库中的搜索记录
                         }
                     });
 

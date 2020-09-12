@@ -218,8 +218,7 @@ public class MainFragment extends Fragment {
         sharedPreferences1 = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         sharedPreferences2 = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
         //获取搜索数据帮助对象
-        searchDataHelper = new SearchDataHelper(requireActivity(),
-                new DatabaseHelper(requireActivity(),
+        searchDataHelper = new SearchDataHelper(new DatabaseHelper(requireActivity(),
                         "Navigate.db", null, 1));
 
         InitMap(view);//初始化地图控件
@@ -317,7 +316,7 @@ public class MainFragment extends Fragment {
         mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
 
         //移动视角到最近的一条搜索记录
-        searchDataHelper.moveToLastSearchRecordLocation();
+        searchDataHelper.moveToLastSearchRecordLocation(this);
 
         /*离线地图要下载离线包，现在暂时不用
         //下载离线地图
@@ -749,7 +748,7 @@ public class MainFragment extends Fragment {
             myLocation.refreshSearchList = true;//刷新搜索列表
             myLocation.initLocationOption();//初始化定位
         } else {
-            searchDataHelper.initSearchData();//初始化搜索记录
+            searchDataHelper.initSearchData(this);//初始化搜索记录
             //申请权限
             ActivityCompat.requestPermissions(requireActivity(), permissionList.toArray(tmpList), 0);
         }
@@ -851,7 +850,7 @@ public class MainFragment extends Fragment {
         if(searchContent.isEmpty()) {//如果搜索内容为空
             if(!isHistorySearchResult) {//如果不是搜索历史记录
                 searchResult.stopScroll();//停止信息列表滑动
-                searchDataHelper.initSearchData();//初始化搜索记录
+                searchDataHelper.initSearchData(this);//初始化搜索记录
                 isHistorySearchResult = true;//现在是搜索历史记录了
             }
             return;

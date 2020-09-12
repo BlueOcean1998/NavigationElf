@@ -65,7 +65,7 @@ public class MyLocation {
                 mainFragment.mBaiduMap.setMyLocationData(mainFragment.locData);//设置定位数据
 
                 if(refreshSearchList) {
-                    mainFragment.searchDataHelper.initSearchData();//初始化搜索记录
+                    mainFragment.searchDataHelper.initSearchData(mainFragment);//初始化搜索记录
                     mainFragment.myNavigateHelper.initDriveNavigateHelper();//初始化驾车导航引擎
                     refreshSearchList = false;
                 }
