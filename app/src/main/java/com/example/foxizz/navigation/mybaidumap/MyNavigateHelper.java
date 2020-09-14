@@ -40,6 +40,9 @@ import static com.example.foxizz.navigation.util.Tools.haveReadWriteAndLocationP
 import static com.example.foxizz.navigation.util.Tools.isAirplaneModeOn;
 import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
 
+/**
+ * 导航模块
+ */
 public class MyNavigateHelper {
 
     private MainFragment mainFragment;
@@ -57,7 +60,7 @@ public class MyNavigateHelper {
     public void initDriveNavigateHelper() {
         BaiduNaviManagerFactory.getBaiduNaviManager().init(mainFragment.requireActivity(),
                 Tools.getSDCardDir(),
-                Tools.getAppFolderName(mainFragment.requireActivity()),
+                Tools.getAppFolderName(),
             new IBaiduNaviManager.INaviInitListener() {
                 @Override
                 public void onAuthResult(int status, final String msg) {
@@ -107,7 +110,7 @@ public class MyNavigateHelper {
         BaiduNaviManagerFactory.getTTSManager().initTTS(new BNTTsInitConfig.Builder()
                 .context(mainFragment.requireActivity())
                 .sdcardRootPath(Tools.getSDCardDir())
-                .appFolderName(Tools.getAppFolderName(mainFragment.requireActivity()))
+                .appFolderName(Tools.getAppFolderName())
                 .appId(mainFragment.getString(R.string.app_id))
                 .appKey(mainFragment.getString(R.string.api_key))
                 .secretKey(mainFragment.getString(R.string.secret_key))
@@ -161,7 +164,7 @@ public class MyNavigateHelper {
             return;
         }
 
-        if(!haveReadWriteAndLocationPermissions(mainFragment.requireActivity())) {//权限不足
+        if(!haveReadWriteAndLocationPermissions()) {//权限不足
             mainFragment.requestPermission();//申请权限，获得权限后定位
             return;
         }

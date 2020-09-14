@@ -4,7 +4,10 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-//数据库和数据表
+/**
+ * 数据库帮助类
+ * 存放所有的数据表
+ */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_SEARCH = "create table SearchData ("

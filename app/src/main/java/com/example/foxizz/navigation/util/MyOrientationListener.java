@@ -8,7 +8,7 @@ import android.hardware.SensorManager;
 import android.os.Build;
 
 /**
- * 方向传感器模块
+ * 方向传感器
  */
 public class MyOrientationListener implements SensorEventListener {
 

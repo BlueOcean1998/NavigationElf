@@ -1,11 +1,13 @@
 package com.example.foxizz.navigation.activity;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -19,7 +21,7 @@ import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
  * app_name: NavigationElf
  * author: Foxizz
  * accomplish_date: 2020-04-30
- * last_modify_date: 2020-09-12
+ * last_modify_date: 2020-09-14
  */
 public class MainActivity extends BaseActivity {
 
@@ -109,6 +111,20 @@ public class MainActivity extends BaseActivity {
         userButton = findViewById(R.id.user_button);
         mainButton.setTextColor(getResources().getColor(R.color.skyblue));
         userButton.setTextColor(getResources().getColor(R.color.black));
+    }
+
+    //监听权限申请
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == 0) {
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mainFragment.myLocation.refreshSearchList = true;//刷新搜索列表
+                mainFragment.myLocation.initLocationOption();//初始化定位
+            } else
+                Toast.makeText(getContext(), R.string.get_permission_fail, Toast.LENGTH_SHORT).show();
+        }
     }
 
     //监听按键抬起事件

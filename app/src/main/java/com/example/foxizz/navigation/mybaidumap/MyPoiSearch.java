@@ -54,6 +54,13 @@ public class MyPoiSearch {
     public final static int DETAIL_SEARCH = 4;//直接详细信息搜索，一般直接用uid搜索
     public final static int DETAIL_SEARCH_ALL = 5;//详细搜索全部，用于数据库录入
 
+    /*
+     * 是否是第一次详细信息搜索
+     * 从来没有想到过会存在搜不到详细信息的uid
+     * 为了防止不断弹出“未找到结果”，特此设置此变量
+     */
+    private boolean isFirstDetailSearch;
+
     //初始化搜索目标信息
     public void initSearch() {
         //获取Poi搜索实例
@@ -98,6 +105,8 @@ public class MyPoiSearch {
                             || poiSearchType == OTHER_CITY_SEARCH
                             || poiSearchType == NEARBY_SEARCH
                             || poiSearchType == CONSTRAINT_CITY_SEARCH)) {
+
+                        isFirstDetailSearch = true;//第一次详细信息搜索
 
                         /*这些是测试时给程序员看的
                         Toast.makeText(getContext(),
@@ -151,7 +160,10 @@ public class MyPoiSearch {
             public void onGetPoiDetailResult(PoiDetailSearchResult poiDetailResult) {
                 if(poiDetailResult == null//没有找到检索结果
                         || poiDetailResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {
-                    Toast.makeText(getContext(), mainFragment.getString(R.string.find_nothing), Toast.LENGTH_SHORT).show();
+                    if(isFirstDetailSearch) {
+                        Toast.makeText(getContext(), mainFragment.getString(R.string.find_nothing), Toast.LENGTH_SHORT).show();
+                        isFirstDetailSearch = false;
+                    }
                     return;
                 }
 

@@ -7,6 +7,9 @@ import android.content.Context;
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 
+/**
+ * MyApplication
+ */
 public class MyApplication extends Application {
 
     @SuppressLint("StaticFieldLeak")

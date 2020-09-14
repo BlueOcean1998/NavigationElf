@@ -30,7 +30,7 @@ public class MyLocation {
 
     public boolean refreshSearchList;//是否刷新搜索列表
     private int requestLocationTime;//请求定位的次数
-    private final static int maxTime = 10;//最大请求次数
+    private final static int MAX_TIME = 10;//最大请求次数
     private boolean isFirstLoc;//是否是首次定位
 
     //初始化定位
@@ -45,7 +45,7 @@ public class MyLocation {
         mainFragment.mLocationClient.registerLocationListener(new BDAbstractLocationListener() {
             @Override
             public void onReceiveLocation(BDLocation location) {
-                //mapView 销毁后不在处理新接收的位置
+                //mapView销毁后不再处理新接收的位置
                 if(location == null || mainFragment.mMapView == null) return;
 
                 //获取定位数据
@@ -66,7 +66,6 @@ public class MyLocation {
 
                 if(refreshSearchList) {
                     mainFragment.searchDataHelper.initSearchData(mainFragment);//初始化搜索记录
-                    mainFragment.myNavigateHelper.initDriveNavigateHelper();//初始化驾车导航引擎
                     refreshSearchList = false;
                 }
 
@@ -77,6 +76,8 @@ public class MyLocation {
                     if(isFirstLoc) {
                         isFirstLoc = false;
 
+                        mainFragment.myNavigateHelper.initDriveNavigateHelper();//初始化驾车导航引擎
+
                         //移动视角并改变缩放等级
                         MapStatusUpdate msu= MapStatusUpdateFactory.newLatLng(mainFragment.latLng);
                         mainFragment.mBaiduMap.setMapStatus(msu);
@@ -86,9 +87,8 @@ public class MyLocation {
                                 MapStatusUpdateFactory.newMapStatus(builder.build())
                         );
                     }
-
                 } else {
-                    if(requestLocationTime < maxTime) {
+                    if(requestLocationTime < MAX_TIME) {
                         initLocationOption();//再次请求定位
                         requestLocationTime++;//请求次数+1
                     } else {

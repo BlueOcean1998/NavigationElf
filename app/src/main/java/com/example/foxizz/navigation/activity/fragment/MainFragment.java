@@ -52,6 +52,7 @@ import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.baidu.tts.client.SpeechSynthesizer;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.SettingsActivity;
+import com.example.foxizz.navigation.broadcastreceiver.SettingsConstants;
 import com.example.foxizz.navigation.broadcastreceiver.SettingsReceiver;
 import com.example.foxizz.navigation.data.DatabaseHelper;
 import com.example.foxizz.navigation.data.SearchDataHelper;
@@ -68,6 +69,7 @@ import com.example.foxizz.navigation.mybaidumap.MyRoutePlanSearch;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.example.foxizz.navigation.util.Tools.expandLayout;
 import static com.example.foxizz.navigation.util.Tools.getValueAnimator;
@@ -75,7 +77,9 @@ import static com.example.foxizz.navigation.util.Tools.isAirplaneModeOn;
 import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
 import static com.example.foxizz.navigation.util.Tools.rotateExpandIcon;
 
-//首页
+/**
+ * 地图页碎片
+ */
 public class MainFragment extends Fragment {
 
     //地图控件
@@ -338,25 +342,27 @@ public class MainFragment extends Fragment {
 
     //设置地图类型
     public void setMapType() {
-        //切换地图类型
-        switch(sharedPreferences2.getInt("map_type", 0)) {
-            case 0://标准地图
-                if(mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_NORMAL)
-                    mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-                mBaiduMap.setTrafficEnabled(false);
-                break;
-
-            case 1://卫星地图
-                if(mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_SATELLITE)
-                    mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
-                mBaiduMap.setTrafficEnabled(false);
-                break;
-
-            case 2://交通地图
-                if(mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_NORMAL)
-                    mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-                mBaiduMap.setTrafficEnabled(true);
-                break;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            switch(Objects.requireNonNull(sharedPreferences2.getString("map_type",
+                    SettingsConstants.STANDARD_MAP))) {
+                case SettingsConstants.STANDARD_MAP://标准地图
+                    if(mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_NORMAL)
+                        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+                    mBaiduMap.setTrafficEnabled(false);
+                    break;
+                case SettingsConstants.SATELLITE_MAP://卫星地图
+                    if(mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_SATELLITE)
+                        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
+                    mBaiduMap.setTrafficEnabled(false);
+                    break;
+                case SettingsConstants.TRAFFIC_MAP://交通地图
+                    if(mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_NORMAL)
+                        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+                    mBaiduMap.setTrafficEnabled(true);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -583,12 +589,13 @@ public class MainFragment extends Fragment {
             }
         });
 
-        //输入框的点击事件
+        //输入框获取焦点时
         searchEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus) {
-                    if(!searchExpandFlag) {//如果状态为收起
+                    //如果状态为收起且有搜索数据
+                    if(!searchExpandFlag && searchDataHelper.isHasSearchData()) {
                         expandSearchDrawer(true);//展开搜索抽屉
                         searchExpandFlag = true;//设置状态为展开
                     }
@@ -751,20 +758,6 @@ public class MainFragment extends Fragment {
             searchDataHelper.initSearchData(this);//初始化搜索记录
             //申请权限
             ActivityCompat.requestPermissions(requireActivity(), permissionList.toArray(tmpList), 0);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(
-            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == 0) {
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                myLocation.refreshSearchList = true;//刷新搜索列表
-                myLocation.initLocationOption();//初始化定位
-            }
-            else
-                Toast.makeText(getContext(), R.string.get_permission_fail, Toast.LENGTH_SHORT).show();
         }
     }
 

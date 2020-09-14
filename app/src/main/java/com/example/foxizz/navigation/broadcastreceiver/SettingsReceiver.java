@@ -9,7 +9,10 @@ import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
 import com.example.foxizz.navigation.util.Tools;
 
-//设置接收器
+/**
+ * 设置接收器
+ * 用于地图页接收设置变化
+ */
 public class SettingsReceiver extends BroadcastReceiver {
 
     private Context mContext;

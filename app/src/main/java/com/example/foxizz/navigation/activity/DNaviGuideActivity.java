@@ -25,7 +25,10 @@ import com.baidu.navisdk.adapter.IBNTTSManager;
 import com.baidu.navisdk.adapter.IBNaviListener;
 import com.example.foxizz.navigation.util.Tools;
 
-//驾车导航诱导活动
+/**
+ * 驾车导航诱导活动
+ * 可以继承AppCompatActivity
+ */
 public class DNaviGuideActivity extends Activity {
 
     private static final String TAG = DNaviGuideActivity.class.getName();

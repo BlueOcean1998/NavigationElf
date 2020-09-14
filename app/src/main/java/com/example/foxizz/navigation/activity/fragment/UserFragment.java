@@ -21,7 +21,9 @@ import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.activity.SettingsActivity;
 
-//我的
+/**
+ * 用户页碎片
+ */
 public class UserFragment extends Fragment {
 
     private FrameLayout portraitLayout;//头像布局

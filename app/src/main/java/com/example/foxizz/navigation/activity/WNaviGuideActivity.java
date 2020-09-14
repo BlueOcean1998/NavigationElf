@@ -26,7 +26,10 @@ import androidx.annotation.NonNull;
 
 import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
 
-//步行导航诱导活动
+/**
+ * 步行导航诱导活动
+ * 不能继承AppCompatActivity
+ */
 public class WNaviGuideActivity extends Activity {
 
     private final static String TAG = WNaviGuideActivity.class.getSimpleName();

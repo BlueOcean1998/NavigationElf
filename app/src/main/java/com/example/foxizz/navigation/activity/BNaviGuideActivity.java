@@ -18,7 +18,10 @@ import com.baidu.mapapi.walknavi.model.RouteGuideKind;
 import com.baidu.tts.client.SpeechSynthesizer;
 import com.example.foxizz.navigation.util.Tools;
 
-//骑行导航诱导活动
+/**
+ * 骑行导航诱导活动
+ * 不能继承AppCompatActivity
+ */
 public class BNaviGuideActivity extends Activity {
 
     private final static String TAG = BNaviGuideActivity.class.getSimpleName();

@@ -32,6 +32,9 @@ import com.example.foxizz.navigation.data.SearchDataHelper;
 
 import java.util.Objects;
 
+/**
+ * 设置页
+ */
 public class SettingsActivity extends BaseActivity {
 
     //数据相关
@@ -105,24 +108,27 @@ public class SettingsActivity extends BaseActivity {
         destinationCityConfirm = findViewById(R.id.destination_city_confirm);
         destinationCityCancel = findViewById(R.id.destination_city_cancel);
 
-        switch(sharedPreferences.getInt("map_type", 0)) {
-            case 0:
-                mapStandardImage.setImageResource(R.drawable.map_standard_on);
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                    mapStandardText.setTextColor(getColor(R.color.deepblue));
-                break;
-
-            case 1:
-                mapSatelliteImage.setImageResource(R.drawable.map_satellite_on);
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                    mapSatelliteText.setTextColor(getColor(R.color.deepblue));
-                break;
-
-            case 2:
-                mapTrafficImage.setImageResource(R.drawable.map_traffic_on);
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                    mapTrafficText.setTextColor(getColor(R.color.deepblue));
-                break;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            switch(Objects.requireNonNull(sharedPreferences.getString("map_type",
+                    SettingsConstants.STANDARD_MAP))) {
+                case SettingsConstants.STANDARD_MAP:
+                    mapStandardImage.setImageResource(R.drawable.map_standard_on);
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                        mapStandardText.setTextColor(getColor(R.color.deepblue));
+                    break;
+                case SettingsConstants.SATELLITE_MAP:
+                    mapSatelliteImage.setImageResource(R.drawable.map_satellite_on);
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                        mapSatelliteText.setTextColor(getColor(R.color.deepblue));
+                    break;
+                case SettingsConstants.TRAFFIC_MAP:
+                    mapTrafficImage.setImageResource(R.drawable.map_traffic_on);
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                        mapTrafficText.setTextColor(getColor(R.color.deepblue));
+                    break;
+                default:
+                    break;
+            }
         }
 
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
@@ -142,7 +148,7 @@ public class SettingsActivity extends BaseActivity {
                 mapTrafficText.setTextColor(getColor(R.color.black));
 
                 //保存设置到sharedPreferences
-                sharedPreferences.edit().putInt("map_type", 0).apply();
+                sharedPreferences.edit().putString("map_type", SettingsConstants.STANDARD_MAP).apply();
 
                 //发送本地广播通知更新地图类型
                 localBroadcastManager.sendBroadcast(resettingIntent
@@ -164,7 +170,7 @@ public class SettingsActivity extends BaseActivity {
                 mapTrafficText.setTextColor(getColor(R.color.black));
 
                 //保存设置到sharedPreferences
-                sharedPreferences.edit().putInt("map_type", 1).apply();
+                sharedPreferences.edit().putString("map_type", SettingsConstants.SATELLITE_MAP).apply();
 
                 //发送本地广播通知更新地图类型
                 localBroadcastManager.sendBroadcast(resettingIntent
@@ -186,7 +192,7 @@ public class SettingsActivity extends BaseActivity {
                 mapTrafficText.setTextColor(getColor(R.color.deepblue));
 
                 //保存设置到sharedPreferences
-                sharedPreferences.edit().putInt("map_type", 2).apply();
+                sharedPreferences.edit().putString("map_type", SettingsConstants.TRAFFIC_MAP).apply();
 
                 //发送本地广播通知更新地图类型
                 localBroadcastManager.sendBroadcast(resettingIntent

@@ -193,13 +193,13 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
                 SchemeItem schemeItem = mainFragment.schemeList.get(position);
 
                 if(schemeItem.getExpandFlag()) {
-                    expandLayout(mainFragment.requireActivity(), holder.infoDrawer, holder.detailInfo,
-                            false, mainFragment.schemeResult, position);
+                    expandLayout(holder.infoDrawer, holder.detailInfo, false,
+                            mainFragment.schemeResult, position);
                     rotateExpandIcon(holder.schemeExpand, 180, 0);//旋转伸展按钮
                     schemeItem.setExpandFlag(false);//改变伸缩状态
                 } else {
-                    expandLayout(mainFragment.requireActivity(), holder.infoDrawer, holder.detailInfo,
-                            true, mainFragment.schemeResult, position);
+                    expandLayout(holder.infoDrawer, holder.detailInfo, true,
+                            mainFragment.schemeResult, position);
                     rotateExpandIcon(holder.schemeExpand, 0, 180);//旋转伸展按钮
                     schemeItem.setExpandFlag(true);//改变伸缩状态
                 }

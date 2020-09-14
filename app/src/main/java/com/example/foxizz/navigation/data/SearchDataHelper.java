@@ -19,7 +19,10 @@ import com.example.foxizz.navigation.mybaidumap.MyPoiSearch;
 import static com.example.foxizz.navigation.util.Tools.isAirplaneModeOn;
 import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
 
-//搜索数据帮助类
+/**
+ * 搜索数据帮助类
+ * 操作搜索数据表
+ */
 public class SearchDataHelper {
 
     private DatabaseHelper databaseHelper;
@@ -51,7 +54,6 @@ public class SearchDataHelper {
             if(cursor !=null) cursor.close();
             if(db != null) db.close();
         }
-
     }
 
     //初始化搜索记录
