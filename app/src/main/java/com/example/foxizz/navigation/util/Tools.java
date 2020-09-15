@@ -202,7 +202,7 @@ public class Tools {
     }
 
     /**
-     * 获取网络连接状态
+     * 判断是否有网络连接
      * @return boolean
      */
     public static boolean isNetworkConnected() {
@@ -219,7 +219,7 @@ public class Tools {
     }
 
     /**
-     * 获取飞行模式状态
+     * 判断是否开启了飞行模式
      * @return boolean
      */
     public static boolean isAirplaneModeOn() {

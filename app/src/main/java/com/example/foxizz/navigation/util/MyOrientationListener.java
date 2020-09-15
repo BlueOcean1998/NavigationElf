@@ -7,20 +7,17 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 
+import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
+
 /**
  * 方向传感器
  */
 public class MyOrientationListener implements SensorEventListener {
 
     private SensorManager mSensorManager;
-    private Context mContext;
     private Sensor mSensor;
     private float lastX;
     private OnOrientationListener mOnOrientationListener;
-
-    public MyOrientationListener(Context context) {
-        this.mContext = context;
-    }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -41,13 +38,18 @@ public class MyOrientationListener implements SensorEventListener {
 
     }
 
-    public void setmOnOrientationListener(OnOrientationListener mOnOrientationListener) {
+    /**
+     * 监听方向变化
+     */
+    public void setOnOrientationListener(OnOrientationListener mOnOrientationListener) {
         this.mOnOrientationListener = mOnOrientationListener;
     }
 
+    /**
+     * 开始方向传感
+     */
     public void start() {
-        mSensorManager = (SensorManager) mContext
-                .getSystemService(Context.SENSOR_SERVICE);
+        mSensorManager = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
         if(mSensorManager != null) {
             //获得方向传感器
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -61,11 +63,16 @@ public class MyOrientationListener implements SensorEventListener {
         }
     }
 
+    /**
+     * 停止方向传感
+     */
     public void stop() {
-        //停止方向传感
         mSensorManager.unregisterListener(this);
     }
 
+    /**
+     * 监听方向变化的接口
+     */
     public interface OnOrientationListener {
         void onOrientationChanged(float x);
     }

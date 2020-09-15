@@ -38,12 +38,10 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/foxizz"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        tools:targetApi="q">
+        android:theme="@style/AppTheme">
 
         <!-- 开发密钥 -->
-        <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
+        <meta-data android:name="com.baidu.lbsapi.API_KEY"
             android:value="@string/api_key" />
 
         <!-- 定位服务 -->
@@ -52,11 +50,11 @@
             android:process=":remote"/>
 
         <!-- 语音合成 -->
-        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+        <uses-library android:name="org.apache.http.legacy"
+            android:required="false"/>
 
         <!-- 主活动旋转屏幕不重置，没有标题栏 -->
-        <activity
-            android:name=".activity.MainActivity"
+        <activity android:name=".activity.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -65,8 +63,7 @@
         </activity>
 
         <!-- 设置页 -->
-        <activity
-            android:name=".activity.SettingsActivity"
+        <activity android:name=".activity.SettingsActivity"
             android:label="设置"
             android:parentActivityName=".activity.MainActivity"
             android:launchMode="singleTask"
@@ -78,18 +75,15 @@
         </activity>
 
         <!-- 驾车导航 -->
-        <activity
-            android:name=".activity.DNaviGuideActivity"
+        <activity android:name=".activity.DNaviGuideActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <!-- 步行导航 -->
-        <activity
-            android:name=".activity.WNaviGuideActivity"
+        <activity android:name=".activity.WNaviGuideActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <!-- 骑行导航 -->
-        <activity
-            android:name=".activity.BNaviGuideActivity"
+        <activity android:name=".activity.BNaviGuideActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
     </application>
 

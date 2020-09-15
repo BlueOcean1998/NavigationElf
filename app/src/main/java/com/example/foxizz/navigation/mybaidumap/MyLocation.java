@@ -33,13 +33,15 @@ public class MyLocation {
     private final static int MAX_TIME = 10;//最大请求次数
     private boolean isFirstLoc;//是否是首次定位
 
-    //初始化定位
+    /**
+     * 初始化定位
+     */
     public void initLocationOption() {
         requestLocationTime = 0;//请求次数置0
         isFirstLoc = true;//首次定位
 
         //定位服务的客户端。宿主程序在客户端声明此类，并调用，目前只支持在主线程中启动
-        mainFragment.mLocationClient = new LocationClient(mainFragment.requireActivity());
+        mainFragment.mLocationClient = new LocationClient(getContext());
 
         //定位监听
         mainFragment.mLocationClient.registerLocationListener(new BDAbstractLocationListener() {

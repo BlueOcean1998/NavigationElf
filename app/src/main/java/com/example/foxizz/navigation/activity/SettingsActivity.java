@@ -71,8 +71,7 @@ public class SettingsActivity extends BaseActivity {
         //获取SharedPreferences
         sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
         //获取搜索数据帮助对象
-        searchDataHelper = new SearchDataHelper(new DatabaseHelper(SettingsActivity.this,
-                        "Navigate.db", null, 1));
+        searchDataHelper = new SearchDataHelper();
 
         //标题栏
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -278,6 +277,7 @@ public class SettingsActivity extends BaseActivity {
 
     }
 
+    //PreferenceScreen
     public static class PreferenceScreen extends PreferenceFragmentCompat {
         //创建PreferenceScreen
         @Override

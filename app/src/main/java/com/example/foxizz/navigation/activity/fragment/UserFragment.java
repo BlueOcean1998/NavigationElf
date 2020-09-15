@@ -74,6 +74,7 @@ public class UserFragment extends Fragment {
         });
     }
 
+    //PreferenceScreen
     public static class PreferenceScreen extends PreferenceFragmentCompat {
         //创建PreferenceScreen
         @Override
@@ -87,7 +88,7 @@ public class UserFragment extends Fragment {
             Intent browser = new Intent("android.intent.action.VIEW");
             switch(preference.getKey()) {
                 case "to_settings":
-                    Intent intent = new Intent(requireActivity(), SettingsActivity.class);
+                    Intent intent = new Intent(getContext(), SettingsActivity.class);
 
                     //寻找mainFragment
                     MainFragment mainFragment = ((MainActivity) requireActivity()).getMainFragment();

@@ -28,7 +28,9 @@ public class BaseActivity extends AppCompatActivity {
         activities.remove(this);
     }
 
-    //退出程序
+    /**
+     * 退出程序
+     */
     public static void finishAll() {
         for(Activity activity: activities) {
             if(!activity.isFinishing()) {

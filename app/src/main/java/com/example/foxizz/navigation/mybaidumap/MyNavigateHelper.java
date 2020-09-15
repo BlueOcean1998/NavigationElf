@@ -56,9 +56,11 @@ public class MyNavigateHelper {
     private static boolean enableDriveNavigate = false;//是否可以进行驾车导航
     private ProgressDialog progressDialog;
 
-    //初始化驾车导航引擎
+    /**
+     * 初始化驾车导航引擎
+     */
     public void initDriveNavigateHelper() {
-        BaiduNaviManagerFactory.getBaiduNaviManager().init(mainFragment.requireActivity(),
+        BaiduNaviManagerFactory.getBaiduNaviManager().init(getContext(),
                 Tools.getSDCardDir(),
                 Tools.getAppFolderName(),
             new IBaiduNaviManager.INaviInitListener() {
@@ -108,7 +110,7 @@ public class MyNavigateHelper {
     //初始化语音合成模块
     private void initTTS() {
         BaiduNaviManagerFactory.getTTSManager().initTTS(new BNTTsInitConfig.Builder()
-                .context(mainFragment.requireActivity())
+                .context(getContext())
                 .sdcardRootPath(Tools.getSDCardDir())
                 .appFolderName(Tools.getAppFolderName())
                 .appId(mainFragment.getString(R.string.app_id))
@@ -118,7 +120,9 @@ public class MyNavigateHelper {
         );
     }
 
-    //初始化步行导航引擎
+    /**
+     * 初始化步行导航引擎
+     */
     public void initWalkNavigateHelper() {
         //步行引擎初始化
         WalkNavigateHelper.getInstance().initNaviEngine(
@@ -135,7 +139,9 @@ public class MyNavigateHelper {
         });
     }
 
-    //初始化骑行导航引擎
+    /**
+     * 初始化骑行导航引擎
+     */
     public void initBikeNavigateHelper() {
         //骑行引擎初始化
         BikeNavigateHelper.getInstance().initNaviEngine(
@@ -152,7 +158,9 @@ public class MyNavigateHelper {
         });
     }
 
-    //开始导航
+    /**
+     * 开始导航
+     */
     public void startNavigate() {
         if(!isNetworkConnected()) {//没有网络连接
             Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
@@ -235,9 +243,9 @@ public class MyNavigateHelper {
                                 Toast.makeText(getContext(), R.string.drive_route_plan_fail, Toast.LENGTH_SHORT).show();
                                 break;
                             case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_TO_NAVI:
-                                mainFragment.startActivity(new Intent(
-                                        mainFragment.requireActivity(), DNaviGuideActivity.class
-                                ));
+                                mainFragment.startActivity(
+                                        new Intent(getContext(), DNaviGuideActivity.class)
+                                );
                                 break;
                             default:
                                 break;
@@ -303,9 +311,7 @@ public class MyNavigateHelper {
             @Override
             public void onRoutePlanSuccess() {
                 progressDialog.dismiss();
-                mainFragment.startActivity(new Intent(
-                        mainFragment.requireActivity(), WNaviGuideActivity.class
-                ));
+                mainFragment.startActivity(new Intent(getContext(), WNaviGuideActivity.class));
             }
 
             @Override
@@ -337,9 +343,7 @@ public class MyNavigateHelper {
             @Override
             public void onRoutePlanSuccess() {
                 progressDialog.dismiss();
-                mainFragment.startActivity(new Intent(
-                        mainFragment.requireActivity(), BNaviGuideActivity.class
-                ));
+                mainFragment.startActivity(new Intent(getContext(), BNaviGuideActivity.class));
             }
 
             @Override

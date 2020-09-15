@@ -61,7 +61,9 @@ public class MyPoiSearch {
      */
     private boolean isFirstDetailSearch;
 
-    //初始化搜索目标信息
+    /*
+     * 初始化搜索目标信息
+     */
     public void initSearch() {
         //获取Poi搜索实例
         mainFragment.mPoiSearch = PoiSearch.newInstance();
@@ -173,7 +175,7 @@ public class MyPoiSearch {
                         for(PoiDetailInfo info: poiDetailResult.getPoiDetailInfoList()) {
                             //将结果保存到数据库
                             if(poiSearchType ==DETAIL_SEARCH)
-                                mainFragment.searchDataHelper.insertOrUpdateSearchDatabase(info);
+                                mainFragment.searchDataHelper.insertOrUpdateSearchData(info);
 
                             //更新搜索结果列表
                             SearchItem searchItem = new SearchItem();

@@ -1,4 +1,4 @@
 include ':NaviTts'
 include ':onsdk_all'
-rootProject.name='Navigation'
+rootProject.name='NavigationElf'
 include ':app'

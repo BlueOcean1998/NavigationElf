@@ -214,8 +214,7 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
         if((System.currentTimeMillis() - clickTime) > 1000) {
             clickTime = System.currentTimeMillis();
             return false;
-        }
-        else return true;
+        } else return true;
     }
 
 }

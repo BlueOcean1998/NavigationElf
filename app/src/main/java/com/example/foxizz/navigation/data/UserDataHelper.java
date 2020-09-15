@@ -13,8 +13,8 @@ public class UserDataHelper {
     private SQLiteDatabase db;
     private Cursor cursor;
 
-    public UserDataHelper(DatabaseHelper databaseHelper) {
-        this.databaseHelper = databaseHelper;
+    public UserDataHelper() {
+        this.databaseHelper = new DatabaseHelper("Navigate.db", null, 1);
     }
 
 }

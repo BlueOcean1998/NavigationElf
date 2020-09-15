@@ -1,6 +1,5 @@
 package com.example.foxizz.navigation.data;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -10,10 +9,7 @@ import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.search.core.PoiDetailInfo;
 import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
-import com.example.foxizz.navigation.activity.MainActivity;
-import com.example.foxizz.navigation.activity.SettingsActivity;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
-import com.example.foxizz.navigation.activity.fragment.UserFragment;
 import com.example.foxizz.navigation.mybaidumap.MyPoiSearch;
 
 import static com.example.foxizz.navigation.util.Tools.isAirplaneModeOn;
@@ -29,11 +25,14 @@ public class SearchDataHelper {
     private SQLiteDatabase db;
     private Cursor cursor;
 
-    public SearchDataHelper(DatabaseHelper databaseHelper) {
-        this.databaseHelper = databaseHelper;
+    public SearchDataHelper() {
+        this.databaseHelper = new DatabaseHelper("Navigate.db", null, 1);
     }
 
-    //移动视角到最近的一条搜索记录
+    /**
+     * 移动视角到最近的一条搜索记录
+     * @param mainFragment 地图页碎片
+     */
     public void moveToLastSearchRecordLocation(MainFragment mainFragment) {
         try {
             if(isHasSearchData()) {//如果有搜索记录
@@ -56,7 +55,10 @@ public class SearchDataHelper {
         }
     }
 
-    //初始化搜索记录
+    /**
+     * 初始化搜索记录
+     * @param mainFragment 地图页碎片
+     */
     public void initSearchData(MainFragment mainFragment) {
         try {
             mainFragment.searchList.clear();
@@ -101,7 +103,10 @@ public class SearchDataHelper {
         }
     }
 
-    //是否有搜索记录
+    /**
+     * 是否有搜索记录
+     * @return boolean
+     */
     public boolean isHasSearchData() {
         try {
             db = databaseHelper.getReadableDatabase();
@@ -113,7 +118,10 @@ public class SearchDataHelper {
         }
     }
 
-    //录入搜索信息数据库
+    /**
+     * 判断是否有搜索记录
+     * @param info POI详细信息
+     */
     public void insertSearchData(PoiDetailInfo info) {
         try {
             db = databaseHelper.getWritableDatabase();
@@ -130,7 +138,10 @@ public class SearchDataHelper {
         }
     }
 
-    //更新搜索信息数据库
+    /**
+     * 更新搜索信息数据库
+     * @param info POI详细信息
+     */
     public void updateSearchData(PoiDetailInfo info) {
         try {
             db = databaseHelper.getWritableDatabase();
@@ -148,8 +159,11 @@ public class SearchDataHelper {
         }
     }
 
-    //将详细搜索结果录入数据库或更新数据库中这条记录的内容
-    public void insertOrUpdateSearchDatabase(PoiDetailInfo info) {
+    /**
+     * 将详细搜索结果录入数据库或更新数据库中这条记录的内容
+     * @param info POI详细信息
+     */
+    public void insertOrUpdateSearchData(PoiDetailInfo info) {
         try {
             db = databaseHelper.getReadableDatabase();
             cursor = db.rawQuery("select * from SearchData where uid = ?", new String[] { info.getUid() });
@@ -161,7 +175,10 @@ public class SearchDataHelper {
         }
     }
 
-    //清空搜索记录
+    /**
+     * 清空搜索记录
+     * @param mainFragment 地图页碎片
+     */
     public void deleteAllSearchData(MainFragment mainFragment) {
         try {
             mainFragment.searchList.clear();//清空搜索列表
@@ -174,7 +191,10 @@ public class SearchDataHelper {
         }
     }
 
-    //根据uid删除某条搜索记录
+    /**
+     * 清空搜索记录
+     * @param uid uid
+     */
     public void deleteSearchData(String uid) {
         try {
             db = databaseHelper.getWritableDatabase();

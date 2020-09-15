@@ -219,11 +219,10 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         //获取偏好设置
-        sharedPreferences1 = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-        sharedPreferences2 = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
+        sharedPreferences1 = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        sharedPreferences2 = requireContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
         //获取搜索数据帮助对象
-        searchDataHelper = new SearchDataHelper(new DatabaseHelper(requireActivity(),
-                        "Navigate.db", null, 1));
+        searchDataHelper = new SearchDataHelper();
 
         InitMap(view);//初始化地图控件
 
@@ -340,7 +339,9 @@ public class MainFragment extends Fragment {
         */
     }
 
-    //设置地图类型
+    /**
+     * 设置地图类型
+     */
     public void setMapType() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             switch(Objects.requireNonNull(sharedPreferences2.getString("map_type",
@@ -366,35 +367,45 @@ public class MainFragment extends Fragment {
         }
     }
 
-    //设置是否启用3D视角
+    /**
+     * 设置是否启用3D视角
+     */
     public void setAngle3D() {
         if(sharedPreferences1.getBoolean("angle_3d", false))
             mUiSettings.setOverlookingGesturesEnabled(true);//启用3D视角
         else mUiSettings.setOverlookingGesturesEnabled(false);//禁用3D视角
     }
 
-    //设置是否允许地图旋转
+    /**
+     * 设置是否允许地图旋转
+     */
     public void setMapRotation() {
         if(sharedPreferences1.getBoolean("map_rotation", false))
             mUiSettings.setRotateGesturesEnabled(true);//启用地图旋转
         else mUiSettings.setRotateGesturesEnabled(false);//禁用地图旋转
     }
 
-    //设置是否显示比例尺
+    /**
+     * 设置是否显示比例尺
+     */
     public void setScaleControl() {
         if(sharedPreferences1.getBoolean("scale_control", false))
             mMapView.showScaleControl(true);//显示比例尺
         else mMapView.showScaleControl(false);//不显示比例尺
     }
 
-    //设置是否显示缩放按钮
+    /**
+     * 设置是否显示缩放按钮
+     */
     public void setZoomControls() {
         if(sharedPreferences1.getBoolean("zoom_controls", false))
             mMapView.showZoomControls(true);//显示缩放按钮
         else mMapView.showZoomControls(false);//不显示缩放按钮
     }
 
-    //设置是否显示指南针
+    /**
+     * 设置是否显示指南针
+     */
     public void setCompass() {
         if(sharedPreferences1.getBoolean("compass", true))
             mUiSettings.setCompassEnabled(true);//显示指南针
@@ -404,7 +415,7 @@ public class MainFragment extends Fragment {
     //初始化偏好设置
     private void initSettings() {
         //获取键盘对象
-        imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 
         setMapType();
         Tools.initSettings(requireActivity());
@@ -415,10 +426,10 @@ public class MainFragment extends Fragment {
         setCompass();
 
         //注册本地广播接收器
-        settingsReceiver = new SettingsReceiver(requireActivity());
+        settingsReceiver = new SettingsReceiver(requireContext());
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.example.foxizz.navigation.broadcast.SETTINGS_BROADCAST");
-        localBroadcastManager = LocalBroadcastManager.getInstance(requireActivity());
+        localBroadcastManager = LocalBroadcastManager.getInstance(requireContext());
         localBroadcastManager.registerReceiver(settingsReceiver, intentFilter);
     }
 
@@ -489,7 +500,7 @@ public class MainFragment extends Fragment {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(requireActivity(), SettingsActivity.class);
+                Intent intent = new Intent(getContext(), SettingsActivity.class);
                 if(mCity != null) intent.putExtra("mCity", mCity);
                 startActivity(intent);
             }
@@ -716,8 +727,8 @@ public class MainFragment extends Fragment {
     //初始化方向传感器
     private void initMyDirectionSensor() {
         //方向传感器
-        myOrientationListener = new MyOrientationListener(requireActivity());
-        myOrientationListener.setmOnOrientationListener(new MyOrientationListener.OnOrientationListener() {
+        myOrientationListener = new MyOrientationListener();
+        myOrientationListener.setOnOrientationListener(new MyOrientationListener.OnOrientationListener() {
             @Override
             public void onOrientationChanged(float x) {
                 mLastX = x;
@@ -733,7 +744,9 @@ public class MainFragment extends Fragment {
         });
     }
 
-    //申请权限，获得权限后定位
+    /**
+     * 申请权限，获得权限后定位
+     */
     public void requestPermission() {
         String[] permissions = {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -743,7 +756,7 @@ public class MainFragment extends Fragment {
         List<String> permissionList = new ArrayList<>();
 
         for(String permission: permissions) {
-            if(ContextCompat.checkSelfPermission(requireActivity(), permission)
+            if(ContextCompat.checkSelfPermission(requireContext(), permission)
                     != PackageManager.PERMISSION_GRANTED)
                 permissionList.add(permission);
         }
@@ -761,7 +774,9 @@ public class MainFragment extends Fragment {
         }
     }
 
-    //计算屏幕的宽高，并据此设置控件的高度
+    /**
+     * 计算屏幕的宽高，并据此设置控件的高度
+     */
     public void calculateWidthAndHeightOfScreen() {
         //计算屏幕宽高，用于设置控件的高度
         Display defaultDisplay = requireActivity().getWindowManager().getDefaultDisplay();
@@ -785,7 +800,9 @@ public class MainFragment extends Fragment {
         schemeInfoScroll.getLayoutParams().height = bodyLength / 4;
     }
 
-    //返回上一层
+    /**
+     * 返回上一层
+     */
     public void backToUpperStory() {
         if(schemeInfoFlag == 2) {//如果方案布局为单个方案
             expandLayout(schemeDrawer, true);//展开方案抽屉
@@ -814,7 +831,9 @@ public class MainFragment extends Fragment {
         }
     }
 
-    //判断是否可以返回上一层
+    /**
+     * 判断是否可以返回上一层
+     */
     public boolean canBack() {
         return !(selectLayout.getHeight() == 0 &&
                 searchLayout.getHeight() != 0 &&
@@ -822,7 +841,9 @@ public class MainFragment extends Fragment {
                 startLayout.getHeight() == 0);
     }
 
-    //开始POI搜索
+    /**
+     * 开始POI搜索
+     */
     public void startPoiSearch() {
         if((System.currentTimeMillis() - clickTime) > 1000) //连续点击间隔时间不能小于1秒
             clickTime = System.currentTimeMillis();

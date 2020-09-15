@@ -262,8 +262,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         if((System.currentTimeMillis() - clickTime) > 1000) {
             clickTime = System.currentTimeMillis();
             return false;
-        }
-        else return true;
+        } else return true;
     }
 
 }

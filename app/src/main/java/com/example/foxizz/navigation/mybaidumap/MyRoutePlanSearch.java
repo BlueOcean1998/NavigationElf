@@ -52,7 +52,9 @@ public class MyRoutePlanSearch {
         this.mainFragment = mainFragment;
     }
 
-    //开始路线规划
+    /**
+     * 开始路线规划
+     */
     public void startRoutePlanSearch() {
         if(!isNetworkConnected()) {//没有网络连接
             Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
@@ -142,7 +144,9 @@ public class MyRoutePlanSearch {
         }
     }
 
-    //初始化路线规划
+    /**
+     * 初始化路线规划
+     */
     public void initRoutePlanSearch() {
         //创建路线规划检索实例
         mainFragment.mSearch = RoutePlanSearch.newInstance();
