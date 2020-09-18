@@ -63,9 +63,7 @@ public class MainActivity extends BaseActivity {
                 mainButton.setTextColor(getResources().getColor(R.color.skyblue));
                 userButton.setTextColor(getResources().getColor(R.color.black));
 
-                if(mainFragment.imm != null) mainFragment.imm.hideSoftInputFromWindow(
-                        getWindow().getDecorView().getWindowToken(), 0
-                );//收回键盘
+                mainFragment.takeBackKeyboard();//收回键盘
             }
         });
 
@@ -78,9 +76,7 @@ public class MainActivity extends BaseActivity {
                 mainButton.setTextColor(getResources().getColor(R.color.black));
                 userButton.setTextColor(getResources().getColor(R.color.skyblue));
 
-                if(mainFragment.imm != null) mainFragment.imm.hideSoftInputFromWindow(
-                        getWindow().getDecorView().getWindowToken(), 0
-                );//收回键盘
+                mainFragment.takeBackKeyboard();//收回键盘
             }
         });
     }
@@ -165,9 +161,7 @@ public class MainActivity extends BaseActivity {
             if(keyCode == KeyEvent.KEYCODE_ENTER) {
                 mainFragment.startPoiSearch();//开始POI搜索
                 mainFragment.searchEdit.requestFocus();//搜索框重新获得焦点
-                if(mainFragment.imm != null) mainFragment.imm.hideSoftInputFromWindow(
-                        getWindow().getDecorView().getWindowToken(), 0
-                );//收回键盘
+                mainFragment.takeBackKeyboard();//收回键盘
                 return true;
             }
         //userFragment

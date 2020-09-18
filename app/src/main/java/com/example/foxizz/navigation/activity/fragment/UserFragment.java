@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +19,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.activity.SettingsActivity;
+import com.example.foxizz.navigation.view.AdaptationTextView;
 
 /**
  * 用户页碎片
@@ -29,8 +29,8 @@ public class UserFragment extends Fragment {
     private FrameLayout portraitLayout;//头像布局
     private ImageView userPortrait;//用户头像
     private LinearLayout infoLayout;//信息布局
-    private TextView userName;//用户名
-    private TextView userEmail;//用户email
+    private AdaptationTextView userName;//用户名
+    private AdaptationTextView userEmail;//用户email
 
     @Nullable
     @Override

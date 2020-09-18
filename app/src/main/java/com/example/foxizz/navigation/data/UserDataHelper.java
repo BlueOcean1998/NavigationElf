@@ -14,7 +14,7 @@ public class UserDataHelper {
     private Cursor cursor;
 
     public UserDataHelper() {
-        this.databaseHelper = new DatabaseHelper("Navigate.db", null, 1);
+        databaseHelper = new DatabaseHelper("Navigate.db", null, 1);
     }
 
 }

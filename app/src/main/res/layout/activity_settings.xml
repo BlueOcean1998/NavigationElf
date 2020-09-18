@@ -44,7 +44,7 @@
                         android:adjustViewBounds="true"
                         android:contentDescription="@string/map_standard_text" />
 
-                    <TextView
+                    <com.example.foxizz.navigation.view.AdaptationTextView
                         android:id="@+id/map_standard_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                         android:adjustViewBounds="true"
                         android:contentDescription="@string/map_satellite_text" />
 
-                    <TextView
+                    <com.example.foxizz.navigation.view.AdaptationTextView
                         android:id="@+id/map_satellite_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
                         android:adjustViewBounds="true"
                         android:contentDescription="@string/map_traffic_text" />
 
-                    <TextView
+                    <com.example.foxizz.navigation.view.AdaptationTextView
                         android:id="@+id/map_traffic_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -119,7 +119,7 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <TextView
+                    <com.example.foxizz.navigation.view.AdaptationTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="6dp"
@@ -127,7 +127,7 @@
                         android:textColor="@color/black"
                         android:text="@string/destination_city" />
 
-                    <TextView
+                    <com.example.foxizz.navigation.view.AdaptationTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="6dp"

@@ -66,17 +66,17 @@ public class MyLocation {
                         .longitude(mainFragment.mLongitude).build();
                 mainFragment.mBaiduMap.setMyLocationData(mainFragment.locData);//设置定位数据
 
-                if(refreshSearchList) {
-                    mainFragment.searchDataHelper.initSearchData(mainFragment);//初始化搜索记录
-                    refreshSearchList = false;
-                }
-
                 if(mainFragment.mLocType == BDLocation.TypeGpsLocation //GPS定位结果
                         || mainFragment.mLocType == BDLocation.TypeNetWorkLocation //网络定位结果
                         || mainFragment.mLocType == BDLocation.TypeOffLineLocation) {//离线定位结果
                     //Toast.makeText(getContext(), location.getAddrStr(), Toast.LENGTH_SHORT).show();
                     if(isFirstLoc) {
                         isFirstLoc = false;
+
+                        if(refreshSearchList) {
+                            mainFragment.searchDataHelper.initSearchData(mainFragment);//初始化搜索记录
+                            refreshSearchList = false;
+                        }
 
                         mainFragment.myNavigateHelper.initDriveNavigateHelper();//初始化驾车导航引擎
 

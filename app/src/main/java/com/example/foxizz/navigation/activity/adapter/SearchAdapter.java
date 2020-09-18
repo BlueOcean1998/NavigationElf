@@ -255,6 +255,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         mainFragment.myPoiSearch.poiSearchType = MyPoiSearch.DETAIL_SEARCH;//设置为直接详细搜索
         mainFragment.mPoiSearch.searchPoiDetail(//进行详细信息搜索
                 (new PoiDetailSearchOption()).poiUids(searchItem.getUid()));
+
+        mainFragment.takeBackKeyboard();//收回键盘
     }
 
     //不允许同时点击多个item

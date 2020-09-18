@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
@@ -26,9 +25,9 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.example.foxizz.navigation.R;
-import com.example.foxizz.navigation.data.DatabaseHelper;
 import com.example.foxizz.navigation.broadcastreceiver.SettingsConstants;
 import com.example.foxizz.navigation.data.SearchDataHelper;
+import com.example.foxizz.navigation.view.AdaptationTextView;
 
 import java.util.Objects;
 
@@ -43,11 +42,11 @@ public class SettingsActivity extends BaseActivity {
 
     //设置地图类型
     private ImageView mapStandardImage;//标准地图
-    private TextView mapStandardText;
+    private AdaptationTextView mapStandardText;
     private ImageView mapSatelliteImage;//卫星地图
-    private TextView mapSatelliteText;
+    private AdaptationTextView mapSatelliteText;
     private ImageView mapTrafficImage;//交通地图
-    private TextView mapTrafficText;
+    private AdaptationTextView mapTrafficText;
 
     //设置目的地所在城市
     private String mCity;//所在城市

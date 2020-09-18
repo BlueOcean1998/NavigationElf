@@ -26,7 +26,7 @@ public class SearchDataHelper {
     private Cursor cursor;
 
     public SearchDataHelper() {
-        this.databaseHelper = new DatabaseHelper("Navigate.db", null, 1);
+        databaseHelper = new DatabaseHelper("Navigate.db", null, 1);
     }
 
     /**
@@ -104,7 +104,7 @@ public class SearchDataHelper {
     }
 
     /**
-     * 是否有搜索记录
+     * 判断是否有搜索记录
      * @return boolean
      */
     public boolean isHasSearchData() {
@@ -119,7 +119,7 @@ public class SearchDataHelper {
     }
 
     /**
-     * 判断是否有搜索记录
+     * 添加搜索信息
      * @param info POI详细信息
      */
     public void insertSearchData(PoiDetailInfo info) {
@@ -192,7 +192,7 @@ public class SearchDataHelper {
     }
 
     /**
-     * 清空搜索记录
+     * 根据uid删除某条搜索记录
      * @param uid uid
      */
     public void deleteSearchData(String uid) {

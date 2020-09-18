@@ -240,7 +240,7 @@ public class MyRoutePlanSearch {
                     schemeItem.setAllStationInfo(allStationInfo.toString());
 
                     //获取详细信息
-                    String detailInfo = "";
+                    StringBuilder detailInfo = new StringBuilder();
 
                     try {
                         long spendTime;
@@ -250,24 +250,25 @@ public class MyRoutePlanSearch {
                         long arriveTime = sdf.parse(massTransitRouteLine.getArriveTime()).getTime();
                         spendTime = arriveTime - nowTime;
                         if(spendTime < 3 * 60 * 60 * 1000) {//小于3小时
-                            detailInfo += mainFragment.getString(R.string.spend_time)
-                                    + spendTime / 1000 / 60 + mainFragment.getString(R.string.minute);
+                            detailInfo.append(mainFragment.getString(R.string.spend_time))
+                                    .append(spendTime / 1000 / 60).append(mainFragment.getString(R.string.minute));
                         } else {
-                            detailInfo += mainFragment.getString(R.string.spend_time)
-                                    + spendTime / 1000 / 60 / 60 + mainFragment.getString(R.string.hour)
-                                    + spendTime / 1000 / 60 % 60 + mainFragment.getString(R.string.minute);
+                            detailInfo.append(mainFragment.getString(R.string.spend_time))
+                                    .append(spendTime / 1000 / 60 / 60).append(mainFragment.getString(R.string.hour))
+                                    .append(spendTime / 1000 / 60 % 60).append(mainFragment.getString(R.string.minute));
                         }
-
+                        detailInfo.append("\n");
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
 
                     if(massTransitRouteLine.getPrice() > 10) {
-                        detailInfo += "\n" + mainFragment.getString(R.string.budget) + (int) massTransitRouteLine.getPrice()
-                                + mainFragment.getString(R.string.yuan);
+                        detailInfo.append(mainFragment.getString(R.string.budget))
+                                .append((int) massTransitRouteLine.getPrice()).append(mainFragment.getString(R.string.yuan))
+                                .append("\n\n");
                     }
 
-                    schemeItem.setDetailInfo(detailInfo);
+                    schemeItem.setDetailInfo(detailInfo.toString());
 
                     mainFragment.schemeList.add(schemeItem);//添加到列表中
                     mainFragment.schemeAdapter.notifyDataSetChanged();//通知adapter更新

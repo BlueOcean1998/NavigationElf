@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AdaptationTextView">
+        <!-- 适配类型，width_adaptive为宽度自适应，height_adaptive为高度自适应，默认为宽度自适应 -->
+        <attr name="adaptive_type">
+            <flag name="width_adaptive" value="0" />
+            <flag name="height_adaptive" value="1" />
+        </attr>
+    </declare-styleable>
+</resources>

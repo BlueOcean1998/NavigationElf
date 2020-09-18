@@ -54,7 +54,6 @@ import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.SettingsActivity;
 import com.example.foxizz.navigation.broadcastreceiver.SettingsConstants;
 import com.example.foxizz.navigation.broadcastreceiver.SettingsReceiver;
-import com.example.foxizz.navigation.data.DatabaseHelper;
 import com.example.foxizz.navigation.data.SearchDataHelper;
 import com.example.foxizz.navigation.util.Tools;
 import com.example.foxizz.navigation.activity.adapter.SchemeAdapter;
@@ -199,11 +198,6 @@ public class MainFragment extends Fragment {
 
     private long clickTime = 0;//防止连续点击按钮
 
-    public void expandSearchDrawer(boolean flag) {//伸缩搜索抽屉
-        expandLayout(searchDrawer, flag);
-        if(flag) rotateExpandIcon(searchExpand, 0, 180);//旋转伸展按钮
-        else rotateExpandIcon(searchExpand, 180, 0);//旋转伸展按钮
-    }
 
     //数据相关
     private SharedPreferences sharedPreferences1;
@@ -596,7 +590,7 @@ public class MainFragment extends Fragment {
                 expandLayout(startLayout, true);//展开开始导航布局
                 infoFlag = false;//设置信息状态为交通选择
                 infoButton.setText(R.string.info_button2);//设置按钮为详细信息
-                schemeInfoFlag = 0;//设置状态为不显示
+                schemeInfoFlag = 0;//设置状态为没有展开
             }
         });
 
@@ -643,6 +637,12 @@ public class MainFragment extends Fragment {
             public void onClick(View v) {
                 emptyButton.setVisibility(View.INVISIBLE);//隐藏清空按钮
                 searchEdit.setText("");//清空搜索内容
+
+                if(!isHistorySearchResult) {//如果不是搜索历史记录
+                    searchResult.stopScroll();//停止信息列表滑动
+                    searchDataHelper.initSearchData(MainFragment.this);//初始化搜索记录
+                    isHistorySearchResult = true;//现在是搜索历史记录了
+                }
             }
         });
 
@@ -686,7 +686,7 @@ public class MainFragment extends Fragment {
 
                     infoButton.setText(R.string.info_button2);//设置按钮为详细信息
                     infoFlag = false;//设置信息状态为交通选择
-                    schemeInfoFlag = 0;//设置状态为不显示
+                    schemeInfoFlag = 0;//设置状态为没有展开
                     return;
                 }
 
@@ -801,6 +801,25 @@ public class MainFragment extends Fragment {
     }
 
     /**
+     * 伸缩搜索抽屉
+     * @param flag 伸或缩
+     */
+    public void expandSearchDrawer(boolean flag) {
+        expandLayout(searchDrawer, flag);
+        if(flag) rotateExpandIcon(searchExpand, 0, 180);//旋转伸展按钮
+        else rotateExpandIcon(searchExpand, 180, 0);//旋转伸展按钮
+    }
+
+    /*
+     * 收回键盘
+     */
+    public void takeBackKeyboard() {
+        if(imm != null) imm.hideSoftInputFromWindow(
+                requireActivity().getWindow().getDecorView().getWindowToken(), 0
+        );
+    }
+
+    /**
      * 返回上一层
      */
     public void backToUpperStory() {
@@ -826,7 +845,15 @@ public class MainFragment extends Fragment {
 
             if(schemeInfoFlag == 1) {//如果方案布局为方案列表
                 expandLayout(schemeLayout, false);//收起方案布局
-                schemeInfoFlag = 0;//设置状态为不显示
+                schemeInfoFlag = 0;//设置状态为没有展开
+            }
+
+            if(schemeInfoFlag == 0) {//如果方案布局没有展开
+                if(!isHistorySearchResult) {//如果不是搜索历史记录
+                    searchResult.stopScroll();//停止信息列表滑动
+                    searchDataHelper.initSearchData(this);//初始化搜索记录
+                    isHistorySearchResult = true;//现在是搜索历史记录了
+                }
             }
         }
     }
@@ -875,9 +902,7 @@ public class MainFragment extends Fragment {
             searchExpandFlag = true;//设置状态为展开
         }
 
-        if(imm != null) imm.hideSoftInputFromWindow(
-                requireActivity().getWindow().getDecorView().getWindowToken(), 0
-        );//收回键盘
+        takeBackKeyboard();//收回键盘
 
         String searchCity = null;//进行搜索的城市
 
