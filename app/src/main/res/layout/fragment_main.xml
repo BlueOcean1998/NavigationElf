@@ -136,6 +136,8 @@
                 android:layout_weight="9"
                 android:layout_margin="6dp"
                 android:padding="9dp"
+                android:paddingRight="42dp"
+                android:paddingEnd="42dp"
                 android:background="@drawable/edit_background"
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray"
@@ -144,7 +146,8 @@
                 android:singleLine="true"
                 android:maxLength="42"
                 android:importantForAutofill="no"
-                android:inputType="none" />
+                android:inputType="none"
+                tools:ignore="RtlSymmetry" />
 
             <ImageButton
                 android:id="@+id/empty_bottom"

@@ -21,7 +21,7 @@ import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
  * app_name: NavigationElf
  * author: Foxizz
  * accomplish_date: 2020-04-30
- * last_modify_date: 2020-09-15
+ * last_modify_date: 2020-09-21
  */
 public class MainActivity extends BaseActivity {
 
@@ -130,11 +130,6 @@ public class MainActivity extends BaseActivity {
         if(fragmentLayout == mainFragment) {
             //如果是返回键
             if(keyCode == KeyEvent.KEYCODE_BACK) {
-                //如果焦点在searchEdit上
-                if(MainActivity.this.getWindow().getDecorView().findFocus() == mainFragment.searchEdit) {
-                    mainFragment.searchEdit.clearFocus();//使搜索输入框失去焦点
-                    return true;//只收回键盘
-                }
                 if(mainFragment.canBack()) {//如果可以返回
                     mainFragment.backToUpperStory();//返回上一层
                     return true;
@@ -143,7 +138,12 @@ public class MainActivity extends BaseActivity {
                     mainFragment.searchResult.stopScroll();//停止信息列表滑动
                     mainFragment.searchDataHelper.initSearchData(mainFragment);//初始化搜索记录
                     mainFragment.isHistorySearchResult = true;//现在是搜索历史记录了
-                    return true;
+                }
+                //如果焦点在searchEdit上
+                if(MainActivity.this.getWindow().getDecorView().findFocus() == mainFragment.searchEdit) {
+                    mainFragment.searchEdit.clearFocus();//使搜索输入框失去焦点
+                    mainFragment.searchEdit.setText("");
+                    return true;//只收回键盘
                 }
                 if(mainFragment.searchExpandFlag) {//收起搜索抽屉
                     mainFragment.expandSearchDrawer(false);
