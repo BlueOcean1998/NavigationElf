@@ -17,4 +17,11 @@ public class UserDataHelper {
         databaseHelper = new DatabaseHelper("Navigate.db", null, 1);
     }
 
+    /**
+     * 关闭数据库，防止内存泄漏
+     */
+    public void close() {
+        if(databaseHelper != null) databaseHelper.close();
+    }
+
 }

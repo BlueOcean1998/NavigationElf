@@ -287,6 +287,9 @@ public class MainFragment extends Fragment {
         mSearch.destroy();
         //释放语音合成实例
         SpeechSynthesizer.getInstance().release();
+
+        //关闭数据库
+        searchDataHelper.close();
     }
 
     //初始化地图控件

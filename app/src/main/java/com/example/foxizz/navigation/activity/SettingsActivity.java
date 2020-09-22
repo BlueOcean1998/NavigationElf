@@ -38,7 +38,6 @@ public class SettingsActivity extends BaseActivity {
 
     //数据相关
     private SharedPreferences sharedPreferences;
-    private static SearchDataHelper searchDataHelper;
 
     //设置地图类型
     private ImageView mapStandardImage;//标准地图
@@ -69,8 +68,6 @@ public class SettingsActivity extends BaseActivity {
 
         //获取SharedPreferences
         sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
-        //获取搜索数据帮助对象
-        searchDataHelper = new SearchDataHelper();
 
         //标题栏
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -328,9 +325,11 @@ public class SettingsActivity extends BaseActivity {
                     builder.setPositiveButton(getString(R.string.clear), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            SearchDataHelper searchDataHelper = new SearchDataHelper();
                             searchDataHelper.deleteAllSearchData(
                                     ((MainActivity) requireActivity()).getMainFragment()
                             );//清空数据库中的搜索记录
+                            searchDataHelper.close();
                         }
                     });
 
