@@ -2,9 +2,17 @@
   <dictionary name="BlueOcean">
     <words>
       <w>baidu</w>
+      <w>brightgreen</w>
+      <w>darkred</w>
+      <w>deepblue</w>
       <w>foxizz</w>
+      <w>greyishgreen</w>
       <w>lbsapi</w>
+      <w>lightblue</w>
+      <w>lightgray</w>
       <w>mybaidumap</w>
+      <w>seablue</w>
+      <w>skyblue</w>
     </words>
   </dictionary>
 </component>

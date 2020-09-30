@@ -20,17 +20,16 @@
                 android:id="@+id/card_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="7dp"
+                android:layout_margin="8dp"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="6dp">
+                app:cardElevation="4dp">
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="@drawable/card_background_lightgray"
                     android:padding="12dp">
-
                     <TextView
                         android:id="@+id/simple_info"
                         android:layout_width="match_parent"
@@ -75,5 +74,4 @@
         android:textColor="@color/gray"
         android:textSize="14sp"
         android:text="@string/no_more" />
-
 </LinearLayout>

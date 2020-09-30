@@ -109,6 +109,10 @@ public class MyRoutePlanSearch {
 
             //公交路线规划
             case 3:
+                //加载路线方案
+                mainFragment.schemeLoading.setVisibility(View.VISIBLE);
+                mainFragment.schemeResult.setVisibility(View.GONE);
+
                 //收回所有展开的方案
                 for(int i = 0; i < mainFragment.schemeList.size(); i++) {//遍历所有item
                     if(mainFragment.schemeList.get(i).getExpandFlag()) {//如果是展开状态
@@ -197,6 +201,10 @@ public class MyRoutePlanSearch {
 
             @Override
             public void onGetMassTransitRouteResult(MassTransitRouteResult massTransitRouteResult) {
+                //路线方案加载完成
+                mainFragment.schemeLoading.setVisibility(View.GONE);
+                mainFragment.schemeResult.setVisibility(View.VISIBLE);
+
                 if(massTransitRouteResult.getRouteLines() == null
                         || massTransitRouteResult.getRouteLines().size() == 0) {
                     Toast.makeText(getContext(), R.string.suggest_to_walk, Toast.LENGTH_SHORT).show();
@@ -257,15 +265,14 @@ public class MyRoutePlanSearch {
                                     .append(spendTime / 1000 / 60 / 60).append(mainFragment.getString(R.string.hour))
                                     .append(spendTime / 1000 / 60 % 60).append(mainFragment.getString(R.string.minute));
                         }
-                        detailInfo.append("\n");
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
 
                     if(massTransitRouteLine.getPrice() > 10) {
-                        detailInfo.append(mainFragment.getString(R.string.budget))
-                                .append((int) massTransitRouteLine.getPrice()).append(mainFragment.getString(R.string.yuan))
-                                .append("\n\n");
+                        detailInfo.append("\n")
+                                .append(mainFragment.getString(R.string.budget))
+                                .append((int) massTransitRouteLine.getPrice()).append(mainFragment.getString(R.string.yuan));
                     }
 
                     schemeItem.setDetailInfo(detailInfo.toString());

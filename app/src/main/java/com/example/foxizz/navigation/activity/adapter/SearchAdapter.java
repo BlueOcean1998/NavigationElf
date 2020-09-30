@@ -39,12 +39,11 @@ import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
  */
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
 
-    private MainFragment mainFragment;
-    //构造器
     public SearchAdapter(MainFragment mainFragment) {
         this.mainFragment = mainFragment;
     }
 
+    private MainFragment mainFragment;
     private long clickTime = 0;
 
     //设置item中的View
@@ -251,6 +250,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
         //设置终点坐标
         mainFragment.endLocation = searchItem.getLatLng();
+
+        //加载详细信息
+        mainFragment.infoLoading.setVisibility(View.VISIBLE);
+        mainFragment.searchInfoScroll.setVisibility(View.GONE);
 
         mainFragment.myPoiSearch.poiSearchType = MyPoiSearch.DETAIL_SEARCH;//设置为直接详细搜索
         mainFragment.mPoiSearch.searchPoiDetail(//进行详细信息搜索

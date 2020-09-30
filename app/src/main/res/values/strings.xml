@@ -89,6 +89,7 @@
     <string name="delete">删除</string>
     <string name="to_clear">你确定要清空搜索记录吗？</string>
     <string name="to_delete">你确定要删除这条记录吗？</string>
+    <string name="loading">加载中…</string>
 
     <string name="exit_app">再按一次退出程序</string>
 </resources>

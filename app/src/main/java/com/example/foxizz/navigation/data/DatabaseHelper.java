@@ -19,19 +19,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + "address text, "//目标地址
             + "time long)";//记录时间
 
-    private static final String CREATE_USER = "create table User ("
-            + "user_id integer, "//用户id
-            + "user_name text, "//用户名
-            + "password text, "//密码
-            + "language text, "//语言
-            + "version text, "//版本
-            + "display text, "//
-            + "model text, "//机型
-            + "brand text, "//
-            + "register_time long, "//注册时间
-            + "last_login long, "//最后登录
-            + "portrait blob)";//头像目录
-
     public DatabaseHelper(String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(getContext(), name, factory, version);
     }
@@ -39,13 +26,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_SEARCH);//建搜索记录表
-        db.execSQL(CREATE_USER);//建用户表
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {//升级数据库
         db.execSQL("drop table if exists SearchData");
-        db.execSQL("drop table if exists User");
+        db.execSQL("drop table if exists UserData");
         onCreate(db);
     }
 

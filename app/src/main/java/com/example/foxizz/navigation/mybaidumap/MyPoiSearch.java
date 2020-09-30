@@ -1,6 +1,7 @@
 package com.example.foxizz.navigation.mybaidumap;
 
 import android.annotation.SuppressLint;
+import android.view.View;
 import android.widget.Toast;
 
 import com.baidu.mapapi.model.LatLng;
@@ -71,6 +72,10 @@ public class MyPoiSearch {
         OnGetPoiSearchResultListener listener = new OnGetPoiSearchResultListener() {
             @Override
             public void onGetPoiResult(PoiResult poiResult) {
+                //POI信息加载完成
+                mainFragment.searchLoading.setVisibility(View.GONE);
+                mainFragment.searchResult.setVisibility(View.VISIBLE);
+
                 if(poiResult == null//没有找到检索结果
                         || poiResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {
                     //城市内搜索不到内容时切换到别的城市继续搜索
@@ -160,6 +165,10 @@ public class MyPoiSearch {
             @SuppressLint({"SimpleDateFormat", "SetTextI18n"})
             @Override
             public void onGetPoiDetailResult(PoiDetailSearchResult poiDetailResult) {
+                //详细信息加载完成
+                mainFragment.infoLoading.setVisibility(View.GONE);
+                mainFragment.searchInfoScroll.setVisibility(View.VISIBLE);
+
                 if(poiDetailResult == null//没有找到检索结果
                         || poiDetailResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {
                     if(isFirstDetailSearch) {
@@ -174,7 +183,7 @@ public class MyPoiSearch {
                     if(poiSearchType == DETAIL_SEARCH || poiSearchType == DETAIL_SEARCH_ALL) {
                         for(PoiDetailInfo info: poiDetailResult.getPoiDetailInfoList()) {
                             //将结果保存到数据库
-                            if(poiSearchType ==DETAIL_SEARCH)
+                            if(poiSearchType == DETAIL_SEARCH)
                                 mainFragment.searchDataHelper.insertOrUpdateSearchData(info);
 
                             //更新搜索结果列表

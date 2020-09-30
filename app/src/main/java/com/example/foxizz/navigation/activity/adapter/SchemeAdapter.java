@@ -35,12 +35,11 @@ import static com.example.foxizz.navigation.util.Tools.rotateExpandIcon;
  */
 public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder> {
 
-    private MainFragment mainFragment;
-    //构造器
     public SchemeAdapter(MainFragment mainFragment) {
         this.mainFragment = mainFragment;
     }
 
+    private MainFragment mainFragment;
     private long clickTime = 0;
 
     //设置item中的View
@@ -127,7 +126,7 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
 
                 //设置方案信息
                 mainFragment.schemeInfo.setText(schemeItem.getAllStationInfo()
-                        + "\n" + schemeItem.getDetailInfo() + "\n");
+                        + "\n" + schemeItem.getDetailInfo() + "\n\n\n");
 
                 //清空临时保存的公交站点信息
                 mainFragment.busStationLocations.clear();

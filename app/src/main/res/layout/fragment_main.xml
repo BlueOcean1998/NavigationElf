@@ -193,6 +193,10 @@
             android:layout_height="0dp"
             android:padding="6dp"
             android:background="@drawable/layout_background_white">
+            <include
+                android:id="@+id/search_loading"
+                layout="@layout/loading" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/search_result"
                 android:layout_width="match_parent"
@@ -205,6 +209,10 @@
             android:layout_height="wrap_content"
             android:padding="6dp"
             android:background="@drawable/layout_background_lightgray">
+            <include
+                android:id="@+id/info_loading"
+                layout="@layout/loading" />
+
             <ScrollView
                 android:id="@+id/info_scroll"
                 android:layout_width="match_parent"
@@ -225,7 +233,8 @@
                         android:longClickable="true"
                         android:textColor="@color/black"
                         android:text="@string/target_name"
-                        android:textSize="20sp" />
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/info_address"
@@ -275,7 +284,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="6dp"
+            android:padding="3dp"
             android:background="@drawable/layout_background_white">
             <ImageButton
                 android:id="@+id/scheme_return_button"
@@ -289,7 +298,12 @@
             <LinearLayout
                 android:id="@+id/scheme_drawer"
                 android:layout_width="match_parent"
-                android:layout_height="0dp">
+                android:layout_height="0dp"
+                android:padding="3dp">
+                <include
+                    android:id="@+id/scheme_loading"
+                    layout="@layout/loading" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/scheme_result"
                     android:layout_width="match_parent"
@@ -299,7 +313,8 @@
             <LinearLayout
                 android:id="@+id/scheme_info_drawer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:padding="3dp">
                 <ScrollView
                     android:id="@+id/scheme_info_scroll"
                     android:layout_width="match_parent"

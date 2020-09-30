@@ -243,19 +243,8 @@ public class Tools {
                     || nowTime.getTime() == endTime.getTime()) {
                 return true;
             }
-
-            Calendar date = Calendar.getInstance();
-            date.setTime(nowTime);
-
-            Calendar begin = Calendar.getInstance();
-            begin.setTime(startTime);
-
-            Calendar end = Calendar.getInstance();
-            end.setTime(endTime);
-
-            return date.after(begin) && date.before(end);
+            return nowTime.after(startTime) && nowTime.before(endTime);
         }
-
         return false;
     }
 

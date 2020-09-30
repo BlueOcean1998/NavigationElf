@@ -127,12 +127,14 @@ public class MainFragment extends Fragment {
     public int bodyShort;//屏幕的宽
 
     public LinearLayout searchDrawer;//搜索抽屉
+    public LinearLayout searchLoading;//搜索加载
     public RecyclerView searchResult;//搜索结果
     public List<SearchItem> searchList = new ArrayList<>();//搜索列表
     public StaggeredGridLayoutManager searchLayoutManager;//搜索布局管理器
     public SearchAdapter searchAdapter;//搜索适配器
 
     public LinearLayout infoLayout;//详细信息布局
+    public LinearLayout infoLoading;//信息加载
     public ScrollView searchInfoScroll;//详细信息布局的拖动条
     public TextView infoTargetName;//目标名
     public TextView infoAddress;//目标地址
@@ -165,6 +167,7 @@ public class MainFragment extends Fragment {
     public LinearLayout schemeLayout;//方案布局
     public ImageButton schemeReturnButton;//返回按钮
     public LinearLayout schemeDrawer;//方案抽屉
+    public LinearLayout schemeLoading;//方案加载
     public RecyclerView schemeResult;//方案结果
     public LinearLayout schemeInfoDrawer;//方案信息抽屉
     public ScrollView schemeInfoScroll;//方案信息的拖动条
@@ -448,9 +451,11 @@ public class MainFragment extends Fragment {
         searchButton = view.findViewById(R.id.search_button);
         searchExpand = view.findViewById(R.id.search_expand);
         searchDrawer = view.findViewById(R.id.search_drawer);
+        searchLoading = view.findViewById(R.id.search_loading);
         searchResult = view.findViewById(R.id.search_result);
 
         infoLayout = view.findViewById(R.id.info_layout);
+        infoLoading = view.findViewById(R.id.info_loading);
         searchInfoScroll = view.findViewById(R.id.info_scroll);
         infoTargetName = view.findViewById(R.id.info_target_name);
         infoAddress = view.findViewById(R.id.info_address);
@@ -460,6 +465,7 @@ public class MainFragment extends Fragment {
         schemeLayout = view.findViewById(R.id.scheme_layout);
         schemeReturnButton = view.findViewById(R.id.scheme_return_button);
         schemeDrawer = view.findViewById(R.id.scheme_drawer);
+        schemeLoading = view.findViewById(R.id.scheme_loading);
         schemeResult = view.findViewById(R.id.scheme_result);
         schemeInfoDrawer = view.findViewById(R.id.scheme_info_drawer);
         schemeInfoScroll = view.findViewById(R.id.scheme_info_scroll);
@@ -798,7 +804,7 @@ public class MainFragment extends Fragment {
 
         //设置搜索抽屉的结果列表、详细信息布局的拖动布局、路线方案抽屉的结果列表、路线方案信息的拖动布局的高度
         searchResult.getLayoutParams().height = bodyLength / 2;
-        searchInfoScroll.getLayoutParams().height = bodyLength / 3;
+        searchInfoScroll.getLayoutParams().height = bodyLength / 4;
         schemeResult.getLayoutParams().height = bodyLength / 2;
         schemeInfoScroll.getLayoutParams().height = bodyLength / 4;
     }
@@ -849,14 +855,6 @@ public class MainFragment extends Fragment {
             if(schemeInfoFlag == 1) {//如果方案布局为方案列表
                 expandLayout(schemeLayout, false);//收起方案布局
                 schemeInfoFlag = 0;//设置状态为没有展开
-            }
-
-            if(schemeInfoFlag == 0) {//如果方案布局没有展开
-                if(!isHistorySearchResult) {//如果不是搜索历史记录
-                    searchResult.stopScroll();//停止信息列表滑动
-                    searchDataHelper.initSearchData(this);//初始化搜索记录
-                    isHistorySearchResult = true;//现在是搜索历史记录了
-                }
             }
         }
     }
@@ -909,7 +907,7 @@ public class MainFragment extends Fragment {
 
         String searchCity = null;//进行搜索的城市
 
-        // 定位成功后才可以进行搜索
+        //定位成功后才可以进行搜索
         if(mCity != null) searchCity = mCity;
 
         //如果存储的城市不为空，则换用存储的城市
@@ -926,6 +924,10 @@ public class MainFragment extends Fragment {
         searchList.clear();//清空searchList
         searchAdapter.notifyDataSetChanged();//通知adapter更新
         isHistorySearchResult = false;//已经不是搜索历史记录了
+
+        //加载POI信息
+        searchLoading.setVisibility(View.VISIBLE);
+        searchResult.setVisibility(View.GONE);
 
         if(sharedPreferences1.getBoolean("search_around", false))
             myPoiSearch.poiSearchType = MyPoiSearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
