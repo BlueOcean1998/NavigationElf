@@ -27,8 +27,7 @@ public class MassTransitRouteOverlay extends OverlayManager {
     /**
      * 构造函数
      *
-     * @param baiduMap
-     *            该TransitRouteOverlay引用的 BaiduMap 对象
+     * @param baiduMap 该TransitRouteOverlay引用的 BaiduMap 对象
      */
     public MassTransitRouteOverlay(BaiduMap baiduMap) {
         super(baiduMap);
@@ -38,16 +37,16 @@ public class MassTransitRouteOverlay extends OverlayManager {
     /**
      * 设置路线数据
      *
-     * @param routeOverlay
-     *            路线数据
+     * @param routeOverlay 路线数据
      */
     public void setData(MassTransitRouteLine routeOverlay) {
         this.mRouteLine = routeOverlay;
     }
 
-    public void setSameCity( boolean sameCity ) {
+    public void setSameCity(boolean sameCity) {
         isSameCity = sameCity;
     }
+
     /**
      * 覆写此方法以改变默认起点图标
      *
@@ -69,6 +68,7 @@ public class MassTransitRouteOverlay extends OverlayManager {
     public int getLineColor() {
         return 0;
     }
+
     @Override
     public List<OverlayOptions> getOverlayOptions() {
         if (mRouteLine == null) {
@@ -77,11 +77,11 @@ public class MassTransitRouteOverlay extends OverlayManager {
 
         List<OverlayOptions> overlayOptionses = new ArrayList<>();
         List<List<MassTransitRouteLine.TransitStep>> steps = mRouteLine.getNewSteps();
-        if (isSameCity ) {
+        if (isSameCity) {
             // 同城 (同城时，每个steps的get(i)对应的List是一条step的不同方案，此处都选第一条进行绘制，即get（0））
 
             // step node
-            for ( int i = 0; i < steps.size(); i++ ) {
+            for (int i = 0; i < steps.size(); i++) {
 
                 MassTransitRouteLine.TransitStep step = steps.get(i).get(0);
                 Bundle b = new Bundle();
@@ -93,7 +93,7 @@ public class MassTransitRouteOverlay extends OverlayManager {
                 }
 
                 // 最后一个终点
-                if ( (i == steps.size() - 1) &&  (step.getEndLocation() != null)) {
+                if ((i == steps.size() - 1) && (step.getEndLocation() != null)) {
                     overlayOptionses.add((new MarkerOptions()).position(step.getEndLocation())
                             .anchor(0.5f, 0.5f).zIndex(10)
                             .icon(getIconForStep(step))
@@ -103,7 +103,7 @@ public class MassTransitRouteOverlay extends OverlayManager {
             }
 
             // polyline
-            for ( int i = 0; i < steps.size(); i++ ) {
+            for (int i = 0; i < steps.size(); i++) {
                 MassTransitRouteLine.TransitStep step = steps.get(i).get(0);
                 int color;
                 if (step.getVehileType() != MassTransitRouteLine.TransitStep
@@ -122,15 +122,15 @@ public class MassTransitRouteOverlay extends OverlayManager {
         } else {
             // 跨城 （跨城时，每个steps的get(i)对应的List是一条step的子路线sub_step，需要将它们全部拼接才是一条完整路线）
             int stepSum = 0;
-            for (int i = 0; i < steps.size(); i++ ) {
-                stepSum +=  steps.get(i).size();
+            for (int i = 0; i < steps.size(); i++) {
+                stepSum += steps.get(i).size();
             }
 
             // step node
             int k = 1;
-            for ( int i = 0; i < steps.size(); i++ ) {
+            for (int i = 0; i < steps.size(); i++) {
 
-                for (int j = 0; j < steps.get(i).size(); j++ ) {
+                for (int j = 0; j < steps.get(i).size(); j++) {
                     MassTransitRouteLine.TransitStep step = steps.get(i).get(j);
                     Bundle b = new Bundle();
                     b.putInt("index", k);
@@ -141,7 +141,7 @@ public class MassTransitRouteOverlay extends OverlayManager {
                     }
 
                     // 最后一个终点
-                    if ( (k ==  stepSum ) &&  (step.getEndLocation() != null)) {
+                    if ((k == stepSum) && (step.getEndLocation() != null)) {
                         overlayOptionses.add((new MarkerOptions()).position(step.getEndLocation())
                                 .anchor(0.5f, 0.5f).zIndex(10).icon(getIconForStep(step)));
                     }
@@ -152,9 +152,9 @@ public class MassTransitRouteOverlay extends OverlayManager {
 
 
             // polyline
-            for ( int i = 0; i < steps.size(); i++ ) {
+            for (int i = 0; i < steps.size(); i++) {
 
-                for (int j = 0; j < steps.get(i).size(); j++ ) {
+                for (int j = 0; j < steps.get(i).size(); j++) {
                     MassTransitRouteLine.TransitStep step = steps.get(i).get(j);
                     int color;
                     if (step.getVehileType() != MassTransitRouteLine.TransitStep
@@ -165,10 +165,10 @@ public class MassTransitRouteOverlay extends OverlayManager {
                         // color = Color.argb(178, 88, 208, 0);
                         color = getLineColor() != 0 ? getLineColor() : Color.argb(178, 88, 208, 0);
                     }
-                    if (step.getWayPoints() != null ) {
+                    if (step.getWayPoints() != null) {
                         overlayOptionses.add(new PolylineOptions()
-                                            .points(step.getWayPoints()).width(10).color(color)
-                                            .zIndex(0));
+                                .points(step.getWayPoints()).width(10).color(color)
+                                .zIndex(0));
                     }
                 }
             }

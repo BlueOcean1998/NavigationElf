@@ -32,9 +32,8 @@ public class WalkingRouteOverlay extends OverlayManager {
 
     /**
      * 设置路线数据。
-     * 
-     * @param line
-     *            路线数据
+     *
+     * @param line 路线数据
      */
     public void setData(WalkingRouteLine line) {
         mRouteLine = line;
@@ -55,12 +54,12 @@ public class WalkingRouteOverlay extends OverlayManager {
                 if (step.getEntrance() != null) {
                     overlayList.add((new MarkerOptions())
                             .position(step.getEntrance().getLocation())
-                                    .rotate((360 - step.getDirection()))
-                                            .zIndex(10)
-                                                    .anchor(0.5f, 0.5f)
-                                                            .extraInfo(b)
-                                                                    .icon(BitmapDescriptorFactory
-                                                                            .fromAssetWithDpi("Icon_line_node.png")));
+                            .rotate((360 - step.getDirection()))
+                            .zIndex(10)
+                            .anchor(0.5f, 0.5f)
+                            .extraInfo(b)
+                            .icon(BitmapDescriptorFactory
+                                    .fromAssetWithDpi("Icon_line_node.png")));
                 }
 
                 // 最后路段绘制出口点
@@ -68,10 +67,10 @@ public class WalkingRouteOverlay extends OverlayManager {
                         .getAllStep().size() - 1) && step.getExit() != null) {
                     overlayList.add((new MarkerOptions())
                             .position(step.getExit().getLocation())
-                                    .anchor(0.5f, 0.5f)
-                                            .zIndex(10)
-                                                    .icon(BitmapDescriptorFactory
-                                                            .fromAssetWithDpi("Icon_line_node.png")));
+                            .anchor(0.5f, 0.5f)
+                            .zIndex(10)
+                            .icon(BitmapDescriptorFactory
+                                    .fromAssetWithDpi("Icon_line_node.png")));
 
                 }
             }
@@ -80,19 +79,19 @@ public class WalkingRouteOverlay extends OverlayManager {
         if (mRouteLine.getStarting() != null) {
             overlayList.add((new MarkerOptions())
                     .position(mRouteLine.getStarting().getLocation())
-                            .icon(getStartMarker() != null ? getStartMarker() :
-                                    BitmapDescriptorFactory
-                                            .fromAssetWithDpi("Icon_start.png")).zIndex(10));
+                    .icon(getStartMarker() != null ? getStartMarker() :
+                            BitmapDescriptorFactory
+                                    .fromAssetWithDpi("Icon_start.png")).zIndex(10));
         }
         // terminal
         if (mRouteLine.getTerminal() != null) {
             overlayList
                     .add((new MarkerOptions())
                             .position(mRouteLine.getTerminal().getLocation())
-                                    .icon(getTerminalMarker() != null ? getTerminalMarker() :
-                                            BitmapDescriptorFactory
-                                                    .fromAssetWithDpi("Icon_end.png"))
-                                                            .zIndex(10));
+                            .icon(getTerminalMarker() != null ? getTerminalMarker() :
+                                    BitmapDescriptorFactory
+                                            .fromAssetWithDpi("Icon_end.png"))
+                            .zIndex(10));
         }
 
         // poly line list
@@ -112,7 +111,7 @@ public class WalkingRouteOverlay extends OverlayManager {
                     lastStepLastPoint = watPoints.get(watPoints.size() - 1);
                 }
             }
-            
+
         }
 
         return overlayList;
@@ -120,18 +119,20 @@ public class WalkingRouteOverlay extends OverlayManager {
 
     /**
      * 覆写此方法以改变默认起点图标
-     * 
+     *
      * @return 起点图标
      */
     public BitmapDescriptor getStartMarker() {
         return null;
     }
+
     public int getLineColor() {
         return 0;
     }
+
     /**
      * 覆写此方法以改变默认终点图标
-     * 
+     *
      * @return 终点图标
      */
     public BitmapDescriptor getTerminalMarker() {
@@ -140,11 +141,10 @@ public class WalkingRouteOverlay extends OverlayManager {
 
     /**
      * 处理点击事件
-     * 
-     * @param i
-     *            被点击的step在
-     *            {@link com.baidu.mapapi.search.route.WalkingRouteLine#getAllStep()}
-     *            中的索引
+     *
+     * @param i 被点击的step在
+     *          {@link com.baidu.mapapi.search.route.WalkingRouteLine#getAllStep()}
+     *          中的索引
      * @return 是否处理了该点击事件
      */
     public boolean onRouteNodeClick(int i) {

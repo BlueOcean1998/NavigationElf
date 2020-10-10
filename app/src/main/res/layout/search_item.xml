@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
@@ -14,27 +13,30 @@
         android:foreground="?attr/selectableItemBackgroundBorderless"
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp">
+
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/card_background_lightgray"
+            android:orientation="horizontal"
             android:padding="6dp">
+
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
-                android:layout_gravity="center">
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/target_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
-                    android:lines="1"
                     android:ellipsize="end"
-                    android:textColor="@color/black"
+                    android:lines="1"
                     android:text="@string/target_name"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -43,10 +45,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
-                    android:lines="1"
                     android:ellipsize="end"
-                    android:textColor="@color/black"
+                    android:lines="1"
                     android:text="@string/address"
+                    android:textColor="@color/black"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -54,27 +56,27 @@
                 android:id="@+id/distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="6dp"
                 android:layout_gravity="center"
-                android:lines="1"
+                android:layout_margin="6dp"
                 android:ellipsize="end"
-                android:textColor="@color/black"
+                android:lines="1"
                 android:text="@string/distance"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
 
             <Button
                 android:id="@+id/item_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="6dp"
                 android:layout_gravity="center"
+                android:layout_margin="6dp"
+                android:background="@drawable/button_background_skyblue"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
                 android:padding="12dp"
-                android:background="@drawable/button_background_skyblue"
+                android:text="@string/item_button"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                android:text="@string/item_button" />
+                android:textSize="16sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -83,7 +85,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:gravity="top|center_horizontal"
+        android:text="@string/no_more"
         android:textColor="@color/gray"
-        android:textSize="14sp"
-        android:text="@string/no_more" />
+        android:textSize="14sp" />
 </LinearLayout>

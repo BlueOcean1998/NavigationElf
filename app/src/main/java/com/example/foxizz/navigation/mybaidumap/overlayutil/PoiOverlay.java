@@ -24,8 +24,8 @@ public class PoiOverlay extends OverlayManager {
 
     /**
      * 构造函数
-     * 
-     * @param baiduMap   该 PoiOverlay 引用的 BaiduMap 对象
+     *
+     * @param baiduMap 该 PoiOverlay 引用的 BaiduMap 对象
      */
     public PoiOverlay(BaiduMap baiduMap) {
         super(baiduMap);
@@ -33,8 +33,8 @@ public class PoiOverlay extends OverlayManager {
 
     /**
      * 设置POI数据
-     * 
-     * @param poiResult    设置POI数据
+     *
+     * @param poiResult 设置POI数据
      */
     public void setData(PoiResult poiResult) {
         this.mPoiResult = poiResult;
@@ -58,10 +58,10 @@ public class PoiOverlay extends OverlayManager {
             Bundle bundle = new Bundle();
             bundle.putInt("index", i);
             markerList.add(new MarkerOptions()
-                .icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_mark" + markerSize + ".png"))
-                .extraInfo(bundle)
-                .position(mPoiResult.getAllPoi().get(i).location));
-            
+                    .icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_mark" + markerSize + ".png"))
+                    .extraInfo(bundle)
+                    .position(mPoiResult.getAllPoi().get(i).location));
+
         }
 
         return markerList;
@@ -69,8 +69,8 @@ public class PoiOverlay extends OverlayManager {
 
     /**
      * 获取该PoiOverlay的poi数据
-     * 
-     * @return     POI数据
+     *
+     * @return POI数据
      */
     public PoiResult getPoiResult() {
         return mPoiResult;
@@ -78,10 +78,10 @@ public class PoiOverlay extends OverlayManager {
 
     /**
      * 覆写此方法以改变默认点击行为
-     * 
-     * @param i    被点击的poi在
-     *             {@link PoiResult#getAllPoi()} 中的索引
-     * @return     true--事件已经处理，false--事件未处理
+     *
+     * @param i 被点击的poi在
+     *          {@link PoiResult#getAllPoi()} 中的索引
+     * @return true--事件已经处理，false--事件未处理
      */
     public boolean onPoiClick(int i) {
 //        if (mPoiResult.getAllPoi() != null

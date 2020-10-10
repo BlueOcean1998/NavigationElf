@@ -8,6 +8,7 @@ import com.baidu.mapapi.model.LatLng;
  * 搜索到的目标信息类
  */
 public class SearchItem {
+
     private String uid;//唯一地址标识
     private LatLng latLng;//坐标
     private String targetName;//目标名
@@ -22,6 +23,7 @@ public class SearchItem {
         this.address = address;
         this.distance = distance;
     }
+
     public SearchItem() {
         super();
     }
@@ -29,6 +31,7 @@ public class SearchItem {
     public String getUid() {
         return uid;
     }
+
     public void setUid(String uid) {
         this.uid = uid;
     }
@@ -36,6 +39,7 @@ public class SearchItem {
     public LatLng getLatLng() {
         return latLng;
     }
+
     public void setLatLng(LatLng latLng) {
         this.latLng = latLng;
     }
@@ -43,6 +47,7 @@ public class SearchItem {
     public String getTargetName() {
         return targetName;
     }
+
     public void setTargetName(String targetName) {
         this.targetName = targetName;
     }
@@ -50,6 +55,7 @@ public class SearchItem {
     public String getAddress() {
         return address;
     }
+
     public void setAddress(String address) {
         this.address = address;
     }
@@ -57,6 +63,7 @@ public class SearchItem {
     public Double getDistance() {
         return distance;
     }
+
     public void setDistance(Double distance) {
         this.distance = distance;
     }

@@ -5,11 +5,7 @@
     <item android:state_pressed="true">
         <shape>
             <corners android:radius="12dp" />
-            <gradient
-                android:angle="0"
-                android:startColor="@color/greyishgreen"
-                android:endColor="@color/skyblue"
-                android:type="linear" />
+            <gradient android:angle="0" android:endColor="@color/skyblue" android:startColor="@color/greyishgreen" android:type="linear" />
         </shape>
     </item>
 
@@ -17,11 +13,7 @@
     <item android:state_enabled="false">
         <shape>
             <corners android:radius="12dp" />
-            <gradient
-                android:angle="0"
-                android:startColor="@color/skyblue"
-                android:endColor="@color/greyishgreen"
-                android:type="linear" />
+            <gradient android:angle="0" android:endColor="@color/greyishgreen" android:startColor="@color/skyblue" android:type="linear" />
         </shape>
     </item>
 
@@ -29,11 +21,7 @@
     <item>
         <shape>
             <corners android:radius="12dp" />
-            <gradient
-                android:angle="0"
-                android:startColor="@color/skyblue"
-                android:endColor="@color/greyishgreen"
-                android:type="linear" />
+            <gradient android:angle="0" android:endColor="@color/greyishgreen" android:startColor="@color/skyblue" android:type="linear" />
         </shape>
     </item>
 

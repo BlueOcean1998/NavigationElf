@@ -1,5 +1,6 @@
 package com.example.foxizz.navigation.activity.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.example.foxizz.navigation.R;
+import com.example.foxizz.navigation.activity.LoginActivity;
 import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.activity.SettingsActivity;
 import com.example.foxizz.navigation.view.AdaptationTextView;
@@ -26,6 +28,14 @@ import com.example.foxizz.navigation.view.AdaptationTextView;
  */
 public class UserFragment extends Fragment {
 
+    //UserFragment实例
+    @SuppressLint("StaticFieldLeak")
+    private static UserFragment instance;
+    public static UserFragment getInstance() {
+        return instance;
+    }
+
+    public static int userId = 0;
     private FrameLayout portraitLayout;//头像布局
     private ImageView userPortrait;//用户头像
     private LinearLayout infoLayout;//信息布局
@@ -39,6 +49,8 @@ public class UserFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
 
+        instance = this;//获取UserFragment实例
+
         initUserLayout(view);//初始化用户布局
 
         //初始化PreferenceScreen
@@ -48,6 +60,12 @@ public class UserFragment extends Fragment {
                 .commit();
 
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        instance = null;//释放UserFragment实例
     }
 
     //初始化用户布局
@@ -62,14 +80,22 @@ public class UserFragment extends Fragment {
         portraitLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (userId == 0) {
+                    startActivity(new Intent(getContext(), LoginActivity.class));
+                } else {
 
+                }
             }
         });
 
         infoLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (userId == 0) {
+                    startActivity(new Intent(getContext(), LoginActivity.class));
+                } else {
 
+                }
             }
         });
     }
@@ -86,14 +112,14 @@ public class UserFragment extends Fragment {
         @Override
         public boolean onPreferenceTreeClick(Preference preference) {
             Intent browser = new Intent("android.intent.action.VIEW");
-            switch(preference.getKey()) {
+            switch (preference.getKey()) {
                 case "to_settings":
                     Intent intent = new Intent(getContext(), SettingsActivity.class);
 
                     //寻找mainFragment
                     MainFragment mainFragment = ((MainActivity) requireActivity()).getMainFragment();
                     //传递mCity
-                    if(mainFragment != null && mainFragment.mCity != null)
+                    if (mainFragment != null && mainFragment.mCity != null)
                         intent.putExtra("mCity", mainFragment.mCity);
 
                     startActivity(intent);
@@ -104,7 +130,11 @@ public class UserFragment extends Fragment {
                 case "sound_code":
                     startActivity(browser.setData(Uri.parse("https://github.com/BlueEra/Navigation")));
                     break;
+                case "contact_me":
+                    startActivity(browser.setData(Uri.parse("mailto:2872545042@qq.com")));
+                    break;
                 case "logout":
+                    UserFragment.userId = 0;
                     break;
                 default:
                     break;

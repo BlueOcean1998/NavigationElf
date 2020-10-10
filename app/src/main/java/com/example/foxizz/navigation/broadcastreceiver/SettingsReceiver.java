@@ -24,26 +24,33 @@ public class SettingsReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         //MainActivity的广播接收
-        if(mContext instanceof MainActivity) {
+        if (mContext instanceof MainActivity) {
             MainActivity mainActivity = (MainActivity) mContext;
             MainFragment mainFragment = (MainFragment) mainActivity.getSupportFragmentManager()
                     .findFragmentById(R.id.fragment_layout);
 
-            if(mainFragment != null) {
-                switch(intent.getIntExtra("settings_type", 0)) {
-                    case SettingsConstants.SET_MAP_TYPE: mainFragment.setMapType();
+            if (mainFragment != null) {
+                switch (intent.getIntExtra("settings_type", 0)) {
+                    case SettingsConstants.SET_MAP_TYPE:
+                        mainFragment.setMapType();
                         break;
-                    case SettingsConstants.SET_LANDSCAPE: Tools.initSettings(mainActivity);
+                    case SettingsConstants.SET_LANDSCAPE:
+                        Tools.initSettings(mainActivity);
                         break;
-                    case SettingsConstants.SET_ANGLE_3D: mainFragment.setAngle3D();
+                    case SettingsConstants.SET_ANGLE_3D:
+                        mainFragment.setAngle3D();
                         break;
-                    case SettingsConstants.SET_MAP_ROTATION: mainFragment.setMapRotation();
+                    case SettingsConstants.SET_MAP_ROTATION:
+                        mainFragment.setMapRotation();
                         break;
-                    case SettingsConstants.SET_SCALE_CONTROL: mainFragment.setScaleControl();
+                    case SettingsConstants.SET_SCALE_CONTROL:
+                        mainFragment.setScaleControl();
                         break;
-                    case SettingsConstants.SET_ZOOM_CONTROLS: mainFragment.setZoomControls();
+                    case SettingsConstants.SET_ZOOM_CONTROLS:
+                        mainFragment.setZoomControls();
                         break;
-                    case SettingsConstants.SET_COMPASS: mainFragment.setCompass();
+                    case SettingsConstants.SET_COMPASS:
+                        mainFragment.setCompass();
                         break;
                     default:
                         break;

@@ -4,6 +4,7 @@ package com.example.foxizz.navigation.broadcastreceiver;
  * 设置操作常量
  */
 public class SettingsConstants {
+
     public final static int SET_MAP_TYPE = 1;//设置地图类型
     public final static int SET_LANDSCAPE = 2;//设置是否允许横屏
     public final static int SET_ANGLE_3D = 3;//设置是否启用3D视角
@@ -15,4 +16,5 @@ public class SettingsConstants {
     public final static String STANDARD_MAP = "standard_map";//标准地图
     public final static String SATELLITE_MAP = "satellite_map";//卫星地图
     public final static String TRAFFIC_MAP = "traffic_map";//交通地图
+
 }

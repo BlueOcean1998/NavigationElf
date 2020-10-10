@@ -1,5 +1,6 @@
 package com.example.foxizz.navigation.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,6 +37,16 @@ import java.util.Objects;
  */
 public class SettingsActivity extends BaseActivity {
 
+    //SettingsActivity实例
+    @SuppressLint("StaticFieldLeak")
+    private static SettingsActivity instance;
+    public static SettingsActivity getInstance() {
+        return instance;
+    }
+
+    private static LocalBroadcastManager localBroadcastManager;//本地广播管理器
+    private static Intent resettingIntent;//用于发送设置广播
+
     //数据相关
     private SharedPreferences sharedPreferences;
 
@@ -55,10 +66,6 @@ public class SettingsActivity extends BaseActivity {
     private EditText destinationCityEditText;//目标城市
     private ImageButton destinationCityConfirm;//确定
     private ImageButton destinationCityCancel;//取消
-
-    private static LocalBroadcastManager localBroadcastManager;//本地广播管理器
-    private static Intent resettingIntent;//用于发送设置广播
-
     private InputMethodManager imm;//键盘
 
     @Override
@@ -66,17 +73,19 @@ public class SettingsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        instance = this;//获取SettingsActivity实例
+
         //获取SharedPreferences
         sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
 
         //标题栏
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
             Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         //自定义设置
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             initMySettings();
 
         //初始化PreferenceScreen
@@ -87,6 +96,12 @@ public class SettingsActivity extends BaseActivity {
 
         //获取键盘对象
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        instance = null;//释放SettingsActivity实例
     }
 
     //自定义设置
@@ -103,22 +118,22 @@ public class SettingsActivity extends BaseActivity {
         destinationCityConfirm = findViewById(R.id.destination_city_confirm);
         destinationCityCancel = findViewById(R.id.destination_city_cancel);
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            switch(Objects.requireNonNull(sharedPreferences.getString("map_type",
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            switch (Objects.requireNonNull(sharedPreferences.getString("map_type",
                     SettingsConstants.STANDARD_MAP))) {
                 case SettingsConstants.STANDARD_MAP:
                     mapStandardImage.setImageResource(R.drawable.map_standard_on);
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                         mapStandardText.setTextColor(getColor(R.color.deepblue));
                     break;
                 case SettingsConstants.SATELLITE_MAP:
                     mapSatelliteImage.setImageResource(R.drawable.map_satellite_on);
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                         mapSatelliteText.setTextColor(getColor(R.color.deepblue));
                     break;
                 case SettingsConstants.TRAFFIC_MAP:
                     mapTrafficImage.setImageResource(R.drawable.map_traffic_on);
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                         mapTrafficText.setTextColor(getColor(R.color.deepblue));
                     break;
                 default:
@@ -204,7 +219,7 @@ public class SettingsActivity extends BaseActivity {
 
         //设置城市信息
         saveCity = sharedPreferences.getString("destination_city", null);
-        if(!TextUtils.isEmpty(saveCity))//如果存储的城市信息不为空
+        if (!TextUtils.isEmpty(saveCity))//如果存储的城市信息不为空
             destinationCityEditText.setText(saveCity);//设置城市信息
 
         //设置提示信息为所在城市
@@ -237,7 +252,7 @@ public class SettingsActivity extends BaseActivity {
                 //获取输入框内的城市信息
                 textCity = destinationCityEditText.getText().toString();
 
-                if(!textCity.equals(saveCity)) {//不等于存储的城市名
+                if (!textCity.equals(saveCity)) {//不等于存储的城市名
                     destinationCityConfirm.setVisibility(View.VISIBLE);//显示确定按钮
                     destinationCityCancel.setVisibility(View.VISIBLE);//显示取消按钮
                 } else {
@@ -262,7 +277,7 @@ public class SettingsActivity extends BaseActivity {
                 destinationCityConfirm.setVisibility(View.GONE);//隐藏确定按钮
                 destinationCityCancel.setVisibility(View.GONE);//隐藏取消按钮
 
-                if(TextUtils.isEmpty(saveCity))//如果存储的城市信息为空
+                if (TextUtils.isEmpty(saveCity))//如果存储的城市信息为空
                     destinationCityEditText.setText("");//清空输入框
                 else {
                     destinationCityEditText.setText(saveCity);//恢复城市数据
@@ -271,6 +286,32 @@ public class SettingsActivity extends BaseActivity {
             }
         });
 
+    }
+
+    //提交输入的城市
+    private void commitCity() {
+        destinationCityConfirm.setVisibility(View.GONE);//隐藏确定按钮
+        destinationCityCancel.setVisibility(View.GONE);//隐藏取消按钮
+
+        if (textCity.isEmpty())//若输入的城市信息为空
+            //置空sharedPreferences中的城市信息
+            sharedPreferences.edit().putString("destination_city", null).apply();
+            //将城市信息录入sharedPreferences
+        else sharedPreferences.edit().putString("destination_city", textCity).apply();
+    }
+
+    //监听按键抬起事件
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        //如果是Enter键
+        if (keyCode == KeyEvent.KEYCODE_ENTER) {
+            commitCity();//提交输入的城市
+            if (imm != null) imm.hideSoftInputFromWindow(
+                    getWindow().getDecorView().getWindowToken(), 0
+            );//收回键盘
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
     }
 
     //PreferenceScreen
@@ -284,7 +325,7 @@ public class SettingsActivity extends BaseActivity {
         //设置PreferenceScreen的点击事件
         @Override
         public boolean onPreferenceTreeClick(Preference preference) {
-            switch(preference.getKey()) {
+            switch (preference.getKey()) {
                 case "landscape":
                     //发送本地广播通知更新是否允许横屏
                     localBroadcastManager.sendBroadcast(resettingIntent
@@ -346,32 +387,6 @@ public class SettingsActivity extends BaseActivity {
             }
             return super.onPreferenceTreeClick(preference);
         }
-    }
-
-    //提交输入的城市
-    private void commitCity() {
-        destinationCityConfirm.setVisibility(View.GONE);//隐藏确定按钮
-        destinationCityCancel.setVisibility(View.GONE);//隐藏取消按钮
-
-        if(textCity.isEmpty())//若输入的城市信息为空
-            //置空sharedPreferences中的城市信息
-            sharedPreferences.edit().putString("destination_city", null).apply();
-            //将城市信息录入sharedPreferences
-        else sharedPreferences.edit().putString("destination_city", textCity).apply();
-    }
-
-    //监听按键抬起事件
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        //如果是Enter键
-        if(keyCode == KeyEvent.KEYCODE_ENTER) {
-            commitCity();//提交输入的城市
-            if(imm != null) imm.hideSoftInputFromWindow(
-                    getWindow().getDecorView().getWindowToken(), 0
-            );//收回键盘
-            return true;
-        }
-        return super.onKeyUp(keyCode, event);
     }
 
 }

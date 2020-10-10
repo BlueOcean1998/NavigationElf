@@ -1,29 +1,40 @@
-<PreferenceScreen
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:ignore="MissingDefaultResource">
 
-    <PreferenceCategory app:icon="@drawable/foxizz"
+    <PreferenceCategory
+        app:icon="@drawable/foxizz"
         app:title="关于导航小精灵">
-        <Preference app:icon="@drawable/ic_settings_black_24dp"
+        <Preference
+            app:icon="@drawable/ic_settings_black_24dp"
             app:key="to_settings"
             app:title="设置" />
 
-        <Preference app:icon="@drawable/ic_info_black_24dp"
+        <Preference
+            app:icon="@drawable/ic_info_black_24dp"
             app:key="check_update"
-            app:summary="检查中..."
-            app:title="检查更新" />
+            app:title="检查更新"
+            app:summary="检查中..." />
 
-        <Preference app:icon="@drawable/ic_code_black_24dp"
+        <Preference
+            app:icon="@drawable/ic_code_black_24dp"
             app:key="sound_code"
             app:title="源码网址"
             app:summary="github.com/BlueEra/Navigation" />
+
+        <Preference
+            app:icon="@drawable/ic_code_black_24dp"
+            app:key="contact_me"
+            app:title="联系我"
+            app:summary="2872545042@qq.com" />
     </PreferenceCategory>
 
     <PreferenceCategory>
-        <Preference app:icon="@drawable/ic_exit_to_app_black_24dp"
+        <Preference
+            app:icon="@drawable/ic_exit_to_app_black_24dp"
             app:key="logout"
-            app:title="退出登录" />
+            app:title="退出登录"
+            app:isPreferenceVisible="false" />
     </PreferenceCategory>
 
 </PreferenceScreen>

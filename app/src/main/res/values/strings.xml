@@ -80,7 +80,17 @@
     <string name="walk_route_plan_fail">步行路线规划失败</string>
     <string name="bike_navigate_init_fail">骑行导航初始化失败</string>
     <string name="bike_route_plan_fail">骑行路线规划失败</string>
-    
+
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="username">用户名</string>
+    <string name="password">密码</string>
+    <string name="verification_code">验证码</string>
+    <string name="remember_username">记住用户名</string>
+    <string name="remember_password">记住密码</string>
+    <string name="register_hint">还没有账号？</string>
+    <string name="action_register">点此注册</string>
+
     <string name="hint">提示</string>
     <string name="warning">警告！</string>
     <string name="confirm">确定</string>

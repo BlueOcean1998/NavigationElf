@@ -1,5 +1,6 @@
 package com.example.foxizz.navigation.activity;
 
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -21,38 +22,43 @@ import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
  * app_name: NavigationElf
  * author: Foxizz
  * accomplish_date: 2020-04-30
- * last_modify_date: 2020-09-30
+ * last_modify_date: 2020-10-10
  */
 public class MainActivity extends BaseActivity {
 
-    private FragmentManager fragmentManager;
+    //MainActivity实例
+    @SuppressLint("StaticFieldLeak")
+    private static MainActivity instance;
+    public static MainActivity getInstance() {
+        return instance;
+    }
 
+    private FragmentManager fragmentManager;
     private Fragment fragmentLayout;
     private MainFragment mainFragment;
     private UserFragment userFragment;
+    private Button mainButton;
+    private Button userButton;
+    private long exitTime = 0;//实现再按一次退出程序时，用于保存系统时间
 
     public MainFragment getMainFragment() {
         return mainFragment;
     }
+
     public UserFragment getUserFragment() {
         return userFragment;
     }
-
-    private Button mainButton;
-    private Button userButton;
-
-    private long exitTime = 0;//实现再按一次退出程序时，用于保存系统时间
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //初始化碎片
-        initFragments();
+        instance = this;//获取MainActivity实例
 
-        //初始化控件
-        initView();
+        initFragments();//初始化碎片
+
+        initView();//初始化控件
 
         //设置首页按钮的点击事件
         mainButton.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +87,12 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        instance = null;////释放MainActivity实例
+    }
+
     //初始化碎片
     private void initFragments() {
         fragmentManager = getSupportFragmentManager();
@@ -95,7 +107,7 @@ public class MainActivity extends BaseActivity {
 
     //切换碎片
     private void replaceFragment(Fragment fragment) {
-        if(fragmentLayout != fragment) {//与显示的碎片不同才切换
+        if (fragmentLayout != fragment) {//与显示的碎片不同才切换
             fragmentManager.beginTransaction().hide(fragmentLayout).show(fragment).commit();
             fragmentLayout = fragment;
         }
@@ -114,8 +126,8 @@ public class MainActivity extends BaseActivity {
     public void onRequestPermissionsResult(
             int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == 0) {
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == 0) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 mainFragment.myLocation.refreshSearchList = true;//刷新搜索列表
                 mainFragment.myLocation.initLocationOption();//初始化定位
             } else
@@ -127,31 +139,31 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         //mainFragment
-        if(fragmentLayout == mainFragment) {
+        if (fragmentLayout == mainFragment) {
             //如果是返回键
-            if(keyCode == KeyEvent.KEYCODE_BACK) {
-                if(mainFragment.canBack()) {//如果可以返回
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                if (mainFragment.canBack()) {//如果可以返回
                     mainFragment.backToUpperStory();//返回上一层
                     return true;
                 }
-                if(!mainFragment.isHistorySearchResult) {//如果不是搜索历史记录
+                if (!mainFragment.isHistorySearchResult) {//如果不是搜索历史记录
                     mainFragment.searchResult.stopScroll();//停止信息列表滑动
                     mainFragment.searchDataHelper.initSearchData(mainFragment);//初始化搜索记录
                     mainFragment.isHistorySearchResult = true;//现在是搜索历史记录了
                 }
                 //如果焦点在searchEdit上或searchEdit有内容
-                if(MainActivity.this.getWindow().getDecorView().findFocus() == mainFragment.searchEdit
+                if (MainActivity.this.getWindow().getDecorView().findFocus() == mainFragment.searchEdit
                         || !mainFragment.searchEdit.getText().toString().isEmpty()) {
                     mainFragment.searchEdit.clearFocus();//使搜索输入框失去焦点
                     mainFragment.searchEdit.setText("");
                     return true;//只收回键盘
                 }
-                if(mainFragment.searchExpandFlag) {//收起搜索抽屉
+                if (mainFragment.searchExpandFlag) {//收起搜索抽屉
                     mainFragment.expandSearchDrawer(false);
                     mainFragment.searchExpandFlag = false;
                     return true;
                 }
-                if((System.currentTimeMillis() - exitTime) > 2000) {//弹出再按一次退出提示
+                if ((System.currentTimeMillis() - exitTime) > 2000) {//弹出再按一次退出提示
                     Toast.makeText(getContext(), getString(R.string.exit_app), Toast.LENGTH_SHORT).show();
                     exitTime = System.currentTimeMillis();
                     return true;
@@ -159,14 +171,14 @@ public class MainActivity extends BaseActivity {
             }
 
             //如果是Enter键
-            if(keyCode == KeyEvent.KEYCODE_ENTER) {
+            if (keyCode == KeyEvent.KEYCODE_ENTER) {
                 mainFragment.startPoiSearch();//开始POI搜索
                 mainFragment.searchEdit.requestFocus();//搜索框重新获得焦点
                 mainFragment.takeBackKeyboard();//收回键盘
                 return true;
             }
-        //userFragment
-        } else if(fragmentLayout == userFragment) {
+            //userFragment
+        } else if (fragmentLayout == userFragment) {
             //回到首页
             replaceFragment(mainFragment);
             mainButton.setTextColor(getResources().getColor(R.color.skyblue));

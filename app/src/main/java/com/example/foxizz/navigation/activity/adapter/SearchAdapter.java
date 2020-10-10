@@ -39,32 +39,11 @@ import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
  */
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
 
-    public SearchAdapter(MainFragment mainFragment) {
-        this.mainFragment = mainFragment;
-    }
-
     private MainFragment mainFragment;
     private long clickTime = 0;
 
-    //设置item中的View
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        View view;
-        CardView cardView;
-        TextView targetName;
-        TextView address;
-        TextView distance;
-        Button itemButton;
-        TextView endText;
-
-        ViewHolder(View view) {
-            super(view);
-            cardView = view.findViewById(R.id.card_view);
-            targetName = view.findViewById(R.id.target_name);
-            address = view.findViewById(R.id.address);
-            distance = view.findViewById(R.id.distance);
-            itemButton = view.findViewById(R.id.item_button);
-            endText = view.findViewById(R.id.end_text);
-        }
+    public SearchAdapter(MainFragment mainFragment) {
+        this.mainFragment = mainFragment;
     }
 
     //获取item数量
@@ -83,7 +62,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         holder.distance.setText(searchItem.getDistance() + "km");
 
         //底部显示提示信息
-        if(position == mainFragment.searchList.size() - 1)
+        if (position == mainFragment.searchList.size() - 1)
             holder.endText.setVisibility(View.VISIBLE);
         else
             holder.endText.setVisibility(View.GONE);
@@ -102,14 +81,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View view) {
-                if(unableToClick()) return;
+                if (unableToClick()) return;
 
-                if(!isNetworkConnected()) {//没有网络连接
+                if (!isNetworkConnected()) {//没有网络连接
                     Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if(isAirplaneModeOn()) {//没有关飞行模式
+                if (isAirplaneModeOn()) {//没有关飞行模式
                     Toast.makeText(getContext(), R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -128,7 +107,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 //移动视角到指定位置
                 LatLngBounds.Builder builder = new LatLngBounds.Builder();
                 builder.include(searchItem.getLatLng());
-                MapStatusUpdate msu= MapStatusUpdateFactory.newLatLngBounds(builder.build());
+                MapStatusUpdate msu = MapStatusUpdateFactory.newLatLngBounds(builder.build());
                 mainFragment.mBaiduMap.setMapStatus(msu);
 
                 //清空地图上的所有标记点和绘制的路线
@@ -150,13 +129,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View view) {
-                if(unableToClick()) return;
+                if (unableToClick()) return;
 
-                if(!isNetworkConnected()) {//没有网络连接
+                if (!isNetworkConnected()) {//没有网络连接
                     Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(isAirplaneModeOn()) {//没有关飞行模式
+                if (isAirplaneModeOn()) {//没有关飞行模式
                     Toast.makeText(getContext(), R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -183,12 +162,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if(unableToClick()) return false;
+                if (unableToClick()) return false;
 
                 final int position = holder.getAdapterPosition();
                 final SearchItem searchItem = mainFragment.searchList.get(position);
 
-                if(mainFragment.isHistorySearchResult) {//如果是搜索历史记录
+                if (mainFragment.isHistorySearchResult) {//如果是搜索历史记录
                     AlertDialog.Builder builder = new AlertDialog.Builder(mainFragment.requireActivity());
                     builder.setTitle(mainFragment.getString(R.string.hint));
                     builder.setMessage("你确定要删除'" + searchItem.getTargetName() + "'吗？");
@@ -197,8 +176,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             //在searchList中寻找这条记录
-                            for(int i = 0; i < mainFragment.searchList.size(); i++) {
-                                if(searchItem.getUid().equals(mainFragment.searchList.get(i).getUid())) {
+                            for (int i = 0; i < mainFragment.searchList.size(); i++) {
+                                if (searchItem.getUid().equals(mainFragment.searchList.get(i).getUid())) {
                                     mainFragment.searchList.remove(searchItem);//移除搜索列表的这条记录
                                     notifyItemRemoved(i);//通知adapter移除这条记录
                                 }
@@ -219,8 +198,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
                 } else {//如果不是
                     //在searchList中寻找这条记录
-                    for(int i = 0; i < mainFragment.searchList.size(); i++) {
-                        if(searchItem.getUid().equals(mainFragment.searchList.get(i).getUid())) {
+                    for (int i = 0; i < mainFragment.searchList.size(); i++) {
+                        if (searchItem.getUid().equals(mainFragment.searchList.get(i).getUid())) {
                             mainFragment.searchList.remove(searchItem);//移除搜索列表的这条记录
                             notifyItemRemoved(i);//通知adapter移除这条记录
                         }
@@ -242,7 +221,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         SearchItem searchItem = mainFragment.searchList.get(position);
 
         expandLayout(mainFragment.searchLayout, false);//收起搜索布局
-        if(mainFragment.searchExpandFlag) {//如果状态为展开
+        if (mainFragment.searchExpandFlag) {//如果状态为展开
             mainFragment.expandSearchDrawer(false);//收起展开的搜索抽屉
             mainFragment.searchExpandFlag = false;//设置状态为收起
         }
@@ -264,10 +243,31 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     //不允许同时点击多个item
     private boolean unableToClick() {
-        if((System.currentTimeMillis() - clickTime) > 1000) {
+        if ((System.currentTimeMillis() - clickTime) > 1000) {
             clickTime = System.currentTimeMillis();
             return false;
         } else return true;
+    }
+
+    //设置item中的View
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        View view;
+        CardView cardView;
+        TextView targetName;
+        TextView address;
+        TextView distance;
+        Button itemButton;
+        TextView endText;
+
+        ViewHolder(View view) {
+            super(view);
+            cardView = view.findViewById(R.id.card_view);
+            targetName = view.findViewById(R.id.target_name);
+            address = view.findViewById(R.id.address);
+            distance = view.findViewById(R.id.distance);
+            itemButton = view.findViewById(R.id.item_button);
+            endText = view.findViewById(R.id.end_text);
+        }
     }
 
 }

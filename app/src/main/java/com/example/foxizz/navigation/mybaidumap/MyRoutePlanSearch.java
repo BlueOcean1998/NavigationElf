@@ -22,12 +22,12 @@ import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
+import com.example.foxizz.navigation.data.SchemeItem;
 import com.example.foxizz.navigation.mybaidumap.overlayutil.BikingRouteOverlay;
 import com.example.foxizz.navigation.mybaidumap.overlayutil.DrivingRouteOverlay;
 import com.example.foxizz.navigation.mybaidumap.overlayutil.IndoorRouteOverlay;
 import com.example.foxizz.navigation.mybaidumap.overlayutil.TransitRouteOverlay;
 import com.example.foxizz.navigation.mybaidumap.overlayutil.WalkingRouteOverlay;
-import com.example.foxizz.navigation.data.SchemeItem;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -48,6 +48,7 @@ import static com.example.foxizz.navigation.util.Tools.rotateExpandIcon;
 public class MyRoutePlanSearch {
 
     private MainFragment mainFragment;
+
     public MyRoutePlanSearch(MainFragment mainFragment) {
         this.mainFragment = mainFragment;
     }
@@ -56,27 +57,27 @@ public class MyRoutePlanSearch {
      * 开始路线规划
      */
     public void startRoutePlanSearch() {
-        if(!isNetworkConnected()) {//没有网络连接
+        if (!isNetworkConnected()) {//没有网络连接
             Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(isAirplaneModeOn()) {//没有关飞行模式
+        if (isAirplaneModeOn()) {//没有关飞行模式
             Toast.makeText(getContext(), R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(!haveReadWriteAndLocationPermissions()) {//权限不足
+        if (!haveReadWriteAndLocationPermissions()) {//权限不足
             mainFragment.requestPermission();//申请权限，获得权限后定位
             return;
         }
 
-        if(mainFragment.latLng == null) {//还没有得到定位
+        if (mainFragment.latLng == null) {//还没有得到定位
             Toast.makeText(getContext(), R.string.wait_for_location_result, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(mainFragment.endLocation == null) {
+        if (mainFragment.endLocation == null) {
             Toast.makeText(getContext(), R.string.end_location_is_null, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -85,7 +86,7 @@ public class MyRoutePlanSearch {
         PlanNode startNode = PlanNode.withLocation(mainFragment.latLng);
         PlanNode endNode = PlanNode.withLocation(mainFragment.endLocation);
 
-        switch(mainFragment.routePlanSelect) {
+        switch (mainFragment.routePlanSelect) {
             //驾车路线规划
             case 0:
                 mainFragment.mSearch.drivingSearch((new DrivingRoutePlanOption())
@@ -114,11 +115,11 @@ public class MyRoutePlanSearch {
                 mainFragment.schemeResult.setVisibility(View.GONE);
 
                 //收回所有展开的方案
-                for(int i = 0; i < mainFragment.schemeList.size(); i++) {//遍历所有item
-                    if(mainFragment.schemeList.get(i).getExpandFlag()) {//如果是展开状态
+                for (int i = 0; i < mainFragment.schemeList.size(); i++) {//遍历所有item
+                    if (mainFragment.schemeList.get(i).getExpandFlag()) {//如果是展开状态
                         //用layoutManager找到相应的item
                         View view = mainFragment.schemeLayoutManager.findViewByPosition(i);
-                        if(view != null) {
+                        if (view != null) {
                             LinearLayout infoDrawer = view.findViewById(R.id.info_drawer);
                             ImageButton schemeExpand = view.findViewById(R.id.scheme_expand);
                             expandLayout(infoDrawer, false);
@@ -159,7 +160,7 @@ public class MyRoutePlanSearch {
         OnGetRoutePlanResultListener listener = new OnGetRoutePlanResultListener() {
             @Override
             public void onGetWalkingRouteResult(WalkingRouteResult walkingRouteResult) {
-                if(walkingRouteResult.getRouteLines() == null
+                if (walkingRouteResult.getRouteLines() == null
                         || walkingRouteResult.getRouteLines().size() == 0) {
                     Toast.makeText(getContext(), R.string.suggest_not_to_walk, Toast.LENGTH_SHORT).show();
                     return;
@@ -180,7 +181,7 @@ public class MyRoutePlanSearch {
 
             @Override
             public void onGetTransitRouteResult(TransitRouteResult transitRouteResult) {
-                if(transitRouteResult.getRouteLines() == null
+                if (transitRouteResult.getRouteLines() == null
                         || transitRouteResult.getRouteLines().size() == 0) {
                     Toast.makeText(getContext(), R.string.suggest_to_walk, Toast.LENGTH_SHORT).show();
                     return;
@@ -205,14 +206,14 @@ public class MyRoutePlanSearch {
                 mainFragment.schemeLoading.setVisibility(View.GONE);
                 mainFragment.schemeResult.setVisibility(View.VISIBLE);
 
-                if(massTransitRouteResult.getRouteLines() == null
+                if (massTransitRouteResult.getRouteLines() == null
                         || massTransitRouteResult.getRouteLines().size() == 0) {
                     Toast.makeText(getContext(), R.string.suggest_to_walk, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 //所有的路线
-                for(MassTransitRouteLine massTransitRouteLine: massTransitRouteResult.getRouteLines()) {
+                for (MassTransitRouteLine massTransitRouteLine : massTransitRouteResult.getRouteLines()) {
                     SchemeItem schemeItem = new SchemeItem();
                     schemeItem.setRouteLine(massTransitRouteLine);
 
@@ -220,20 +221,20 @@ public class MyRoutePlanSearch {
                     StringBuilder allStationInfo = new StringBuilder();
                     StringBuilder simpleInfo = new StringBuilder();
                     //每条路线的所有段
-                    for(List<MassTransitRouteLine.TransitStep> transitSteps:
+                    for (List<MassTransitRouteLine.TransitStep> transitSteps :
                             massTransitRouteLine.getNewSteps()) {
                         //每一段的所有信息
-                        for(MassTransitRouteLine.TransitStep transitStep: transitSteps) {
+                        for (MassTransitRouteLine.TransitStep transitStep : transitSteps) {
                             //只收集巴士和长途巴士的信息
-                            if(transitStep.getVehileType() == //巴士
+                            if (transitStep.getVehileType() == //巴士
                                     MassTransitRouteLine.TransitStep.StepVehicleInfoType.ESTEP_BUS
                                     || transitStep.getVehileType() == //长途巴士
-                                    MassTransitRouteLine.TransitStep.StepVehicleInfoType.ESTEP_COACH ) {
-                                if(transitStep.getBusInfo() != null) {//巴士
+                                    MassTransitRouteLine.TransitStep.StepVehicleInfoType.ESTEP_COACH) {
+                                if (transitStep.getBusInfo() != null) {//巴士
                                     simpleInfo.append("—").append(transitStep.getBusInfo().getName());
                                     allStationInfo.append(transitStep.getBusInfo().getName());
                                 }
-                                if(transitStep.getCoachInfo() != null) {//长途巴士
+                                if (transitStep.getCoachInfo() != null) {//长途巴士
                                     simpleInfo.append("—").append(transitStep.getCoachInfo().getName());
                                     allStationInfo.append(transitStep.getCoachInfo().getName());
                                 }
@@ -257,7 +258,7 @@ public class MyRoutePlanSearch {
                         long nowTime = sdf.parse(sdf.format(new Date())).getTime();
                         long arriveTime = sdf.parse(massTransitRouteLine.getArriveTime()).getTime();
                         spendTime = arriveTime - nowTime;
-                        if(spendTime < 3 * 60 * 60 * 1000) {//小于3小时
+                        if (spendTime < 3 * 60 * 60 * 1000) {//小于3小时
                             detailInfo.append(mainFragment.getString(R.string.spend_time))
                                     .append(spendTime / 1000 / 60).append(mainFragment.getString(R.string.minute));
                         } else {
@@ -269,7 +270,7 @@ public class MyRoutePlanSearch {
                         e.printStackTrace();
                     }
 
-                    if(massTransitRouteLine.getPrice() > 10) {
+                    if (massTransitRouteLine.getPrice() > 10) {
                         detailInfo.append("\n")
                                 .append(mainFragment.getString(R.string.budget))
                                 .append((int) massTransitRouteLine.getPrice()).append(mainFragment.getString(R.string.yuan));
@@ -284,7 +285,7 @@ public class MyRoutePlanSearch {
 
             @Override
             public void onGetDrivingRouteResult(DrivingRouteResult drivingRouteResult) {
-                if(drivingRouteResult.getRouteLines() == null
+                if (drivingRouteResult.getRouteLines() == null
                         || drivingRouteResult.getRouteLines().size() == 0)
                     return;
 
@@ -303,7 +304,7 @@ public class MyRoutePlanSearch {
 
             @Override
             public void onGetIndoorRouteResult(IndoorRouteResult indoorRouteResult) {
-                if(indoorRouteResult.getRouteLines() == null
+                if (indoorRouteResult.getRouteLines() == null
                         || indoorRouteResult.getRouteLines().size() == 0)
                     return;
 
@@ -322,7 +323,7 @@ public class MyRoutePlanSearch {
 
             @Override
             public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
-                if(bikingRouteResult.getRouteLines() == null
+                if (bikingRouteResult.getRouteLines() == null
                         || bikingRouteResult.getRouteLines().size() == 0) {
                     Toast.makeText(getContext(), R.string.suggest_not_to_bike, Toast.LENGTH_SHORT).show();
                     return;

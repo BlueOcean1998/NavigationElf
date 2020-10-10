@@ -23,15 +23,15 @@ import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
 @SuppressLint("Registered")
 public class MyLocation {
 
+    private final static int MAX_TIME = 10;//最大请求次数
+    public boolean refreshSearchList;//是否刷新搜索列表
     private MainFragment mainFragment;
+    private int requestLocationTime;//请求定位的次数
+    private boolean isFirstLoc;//是否是首次定位
+
     public MyLocation(MainFragment mainFragment) {
         this.mainFragment = mainFragment;
     }
-
-    public boolean refreshSearchList;//是否刷新搜索列表
-    private int requestLocationTime;//请求定位的次数
-    private final static int MAX_TIME = 10;//最大请求次数
-    private boolean isFirstLoc;//是否是首次定位
 
     /**
      * 初始化定位
@@ -48,7 +48,7 @@ public class MyLocation {
             @Override
             public void onReceiveLocation(BDLocation location) {
                 //mapView销毁后不再处理新接收的位置
-                if(location == null || mainFragment.mMapView == null) return;
+                if (location == null || mainFragment.mMapView == null) return;
 
                 //获取定位数据
                 mainFragment.latLng = new LatLng(location.getLatitude(), location.getLongitude());
@@ -66,14 +66,14 @@ public class MyLocation {
                         .longitude(mainFragment.mLongitude).build();
                 mainFragment.mBaiduMap.setMyLocationData(mainFragment.locData);//设置定位数据
 
-                if(mainFragment.mLocType == BDLocation.TypeGpsLocation //GPS定位结果
+                if (mainFragment.mLocType == BDLocation.TypeGpsLocation //GPS定位结果
                         || mainFragment.mLocType == BDLocation.TypeNetWorkLocation //网络定位结果
                         || mainFragment.mLocType == BDLocation.TypeOffLineLocation) {//离线定位结果
                     //Toast.makeText(getContext(), location.getAddrStr(), Toast.LENGTH_SHORT).show();
-                    if(isFirstLoc) {
+                    if (isFirstLoc) {
                         isFirstLoc = false;
 
-                        if(refreshSearchList) {
+                        if (refreshSearchList) {
                             mainFragment.searchDataHelper.initSearchData(mainFragment);//初始化搜索记录
                             refreshSearchList = false;
                         }
@@ -81,7 +81,7 @@ public class MyLocation {
                         mainFragment.myNavigateHelper.initDriveNavigateHelper();//初始化驾车导航引擎
 
                         //移动视角并改变缩放等级
-                        MapStatusUpdate msu= MapStatusUpdateFactory.newLatLng(mainFragment.latLng);
+                        MapStatusUpdate msu = MapStatusUpdateFactory.newLatLng(mainFragment.latLng);
                         mainFragment.mBaiduMap.setMapStatus(msu);
                         MapStatus.Builder builder = new MapStatus.Builder();
                         builder.zoom(18.0f).target(mainFragment.latLng);
@@ -90,7 +90,7 @@ public class MyLocation {
                         );
                     }
                 } else {
-                    if(requestLocationTime < MAX_TIME) {
+                    if (requestLocationTime < MAX_TIME) {
                         initLocationOption();//再次请求定位
                         requestLocationTime++;//请求次数+1
                     } else {

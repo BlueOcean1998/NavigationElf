@@ -35,32 +35,11 @@ import static com.example.foxizz.navigation.util.Tools.rotateExpandIcon;
  */
 public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder> {
 
-    public SchemeAdapter(MainFragment mainFragment) {
-        this.mainFragment = mainFragment;
-    }
-
     private MainFragment mainFragment;
     private long clickTime = 0;
 
-    //设置item中的View
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        View view;
-        CardView cardView;
-        TextView simpleInfo;
-        LinearLayout infoDrawer;
-        TextView detailInfo;
-        ImageButton schemeExpand;
-        View endText;
-
-        ViewHolder(View view) {
-            super(view);
-            cardView = view.findViewById(R.id.card_view);
-            simpleInfo = view.findViewById(R.id.simple_info);
-            infoDrawer = view.findViewById(R.id.info_drawer);
-            detailInfo = view.findViewById(R.id.detail_info);
-            schemeExpand = view.findViewById(R.id.scheme_expand);
-            endText = view.findViewById(R.id.end_text);
-        }
+    public SchemeAdapter(MainFragment mainFragment) {
+        this.mainFragment = mainFragment;
     }
 
     //获取item数量
@@ -78,7 +57,7 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
         holder.detailInfo.setText(schemeItem.getDetailInfo());
 
         //根据保存的展开状态设置信息抽屉的高度和旋转角度
-        if(schemeItem.getExpandFlag()) {
+        if (schemeItem.getExpandFlag()) {
             holder.infoDrawer.getLayoutParams().height
                     = holder.detailInfo.getLineHeight() * (holder.detailInfo.getLineCount() + 1);
             holder.schemeExpand.setRotation(180);
@@ -88,7 +67,7 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
         }
 
         //底部显示提示信息
-        if(position == mainFragment.schemeList.size() - 1)
+        if (position == mainFragment.schemeList.size() - 1)
             holder.endText.setVisibility(View.VISIBLE);
         else
             holder.endText.setVisibility(View.GONE);
@@ -107,7 +86,7 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View view) {
-                if(unableToClick()) return;
+                if (unableToClick()) return;
 
                 int position = holder.getAdapterPosition();
                 SchemeItem schemeItem = mainFragment.schemeList.get(position);
@@ -154,7 +133,7 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
                  *
                  */
                 //获取所有站点信息
-                for(List<MassTransitRouteLine.TransitStep> transitSteps:
+                for (List<MassTransitRouteLine.TransitStep> transitSteps :
                         schemeItem.getRouteLine().getNewSteps()) {
                     for (MassTransitRouteLine.TransitStep transitStep : transitSteps) {
                         //将获取到的站点信息临时保存
@@ -191,7 +170,7 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
                 int position = holder.getAdapterPosition();
                 SchemeItem schemeItem = mainFragment.schemeList.get(position);
 
-                if(schemeItem.getExpandFlag()) {
+                if (schemeItem.getExpandFlag()) {
                     expandLayout(holder.infoDrawer, holder.detailInfo, false,
                             mainFragment.schemeResult, position);
                     rotateExpandIcon(holder.schemeExpand, 180, 0);//旋转伸展按钮
@@ -210,10 +189,31 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
 
     //不允许同时点击多个item
     private boolean unableToClick() {
-        if((System.currentTimeMillis() - clickTime) > 1000) {
+        if ((System.currentTimeMillis() - clickTime) > 1000) {
             clickTime = System.currentTimeMillis();
             return false;
         } else return true;
+    }
+
+    //设置item中的View
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        View view;
+        CardView cardView;
+        TextView simpleInfo;
+        LinearLayout infoDrawer;
+        TextView detailInfo;
+        ImageButton schemeExpand;
+        View endText;
+
+        ViewHolder(View view) {
+            super(view);
+            cardView = view.findViewById(R.id.card_view);
+            simpleInfo = view.findViewById(R.id.simple_info);
+            infoDrawer = view.findViewById(R.id.info_drawer);
+            detailInfo = view.findViewById(R.id.detail_info);
+            schemeExpand = view.findViewById(R.id.scheme_expand);
+            endText = view.findViewById(R.id.end_text);
+        }
     }
 
 }

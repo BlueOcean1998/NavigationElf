@@ -26,8 +26,7 @@ public class IndoorPoiOverlay extends OverlayManager {
     /**
      * 构造函数
      *
-     * @param baiduMap
-     *            该 IndoorPoiOverlay 引用的 BaiduMap 对象
+     * @param baiduMap 该 IndoorPoiOverlay 引用的 BaiduMap 对象
      */
     public IndoorPoiOverlay(BaiduMap baiduMap) {
         super(baiduMap);
@@ -36,8 +35,7 @@ public class IndoorPoiOverlay extends OverlayManager {
     /**
      * 设置IndoorPoi数据
      *
-     * @param indoorpoiResult
-     *            设置indoorpoiResult数据
+     * @param indoorpoiResult 设置indoorpoiResult数据
      */
     public void setData(PoiIndoorResult indoorpoiResult) {
         this.mIndoorPoiResult = indoorpoiResult;
@@ -69,7 +67,6 @@ public class IndoorPoiOverlay extends OverlayManager {
 
     /**
      * 获取该 IndoorPoiOverlay 的 indoorpoi数据
-     *
      */
     public PoiIndoorResult getIndoorPoiResult() {
         return mIndoorPoiResult;
@@ -78,9 +75,8 @@ public class IndoorPoiOverlay extends OverlayManager {
     /**
      * 覆写此方法以改变默认点击行为
      *
-     * @param i
-     *            被点击的poi在
-     *            {@link com.baidu.mapapi.search.poi.PoiIndoorResult#getmArrayPoiInfo()} } 中的索引
+     * @param i 被点击的poi在
+     *          {@link com.baidu.mapapi.search.poi.PoiIndoorResult#getmArrayPoiInfo()} } 中的索引
      */
     public boolean onPoiClick(int i) {
         return false;

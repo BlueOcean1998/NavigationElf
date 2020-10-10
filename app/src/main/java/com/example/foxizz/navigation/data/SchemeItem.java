@@ -8,19 +8,21 @@ import com.baidu.mapapi.search.route.MassTransitRouteLine;
  * 路线规划信息类
  */
 public class SchemeItem {
+
     private MassTransitRouteLine routeLine;//路线
     private String allStationInfo;//所有站点信息
     private String simpleInfo;//简要信息
     private String detailInfo;//详细信息
     private Boolean expandFlag;//伸展状态
 
-    public SchemeItem(MassTransitRouteLine routeLine, String allStationInfo,String simpleInfo, String detailInfo) {
+    public SchemeItem(MassTransitRouteLine routeLine, String allStationInfo, String simpleInfo, String detailInfo) {
         this.routeLine = routeLine;
         this.allStationInfo = allStationInfo;
         this.simpleInfo = simpleInfo;
         this.detailInfo = detailInfo;
         expandFlag = false;
     }
+
     public SchemeItem() {
         super();
         expandFlag = false;
@@ -29,6 +31,7 @@ public class SchemeItem {
     public MassTransitRouteLine getRouteLine() {
         return routeLine;
     }
+
     public void setRouteLine(MassTransitRouteLine routeLine) {
         this.routeLine = routeLine;
     }
@@ -36,6 +39,7 @@ public class SchemeItem {
     public String getAllStationInfo() {
         return allStationInfo;
     }
+
     public void setAllStationInfo(String allStationInfo) {
         this.allStationInfo = allStationInfo;
     }
@@ -43,6 +47,7 @@ public class SchemeItem {
     public String getSimpleInfo() {
         return simpleInfo;
     }
+
     public void setSimpleInfo(String simpleInfo) {
         this.simpleInfo = simpleInfo;
     }
@@ -50,6 +55,7 @@ public class SchemeItem {
     public String getDetailInfo() {
         return detailInfo;
     }
+
     public void setDetailInfo(String detailInfo) {
         this.detailInfo = detailInfo;
     }
@@ -57,6 +63,7 @@ public class SchemeItem {
     public Boolean getExpandFlag() {
         return expandFlag;
     }
+
     public void setExpandFlag(Boolean expandFlag) {
         this.expandFlag = expandFlag;
     }

@@ -36,6 +36,24 @@ public class DNaviGuideActivity extends Activity {
     private IBNRouteGuideManager mRouteGuideManager;
 
     private IBNaviListener.DayNightMode mMode = IBNaviListener.DayNightMode.DAY;
+    private IBNRouteGuideManager.OnNavigationListener mOnNavigationListener =
+            new IBNRouteGuideManager.OnNavigationListener() {
+
+                @Override
+                public void onNaviGuideEnd() {
+                    // 退出导航
+                    finish();
+                }
+
+                @Override
+                public void notifyOtherAction(int actionType, int arg1, int arg2, Object obj) {
+                    if (actionType == 0) {
+                        // 导航到达目的地 自动退出
+                        Log.i(TAG, "notifyOtherAction actionType = " + actionType + ",导航到达目的地！");
+                        mRouteGuideManager.forceQuitNaviWithoutDialog();
+                    }
+                }
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,25 +168,6 @@ public class DNaviGuideActivity extends Activity {
         }
         return true;
     }
-
-    private IBNRouteGuideManager.OnNavigationListener mOnNavigationListener =
-            new IBNRouteGuideManager.OnNavigationListener() {
-
-                @Override
-                public void onNaviGuideEnd() {
-                    // 退出导航
-                    finish();
-                }
-
-                @Override
-                public void notifyOtherAction(int actionType, int arg1, int arg2, Object obj) {
-                    if (actionType == 0) {
-                        // 导航到达目的地 自动退出
-                        Log.i(TAG, "notifyOtherAction actionType = " + actionType + ",导航到达目的地！");
-                        mRouteGuideManager.forceQuitNaviWithoutDialog();
-                    }
-                }
-            };
 
     private boolean supportFullScreen() {
         if (Build.VERSION.SDK_INT >= 21) {

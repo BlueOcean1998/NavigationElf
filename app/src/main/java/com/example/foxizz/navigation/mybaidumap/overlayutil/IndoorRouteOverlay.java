@@ -22,18 +22,17 @@ import java.util.List;
 
 public class IndoorRouteOverlay extends OverlayManager {
 
-    private IndoorRouteLine mRouteLine;
     int[] colorInfo;
+    private IndoorRouteLine mRouteLine;
 
     /**
      * 构造函数
      *
-     * @param baiduMap
-     *            该TransitRouteOverlay引用的 BaiduMap 对象
+     * @param baiduMap 该TransitRouteOverlay引用的 BaiduMap 对象
      */
     public IndoorRouteOverlay(BaiduMap baiduMap) {
         super(baiduMap);
-        colorInfo = new int[]{ Color.argb(178, 0, 78, 255), Color.argb(178, 88, 208, 0), Color.argb(178, 88, 78,
+        colorInfo = new int[]{Color.argb(178, 0, 78, 255), Color.argb(178, 88, 208, 0), Color.argb(178, 88, 78,
                 255)};
     }
 
@@ -41,8 +40,7 @@ public class IndoorRouteOverlay extends OverlayManager {
     /**
      * 设置路线数据
      *
-     * @param routeOverlay
-     *            路线数据
+     * @param routeOverlay 路线数据
      */
     public void setData(IndoorRouteLine routeOverlay) {
         this.mRouteLine = routeOverlay;
@@ -69,6 +67,7 @@ public class IndoorRouteOverlay extends OverlayManager {
     public int getLineColor() {
         return 0;
     }
+
     @Override
     public List<OverlayOptions> getOverlayOptions() {
         if (mRouteLine == null) {

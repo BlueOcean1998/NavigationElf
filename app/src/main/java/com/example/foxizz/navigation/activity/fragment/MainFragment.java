@@ -1,6 +1,7 @@
 package com.example.foxizz.navigation.activity.fragment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -52,19 +53,19 @@ import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.baidu.tts.client.SpeechSynthesizer;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.SettingsActivity;
+import com.example.foxizz.navigation.activity.adapter.SchemeAdapter;
+import com.example.foxizz.navigation.activity.adapter.SearchAdapter;
 import com.example.foxizz.navigation.broadcastreceiver.SettingsConstants;
 import com.example.foxizz.navigation.broadcastreceiver.SettingsReceiver;
-import com.example.foxizz.navigation.data.SearchDataHelper;
-import com.example.foxizz.navigation.util.Tools;
-import com.example.foxizz.navigation.activity.adapter.SchemeAdapter;
 import com.example.foxizz.navigation.data.SchemeItem;
-import com.example.foxizz.navigation.activity.adapter.SearchAdapter;
+import com.example.foxizz.navigation.data.SearchDataHelper;
 import com.example.foxizz.navigation.data.SearchItem;
 import com.example.foxizz.navigation.mybaidumap.MyLocation;
 import com.example.foxizz.navigation.mybaidumap.MyNavigateHelper;
-import com.example.foxizz.navigation.util.MyOrientationListener;
 import com.example.foxizz.navigation.mybaidumap.MyPoiSearch;
 import com.example.foxizz.navigation.mybaidumap.MyRoutePlanSearch;
+import com.example.foxizz.navigation.util.MyOrientationListener;
+import com.example.foxizz.navigation.util.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,25 +82,24 @@ import static com.example.foxizz.navigation.util.Tools.rotateExpandIcon;
  */
 public class MainFragment extends Fragment {
 
+    //MainFragment实例
+    @SuppressLint("StaticFieldLeak")
+    private static MainFragment instance;
+    public static MainFragment getInstance() {
+        return instance;
+    }
+
     //地图控件
     public MapView mMapView;
     public BaiduMap mBaiduMap;
     public UiSettings mUiSettings;
 
-
-    //设置相关
-    private SettingsReceiver settingsReceiver;//设置接收器
-    private LocalBroadcastManager localBroadcastManager;//本地广播管理器
-
-
     //方向传感器
     public MyOrientationListener myOrientationListener;
     public float mLastX;//方向角度
 
-
     //定位相关
     public MyLocation myLocation;
-
     public LocationClient mLocationClient;
     public MyLocationData locData;//地址信息
     public LatLng latLng;//坐标
@@ -109,30 +109,24 @@ public class MainFragment extends Fragment {
     public double mLongitude;//经度
     public String mCity;//所在城市
 
-
     //搜索相关
     public MyPoiSearch myPoiSearch;
-
     public PoiSearch mPoiSearch;
-
     public LinearLayout searchLayout;//搜索布局
     public EditText searchEdit;//搜索输入框
     public ImageButton emptyButton;//清空按钮
     public Button searchButton;//搜索按钮
     public ImageButton searchExpand;//搜索结果伸缩按钮
-
     public String searchContent = "";//搜索内容
     public boolean searchExpandFlag = false;//搜索伸缩状态
     public int bodyLength;//屏幕的长
     public int bodyShort;//屏幕的宽
-
     public LinearLayout searchDrawer;//搜索抽屉
     public LinearLayout searchLoading;//搜索加载
     public RecyclerView searchResult;//搜索结果
     public List<SearchItem> searchList = new ArrayList<>();//搜索列表
     public StaggeredGridLayoutManager searchLayoutManager;//搜索布局管理器
     public SearchAdapter searchAdapter;//搜索适配器
-
     public LinearLayout infoLayout;//详细信息布局
     public LinearLayout infoLoading;//信息加载
     public ScrollView searchInfoScroll;//详细信息布局的拖动条
@@ -140,30 +134,23 @@ public class MainFragment extends Fragment {
     public TextView infoAddress;//目标地址
     public TextView infoDistance;//与目标的距离
     public TextView infoOthers;//目标的其它信息（联系方式，营业时间等）
-
     public boolean isHistorySearchResult = true;//是否是搜索历史记录
 
-
     //路线规划相关
+    public final static int DRIVING = 0;//驾车
+    public final static int WALKING = 1;//步行
+    public final static int BIKING = 2;//骑行
+    public final static int TRANSIT = 3;//公交
     public MyRoutePlanSearch myRoutePlanSearch;
-
     public RoutePlanSearch mSearch;
-
     public LinearLayout selectLayout;//选择布局
     public Button selectButton1;//选择驾车
     public Button selectButton2;//选择步行
     public Button selectButton3;//选择骑行
     public Button selectButton4;//选择公交
-
-    public final static int DRIVING = 0;//驾车
-    public final static int WALKING = 1;//步行
-    public final static int BIKING = 2;//骑行
-    public final static int TRANSIT = 3;//公交
     public int routePlanSelect = WALKING;//默认为步行
-
     public List<LatLng> busStationLocations = new ArrayList<>();//公交导航所有站点的坐标
     public LatLng endLocation;//终点
-
     public LinearLayout schemeLayout;//方案布局
     public ImageButton schemeReturnButton;//返回按钮
     public LinearLayout schemeDrawer;//方案抽屉
@@ -175,38 +162,33 @@ public class MainFragment extends Fragment {
 
     //方案信息的展开状态，0：未展开，1：只有列表展开，2：只有单个信息展开
     public int schemeInfoFlag = 0;
-
     public List<SchemeItem> schemeList = new ArrayList<>();//方案列表
     public StaggeredGridLayoutManager schemeLayoutManager;//方案布局管理器
     public SchemeAdapter schemeAdapter;//方案适配器
 
-
     //导航相关
     public MyNavigateHelper myNavigateHelper;
-
     public LinearLayout startLayout;//开始导航布局
     public Button backButton;//返回按钮
     public Button infoButton;//路线规划、详细信息切换按钮
     public Button startButton;//开始导航按钮
-
     public boolean infoFlag;//信息显示状态
-
 
     //控制相关
     public InputMethodManager imm;//键盘
 
+    //设置相关
+    private SettingsReceiver settingsReceiver;//设置接收器
+    private LocalBroadcastManager localBroadcastManager;//本地广播管理器
     private ImageButton settings;//设置
     private ImageButton refresh;//刷新
     private ImageButton location;//定位
-
     private long clickTime = 0;//防止连续点击按钮
-
 
     //数据相关
     private SharedPreferences sharedPreferences1;
     private SharedPreferences sharedPreferences2;
     public SearchDataHelper searchDataHelper;
-
 
     @Nullable
     @Override
@@ -215,9 +197,12 @@ public class MainFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
+        instance = this;//获取MainFragment实例
+
         //获取偏好设置
         sharedPreferences1 = PreferenceManager.getDefaultSharedPreferences(requireContext());
         sharedPreferences2 = requireContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
+
         //获取搜索数据帮助对象
         searchDataHelper = new SearchDataHelper();
 
@@ -273,26 +258,27 @@ public class MainFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
 
-        //释放设置接收器实例
-        localBroadcastManager.unregisterReceiver(settingsReceiver);
+        localBroadcastManager.unregisterReceiver(settingsReceiver);//释放设置接收器实例
 
-        //开启定位的允许
-        mBaiduMap.setMyLocationEnabled(false);
-        //停止方向传感
-        myOrientationListener.stop();
+        mBaiduMap.setMyLocationEnabled(false);//开启定位的允许
+
+        myOrientationListener.stop();//停止方向传感
+
         //停止定位服务
-        if(mLocationClient != null && mLocationClient.isStarted()) {
+        if (mLocationClient != null && mLocationClient.isStarted()) {
             mLocationClient.stop();
         }
+
         //释放地图、POI检索、路线规划实例
         mMapView.onDestroy();
         mPoiSearch.destroy();
         mSearch.destroy();
-        //释放语音合成实例
-        SpeechSynthesizer.getInstance().release();
 
-        //关闭数据库
-        searchDataHelper.close();
+        SpeechSynthesizer.getInstance().release();//释放语音合成实例
+
+        searchDataHelper.close();//关闭数据库
+
+        instance = null;//释放MainFragment实例
     }
 
     //初始化地图控件
@@ -343,21 +329,21 @@ public class MainFragment extends Fragment {
      * 设置地图类型
      */
     public void setMapType() {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            switch(Objects.requireNonNull(sharedPreferences2.getString("map_type",
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            switch (Objects.requireNonNull(sharedPreferences2.getString("map_type",
                     SettingsConstants.STANDARD_MAP))) {
                 case SettingsConstants.STANDARD_MAP://标准地图
-                    if(mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_NORMAL)
+                    if (mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_NORMAL)
                         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
                     mBaiduMap.setTrafficEnabled(false);
                     break;
                 case SettingsConstants.SATELLITE_MAP://卫星地图
-                    if(mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_SATELLITE)
+                    if (mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_SATELLITE)
                         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
                     mBaiduMap.setTrafficEnabled(false);
                     break;
                 case SettingsConstants.TRAFFIC_MAP://交通地图
-                    if(mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_NORMAL)
+                    if (mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_NORMAL)
                         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
                     mBaiduMap.setTrafficEnabled(true);
                     break;
@@ -371,7 +357,7 @@ public class MainFragment extends Fragment {
      * 设置是否启用3D视角
      */
     public void setAngle3D() {
-        if(sharedPreferences1.getBoolean("angle_3d", false))
+        if (sharedPreferences1.getBoolean("angle_3d", false))
             mUiSettings.setOverlookingGesturesEnabled(true);//启用3D视角
         else mUiSettings.setOverlookingGesturesEnabled(false);//禁用3D视角
     }
@@ -380,7 +366,7 @@ public class MainFragment extends Fragment {
      * 设置是否允许地图旋转
      */
     public void setMapRotation() {
-        if(sharedPreferences1.getBoolean("map_rotation", false))
+        if (sharedPreferences1.getBoolean("map_rotation", false))
             mUiSettings.setRotateGesturesEnabled(true);//启用地图旋转
         else mUiSettings.setRotateGesturesEnabled(false);//禁用地图旋转
     }
@@ -389,7 +375,7 @@ public class MainFragment extends Fragment {
      * 设置是否显示比例尺
      */
     public void setScaleControl() {
-        if(sharedPreferences1.getBoolean("scale_control", false))
+        if (sharedPreferences1.getBoolean("scale_control", false))
             mMapView.showScaleControl(true);//显示比例尺
         else mMapView.showScaleControl(false);//不显示比例尺
     }
@@ -398,7 +384,7 @@ public class MainFragment extends Fragment {
      * 设置是否显示缩放按钮
      */
     public void setZoomControls() {
-        if(sharedPreferences1.getBoolean("zoom_controls", false))
+        if (sharedPreferences1.getBoolean("zoom_controls", false))
             mMapView.showZoomControls(true);//显示缩放按钮
         else mMapView.showZoomControls(false);//不显示缩放按钮
     }
@@ -407,7 +393,7 @@ public class MainFragment extends Fragment {
      * 设置是否显示指南针
      */
     public void setCompass() {
-        if(sharedPreferences1.getBoolean("compass", true))
+        if (sharedPreferences1.getBoolean("compass", true))
             mUiSettings.setCompassEnabled(true);//显示指南针
         else mUiSettings.setCompassEnabled(false);//不显示指南针
     }
@@ -504,7 +490,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), SettingsActivity.class);
-                if(mCity != null) intent.putExtra("mCity", mCity);
+                if (mCity != null) intent.putExtra("mCity", mCity);
                 startActivity(intent);
             }
         });
@@ -607,9 +593,9 @@ public class MainFragment extends Fragment {
         searchEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus) {
+                if (hasFocus) {
                     //如果状态为收起且有搜索数据
-                    if(!searchExpandFlag && searchDataHelper.isHasSearchData()) {
+                    if (!searchExpandFlag && searchDataHelper.isHasSearchData()) {
                         expandSearchDrawer(true);//展开搜索抽屉
                         searchExpandFlag = true;//设置状态为展开
                     }
@@ -632,7 +618,7 @@ public class MainFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 //根据是否有内容判断显示和隐藏清空按钮
-                if(!searchEdit.getText().toString().isEmpty()) {
+                if (!searchEdit.getText().toString().isEmpty()) {
                     emptyButton.setVisibility(View.VISIBLE);
                 } else {
                     emptyButton.setVisibility(View.INVISIBLE);
@@ -647,7 +633,7 @@ public class MainFragment extends Fragment {
                 emptyButton.setVisibility(View.INVISIBLE);//隐藏清空按钮
                 searchEdit.setText("");//清空搜索内容
 
-                if(!isHistorySearchResult) {//如果不是搜索历史记录
+                if (!isHistorySearchResult) {//如果不是搜索历史记录
                     searchResult.stopScroll();//停止信息列表滑动
                     searchDataHelper.initSearchData(MainFragment.this);//初始化搜索记录
                     isHistorySearchResult = true;//现在是搜索历史记录了
@@ -667,7 +653,7 @@ public class MainFragment extends Fragment {
         searchExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(searchExpandFlag) {//如果状态为展开
+                if (searchExpandFlag) {//如果状态为展开
                     expandSearchDrawer(false);//收起搜索抽屉
                     searchExpandFlag = false;//设置状态为收起
                 } else {//如果是收起状态
@@ -689,7 +675,7 @@ public class MainFragment extends Fragment {
         infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(schemeInfoFlag != 0) {//如果方案布局已经展开
+                if (schemeInfoFlag != 0) {//如果方案布局已经展开
                     expandLayout(selectLayout, true);//展开选择布局
                     expandLayout(schemeLayout, false);//收起方案布局
 
@@ -699,7 +685,7 @@ public class MainFragment extends Fragment {
                     return;
                 }
 
-                if(infoFlag) {//如果显示为详细信息
+                if (infoFlag) {//如果显示为详细信息
                     expandLayout(selectLayout, true);//展开选择布局
                     expandLayout(infoLayout, false);//收起详细信息布局
 
@@ -764,8 +750,8 @@ public class MainFragment extends Fragment {
 
         List<String> permissionList = new ArrayList<>();
 
-        for(String permission: permissions) {
-            if(ContextCompat.checkSelfPermission(requireContext(), permission)
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(requireContext(), permission)
                     != PackageManager.PERMISSION_GRANTED)
                 permissionList.add(permission);
         }
@@ -773,7 +759,7 @@ public class MainFragment extends Fragment {
         String[] tmpList = new String[permissionList.size()];
 
         //如果列表为空，则获取了全部权限不用再获取，否则要获取
-        if(permissionList.isEmpty()) {
+        if (permissionList.isEmpty()) {
             myLocation.refreshSearchList = true;//刷新搜索列表
             myLocation.initLocationOption();//初始化定位
         } else {
@@ -794,10 +780,10 @@ public class MainFragment extends Fragment {
 
         Configuration configuration = this.getResources().getConfiguration();//获取设置的配置信息
         int ori = configuration.orientation;//获取屏幕方向
-        if(ori == Configuration.ORIENTATION_LANDSCAPE) {//横屏时
+        if (ori == Configuration.ORIENTATION_LANDSCAPE) {//横屏时
             bodyLength = point.x;
             bodyShort = point.y;
-        } else if(ori == Configuration.ORIENTATION_PORTRAIT) {//竖屏时
+        } else if (ori == Configuration.ORIENTATION_PORTRAIT) {//竖屏时
             bodyLength = point.y;
             bodyShort = point.x;
         }
@@ -811,11 +797,12 @@ public class MainFragment extends Fragment {
 
     /**
      * 伸缩搜索抽屉
+     *
      * @param flag 伸或缩
      */
     public void expandSearchDrawer(boolean flag) {
         expandLayout(searchDrawer, flag);
-        if(flag) rotateExpandIcon(searchExpand, 0, 180);//旋转伸展按钮
+        if (flag) rotateExpandIcon(searchExpand, 0, 180);//旋转伸展按钮
         else rotateExpandIcon(searchExpand, 180, 0);//旋转伸展按钮
     }
 
@@ -823,7 +810,7 @@ public class MainFragment extends Fragment {
      * 收回键盘
      */
     public void takeBackKeyboard() {
-        if(imm != null) imm.hideSoftInputFromWindow(
+        if (imm != null) imm.hideSoftInputFromWindow(
                 requireActivity().getWindow().getDecorView().getWindowToken(), 0
         );
     }
@@ -832,7 +819,7 @@ public class MainFragment extends Fragment {
      * 返回上一层
      */
     public void backToUpperStory() {
-        if(schemeInfoFlag == 2) {//如果方案布局为单个方案
+        if (schemeInfoFlag == 2) {//如果方案布局为单个方案
             expandLayout(schemeDrawer, true);//展开方案抽屉
             expandLayout(schemeInfoDrawer, false);//收起方案信息抽屉
             expandLayout(startLayout, false);//收起开始导航布局
@@ -845,14 +832,14 @@ public class MainFragment extends Fragment {
         } else {
             expandLayout(selectLayout, false);//收起选择布局
             expandLayout(searchLayout, true);//展开搜索布局
-            if(!searchExpandFlag) {//如果状态为收起
+            if (!searchExpandFlag) {//如果状态为收起
                 expandSearchDrawer(true);//展开搜索抽屉
                 searchExpandFlag = true;//设置状态为展开
             }
             expandLayout(infoLayout, false);//收起详细信息布局
             expandLayout(startLayout, false);//收起开始导航布局
 
-            if(schemeInfoFlag == 1) {//如果方案布局为方案列表
+            if (schemeInfoFlag == 1) {//如果方案布局为方案列表
                 expandLayout(schemeLayout, false);//收起方案布局
                 schemeInfoFlag = 0;//设置状态为没有展开
             }
@@ -873,24 +860,24 @@ public class MainFragment extends Fragment {
      * 开始POI搜索
      */
     public void startPoiSearch() {
-        if((System.currentTimeMillis() - clickTime) > 1000) //连续点击间隔时间不能小于1秒
+        if ((System.currentTimeMillis() - clickTime) > 1000) //连续点击间隔时间不能小于1秒
             clickTime = System.currentTimeMillis();
         else return;
 
-        if(!isNetworkConnected()) {//没有网络连接
+        if (!isNetworkConnected()) {//没有网络连接
             Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(isAirplaneModeOn()) {//没有关飞行模式
+        if (isAirplaneModeOn()) {//没有关飞行模式
             Toast.makeText(getContext(), R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
             return;
         }
 
         searchContent = searchEdit.getText().toString();
 
-        if(searchContent.isEmpty()) {//如果搜索内容为空
-            if(!isHistorySearchResult) {//如果不是搜索历史记录
+        if (searchContent.isEmpty()) {//如果搜索内容为空
+            if (!isHistorySearchResult) {//如果不是搜索历史记录
                 searchResult.stopScroll();//停止信息列表滑动
                 searchDataHelper.initSearchData(this);//初始化搜索记录
                 isHistorySearchResult = true;//现在是搜索历史记录了
@@ -898,7 +885,7 @@ public class MainFragment extends Fragment {
             return;
         }
 
-        if(!searchExpandFlag) {//展开搜索抽屉
+        if (!searchExpandFlag) {//展开搜索抽屉
             expandSearchDrawer(true);//展开搜索抽屉
             searchExpandFlag = true;//设置状态为展开
         }
@@ -908,13 +895,13 @@ public class MainFragment extends Fragment {
         String searchCity = null;//进行搜索的城市
 
         //定位成功后才可以进行搜索
-        if(mCity != null) searchCity = mCity;
+        if (mCity != null) searchCity = mCity;
 
         //如果存储的城市不为空，则换用存储的城市
-        String saveCity =  sharedPreferences2.getString("destination_city", null);
-        if(!TextUtils.isEmpty(saveCity)) searchCity = saveCity;
+        String saveCity = sharedPreferences2.getString("destination_city", null);
+        if (!TextUtils.isEmpty(saveCity)) searchCity = saveCity;
 
-        if(searchCity == null) {
+        if (searchCity == null) {
             requestPermission();//申请权限，获得权限后定位
             return;
         }
@@ -929,7 +916,7 @@ public class MainFragment extends Fragment {
         searchLoading.setVisibility(View.VISIBLE);
         searchResult.setVisibility(View.GONE);
 
-        if(sharedPreferences1.getBoolean("search_around", false))
+        if (sharedPreferences1.getBoolean("search_around", false))
             myPoiSearch.poiSearchType = MyPoiSearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
         else myPoiSearch.poiSearchType = MyPoiSearch.CITY_SEARCH;//设置搜索类型为城市内搜索
 

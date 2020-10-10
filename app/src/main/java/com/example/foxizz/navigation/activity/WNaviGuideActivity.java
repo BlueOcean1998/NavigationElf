@@ -3,16 +3,6 @@
  */
 package com.example.foxizz.navigation.activity;
 
-import com.baidu.mapapi.walknavi.WalkNavigateHelper;
-import com.baidu.mapapi.walknavi.adapter.IWNaviStatusListener;
-import com.baidu.mapapi.walknavi.adapter.IWRouteGuidanceListener;
-import com.baidu.mapapi.walknavi.adapter.IWTTSPlayer;
-import com.baidu.mapapi.walknavi.model.RouteGuideKind;
-import com.baidu.platform.comapi.walknavi.WalkNaviModeSwitchListener;
-import com.baidu.platform.comapi.walknavi.widget.ArCameraView;
-import com.baidu.tts.client.SpeechSynthesizer;
-import com.example.foxizz.navigation.util.Tools;
-
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -23,6 +13,16 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+
+import com.baidu.mapapi.walknavi.WalkNavigateHelper;
+import com.baidu.mapapi.walknavi.adapter.IWNaviStatusListener;
+import com.baidu.mapapi.walknavi.adapter.IWRouteGuidanceListener;
+import com.baidu.mapapi.walknavi.adapter.IWTTSPlayer;
+import com.baidu.mapapi.walknavi.model.RouteGuideKind;
+import com.baidu.platform.comapi.walknavi.WalkNaviModeSwitchListener;
+import com.baidu.platform.comapi.walknavi.widget.ArCameraView;
+import com.baidu.tts.client.SpeechSynthesizer;
+import com.example.foxizz.navigation.util.Tools;
 
 import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
 

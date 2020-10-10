@@ -16,6 +16,18 @@ public class BaseActivity extends AppCompatActivity {
 
     private static List<Activity> activities = new ArrayList<>();
 
+    /**
+     * 退出程序
+     */
+    public static void finishAll() {
+        for (Activity activity : activities) {
+            if (!activity.isFinishing()) {
+                activity.finish();
+            }
+        }
+        activities.clear();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,18 +38,6 @@ public class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         activities.remove(this);
-    }
-
-    /**
-     * 退出程序
-     */
-    public static void finishAll() {
-        for(Activity activity: activities) {
-            if(!activity.isFinishing()) {
-                activity.finish();
-            }
-        }
-        activities.clear();
     }
 
 }

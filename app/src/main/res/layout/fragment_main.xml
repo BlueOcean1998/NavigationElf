@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_main"
     android:layout_width="match_parent"
@@ -14,150 +13,152 @@
         android:focusable="true" />
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="6dp"
         android:layout_gravity="top|end"
-        android:background="@null">
+        android:layout_margin="6dp"
+        android:background="@null"
+        android:orientation="vertical">
+
         <ImageButton
             android:id="@+id/settings_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="6dp"
             android:layout_gravity="center"
+            android:layout_margin="6dp"
             android:background="@drawable/button_background_alpha"
-            android:src="@drawable/ic_settings_gray_30dp"
-            android:contentDescription="@string/settings" />
+            android:contentDescription="@string/settings"
+            android:src="@drawable/ic_settings_gray_30dp" />
 
         <ImageButton
             android:id="@+id/refresh_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="6dp"
             android:layout_gravity="center"
+            android:layout_margin="6dp"
             android:background="@drawable/button_background_alpha"
-            android:src="@drawable/ic_refresh_gray_30dp"
-            android:contentDescription="@string/refresh" />
+            android:contentDescription="@string/refresh"
+            android:src="@drawable/ic_refresh_gray_30dp" />
 
         <ImageButton
             android:id="@+id/location_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="6dp"
             android:layout_gravity="center"
+            android:layout_margin="6dp"
             android:background="@drawable/button_background_alpha"
-            android:src="@drawable/ic_my_location_gray_30dp"
-            android:contentDescription="@string/location" />
+            android:contentDescription="@string/location"
+            android:src="@drawable/ic_my_location_gray_30dp" />
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@null"
         android:layout_gravity="bottom"
+        android:background="@null"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        android:orientation="vertical">
+
         <LinearLayout
             android:id="@+id/select_layout"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/layout_background_gray"
+            android:orientation="horizontal"
             android:paddingLeft="6dp"
-            android:paddingRight="6dp"
-            android:background="@drawable/layout_background_gray">
+            android:paddingRight="6dp">
 
             <Button
                 android:id="@+id/select_button1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_margin="6dp"
                 android:layout_gravity="center"
+                android:layout_margin="6dp"
+                android:layout_weight="1"
                 android:background="@null"
-                android:textSize="16sp"
-                android:textColor="@color/white"
                 android:text="@string/select_button1"
+                android:textColor="@color/white"
+                android:textSize="16sp"
                 tools:ignore="ButtonStyle" />
 
             <Button
                 android:id="@+id/select_button2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_margin="6dp"
                 android:layout_gravity="center"
+                android:layout_margin="6dp"
+                android:layout_weight="1"
                 android:background="@null"
-                android:textSize="16sp"
-                android:textColor="@color/white"
                 android:text="@string/select_button2"
+                android:textColor="@color/white"
+                android:textSize="16sp"
                 tools:ignore="ButtonStyle" />
 
             <Button
                 android:id="@+id/select_button3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_margin="6dp"
                 android:layout_gravity="center"
+                android:layout_margin="6dp"
+                android:layout_weight="1"
                 android:background="@null"
-                android:textSize="16sp"
-                android:textColor="@color/white"
                 android:text="@string/select_button3"
+                android:textColor="@color/white"
+                android:textSize="16sp"
                 tools:ignore="ButtonStyle" />
 
             <Button
                 android:id="@+id/select_button4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_margin="6dp"
                 android:layout_gravity="center"
+                android:layout_margin="6dp"
+                android:layout_weight="1"
                 android:background="@null"
-                android:textSize="16sp"
-                android:textColor="@color/white"
                 android:text="@string/select_button4"
+                android:textColor="@color/white"
+                android:textSize="16sp"
                 tools:ignore="ButtonStyle" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/search_layout"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/layout_background_white">
+            android:background="@drawable/layout_background_white"
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/search_edit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="9"
                 android:layout_margin="6dp"
-                android:padding="9dp"
-                android:paddingRight="42dp"
-                android:paddingEnd="42dp"
+                android:layout_weight="9"
                 android:background="@drawable/edit_background"
+                android:hint="@string/search_hint"
+                android:importantForAutofill="no"
+                android:inputType="none"
+                android:maxLength="42"
+                android:padding="9dp"
+                android:paddingEnd="42dp"
+                android:paddingRight="42dp"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray"
                 android:textSize="16sp"
-                android:hint="@string/search_hint"
-                android:singleLine="true"
-                android:maxLength="42"
-                android:importantForAutofill="no"
-                android:inputType="none"
                 tools:ignore="RtlSymmetry" />
 
             <ImageButton
                 android:id="@+id/empty_bottom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="-42dp"
                 android:layout_gravity="center"
+                android:layout_marginLeft="-42dp"
                 android:background="@null"
-                android:src="@drawable/ic_baseline_cancel_gray_30dp"
                 android:contentDescription="@string/expand"
+                android:src="@drawable/ic_cancel_gray_30dp"
                 android:visibility="invisible"
                 tools:ignore="RtlHardcoded" />
 
@@ -165,25 +166,25 @@
                 android:id="@+id/search_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
                 android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="3"
                 android:background="@drawable/button_background_colorful"
+                android:text="@string/search_button"
                 android:textColor="@color/black"
-                android:textSize="18sp"
-                android:text="@string/search_button" />
+                android:textSize="18sp" />
 
             <ImageButton
                 android:id="@+id/search_expand"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_marginRight="3dp"
                 android:layout_gravity="center"
+                android:layout_marginRight="3dp"
+                android:layout_weight="2"
                 android:background="@null"
-                android:src="@drawable/ic_expand_less_black_30dp"
                 android:contentDescription="@string/expand"
+                android:src="@drawable/ic_expand_less_black_30dp"
                 tools:ignore="RtlHardcoded" />
         </LinearLayout>
 
@@ -191,8 +192,9 @@
             android:id="@+id/search_drawer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:padding="6dp"
-            android:background="@drawable/layout_background_white">
+            android:background="@drawable/layout_background_white"
+            android:padding="6dp">
+
             <include
                 android:id="@+id/search_loading"
                 layout="@layout/loading" />
@@ -207,8 +209,9 @@
             android:id="@+id/info_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="6dp"
-            android:background="@drawable/layout_background_lightgray">
+            android:background="@drawable/layout_background_lightgray"
+            android:padding="6dp">
+
             <include
                 android:id="@+id/info_loading"
                 layout="@layout/loading" />
@@ -218,21 +221,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:ignore="UselessParent">
+
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
                     <TextView
                         android:id="@+id/info_target_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
                         android:enabled="true"
-                        android:textIsSelectable="true"
                         android:focusable="true"
                         android:longClickable="true"
-                        android:textColor="@color/black"
                         android:text="@string/target_name"
+                        android:textColor="@color/black"
+                        android:textIsSelectable="true"
                         android:textSize="24sp"
                         android:textStyle="bold" />
 
@@ -242,11 +247,11 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
                         android:enabled="true"
-                        android:textIsSelectable="true"
                         android:focusable="true"
                         android:longClickable="true"
-                        android:textColor="@color/black"
                         android:text="@string/address"
+                        android:textColor="@color/black"
+                        android:textIsSelectable="true"
                         android:textSize="14sp" />
 
                     <TextView
@@ -254,13 +259,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
-                        android:gravity="end"
                         android:enabled="true"
-                        android:textIsSelectable="true"
                         android:focusable="true"
+                        android:gravity="end"
                         android:longClickable="true"
-                        android:textColor="@color/black"
                         android:text="@string/distance"
+                        android:textColor="@color/black"
+                        android:textIsSelectable="true"
                         android:textSize="18sp" />
 
                     <TextView
@@ -269,11 +274,11 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
                         android:enabled="true"
-                        android:textIsSelectable="true"
                         android:focusable="true"
                         android:longClickable="true"
-                        android:textColor="@color/black"
                         android:text="@string/others"
+                        android:textColor="@color/black"
+                        android:textIsSelectable="true"
                         android:textSize="16sp" />
                 </LinearLayout>
             </ScrollView>
@@ -281,25 +286,27 @@
 
         <LinearLayout
             android:id="@+id/scheme_layout"
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="3dp"
-            android:background="@drawable/layout_background_white">
+            android:background="@drawable/layout_background_white"
+            android:orientation="vertical"
+            android:padding="3dp">
+
             <ImageButton
                 android:id="@+id/scheme_return_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@drawable/button_background_skyblue"
-                android:src="@drawable/ic_expand_more_black_30dp"
-                android:contentDescription="@string/expand" />
+                android:contentDescription="@string/expand"
+                android:src="@drawable/ic_expand_more_black_30dp" />
 
             <LinearLayout
                 android:id="@+id/scheme_drawer"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:padding="3dp">
+
                 <include
                     android:id="@+id/scheme_loading"
                     layout="@layout/loading" />
@@ -315,11 +322,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="3dp">
+
                 <ScrollView
                     android:id="@+id/scheme_info_scroll"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     tools:ignore="UselessParent">
+
                     <TextView
                         android:id="@+id/scheme_info"
                         android:layout_width="match_parent"
@@ -348,13 +357,13 @@
                 android:id="@+id/return_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="18dp"
-                android:layout_marginRight="12dp"
                 android:layout_marginStart="18dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginLeft="18dp"
                 android:layout_marginTop="6dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginRight="12dp"
                 android:layout_marginBottom="6dp"
+                android:layout_weight="1"
                 android:background="@drawable/button_background_seablue"
                 android:text="@string/return_button"
                 android:textColor="@color/white"
@@ -365,14 +374,14 @@
                 android:id="@+id/info_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
                 android:layout_marginTop="6dp"
+                android:layout_marginRight="12dp"
                 android:layout_marginBottom="6dp"
+                android:layout_weight="1"
                 android:background="@drawable/button_background_skyblue"
-                android:textColor="@color/white"
                 android:text="@string/info_button1"
+                android:textColor="@color/white"
                 android:textSize="18sp"
                 tools:ignore="ButtonStyle" />
 
@@ -380,16 +389,16 @@
                 android:id="@+id/start_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="18dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginEnd="18dp"
+                android:layout_marginLeft="12dp"
                 android:layout_marginTop="6dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginRight="18dp"
                 android:layout_marginBottom="6dp"
+                android:layout_weight="1"
                 android:background="@drawable/button_background_deepblue"
-                android:textColor="@color/white"
                 android:text="@string/start_button"
+                android:textColor="@color/white"
                 android:textSize="18sp"
                 tools:ignore="ButtonStyle" />
         </LinearLayout>
