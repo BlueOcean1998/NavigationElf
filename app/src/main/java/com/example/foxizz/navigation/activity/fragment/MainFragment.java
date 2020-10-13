@@ -47,7 +47,6 @@ import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.poi.PoiCitySearchOption;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.baidu.tts.client.SpeechSynthesizer;
@@ -71,11 +70,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.example.foxizz.navigation.util.Tools.expandLayout;
-import static com.example.foxizz.navigation.util.Tools.getValueAnimator;
+import static com.example.foxizz.navigation.util.CityUtil.checkoutProvinceName;
+import static com.example.foxizz.navigation.util.CityUtil.getCityList;
+import static com.example.foxizz.navigation.util.LayoutUtil.expandLayout;
+import static com.example.foxizz.navigation.util.LayoutUtil.getValueAnimator;
+import static com.example.foxizz.navigation.util.LayoutUtil.rotateExpandIcon;
 import static com.example.foxizz.navigation.util.Tools.isAirplaneModeOn;
 import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
-import static com.example.foxizz.navigation.util.Tools.rotateExpandIcon;
 
 /**
  * 地图页碎片
@@ -117,6 +118,7 @@ public class MainFragment extends Fragment {
     public ImageButton emptyButton;//清空按钮
     public Button searchButton;//搜索按钮
     public ImageButton searchExpand;//搜索结果伸缩按钮
+    public List<String> searchCityList = new ArrayList<>();//要进行POI搜索的城市
     public String searchContent = "";//搜索内容
     public boolean searchExpandFlag = false;//搜索伸缩状态
     public int bodyLength;//屏幕的长
@@ -357,45 +359,35 @@ public class MainFragment extends Fragment {
      * 设置是否启用3D视角
      */
     public void setAngle3D() {
-        if (sharedPreferences1.getBoolean("angle_3d", false))
-            mUiSettings.setOverlookingGesturesEnabled(true);//启用3D视角
-        else mUiSettings.setOverlookingGesturesEnabled(false);//禁用3D视角
+        mUiSettings.setOverlookingGesturesEnabled(sharedPreferences1.getBoolean("angle_3d", false));
     }
 
     /**
      * 设置是否允许地图旋转
      */
     public void setMapRotation() {
-        if (sharedPreferences1.getBoolean("map_rotation", false))
-            mUiSettings.setRotateGesturesEnabled(true);//启用地图旋转
-        else mUiSettings.setRotateGesturesEnabled(false);//禁用地图旋转
+        mUiSettings.setRotateGesturesEnabled(sharedPreferences1.getBoolean("map_rotation", false));
     }
 
     /**
      * 设置是否显示比例尺
      */
     public void setScaleControl() {
-        if (sharedPreferences1.getBoolean("scale_control", false))
-            mMapView.showScaleControl(true);//显示比例尺
-        else mMapView.showScaleControl(false);//不显示比例尺
+        mMapView.showScaleControl(sharedPreferences1.getBoolean("scale_control", false));
     }
 
     /**
      * 设置是否显示缩放按钮
      */
     public void setZoomControls() {
-        if (sharedPreferences1.getBoolean("zoom_controls", false))
-            mMapView.showZoomControls(true);//显示缩放按钮
-        else mMapView.showZoomControls(false);//不显示缩放按钮
+        mMapView.showZoomControls(sharedPreferences1.getBoolean("zoom_controls", false));
     }
 
     /**
      * 设置是否显示指南针
      */
     public void setCompass() {
-        if (sharedPreferences1.getBoolean("compass", true))
-            mUiSettings.setCompassEnabled(true);//显示指南针
-        else mUiSettings.setCompassEnabled(false);//不显示指南针
+        mUiSettings.setCompassEnabled(sharedPreferences1.getBoolean("compass", true));
     }
 
     //初始化偏好设置
@@ -876,7 +868,7 @@ public class MainFragment extends Fragment {
 
         searchContent = searchEdit.getText().toString();
 
-        if (searchContent.isEmpty()) {//如果搜索内容为空
+        if (TextUtils.isEmpty(searchContent)) {//如果搜索内容为空
             if (!isHistorySearchResult) {//如果不是搜索历史记录
                 searchResult.stopScroll();//停止信息列表滑动
                 searchDataHelper.initSearchData(this);//初始化搜索记录
@@ -892,18 +884,25 @@ public class MainFragment extends Fragment {
 
         takeBackKeyboard();//收回键盘
 
-        String searchCity = null;//进行搜索的城市
-
-        //定位成功后才可以进行搜索
-        if (mCity != null) searchCity = mCity;
+        String searchCity = mCity;
 
         //如果存储的城市不为空，则换用存储的城市
         String saveCity = sharedPreferences2.getString("destination_city", null);
         if (!TextUtils.isEmpty(saveCity)) searchCity = saveCity;
 
-        if (searchCity == null) {
+        if (TextUtils.isEmpty(searchCity)) {
             requestPermission();//申请权限，获得权限后定位
             return;
+        }
+
+        //如果是省份，则搜索城市列表设置为省份内所有的城市，否则设置为单个城市
+        searchCityList.clear();
+        if (searchCity != null) {
+            if (checkoutProvinceName(searchCity)) {
+                searchCityList.addAll(getCityList(searchCity));
+            } else {
+                searchCityList.add(searchCity);
+            }
         }
 
         searchResult.stopScroll();//停止信息列表滑动
@@ -920,11 +919,7 @@ public class MainFragment extends Fragment {
             myPoiSearch.poiSearchType = MyPoiSearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
         else myPoiSearch.poiSearchType = MyPoiSearch.CITY_SEARCH;//设置搜索类型为城市内搜索
 
-        //开始城市内搜索
-        mPoiSearch.searchInCity(new PoiCitySearchOption()
-                .city(searchCity)
-                .keyword(searchContent)
-                .cityLimit(false));//不限制搜索范围在城市内
+        myPoiSearch.startPoiSearch();//开始POI搜索
     }
 
 }

@@ -22,7 +22,7 @@ import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
  * app_name: NavigationElf
  * author: Foxizz
  * accomplish_date: 2020-04-30
- * last_modify_date: 2020-10-10
+ * last_modify_date: 2020-10-13
  */
 public class MainActivity extends BaseActivity {
 

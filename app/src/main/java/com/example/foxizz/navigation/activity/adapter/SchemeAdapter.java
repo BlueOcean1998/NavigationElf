@@ -26,9 +26,9 @@ import com.example.foxizz.navigation.mybaidumap.overlayutil.MassTransitRouteOver
 import java.util.List;
 
 import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
-import static com.example.foxizz.navigation.util.Tools.expandLayout;
-import static com.example.foxizz.navigation.util.Tools.getValueAnimator;
-import static com.example.foxizz.navigation.util.Tools.rotateExpandIcon;
+import static com.example.foxizz.navigation.util.LayoutUtil.expandLayout;
+import static com.example.foxizz.navigation.util.LayoutUtil.getValueAnimator;
+import static com.example.foxizz.navigation.util.LayoutUtil.rotateExpandIcon;
 
 /**
  * 路线规划信息列表的适配器

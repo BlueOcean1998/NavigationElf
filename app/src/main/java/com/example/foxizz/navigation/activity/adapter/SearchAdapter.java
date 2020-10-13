@@ -30,7 +30,7 @@ import com.example.foxizz.navigation.data.SearchItem;
 import com.example.foxizz.navigation.mybaidumap.MyPoiSearch;
 
 import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
-import static com.example.foxizz.navigation.util.Tools.expandLayout;
+import static com.example.foxizz.navigation.util.LayoutUtil.expandLayout;
 import static com.example.foxizz.navigation.util.Tools.isAirplaneModeOn;
 import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
 
@@ -39,9 +39,9 @@ import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
  */
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
 
-    private MainFragment mainFragment;
     private long clickTime = 0;
 
+    private final MainFragment mainFragment;
     public SearchAdapter(MainFragment mainFragment) {
         this.mainFragment = mainFragment;
     }
@@ -169,10 +169,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
                 if (mainFragment.isHistorySearchResult) {//如果是搜索历史记录
                     AlertDialog.Builder builder = new AlertDialog.Builder(mainFragment.requireActivity());
-                    builder.setTitle(mainFragment.getString(R.string.hint));
+                    builder.setTitle(R.string.hint);
                     builder.setMessage("你确定要删除'" + searchItem.getTargetName() + "'吗？");
 
-                    builder.setPositiveButton(mainFragment.getString(R.string.delete), new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             //在searchList中寻找这条记录
@@ -187,7 +187,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                         }
                     });
 
-                    builder.setNegativeButton(mainFragment.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             //do nothing
@@ -235,6 +235,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         mainFragment.searchInfoScroll.setVisibility(View.GONE);
 
         mainFragment.myPoiSearch.poiSearchType = MyPoiSearch.DETAIL_SEARCH;//设置为直接详细搜索
+        mainFragment.myPoiSearch.isFirstDetailSearch = true;//第一次详细信息搜索
         mainFragment.mPoiSearch.searchPoiDetail(//进行详细信息搜索
                 (new PoiDetailSearchOption()).poiUids(searchItem.getUid()));
 

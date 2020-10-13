@@ -178,7 +178,7 @@
                         android:importantForAutofill="no"
                         android:inputType="none"
                         android:maxWidth="150dp"
-                        android:maxLength="20"
+                        android:maxLength="8"
                         android:minWidth="90dp"
                         android:padding="9dp"
                         android:singleLine="true"

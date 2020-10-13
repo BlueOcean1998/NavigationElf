@@ -36,19 +36,18 @@ import java.util.Date;
 import java.util.List;
 
 import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
-import static com.example.foxizz.navigation.util.Tools.expandLayout;
+import static com.example.foxizz.navigation.util.LayoutUtil.expandLayout;
+import static com.example.foxizz.navigation.util.LayoutUtil.rotateExpandIcon;
 import static com.example.foxizz.navigation.util.Tools.haveReadWriteAndLocationPermissions;
 import static com.example.foxizz.navigation.util.Tools.isAirplaneModeOn;
 import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
-import static com.example.foxizz.navigation.util.Tools.rotateExpandIcon;
 
 /**
  * 路线规划模块
  */
 public class MyRoutePlanSearch {
 
-    private MainFragment mainFragment;
-
+    private final MainFragment mainFragment;
     public MyRoutePlanSearch(MainFragment mainFragment) {
         this.mainFragment = mainFragment;
     }

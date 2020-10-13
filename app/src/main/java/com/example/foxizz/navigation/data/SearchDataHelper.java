@@ -21,10 +21,10 @@ import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
  */
 public class SearchDataHelper {
 
-    private DatabaseHelper databaseHelper;
     private SQLiteDatabase db;
     private Cursor cursor;
 
+    private final DatabaseHelper databaseHelper;
     public SearchDataHelper() {
         databaseHelper = new DatabaseHelper("Navigate.db", null, 1);
     }
@@ -71,6 +71,7 @@ public class SearchDataHelper {
                 flag = true;
                 //设置为详细搜索全部
                 mainFragment.myPoiSearch.poiSearchType = MyPoiSearch.DETAIL_SEARCH_ALL;
+                mainFragment.myPoiSearch.isFirstDetailSearch = true;//第一次详细信息搜索
             }
 
             db = databaseHelper.getReadableDatabase();
@@ -216,7 +217,7 @@ public class SearchDataHelper {
      * 关闭数据库，防止内存泄漏
      */
     public void close() {
-        if (databaseHelper != null) databaseHelper.close();
+        databaseHelper.close();
     }
 
 }

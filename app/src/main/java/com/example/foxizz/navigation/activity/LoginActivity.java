@@ -13,6 +13,9 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.foxizz.navigation.R;
 
+/**
+ * 登录页
+ */
 public class LoginActivity extends AppCompatActivity {
 
     //LoginActivity实例

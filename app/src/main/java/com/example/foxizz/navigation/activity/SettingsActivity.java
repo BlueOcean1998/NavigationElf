@@ -28,6 +28,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.broadcastreceiver.SettingsConstants;
 import com.example.foxizz.navigation.data.SearchDataHelper;
+import com.example.foxizz.navigation.util.CityUtil;
 import com.example.foxizz.navigation.view.AdaptationTextView;
 
 import java.util.Objects;
@@ -218,7 +219,7 @@ public class SettingsActivity extends BaseActivity {
         mCity = intent.getStringExtra("mCity");
 
         //设置城市信息
-        saveCity = sharedPreferences.getString("destination_city", null);
+        saveCity = sharedPreferences.getString("destination_city", "");
         if (!TextUtils.isEmpty(saveCity))//如果存储的城市信息不为空
             destinationCityEditText.setText(saveCity);//设置城市信息
 
@@ -253,8 +254,13 @@ public class SettingsActivity extends BaseActivity {
                 textCity = destinationCityEditText.getText().toString();
 
                 if (!textCity.equals(saveCity)) {//不等于存储的城市名
-                    destinationCityConfirm.setVisibility(View.VISIBLE);//显示确定按钮
                     destinationCityCancel.setVisibility(View.VISIBLE);//显示取消按钮
+                    //校验通过或城市名为空
+                    if (CityUtil.checkoutCityName(textCity) || TextUtils.isEmpty(textCity)) {
+                        destinationCityConfirm.setVisibility(View.VISIBLE);//显示确定按钮
+                    } else {
+                        destinationCityConfirm.setVisibility(View.GONE);//隐藏确定按钮
+                    }
                 } else {
                     destinationCityConfirm.setVisibility(View.GONE);//隐藏确定按钮
                     destinationCityCancel.setVisibility(View.GONE);//隐藏取消按钮
@@ -293,11 +299,10 @@ public class SettingsActivity extends BaseActivity {
         destinationCityConfirm.setVisibility(View.GONE);//隐藏确定按钮
         destinationCityCancel.setVisibility(View.GONE);//隐藏取消按钮
 
-        if (textCity.isEmpty())//若输入的城市信息为空
-            //置空sharedPreferences中的城市信息
-            sharedPreferences.edit().putString("destination_city", null).apply();
-            //将城市信息录入sharedPreferences
-        else sharedPreferences.edit().putString("destination_city", textCity).apply();
+        //将城市信息录入sharedPreferences
+        sharedPreferences.edit().putString("destination_city", textCity).apply();
+
+        saveCity = textCity;
     }
 
     //监听按键抬起事件
@@ -363,7 +368,7 @@ public class SettingsActivity extends BaseActivity {
                     builder.setTitle(getString(R.string.warning));
                     builder.setMessage(getString(R.string.to_clear));
 
-                    builder.setPositiveButton(getString(R.string.clear), new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton(R.string.clear, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             SearchDataHelper searchDataHelper = new SearchDataHelper();
@@ -374,7 +379,7 @@ public class SettingsActivity extends BaseActivity {
                         }
                     });
 
-                    builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             //do nothing

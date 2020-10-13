@@ -46,11 +46,9 @@ import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
 public class MyNavigateHelper {
 
     private static boolean enableDriveNavigate = false;//是否可以进行驾车导航
-    private MainFragment mainFragment;
-    private WalkNaviLaunchParam walkParam;
-    private BikeNaviLaunchParam bikeParam;
     private ProgressDialog progressDialog;
 
+    private final MainFragment mainFragment;
     public MyNavigateHelper(MainFragment mainFragment) {
         this.mainFragment = mainFragment;
     }
@@ -101,7 +99,7 @@ public class MyNavigateHelper {
     //初始化提示弹窗
     private void initProgressDialog() {
         progressDialog = new ProgressDialog(mainFragment.requireActivity());
-        progressDialog.setTitle(mainFragment.getString(R.string.hint));
+        progressDialog.setTitle(R.string.hint);
         progressDialog.setMessage(mainFragment.getString(R.string.route_plan_please_wait));
         progressDialog.setCancelable(false);
     }
@@ -188,18 +186,18 @@ public class MyNavigateHelper {
 
         switch (mainFragment.routePlanSelect) {
             //驾车导航
-            case 0:
+            case MainFragment.DRIVING:
                 routeDrivePlanWithParam();//开始驾车导航
                 break;
 
             //步行导航，公交导航
-            case 1:
-            case 3:
+            case MainFragment.WALKING:
+            case MainFragment.TRANSIT:
                 initWalkNavigateHelper();//开始步行导航
                 break;
 
             //骑行导航
-            case 2:
+            case MainFragment.BIKING:
                 initBikeNavigateHelper();//开始骑行导航
                 break;
         }
@@ -220,12 +218,12 @@ public class MyNavigateHelper {
                 .longitude(mainFragment.endLocation.longitude)
                 .build();
 
-        List<BNRoutePlanNode> list = new ArrayList<>();
-        list.add(startNode);
-        list.add(endNode);
+        List<BNRoutePlanNode> mBNRoutePlanNodes = new ArrayList<>();
+        mBNRoutePlanNodes.add(startNode);
+        mBNRoutePlanNodes.add(endNode);
 
         BaiduNaviManagerFactory.getRoutePlanManager().routeplanToNavi(
-                list,
+                mBNRoutePlanNodes,
                 IBNRoutePlanManager.RoutePlanPreference.ROUTE_PLAN_PREFERENCE_DEFAULT,
                 null,
                 new Handler(Looper.getMainLooper()) {
@@ -296,7 +294,7 @@ public class MyNavigateHelper {
             }
         }
 
-        walkParam = new WalkNaviLaunchParam()
+        WalkNaviLaunchParam walkParam = new WalkNaviLaunchParam()
                 .startNodeInfo(walkStartNode)
                 .endNodeInfo(walkEndNode);
 
@@ -330,7 +328,7 @@ public class MyNavigateHelper {
         BikeRouteNodeInfo bikeEndNode = new BikeRouteNodeInfo();
         bikeEndNode.setLocation(mainFragment.searchList.get(0).getLatLng());
 
-        bikeParam = new BikeNaviLaunchParam()
+        BikeNaviLaunchParam bikeParam = new BikeNaviLaunchParam()
                 .startNodeInfo(bikeStartNode)
                 .endNodeInfo(bikeEndNode);
 

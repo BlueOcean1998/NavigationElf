@@ -24,11 +24,11 @@ import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
 public class MyLocation {
 
     private final static int MAX_TIME = 10;//最大请求次数
-    public boolean refreshSearchList;//是否刷新搜索列表
-    private MainFragment mainFragment;
     private int requestLocationTime;//请求定位的次数
     private boolean isFirstLoc;//是否是首次定位
+    public boolean refreshSearchList;//是否刷新搜索列表
 
+    private final MainFragment mainFragment;
     public MyLocation(MainFragment mainFragment) {
         this.mainFragment = mainFragment;
     }
@@ -74,8 +74,8 @@ public class MyLocation {
                         isFirstLoc = false;
 
                         if (refreshSearchList) {
-                            mainFragment.searchDataHelper.initSearchData(mainFragment);//初始化搜索记录
                             refreshSearchList = false;
+                            mainFragment.searchDataHelper.initSearchData(mainFragment);//初始化搜索记录
                         }
 
                         mainFragment.myNavigateHelper.initDriveNavigateHelper();//初始化驾车导航引擎
