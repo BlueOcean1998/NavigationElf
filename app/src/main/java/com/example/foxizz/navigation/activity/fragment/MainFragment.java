@@ -49,6 +49,7 @@ import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
+import com.baidu.mapapi.search.sug.SuggestionSearch;
 import com.baidu.tts.client.SpeechSynthesizer;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.SettingsActivity;
@@ -61,7 +62,7 @@ import com.example.foxizz.navigation.data.SearchDataHelper;
 import com.example.foxizz.navigation.data.SearchItem;
 import com.example.foxizz.navigation.mybaidumap.MyLocation;
 import com.example.foxizz.navigation.mybaidumap.MyNavigateHelper;
-import com.example.foxizz.navigation.mybaidumap.MyPoiSearch;
+import com.example.foxizz.navigation.mybaidumap.MySearch;
 import com.example.foxizz.navigation.mybaidumap.MyRoutePlanSearch;
 import com.example.foxizz.navigation.util.MyOrientationListener;
 import com.example.foxizz.navigation.util.Tools;
@@ -111,8 +112,9 @@ public class MainFragment extends Fragment {
     public String mCity;//所在城市
 
     //搜索相关
-    public MyPoiSearch myPoiSearch;
-    public PoiSearch mPoiSearch;
+    public MySearch mySearch;
+    public SuggestionSearch mSuggestionSearch;//Sug搜索
+    public PoiSearch mPoiSearch;//POI搜索
     public LinearLayout searchLayout;//搜索布局
     public EditText searchEdit;//搜索输入框
     public ImageButton emptyButton;//清空按钮
@@ -121,8 +123,6 @@ public class MainFragment extends Fragment {
     public List<String> searchCityList = new ArrayList<>();//要进行POI搜索的城市
     public String searchContent = "";//搜索内容
     public boolean searchExpandFlag = false;//搜索伸缩状态
-    public int bodyLength;//屏幕的长
-    public int bodyShort;//屏幕的宽
     public LinearLayout searchDrawer;//搜索抽屉
     public LinearLayout searchLoading;//搜索加载
     public RecyclerView searchResult;//搜索结果
@@ -137,6 +137,8 @@ public class MainFragment extends Fragment {
     public TextView infoDistance;//与目标的距离
     public TextView infoOthers;//目标的其它信息（联系方式，营业时间等）
     public boolean isHistorySearchResult = true;//是否是搜索历史记录
+    public int currentPage;//第几页
+    public int totalPage;//总页数
 
     //路线规划相关
     public final static int DRIVING = 0;//驾车
@@ -177,6 +179,8 @@ public class MainFragment extends Fragment {
     public boolean infoFlag;//信息显示状态
 
     //控制相关
+    public int bodyLength;//屏幕的长
+    public int bodyShort;//屏幕的宽
     public InputMethodManager imm;//键盘
 
     //设置相关
@@ -218,8 +222,8 @@ public class MainFragment extends Fragment {
 
         myLocation = new MyLocation(this);//初始化定位模块
 
-        myPoiSearch = new MyPoiSearch(this);//初始化搜索模块
-        myPoiSearch.initSearch();//初始化搜索目标信息
+        mySearch = new MySearch(this);//初始化搜索模块
+        mySearch.initSearch();//初始化搜索目标信息
 
         myRoutePlanSearch = new MyRoutePlanSearch(this);//初始化路线规划模块
         myRoutePlanSearch.initRoutePlanSearch();//初始化路线规划
@@ -271,8 +275,9 @@ public class MainFragment extends Fragment {
             mLocationClient.stop();
         }
 
-        //释放地图、POI检索、路线规划实例
+        //释放地图、Sug搜索、POI搜索、路线规划实例
         mMapView.onDestroy();
+        mSuggestionSearch.destroy();
         mPoiSearch.destroy();
         mSearch.destroy();
 
@@ -655,6 +660,14 @@ public class MainFragment extends Fragment {
             }
         });
 
+        //搜索列表的滑动监听
+        searchResult.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
+
         //返回按钮的点击事件
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -910,16 +923,18 @@ public class MainFragment extends Fragment {
         searchList.clear();//清空searchList
         searchAdapter.notifyDataSetChanged();//通知adapter更新
         isHistorySearchResult = false;//已经不是搜索历史记录了
+        mySearch.uidList.clear();//清空uid集合
 
-        //加载POI信息
+        if (sharedPreferences1.getBoolean("search_around", false))
+            mySearch.poiSearchType = MySearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
+        else mySearch.poiSearchType = MySearch.CITY_SEARCH;//设置搜索类型为城市内搜索
+
+        //加载搜索信息
         searchLoading.setVisibility(View.VISIBLE);
         searchResult.setVisibility(View.GONE);
 
-        if (sharedPreferences1.getBoolean("search_around", false))
-            myPoiSearch.poiSearchType = MyPoiSearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
-        else myPoiSearch.poiSearchType = MyPoiSearch.CITY_SEARCH;//设置搜索类型为城市内搜索
-
-        myPoiSearch.startPoiSearch();//开始POI搜索
+        currentPage = 0;//页数归零
+        mySearch.startPoiSearch(currentPage);//开始POI搜索
     }
 
 }

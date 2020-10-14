@@ -27,7 +27,7 @@ import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
 import com.example.foxizz.navigation.data.SearchItem;
-import com.example.foxizz.navigation.mybaidumap.MyPoiSearch;
+import com.example.foxizz.navigation.mybaidumap.MySearch;
 
 import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
 import static com.example.foxizz.navigation.util.LayoutUtil.expandLayout;
@@ -46,6 +46,26 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         this.mainFragment = mainFragment;
     }
 
+    //设置item中的View
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        CardView cardView;
+        TextView targetName;
+        TextView address;
+        TextView distance;
+        Button itemButton;
+        TextView endText;
+
+        ViewHolder(View view) {
+            super(view);
+            cardView = view.findViewById(R.id.card_view);
+            targetName = view.findViewById(R.id.target_name);
+            address = view.findViewById(R.id.address);
+            distance = view.findViewById(R.id.distance);
+            itemButton = view.findViewById(R.id.item_button);
+            endText = view.findViewById(R.id.end_text);
+        }
+    }
+
     //获取item数量
     @Override
     public int getItemCount() {
@@ -61,11 +81,23 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         holder.address.setText(searchItem.getAddress());
         holder.distance.setText(searchItem.getDistance() + "km");
 
+        //加载更多搜索结果
+        if (position > getItemCount() - 4) {
+            if (!mainFragment.isHistorySearchResult) {
+                if (mainFragment.currentPage <= mainFragment.totalPage) {
+                    mainFragment.mySearch.startPoiSearch(mainFragment.currentPage++);
+                    holder.endText.setText(getContext().getString(R.string.loading));
+
+                    if (mainFragment.currentPage == mainFragment.totalPage)
+                        holder.endText.setText(getContext().getString(R.string.no_more));
+                }
+            }
+        }
+
         //底部显示提示信息
-        if (position == mainFragment.searchList.size() - 1)
+        if (position == mainFragment.searchList.size() - 1) {
             holder.endText.setVisibility(View.VISIBLE);
-        else
-            holder.endText.setVisibility(View.GONE);
+        } else holder.endText.setVisibility(View.GONE);
     }
 
     //为recyclerView的每一个item设置点击事件
@@ -234,9 +266,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         mainFragment.infoLoading.setVisibility(View.VISIBLE);
         mainFragment.searchInfoScroll.setVisibility(View.GONE);
 
-        mainFragment.myPoiSearch.poiSearchType = MyPoiSearch.DETAIL_SEARCH;//设置为直接详细搜索
-        mainFragment.myPoiSearch.isFirstDetailSearch = true;//第一次详细信息搜索
-        mainFragment.mPoiSearch.searchPoiDetail(//进行详细信息搜索
+        mainFragment.mySearch.poiSearchType = MySearch.DETAIL_SEARCH;//设置为直接详细搜索
+        mainFragment.mySearch.isFirstDetailSearch = true;//第一次详细信息搜索
+        mainFragment.mPoiSearch.searchPoiDetail(//开始POI详细信息搜索
                 (new PoiDetailSearchOption()).poiUids(searchItem.getUid()));
 
         mainFragment.takeBackKeyboard();//收回键盘
@@ -248,27 +280,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             clickTime = System.currentTimeMillis();
             return false;
         } else return true;
-    }
-
-    //设置item中的View
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        View view;
-        CardView cardView;
-        TextView targetName;
-        TextView address;
-        TextView distance;
-        Button itemButton;
-        TextView endText;
-
-        ViewHolder(View view) {
-            super(view);
-            cardView = view.findViewById(R.id.card_view);
-            targetName = view.findViewById(R.id.target_name);
-            address = view.findViewById(R.id.address);
-            distance = view.findViewById(R.id.distance);
-            itemButton = view.findViewById(R.id.item_button);
-            endText = view.findViewById(R.id.end_text);
-        }
     }
 
 }

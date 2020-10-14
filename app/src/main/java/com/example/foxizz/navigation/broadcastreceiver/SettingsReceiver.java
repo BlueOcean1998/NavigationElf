@@ -15,7 +15,7 @@ import com.example.foxizz.navigation.util.Tools;
  */
 public class SettingsReceiver extends BroadcastReceiver {
 
-    private Context mContext;
+    private final Context mContext;
 
     public SettingsReceiver(Context context) {
         mContext = context;

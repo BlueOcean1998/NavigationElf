@@ -10,7 +10,7 @@ import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.search.core.PoiDetailInfo;
 import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
-import com.example.foxizz.navigation.mybaidumap.MyPoiSearch;
+import com.example.foxizz.navigation.mybaidumap.MySearch;
 
 import static com.example.foxizz.navigation.util.Tools.isAirplaneModeOn;
 import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
@@ -70,8 +70,8 @@ public class SearchDataHelper {
             if (isNetworkConnected() && !isAirplaneModeOn()) {
                 flag = true;
                 //设置为详细搜索全部
-                mainFragment.myPoiSearch.poiSearchType = MyPoiSearch.DETAIL_SEARCH_ALL;
-                mainFragment.myPoiSearch.isFirstDetailSearch = true;//第一次详细信息搜索
+                mainFragment.mySearch.poiSearchType = MySearch.DETAIL_SEARCH_ALL;
+                mainFragment.mySearch.isFirstDetailSearch = true;//第一次详细信息搜索
             }
 
             db = databaseHelper.getReadableDatabase();
@@ -94,7 +94,7 @@ public class SearchDataHelper {
 
                     if (flag) {
                         //通过网络重新获取搜索信息
-                        mainFragment.mPoiSearch.searchPoiDetail(
+                        mainFragment.mPoiSearch.searchPoiDetail(//开始POI详细信息搜索
                                 (new PoiDetailSearchOption()).poiUids(searchItem.getUid()));
                     }
                 } while (cursor.moveToNext());

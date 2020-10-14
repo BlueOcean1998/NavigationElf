@@ -11,6 +11,8 @@ public class CityUtil {
 
     //全国所有的城市名字符串数组，各个字符串为一个省份以及该省份的所有城市
     public final static String[] cityNamess = {
+            "直辖市 北京市 上海市 天津市 重庆市",
+
             "河南省 郑州市 洛阳市 焦作市 商丘市 信阳市 周口市 鹤壁市 安阳市 濮阳市 驻马店市 南阳市 " +
             "开封市 漯河市 许昌市 新乡市 济源市 灵宝市 偃师市 邓州市 登封市 三门峡市 新郑市 禹州市 " +
             "巩义市 永城市 长葛市 项城市 汝州市 荥阳市 平顶山市 卫辉市 辉县市 舞钢市 新密市 孟州市 " +
@@ -104,7 +106,7 @@ public class CityUtil {
             "新疆维吾尔自治区 乌鲁木齐市 石河子市 喀什市 阿勒泰市 阜康市 库尔勒市 阿克苏市 阿拉尔市 " +
             "哈密市 克拉玛依市 昌吉市 奎屯市 米泉市 和田市 塔城市",
 
-            "特别行政区 香港 澳门"
+            "特别行政区 香港 澳门",
     };
 
     /**
@@ -153,10 +155,10 @@ public class CityUtil {
     public static List<String> getCityList(String str) {
         if (checkoutProvinceName(str)) {
             for (String cityNames : cityNamess) {
-                String province = cityNames.split(" ")[0];
+                String province = cityNames.split("\\s+")[0];
                 if (province.contains(str)) {
                     return new ArrayList<>(Arrays.asList(
-                            cityNames.replaceFirst(province, "").split(" ")
+                            cityNames.replaceFirst(province, "").trim().split("\\s+")
                     ));
                 }
             }

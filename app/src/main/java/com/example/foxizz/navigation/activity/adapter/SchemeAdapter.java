@@ -35,11 +35,31 @@ import static com.example.foxizz.navigation.util.LayoutUtil.rotateExpandIcon;
  */
 public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder> {
 
-    private MainFragment mainFragment;
+    private final MainFragment mainFragment;
     private long clickTime = 0;
 
     public SchemeAdapter(MainFragment mainFragment) {
         this.mainFragment = mainFragment;
+    }
+
+    //设置item中的View
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        CardView cardView;
+        TextView simpleInfo;
+        LinearLayout infoDrawer;
+        TextView detailInfo;
+        ImageButton schemeExpand;
+        View endText;
+
+        ViewHolder(View view) {
+            super(view);
+            cardView = view.findViewById(R.id.card_view);
+            simpleInfo = view.findViewById(R.id.simple_info);
+            infoDrawer = view.findViewById(R.id.info_drawer);
+            detailInfo = view.findViewById(R.id.detail_info);
+            schemeExpand = view.findViewById(R.id.scheme_expand);
+            endText = view.findViewById(R.id.end_text);
+        }
     }
 
     //获取item数量
@@ -193,27 +213,6 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
             clickTime = System.currentTimeMillis();
             return false;
         } else return true;
-    }
-
-    //设置item中的View
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        View view;
-        CardView cardView;
-        TextView simpleInfo;
-        LinearLayout infoDrawer;
-        TextView detailInfo;
-        ImageButton schemeExpand;
-        View endText;
-
-        ViewHolder(View view) {
-            super(view);
-            cardView = view.findViewById(R.id.card_view);
-            simpleInfo = view.findViewById(R.id.simple_info);
-            infoDrawer = view.findViewById(R.id.info_drawer);
-            detailInfo = view.findViewById(R.id.detail_info);
-            schemeExpand = view.findViewById(R.id.scheme_expand);
-            endText = view.findViewById(R.id.end_text);
-        }
     }
 
 }
