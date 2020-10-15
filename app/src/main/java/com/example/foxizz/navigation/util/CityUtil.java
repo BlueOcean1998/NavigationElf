@@ -111,6 +111,7 @@ public class CityUtil {
 
     /**
      * 校验一个字符串是否是一个城市名或省份名
+     *
      * @param str 要校验的字符串
      * @return boolean
      */
@@ -124,6 +125,7 @@ public class CityUtil {
 
     /**
      * 校验一个字符串是否是一个省份名
+     *
      * @param str 要校验的字符串
      * @return boolean
      */
@@ -137,6 +139,7 @@ public class CityUtil {
 
     /**
      * 获取城市列表
+     *
      * @return List<String>
      */
     public static List<String> getCityList() {
@@ -149,6 +152,7 @@ public class CityUtil {
 
     /**
      * 获取一个省份的城市列表
+     *
      * @param str 省份名
      * @return List<String>
      */

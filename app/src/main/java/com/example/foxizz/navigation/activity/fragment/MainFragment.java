@@ -62,8 +62,8 @@ import com.example.foxizz.navigation.data.SearchDataHelper;
 import com.example.foxizz.navigation.data.SearchItem;
 import com.example.foxizz.navigation.mybaidumap.MyLocation;
 import com.example.foxizz.navigation.mybaidumap.MyNavigateHelper;
-import com.example.foxizz.navigation.mybaidumap.MySearch;
 import com.example.foxizz.navigation.mybaidumap.MyRoutePlanSearch;
+import com.example.foxizz.navigation.mybaidumap.MySearch;
 import com.example.foxizz.navigation.util.MyOrientationListener;
 import com.example.foxizz.navigation.util.Tools;
 
@@ -137,7 +137,7 @@ public class MainFragment extends Fragment {
     public TextView infoDistance;//与目标的距离
     public TextView infoOthers;//目标的其它信息（联系方式，营业时间等）
     public boolean isHistorySearchResult = true;//是否是搜索历史记录
-    public int currentPage;//第几页
+    public int currentPage;//当前页
     public int totalPage;//总页数
 
     //路线规划相关
@@ -189,7 +189,6 @@ public class MainFragment extends Fragment {
     private ImageButton settings;//设置
     private ImageButton refresh;//刷新
     private ImageButton location;//定位
-    private long clickTime = 0;//防止连续点击按钮
 
     //数据相关
     private SharedPreferences sharedPreferences1;
@@ -865,10 +864,6 @@ public class MainFragment extends Fragment {
      * 开始POI搜索
      */
     public void startPoiSearch() {
-        if ((System.currentTimeMillis() - clickTime) > 1000) //连续点击间隔时间不能小于1秒
-            clickTime = System.currentTimeMillis();
-        else return;
-
         if (!isNetworkConnected()) {//没有网络连接
             Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
             return;
@@ -883,7 +878,6 @@ public class MainFragment extends Fragment {
 
         if (TextUtils.isEmpty(searchContent)) {//如果搜索内容为空
             if (!isHistorySearchResult) {//如果不是搜索历史记录
-                searchResult.stopScroll();//停止信息列表滑动
                 searchDataHelper.initSearchData(this);//初始化搜索记录
                 isHistorySearchResult = true;//现在是搜索历史记录了
             }
@@ -923,7 +917,6 @@ public class MainFragment extends Fragment {
         searchList.clear();//清空searchList
         searchAdapter.notifyDataSetChanged();//通知adapter更新
         isHistorySearchResult = false;//已经不是搜索历史记录了
-        mySearch.uidList.clear();//清空uid集合
 
         if (sharedPreferences1.getBoolean("search_around", false))
             mySearch.poiSearchType = MySearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
@@ -933,8 +926,11 @@ public class MainFragment extends Fragment {
         searchLoading.setVisibility(View.VISIBLE);
         searchResult.setVisibility(View.GONE);
 
-        currentPage = 0;//页数归零
-        mySearch.startPoiSearch(currentPage);//开始POI搜索
+        //页数归零
+        currentPage = 0;
+
+        if (!mySearch.isSearching) mySearch.startPoiSearch(currentPage);//开始POI搜索
+        else Toast.makeText(getContext(), R.string.wait_for_search_result, Toast.LENGTH_SHORT).show();
     }
 
 }

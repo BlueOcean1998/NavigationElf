@@ -82,19 +82,18 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         holder.distance.setText(searchItem.getDistance() + "km");
 
         //加载更多搜索结果
-        if (position > getItemCount() - 4) {
-            if (!mainFragment.isHistorySearchResult) {
-                if (mainFragment.currentPage <= mainFragment.totalPage) {
-                    mainFragment.mySearch.startPoiSearch(mainFragment.currentPage++);
-                    holder.endText.setText(getContext().getString(R.string.loading));
+        if (position == getItemCount() - 4
+                && !mainFragment.mySearch.isSearching
+                && !mainFragment.isHistorySearchResult
+                && mainFragment.currentPage < mainFragment.totalPage)
+            mainFragment.mySearch.startPoiSearch(mainFragment.currentPage);
 
-                    if (mainFragment.currentPage == mainFragment.totalPage)
-                        holder.endText.setText(getContext().getString(R.string.no_more));
-                }
-            }
-        }
+        //设置提示信息的内容
+        if (mainFragment.currentPage < mainFragment.totalPage)
+            holder.endText.setText(getContext().getString(R.string.loading));
+        else holder.endText.setText(getContext().getString(R.string.no_more));
 
-        //底部显示提示信息
+        //只有底部显示提示信息
         if (position == mainFragment.searchList.size() - 1) {
             holder.endText.setVisibility(View.VISIBLE);
         } else holder.endText.setVisibility(View.GONE);

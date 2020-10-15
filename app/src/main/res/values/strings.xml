@@ -25,6 +25,7 @@
     <string name="search_hint">在此输入你要查找的地址</string>
     <string name="expand">伸缩</string>
 
+    <string name="wait_for_search_result">请等待搜索结果</string>
     <string name="target_name">目标名</string>
     <string name="address">地址</string>
     <string name="distance">距离</string>

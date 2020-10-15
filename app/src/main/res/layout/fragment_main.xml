@@ -192,8 +192,8 @@
             android:id="@+id/search_drawer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@drawable/layout_background_white"
-            android:padding="6dp">
+            android:padding="6dp"
+            android:background="@drawable/layout_background_white">
 
             <include
                 android:id="@+id/search_loading"
@@ -219,8 +219,7 @@
             <ScrollView
                 android:id="@+id/info_scroll"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:ignore="UselessParent">
+                android:layout_height="match_parent">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -320,7 +319,7 @@
             <LinearLayout
                 android:id="@+id/scheme_info_drawer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:padding="3dp">
 
                 <ScrollView
