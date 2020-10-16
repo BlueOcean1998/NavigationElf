@@ -191,7 +191,7 @@
         <LinearLayout
             android:id="@+id/search_drawer"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:padding="6dp"
             android:background="@drawable/layout_background_white">
 
@@ -202,22 +202,22 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/search_result"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="0dp" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/info_layout"
+            android:id="@+id/search_info_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/layout_background_lightgray"
-            android:padding="6dp">
+            android:padding="3dp">
 
             <include
-                android:id="@+id/info_loading"
+                android:id="@+id/search_info_loading"
                 layout="@layout/loading" />
 
             <ScrollView
-                android:id="@+id/info_scroll"
+                android:id="@+id/search_info_scroll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -227,7 +227,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/info_target_name"
+                        android:id="@+id/search_target_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
@@ -241,7 +241,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/info_address"
+                        android:id="@+id/search_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
@@ -254,7 +254,7 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/info_distance"
+                        android:id="@+id/search_distance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
@@ -268,7 +268,7 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/info_others"
+                        android:id="@+id/search_others"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
@@ -284,64 +284,48 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/scheme_layout"
+            android:id="@+id/scheme_drawer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/layout_background_white"
-            android:orientation="vertical"
-            android:padding="3dp">
+            android:padding="6dp"
+            android:background="@drawable/layout_background_white">
 
-            <ImageButton
-                android:id="@+id/scheme_return_button"
+            <include
+                android:id="@+id/scheme_loading"
+                layout="@layout/loading" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/scheme_result"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/button_background_skyblue"
-                android:contentDescription="@string/expand"
-                android:src="@drawable/ic_expand_more_black_30dp" />
+                android:layout_height="0dp" />
+        </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/scheme_drawer"
+        <LinearLayout
+            android:id="@+id/scheme_info_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:background="@drawable/layout_background_lightgray">
+
+            <ScrollView
+                android:id="@+id/scheme_info_scroll"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:padding="3dp">
+                android:layout_height="match_parent"
+                tools:ignore="UselessParent">
 
-                <include
-                    android:id="@+id/scheme_loading"
-                    layout="@layout/loading" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/scheme_result"
+                <TextView
+                    android:id="@+id/scheme_info"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/scheme_info_drawer"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:padding="3dp">
-
-                <ScrollView
-                    android:id="@+id/scheme_info_scroll"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:ignore="UselessParent">
-
-                    <TextView
-                        android:id="@+id/scheme_info"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:enabled="true"
-                        android:focusable="true"
-                        android:longClickable="true"
-                        android:text="@string/scheme_info"
-                        android:textColor="@color/black"
-                        android:textIsSelectable="true"
-                        android:textSize="16sp" />
-                </ScrollView>
-            </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:enabled="true"
+                    android:focusable="true"
+                    android:longClickable="true"
+                    android:text="@string/scheme_info"
+                    android:textColor="@color/black"
+                    android:textIsSelectable="true"
+                    android:textSize="16sp" />
+            </ScrollView>
         </LinearLayout>
 
         <LinearLayout
@@ -370,7 +354,7 @@
                 tools:ignore="ButtonStyle" />
 
             <Button
-                android:id="@+id/info_button"
+                android:id="@+id/middle_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
@@ -379,7 +363,7 @@
                 android:layout_marginBottom="6dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_background_skyblue"
-                android:text="@string/info_button1"
+                android:text="@string/middle_button1"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 tools:ignore="ButtonStyle" />

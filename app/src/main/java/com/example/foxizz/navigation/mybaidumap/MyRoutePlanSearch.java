@@ -6,6 +6,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.search.route.BikingRoutePlanOption;
 import com.baidu.mapapi.search.route.BikingRouteResult;
 import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
@@ -26,6 +30,7 @@ import com.example.foxizz.navigation.data.SchemeItem;
 import com.example.foxizz.navigation.mybaidumap.overlayutil.BikingRouteOverlay;
 import com.example.foxizz.navigation.mybaidumap.overlayutil.DrivingRouteOverlay;
 import com.example.foxizz.navigation.mybaidumap.overlayutil.IndoorRouteOverlay;
+import com.example.foxizz.navigation.mybaidumap.overlayutil.MassTransitRouteOverlay;
 import com.example.foxizz.navigation.mybaidumap.overlayutil.TransitRouteOverlay;
 import com.example.foxizz.navigation.mybaidumap.overlayutil.WalkingRouteOverlay;
 
@@ -136,14 +141,12 @@ public class MyRoutePlanSearch {
                         .from(startNode)
                         .to(endNode));
 
-                mainFragment.schemeInfoDrawer.getLayoutParams().height = 0;//设置方案信息抽屉的高度为0
+                mainFragment.schemeInfoLayout.getLayoutParams().height = 0;//设置方案信息抽屉的高度为0
 
                 expandLayout(mainFragment.selectLayout, false);//收起选择布局
-                expandLayout(mainFragment.schemeLayout, true);//展开方案布局
                 expandLayout(mainFragment.schemeDrawer, true);//展开方案抽屉
-                expandLayout(mainFragment.startLayout, false);//收起开始导航布局
 
-                mainFragment.schemeInfoFlag = 1;//设置状态为方案列表
+                mainFragment.schemeFlag = MainFragment.SCHEME_LIST;//设置状态为方案列表
                 break;
         }
     }
@@ -280,6 +283,8 @@ public class MyRoutePlanSearch {
                     mainFragment.schemeList.add(schemeItem);//添加到列表中
                     mainFragment.schemeAdapter.notifyDataSetChanged();//通知adapter更新
                 }
+
+                startMassTransitRoutePlan(0);//默认选择第一个方案
             }
 
             @Override
@@ -344,6 +349,71 @@ public class MyRoutePlanSearch {
 
         //设置路线规划检索监听器
         mainFragment.mSearch.setOnGetRoutePlanResultListener(listener);
+    }
+
+    /**
+     * 开始跨城公交路线规划
+     */
+    @SuppressLint("SetTextI18n")
+    public void startMassTransitRoutePlan(int index) {
+        SchemeItem schemeItem = mainFragment.schemeList.get(index);
+
+        //设置方案信息
+        mainFragment.schemeInfo.setText(schemeItem.getAllStationInfo()
+                + "\n" + schemeItem.getDetailInfo() + "\n");
+        
+        //创建MassTransitRouteOverlay实例
+        MassTransitRouteOverlay overlay = new MassTransitRouteOverlay(mainFragment.mBaiduMap);
+
+        //清空地图上的所有标记点和绘制的路线
+        mainFragment.mBaiduMap.clear();
+        //构建Marker图标
+        BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.ic_to_location);
+
+        //清空临时保存的公交站点信息
+        mainFragment.busStationLocations.clear();
+
+        /*
+         * getRouteLines(): 所有规划好的路线
+         * get(0): 第1条规划好的路线
+         *
+         * getNewSteps():
+         * 起终点为同城时，该list表示一个step中的多个方案scheme（方案1、方案2、方案3...）
+         * 起终点为跨城时，该list表示一个step中多个子步骤sub_step（如：步行->公交->火车->步行）
+         *
+         * get(0): 方案1或第1步
+         * get(0): 步行到第1站点
+         * getEndLocation(): 终点站，即步行导航的终点站
+         *
+         */
+        //获取所有站点信息
+        for (List<MassTransitRouteLine.TransitStep> transitSteps :
+                schemeItem.getRouteLine().getNewSteps()) {
+            for (MassTransitRouteLine.TransitStep transitStep : transitSteps) {
+                //将获取到的站点信息临时保存
+                mainFragment.busStationLocations.add(transitStep.getEndLocation());
+
+                //构建MarkerOption，用于在地图上添加Marker
+                OverlayOptions option = new MarkerOptions()
+                        .position(transitStep.getEndLocation())
+                        .icon(bitmap);
+
+                //在地图上添加Marker，并显示
+                mainFragment.mBaiduMap.addOverlay(option);
+            }
+        }
+
+        try {
+            //获取路线规划数据
+            //为MassTransitRouteOverlay设置数据
+            overlay.setData(schemeItem.getRouteLine());
+            //在地图上绘制Overlay
+            overlay.addToMap();
+            //将路线放在最佳视野位置
+            overlay.zoomToSpan();
+        } catch (Exception ignored) {
+            Toast.makeText(getContext(), R.string.draw_route_fail, Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -73,21 +74,20 @@ public class LayoutUtil {
      *
      * @param linearLayout 需要伸缩的linearLayout
      * @param flag         伸或缩
+     * @param textView     子布局中的TextView
      * @param recyclerView 需要回滚的recyclerView
      * @param position     回滚的位置
      */
-    public static void expandLayout(LinearLayout linearLayout, boolean flag,
-                                    final RecyclerView recyclerView, final int position) {
+    public static void expandLayout(
+            LinearLayout linearLayout, boolean flag, final TextView textView,
+            final RecyclerView recyclerView, final int position) {
         if (flag) {
             linearLayout.startAnimation(
                     AnimationUtils.loadAnimation(getContext(), R.anim.adapter_alpha2)
             );//动画2，出现;
 
             //计算布局自适应时的高度
-            int layoutHeight = 0;
-            for (int i = 0; i < linearLayout.getChildCount(); i++) {
-                layoutHeight += linearLayout.getChildAt(i).getLayoutParams().height;
-            }
+            int layoutHeight = textView.getLineHeight() * (textView.getLineCount() + 1);
 
             getValueAnimator(linearLayout, 0, layoutHeight, recyclerView, position)
                     .start();//展开动画

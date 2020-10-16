@@ -126,9 +126,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
                 click(holder);
 
-                expandLayout(mainFragment.infoLayout, true);//展开详细信息布局
+                expandLayout(mainFragment.searchInfoLayout, true);//展开详细信息布局
 
-                mainFragment.infoButton.setText(R.string.info_button1);//设置按钮为路线
+                mainFragment.middleButton.setText(R.string.middle_button1);//设置按钮为路线
                 mainFragment.infoFlag = true;//设置信息状态为详细信息
 
                 //获取点击的item
@@ -175,7 +175,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
                 expandLayout(mainFragment.selectLayout, true);//展开选择布局
 
-                mainFragment.infoButton.setText(R.string.info_button2);//设置按钮为详细信息
+                mainFragment.middleButton.setText(R.string.middle_button2);//设置按钮为详细信息
                 mainFragment.infoFlag = false;//设置信息状态为交通选择
 
                 //重置交通类型为步行
@@ -262,7 +262,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         mainFragment.endLocation = searchItem.getLatLng();
 
         //加载详细信息
-        mainFragment.infoLoading.setVisibility(View.VISIBLE);
+        mainFragment.searchInfoLoading.setVisibility(View.VISIBLE);
         mainFragment.searchInfoScroll.setVisibility(View.GONE);
 
         mainFragment.mySearch.poiSearchType = MySearch.DETAIL_SEARCH;//设置为直接详细搜索

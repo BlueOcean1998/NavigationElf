@@ -9,10 +9,10 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
+        android:layout_margin="6dp"
         android:foreground="?attr/selectableItemBackgroundBorderless"
         app:cardCornerRadius="12dp"
-        app:cardElevation="4dp">
+        app:cardElevation="3dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -83,9 +83,10 @@
     <TextView
         android:id="@+id/end_text"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="top|center_horizontal"
+        android:layout_height="wrap_content"
+        android:paddingBottom="12dp"
+        android:gravity="center"
         android:text="@string/no_more"
         android:textColor="@color/gray"
-        android:textSize="14sp" />
+        android:textSize="16sp" />
 </LinearLayout>

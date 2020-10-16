@@ -38,7 +38,7 @@ public class UserFragment extends Fragment {
     public static int userId = 0;
     private FrameLayout portraitLayout;//头像布局
     private ImageView userPortrait;//用户头像
-    private LinearLayout infoLayout;//信息布局
+    private LinearLayout userInfoLayout;//信息布局
     private AdaptationTextView userName;//用户名
     private AdaptationTextView userEmail;//用户email
 
@@ -73,7 +73,7 @@ public class UserFragment extends Fragment {
         portraitLayout = view.findViewById(R.id.portrait_layout);
         userPortrait = view.findViewById(R.id.user_portrait);
 
-        infoLayout = view.findViewById(R.id.info_layout);
+        userInfoLayout = view.findViewById(R.id.user_info_layout);
         userName = view.findViewById(R.id.user_name);
         userEmail = view.findViewById(R.id.user_email);
 
@@ -88,7 +88,7 @@ public class UserFragment extends Fragment {
             }
         });
 
-        infoLayout.setOnClickListener(new View.OnClickListener() {
+        userInfoLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (userId == 0) {

@@ -267,7 +267,7 @@ public class MyNavigateHelper {
 
             //计算公交导航的步行导航的终点
         } else if (mainFragment.routePlanSelect == MainFragment.TRANSIT) {
-            if (mainFragment.busStationLocations.get(0) == null) {
+            if (mainFragment.busStationLocations.size() == 0) {
                 Toast.makeText(getContext(), R.string.wait_for_route_plan_result, Toast.LENGTH_SHORT).show();
                 return;
             }

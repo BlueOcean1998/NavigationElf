@@ -293,7 +293,7 @@ public class MySearch {
                     isFirstDetailSearch = false;
 
                     //详细信息加载完成
-                    mainFragment.infoLoading.setVisibility(View.GONE);
+                    mainFragment.searchInfoLoading.setVisibility(View.GONE);
                     mainFragment.searchInfoScroll.setVisibility(View.VISIBLE);
 
                     if (poiDetailResult == null//没有找到检索结果
@@ -318,11 +318,11 @@ public class MySearch {
                             searchItem.setUid(detailInfo.getUid());
 
                             //获取并设置目标名
-                            mainFragment.infoTargetName.setText(detailInfo.getName());
+                            mainFragment.searchTargetName.setText(detailInfo.getName());
                             searchItem.setTargetName(detailInfo.getName());
 
                             //获取并设置目标地址
-                            mainFragment.infoAddress.setText(detailInfo.getAddress());
+                            mainFragment.searchAddress.setText(detailInfo.getAddress());
                             searchItem.setAddress(detailInfo.getAddress());
 
                             LatLng tLatLng = detailInfo.getLocation();//获取目标坐标
@@ -333,7 +333,7 @@ public class MySearch {
                             //保留两位小数
                             BigDecimal bd = new BigDecimal(distance);
                             distance = bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                            mainFragment.infoDistance.setText(distance + "km");
+                            mainFragment.searchDistance.setText(distance + "km");
                             searchItem.setDistance(distance);
 
                             //寻找搜索列表中Uid相同的item
@@ -392,7 +392,7 @@ public class MySearch {
                                 otherInfo.append(getContext().getString(R.string.price)).append(detailInfo.getPrice()).append("元\n");
                             }
 
-                            mainFragment.infoOthers.setText(otherInfo.toString());//设置其它信息
+                            mainFragment.searchOthers.setText(otherInfo.toString());//设置其它信息
                         }
 
                     } else {//间接的详细信息搜索

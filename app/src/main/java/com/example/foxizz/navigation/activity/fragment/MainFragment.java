@@ -74,7 +74,6 @@ import java.util.Objects;
 import static com.example.foxizz.navigation.util.CityUtil.checkoutProvinceName;
 import static com.example.foxizz.navigation.util.CityUtil.getCityList;
 import static com.example.foxizz.navigation.util.LayoutUtil.expandLayout;
-import static com.example.foxizz.navigation.util.LayoutUtil.getValueAnimator;
 import static com.example.foxizz.navigation.util.LayoutUtil.rotateExpandIcon;
 import static com.example.foxizz.navigation.util.Tools.isAirplaneModeOn;
 import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
@@ -84,23 +83,31 @@ import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
  */
 public class MainFragment extends Fragment {
 
-    //MainFragment实例
+    /*
+     * MainFragment实例
+     */
     @SuppressLint("StaticFieldLeak")
     private static MainFragment instance;
     public static MainFragment getInstance() {
         return instance;
     }
 
-    //地图控件
+    /*
+     * 地图控件
+     */
     public MapView mMapView;
     public BaiduMap mBaiduMap;
     public UiSettings mUiSettings;
 
-    //方向传感器
+    /*
+     * 方向传感器
+     */
     public MyOrientationListener myOrientationListener;
     public float mLastX;//方向角度
 
-    //定位相关
+    /*
+     * 定位相关
+     */
     public MyLocation myLocation;
     public LocationClient mLocationClient;
     public MyLocationData locData;//地址信息
@@ -111,86 +118,99 @@ public class MainFragment extends Fragment {
     public double mLongitude;//经度
     public String mCity;//所在城市
 
-    //搜索相关
+    /*
+     * 搜索相关
+     */
     public MySearch mySearch;
     public SuggestionSearch mSuggestionSearch;//Sug搜索
     public PoiSearch mPoiSearch;//POI搜索
+    public final List<String> searchCityList = new ArrayList<>();//要进行POI搜索的城市列表
+    public String searchContent = "";//搜索内容
     public LinearLayout searchLayout;//搜索布局
     public EditText searchEdit;//搜索输入框
     public ImageButton emptyButton;//清空按钮
     public Button searchButton;//搜索按钮
     public ImageButton searchExpand;//搜索结果伸缩按钮
-    public List<String> searchCityList = new ArrayList<>();//要进行POI搜索的城市
-    public String searchContent = "";//搜索内容
     public boolean searchExpandFlag = false;//搜索伸缩状态
     public LinearLayout searchDrawer;//搜索抽屉
     public LinearLayout searchLoading;//搜索加载
     public RecyclerView searchResult;//搜索结果
-    public List<SearchItem> searchList = new ArrayList<>();//搜索列表
+    public final List<SearchItem> searchList = new ArrayList<>();//搜索列表
     public StaggeredGridLayoutManager searchLayoutManager;//搜索布局管理器
     public SearchAdapter searchAdapter;//搜索适配器
-    public LinearLayout infoLayout;//详细信息布局
-    public LinearLayout infoLoading;//信息加载
+    public LinearLayout searchInfoLayout;//详细信息布局
+    public LinearLayout searchInfoLoading;//信息加载
     public ScrollView searchInfoScroll;//详细信息布局的拖动条
-    public TextView infoTargetName;//目标名
-    public TextView infoAddress;//目标地址
-    public TextView infoDistance;//与目标的距离
-    public TextView infoOthers;//目标的其它信息（联系方式，营业时间等）
+    public TextView searchTargetName;//目标名
+    public TextView searchAddress;//目标地址
+    public TextView searchDistance;//与目标的距离
+    public TextView searchOthers;//目标的其它信息（联系方式，营业时间等）
     public boolean isHistorySearchResult = true;//是否是搜索历史记录
     public int currentPage;//当前页
     public int totalPage;//总页数
 
-    //路线规划相关
+    /*
+     * 路线规划相关
+     */
+    public MyRoutePlanSearch myRoutePlanSearch;
+    public RoutePlanSearch mSearch;
+    public final List<LatLng> busStationLocations = new ArrayList<>();//公交导航所有站点的坐标
+    public LatLng endLocation;//终点
+    //交通选择
+    public LinearLayout selectLayout;//选择布局
     public final static int DRIVING = 0;//驾车
     public final static int WALKING = 1;//步行
     public final static int BIKING = 2;//骑行
     public final static int TRANSIT = 3;//公交
-    public MyRoutePlanSearch myRoutePlanSearch;
-    public RoutePlanSearch mSearch;
-    public LinearLayout selectLayout;//选择布局
+    public int routePlanSelect = WALKING;//默认为步行
     public Button selectButton1;//选择驾车
     public Button selectButton2;//选择步行
     public Button selectButton3;//选择骑行
     public Button selectButton4;//选择公交
-    public int routePlanSelect = WALKING;//默认为步行
-    public List<LatLng> busStationLocations = new ArrayList<>();//公交导航所有站点的坐标
-    public LatLng endLocation;//终点
-    public LinearLayout schemeLayout;//方案布局
-    public ImageButton schemeReturnButton;//返回按钮
+    //方案布局
+    public final static int SCHEME_NOT_ALREADY = 0;//未展开
+    public final static int SCHEME_LIST = 1;//方案列表
+    public final static int SCHEME_INFO = 2;//方案信息
+    public int schemeFlag = SCHEME_NOT_ALREADY;//初始为未展开
     public LinearLayout schemeDrawer;//方案抽屉
     public LinearLayout schemeLoading;//方案加载
     public RecyclerView schemeResult;//方案结果
-    public LinearLayout schemeInfoDrawer;//方案信息抽屉
+    public LinearLayout schemeInfoLayout;//方案信息抽屉
     public ScrollView schemeInfoScroll;//方案信息的拖动条
     public TextView schemeInfo;//方案信息
-
-    //方案信息的展开状态，0：未展开，1：只有列表展开，2：只有单个信息展开
-    public int schemeInfoFlag = 0;
     public List<SchemeItem> schemeList = new ArrayList<>();//方案列表
     public StaggeredGridLayoutManager schemeLayoutManager;//方案布局管理器
     public SchemeAdapter schemeAdapter;//方案适配器
 
-    //导航相关
+    /*
+     * 导航相关
+     */
     public MyNavigateHelper myNavigateHelper;
     public LinearLayout startLayout;//开始导航布局
     public Button backButton;//返回按钮
-    public Button infoButton;//路线规划、详细信息切换按钮
+    public Button middleButton;//路线规划、详细信息切换按钮
     public Button startButton;//开始导航按钮
     public boolean infoFlag;//信息显示状态
 
-    //控制相关
+    /*
+     * 控制相关
+     */
     public int bodyLength;//屏幕的长
     public int bodyShort;//屏幕的宽
     public InputMethodManager imm;//键盘
 
-    //设置相关
+    /*
+     * 设置相关
+     */
     private SettingsReceiver settingsReceiver;//设置接收器
     private LocalBroadcastManager localBroadcastManager;//本地广播管理器
     private ImageButton settings;//设置
     private ImageButton refresh;//刷新
     private ImageButton location;//定位
 
-    //数据相关
+    /*
+     * 数据相关
+     */
     private SharedPreferences sharedPreferences1;
     private SharedPreferences sharedPreferences2;
     public SearchDataHelper searchDataHelper;
@@ -436,35 +456,32 @@ public class MainFragment extends Fragment {
         searchLoading = view.findViewById(R.id.search_loading);
         searchResult = view.findViewById(R.id.search_result);
 
-        infoLayout = view.findViewById(R.id.info_layout);
-        infoLoading = view.findViewById(R.id.info_loading);
-        searchInfoScroll = view.findViewById(R.id.info_scroll);
-        infoTargetName = view.findViewById(R.id.info_target_name);
-        infoAddress = view.findViewById(R.id.info_address);
-        infoDistance = view.findViewById(R.id.info_distance);
-        infoOthers = view.findViewById(R.id.info_others);
+        searchInfoLayout = view.findViewById(R.id.search_info_layout);
+        searchInfoLoading = view.findViewById(R.id.search_info_loading);
+        searchInfoScroll = view.findViewById(R.id.search_info_scroll);
+        searchTargetName = view.findViewById(R.id.search_target_name);
+        searchAddress = view.findViewById(R.id.search_address);
+        searchDistance = view.findViewById(R.id.search_distance);
+        searchOthers = view.findViewById(R.id.search_others);
 
-        schemeLayout = view.findViewById(R.id.scheme_layout);
-        schemeReturnButton = view.findViewById(R.id.scheme_return_button);
         schemeDrawer = view.findViewById(R.id.scheme_drawer);
         schemeLoading = view.findViewById(R.id.scheme_loading);
         schemeResult = view.findViewById(R.id.scheme_result);
-        schemeInfoDrawer = view.findViewById(R.id.scheme_info_drawer);
+        schemeInfoLayout = view.findViewById(R.id.scheme_info_layout);
         schemeInfoScroll = view.findViewById(R.id.scheme_info_scroll);
         schemeInfo = view.findViewById(R.id.scheme_info);
 
         startLayout = view.findViewById(R.id.start_layout);
         backButton = view.findViewById(R.id.return_button);
-        infoButton = view.findViewById(R.id.info_button);
+        middleButton = view.findViewById(R.id.middle_button);
         startButton = view.findViewById(R.id.start_button);
 
-        //设置选项布局、搜索结果抽屉、详细信息、路线方案布局、方案抽屉、方案信息抽屉、开始导航布局初始高度为0
+        //设置选项布局、搜索结果抽屉、详细信息、方案抽屉、方案信息抽屉、开始导航布局初始高度为0
         selectLayout.getLayoutParams().height = 0;
         searchDrawer.getLayoutParams().height = 0;
-        infoLayout.getLayoutParams().height = 0;
-        schemeLayout.getLayoutParams().height = 0;
+        searchInfoLayout.getLayoutParams().height = 0;
         schemeDrawer.getLayoutParams().height = 0;
-        schemeInfoDrawer.getLayoutParams().height = 0;
+        schemeInfoLayout.getLayoutParams().height = 0;
         startLayout.getLayoutParams().height = 0;
 
         searchAdapter = new SearchAdapter(this);//初始化搜索适配器
@@ -569,19 +586,8 @@ public class MainFragment extends Fragment {
                 routePlanSelect = TRANSIT;
 
                 myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
-            }
-        });
 
-        //从方案列表返回按钮的点击事件
-        schemeReturnButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                expandLayout(selectLayout, true);//展开选择布局
-                expandLayout(schemeLayout, false);//收起方案抽屉
-                expandLayout(startLayout, true);//展开开始导航布局
-                infoFlag = false;//设置信息状态为交通选择
-                infoButton.setText(R.string.info_button2);//设置按钮为详细信息
-                schemeInfoFlag = 0;//设置状态为没有展开
+                middleButton.setText(R.string.middle_button3);
             }
         });
 
@@ -676,24 +682,27 @@ public class MainFragment extends Fragment {
         });
 
         //路线规划、详细信息、交通选择切换按钮的点击事件
-        infoButton.setOnClickListener(new View.OnClickListener() {
+        middleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (schemeInfoFlag != 0) {//如果方案布局已经展开
+                if (schemeFlag != SCHEME_NOT_ALREADY) {//如果方案布局已经展开
                     expandLayout(selectLayout, true);//展开选择布局
-                    expandLayout(schemeLayout, false);//收起方案布局
+                    if (schemeFlag == SCHEME_LIST)//如果方案布局为方案列表
+                        expandLayout(schemeDrawer, false);//收起方案抽屉
+                    if (schemeFlag == SCHEME_INFO)//如果方案布局为单个方案
+                        expandLayout(schemeInfoLayout, false);//收起方案信息布局
 
-                    infoButton.setText(R.string.info_button2);//设置按钮为详细信息
+                    middleButton.setText(R.string.middle_button2);//设置按钮为详细信息
                     infoFlag = false;//设置信息状态为交通选择
-                    schemeInfoFlag = 0;//设置状态为没有展开
+                    schemeFlag = SCHEME_NOT_ALREADY;//设置状态为没有展开
                     return;
                 }
 
                 if (infoFlag) {//如果显示为详细信息
                     expandLayout(selectLayout, true);//展开选择布局
-                    expandLayout(infoLayout, false);//收起详细信息布局
+                    expandLayout(searchInfoLayout, false);//收起详细信息布局
 
-                    infoButton.setText(R.string.info_button2);//设置按钮为详细信息
+                    middleButton.setText(R.string.middle_button2);//设置按钮为详细信息
                     infoFlag = false;//设置信息状态交通选择
 
                     //重置交通类型为步行
@@ -705,9 +714,9 @@ public class MainFragment extends Fragment {
 
                     myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
                 } else {//如果显示为交通选择
-                    infoButton.setText(R.string.info_button1);//设置按钮为路线
+                    middleButton.setText(R.string.middle_button1);//设置按钮为路线
                     expandLayout(selectLayout, false);//收起选择布局
-                    expandLayout(infoLayout, true);//展开详细信息布局
+                    expandLayout(searchInfoLayout, true);//展开详细信息布局
                     infoFlag = true;//设置信息状态为详细信息
                 }
             }
@@ -795,7 +804,7 @@ public class MainFragment extends Fragment {
         //设置搜索抽屉的结果列表、详细信息布局的拖动布局、路线方案抽屉的结果列表、路线方案信息的拖动布局的高度
         searchResult.getLayoutParams().height = bodyLength / 2;
         searchInfoScroll.getLayoutParams().height = bodyLength / 4;
-        schemeResult.getLayoutParams().height = bodyLength / 2;
+        schemeResult.getLayoutParams().height = 2 * bodyLength / 5;
         schemeInfoScroll.getLayoutParams().height = bodyLength / 4;
     }
 
@@ -823,16 +832,10 @@ public class MainFragment extends Fragment {
      * 返回上一层
      */
     public void backToUpperStory() {
-        if (schemeInfoFlag == 2) {//如果方案布局为单个方案
+        if (schemeFlag == SCHEME_INFO) {//如果方案布局为单个方案
             expandLayout(schemeDrawer, true);//展开方案抽屉
-            expandLayout(schemeInfoDrawer, false);//收起方案信息抽屉
-            expandLayout(startLayout, false);//收起开始导航布局
-
-            //调整方案布局的高度
-            getValueAnimator(schemeLayout,
-                    bodyLength / 4, bodyLength / 2).start();
-
-            schemeInfoFlag = 1;//设置状态为方案列表
+            expandLayout(schemeInfoLayout, false);//收起方案信息抽屉
+            schemeFlag = SCHEME_LIST;//设置状态为方案列表
         } else {
             expandLayout(selectLayout, false);//收起选择布局
             expandLayout(searchLayout, true);//展开搜索布局
@@ -840,12 +843,12 @@ public class MainFragment extends Fragment {
                 expandSearchDrawer(true);//展开搜索抽屉
                 searchExpandFlag = true;//设置状态为展开
             }
-            expandLayout(infoLayout, false);//收起详细信息布局
+            expandLayout(searchInfoLayout, false);//收起详细信息布局
             expandLayout(startLayout, false);//收起开始导航布局
 
-            if (schemeInfoFlag == 1) {//如果方案布局为方案列表
-                expandLayout(schemeLayout, false);//收起方案布局
-                schemeInfoFlag = 0;//设置状态为没有展开
+            if (schemeFlag == SCHEME_LIST) {//如果方案布局为方案列表
+                expandLayout(schemeDrawer, false);//收起方案抽屉
+                schemeFlag = SCHEME_NOT_ALREADY;//设置状态为没有展开
             }
         }
     }
@@ -856,7 +859,7 @@ public class MainFragment extends Fragment {
     public boolean canBack() {
         return !(selectLayout.getHeight() == 0 &&
                 searchLayout.getHeight() != 0 &&
-                infoLayout.getHeight() == 0 &&
+                searchInfoLayout.getHeight() == 0 &&
                 startLayout.getHeight() == 0);
     }
 
