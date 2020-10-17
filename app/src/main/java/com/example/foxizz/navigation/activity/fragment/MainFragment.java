@@ -198,15 +198,15 @@ public class MainFragment extends Fragment {
     public int bodyLength;//屏幕的长
     public int bodyShort;//屏幕的宽
     public InputMethodManager imm;//键盘
+    private ImageButton settings;//设置
+    private ImageButton refresh;//刷新
+    private ImageButton location;//定位
 
     /*
      * 设置相关
      */
     private SettingsReceiver settingsReceiver;//设置接收器
     private LocalBroadcastManager localBroadcastManager;//本地广播管理器
-    private ImageButton settings;//设置
-    private ImageButton refresh;//刷新
-    private ImageButton location;//定位
 
     /*
      * 数据相关
@@ -647,7 +647,7 @@ public class MainFragment extends Fragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startPoiSearch();//开始POI搜索
+                startSearch();//开始搜索
             }
         });
 
@@ -864,9 +864,9 @@ public class MainFragment extends Fragment {
     }
 
     /**
-     * 开始POI搜索
+     * 开始搜索
      */
-    public void startPoiSearch() {
+    public void startSearch() {
         if (!isNetworkConnected()) {//没有网络连接
             Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
             return;

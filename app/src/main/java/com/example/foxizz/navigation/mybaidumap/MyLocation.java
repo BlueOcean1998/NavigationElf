@@ -75,7 +75,9 @@ public class MyLocation {
 
                         if (refreshSearchList) {
                             refreshSearchList = false;
-                            mainFragment.searchDataHelper.initSearchData(mainFragment);//初始化搜索记录
+                            if (mainFragment.isHistorySearchResult)
+                                mainFragment.searchDataHelper.initSearchData(mainFragment);//初始化搜索记录
+                            else mainFragment.startSearch();//开始搜索
                         }
 
                         mainFragment.myNavigateHelper.initDriveNavigateHelper();//初始化驾车导航引擎

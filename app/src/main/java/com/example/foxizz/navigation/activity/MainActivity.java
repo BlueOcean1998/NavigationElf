@@ -22,7 +22,7 @@ import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
  * app_name: NavigationElf
  * author: Foxizz
  * accomplish_date: 2020-04-30
- * last_modify_date: 2020-10-15
+ * last_modify_date: 2020-10-17
  */
 public class MainActivity extends BaseActivity {
 
@@ -151,7 +151,6 @@ public class MainActivity extends BaseActivity {
                         || !mainFragment.searchEdit.getText().toString().isEmpty()) {
                     mainFragment.searchEdit.clearFocus();//使搜索输入框失去焦点
                     mainFragment.searchEdit.setText("");
-                    return true;
                 }
                 if (!mainFragment.isHistorySearchResult) {//如果不是搜索历史记录
                     mainFragment.searchResult.stopScroll();//停止信息列表滑动
@@ -173,7 +172,7 @@ public class MainActivity extends BaseActivity {
 
             //如果是Enter键
             if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                mainFragment.startPoiSearch();//开始POI搜索
+                mainFragment.startSearch();//开始搜索
                 mainFragment.searchEdit.requestFocus();//搜索框重新获得焦点
                 mainFragment.takeBackKeyboard();//收回键盘
                 return true;

@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="TitleLayout">
+        <!-- 返回 -->
+        <attr name="back_enable" format="boolean" />
+        <!-- 标题 -->
+        <attr name="title" format="string" />
+        <!-- 菜单 -->
+        <attr name="menu_enable" format="boolean" />
+    </declare-styleable>
+
     <declare-styleable name="AdaptationTextView">
         <!-- 适配类型，width_adaptive为宽度自适应，height_adaptive为高度自适应，默认为宽度自适应 -->
         <attr name="adaptive_type">

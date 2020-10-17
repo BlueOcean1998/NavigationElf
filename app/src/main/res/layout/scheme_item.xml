@@ -72,13 +72,6 @@
             android:src="@drawable/ic_expand_more_black_24dp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/end_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="12dp"
-        android:gravity="center"
-        android:text="@string/no_more"
-        android:textColor="@color/gray"
-        android:textSize="16sp" />
+    <include android:id="@+id/scheme_end_text"
+        layout="@layout/end_text" />
 </LinearLayout>

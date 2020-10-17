@@ -13,7 +13,7 @@
         android:layout_margin="12dp"
         android:background="@null"
         android:contentDescription="@null"
-        android:src="@drawable/ic_back_black_30dp" />
+        android:src="@drawable/ic_back_black_24dp" />
 
     <ScrollView
         android:layout_width="match_parent"

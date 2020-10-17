@@ -2,6 +2,7 @@ package com.example.foxizz.navigation.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -65,6 +66,13 @@ public class LoginActivity extends AppCompatActivity {
         passwordCheckbox= findViewById(R.id.password_checkbox);
         loginButton= findViewById(R.id.login_button);
         registerLink= findViewById(R.id.register_link);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 }

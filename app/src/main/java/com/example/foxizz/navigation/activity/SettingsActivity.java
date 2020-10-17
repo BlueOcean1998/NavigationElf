@@ -20,7 +20,6 @@ import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.Toolbar;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -78,12 +77,6 @@ public class SettingsActivity extends BaseActivity {
 
         //获取SharedPreferences
         sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
-
-        //标题栏
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         //自定义设置
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
