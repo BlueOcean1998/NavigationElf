@@ -925,6 +925,10 @@ public class MainFragment extends Fragment {
             mySearch.poiSearchType = MySearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
         else mySearch.poiSearchType = MySearch.CITY_SEARCH;//设置搜索类型为城市内搜索
 
+        //滚动到顶部
+        searchResult.stopScroll();
+        searchResult.scrollToPosition(0);
+
         //加载搜索信息
         searchLoading.setVisibility(View.VISIBLE);
         searchResult.setVisibility(View.GONE);
@@ -933,7 +937,8 @@ public class MainFragment extends Fragment {
         currentPage = 0;
 
         if (!mySearch.isSearching) mySearch.startPoiSearch(currentPage);//开始POI搜索
-        else Toast.makeText(getContext(), R.string.wait_for_search_result, Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(getContext(), R.string.wait_for_search_result, Toast.LENGTH_SHORT).show();
     }
 
 }

@@ -89,7 +89,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             mainFragment.mySearch.startPoiSearch(mainFragment.currentPage);
 
         //设置提示信息的内容
-        if (mainFragment.currentPage < mainFragment.totalPage)
+        if (!mainFragment.isHistorySearchResult
+                && mainFragment.currentPage < mainFragment.totalPage)
             holder.endText.setText(getContext().getString(R.string.loading));
         else holder.endText.setText(getContext().getString(R.string.no_more));
 
