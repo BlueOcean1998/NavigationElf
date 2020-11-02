@@ -325,11 +325,11 @@ public class MySearch {
                             mainFragment.searchAddress.setText(detailInfo.getAddress());
                             searchItem.setAddress(detailInfo.getAddress());
 
-                            LatLng tLatLng = detailInfo.getLocation();//获取目标坐标
-                            searchItem.setLatLng(tLatLng);//设置目标坐标
+                            LatLng latLng = detailInfo.getLocation();//获取目标坐标
+                            searchItem.setLatLng(latLng);//设置目标坐标
 
                             //获取定位点到目标点的距离（单位：m，结果除以1000转化为km）
-                            double distance = (DistanceUtil.getDistance(mainFragment.latLng, tLatLng) / 1000);
+                            double distance = (DistanceUtil.getDistance(mainFragment.latLng, latLng) / 1000);
                             //保留两位小数
                             BigDecimal bd = new BigDecimal(distance);
                             distance = bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();

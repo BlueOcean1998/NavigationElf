@@ -9,8 +9,11 @@ import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.search.core.PoiDetailInfo;
 import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
 import com.example.foxizz.navigation.mybaidumap.MySearch;
+
+import java.math.BigDecimal;
 
 import static com.example.foxizz.navigation.util.Tools.isAirplaneModeOn;
 import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
@@ -82,13 +85,20 @@ public class SearchDataHelper {
                     SearchItem searchItem = new SearchItem();
 
                     searchItem.setUid(cursor.getString(cursor.getColumnIndex("uid")));
-                    searchItem.setLatLng(new LatLng(
-                            cursor.getDouble(cursor.getColumnIndex("latitude")),
-                            cursor.getDouble(cursor.getColumnIndex("longitude"))));
-
                     searchItem.setTargetName(cursor.getString(cursor.getColumnIndex("target_name")));
                     searchItem.setAddress(cursor.getString(cursor.getColumnIndex("address")));
-                    searchItem.setDistance(0.0);
+
+                    LatLng latLng = new LatLng(
+                            cursor.getDouble(cursor.getColumnIndex("latitude")),
+                            cursor.getDouble(cursor.getColumnIndex("longitude")));
+                    searchItem.setLatLng(latLng);
+
+                    //获取定位点到目标点的距离（单位：m，结果除以1000转化为km）
+                    double distance = (DistanceUtil.getDistance(mainFragment.latLng, latLng) / 1000);
+                    //保留两位小数
+                    BigDecimal bd = new BigDecimal(distance);
+                    distance = bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    searchItem.setDistance(distance);
 
                     mainFragment.searchList.add(searchItem);
 
