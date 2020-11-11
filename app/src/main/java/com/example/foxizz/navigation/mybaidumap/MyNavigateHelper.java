@@ -211,11 +211,13 @@ public class MyNavigateHelper {
         BNRoutePlanNode startNode = new BNRoutePlanNode.Builder()
                 .latitude(mainFragment.latLng.latitude)
                 .longitude(mainFragment.latLng.longitude)
+                .coordinateType(BNRoutePlanNode.CoordinateType.BD09LL)
                 .build();
 
         BNRoutePlanNode endNode = new BNRoutePlanNode.Builder()
                 .latitude(mainFragment.endLocation.latitude)
                 .longitude(mainFragment.endLocation.longitude)
+                .coordinateType(BNRoutePlanNode.CoordinateType.BD09LL)
                 .build();
 
         List<BNRoutePlanNode> mBNRoutePlanNodes = new ArrayList<>();

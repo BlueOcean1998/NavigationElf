@@ -38,7 +38,7 @@ android {
     //自定义包名输出格式
     applicationVariants.all {
         it.outputs.each {
-            def fileName = "NavigationElf-V" + defaultConfig.versionName + ".apk"
+            def fileName = "NavigationElf-v" + defaultConfig.versionName + ".apk"
             it.outputFileName = fileName
         }
     }
@@ -47,9 +47,9 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
-    testImplementation 'junit:junit:4.13'
+    testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
