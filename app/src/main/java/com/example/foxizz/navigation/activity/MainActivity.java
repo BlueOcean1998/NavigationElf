@@ -22,7 +22,7 @@ import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
  * app_name: NavigationElf
  * author: Foxizz
  * accomplish_date: 2020-04-30
- * last_modify_date: 2020-11-11
+ * last_modify_date: 2020-12-03
  */
 public class MainActivity extends BaseActivity {
 
@@ -128,7 +128,6 @@ public class MainActivity extends BaseActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 0) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                mainFragment.myLocation.refreshSearchList = true;//刷新搜索列表
                 mainFragment.myLocation.initLocationOption();//初始化定位
             } else
                 Toast.makeText(getContext(), R.string.get_permission_fail, Toast.LENGTH_SHORT).show();

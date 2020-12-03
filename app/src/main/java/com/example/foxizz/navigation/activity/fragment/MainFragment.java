@@ -771,12 +771,12 @@ public class MainFragment extends Fragment {
 
         String[] tmpList = new String[permissionList.size()];
 
+        searchDataHelper.initSearchData(this);//初始化搜索记录
         //如果列表为空，则获取了全部权限不用再获取，否则要获取
         if (permissionList.isEmpty()) {
             myLocation.refreshSearchList = true;//刷新搜索列表
             myLocation.initLocationOption();//初始化定位
         } else {
-            searchDataHelper.initSearchData(this);//初始化搜索记录
             //申请权限
             ActivityCompat.requestPermissions(requireActivity(), permissionList.toArray(tmpList), 0);
         }
