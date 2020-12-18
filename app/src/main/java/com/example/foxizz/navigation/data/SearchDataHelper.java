@@ -24,11 +24,14 @@ import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
  */
 public class SearchDataHelper {
 
-    private SQLiteDatabase db;
-    private Cursor cursor;
+    private static SQLiteDatabase db;
+    private static Cursor cursor;
+    private static DatabaseHelper databaseHelper;
 
-    private final DatabaseHelper databaseHelper;
-    public SearchDataHelper() {
+    /**
+     * 初始化搜索数据库
+     */
+    public static void initSearchDataHelper() {
         databaseHelper = new DatabaseHelper("Navigate.db", null, 1);
     }
 
@@ -37,7 +40,7 @@ public class SearchDataHelper {
      *
      * @param mainFragment 地图页碎片
      */
-    public void moveToLastSearchRecordLocation(MainFragment mainFragment) {
+    public static void moveToLastSearchRecordLocation(MainFragment mainFragment) {
         try {
             if (isHasSearchData()) {//如果有搜索记录
                 db = databaseHelper.getReadableDatabase();
@@ -64,7 +67,7 @@ public class SearchDataHelper {
      *
      * @param mainFragment 地图页碎片
      */
-    public void initSearchData(MainFragment mainFragment) {
+    public static void initSearchData(MainFragment mainFragment) {
         try {
             mainFragment.searchList.clear();
 
@@ -121,7 +124,7 @@ public class SearchDataHelper {
      *
      * @return boolean
      */
-    public boolean isHasSearchData() {
+    public static boolean isHasSearchData() {
         try {
             db = databaseHelper.getReadableDatabase();
             cursor = db.rawQuery("select * from SearchData", null);
@@ -137,7 +140,7 @@ public class SearchDataHelper {
      *
      * @param info POI详细信息
      */
-    public void insertSearchData(PoiDetailInfo info) {
+    public static void insertSearchData(PoiDetailInfo info) {
         try {
             db = databaseHelper.getWritableDatabase();
             db.execSQL("insert into SearchData (uid, latitude, longitude, target_name, address, time) " +
@@ -158,7 +161,7 @@ public class SearchDataHelper {
      *
      * @param info POI详细信息
      */
-    public void updateSearchData(PoiDetailInfo info) {
+    public static void updateSearchData(PoiDetailInfo info) {
         try {
             db = databaseHelper.getWritableDatabase();
             db.execSQL("update SearchData set latitude = ?, longitude = ?, " +
@@ -180,7 +183,7 @@ public class SearchDataHelper {
      *
      * @param info POI详细信息
      */
-    public void insertOrUpdateSearchData(PoiDetailInfo info) {
+    public static void insertOrUpdateSearchData(PoiDetailInfo info) {
         try {
             db = databaseHelper.getReadableDatabase();
             cursor = db.rawQuery("select * from SearchData where uid = ?", new String[]{info.getUid()});
@@ -197,7 +200,7 @@ public class SearchDataHelper {
      *
      * @param mainFragment 地图页碎片
      */
-    public void deleteAllSearchData(MainFragment mainFragment) {
+    public static void deleteAllSearchData(MainFragment mainFragment) {
         try {
             mainFragment.searchList.clear();//清空搜索列表
             mainFragment.searchAdapter.notifyDataSetChanged();//通知adapter更新
@@ -214,7 +217,7 @@ public class SearchDataHelper {
      *
      * @param uid uid
      */
-    public void deleteSearchData(String uid) {
+    public static void deleteSearchData(String uid) {
         try {
             db = databaseHelper.getWritableDatabase();
             db.execSQL("delete from SearchData where uid = ?", new String[]{uid});
@@ -226,7 +229,7 @@ public class SearchDataHelper {
     /**
      * 关闭数据库，防止内存泄漏
      */
-    public void close() {
+    public static void close() {
         databaseHelper.close();
     }
 

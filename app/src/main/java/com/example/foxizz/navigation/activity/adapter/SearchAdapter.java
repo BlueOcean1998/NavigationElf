@@ -26,6 +26,7 @@ import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
+import com.example.foxizz.navigation.data.SearchDataHelper;
 import com.example.foxizz.navigation.data.SearchItem;
 import com.example.foxizz.navigation.mybaidumap.MySearch;
 
@@ -215,7 +216,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                                 }
                             }
 
-                            mainFragment.searchDataHelper.deleteSearchData(searchItem.getUid());//删除数据库中的搜索记录
+                            SearchDataHelper.deleteSearchData(searchItem.getUid());//删除数据库中的搜索记录
                         }
                     });
 

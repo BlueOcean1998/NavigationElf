@@ -14,6 +14,7 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
+import com.example.foxizz.navigation.data.SearchDataHelper;
 
 import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
 
@@ -76,7 +77,7 @@ public class MyLocation {
                         if (refreshSearchList) {
                             refreshSearchList = false;
                             if (mainFragment.isHistorySearchResult)
-                                mainFragment.searchDataHelper.initSearchData(mainFragment);//初始化搜索记录
+                                SearchDataHelper.initSearchData(mainFragment);//初始化搜索记录
                             else mainFragment.startSearch();//开始搜索
                         }
 

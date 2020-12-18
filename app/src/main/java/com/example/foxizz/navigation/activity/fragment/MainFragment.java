@@ -213,7 +213,6 @@ public class MainFragment extends Fragment {
      */
     private SharedPreferences sharedPreferences1;
     private SharedPreferences sharedPreferences2;
-    public SearchDataHelper searchDataHelper;
 
     @Nullable
     @Override
@@ -227,9 +226,6 @@ public class MainFragment extends Fragment {
         //获取偏好设置
         sharedPreferences1 = PreferenceManager.getDefaultSharedPreferences(requireContext());
         sharedPreferences2 = requireContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
-
-        //获取搜索数据帮助对象
-        searchDataHelper = new SearchDataHelper();
 
         InitMap(view);//初始化地图控件
 
@@ -302,8 +298,6 @@ public class MainFragment extends Fragment {
 
         SpeechSynthesizer.getInstance().release();//释放语音合成实例
 
-        searchDataHelper.close();//关闭数据库
-
         instance = null;//释放MainFragment实例
     }
 
@@ -331,7 +325,7 @@ public class MainFragment extends Fragment {
         mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
 
         //移动视角到最近的一条搜索记录
-        searchDataHelper.moveToLastSearchRecordLocation(this);
+        SearchDataHelper.moveToLastSearchRecordLocation(this);
 
         /*离线地图要下载离线包，现在暂时不用
         //下载离线地图
@@ -597,7 +591,7 @@ public class MainFragment extends Fragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     //如果状态为收起且有搜索数据
-                    if (!searchExpandFlag && searchDataHelper.isHasSearchData()) {
+                    if (!searchExpandFlag && SearchDataHelper.isHasSearchData()) {
                         expandSearchDrawer(true);//展开搜索抽屉
                         searchExpandFlag = true;//设置状态为展开
                     }
@@ -637,7 +631,7 @@ public class MainFragment extends Fragment {
 
                 if (!isHistorySearchResult) {//如果不是搜索历史记录
                     searchResult.stopScroll();//停止信息列表滑动
-                    searchDataHelper.initSearchData(MainFragment.this);//初始化搜索记录
+                    SearchDataHelper.initSearchData(MainFragment.this);//初始化搜索记录
                     isHistorySearchResult = true;//现在是搜索历史记录了
                 }
             }
@@ -771,7 +765,7 @@ public class MainFragment extends Fragment {
 
         String[] tmpList = new String[permissionList.size()];
 
-        searchDataHelper.initSearchData(this);//初始化搜索记录
+        SearchDataHelper.initSearchData(this);//初始化搜索记录
         //如果列表为空，则获取了全部权限不用再获取，否则要获取
         if (permissionList.isEmpty()) {
             myLocation.refreshSearchList = true;//刷新搜索列表
@@ -881,7 +875,7 @@ public class MainFragment extends Fragment {
 
         if (TextUtils.isEmpty(searchContent)) {//如果搜索内容为空
             if (!isHistorySearchResult) {//如果不是搜索历史记录
-                searchDataHelper.initSearchData(this);//初始化搜索记录
+                SearchDataHelper.initSearchData(this);//初始化搜索记录
                 isHistorySearchResult = true;//现在是搜索历史记录了
             }
             return;

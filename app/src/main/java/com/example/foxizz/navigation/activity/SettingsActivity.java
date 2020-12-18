@@ -364,11 +364,9 @@ public class SettingsActivity extends BaseActivity {
                     builder.setPositiveButton(R.string.clear, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            SearchDataHelper searchDataHelper = new SearchDataHelper();
-                            searchDataHelper.deleteAllSearchData(
+                            SearchDataHelper.deleteAllSearchData(
                                     ((MainActivity) requireActivity()).getMainFragment()
                             );//清空数据库中的搜索记录
-                            searchDataHelper.close();
                         }
                     });
 

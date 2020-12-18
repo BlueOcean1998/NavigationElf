@@ -26,6 +26,7 @@ import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
+import com.example.foxizz.navigation.data.SearchDataHelper;
 import com.example.foxizz.navigation.data.SearchItem;
 
 import java.math.BigDecimal;
@@ -308,7 +309,7 @@ public class MySearch {
                         for (PoiDetailInfo detailInfo : poiDetailResult.getPoiDetailInfoList()) {
                             //将结果保存到数据库
                             if (poiSearchType == DETAIL_SEARCH)
-                                mainFragment.searchDataHelper.insertOrUpdateSearchData(detailInfo);
+                                SearchDataHelper.insertOrUpdateSearchData(detailInfo);
 
                             //更新搜索结果列表
                             SearchItem searchItem = new SearchItem();

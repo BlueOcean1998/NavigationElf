@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
 import com.example.foxizz.navigation.activity.fragment.UserFragment;
+import com.example.foxizz.navigation.data.SearchDataHelper;
 
 import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
 
@@ -22,7 +23,7 @@ import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
  * app_name: NavigationElf
  * author: Foxizz
  * accomplish_date: 2020-04-30
- * last_modify_date: 2020-12-03
+ * last_modify_date: 2020-12-18
  */
 public class MainActivity extends BaseActivity {
 
@@ -147,7 +148,7 @@ public class MainActivity extends BaseActivity {
                 }
                 if (!mainFragment.isHistorySearchResult) {//如果不是搜索历史记录
                     mainFragment.searchResult.stopScroll();//停止信息列表滑动
-                    mainFragment.searchDataHelper.initSearchData(mainFragment);//初始化搜索记录
+                    SearchDataHelper.initSearchData(mainFragment);//初始化搜索记录
                     mainFragment.isHistorySearchResult = true;//现在是搜索历史记录了
                 }
                 //如果焦点在searchEdit上或searchEdit有内容
