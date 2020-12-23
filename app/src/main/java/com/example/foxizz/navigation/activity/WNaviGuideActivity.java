@@ -22,9 +22,9 @@ import com.baidu.mapapi.walknavi.model.RouteGuideKind;
 import com.baidu.platform.comapi.walknavi.WalkNaviModeSwitchListener;
 import com.baidu.platform.comapi.walknavi.widget.ArCameraView;
 import com.baidu.tts.client.SpeechSynthesizer;
-import com.example.foxizz.navigation.util.Tools;
+import com.example.foxizz.navigation.util.SettingUtil;
 
-import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
+import static com.example.foxizz.navigation.MyApplication.getContext;
 
 /**
  * 步行导航诱导活动
@@ -171,7 +171,7 @@ public class WNaviGuideActivity extends Activity {
         });
 
         //初始化设置
-        Tools.initSettings(this);
+        SettingUtil.initSettings(this);
     }
 
     @Override

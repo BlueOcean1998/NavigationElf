@@ -16,7 +16,7 @@ import com.baidu.mapapi.bikenavi.adapter.IBTTSPlayer;
 import com.baidu.mapapi.bikenavi.model.BikeRouteDetailInfo;
 import com.baidu.mapapi.walknavi.model.RouteGuideKind;
 import com.baidu.tts.client.SpeechSynthesizer;
-import com.example.foxizz.navigation.util.Tools;
+import com.example.foxizz.navigation.util.SettingUtil;
 
 /**
  * 骑行导航诱导活动
@@ -134,7 +134,7 @@ public class BNaviGuideActivity extends Activity {
         });
 
         //初始化设置
-        Tools.initSettings(this);
+        SettingUtil.initSettings(this);
     }
 
 }

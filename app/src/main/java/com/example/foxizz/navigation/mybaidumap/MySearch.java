@@ -28,11 +28,9 @@ import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
 import com.example.foxizz.navigation.data.SearchDataHelper;
 import com.example.foxizz.navigation.data.SearchItem;
+import com.example.foxizz.navigation.util.TimeUtil;
 
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -40,8 +38,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
-import static com.example.foxizz.navigation.util.Tools.isEffectiveDate;
+import static com.example.foxizz.navigation.MyApplication.getContext;
 
 /**
  * 搜索模块
@@ -287,7 +284,7 @@ public class MySearch {
                 }
             }
 
-            @SuppressLint({"SimpleDateFormat", "SetTextI18n"})
+            @SuppressLint({"SetTextI18n"})
             @Override
             public void onGetPoiDetailResult(PoiDetailSearchResult poiDetailResult) {
                 if (isFirstDetailSearch) {//如果是第一次详细信息搜索
@@ -365,27 +362,27 @@ public class MySearch {
                             //获取营业时间
                             if (detailInfo.getShopHours() != null && !detailInfo.getShopHours().isEmpty()) {
                                 otherInfo.append(getContext().getString(R.string.shop_time)).append(detailInfo.getShopHours());
-                                try {
-                                    boolean flag = false;
+                                int flag = 0;
 
-                                    DateFormat sdf = new SimpleDateFormat("HH:mm");
-                                    Date nowTime = sdf.parse(sdf.format(new Date()));
+                                try {
+                                    Date nowTime = new Date();
                                     String[] shopHours = detailInfo.getShopHours().split(",");
                                     for (String shopHour : shopHours) {
                                         String[] time = shopHour.split("-");
-                                        Date startTime = sdf.parse(time[0]);
-                                        Date endTime = sdf.parse(time[1]);
-                                        if (isEffectiveDate(nowTime, startTime, endTime)) {
-                                            flag = true;
+                                        Date startTime = TimeUtil.parse(time[0], TimeUtil.FORMATION_Hm);
+                                        Date endTime = TimeUtil.parse(time[1], TimeUtil.FORMATION_Hm);
+                                        if (TimeUtil.isEffectiveDate(nowTime, startTime, endTime)) {
+                                            flag = 1;
                                         }
                                     }
-
-                                    if (flag)
-                                        otherInfo.append(getContext().getString(R.string.shopping));
-                                    else otherInfo.append(getContext().getString(R.string.relaxing));
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
+                                } catch (Exception ignored) {
+                                    flag = -1;
                                 }
+
+                                if (flag == 1)
+                                    otherInfo.append(" ").append(getContext().getString(R.string.shopping));
+                                else if (flag == 0)
+                                    otherInfo.append(" ").append(getContext().getString(R.string.relaxing));
                                 otherInfo.append("\n");
                             }
 

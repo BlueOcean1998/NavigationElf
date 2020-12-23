@@ -23,7 +23,7 @@ import com.baidu.navisdk.adapter.BaiduNaviManagerFactory;
 import com.baidu.navisdk.adapter.IBNRouteGuideManager;
 import com.baidu.navisdk.adapter.IBNTTSManager;
 import com.baidu.navisdk.adapter.IBNaviListener;
-import com.example.foxizz.navigation.util.Tools;
+import com.example.foxizz.navigation.util.SettingUtil;
 
 /**
  * 驾车导航诱导活动
@@ -35,8 +35,8 @@ public class DNaviGuideActivity extends Activity {
 
     private IBNRouteGuideManager mRouteGuideManager;
 
-    private IBNaviListener.DayNightMode mMode = IBNaviListener.DayNightMode.DAY;
-    private IBNRouteGuideManager.OnNavigationListener mOnNavigationListener =
+    private final IBNaviListener.DayNightMode mMode = IBNaviListener.DayNightMode.DAY;
+    private final IBNRouteGuideManager.OnNavigationListener mOnNavigationListener =
             new IBNRouteGuideManager.OnNavigationListener() {
 
                 @Override
@@ -128,7 +128,7 @@ public class DNaviGuideActivity extends Activity {
         mRouteGuideManager.onResume();
 
         //若在其它生命周期中调用该方法驾车导航内置设置会覆盖掉该app的设置
-        Tools.initSettings(this);
+        SettingUtil.initSettings(this);
     }
 
     protected void onPause() {

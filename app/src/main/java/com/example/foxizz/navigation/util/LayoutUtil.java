@@ -2,6 +2,8 @@ package com.example.foxizz.navigation.util;
 
 import android.animation.ValueAnimator;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
@@ -11,12 +13,76 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foxizz.navigation.R;
 
-import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
+import static com.example.foxizz.navigation.MyApplication.getContext;
 
 /**
  * 布局工具类
  */
 public class LayoutUtil {
+
+    /**
+     * 获取视图尺寸
+     *
+     * @param view 视图
+     * @param type true:宽 false:高
+     * @return 尺寸
+     */
+    public static int getViewSize(final View view, final boolean type) {
+        final int[] heightOrWidth = new int[1];
+        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (type) heightOrWidth[0] = view.getWidth();
+                else heightOrWidth[0] = view.getHeight();
+                view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+        return heightOrWidth[0];
+    }
+
+    /**
+     * 获取视图宽度
+     *
+     * @param view 视图
+     * @return 宽度
+     */
+    public static int getViewWidth(View view) {
+        return getViewSize(view, true);
+    }
+
+    /**
+     * 获取视图高度
+     *
+     * @param view 视图
+     * @return 高度
+     */
+    public static int getViewHeight(View view) {
+        return getViewSize(view, false);
+    }
+
+    /**
+     * 设置视图宽度
+     *
+     * @param view  视图
+     * @param width 宽度
+     */
+    public static void setViewWidth(View view, int width) {
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.width = width;
+        view.setLayoutParams(params);
+    }
+
+    /**
+     * 设置视图高度
+     *
+     * @param view   视图
+     * @param height 高度
+     */
+    public static void setViewHeight(View view, int height) {
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.height = height;
+        view.setLayoutParams(params);
+    }
 
     /**
      * 伸缩布局
@@ -49,7 +115,7 @@ public class LayoutUtil {
     }
 
     /**
-     * 获取改变控件尺寸动画
+     * 获取改变视图尺寸动画
      *
      * @param view        需要改变高度的view
      * @param startHeight 动画前的高度
@@ -104,7 +170,7 @@ public class LayoutUtil {
     }
 
     /**
-     * 获取改变控件尺寸，同时固定点击的item的动画
+     * 获取改变视图尺寸，同时固定点击的item的动画
      *
      * @param view         需要改变高度的view
      * @param startHeight  动画前的高度
@@ -132,7 +198,7 @@ public class LayoutUtil {
     }
 
     /**
-     * 伸展按钮的旋转动画
+     * 旋转视图动画
      *
      * @param view 需要旋转的view
      * @param from 动画前的旋转角度

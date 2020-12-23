@@ -62,24 +62,21 @@ import com.example.foxizz.navigation.data.SearchDataHelper;
 import com.example.foxizz.navigation.data.SearchItem;
 import com.example.foxizz.navigation.mybaidumap.MyLocation;
 import com.example.foxizz.navigation.mybaidumap.MyNavigateHelper;
+import com.example.foxizz.navigation.mybaidumap.MyOrientationListener;
 import com.example.foxizz.navigation.mybaidumap.MyRoutePlanSearch;
 import com.example.foxizz.navigation.mybaidumap.MySearch;
-import com.example.foxizz.navigation.util.MyOrientationListener;
-import com.example.foxizz.navigation.util.Tools;
+import com.example.foxizz.navigation.util.CityUtil;
+import com.example.foxizz.navigation.util.LayoutUtil;
+import com.example.foxizz.navigation.util.NetworkUtil;
+import com.example.foxizz.navigation.util.PreferenceUtil;
+import com.example.foxizz.navigation.util.SettingUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.example.foxizz.navigation.util.CityUtil.checkoutProvinceName;
-import static com.example.foxizz.navigation.util.CityUtil.getCityList;
-import static com.example.foxizz.navigation.util.LayoutUtil.expandLayout;
-import static com.example.foxizz.navigation.util.LayoutUtil.rotateExpandIcon;
-import static com.example.foxizz.navigation.util.Tools.isAirplaneModeOn;
-import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
-
 /**
- * 地图页碎片
+ * 地图页
  */
 public class MainFragment extends Fragment {
 
@@ -225,7 +222,6 @@ public class MainFragment extends Fragment {
 
         //获取偏好设置
         sharedPreferences1 = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        sharedPreferences2 = requireContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
 
         InitMap(view);//初始化地图控件
 
@@ -349,27 +345,25 @@ public class MainFragment extends Fragment {
      * 设置地图类型
      */
     public void setMapType() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            switch (Objects.requireNonNull(sharedPreferences2.getString("map_type",
-                    SettingsConstants.STANDARD_MAP))) {
-                case SettingsConstants.STANDARD_MAP://标准地图
-                    if (mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_NORMAL)
-                        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-                    mBaiduMap.setTrafficEnabled(false);
-                    break;
-                case SettingsConstants.SATELLITE_MAP://卫星地图
-                    if (mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_SATELLITE)
-                        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
-                    mBaiduMap.setTrafficEnabled(false);
-                    break;
-                case SettingsConstants.TRAFFIC_MAP://交通地图
-                    if (mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_NORMAL)
-                        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-                    mBaiduMap.setTrafficEnabled(true);
-                    break;
-                default:
-                    break;
-            }
+        switch (Objects.requireNonNull(PreferenceUtil.getString("map_type",
+                SettingsConstants.STANDARD_MAP))) {
+            case SettingsConstants.STANDARD_MAP://标准地图
+                if (mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_NORMAL)
+                    mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+                mBaiduMap.setTrafficEnabled(false);
+                break;
+            case SettingsConstants.SATELLITE_MAP://卫星地图
+                if (mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_SATELLITE)
+                    mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
+                mBaiduMap.setTrafficEnabled(false);
+                break;
+            case SettingsConstants.TRAFFIC_MAP://交通地图
+                if (mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_NORMAL)
+                    mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+                mBaiduMap.setTrafficEnabled(true);
+                break;
+            default:
+                break;
         }
     }
 
@@ -414,7 +408,7 @@ public class MainFragment extends Fragment {
         imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 
         setMapType();
-        Tools.initSettings(requireActivity());
+        SettingUtil.initSettings(requireActivity());
         setAngle3D();
         setMapRotation();
         setScaleControl();
@@ -471,12 +465,12 @@ public class MainFragment extends Fragment {
         startButton = view.findViewById(R.id.start_button);
 
         //设置选项布局、搜索结果抽屉、详细信息、方案抽屉、方案信息抽屉、开始导航布局初始高度为0
-        selectLayout.getLayoutParams().height = 0;
-        searchDrawer.getLayoutParams().height = 0;
-        searchInfoLayout.getLayoutParams().height = 0;
-        schemeDrawer.getLayoutParams().height = 0;
-        schemeInfoLayout.getLayoutParams().height = 0;
-        startLayout.getLayoutParams().height = 0;
+        LayoutUtil.setViewHeight(selectLayout, 0);
+        LayoutUtil.setViewHeight(searchDrawer, 0);
+        LayoutUtil.setViewHeight(searchInfoLayout, 0);
+        LayoutUtil.setViewHeight(schemeDrawer, 0);
+        LayoutUtil.setViewHeight(schemeInfoLayout, 0);
+        LayoutUtil.setViewHeight(startLayout, 0);
 
         searchAdapter = new SearchAdapter(this);//初始化搜索适配器
         searchLayoutManager = new StaggeredGridLayoutManager(
@@ -680,11 +674,11 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (schemeFlag != SCHEME_NOT_ALREADY) {//如果方案布局已经展开
-                    expandLayout(selectLayout, true);//展开选择布局
+                    LayoutUtil.expandLayout(selectLayout, true);//展开选择布局
                     if (schemeFlag == SCHEME_LIST)//如果方案布局为方案列表
-                        expandLayout(schemeDrawer, false);//收起方案抽屉
+                        LayoutUtil.expandLayout(schemeDrawer, false);//收起方案抽屉
                     if (schemeFlag == SCHEME_INFO)//如果方案布局为单个方案
-                        expandLayout(schemeInfoLayout, false);//收起方案信息布局
+                        LayoutUtil.expandLayout(schemeInfoLayout, false);//收起方案信息布局
 
                     middleButton.setText(R.string.middle_button2);//设置按钮为详细信息
                     infoFlag = false;//设置信息状态为交通选择
@@ -693,8 +687,8 @@ public class MainFragment extends Fragment {
                 }
 
                 if (infoFlag) {//如果显示为详细信息
-                    expandLayout(selectLayout, true);//展开选择布局
-                    expandLayout(searchInfoLayout, false);//收起详细信息布局
+                    LayoutUtil.expandLayout(selectLayout, true);//展开选择布局
+                    LayoutUtil.expandLayout(searchInfoLayout, false);//收起详细信息布局
 
                     middleButton.setText(R.string.middle_button2);//设置按钮为详细信息
                     infoFlag = false;//设置信息状态交通选择
@@ -709,8 +703,8 @@ public class MainFragment extends Fragment {
                     myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
                 } else {//如果显示为交通选择
                     middleButton.setText(R.string.middle_button1);//设置按钮为路线
-                    expandLayout(selectLayout, false);//收起选择布局
-                    expandLayout(searchInfoLayout, true);//展开详细信息布局
+                    LayoutUtil.expandLayout(selectLayout, false);//收起选择布局
+                    LayoutUtil.expandLayout(searchInfoLayout, true);//展开详细信息布局
                     infoFlag = true;//设置信息状态为详细信息
                 }
             }
@@ -796,10 +790,10 @@ public class MainFragment extends Fragment {
         }
 
         //设置搜索抽屉的结果列表、详细信息布局的拖动布局、路线方案抽屉的结果列表、路线方案信息的拖动布局的高度
-        searchResult.getLayoutParams().height = bodyLength / 2;
-        searchInfoScroll.getLayoutParams().height = bodyLength / 4;
-        schemeResult.getLayoutParams().height = 2 * bodyLength / 5;
-        schemeInfoScroll.getLayoutParams().height = bodyLength / 4;
+        LayoutUtil.setViewHeight(searchResult, bodyLength / 2);
+        LayoutUtil.setViewHeight(searchInfoScroll, bodyLength / 4);
+        LayoutUtil.setViewHeight(schemeResult, 2 * bodyLength / 5);
+        LayoutUtil.setViewHeight(schemeInfoScroll, bodyLength / 4);
     }
 
     /**
@@ -808,9 +802,9 @@ public class MainFragment extends Fragment {
      * @param flag 伸或缩
      */
     public void expandSearchDrawer(boolean flag) {
-        expandLayout(searchDrawer, flag);
-        if (flag) rotateExpandIcon(searchExpand, 0, 180);//旋转伸展按钮
-        else rotateExpandIcon(searchExpand, 180, 0);//旋转伸展按钮
+        LayoutUtil.expandLayout(searchDrawer, flag);
+        if (flag) LayoutUtil.rotateExpandIcon(searchExpand, 0, 180);//旋转伸展按钮
+        else LayoutUtil.rotateExpandIcon(searchExpand, 180, 0);//旋转伸展按钮
     }
 
     /*
@@ -827,21 +821,21 @@ public class MainFragment extends Fragment {
      */
     public void backToUpperStory() {
         if (schemeFlag == SCHEME_INFO) {//如果方案布局为单个方案
-            expandLayout(schemeDrawer, true);//展开方案抽屉
-            expandLayout(schemeInfoLayout, false);//收起方案信息抽屉
+            LayoutUtil.expandLayout(schemeDrawer, true);//展开方案抽屉
+            LayoutUtil.expandLayout(schemeInfoLayout, false);//收起方案信息抽屉
             schemeFlag = SCHEME_LIST;//设置状态为方案列表
         } else {
-            expandLayout(selectLayout, false);//收起选择布局
-            expandLayout(searchLayout, true);//展开搜索布局
+            LayoutUtil.expandLayout(selectLayout, false);//收起选择布局
+            LayoutUtil.expandLayout(searchLayout, true);//展开搜索布局
             if (!searchExpandFlag) {//如果状态为收起
                 expandSearchDrawer(true);//展开搜索抽屉
                 searchExpandFlag = true;//设置状态为展开
             }
-            expandLayout(searchInfoLayout, false);//收起详细信息布局
-            expandLayout(startLayout, false);//收起开始导航布局
+            LayoutUtil.expandLayout(searchInfoLayout, false);//收起详细信息布局
+            LayoutUtil.expandLayout(startLayout, false);//收起开始导航布局
 
             if (schemeFlag == SCHEME_LIST) {//如果方案布局为方案列表
-                expandLayout(schemeDrawer, false);//收起方案抽屉
+                LayoutUtil.expandLayout(schemeDrawer, false);//收起方案抽屉
                 schemeFlag = SCHEME_NOT_ALREADY;//设置状态为没有展开
             }
         }
@@ -861,12 +855,12 @@ public class MainFragment extends Fragment {
      * 开始搜索
      */
     public void startSearch() {
-        if (!isNetworkConnected()) {//没有网络连接
+        if (!NetworkUtil.isNetworkConnected()) {//没有网络连接
             Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (isAirplaneModeOn()) {//没有关飞行模式
+        if (NetworkUtil.isAirplaneModeOn()) {//没有关飞行模式
             Toast.makeText(getContext(), R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -891,7 +885,7 @@ public class MainFragment extends Fragment {
         String searchCity = mCity;
 
         //如果存储的城市不为空，则换用存储的城市
-        String saveCity = sharedPreferences2.getString("destination_city", null);
+        String saveCity = PreferenceUtil.getString("destination_city", null);
         if (!TextUtils.isEmpty(saveCity)) searchCity = saveCity;
 
         if (TextUtils.isEmpty(searchCity)) {
@@ -902,8 +896,8 @@ public class MainFragment extends Fragment {
         //如果是省份，则搜索城市列表设置为省份内所有的城市，否则设置为单个城市
         searchCityList.clear();
         if (searchCity != null) {
-            if (checkoutProvinceName(searchCity)) {
-                searchCityList.addAll(getCityList(searchCity));
+            if (CityUtil.checkoutProvinceName(searchCity)) {
+                searchCityList.addAll(CityUtil.getCityList(searchCity));
             } else {
                 searchCityList.add(searchCity);
             }

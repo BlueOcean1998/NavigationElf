@@ -24,7 +24,7 @@ import com.example.foxizz.navigation.activity.SettingsActivity;
 import com.example.foxizz.navigation.view.AdaptationTextView;
 
 /**
- * 用户页碎片
+ * 用户页
  */
 public class UserFragment extends Fragment {
 

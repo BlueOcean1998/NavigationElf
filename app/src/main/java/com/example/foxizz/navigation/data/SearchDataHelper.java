@@ -12,11 +12,9 @@ import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
 import com.example.foxizz.navigation.mybaidumap.MySearch;
+import com.example.foxizz.navigation.util.NetworkUtil;
 
 import java.math.BigDecimal;
-
-import static com.example.foxizz.navigation.util.Tools.isAirplaneModeOn;
-import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
 
 /**
  * 搜索数据帮助类
@@ -73,7 +71,7 @@ public class SearchDataHelper {
 
             boolean flag = false;//是否刷新搜索记录
             //有网络连接且没有开飞行模式
-            if (isNetworkConnected() && !isAirplaneModeOn()) {
+            if (NetworkUtil.isNetworkConnected() && !NetworkUtil.isAirplaneModeOn()) {
                 flag = true;
                 //设置为详细搜索全部
                 mainFragment.mySearch.poiSearchType = MySearch.DETAIL_SEARCH_ALL;
@@ -197,14 +195,9 @@ public class SearchDataHelper {
 
     /**
      * 清空搜索记录
-     *
-     * @param mainFragment 地图页碎片
      */
-    public static void deleteAllSearchData(MainFragment mainFragment) {
+    public static void deleteSearchData() {
         try {
-            mainFragment.searchList.clear();//清空搜索列表
-            mainFragment.searchAdapter.notifyDataSetChanged();//通知adapter更新
-
             db = databaseHelper.getWritableDatabase();
             db.execSQL("delete from SearchData");
         } finally {

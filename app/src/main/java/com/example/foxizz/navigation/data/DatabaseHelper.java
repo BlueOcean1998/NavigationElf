@@ -3,7 +3,7 @@ package com.example.foxizz.navigation.data;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
+import static com.example.foxizz.navigation.MyApplication.getContext;
 
 /**
  * 数据库帮助类

@@ -62,8 +62,8 @@ public class AdaptationTextView extends androidx.appcompat.widget.AppCompatTextV
     //内容改变时
     @Override
     protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
-        if (adaptiveType) refitTextWidth(text.toString(), this.getWidth());//textView视图的宽度
-        else refitTextHeight(this.getHeight());//textView视图的高度
+        if (adaptiveType) refitTextWidth(text.toString(), getWidth());//textView视图的宽度
+        else refitTextHeight(getHeight());//textView视图的高度
 
         super.onTextChanged(text, start, lengthBefore, lengthAfter);
     }

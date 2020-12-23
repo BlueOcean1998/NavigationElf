@@ -16,7 +16,7 @@ import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
 import com.example.foxizz.navigation.data.SearchDataHelper;
 
-import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
+import static com.example.foxizz.navigation.MyApplication.getContext;
 
 /**
  * 定位模块

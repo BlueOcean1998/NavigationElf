@@ -15,9 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
 import com.example.foxizz.navigation.data.SchemeItem;
-
-import static com.example.foxizz.navigation.util.LayoutUtil.expandLayout;
-import static com.example.foxizz.navigation.util.LayoutUtil.rotateExpandIcon;
+import com.example.foxizz.navigation.util.LayoutUtil;
 
 /**
  * 路线规划信息列表的适配器
@@ -67,12 +65,12 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
 
         //根据保存的展开状态设置信息抽屉的高度、旋转角度和最大行数
         if (schemeItem.getExpandFlag()) {
-            holder.infoDrawer.getLayoutParams().height
-                    = holder.detailInfo.getLineHeight() * (holder.detailInfo.getLineCount() + 1);
+            LayoutUtil.setViewHeight(holder.infoDrawer, holder.detailInfo.getLineHeight() *
+                    (holder.detailInfo.getLineCount() + 1));
             holder.schemeExpand.setRotation(180);
             holder.simpleInfo.setMaxLines(8);
         } else {
-            holder.infoDrawer.getLayoutParams().height = 0;
+            LayoutUtil.setViewHeight(holder.infoDrawer, 0);
             holder.schemeExpand.setRotation(0);
             holder.simpleInfo.setMaxLines(1);
         }
@@ -99,8 +97,8 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
                 if (unableToClick()) return;
                 int position = holder.getAdapterPosition();
 
-                expandLayout(mainFragment.schemeDrawer, false);//收起方案抽屉
-                expandLayout(mainFragment.schemeInfoLayout, true);//展开方案信息抽屉
+                LayoutUtil.expandLayout(mainFragment.schemeDrawer, false);//收起方案抽屉
+                LayoutUtil.expandLayout(mainFragment.schemeInfoLayout, true);//展开方案信息抽屉
                 mainFragment.middleButton.setText(R.string.middle_button3);//设置按钮为交通选择
                 mainFragment.schemeFlag = MainFragment.SCHEME_INFO;//如果方案布局为单个方案
 
@@ -117,15 +115,15 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
 
                 if (schemeItem.getExpandFlag()) {//收起
                     holder.simpleInfo.setMaxLines(1);
-                    expandLayout(holder.infoDrawer, false, holder.detailInfo,
+                    LayoutUtil.expandLayout(holder.infoDrawer, false, holder.detailInfo,
                             mainFragment.schemeResult, position);
-                    rotateExpandIcon(holder.schemeExpand, 180, 0);//旋转伸展按钮
+                    LayoutUtil.rotateExpandIcon(holder.schemeExpand, 180, 0);//旋转伸展按钮
                     schemeItem.setExpandFlag(false);
                 } else {//展开
                     holder.simpleInfo.setMaxLines(8);
-                    expandLayout(holder.infoDrawer, true, holder.detailInfo,
+                    LayoutUtil.expandLayout(holder.infoDrawer, true, holder.detailInfo,
                             mainFragment.schemeResult, position);
-                    rotateExpandIcon(holder.schemeExpand, 0, 180);//旋转伸展按钮
+                    LayoutUtil.rotateExpandIcon(holder.schemeExpand, 0, 180);//旋转伸展按钮
                     schemeItem.setExpandFlag(true);
                 }
             }

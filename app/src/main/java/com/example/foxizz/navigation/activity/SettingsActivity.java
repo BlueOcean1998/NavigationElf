@@ -25,6 +25,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.example.foxizz.navigation.R;
+import com.example.foxizz.navigation.activity.fragment.MainFragment;
 import com.example.foxizz.navigation.broadcastreceiver.SettingsConstants;
 import com.example.foxizz.navigation.data.SearchDataHelper;
 import com.example.foxizz.navigation.util.CityUtil;
@@ -112,27 +113,25 @@ public class SettingsActivity extends BaseActivity {
         destinationCityConfirm = findViewById(R.id.destination_city_confirm);
         destinationCityCancel = findViewById(R.id.destination_city_cancel);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            switch (Objects.requireNonNull(sharedPreferences.getString("map_type",
-                    SettingsConstants.STANDARD_MAP))) {
-                case SettingsConstants.STANDARD_MAP:
-                    mapStandardImage.setImageResource(R.drawable.map_standard_on);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                        mapStandardText.setTextColor(getColor(R.color.deepblue));
-                    break;
-                case SettingsConstants.SATELLITE_MAP:
-                    mapSatelliteImage.setImageResource(R.drawable.map_satellite_on);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                        mapSatelliteText.setTextColor(getColor(R.color.deepblue));
-                    break;
-                case SettingsConstants.TRAFFIC_MAP:
-                    mapTrafficImage.setImageResource(R.drawable.map_traffic_on);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                        mapTrafficText.setTextColor(getColor(R.color.deepblue));
-                    break;
-                default:
-                    break;
-            }
+        switch (Objects.requireNonNull(sharedPreferences.getString("map_type",
+                SettingsConstants.STANDARD_MAP))) {
+            case SettingsConstants.STANDARD_MAP:
+                mapStandardImage.setImageResource(R.drawable.map_standard_on);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                    mapStandardText.setTextColor(getColor(R.color.deepblue));
+                break;
+            case SettingsConstants.SATELLITE_MAP:
+                mapSatelliteImage.setImageResource(R.drawable.map_satellite_on);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                    mapSatelliteText.setTextColor(getColor(R.color.deepblue));
+                break;
+            case SettingsConstants.TRAFFIC_MAP:
+                mapTrafficImage.setImageResource(R.drawable.map_traffic_on);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                    mapTrafficText.setTextColor(getColor(R.color.deepblue));
+                break;
+            default:
+                break;
         }
 
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
@@ -364,9 +363,12 @@ public class SettingsActivity extends BaseActivity {
                     builder.setPositiveButton(R.string.clear, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            SearchDataHelper.deleteAllSearchData(
-                                    ((MainActivity) requireActivity()).getMainFragment()
-                            );//清空数据库中的搜索记录
+                            MainFragment mainFragment =
+                                    ((MainActivity) requireActivity()).getMainFragment();
+                            mainFragment.searchList.clear();//清空搜索列表
+                            mainFragment.searchAdapter.notifyDataSetChanged();//通知adapter更新
+
+                            SearchDataHelper.deleteSearchData();//清空数据库中的搜索记录
                         }
                     });
 

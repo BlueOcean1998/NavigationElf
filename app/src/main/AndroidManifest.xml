@@ -31,7 +31,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
-        android:name=".mybaidumap.MyApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:fullBackupContent="false"
         android:icon="@drawable/foxizz"

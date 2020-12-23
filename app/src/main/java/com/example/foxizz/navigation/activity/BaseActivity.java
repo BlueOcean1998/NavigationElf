@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class BaseActivity extends AppCompatActivity {
 
-    private static List<Activity> activities = new ArrayList<>();
+    private static final List<Activity> activities = new ArrayList<>();
 
     /**
      * 退出程序

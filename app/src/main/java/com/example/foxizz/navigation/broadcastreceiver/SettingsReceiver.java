@@ -7,7 +7,7 @@ import android.content.Intent;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.MainActivity;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
-import com.example.foxizz.navigation.util.Tools;
+import com.example.foxizz.navigation.util.SettingUtil;
 
 /**
  * 设置接收器
@@ -35,7 +35,7 @@ public class SettingsReceiver extends BroadcastReceiver {
                         mainFragment.setMapType();
                         break;
                     case SettingsConstants.SET_LANDSCAPE:
-                        Tools.initSettings(mainActivity);
+                        SettingUtil.initSettings(mainActivity);
                         break;
                     case SettingsConstants.SET_ANGLE_3D:
                         mainFragment.setAngle3D();

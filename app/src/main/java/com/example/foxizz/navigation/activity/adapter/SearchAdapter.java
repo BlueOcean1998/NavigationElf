@@ -29,11 +29,10 @@ import com.example.foxizz.navigation.activity.fragment.MainFragment;
 import com.example.foxizz.navigation.data.SearchDataHelper;
 import com.example.foxizz.navigation.data.SearchItem;
 import com.example.foxizz.navigation.mybaidumap.MySearch;
+import com.example.foxizz.navigation.util.LayoutUtil;
+import com.example.foxizz.navigation.util.NetworkUtil;
 
-import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
-import static com.example.foxizz.navigation.util.LayoutUtil.expandLayout;
-import static com.example.foxizz.navigation.util.Tools.isAirplaneModeOn;
-import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
+import static com.example.foxizz.navigation.MyApplication.getContext;
 
 /**
  * 搜索到的信息列表的适配器
@@ -116,19 +115,19 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             public void onClick(View view) {
                 if (unableToClick()) return;
 
-                if (!isNetworkConnected()) {//没有网络连接
+                if (!NetworkUtil.isNetworkConnected()) {//没有网络连接
                     Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if (isAirplaneModeOn()) {//没有关飞行模式
+                if (NetworkUtil.isAirplaneModeOn()) {//没有关飞行模式
                     Toast.makeText(getContext(), R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 click(holder);
 
-                expandLayout(mainFragment.searchInfoLayout, true);//展开详细信息布局
+                LayoutUtil.expandLayout(mainFragment.searchInfoLayout, true);//展开详细信息布局
 
                 mainFragment.middleButton.setText(R.string.middle_button1);//设置按钮为路线
                 mainFragment.infoFlag = true;//设置信息状态为详细信息
@@ -164,18 +163,18 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             public void onClick(View view) {
                 if (unableToClick()) return;
 
-                if (!isNetworkConnected()) {//没有网络连接
+                if (!NetworkUtil.isNetworkConnected()) {//没有网络连接
                     Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (isAirplaneModeOn()) {//没有关飞行模式
+                if (NetworkUtil.isAirplaneModeOn()) {//没有关飞行模式
                     Toast.makeText(getContext(), R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 click(holder);
 
-                expandLayout(mainFragment.selectLayout, true);//展开选择布局
+                LayoutUtil.expandLayout(mainFragment.selectLayout, true);//展开选择布局
 
                 mainFragment.middleButton.setText(R.string.middle_button2);//设置按钮为详细信息
                 mainFragment.infoFlag = false;//设置信息状态为交通选择
@@ -253,12 +252,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         int position = holder.getAdapterPosition();
         SearchItem searchItem = mainFragment.searchList.get(position);
 
-        expandLayout(mainFragment.searchLayout, false);//收起搜索布局
+        LayoutUtil.expandLayout(mainFragment.searchLayout, false);//收起搜索布局
         if (mainFragment.searchExpandFlag) {//如果状态为展开
             mainFragment.expandSearchDrawer(false);//收起展开的搜索抽屉
             mainFragment.searchExpandFlag = false;//设置状态为收起
         }
-        expandLayout(mainFragment.startLayout, true);//展开开始导航布局
+        LayoutUtil.expandLayout(mainFragment.startLayout, true);//展开开始导航布局
 
         //设置终点坐标
         mainFragment.endLocation = searchItem.getLatLng();

@@ -17,13 +17,10 @@ import com.example.foxizz.navigation.activity.fragment.MainFragment;
 import com.example.foxizz.navigation.activity.fragment.UserFragment;
 import com.example.foxizz.navigation.data.SearchDataHelper;
 
-import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
+import static com.example.foxizz.navigation.MyApplication.getContext;
 
 /**
- * app_name: NavigationElf
- * author: Foxizz
- * accomplish_date: 2020-04-30
- * last_modify_date: 2020-12-18
+ * 主页
  */
 public class MainActivity extends BaseActivity {
 

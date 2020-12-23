@@ -33,19 +33,14 @@ import com.example.foxizz.navigation.mybaidumap.overlayutil.IndoorRouteOverlay;
 import com.example.foxizz.navigation.mybaidumap.overlayutil.MassTransitRouteOverlay;
 import com.example.foxizz.navigation.mybaidumap.overlayutil.TransitRouteOverlay;
 import com.example.foxizz.navigation.mybaidumap.overlayutil.WalkingRouteOverlay;
+import com.example.foxizz.navigation.util.LayoutUtil;
+import com.example.foxizz.navigation.util.NetworkUtil;
+import com.example.foxizz.navigation.util.SettingUtil;
+import com.example.foxizz.navigation.util.TimeUtil;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
-import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
-import static com.example.foxizz.navigation.util.LayoutUtil.expandLayout;
-import static com.example.foxizz.navigation.util.LayoutUtil.rotateExpandIcon;
-import static com.example.foxizz.navigation.util.Tools.haveReadWriteAndLocationPermissions;
-import static com.example.foxizz.navigation.util.Tools.isAirplaneModeOn;
-import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
+import static com.example.foxizz.navigation.MyApplication.getContext;
 
 /**
  * 路线规划模块
@@ -61,17 +56,17 @@ public class MyRoutePlanSearch {
      * 开始路线规划
      */
     public void startRoutePlanSearch() {
-        if (!isNetworkConnected()) {//没有网络连接
+        if (!NetworkUtil.isNetworkConnected()) {//没有网络连接
             Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (isAirplaneModeOn()) {//没有关飞行模式
+        if (NetworkUtil.isAirplaneModeOn()) {//没有关飞行模式
             Toast.makeText(getContext(), R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (!haveReadWriteAndLocationPermissions()) {//权限不足
+        if (SettingUtil.haveReadWriteAndLocationPermissions()) {//权限不足
             mainFragment.requestPermission();//申请权限，获得权限后定位
             return;
         }
@@ -126,8 +121,8 @@ public class MyRoutePlanSearch {
                         if (view != null) {
                             LinearLayout infoDrawer = view.findViewById(R.id.info_drawer);
                             ImageButton schemeExpand = view.findViewById(R.id.scheme_expand);
-                            expandLayout(infoDrawer, false);
-                            rotateExpandIcon(schemeExpand, 180, 0);//旋转伸展按钮
+                            LayoutUtil.expandLayout(infoDrawer, false);
+                            LayoutUtil.rotateExpandIcon(schemeExpand, 180, 0);//旋转伸展按钮
                             mainFragment.schemeList.get(i).setExpandFlag(false);
                             mainFragment.schemeAdapter.notifyDataSetChanged();//通知adapter更新
                         }
@@ -141,10 +136,11 @@ public class MyRoutePlanSearch {
                         .from(startNode)
                         .to(endNode));
 
-                mainFragment.schemeInfoLayout.getLayoutParams().height = 0;//设置方案信息抽屉的高度为0
+                //设置方案信息抽屉的高度为0
+                LayoutUtil.setViewHeight(mainFragment.schemeInfoLayout, 0);
 
-                expandLayout(mainFragment.selectLayout, false);//收起选择布局
-                expandLayout(mainFragment.schemeDrawer, true);//展开方案抽屉
+                LayoutUtil.expandLayout(mainFragment.selectLayout, false);//收起选择布局
+                LayoutUtil.expandLayout(mainFragment.schemeDrawer, true);//展开方案抽屉
 
                 mainFragment.schemeFlag = MainFragment.SCHEME_LIST;//设置状态为方案列表
                 break;
@@ -253,23 +249,18 @@ public class MyRoutePlanSearch {
                     //获取详细信息
                     StringBuilder detailInfo = new StringBuilder();
 
-                    try {
-                        long spendTime;
-                        @SuppressLint("SimpleDateFormat")
-                        DateFormat sdf = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
-                        long nowTime = sdf.parse(sdf.format(new Date())).getTime();
-                        long arriveTime = sdf.parse(massTransitRouteLine.getArriveTime()).getTime();
-                        spendTime = arriveTime - nowTime;
-                        if (spendTime < 3 * 60 * 60 * 1000) {//小于3小时
-                            detailInfo.append(mainFragment.getString(R.string.spend_time))
-                                    .append(spendTime / 1000 / 60).append(mainFragment.getString(R.string.minute));
-                        } else {
-                            detailInfo.append(mainFragment.getString(R.string.spend_time))
-                                    .append(spendTime / 1000 / 60 / 60).append(mainFragment.getString(R.string.hour))
-                                    .append(spendTime / 1000 / 60 % 60).append(mainFragment.getString(R.string.minute));
-                        }
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+                    long spendTime;
+                    long nowTime = System.currentTimeMillis();
+                    long arriveTime = TimeUtil.parse(massTransitRouteLine.getArriveTime(),
+                            TimeUtil.FORMATION_yMdHms).getTime();
+                    spendTime = arriveTime - nowTime;
+                    if (spendTime < 3 * 60 * 60 * 1000) {//小于3小时
+                        detailInfo.append(mainFragment.getString(R.string.spend_time))
+                                .append(spendTime / 1000 / 60).append(mainFragment.getString(R.string.minute));
+                    } else {
+                        detailInfo.append(mainFragment.getString(R.string.spend_time))
+                                .append(spendTime / 1000 / 60 / 60).append(mainFragment.getString(R.string.hour))
+                                .append(spendTime / 1000 / 60 % 60).append(mainFragment.getString(R.string.minute));
                     }
 
                     if (massTransitRouteLine.getPrice() > 10) {

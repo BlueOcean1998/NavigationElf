@@ -30,15 +30,14 @@ import com.example.foxizz.navigation.activity.BNaviGuideActivity;
 import com.example.foxizz.navigation.activity.DNaviGuideActivity;
 import com.example.foxizz.navigation.activity.WNaviGuideActivity;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
-import com.example.foxizz.navigation.util.Tools;
+import com.example.foxizz.navigation.util.AppUtil;
+import com.example.foxizz.navigation.util.NetworkUtil;
+import com.example.foxizz.navigation.util.SettingUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.foxizz.navigation.mybaidumap.MyApplication.getContext;
-import static com.example.foxizz.navigation.util.Tools.haveReadWriteAndLocationPermissions;
-import static com.example.foxizz.navigation.util.Tools.isAirplaneModeOn;
-import static com.example.foxizz.navigation.util.Tools.isNetworkConnected;
+import static com.example.foxizz.navigation.MyApplication.getContext;
 
 /**
  * 导航模块
@@ -58,8 +57,8 @@ public class MyNavigateHelper {
      */
     public void initDriveNavigateHelper() {
         BaiduNaviManagerFactory.getBaiduNaviManager().init(getContext(),
-                Tools.getSDCardDir(),
-                Tools.getAppFolderName(),
+                AppUtil.getSDCardDir(),
+                AppUtil.getAppFolderName(),
                 new IBaiduNaviManager.INaviInitListener() {
                     @Override
                     public void onAuthResult(int status, final String msg) {
@@ -108,8 +107,8 @@ public class MyNavigateHelper {
     private void initTTS() {
         BaiduNaviManagerFactory.getTTSManager().initTTS(new BNTTsInitConfig.Builder()
                 .context(getContext())
-                .sdcardRootPath(Tools.getSDCardDir())
-                .appFolderName(Tools.getAppFolderName())
+                .sdcardRootPath(AppUtil.getSDCardDir())
+                .appFolderName(AppUtil.getAppFolderName())
                 .appId(mainFragment.getString(R.string.app_id))
                 .appKey(mainFragment.getString(R.string.api_key))
                 .secretKey(mainFragment.getString(R.string.secret_key))
@@ -159,17 +158,17 @@ public class MyNavigateHelper {
      * 开始导航
      */
     public void startNavigate() {
-        if (!isNetworkConnected()) {//没有网络连接
+        if (!NetworkUtil.isNetworkConnected()) {//没有网络连接
             Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (isAirplaneModeOn()) {//没有关飞行模式
+        if (NetworkUtil.isAirplaneModeOn()) {//没有关飞行模式
             Toast.makeText(getContext(), R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (!haveReadWriteAndLocationPermissions()) {//权限不足
+        if (SettingUtil.haveReadWriteAndLocationPermissions()) {//权限不足
             mainFragment.requestPermission();//申请权限，获得权限后定位
             return;
         }
