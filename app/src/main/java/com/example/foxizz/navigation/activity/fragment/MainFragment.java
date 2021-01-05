@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -29,7 +28,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -472,6 +470,11 @@ public class MainFragment extends Fragment {
         LayoutUtil.setViewHeight(schemeInfoLayout, 0);
         LayoutUtil.setViewHeight(startLayout, 0);
 
+        //设置搜索、搜索信息、方案加载不可见
+        searchLoading.setVisibility(View.GONE);
+        searchInfoLoading.setVisibility(View.GONE);
+        schemeLoading.setVisibility(View.GONE);
+
         searchAdapter = new SearchAdapter(this);//初始化搜索适配器
         searchLayoutManager = new StaggeredGridLayoutManager(
                 1, StaggeredGridLayoutManager.VERTICAL
@@ -507,7 +510,6 @@ public class MainFragment extends Fragment {
 
         //定位按钮的点击事件
         location.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
                 requestPermission();//申请权限，获得权限后定位
@@ -519,7 +521,6 @@ public class MainFragment extends Fragment {
 
         //驾车按钮的点击事件
         selectButton1.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
                 selectButton1.setBackgroundResource(R.drawable.button_background_black);
@@ -534,7 +535,6 @@ public class MainFragment extends Fragment {
 
         //步行按钮的点击事件
         selectButton2.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
                 selectButton1.setBackgroundResource(R.drawable.button_background_gray);
@@ -549,7 +549,6 @@ public class MainFragment extends Fragment {
 
         //骑行按钮的点击事件
         selectButton3.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
                 selectButton1.setBackgroundResource(R.drawable.button_background_gray);
@@ -564,7 +563,6 @@ public class MainFragment extends Fragment {
 
         //公交按钮的点击事件
         selectButton4.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(View v) {
                 selectButton1.setBackgroundResource(R.drawable.button_background_gray);
@@ -759,7 +757,6 @@ public class MainFragment extends Fragment {
 
         String[] tmpList = new String[permissionList.size()];
 
-        SearchDataHelper.initSearchData(this);//初始化搜索记录
         //如果列表为空，则获取了全部权限不用再获取，否则要获取
         if (permissionList.isEmpty()) {
             myLocation.refreshSearchList = true;//刷新搜索列表
@@ -866,7 +863,6 @@ public class MainFragment extends Fragment {
         }
 
         searchContent = searchEdit.getText().toString();
-
         if (TextUtils.isEmpty(searchContent)) {//如果搜索内容为空
             if (!isHistorySearchResult) {//如果不是搜索历史记录
                 SearchDataHelper.initSearchData(this);//初始化搜索记录
@@ -875,24 +871,14 @@ public class MainFragment extends Fragment {
             return;
         }
 
-        if (!searchExpandFlag) {//展开搜索抽屉
-            expandSearchDrawer(true);//展开搜索抽屉
-            searchExpandFlag = true;//设置状态为展开
-        }
-
-        takeBackKeyboard();//收回键盘
-
         String searchCity = mCity;
-
         //如果存储的城市不为空，则换用存储的城市
         String saveCity = PreferenceUtil.getString("destination_city", null);
         if (!TextUtils.isEmpty(saveCity)) searchCity = saveCity;
-
         if (TextUtils.isEmpty(searchCity)) {
             requestPermission();//申请权限，获得权限后定位
             return;
         }
-
         //如果是省份，则搜索城市列表设置为省份内所有的城市，否则设置为单个城市
         searchCityList.clear();
         if (searchCity != null) {
@@ -903,26 +889,28 @@ public class MainFragment extends Fragment {
             }
         }
 
+        if (!searchExpandFlag) {//展开搜索抽屉
+            expandSearchDrawer(true);//展开搜索抽屉
+            searchExpandFlag = true;//设置状态为展开
+        }
+        takeBackKeyboard();//收回键盘
         searchResult.stopScroll();//停止信息列表滑动
         mBaiduMap.clear();//清空地图上的所有标记点和绘制的路线
         searchList.clear();//清空searchList
         searchAdapter.notifyDataSetChanged();//通知adapter更新
         isHistorySearchResult = false;//已经不是搜索历史记录了
+        //滚动到顶部
+        searchResult.stopScroll();
+        searchResult.scrollToPosition(0);
+        //加载搜索信息
+        searchLoading.setVisibility(View.VISIBLE);
+        searchResult.setVisibility(View.GONE);
+        //页数归零
+        currentPage = 0;
 
         if (sharedPreferences1.getBoolean("search_around", false))
             mySearch.poiSearchType = MySearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
         else mySearch.poiSearchType = MySearch.CITY_SEARCH;//设置搜索类型为城市内搜索
-
-        //滚动到顶部
-        searchResult.stopScroll();
-        searchResult.scrollToPosition(0);
-
-        //加载搜索信息
-        searchLoading.setVisibility(View.VISIBLE);
-        searchResult.setVisibility(View.GONE);
-
-        //页数归零
-        currentPage = 0;
 
         if (!mySearch.isSearching) mySearch.startPoiSearch(currentPage);//开始POI搜索
         else

@@ -12,7 +12,7 @@ import com.example.foxizz.navigation.data.SearchDataHelper;
  * app name: NavigationElf
  * author: Foxizz
  * accomplish date: 2020-04-30
- * last modify date: 2020-12-23
+ * last modify date: 2021-01-05
  */
 public class MyApplication extends Application {
 

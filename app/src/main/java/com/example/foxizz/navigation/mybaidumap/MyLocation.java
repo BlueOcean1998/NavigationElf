@@ -78,7 +78,8 @@ public class MyLocation {
                             refreshSearchList = false;
                             if (mainFragment.isHistorySearchResult)
                                 SearchDataHelper.initSearchData(mainFragment);//初始化搜索记录
-                            else mainFragment.startSearch();//开始搜索
+                            else
+                                mainFragment.startSearch();//开始搜索（有bug，暂时不作此操作）                      ）
                         }
 
                         mainFragment.myNavigateHelper.initDriveNavigateHelper();//初始化驾车导航引擎

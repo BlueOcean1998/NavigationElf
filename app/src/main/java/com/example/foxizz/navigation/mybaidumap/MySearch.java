@@ -80,7 +80,7 @@ public class MySearch {
 
         if (currentPage == 0) {
             //开始Sug搜索
-            if (mainFragment.searchCityList != null && mainFragment.searchCityList.size() > 0) {
+            if (mainFragment.searchCityList.size() > 0) {
                 mainFragment.mSuggestionSearch.requestSuggestion(new SuggestionSearchOption()
                         .city(mainFragment.searchCityList.get(0))
                         .keyword(mainFragment.searchContent));
