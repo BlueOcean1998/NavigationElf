@@ -3,8 +3,11 @@ package com.example.foxizz.navigation.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import static com.example.foxizz.navigation.MyApplication.getContext;
+import static com.example.foxizz.navigation.BaseApplication.getContext;
 
+/**
+ * Preference工具类
+ */
 public class PreferenceUtil {
 
     private static final String SETTINGS = "settings";

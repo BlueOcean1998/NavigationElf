@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
@@ -37,10 +36,9 @@ import com.example.foxizz.navigation.util.LayoutUtil;
 import com.example.foxizz.navigation.util.NetworkUtil;
 import com.example.foxizz.navigation.util.SettingUtil;
 import com.example.foxizz.navigation.util.TimeUtil;
+import com.example.foxizz.navigation.util.ToastUtil;
 
 import java.util.List;
-
-import static com.example.foxizz.navigation.MyApplication.getContext;
 
 /**
  * 路线规划模块
@@ -57,12 +55,12 @@ public class MyRoutePlanSearch {
      */
     public void startRoutePlanSearch() {
         if (!NetworkUtil.isNetworkConnected()) {//没有网络连接
-            Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
+            ToastUtil.showToast(R.string.network_error);
             return;
         }
 
         if (NetworkUtil.isAirplaneModeOn()) {//没有关飞行模式
-            Toast.makeText(getContext(), R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
+            ToastUtil.showToast(R.string.close_airplane_mode);
             return;
         }
 
@@ -72,12 +70,12 @@ public class MyRoutePlanSearch {
         }
 
         if (mainFragment.latLng == null) {//还没有得到定位
-            Toast.makeText(getContext(), R.string.wait_for_location_result, Toast.LENGTH_SHORT).show();
+            ToastUtil.showToast(R.string.wait_for_location_result);
             return;
         }
 
         if (mainFragment.endLocation == null) {
-            Toast.makeText(getContext(), R.string.end_location_is_null, Toast.LENGTH_SHORT).show();
+            ToastUtil.showToast(R.string.end_location_is_null);
             return;
         }
 
@@ -160,7 +158,7 @@ public class MyRoutePlanSearch {
             public void onGetWalkingRouteResult(WalkingRouteResult walkingRouteResult) {
                 if (walkingRouteResult.getRouteLines() == null
                         || walkingRouteResult.getRouteLines().size() == 0) {
-                    Toast.makeText(getContext(), R.string.suggest_not_to_walk, Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(R.string.suggest_not_to_walk);
                     return;
                 }
 
@@ -181,7 +179,7 @@ public class MyRoutePlanSearch {
             public void onGetTransitRouteResult(TransitRouteResult transitRouteResult) {
                 if (transitRouteResult.getRouteLines() == null
                         || transitRouteResult.getRouteLines().size() == 0) {
-                    Toast.makeText(getContext(), R.string.suggest_to_walk, Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(R.string.suggest_to_walk);
                     return;
                 }
 
@@ -206,7 +204,7 @@ public class MyRoutePlanSearch {
 
                 if (massTransitRouteResult.getRouteLines() == null
                         || massTransitRouteResult.getRouteLines().size() == 0) {
-                    Toast.makeText(getContext(), R.string.suggest_to_walk, Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(R.string.suggest_to_walk);
                     return;
                 }
 
@@ -320,7 +318,7 @@ public class MyRoutePlanSearch {
             public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
                 if (bikingRouteResult.getRouteLines() == null
                         || bikingRouteResult.getRouteLines().size() == 0) {
-                    Toast.makeText(getContext(), R.string.suggest_not_to_bike, Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(R.string.suggest_not_to_bike);
                     return;
                 }
 
@@ -403,7 +401,7 @@ public class MyRoutePlanSearch {
             //将路线放在最佳视野位置
             overlay.zoomToSpan();
         } catch (Exception ignored) {
-            Toast.makeText(getContext(), R.string.draw_route_fail, Toast.LENGTH_SHORT).show();
+            ToastUtil.showToast(R.string.draw_route_fail);
         }
     }
 

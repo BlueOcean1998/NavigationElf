@@ -7,6 +7,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * 时间工具类
+ */
 public class TimeUtil {
 
     public final static String FORMATION_yMdHms = "yy-MM-dd HH:mm:ss";

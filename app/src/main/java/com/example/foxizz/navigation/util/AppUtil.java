@@ -13,8 +13,11 @@ import com.example.foxizz.navigation.BuildConfig;
 
 import java.util.Objects;
 
-import static com.example.foxizz.navigation.MyApplication.getContext;
+import static com.example.foxizz.navigation.BaseApplication.getContext;
 
+/**
+ * 应用工具类
+ */
 public class AppUtil {
 
     /**

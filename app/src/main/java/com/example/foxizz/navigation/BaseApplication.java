@@ -12,9 +12,9 @@ import com.example.foxizz.navigation.data.SearchDataHelper;
  * app name: NavigationElf
  * author: Foxizz
  * accomplish date: 2020-04-30
- * last modify date: 2021-01-05
+ * last modify date: 2021-01-06
  */
-public class MyApplication extends Application {
+public class BaseApplication extends Application {
 
     @SuppressLint("StaticFieldLeak")
     private static Context context;

@@ -5,8 +5,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.provider.Settings;
 
-import static com.example.foxizz.navigation.MyApplication.getContext;
+import static com.example.foxizz.navigation.BaseApplication.getContext;
 
+/**
+ * 网络工具类
+ */
 public class NetworkUtil {//获取网络状态
 
     /**

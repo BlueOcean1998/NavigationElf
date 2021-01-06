@@ -24,7 +24,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -68,6 +67,7 @@ import com.example.foxizz.navigation.util.LayoutUtil;
 import com.example.foxizz.navigation.util.NetworkUtil;
 import com.example.foxizz.navigation.util.PreferenceUtil;
 import com.example.foxizz.navigation.util.SettingUtil;
+import com.example.foxizz.navigation.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -206,8 +206,7 @@ public class MainFragment extends Fragment {
     /*
      * 数据相关
      */
-    private SharedPreferences sharedPreferences1;
-    private SharedPreferences sharedPreferences2;
+    private SharedPreferences sharedPreferences;
 
     @Nullable
     @Override
@@ -218,8 +217,8 @@ public class MainFragment extends Fragment {
 
         instance = this;//获取MainFragment实例
 
-        //获取偏好设置
-        sharedPreferences1 = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        //获取默认设置
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
 
         InitMap(view);//初始化地图控件
 
@@ -332,7 +331,7 @@ public class MainFragment extends Fragment {
                 if(records != null && records.size() == 1) {
                     mOffline.start(records.get(0).cityID);
                     mOffline.update(records.get(0).cityID);
-                    Toast.makeText(getContext(), "正在下载离线地图", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast("正在下载离线地图");
                 }
             }
         });
@@ -369,35 +368,35 @@ public class MainFragment extends Fragment {
      * 设置是否启用3D视角
      */
     public void setAngle3D() {
-        mUiSettings.setOverlookingGesturesEnabled(sharedPreferences1.getBoolean("angle_3d", false));
+        mUiSettings.setOverlookingGesturesEnabled(sharedPreferences.getBoolean("angle_3d", false));
     }
 
     /**
      * 设置是否允许地图旋转
      */
     public void setMapRotation() {
-        mUiSettings.setRotateGesturesEnabled(sharedPreferences1.getBoolean("map_rotation", false));
+        mUiSettings.setRotateGesturesEnabled(sharedPreferences.getBoolean("map_rotation", false));
     }
 
     /**
      * 设置是否显示比例尺
      */
     public void setScaleControl() {
-        mMapView.showScaleControl(sharedPreferences1.getBoolean("scale_control", false));
+        mMapView.showScaleControl(sharedPreferences.getBoolean("scale_control", false));
     }
 
     /**
      * 设置是否显示缩放按钮
      */
     public void setZoomControls() {
-        mMapView.showZoomControls(sharedPreferences1.getBoolean("zoom_controls", false));
+        mMapView.showZoomControls(sharedPreferences.getBoolean("zoom_controls", false));
     }
 
     /**
      * 设置是否显示指南针
      */
     public void setCompass() {
-        mUiSettings.setCompassEnabled(sharedPreferences1.getBoolean("compass", true));
+        mUiSettings.setCompassEnabled(sharedPreferences.getBoolean("compass", true));
     }
 
     //初始化偏好设置
@@ -852,13 +851,18 @@ public class MainFragment extends Fragment {
      * 开始搜索
      */
     public void startSearch() {
+        if (mySearch.isSearching) {
+            ToastUtil.showToast(R.string.wait_for_search_result);
+            return;
+        }
+
         if (!NetworkUtil.isNetworkConnected()) {//没有网络连接
-            Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
+            ToastUtil.showToast(R.string.network_error);
             return;
         }
 
         if (NetworkUtil.isAirplaneModeOn()) {//没有关飞行模式
-            Toast.makeText(getContext(), R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
+            ToastUtil.showToast(R.string.close_airplane_mode);
             return;
         }
 
@@ -899,6 +903,7 @@ public class MainFragment extends Fragment {
         searchList.clear();//清空searchList
         searchAdapter.notifyDataSetChanged();//通知adapter更新
         isHistorySearchResult = false;//已经不是搜索历史记录了
+
         //滚动到顶部
         searchResult.stopScroll();
         searchResult.scrollToPosition(0);
@@ -908,13 +913,11 @@ public class MainFragment extends Fragment {
         //页数归零
         currentPage = 0;
 
-        if (sharedPreferences1.getBoolean("search_around", false))
+        if (sharedPreferences.getBoolean("search_around", false))
             mySearch.poiSearchType = MySearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
         else mySearch.poiSearchType = MySearch.CITY_SEARCH;//设置搜索类型为城市内搜索
 
-        if (!mySearch.isSearching) mySearch.startPoiSearch(currentPage);//开始POI搜索
-        else
-            Toast.makeText(getContext(), R.string.wait_for_search_result, Toast.LENGTH_SHORT).show();
+        mySearch.startPoiSearch(currentPage);//开始POI搜索
     }
 
 }

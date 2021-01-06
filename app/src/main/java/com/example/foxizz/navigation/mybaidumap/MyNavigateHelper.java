@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.widget.Toast;
 
 import com.baidu.mapapi.bikenavi.BikeNavigateHelper;
 import com.baidu.mapapi.bikenavi.adapter.IBEngineInitListener;
@@ -33,11 +32,12 @@ import com.example.foxizz.navigation.activity.fragment.MainFragment;
 import com.example.foxizz.navigation.util.AppUtil;
 import com.example.foxizz.navigation.util.NetworkUtil;
 import com.example.foxizz.navigation.util.SettingUtil;
+import com.example.foxizz.navigation.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.foxizz.navigation.MyApplication.getContext;
+import static com.example.foxizz.navigation.BaseApplication.getContext;
 
 /**
  * 导航模块
@@ -66,7 +66,7 @@ public class MyNavigateHelper {
                             mainFragment.requireActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(getContext(), R.string.key_checkout_fail + msg, Toast.LENGTH_LONG).show();
+                                    ToastUtil.showToast(R.string.key_checkout_fail + msg);
                                 }
                             });
                         }
@@ -87,8 +87,7 @@ public class MyNavigateHelper {
 
                     @Override
                     public void initFailed(int errCode) {
-                        Toast.makeText(getContext(), R.string.drive_navigate_init_fail + errCode,
-                                Toast.LENGTH_SHORT).show();
+                        ToastUtil.showToast(R.string.drive_navigate_init_fail + errCode);
                     }
                 });
 
@@ -130,7 +129,7 @@ public class MyNavigateHelper {
 
                     @Override
                     public void engineInitFail() {
-                        Toast.makeText(getContext(), R.string.walk_navigate_init_fail, Toast.LENGTH_SHORT).show();
+                        ToastUtil.showToast(R.string.walk_navigate_init_fail);
                     }
                 });
     }
@@ -149,7 +148,7 @@ public class MyNavigateHelper {
 
                     @Override
                     public void engineInitFail() {
-                        Toast.makeText(getContext(), R.string.bike_navigate_init_fail, Toast.LENGTH_SHORT).show();
+                        ToastUtil.showToast(R.string.bike_navigate_init_fail);
                     }
                 });
     }
@@ -159,12 +158,12 @@ public class MyNavigateHelper {
      */
     public void startNavigate() {
         if (!NetworkUtil.isNetworkConnected()) {//没有网络连接
-            Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
+            ToastUtil.showToast(R.string.network_error);
             return;
         }
 
         if (NetworkUtil.isAirplaneModeOn()) {//没有关飞行模式
-            Toast.makeText(getContext(), R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
+            ToastUtil.showToast(R.string.close_airplane_mode);
             return;
         }
 
@@ -174,12 +173,12 @@ public class MyNavigateHelper {
         }
 
         if (mainFragment.latLng == null) {//还没有得到定位
-            Toast.makeText(getContext(), R.string.wait_for_location_result, Toast.LENGTH_SHORT).show();
+            ToastUtil.showToast(R.string.wait_for_location_result);
             return;
         }
 
         if (mainFragment.endLocation == null) {
-            Toast.makeText(getContext(), R.string.end_location_is_null, Toast.LENGTH_SHORT).show();
+            ToastUtil.showToast(R.string.end_location_is_null);
             return;
         }
 
@@ -239,7 +238,7 @@ public class MyNavigateHelper {
                                 break;
                             case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_FAILED:
                                 progressDialog.dismiss();
-                                Toast.makeText(getContext(), R.string.drive_route_plan_fail, Toast.LENGTH_SHORT).show();
+                                ToastUtil.showToast(R.string.drive_route_plan_fail);
                                 break;
                             case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_TO_NAVI:
                                 mainFragment.startActivity(
@@ -269,7 +268,7 @@ public class MyNavigateHelper {
             //计算公交导航的步行导航的终点
         } else if (mainFragment.routePlanSelect == MainFragment.TRANSIT) {
             if (mainFragment.busStationLocations.size() == 0) {
-                Toast.makeText(getContext(), R.string.wait_for_route_plan_result, Toast.LENGTH_SHORT).show();
+                ToastUtil.showToast(R.string.wait_for_route_plan_result);
                 return;
             }
 
@@ -316,7 +315,7 @@ public class MyNavigateHelper {
             @Override
             public void onRoutePlanFail(WalkRoutePlanError error) {
                 progressDialog.dismiss();
-                Toast.makeText(getContext(), R.string.walk_route_plan_fail, Toast.LENGTH_SHORT).show();
+                ToastUtil.showToast(R.string.walk_route_plan_fail);
             }
         });
     }
@@ -348,7 +347,7 @@ public class MyNavigateHelper {
             @Override
             public void onRoutePlanFail(BikeRoutePlanError bikeRoutePlanError) {
                 progressDialog.dismiss();
-                Toast.makeText(getContext(), R.string.bike_route_plan_fail, Toast.LENGTH_SHORT).show();
+                ToastUtil.showToast(R.string.bike_route_plan_fail);
             }
         });
     }

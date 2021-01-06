@@ -9,10 +9,10 @@ import android.content.pm.PackageManager;
 import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
-import static com.example.foxizz.navigation.MyApplication.getContext;
+import static com.example.foxizz.navigation.BaseApplication.getContext;
 
 /**
- * 工具类
+ * 设置工具类
  */
 public class SettingUtil {
 

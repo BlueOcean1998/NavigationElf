@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -29,6 +28,7 @@ import com.example.foxizz.navigation.activity.fragment.MainFragment;
 import com.example.foxizz.navigation.broadcastreceiver.SettingsConstants;
 import com.example.foxizz.navigation.data.SearchDataHelper;
 import com.example.foxizz.navigation.util.CityUtil;
+import com.example.foxizz.navigation.util.PreferenceUtil;
 import com.example.foxizz.navigation.view.AdaptationTextView;
 
 import java.util.Objects;
@@ -47,9 +47,6 @@ public class SettingsActivity extends BaseActivity {
 
     private static LocalBroadcastManager localBroadcastManager;//本地广播管理器
     private static Intent resettingIntent;//用于发送设置广播
-
-    //数据相关
-    private SharedPreferences sharedPreferences;
 
     //设置地图类型
     private ImageView mapStandardImage;//标准地图
@@ -75,9 +72,6 @@ public class SettingsActivity extends BaseActivity {
         setContentView(R.layout.activity_settings);
 
         instance = this;//获取SettingsActivity实例
-
-        //获取SharedPreferences
-        sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
 
         //自定义设置
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
@@ -113,7 +107,7 @@ public class SettingsActivity extends BaseActivity {
         destinationCityConfirm = findViewById(R.id.destination_city_confirm);
         destinationCityCancel = findViewById(R.id.destination_city_cancel);
 
-        switch (Objects.requireNonNull(sharedPreferences.getString("map_type",
+        switch (Objects.requireNonNull(PreferenceUtil.getString("map_type",
                 SettingsConstants.STANDARD_MAP))) {
             case SettingsConstants.STANDARD_MAP:
                 mapStandardImage.setImageResource(R.drawable.map_standard_on);
@@ -150,8 +144,8 @@ public class SettingsActivity extends BaseActivity {
                 mapTrafficImage.setImageResource(R.drawable.map_traffic_off);
                 mapTrafficText.setTextColor(getColor(R.color.black));
 
-                //保存设置到sharedPreferences
-                sharedPreferences.edit().putString("map_type", SettingsConstants.STANDARD_MAP).apply();
+                //保存地图类型到sharedPreferences
+                PreferenceUtil.putString("map_type", SettingsConstants.STANDARD_MAP);
 
                 //发送本地广播通知更新地图类型
                 localBroadcastManager.sendBroadcast(resettingIntent
@@ -172,8 +166,8 @@ public class SettingsActivity extends BaseActivity {
                 mapTrafficImage.setImageResource(R.drawable.map_traffic_off);
                 mapTrafficText.setTextColor(getColor(R.color.black));
 
-                //保存设置到sharedPreferences
-                sharedPreferences.edit().putString("map_type", SettingsConstants.SATELLITE_MAP).apply();
+                //保存地图类型到sharedPreferences
+                PreferenceUtil.putString("map_type", SettingsConstants.SATELLITE_MAP);
 
                 //发送本地广播通知更新地图类型
                 localBroadcastManager.sendBroadcast(resettingIntent
@@ -194,8 +188,8 @@ public class SettingsActivity extends BaseActivity {
                 mapTrafficImage.setImageResource(R.drawable.map_traffic_on);
                 mapTrafficText.setTextColor(getColor(R.color.deepblue));
 
-                //保存设置到sharedPreferences
-                sharedPreferences.edit().putString("map_type", SettingsConstants.TRAFFIC_MAP).apply();
+                //保存地图类型到sharedPreferences
+                PreferenceUtil.putString("map_type", SettingsConstants.TRAFFIC_MAP);
 
                 //发送本地广播通知更新地图类型
                 localBroadcastManager.sendBroadcast(resettingIntent
@@ -211,7 +205,7 @@ public class SettingsActivity extends BaseActivity {
         mCity = intent.getStringExtra("mCity");
 
         //设置城市信息
-        saveCity = sharedPreferences.getString("destination_city", "");
+        saveCity = PreferenceUtil.getString("destination_city", "");
         if (!TextUtils.isEmpty(saveCity))//如果存储的城市信息不为空
             destinationCityEditText.setText(saveCity);//设置城市信息
 
@@ -292,7 +286,7 @@ public class SettingsActivity extends BaseActivity {
         destinationCityCancel.setVisibility(View.GONE);//隐藏取消按钮
 
         //将城市信息录入sharedPreferences
-        sharedPreferences.edit().putString("destination_city", textCity).apply();
+        PreferenceUtil.putString("destination_city", textCity);
 
         saveCity = textCity;
     }

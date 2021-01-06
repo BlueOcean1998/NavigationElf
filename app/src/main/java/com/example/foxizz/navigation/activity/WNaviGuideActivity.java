@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -23,8 +22,7 @@ import com.baidu.platform.comapi.walknavi.WalkNaviModeSwitchListener;
 import com.baidu.platform.comapi.walknavi.widget.ArCameraView;
 import com.baidu.tts.client.SpeechSynthesizer;
 import com.example.foxizz.navigation.util.SettingUtil;
-
-import static com.example.foxizz.navigation.MyApplication.getContext;
+import com.example.foxizz.navigation.util.ToastUtil;
 
 /**
  * 步行导航诱导活动
@@ -179,7 +177,7 @@ public class WNaviGuideActivity extends Activity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == ArCameraView.WALK_AR_PERMISSION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                Toast.makeText(getContext(), "没有相机权限,请打开后重试", Toast.LENGTH_SHORT).show();
+                ToastUtil.showToast("没有相机权限,请打开后重试");
             } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 mNaviHelper.startCameraAndSetMapView(WNaviGuideActivity.this);
             }

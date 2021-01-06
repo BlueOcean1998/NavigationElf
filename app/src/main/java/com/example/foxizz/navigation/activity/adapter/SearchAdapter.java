@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -29,8 +28,9 @@ import com.example.foxizz.navigation.data.SearchItem;
 import com.example.foxizz.navigation.mybaidumap.MySearch;
 import com.example.foxizz.navigation.util.LayoutUtil;
 import com.example.foxizz.navigation.util.NetworkUtil;
+import com.example.foxizz.navigation.util.ToastUtil;
 
-import static com.example.foxizz.navigation.MyApplication.getContext;
+import static com.example.foxizz.navigation.BaseApplication.getContext;
 
 /**
  * 搜索到的信息列表的适配器
@@ -113,12 +113,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 if (unableToClick()) return;
 
                 if (!NetworkUtil.isNetworkConnected()) {//没有网络连接
-                    Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(R.string.network_error);
                     return;
                 }
 
                 if (NetworkUtil.isAirplaneModeOn()) {//没有关飞行模式
-                    Toast.makeText(getContext(), R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(R.string.close_airplane_mode);
                     return;
                 }
 
@@ -160,11 +160,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 if (unableToClick()) return;
 
                 if (!NetworkUtil.isNetworkConnected()) {//没有网络连接
-                    Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(R.string.network_error);
                     return;
                 }
                 if (NetworkUtil.isAirplaneModeOn()) {//没有关飞行模式
-                    Toast.makeText(getContext(), R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(R.string.close_airplane_mode);
                     return;
                 }
 

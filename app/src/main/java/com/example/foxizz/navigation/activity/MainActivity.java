@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,8 +15,7 @@ import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
 import com.example.foxizz.navigation.activity.fragment.UserFragment;
 import com.example.foxizz.navigation.data.SearchDataHelper;
-
-import static com.example.foxizz.navigation.MyApplication.getContext;
+import com.example.foxizz.navigation.util.ToastUtil;
 
 /**
  * 主页
@@ -128,7 +126,7 @@ public class MainActivity extends BaseActivity {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 mainFragment.myLocation.initLocationOption();//初始化定位
             } else
-                Toast.makeText(getContext(), R.string.get_permission_fail, Toast.LENGTH_SHORT).show();
+                ToastUtil.showToast(R.string.get_permission_fail);
         }
     }
 
@@ -161,7 +159,7 @@ public class MainActivity extends BaseActivity {
                     return true;
                 }
                 if ((System.currentTimeMillis() - exitTime) > 2000) {//弹出再按一次退出提示
-                    Toast.makeText(getContext(), getString(R.string.exit_app), Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(R.string.exit_app);
                     exitTime = System.currentTimeMillis();
                     return true;
                 }

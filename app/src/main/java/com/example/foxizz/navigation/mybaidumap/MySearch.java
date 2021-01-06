@@ -3,7 +3,6 @@ package com.example.foxizz.navigation.mybaidumap;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.view.View;
-import android.widget.Toast;
 
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.CityInfo;
@@ -29,6 +28,7 @@ import com.example.foxizz.navigation.activity.fragment.MainFragment;
 import com.example.foxizz.navigation.data.SearchDataHelper;
 import com.example.foxizz.navigation.data.SearchItem;
 import com.example.foxizz.navigation.util.TimeUtil;
+import com.example.foxizz.navigation.util.ToastUtil;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.example.foxizz.navigation.MyApplication.getContext;
+import static com.example.foxizz.navigation.BaseApplication.getContext;
 
 /**
  * 搜索模块
@@ -122,7 +122,7 @@ public class MySearch {
                 }
 
                 if (uidList.size() == 0) {
-                    Toast.makeText(getContext(), R.string.find_nothing, Toast.LENGTH_LONG).show();
+                    ToastUtil.showToast(R.string.find_nothing);
                 } else {
                     //要进行详细搜索的所有内容
                     for (String uid : uidList) {
@@ -185,7 +185,7 @@ public class MySearch {
                                 .keyword(mainFragment.searchContent)
                                 .pageCapacity(PAGE_CAPACITY));
                     } else if (uidList.size() == 0) {
-                        Toast.makeText(getContext(), R.string.find_nothing, Toast.LENGTH_LONG).show();
+                        ToastUtil.showToast(R.string.find_nothing);
                     }
                     return;
                 }

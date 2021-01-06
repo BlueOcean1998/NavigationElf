@@ -1,7 +1,6 @@
 package com.example.foxizz.navigation.mybaidumap;
 
 import android.annotation.SuppressLint;
-import android.widget.Toast;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -15,8 +14,9 @@ import com.baidu.mapapi.model.LatLng;
 import com.example.foxizz.navigation.R;
 import com.example.foxizz.navigation.activity.fragment.MainFragment;
 import com.example.foxizz.navigation.data.SearchDataHelper;
+import com.example.foxizz.navigation.util.ToastUtil;
 
-import static com.example.foxizz.navigation.MyApplication.getContext;
+import static com.example.foxizz.navigation.BaseApplication.getContext;
 
 /**
  * 定位模块
@@ -70,7 +70,7 @@ public class MyLocation {
                 if (mainFragment.mLocType == BDLocation.TypeGpsLocation //GPS定位结果
                         || mainFragment.mLocType == BDLocation.TypeNetWorkLocation //网络定位结果
                         || mainFragment.mLocType == BDLocation.TypeOffLineLocation) {//离线定位结果
-                    //Toast.makeText(getContext(), location.getAddrStr(), Toast.LENGTH_SHORT).show();
+                    //ToastUtil.showToast(location.getAddrStr());
                     if (isFirstLoc) {
                         isFirstLoc = false;
 
@@ -101,16 +101,16 @@ public class MyLocation {
                         //弹出错误提示
                         switch (mainFragment.mLocType) {
                             case BDLocation.TypeServerError://服务器错误
-                                Toast.makeText(getContext(), R.string.server_error, Toast.LENGTH_SHORT).show();
+                                ToastUtil.showToast(R.string.server_error);
                                 break;
                             case BDLocation.TypeNetWorkException://网络错误
-                                Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
+                                ToastUtil.showToast(R.string.network_error);
                                 break;
                             case BDLocation.TypeCriteriaException://手机模式错误
-                                Toast.makeText(getContext(), R.string.close_airplane_mode, Toast.LENGTH_SHORT).show();
+                                ToastUtil.showToast(R.string.close_airplane_mode);
                                 break;
                             default:
-                                Toast.makeText(getContext(), R.string.unknown_error, Toast.LENGTH_SHORT).show();
+                                ToastUtil.showToast(R.string.unknown_error);
                                 break;
                         }
                     }
