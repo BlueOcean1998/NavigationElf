@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.foxizz.navigation">
+    package="com.navigation.foxizz">
 
     <!-- 访问网络，进行地图相关业务数据请求，包括地图数据，路线规划，POI检索等 -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -31,7 +31,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
-        android:name=".BaseApplication"
+        android:name="com.navigation.foxizz.BaseApplication"
         android:allowBackup="true"
         android:fullBackupContent="false"
         android:icon="@drawable/foxizz"
@@ -58,7 +58,7 @@
 
         <!-- 主活动旋转屏幕不重置，没有标题栏 -->
         <activity
-            android:name=".activity.MainActivity"
+            android:name="com.navigation.foxizz.activity.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -82,7 +82,7 @@
 
         <!-- 登录页 -->
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activity.LoginRegisterActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <!-- 驾车导航 -->

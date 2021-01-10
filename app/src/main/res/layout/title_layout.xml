@@ -35,6 +35,5 @@
         android:layout_margin="6dp"
         android:background="@null"
         android:contentDescription="@null"
-        android:src="@drawable/ic_menu_black_24dp"
-        android:visibility="gone" />
+        android:src="@drawable/ic_menu_black_24dp" />
 </LinearLayout>

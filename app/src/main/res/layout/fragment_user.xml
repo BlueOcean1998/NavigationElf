@@ -41,7 +41,7 @@
             android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <com.example.foxizz.navigation.view.AdaptationTextView
+            <com.navigation.foxizz.view.AdaptationTextView
                 android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
                 android:textSize="24sp"
                 tools:ignore="HardcodedText" />
 
-            <com.example.foxizz.navigation.view.AdaptationTextView
+            <com.navigation.foxizz.view.AdaptationTextView
                 android:id="@+id/user_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

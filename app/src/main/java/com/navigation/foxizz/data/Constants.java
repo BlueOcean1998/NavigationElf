@@ -1,0 +1,23 @@
+package com.navigation.foxizz.data;
+
+/**
+ * 常量
+ */
+public class Constants {
+
+    public final static int SET_MAP_TYPE = 1;//设置地图类型
+    public final static int SET_LANDSCAPE = 2;//设置是否允许横屏
+    public final static int SET_ANGLE_3D = 3;//设置是否启用3D视角
+    public final static int SET_MAP_ROTATION = 4;//设置是否允许地图旋转
+    public final static int SET_SCALE_CONTROL = 5;//设置是否显示比例尺
+    public final static int SET_ZOOM_CONTROLS = 6;//设置是否显示缩放按钮
+    public final static int SET_COMPASS = 7;//设置是否显示指南针
+
+    public final static String STANDARD_MAP = "standard_map";//标准地图
+    public final static String SATELLITE_MAP = "satellite_map";//卫星地图
+    public final static String TRAFFIC_MAP = "traffic_map";//交通地图
+
+    public final static String REMEMBER_USERNAME = "remember_username";//记住用户名
+    public final static String REMEMBER_PASSWORD = "remember_password";//记住密码
+
+}

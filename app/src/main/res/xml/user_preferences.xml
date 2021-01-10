@@ -11,7 +11,7 @@
             app:title="设置" />
 
         <Preference
-            app:icon="@drawable/ic_info_black_24dp"
+            app:icon="@drawable/ic_update_black_24dp"
             app:key="check_update"
             app:title="检查更新"
             app:summary="检查中..." />
@@ -23,7 +23,7 @@
             app:summary="github.com/BlueEra/Navigation" />
 
         <Preference
-            app:icon="@drawable/ic_code_black_24dp"
+            app:icon="@drawable/ic_info_black_24dp"
             app:key="contact_me"
             app:title="联系我"
             app:summary="2872545042@qq.com" />
