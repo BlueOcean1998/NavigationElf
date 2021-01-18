@@ -65,7 +65,7 @@ import com.navigation.foxizz.receiver.SettingsReceiver;
 import com.navigation.foxizz.util.CityUtil;
 import com.navigation.foxizz.util.LayoutUtil;
 import com.navigation.foxizz.util.NetworkUtil;
-import com.navigation.foxizz.util.SPUtil;
+import com.navigation.foxizz.data.SPHelper;
 import com.navigation.foxizz.util.SettingUtil;
 import com.navigation.foxizz.util.ToastUtil;
 
@@ -342,7 +342,7 @@ public class MainFragment extends Fragment {
      * 设置地图类型
      */
     public void setMapType() {
-        switch (Objects.requireNonNull(SPUtil.getString("map_type",
+        switch (Objects.requireNonNull(SPHelper.getString("map_type",
                 Constants.STANDARD_MAP))) {
             case Constants.STANDARD_MAP://标准地图
                 if (mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_NORMAL)
@@ -876,7 +876,7 @@ public class MainFragment extends Fragment {
 
         String searchCity = mCity;
         //如果存储的城市不为空，则换用存储的城市
-        String saveCity = SPUtil.getString("destination_city", null);
+        String saveCity = SPHelper.getString("destination_city", null);
         if (!TextUtils.isEmpty(saveCity)) searchCity = saveCity;
         if (TextUtils.isEmpty(searchCity)) {
             requestPermission();//申请权限，获得权限后定位

@@ -43,7 +43,6 @@ import static com.navigation.foxizz.BaseApplication.getContext;
 /**
  * 搜索模块
  */
-@SuppressLint("Registered")
 public class MySearch {
 
     public final static int PAGE_CAPACITY = 16;//每页的容量

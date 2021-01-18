@@ -22,16 +22,16 @@ import java.math.BigDecimal;
  */
 public class SearchDataHelper {
 
-    private static SQLiteDatabase db;
-    private static Cursor cursor;
-    private static DatabaseHelper databaseHelper;
-
     /**
      * 初始化搜索数据库
      */
     public static void initSearchDataHelper() {
         databaseHelper = new DatabaseHelper("Navigate.db", null, 1);
     }
+
+    private static DatabaseHelper databaseHelper;
+    private static SQLiteDatabase db;
+    private static Cursor cursor;
 
     /**
      * 移动视角到最近的一条搜索记录

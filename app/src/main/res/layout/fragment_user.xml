@@ -51,6 +51,7 @@
                 android:textSize="24sp"
                 tools:ignore="HardcodedText" />
 
+            <!-- 邮箱注册正在开发中 -->
             <com.navigation.foxizz.view.AdaptationTextView
                 android:id="@+id/user_email"
                 android:layout_width="wrap_content"
@@ -59,6 +60,7 @@
                 android:text="2872545042@qq.com"
                 android:textColor="@color/gray"
                 android:textSize="16sp"
+                android:visibility="gone"
                 tools:ignore="HardcodedText" />
         </LinearLayout>
     </LinearLayout>

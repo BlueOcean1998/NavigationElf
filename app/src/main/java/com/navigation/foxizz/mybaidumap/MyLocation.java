@@ -21,7 +21,6 @@ import static com.navigation.foxizz.BaseApplication.getContext;
 /**
  * 定位模块
  */
-@SuppressLint("Registered")
 public class MyLocation {
 
     private final static int MAX_TIME = 10;//最大请求次数

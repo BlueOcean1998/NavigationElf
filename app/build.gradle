@@ -62,4 +62,6 @@ dependencies {
 
     implementation project(path: ':onsdk_all')
     implementation project(path: ':NaviTts')
+
+    implementation files('libs/ZerokirbyApi-v1.0.jar')
 }

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2017 Baidu, Inc. All Rights Reserved.
  */
-package com.navigation.foxizz.activity;
+package com.navigation.foxizz.mybaidumap.activity;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;

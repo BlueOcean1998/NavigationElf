@@ -28,7 +28,7 @@ import com.navigation.foxizz.activity.fragment.MainFragment;
 import com.navigation.foxizz.data.Constants;
 import com.navigation.foxizz.data.SearchDataHelper;
 import com.navigation.foxizz.util.CityUtil;
-import com.navigation.foxizz.util.SPUtil;
+import com.navigation.foxizz.data.SPHelper;
 import com.navigation.foxizz.view.AdaptationTextView;
 
 import java.util.Objects;
@@ -66,40 +66,6 @@ public class SettingsActivity extends BaseActivity {
     private ImageButton destinationCityCancel;//取消
     private InputMethodManager imm;//键盘
 
-    //显示删除所有搜索记录对话框
-    private static void showDeleteAllSearchDataDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(instance);
-        builder.setTitle(instance.getString(R.string.warning));
-        builder.setMessage(instance.getString(R.string.to_clear));
-
-        builder.setPositiveButton(R.string.clear, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //找到mainFragment
-                MainFragment mainFragment = MainActivity.getInstance().getMainFragment();
-                mainFragment.searchList.clear();//清空搜索列表
-                mainFragment.searchAdapter.notifyDataSetChanged();//通知adapter更新
-
-                SearchDataHelper.deleteSearchData();//清空数据库中的搜索记录
-            }
-        });
-
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int which) {
-                //do nothing
-            }
-        });
-
-        builder.show();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        instance = null;//释放SettingsActivity实例
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,13 +85,19 @@ public class SettingsActivity extends BaseActivity {
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        instance = null;//释放SettingsActivity实例
+    }
+
     //提交输入的城市
     private void commitCity() {
         destinationCityConfirm.setVisibility(View.GONE);//隐藏确定按钮
         destinationCityCancel.setVisibility(View.GONE);//隐藏取消按钮
 
         //将城市信息录入sharedPreferences
-        SPUtil.putString("destination_city", textCity);
+        SPHelper.putString("destination_city", textCity);
 
         saveCity = textCity;
     }
@@ -158,7 +130,7 @@ public class SettingsActivity extends BaseActivity {
         destinationCityConfirm = findViewById(R.id.destination_city_confirm);
         destinationCityCancel = findViewById(R.id.destination_city_cancel);
 
-        switch (Objects.requireNonNull(SPUtil.getString("map_type",
+        switch (Objects.requireNonNull(SPHelper.getString("map_type",
                 Constants.STANDARD_MAP))) {
             case Constants.STANDARD_MAP:
                 mapStandardImage.setImageResource(R.drawable.map_standard_on);
@@ -196,7 +168,7 @@ public class SettingsActivity extends BaseActivity {
                 mapTrafficText.setTextColor(getColor(R.color.black));
 
                 //保存地图类型到sharedPreferences
-                SPUtil.putString("map_type", Constants.STANDARD_MAP);
+                SPHelper.putString("map_type", Constants.STANDARD_MAP);
 
                 //发送本地广播通知更新地图类型
                 localBroadcastManager.sendBroadcast(resettingIntent
@@ -218,7 +190,7 @@ public class SettingsActivity extends BaseActivity {
                 mapTrafficText.setTextColor(getColor(R.color.black));
 
                 //保存地图类型到sharedPreferences
-                SPUtil.putString("map_type", Constants.SATELLITE_MAP);
+                SPHelper.putString("map_type", Constants.SATELLITE_MAP);
 
                 //发送本地广播通知更新地图类型
                 localBroadcastManager.sendBroadcast(resettingIntent
@@ -240,7 +212,7 @@ public class SettingsActivity extends BaseActivity {
                 mapTrafficText.setTextColor(getColor(R.color.deepblue));
 
                 //保存地图类型到sharedPreferences
-                SPUtil.putString("map_type", Constants.TRAFFIC_MAP);
+                SPHelper.putString("map_type", Constants.TRAFFIC_MAP);
 
                 //发送本地广播通知更新地图类型
                 localBroadcastManager.sendBroadcast(resettingIntent
@@ -256,7 +228,7 @@ public class SettingsActivity extends BaseActivity {
         mCity = intent.getStringExtra("mCity");
 
         //设置城市信息
-        saveCity = SPUtil.getString("destination_city", "");
+        saveCity = SPHelper.getString("destination_city", "");
         if (!TextUtils.isEmpty(saveCity))//如果存储的城市信息不为空
             destinationCityEditText.setText(saveCity);//设置城市信息
 
@@ -382,6 +354,34 @@ public class SettingsActivity extends BaseActivity {
             }
             return super.onPreferenceTreeClick(preference);
         }
+    }
+
+    //显示删除所有搜索记录对话框
+    private static void showDeleteAllSearchDataDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(instance);
+        builder.setTitle(instance.getString(R.string.warning));
+        builder.setMessage(instance.getString(R.string.to_clear));
+
+        builder.setPositiveButton(R.string.clear, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //找到mainFragment
+                MainFragment mainFragment = MainActivity.getInstance().getMainFragment();
+                mainFragment.searchList.clear();//清空搜索列表
+                mainFragment.searchAdapter.notifyDataSetChanged();//通知adapter更新
+
+                SearchDataHelper.deleteSearchData();//清空数据库中的搜索记录
+            }
+        });
+
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                //do nothing
+            }
+        });
+
+        builder.show();
     }
 
 }

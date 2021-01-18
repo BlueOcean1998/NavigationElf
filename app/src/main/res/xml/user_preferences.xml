@@ -33,8 +33,7 @@
         <Preference
             app:icon="@drawable/ic_exit_to_app_black_24dp"
             app:key="logout"
-            app:title="退出登录"
-            app:isPreferenceVisible="false" />
+            app:title="退出登录" />
     </PreferenceCategory>
 
 </PreferenceScreen>

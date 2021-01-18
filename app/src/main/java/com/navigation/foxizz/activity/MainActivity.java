@@ -172,8 +172,7 @@ public class MainActivity extends BaseActivity {
                 mainFragment.takeBackKeyboard();//收回键盘
                 return true;
             }
-            //userFragment
-        } else if (fragmentLayout == userFragment) {
+        } else if (fragmentLayout == userFragment) {//userFragment
             //回到首页
             replaceFragment(mainFragment);
             mainButton.setTextColor(getResources().getColor(R.color.skyblue));

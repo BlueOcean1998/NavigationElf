@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.navigation.foxizz">
 
     <!-- 访问网络，进行地图相关业务数据请求，包括地图数据，路线规划，POI检索等 -->
@@ -58,8 +57,9 @@
 
         <!-- 主活动旋转屏幕不重置，没有标题栏 -->
         <activity
-            android:name="com.navigation.foxizz.activity.MainActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize">
+            android:name=".activity.MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -70,35 +70,32 @@
         <activity
             android:name=".activity.SettingsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="设置"
             android:launchMode="singleTask"
-            android:parentActivityName=".activity.MainActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
-        </activity>
+            android:screenOrientation="portrait" />
 
         <!-- 登录页 -->
         <activity
             android:name=".activity.LoginRegisterActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask" />
 
         <!-- 驾车导航 -->
         <activity
-            android:name=".activity.DNaviGuideActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
+            android:name=".mybaidumap.activity.DNaviGuideActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask" />
 
         <!-- 步行导航 -->
         <activity
-            android:name=".activity.WNaviGuideActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
+            android:name=".mybaidumap.activity.WNaviGuideActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask" />
 
         <!-- 骑行导航 -->
         <activity
-            android:name=".activity.BNaviGuideActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
+            android:name=".mybaidumap.activity.BNaviGuideActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>
