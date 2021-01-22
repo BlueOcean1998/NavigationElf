@@ -2,6 +2,7 @@ package com.navigation.foxizz.activity;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.navigation.foxizz.R;
 import com.navigation.foxizz.data.Constants;
@@ -29,11 +31,10 @@ import com.navigation.foxizz.util.ToastUtil;
 
 import org.json.JSONObject;
 
+import cn.zerokirby.api.data.AvatarDataHelper;
 import cn.zerokirby.api.data.User;
 import cn.zerokirby.api.data.UserDataHelper;
-import cn.zerokirby.api.util.AvatarUtil;
 import cn.zerokirby.api.util.CodeUtil;
-import cn.zerokirby.api.util.UserUtil;
 
 /**
  * 登录页
@@ -70,12 +71,16 @@ public class LoginRegisterActivity extends AppCompatActivity {
     private String verifyCode;//验证码
     private String verify;//输入框里的验证码
 
+    private static LocalBroadcastManager localBroadcastManager;//本地广播管理器
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         instance = this;//获取LoginActivity实例
+
+        localBroadcastManager = LocalBroadcastManager.getInstance(this);
 
         initView();//初始化控件
     }
@@ -87,10 +92,15 @@ public class LoginRegisterActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        rememberUsernameAndPassword();//重设是否记住账号密码
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         instance = null;//释放LoginActivity实例
-        rememberUsernameAndPassword();//重设是否记住账号密码
     }
 
     //初始化控件
@@ -190,46 +200,78 @@ public class LoginRegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadingProgress.setVisibility(View.VISIBLE);//显示进度条
-                JSONObject jsonObject =  UserUtil.sendRequestWithOkHttp(username, password, isLogin);
-                int status = 0;
-                try {
-                    if (jsonObject != null) status = jsonObject.getInt("Status");
-                } catch (Exception ignored) {
 
-                }
-                String toastMessage = "";
-                if (isLogin) {//登录页
-                    switch (status) {
-                        case 1:
-                            toastMessage = getString(R.string.login_successfully);
-                            break;
-                        case 0:
-                            toastMessage = getString(R.string.wrong_username_or_password);
-                            break;
-                        case -1:
-                            toastMessage = getString(R.string.username_banned);
-                            break;
-                        case -2:
-                            toastMessage = getString(R.string.username_not_exists);
-                            break;
-                        default:
-                            break;
-                    }
-                } else {//注册页
-                    if (status == 1) {
-                        toastMessage = getResources().getString(R.string.register_successfully);
-                    } else {
-                        toastMessage = getResources().getString(R.string.username_already_exists);
-                    }
-                }
-                ToastUtil.showToast(toastMessage, Toast.LENGTH_SHORT);//弹出解析到的内容
-                loadingProgress.setVisibility(View.GONE);//隐藏进度条
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //提交账号信息，获取返回结果。该操作会阻塞线程，需在子线程进行
+                        JSONObject jsonObject =  UserDataHelper.sendRequestWithOkHttp(username, password, isLogin);
 
-                if (status == 1) {
-                    UserUtil.initUserInfo(jsonObject, username, password, isLogin);//初始化用户信息
-                    AvatarUtil.initAvatar();//初始化头像
-                    finish();//关闭页面
-                }
+                        //获取登录或注册结果
+                        int status = 2;
+                        try {
+                            if (jsonObject != null) status = jsonObject.getInt("Status");
+                        } catch (Exception ignored) {
+
+                        }
+
+                        //生成登录或注册结果提示信息
+                        String toastMessage = "";
+                        if (isLogin) {//登录页
+                            switch (status) {
+                                case 2:
+                                    toastMessage = getResources().getString(R.string.server_error);
+                                    break;
+                                case 1:
+                                    toastMessage = getString(R.string.login_successfully);
+                                    break;
+                                case 0:
+                                    toastMessage = getString(R.string.wrong_username_or_password);
+                                    break;
+                                case -1:
+                                    toastMessage = getString(R.string.username_banned);
+                                    break;
+                                case -2:
+                                    toastMessage = getString(R.string.username_not_exists);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        } else {//注册页
+                            switch (status) {
+                                case 2:
+                                    toastMessage = getResources().getString(R.string.server_error);
+                                    break;
+                                case 1:
+                                    toastMessage = getResources().getString(R.string.register_successfully);
+                                    break;
+                                default:
+                                    toastMessage = getResources().getString(R.string.username_already_exists);
+                                    break;
+                            }
+                        }
+
+                        //返回UI线程进行UI操作（主线程）
+                        final String finalToastMessage = toastMessage;
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ToastUtil.showToast(finalToastMessage, Toast.LENGTH_SHORT);//弹出提示信息
+                                loadingProgress.setVisibility(View.GONE);//隐藏进度条
+                            }
+                        });
+
+                        //若登录成功
+                        if (status == 1) {
+                            UserDataHelper.initUserInfo(jsonObject, username, password, isLogin);//初始化用户信息
+                            AvatarDataHelper.downloadAvatar();//下载头像
+                            //发送本地广播通知更新头像
+                            localBroadcastManager.sendBroadcast(new Intent(Constants.LOGIN_BROADCAST)
+                                    .putExtra(Constants.LOGIN_TYPE, Constants.SET_AVATAR));
+                            finish();//关闭页面
+                        }
+                    }
+                }).start();
             }
         });
 
@@ -258,7 +300,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
     private void resetUsernameAndPassword() {
         User user = null;
         if (SPHelper.getBoolean(Constants.REMEMBER_USERNAME, false)) {
-            user = UserDataHelper.getUserInfo();
+            user = UserDataHelper.getUser();
             username = user.getUsername();
             usernameEdit.setText(username);
             rememberUsername.setChecked(true);
@@ -268,7 +310,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
         }
 
         if (SPHelper.getBoolean(Constants.REMEMBER_PASSWORD, false)) {
-            if (user == null) user = UserDataHelper.getUserInfo();
+            if (user == null) user = UserDataHelper.getUser();
             password = user.getPassword();
             passwordEdit.setText(password);
             rememberPassword.setChecked(true);
@@ -277,9 +319,9 @@ public class LoginRegisterActivity extends AppCompatActivity {
 
     //重新生成验证码
     private void resetVerify() {
-        Bitmap verifyBit = CodeUtil.getInstance().createBitmap();//生成新验证码
+        Bitmap verifyBit = CodeUtil.createBitmap();//生成新验证码
         verifyImage.setImageBitmap(verifyBit);//设置新生成的验证码图片
-        verifyCode = CodeUtil.getInstance().getCode();//获取新生成的验证码
+        verifyCode = CodeUtil.getCode();//获取新生成的验证码
         loginRegisterButton.setEnabled(false);//重新生成后不可直接登录
     }
 
@@ -287,15 +329,20 @@ public class LoginRegisterActivity extends AppCompatActivity {
     private void rememberUsernameAndPassword() {
         SPHelper.putBoolean(Constants.REMEMBER_USERNAME, rememberUsername.isChecked());
         SPHelper.putBoolean(Constants.REMEMBER_PASSWORD, rememberPassword.isChecked());
+        if (!rememberUsername.isChecked()) {
+            UserDataHelper.updateUser("username", "");
+        }
+        if (!rememberPassword.isChecked()) {
+            UserDataHelper.updateUser("password", "");
+        }
     }
 
     //显示返回提示对话框
     private boolean showReturnHintDialog() {
         if (isLogin) {//如果是登录页
-            User user = UserDataHelper.getUserInfo();
+            User user = UserDataHelper.getUser();
             //如果账号或密码修改过
-            if ((!username.isEmpty() && !username.equalsIgnoreCase(user.getUsername()))
-                    || (!password.isEmpty() && !password.equalsIgnoreCase(user.getPassword()))) {
+            if ((!username.equalsIgnoreCase(user.getUsername()) || !password.equals(user.getPassword()))) {
                 showReturnHintDialog(getString(R.string.login_page_return_hint));
                 return true;//显示
             }

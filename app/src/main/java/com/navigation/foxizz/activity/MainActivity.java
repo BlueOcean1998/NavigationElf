@@ -35,7 +35,9 @@ public class MainActivity extends BaseActivity {
     private UserFragment userFragment;
     private Button mainButton;
     private Button userButton;
+
     private long exitTime = 0;//实现再按一次退出程序时，用于保存系统时间
+    private boolean isKeyDownFirst = false;//是否有先监听到按下，确保在第三方应用使用onKeyDown返回时，不会连续返回2次
 
     public MainFragment getMainFragment() {
         return mainFragment;
@@ -130,13 +132,22 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            isKeyDownFirst = true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
     //监听按键抬起事件
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         //mainFragment
         if (fragmentLayout == mainFragment) {
-            //如果是返回键
-            if (keyCode == KeyEvent.KEYCODE_BACK) {
+            //如果是返回键且有先监听到按下
+            if (keyCode == KeyEvent.KEYCODE_BACK && isKeyDownFirst) {
+                isKeyDownFirst = false;
                 if (mainFragment.canBack()) {//如果可以返回
                     mainFragment.backToUpperStory();//返回上一层
                     return true;
@@ -173,10 +184,14 @@ public class MainActivity extends BaseActivity {
                 return true;
             }
         } else if (fragmentLayout == userFragment) {//userFragment
-            //回到首页
-            replaceFragment(mainFragment);
-            mainButton.setTextColor(getResources().getColor(R.color.skyblue));
-            userButton.setTextColor(getResources().getColor(R.color.black));
+            //如果是返回键且有先监听到按下
+            if (keyCode == KeyEvent.KEYCODE_BACK  && isKeyDownFirst) {
+                isKeyDownFirst = false;
+                //回到首页
+                replaceFragment(mainFragment);
+                mainButton.setTextColor(getResources().getColor(R.color.skyblue));
+                userButton.setTextColor(getResources().getColor(R.color.black));
+            }
             return true;
         }
         return super.onKeyUp(keyCode, event);

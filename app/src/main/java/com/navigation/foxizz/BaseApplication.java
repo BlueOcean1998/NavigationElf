@@ -6,8 +6,8 @@ import android.content.Context;
 
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
-import com.navigation.foxizz.data.SearchDataHelper;
 import com.navigation.foxizz.data.SPHelper;
+import com.navigation.foxizz.data.SearchDataHelper;
 
 import cn.zerokirby.api.ZerokirbyApi;
 
@@ -15,7 +15,7 @@ import cn.zerokirby.api.ZerokirbyApi;
  * app name: NavigationElf
  * author: Foxizz
  * accomplish date: 2020-04-30
- * last modify date: 2021-01-19
+ * last modify date: 2021-01-22
  */
 public class BaseApplication extends Application {
 
@@ -45,8 +45,8 @@ public class BaseApplication extends Application {
 
         ZerokirbyApi.initialize(context);//初始化天天API
 
+        SPHelper.initSharedPreferences();//初始化SharedPreferences
         SearchDataHelper.initSearchDataHelper();//初始化搜索数据库
-        SPHelper.initSharedPreferences();
     }
 
 }

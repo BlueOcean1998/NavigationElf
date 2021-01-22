@@ -15,6 +15,8 @@ import com.navigation.foxizz.mybaidumap.MySearch;
 import com.navigation.foxizz.util.NetworkUtil;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 搜索数据帮助类
@@ -39,24 +41,11 @@ public class SearchDataHelper {
      * @param mainFragment 地图页碎片
      */
     public static void moveToLastSearchRecordLocation(MainFragment mainFragment) {
-        try {
-            if (isHasSearchData()) {//如果有搜索记录
-                db = databaseHelper.getReadableDatabase();
-                //查询所有的搜索记录，按时间降序排列
-                cursor = db.rawQuery("select * from SearchData order by time desc", null);
-                if (cursor != null && cursor.moveToFirst()) {
-                    //移动视角
-                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                    builder.include(new LatLng(
-                            cursor.getDouble(cursor.getColumnIndex("latitude")),
-                            cursor.getDouble(cursor.getColumnIndex("longitude"))));
-                    MapStatusUpdate msu = MapStatusUpdateFactory.newLatLngBounds(builder.build());
-                    mainFragment.mBaiduMap.setMapStatus(msu);
-                }
-            }
-        } finally {
-            if (cursor != null) cursor.close();
-            if (db != null) db.close();
+        if (isHasSearchData()) {//如果有搜索记录
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            builder.include(getSearchData().get(0).getLatLng());
+            MapStatusUpdate msu = MapStatusUpdateFactory.newLatLngBounds(builder.build());
+            mainFragment.mBaiduMap.setMapStatus(msu);
         }
     }
 
@@ -66,7 +55,7 @@ public class SearchDataHelper {
      * @param mainFragment 地图页碎片
      */
     public static void initSearchData(MainFragment mainFragment) {
-        try {
+        if (isHasSearchData()) {
             mainFragment.searchList.clear();
 
             boolean flag = false;//是否刷新搜索记录
@@ -78,42 +67,28 @@ public class SearchDataHelper {
                 mainFragment.mySearch.isFirstDetailSearch = true;//第一次详细信息搜索
             }
 
-            db = databaseHelper.getReadableDatabase();
-            //查询所有的搜索记录，按时间降序排列
-            cursor = db.rawQuery("select * from SearchData order by time desc", null);
-            if (cursor != null && cursor.moveToFirst()) {
-                do {
-                    SearchItem searchItem = new SearchItem();
+            List<SearchItem> searchItems = getSearchData();
+            for (SearchItem searchItem : searchItems) {
+                //获取定位点到目标点的距离（单位：m，结果除以1000转化为km）
+                double distance = (DistanceUtil.getDistance(mainFragment.latLng, searchItem.getLatLng()) / 1000);
+                //保留两位小数
+                BigDecimal bd = new BigDecimal(distance);
+                distance = bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                searchItem.setDistance(distance);
 
-                    searchItem.setUid(cursor.getString(cursor.getColumnIndex("uid")));
-                    searchItem.setTargetName(cursor.getString(cursor.getColumnIndex("target_name")));
-                    searchItem.setAddress(cursor.getString(cursor.getColumnIndex("address")));
+                mainFragment.searchList.add(searchItem);
 
-                    LatLng latLng = new LatLng(
-                            cursor.getDouble(cursor.getColumnIndex("latitude")),
-                            cursor.getDouble(cursor.getColumnIndex("longitude")));
-                    searchItem.setLatLng(latLng);
-
-                    //获取定位点到目标点的距离（单位：m，结果除以1000转化为km）
-                    double distance = (DistanceUtil.getDistance(mainFragment.latLng, latLng) / 1000);
-                    //保留两位小数
-                    BigDecimal bd = new BigDecimal(distance);
-                    distance = bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                    searchItem.setDistance(distance);
-
-                    mainFragment.searchList.add(searchItem);
-
-                    if (flag) {
-                        //通过网络重新获取搜索信息
-                        mainFragment.mPoiSearch.searchPoiDetail(//开始POI详细信息搜索
-                                (new PoiDetailSearchOption()).poiUids(searchItem.getUid()));
-                    }
-                } while (cursor.moveToNext());
+                if (flag) {
+                    //通过网络重新获取搜索信息
+                    mainFragment.mPoiSearch.searchPoiDetail(//开始POI详细信息搜索
+                            (new PoiDetailSearchOption()).poiUids(searchItem.getUid()));
+                }
             }
+
             mainFragment.searchAdapter.notifyDataSetChanged();
-        } finally {
-            if (cursor != null) cursor.close();
-            if (db != null) db.close();
+        } else {
+            mainFragment.searchList.clear();
+            mainFragment.searchAdapter.notifyDataSetChanged();
         }
     }
 
@@ -127,6 +102,62 @@ public class SearchDataHelper {
             db = databaseHelper.getReadableDatabase();
             cursor = db.rawQuery("select * from SearchData", null);
             return cursor.getCount() > 0;
+        } catch (Exception ignored) {
+            return false;
+        } finally {
+            if (cursor != null) cursor.close();
+            if (db != null) db.close();
+        }
+    }
+
+    /**
+     * 获取搜索信息
+     *
+     * @return SearchItem
+     */
+    public static List<SearchItem> getSearchData() {
+        List<SearchItem> searchItems = new ArrayList<>();
+        try {
+            db = databaseHelper.getReadableDatabase();
+            //查询所有的搜索记录，按时间降序排列
+            cursor = db.rawQuery("select * from SearchData order by time desc", null);
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    SearchItem searchItem = new SearchItem();
+
+                    searchItem.setUid(cursor.getString(cursor.getColumnIndex("uid")));
+                    searchItem.setTargetName(cursor.getString(cursor.getColumnIndex("target_name")));
+                    searchItem.setAddress(cursor.getString(cursor.getColumnIndex("address")));
+
+                    searchItem.setLatLng(new LatLng(
+                            cursor.getDouble(cursor.getColumnIndex("latitude")),
+                            cursor.getDouble(cursor.getColumnIndex("longitude"))));
+
+                    searchItems.add(searchItem);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception ignored) {
+
+        } finally {
+            if (cursor != null) cursor.close();
+            if (db != null) db.close();
+        }
+        return searchItems;
+    }
+
+    /**
+     * 将详细搜索结果录入数据库或更新数据库中这条记录的内容
+     *
+     * @param info POI详细信息
+     */
+    public static void insertOrUpdateSearchData(PoiDetailInfo info) {
+        try {
+            db = databaseHelper.getReadableDatabase();
+            cursor = db.rawQuery("select * from SearchData where uid = ?", new String[]{info.getUid()});
+            if (cursor.getCount() > 0) updateSearchData(info);//有则更新
+            else insertSearchData(info);//没有则添加
+        } catch (Exception ignored) {
+
         } finally {
             if (cursor != null) cursor.close();
             if (db != null) db.close();
@@ -141,7 +172,8 @@ public class SearchDataHelper {
     public static void insertSearchData(PoiDetailInfo info) {
         try {
             db = databaseHelper.getWritableDatabase();
-            db.execSQL("insert into SearchData (uid, latitude, longitude, target_name, address, time) " +
+            db.execSQL("insert into SearchData " +
+                            "(uid, latitude, longitude, target_name, address, time) " +
                             "values(?, ?, ?, ?, ?, ?)",
                     new String[]{info.getUid(),
                             String.valueOf(info.getLocation().latitude),
@@ -149,6 +181,8 @@ public class SearchDataHelper {
                             info.getName(),
                             info.getAddress(),
                             String.valueOf(System.currentTimeMillis())});
+        } catch (Exception ignored) {
+
         } finally {
             if (db != null) db.close();
         }
@@ -171,35 +205,8 @@ public class SearchDataHelper {
                             info.getAddress(),
                             String.valueOf(System.currentTimeMillis()),
                             info.getUid()});
-        } finally {
-            if (db != null) db.close();
-        }
-    }
+        } catch (Exception ignored) {
 
-    /**
-     * 将详细搜索结果录入数据库或更新数据库中这条记录的内容
-     *
-     * @param info POI详细信息
-     */
-    public static void insertOrUpdateSearchData(PoiDetailInfo info) {
-        try {
-            db = databaseHelper.getReadableDatabase();
-            cursor = db.rawQuery("select * from SearchData where uid = ?", new String[]{info.getUid()});
-            if (cursor.getCount() > 0) updateSearchData(info);//有则更新
-            else insertSearchData(info);//没有则添加
-        } finally {
-            if (cursor != null) cursor.close();
-            if (db != null) db.close();
-        }
-    }
-
-    /**
-     * 清空搜索记录
-     */
-    public static void deleteSearchData() {
-        try {
-            db = databaseHelper.getWritableDatabase();
-            db.execSQL("delete from SearchData");
         } finally {
             if (db != null) db.close();
         }
@@ -214,6 +221,22 @@ public class SearchDataHelper {
         try {
             db = databaseHelper.getWritableDatabase();
             db.execSQL("delete from SearchData where uid = ?", new String[]{uid});
+        } catch (Exception ignored) {
+
+        } finally {
+            if (db != null) db.close();
+        }
+    }
+
+    /**
+     * 清空搜索记录
+     */
+    public static void deleteSearchData() {
+        try {
+            db = databaseHelper.getWritableDatabase();
+            db.execSQL("delete from SearchData");
+        } catch (Exception ignored) {
+
         } finally {
             if (db != null) db.close();
         }

@@ -8,12 +8,34 @@
     <string name="main_button">首页</string>
     <string name="user_button">我的</string>
 
-    <string name="map_standard_text">标准地图</string>
-    <string name="map_satellite_text">卫星地图</string>
-    <string name="map_traffic_text">交通地图</string>
+    <string name="about">关于导航小精灵</string>
+    <string name="check_update">检查更新</string>
+    <string name="checking_update">检查中…</string>
+    <string name="sound_code">源码网址</string>
+    <string name="sound_code_url">github.com/BlueEra/Navigation</string>
+    <string name="contact_me">联系我</string>
+    <string name="contact_me_url">2872545042@qq.com</string>
+    <string name="logout">退出登录</string>
+
+    <string name="standard_map">标准地图</string>
+    <string name="satellite_map">卫星地图</string>
+    <string name="traffic_map">交通地图</string>
     <string name="destination_city">目的地城市</string>
     <string name="destination_city_summary">便于搜索其它城市的目的地</string>
     <string name="location_city">所在城市</string>
+    <string name="control">控制</string>
+    <string name="allow_landscape">允许横屏</string>
+    <string name="enable_angle_3d">启用3D视角</string>
+    <string name="enable_map_rotation">启用地图旋转</string>
+    <string name="enable_after_rotate_map">旋转地图后生效</string>
+    <string name="map">地图</string>
+    <string name="show_plotting_scale">显示比例尺</string>
+    <string name="show_zoom_button">显示缩放按钮</string>
+    <string name="show_compass">显示指南针</string>
+    <string name="search">搜索</string>
+    <string name="disable_search_around">禁用周边搜索</string>
+    <string name="do_not_search_around">当城市内搜索到的内容过多时，不再会自动转为周边搜索</string>
+    <string name="clean_search_record">清空搜索记录</string>
 
     <string name="select_button1">驾车</string>
     <string name="select_button2">步行</string>
@@ -88,8 +110,10 @@
     <string name="cancel">取消</string>
     <string name="clear">清空</string>
     <string name="delete">删除</string>
-    <string name="to_clear">你确定要清空搜索记录吗？</string>
     <string name="to_delete">你确定要删除这条记录吗？</string>
+    <string name="has_deleted">已删除这条记录</string>
+    <string name="to_clear">你确定要清空搜索记录吗？</string>
+    <string name="has_cleared">已清空搜索记录</string>
     <string name="loading">加载中…</string>
 
     <string name="login">登录</string>

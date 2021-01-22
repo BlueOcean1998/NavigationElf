@@ -16,7 +16,7 @@ public class SPHelper {
      * 初始化SharedPreferences
      */
     public static void initSharedPreferences() {
-        sp = getContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
+        sp = getContext().getSharedPreferences(Constants.SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE);
     }
 
     public static void putBoolean(String key, boolean value) {

@@ -4,21 +4,21 @@
 
     <PreferenceCategory
         app:icon="@drawable/ic_phone_android_black_24dp"
-        app:title="控制">
+        app:title="@string/control">
         <SwitchPreferenceCompat
             app:defaultValue="false"
             app:key="landscape"
-            app:title="允许横屏" />
+            app:title="@string/allow_landscape" />
 
         <SwitchPreferenceCompat
             app:defaultValue="false"
             app:key="angle_3d"
-            app:title="启用3D视角" />
+            app:title="@string/enable_angle_3d" />
 
         <SwitchPreferenceCompat
             app:defaultValue="false"
             app:key="map_rotation"
-            app:title="启用地图旋转" />
+            app:title="@string/enable_map_rotation" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -27,31 +27,31 @@
         <SwitchPreferenceCompat
             app:defaultValue="true"
             app:key="scale_control"
-            app:title="显示比例尺" />
+            app:title="@string/show_plotting_scale" />
 
         <SwitchPreferenceCompat
             app:defaultValue="false"
             app:key="zoom_controls"
-            app:title="显示缩放按钮" />
+            app:title="@string/show_zoom_button" />
 
         <SwitchPreferenceCompat
             app:defaultValue="true"
             app:key="compass"
-            app:summary="旋转地图后生效"
-            app:title="显示指南针" />
+            app:summary="@string/enable_after_rotate_map"
+            app:title="@string/show_compass" />
     </PreferenceCategory>
 
     <PreferenceCategory
         app:icon="@drawable/ic_search_black_24dp"
-        app:title="搜索">
+        app:title="@string/search">
         <SwitchPreferenceCompat
             app:defaultValue="false"
             app:key="search_around"
-            app:summary="当城市内搜索到的内容过多时，不再会自动转为周边搜索"
-            app:title="禁用周边搜索" />
+            app:summary="@string/do_not_search_around"
+            app:title="@string/disable_search_around" />
         <Preference
-            app:key="clean_record"
-            app:title="清空搜索记录" />
+            app:key="search_record"
+            app:title="@string/clean_search_record" />
     </PreferenceCategory>
 
 </PreferenceScreen>

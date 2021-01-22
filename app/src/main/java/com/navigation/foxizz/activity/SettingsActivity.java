@@ -24,11 +24,11 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.navigation.foxizz.R;
-import com.navigation.foxizz.activity.fragment.MainFragment;
 import com.navigation.foxizz.data.Constants;
+import com.navigation.foxizz.data.SPHelper;
 import com.navigation.foxizz.data.SearchDataHelper;
 import com.navigation.foxizz.util.CityUtil;
-import com.navigation.foxizz.data.SPHelper;
+import com.navigation.foxizz.util.ToastUtil;
 import com.navigation.foxizz.view.AdaptationTextView;
 
 import java.util.Objects;
@@ -46,7 +46,6 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private static LocalBroadcastManager localBroadcastManager;//本地广播管理器
-    private static Intent resettingIntent;//用于发送设置广播
 
     //设置地图类型
     private ImageView mapStandardImage;//标准地图
@@ -73,6 +72,8 @@ public class SettingsActivity extends BaseActivity {
 
         instance = this;//获取SettingsActivity实例
 
+        localBroadcastManager = LocalBroadcastManager.getInstance(this);
+
         initView();//初始化控件
 
         //初始化PreferenceScreen
@@ -97,7 +98,7 @@ public class SettingsActivity extends BaseActivity {
         destinationCityCancel.setVisibility(View.GONE);//隐藏取消按钮
 
         //将城市信息录入sharedPreferences
-        SPHelper.putString("destination_city", textCity);
+        SPHelper.putString(Constants.DESTINATION_CITY, textCity);
 
         saveCity = textCity;
     }
@@ -151,9 +152,6 @@ public class SettingsActivity extends BaseActivity {
                 break;
         }
 
-        localBroadcastManager = LocalBroadcastManager.getInstance(this);
-        resettingIntent = new Intent("com.navigation.foxizz.navigation.broadcast.SETTINGS_BROADCAST");
-
         //标准地图的点击事件
         mapStandardImage.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
@@ -168,11 +166,11 @@ public class SettingsActivity extends BaseActivity {
                 mapTrafficText.setTextColor(getColor(R.color.black));
 
                 //保存地图类型到sharedPreferences
-                SPHelper.putString("map_type", Constants.STANDARD_MAP);
+                SPHelper.putString(Constants.MAP_TYPE, Constants.STANDARD_MAP);
 
                 //发送本地广播通知更新地图类型
-                localBroadcastManager.sendBroadcast(resettingIntent
-                        .putExtra("settings_type", Constants.SET_MAP_TYPE));
+                localBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
+                        .putExtra(Constants.SETTINGS_TYPE, Constants.SET_MAP_TYPE));
             }
         });
 
@@ -190,11 +188,11 @@ public class SettingsActivity extends BaseActivity {
                 mapTrafficText.setTextColor(getColor(R.color.black));
 
                 //保存地图类型到sharedPreferences
-                SPHelper.putString("map_type", Constants.SATELLITE_MAP);
+                SPHelper.putString(Constants.MAP_TYPE, Constants.SATELLITE_MAP);
 
                 //发送本地广播通知更新地图类型
-                localBroadcastManager.sendBroadcast(resettingIntent
-                        .putExtra("settings_type", Constants.SET_MAP_TYPE));
+                localBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
+                        .putExtra(Constants.SETTINGS_TYPE, Constants.SET_MAP_TYPE));
             }
         });
 
@@ -212,11 +210,11 @@ public class SettingsActivity extends BaseActivity {
                 mapTrafficText.setTextColor(getColor(R.color.deepblue));
 
                 //保存地图类型到sharedPreferences
-                SPHelper.putString("map_type", Constants.TRAFFIC_MAP);
+                SPHelper.putString(Constants.MAP_TYPE, Constants.TRAFFIC_MAP);
 
                 //发送本地广播通知更新地图类型
-                localBroadcastManager.sendBroadcast(resettingIntent
-                        .putExtra("settings_type", Constants.SET_MAP_TYPE));
+                localBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
+                        .putExtra(Constants.SETTINGS_TYPE, Constants.SET_MAP_TYPE));
             }
         });
 
@@ -225,10 +223,10 @@ public class SettingsActivity extends BaseActivity {
 
         //获取从MainActivity中传来的所在城市名
         Intent intent = getIntent();
-        mCity = intent.getStringExtra("mCity");
+        mCity = intent.getStringExtra(Constants.MY_CITY);
 
         //设置城市信息
-        saveCity = SPHelper.getString("destination_city", "");
+        saveCity = SPHelper.getString(Constants.DESTINATION_CITY, "");
         if (!TextUtils.isEmpty(saveCity))//如果存储的城市信息不为空
             destinationCityEditText.setText(saveCity);//设置城市信息
 
@@ -315,39 +313,39 @@ public class SettingsActivity extends BaseActivity {
         @Override
         public boolean onPreferenceTreeClick(Preference preference) {
             switch (preference.getKey()) {
-                case "landscape":
+                case Constants.KEY_LANDSCAPE:
                     //发送本地广播通知更新是否允许横屏
-                    localBroadcastManager.sendBroadcast(resettingIntent
-                            .putExtra("settings_type", Constants.SET_LANDSCAPE));
+                    localBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
+                            .putExtra(Constants.SETTINGS_TYPE, Constants.SET_LANDSCAPE));
                     break;
-                case "angle_3d":
+                case Constants.KEY_ANGLE_3D:
                     //发送本地广播通知更新否启用3D视角
-                    localBroadcastManager.sendBroadcast(resettingIntent
-                            .putExtra("settings_type", Constants.SET_ANGLE_3D));
+                    localBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
+                            .putExtra(Constants.SETTINGS_TYPE, Constants.SET_ANGLE_3D));
                     break;
-                case "map_rotation":
+                case Constants.KEY_MAP_ROTATION:
                     //发送本地广播通知更新是否允许地图旋转
-                    localBroadcastManager.sendBroadcast(resettingIntent
-                            .putExtra("settings_type", Constants.SET_MAP_ROTATION));
+                    localBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
+                            .putExtra(Constants.SETTINGS_TYPE, Constants.SET_MAP_ROTATION));
                     break;
-                case "scale_control":
+                case Constants.KEY_SCALE_CONTROL:
                     //发送本地广播通知更新是否显示比例尺
-                    localBroadcastManager.sendBroadcast(resettingIntent
-                            .putExtra("settings_type", Constants.SET_SCALE_CONTROL));
+                    localBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
+                            .putExtra(Constants.SETTINGS_TYPE, Constants.SET_SCALE_CONTROL));
                     break;
-                case "zoom_controls":
+                case Constants.KEY_ZOOM_CONTROLS:
                     //发送本地广播通知更新是否显示缩放按钮
-                    localBroadcastManager.sendBroadcast(resettingIntent
-                            .putExtra("settings_type", Constants.SET_ZOOM_CONTROLS));
+                    localBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
+                            .putExtra(Constants.SETTINGS_TYPE, Constants.SET_ZOOM_CONTROLS));
                     break;
-                case "compass":
+                case Constants.KEY_COMPASS:
                     //发送本地广播通知更新是否显示指南针
-                    localBroadcastManager.sendBroadcast(resettingIntent
-                            .putExtra("settings_type", Constants.SET_COMPASS));
+                    localBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
+                            .putExtra(Constants.SETTINGS_TYPE, Constants.SET_COMPASS));
                     break;
-                case "search_around":
+                case Constants.KEY_SEARCH_AROUND:
                     break;
-                case "clean_record":
+                case Constants.KEY_SEARCH_RECORD:
                     showDeleteAllSearchDataDialog();//显示删除所有搜索记录对话框
                 default:
                     break;
@@ -365,12 +363,13 @@ public class SettingsActivity extends BaseActivity {
         builder.setPositiveButton(R.string.clear, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //找到mainFragment
-                MainFragment mainFragment = MainActivity.getInstance().getMainFragment();
-                mainFragment.searchList.clear();//清空搜索列表
-                mainFragment.searchAdapter.notifyDataSetChanged();//通知adapter更新
+                //发送本地广播通知清空搜索记录
+                localBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
+                        .putExtra(Constants.SETTINGS_TYPE, Constants.CLEAN_RECORD));
 
                 SearchDataHelper.deleteSearchData();//清空数据库中的搜索记录
+
+                ToastUtil.showToast(R.string.has_cleared);
             }
         });
 

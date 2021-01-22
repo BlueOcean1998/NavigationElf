@@ -9,6 +9,8 @@ import android.content.pm.PackageManager;
 import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
+import com.navigation.foxizz.data.Constants;
+
 import static com.navigation.foxizz.BaseApplication.getContext;
 
 /**
@@ -47,7 +49,7 @@ public class SettingUtil {
 
             //设置是否允许横屏
             if (PreferenceManager.getDefaultSharedPreferences(context)
-                    .getBoolean("landscape", false))
+                    .getBoolean(Constants.KEY_LANDSCAPE, false))
                 activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);//自动旋转
             else activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//只允许竖屏
         }

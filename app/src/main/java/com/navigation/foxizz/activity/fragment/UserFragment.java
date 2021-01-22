@@ -4,9 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
@@ -25,9 +26,12 @@ import com.navigation.foxizz.R;
 import com.navigation.foxizz.activity.LoginRegisterActivity;
 import com.navigation.foxizz.activity.MainActivity;
 import com.navigation.foxizz.activity.SettingsActivity;
+import com.navigation.foxizz.data.Constants;
+import com.navigation.foxizz.receiver.LocalReceiver;
 import com.navigation.foxizz.util.ToastUtil;
 import com.navigation.foxizz.view.AdaptationTextView;
 
+import cn.zerokirby.api.data.AvatarDataHelper;
 import cn.zerokirby.api.data.UserDataHelper;
 
 /**
@@ -42,14 +46,17 @@ public class UserFragment extends Fragment {
         return instance;
     }
 
-    public static String  userId = "0";
-    private FrameLayout portraitLayout;//头像布局
-    private ImageView userPortrait;//用户头像
-    private LinearLayout userInfoLayout;//信息布局
-    private AdaptationTextView userName;//用户名
-    private AdaptationTextView userEmail;//用户email
+    public static String userId = "0";
+    public FrameLayout avatarLayout;//头像布局
+    public ImageView avatarImage;//用户头像
+    public LinearLayout userInfoLayout;//信息布局
+    public AdaptationTextView userName;//用户名
+    public AdaptationTextView userEmail;//用户email
 
     private PreferenceScreen preferenceScreen;
+
+    private LocalReceiver localReceiver;//设置接收器
+    private LocalBroadcastManager localBroadcastManager;//本地广播管理器
 
     @Nullable
     @Override
@@ -59,6 +66,8 @@ public class UserFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
 
         instance = this;//获取UserFragment实例
+
+        initLocalBroadcast();//初始化本地广播接收器
 
         initView(view);//初始化控件
 
@@ -76,8 +85,8 @@ public class UserFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        userId = UserDataHelper.getUserInfo().getUserId();
-        Preference preference = preferenceScreen.findPreference("logout");
+        userId = UserDataHelper.getUser().getUserId();
+        Preference preference = preferenceScreen.findPreference(Constants.KEY_LOGOUT);
         if (preference != null) {
             preference.setVisible(!userId.equals("0"));
         }
@@ -86,19 +95,29 @@ public class UserFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        localBroadcastManager.unregisterReceiver(localReceiver);//释放设置接收器实例
         instance = null;//释放UserFragment实例
+    }
+
+    //初始化本地广播接收器
+    private void initLocalBroadcast() {
+        localReceiver = new LocalReceiver(requireActivity());
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Constants.LOGIN_BROADCAST);
+        localBroadcastManager = LocalBroadcastManager.getInstance(requireContext());
+        localBroadcastManager.registerReceiver(localReceiver, intentFilter);
     }
 
     //初始化用户布局
     private void initView(View view) {
-        portraitLayout = view.findViewById(R.id.portrait_layout);
-        userPortrait = view.findViewById(R.id.user_portrait);
+        avatarLayout = view.findViewById(R.id.avatar_layout);
+        avatarImage = view.findViewById(R.id.avatar_image);
 
         userInfoLayout = view.findViewById(R.id.user_info_layout);
         userName = view.findViewById(R.id.user_name);
         userEmail = view.findViewById(R.id.user_email);
 
-        portraitLayout.setOnClickListener(new View.OnClickListener() {
+        avatarLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (userId.equals("0")) {
@@ -136,28 +155,28 @@ public class UserFragment extends Fragment {
         public boolean onPreferenceTreeClick(Preference preference) {
             Intent browser = new Intent("android.intent.action.VIEW");
             switch (preference.getKey()) {
-                case "to_settings":
+                case Constants.KEY_TO_SETTINGS:
                     Intent intent = new Intent(getContext(), SettingsActivity.class);
 
                     //寻找mainFragment
                     MainFragment mainFragment = ((MainActivity) requireActivity()).getMainFragment();
                     //传递mCity
                     if (mainFragment != null && mainFragment.mCity != null)
-                        intent.putExtra("mCity", mainFragment.mCity);
+                        intent.putExtra(Constants.MY_CITY, mainFragment.mCity);
 
                     startActivity(intent);
                     break;
-                case "check_update":
-
+                case Constants.KEY_CHECK_UPDATE:
+                    //TODO
                     break;
-                case "sound_code":
-                    startActivity(browser.setData(Uri.parse("https://github.com/BlueEra/Navigation")));
+                case Constants.KEY_SOUND_CODE:
+                    startActivity(browser.setData(Uri.parse("https://" + getString(R.string.sound_code_url))));
                     break;
-                case "contact_me":
-                    startActivity(browser.setData(Uri.parse("mailto:2872545042@qq.com")));
+                case Constants.KEY_CONTACT_ME:
+                    startActivity(browser.setData(Uri.parse("mailto:" + getString(R.string.contact_me_url))));
                     break;
-                case "logout":
-                    showLogoutDialog(requireContext(), preference);
+                case Constants.KEY_LOGOUT:
+                    showLogoutDialog(requireActivity(), preference);
                     break;
                 default:
                     break;
@@ -166,7 +185,7 @@ public class UserFragment extends Fragment {
         }
 
         //弹出退出登录提示对话框
-        private static void showLogoutDialog(Context context, final Preference preference) {
+        private static void showLogoutDialog(final Context context, final Preference preference) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle(R.string.hint);
             builder.setMessage(R.string.sure_to_logout);
@@ -174,10 +193,19 @@ public class UserFragment extends Fragment {
             builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    UserDataHelper.logout();
-                    ToastUtil.showToast(R.string.logged_out);
                     userId = "0";
+
+                    ToastUtil.showToast(R.string.logged_out);
                     preference.setVisible(false);
+
+                    UserDataHelper.logout();//数据库中的user_id和last_sync_time归零
+
+                    AvatarDataHelper.updateAvatar("".getBytes());//清空数据库中的头像
+                    //还原头像为默认
+                    if (context instanceof MainActivity) {
+                        UserFragment userFragment = ((MainActivity) context).getUserFragment();
+                        userFragment.avatarImage.setImageResource(R.drawable.foxizz_sketch);
+                    }
                 }
             });
 

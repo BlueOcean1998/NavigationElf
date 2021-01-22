@@ -53,6 +53,7 @@ import com.navigation.foxizz.activity.SettingsActivity;
 import com.navigation.foxizz.activity.adapter.SchemeAdapter;
 import com.navigation.foxizz.activity.adapter.SearchAdapter;
 import com.navigation.foxizz.data.Constants;
+import com.navigation.foxizz.data.SPHelper;
 import com.navigation.foxizz.data.SchemeItem;
 import com.navigation.foxizz.data.SearchDataHelper;
 import com.navigation.foxizz.data.SearchItem;
@@ -61,17 +62,15 @@ import com.navigation.foxizz.mybaidumap.MyNavigateHelper;
 import com.navigation.foxizz.mybaidumap.MyOrientationListener;
 import com.navigation.foxizz.mybaidumap.MyRoutePlanSearch;
 import com.navigation.foxizz.mybaidumap.MySearch;
-import com.navigation.foxizz.receiver.SettingsReceiver;
+import com.navigation.foxizz.receiver.LocalReceiver;
 import com.navigation.foxizz.util.CityUtil;
 import com.navigation.foxizz.util.LayoutUtil;
 import com.navigation.foxizz.util.NetworkUtil;
-import com.navigation.foxizz.data.SPHelper;
 import com.navigation.foxizz.util.SettingUtil;
 import com.navigation.foxizz.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * 地图页
@@ -200,7 +199,7 @@ public class MainFragment extends Fragment {
     /*
      * 设置相关
      */
-    private SettingsReceiver settingsReceiver;//设置接收器
+    private LocalReceiver localReceiver;//设置接收器
     private LocalBroadcastManager localBroadcastManager;//本地广播管理器
 
     /*
@@ -220,9 +219,11 @@ public class MainFragment extends Fragment {
         //获取默认设置
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
 
-        InitMap(view);//初始化地图控件
+        initMap(view);//初始化地图控件
 
         initSettings();//初始化偏好设置
+
+        initLocalBroadcast();//初始化本地广播接收器
 
         initView(view);//初始化控件
 
@@ -272,7 +273,7 @@ public class MainFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
 
-        localBroadcastManager.unregisterReceiver(settingsReceiver);//释放设置接收器实例
+        localBroadcastManager.unregisterReceiver(localReceiver);//释放设置接收器实例
 
         mBaiduMap.setMyLocationEnabled(false);//开启定位的允许
 
@@ -295,7 +296,7 @@ public class MainFragment extends Fragment {
     }
 
     //初始化地图控件
-    private void InitMap(View view) {
+    private void initMap(View view) {
         //获取地图控件引用
         mMapView = view.findViewById(R.id.map_view);
         mBaiduMap = mMapView.getMap();
@@ -342,8 +343,7 @@ public class MainFragment extends Fragment {
      * 设置地图类型
      */
     public void setMapType() {
-        switch (Objects.requireNonNull(SPHelper.getString("map_type",
-                Constants.STANDARD_MAP))) {
+        switch (SPHelper.getString(Constants.MAP_TYPE, Constants.STANDARD_MAP)) {
             case Constants.STANDARD_MAP://标准地图
                 if (mBaiduMap.getMapType() != BaiduMap.MAP_TYPE_NORMAL)
                     mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
@@ -368,35 +368,35 @@ public class MainFragment extends Fragment {
      * 设置是否启用3D视角
      */
     public void setAngle3D() {
-        mUiSettings.setOverlookingGesturesEnabled(sharedPreferences.getBoolean("angle_3d", false));
+        mUiSettings.setOverlookingGesturesEnabled(sharedPreferences.getBoolean(Constants.KEY_ANGLE_3D, false));
     }
 
     /**
      * 设置是否允许地图旋转
      */
     public void setMapRotation() {
-        mUiSettings.setRotateGesturesEnabled(sharedPreferences.getBoolean("map_rotation", false));
+        mUiSettings.setRotateGesturesEnabled(sharedPreferences.getBoolean(Constants.KEY_MAP_ROTATION, false));
     }
 
     /**
      * 设置是否显示比例尺
      */
     public void setScaleControl() {
-        mMapView.showScaleControl(sharedPreferences.getBoolean("scale_control", false));
+        mMapView.showScaleControl(sharedPreferences.getBoolean(Constants.KEY_SCALE_CONTROL, true));
     }
 
     /**
      * 设置是否显示缩放按钮
      */
     public void setZoomControls() {
-        mMapView.showZoomControls(sharedPreferences.getBoolean("zoom_controls", false));
+        mMapView.showZoomControls(sharedPreferences.getBoolean(Constants.KEY_ZOOM_CONTROLS, false));
     }
 
     /**
      * 设置是否显示指南针
      */
     public void setCompass() {
-        mUiSettings.setCompassEnabled(sharedPreferences.getBoolean("compass", true));
+        mUiSettings.setCompassEnabled(sharedPreferences.getBoolean(Constants.KEY_COMPASS, true));
     }
 
     //初始化偏好设置
@@ -411,13 +411,15 @@ public class MainFragment extends Fragment {
         setScaleControl();
         setZoomControls();
         setCompass();
+    }
 
-        //注册本地广播接收器
-        settingsReceiver = new SettingsReceiver(requireContext());
+    //初始化本地广播接收器
+    private void initLocalBroadcast() {
+        localReceiver = new LocalReceiver(requireActivity());
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("com.navigation.foxizz.navigation.broadcast.SETTINGS_BROADCAST");
+        intentFilter.addAction(Constants.SETTINGS_BROADCAST);
         localBroadcastManager = LocalBroadcastManager.getInstance(requireContext());
-        localBroadcastManager.registerReceiver(settingsReceiver, intentFilter);
+        localBroadcastManager.registerReceiver(localReceiver, intentFilter);
     }
 
     //初始化自定义控件
@@ -493,7 +495,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), SettingsActivity.class);
-                if (mCity != null) intent.putExtra("mCity", mCity);
+                if (mCity != null) intent.putExtra(Constants.MY_CITY, mCity);
                 startActivity(intent);
             }
         });
@@ -876,7 +878,7 @@ public class MainFragment extends Fragment {
 
         String searchCity = mCity;
         //如果存储的城市不为空，则换用存储的城市
-        String saveCity = SPHelper.getString("destination_city", null);
+        String saveCity = SPHelper.getString(Constants.DESTINATION_CITY, null);
         if (!TextUtils.isEmpty(saveCity)) searchCity = saveCity;
         if (TextUtils.isEmpty(searchCity)) {
             requestPermission();//申请权限，获得权限后定位
@@ -912,7 +914,7 @@ public class MainFragment extends Fragment {
         //页数归零
         currentPage = 0;
 
-        if (sharedPreferences.getBoolean("search_around", false))
+        if (sharedPreferences.getBoolean(Constants.KEY_SEARCH_AROUND, false))
             mySearch.poiSearchType = MySearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
         else mySearch.poiSearchType = MySearch.CITY_SEARCH;//设置搜索类型为城市内搜索
 

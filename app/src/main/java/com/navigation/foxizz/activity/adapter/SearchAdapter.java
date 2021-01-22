@@ -245,7 +245,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     //显示删除搜索记录对话框
     private void showDeleteSearchDataDialog(final SearchItem searchItem) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mainFragment.requireActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(mainFragment.requireContext());
         builder.setTitle(R.string.hint);
         builder.setMessage("你确定要删除'" + searchItem.getTargetName() + "'吗？");
 
@@ -261,6 +261,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 }
 
                 SearchDataHelper.deleteSearchData(searchItem.getUid());//删除数据库中的搜索记录
+
+                ToastUtil.showToast(R.string.has_deleted);
             }
         });
 
