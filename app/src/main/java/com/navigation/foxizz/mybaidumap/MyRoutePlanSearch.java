@@ -122,13 +122,13 @@ public class MyRoutePlanSearch {
                             LayoutUtil.expandLayout(infoDrawer, false);
                             LayoutUtil.rotateExpandIcon(schemeExpand, 180, 0);//旋转伸展按钮
                             mainFragment.schemeList.get(i).setExpandFlag(false);
-                            mainFragment.schemeAdapter.notifyDataSetChanged();//通知adapter更新
+                            mainFragment.schemeAdapter.updateList();//通知adapter更新
                         }
                     }
                 }
 
                 mainFragment.schemeList.clear();//清空方案列表
-                mainFragment.schemeAdapter.notifyDataSetChanged();//通知adapter更新
+                mainFragment.schemeAdapter.updateList();//通知adapter更新
 
                 mainFragment.mSearch.masstransitSearch((new MassTransitRoutePlanOption())
                         .from(startNode)
@@ -197,7 +197,7 @@ public class MyRoutePlanSearch {
             }
 
             @Override
-            public void onGetMassTransitRouteResult(MassTransitRouteResult massTransitRouteResult) {
+            public void onGetMassTransitRouteResult(final MassTransitRouteResult massTransitRouteResult) {
                 //路线方案加载完成
                 mainFragment.schemeLoading.setVisibility(View.GONE);
                 mainFragment.schemeResult.setVisibility(View.VISIBLE);
@@ -208,72 +208,77 @@ public class MyRoutePlanSearch {
                     return;
                 }
 
-                //所有的路线
-                for (MassTransitRouteLine massTransitRouteLine : massTransitRouteResult.getRouteLines()) {
-                    SchemeItem schemeItem = new SchemeItem();
-                    schemeItem.setRouteLine(massTransitRouteLine);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //所有的路线
+                        for (MassTransitRouteLine massTransitRouteLine : massTransitRouteResult.getRouteLines()) {
+                            SchemeItem schemeItem = new SchemeItem();
+                            schemeItem.setRouteLine(massTransitRouteLine);
 
-                    //获取公交路线信息
-                    StringBuilder allStationInfo = new StringBuilder();
-                    StringBuilder simpleInfo = new StringBuilder();
-                    //每条路线的所有段
-                    for (List<MassTransitRouteLine.TransitStep> transitSteps :
-                            massTransitRouteLine.getNewSteps()) {
-                        //每一段的所有信息
-                        for (MassTransitRouteLine.TransitStep transitStep : transitSteps) {
-                            //只收集巴士和长途巴士的信息
-                            if (transitStep.getVehileType() == //巴士
-                                    MassTransitRouteLine.TransitStep.StepVehicleInfoType.ESTEP_BUS
-                                    || transitStep.getVehileType() == //长途巴士
-                                    MassTransitRouteLine.TransitStep.StepVehicleInfoType.ESTEP_COACH) {
-                                if (transitStep.getBusInfo() != null) {//巴士
-                                    simpleInfo.append("—").append(transitStep.getBusInfo().getName());
-                                    allStationInfo.append(transitStep.getBusInfo().getName());
+                            //获取公交路线信息
+                            StringBuilder allStationInfo = new StringBuilder();
+                            StringBuilder simpleInfo = new StringBuilder();
+                            //每条路线的所有段
+                            for (List<MassTransitRouteLine.TransitStep> transitSteps :
+                                    massTransitRouteLine.getNewSteps()) {
+                                //每一段的所有信息
+                                for (MassTransitRouteLine.TransitStep transitStep : transitSteps) {
+                                    //只收集巴士和长途巴士的信息
+                                    if (transitStep.getVehileType() == //巴士
+                                            MassTransitRouteLine.TransitStep.StepVehicleInfoType.ESTEP_BUS
+                                            || transitStep.getVehileType() == //长途巴士
+                                            MassTransitRouteLine.TransitStep.StepVehicleInfoType.ESTEP_COACH) {
+                                        if (transitStep.getBusInfo() != null) {//巴士
+                                            simpleInfo.append("—").append(transitStep.getBusInfo().getName());
+                                            allStationInfo.append(transitStep.getBusInfo().getName());
+                                        }
+                                        if (transitStep.getCoachInfo() != null) {//长途巴士
+                                            simpleInfo.append("—").append(transitStep.getCoachInfo().getName());
+                                            allStationInfo.append(transitStep.getCoachInfo().getName());
+                                        }
+                                        //终点站
+                                        allStationInfo.append("—终点站：").append(
+                                                transitStep.getBusInfo().getArriveStation()).append("\n");
+                                    }
                                 }
-                                if (transitStep.getCoachInfo() != null) {//长途巴士
-                                    simpleInfo.append("—").append(transitStep.getCoachInfo().getName());
-                                    allStationInfo.append(transitStep.getCoachInfo().getName());
-                                }
-                                //终点站
-                                allStationInfo.append("—终点站：").append(
-                                        transitStep.getBusInfo().getArriveStation()).append("\n");
                             }
+                            simpleInfo = new StringBuilder(simpleInfo.substring(1));
+                            schemeItem.setSimpleInfo(simpleInfo.toString());
+                            schemeItem.setAllStationInfo(allStationInfo.toString());
+
+                            //获取详细信息
+                            StringBuilder detailInfo = new StringBuilder();
+
+                            long spendTime;
+                            long nowTime = System.currentTimeMillis();
+                            long arriveTime = TimeUtil.parse(massTransitRouteLine.getArriveTime(),
+                                    TimeUtil.FORMATION_yMdHms).getTime();
+                            spendTime = arriveTime - nowTime;
+                            if (spendTime < 3 * 60 * 60 * 1000) {//小于3小时
+                                detailInfo.append(mainFragment.getString(R.string.spend_time))
+                                        .append(spendTime / 1000 / 60).append(mainFragment.getString(R.string.minute));
+                            } else {
+                                detailInfo.append(mainFragment.getString(R.string.spend_time))
+                                        .append(spendTime / 1000 / 60 / 60).append(mainFragment.getString(R.string.hour))
+                                        .append(spendTime / 1000 / 60 % 60).append(mainFragment.getString(R.string.minute));
+                            }
+
+                            if (massTransitRouteLine.getPrice() > 10) {
+                                detailInfo.append("\n")
+                                        .append(mainFragment.getString(R.string.budget))
+                                        .append((int) massTransitRouteLine.getPrice()).append(mainFragment.getString(R.string.yuan));
+                            }
+
+                            schemeItem.setDetailInfo(detailInfo.toString());
+
+                            mainFragment.schemeList.add(schemeItem);//添加到列表中
+                            mainFragment.schemeAdapter.updateList();//通知adapter更新
                         }
+
+                        startMassTransitRoutePlan(0);//默认选择第一个方案
                     }
-                    simpleInfo = new StringBuilder(simpleInfo.substring(1));
-                    schemeItem.setSimpleInfo(simpleInfo.toString());
-                    schemeItem.setAllStationInfo(allStationInfo.toString());
-
-                    //获取详细信息
-                    StringBuilder detailInfo = new StringBuilder();
-
-                    long spendTime;
-                    long nowTime = System.currentTimeMillis();
-                    long arriveTime = TimeUtil.parse(massTransitRouteLine.getArriveTime(),
-                            TimeUtil.FORMATION_yMdHms).getTime();
-                    spendTime = arriveTime - nowTime;
-                    if (spendTime < 3 * 60 * 60 * 1000) {//小于3小时
-                        detailInfo.append(mainFragment.getString(R.string.spend_time))
-                                .append(spendTime / 1000 / 60).append(mainFragment.getString(R.string.minute));
-                    } else {
-                        detailInfo.append(mainFragment.getString(R.string.spend_time))
-                                .append(spendTime / 1000 / 60 / 60).append(mainFragment.getString(R.string.hour))
-                                .append(spendTime / 1000 / 60 % 60).append(mainFragment.getString(R.string.minute));
-                    }
-
-                    if (massTransitRouteLine.getPrice() > 10) {
-                        detailInfo.append("\n")
-                                .append(mainFragment.getString(R.string.budget))
-                                .append((int) massTransitRouteLine.getPrice()).append(mainFragment.getString(R.string.yuan));
-                    }
-
-                    schemeItem.setDetailInfo(detailInfo.toString());
-
-                    mainFragment.schemeList.add(schemeItem);//添加到列表中
-                    mainFragment.schemeAdapter.notifyDataSetChanged();//通知adapter更新
-                }
-
-                startMassTransitRoutePlan(0);//默认选择第一个方案
+                }).start();
             }
 
             @Override
@@ -350,7 +355,7 @@ public class MyRoutePlanSearch {
         //设置方案信息
         mainFragment.schemeInfo.setText(schemeItem.getAllStationInfo()
                 + "\n" + schemeItem.getDetailInfo() + "\n");
-        
+
         //创建MassTransitRouteOverlay实例
         MassTransitRouteOverlay overlay = new MassTransitRouteOverlay(mainFragment.mBaiduMap);
 
@@ -401,7 +406,12 @@ public class MyRoutePlanSearch {
             //将路线放在最佳视野位置
             overlay.zoomToSpan();
         } catch (Exception ignored) {
-            ToastUtil.showToast(R.string.draw_route_fail);
+            mainFragment.requireActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ToastUtil.showToast(R.string.draw_route_fail);
+                }
+            });
         }
     }
 

@@ -5,6 +5,8 @@ package com.navigation.foxizz.data;
  */
 public class Constants {
 
+    public final static String LOCAL_DATABASE = "Navigate.db";//本地数据库
+
     public final static String MY_CITY = "my_city";//所在城市
 
     //SettingsSharedPreferences的设置相关键

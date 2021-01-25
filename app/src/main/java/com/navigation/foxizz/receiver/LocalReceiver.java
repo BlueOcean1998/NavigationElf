@@ -3,6 +3,7 @@ package com.navigation.foxizz.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 
 import com.navigation.foxizz.activity.MainActivity;
 import com.navigation.foxizz.activity.fragment.MainFragment;
@@ -28,7 +29,7 @@ public class LocalReceiver extends BroadcastReceiver {
             MainActivity mainActivity = (MainActivity) mContext;
 
             //地图页接收设置变化
-            if (intent.getAction().equals(Constants.SETTINGS_BROADCAST)) {
+            if (TextUtils.equals(intent.getAction(), Constants.SETTINGS_BROADCAST)) {
                 MainFragment mainFragment = mainActivity.getMainFragment();
                 switch (intent.getIntExtra(Constants.SETTINGS_TYPE, 0)) {
                     case Constants.SET_MAP_TYPE:
@@ -54,13 +55,13 @@ public class LocalReceiver extends BroadcastReceiver {
                         break;
                     case Constants.CLEAN_RECORD:
                         mainFragment.searchList.clear();//清空搜索列表
-                        mainFragment.searchAdapter.notifyDataSetChanged();//通知adapter更新
+                        mainFragment.searchAdapter.updateList();//通知adapter更新
                         break;
                     default:
                         break;
                 }
                 //用户页接收登录变化
-            } else if (intent.getAction().equals(Constants.LOGIN_BROADCAST)) {
+            } else if (TextUtils.equals(intent.getAction(), Constants.LOGIN_BROADCAST)) {
                 UserFragment userFragment = mainActivity.getUserFragment();
                 switch (intent.getIntExtra(Constants.LOGIN_TYPE, 0)) {
                     case Constants.SET_AVATAR:

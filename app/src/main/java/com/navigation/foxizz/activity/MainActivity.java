@@ -150,7 +150,7 @@ public class MainActivity extends BaseActivity {
                 isKeyDownFirst = false;
                 if (mainFragment.canBack()) {//如果可以返回
                     mainFragment.backToUpperStory();//返回上一层
-                    return true;
+                    return false;
                 }
                 if (!mainFragment.isHistorySearchResult) {//如果不是搜索历史记录
                     mainFragment.searchResult.stopScroll();//停止信息列表滑动
@@ -162,17 +162,17 @@ public class MainActivity extends BaseActivity {
                         || !mainFragment.searchEdit.getText().toString().isEmpty()) {
                     mainFragment.searchEdit.clearFocus();//使搜索输入框失去焦点
                     mainFragment.searchEdit.setText("");
-                    return true;
+                    return false;
                 }
                 if (mainFragment.searchExpandFlag) {//收起搜索抽屉
                     mainFragment.expandSearchDrawer(false);
                     mainFragment.searchExpandFlag = false;
-                    return true;
+                    return false;
                 }
                 if ((System.currentTimeMillis() - exitTime) > 2000) {//弹出再按一次退出提示
                     ToastUtil.showToast(R.string.exit_app);
                     exitTime = System.currentTimeMillis();
-                    return true;
+                    return false;
                 }
             }
 
@@ -181,7 +181,7 @@ public class MainActivity extends BaseActivity {
                 mainFragment.startSearch();//开始搜索
                 mainFragment.searchEdit.requestFocus();//搜索框重新获得焦点
                 mainFragment.takeBackKeyboard();//收回键盘
-                return true;
+                return false;
             }
         } else if (fragmentLayout == userFragment) {//userFragment
             //如果是返回键且有先监听到按下
@@ -192,7 +192,7 @@ public class MainActivity extends BaseActivity {
                 mainButton.setTextColor(getResources().getColor(R.color.skyblue));
                 userButton.setTextColor(getResources().getColor(R.color.black));
             }
-            return true;
+            return false;
         }
         return super.onKeyUp(keyCode, event);
     }

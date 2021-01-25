@@ -23,11 +23,23 @@ import com.navigation.foxizz.util.LayoutUtil;
 public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder> {
 
     private final MainFragment mainFragment;
-    private long clickTime = 0;
-
     public SchemeAdapter(MainFragment mainFragment) {
         this.mainFragment = mainFragment;
     }
+
+    /**
+     * 更新列表
+     */
+    public void updateList() {
+        mainFragment.requireActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                notifyDataSetChanged();
+            }
+        });
+    }
+
+    private long clickTime = 0;
 
     //设置item中的View
     static class ViewHolder extends RecyclerView.ViewHolder {

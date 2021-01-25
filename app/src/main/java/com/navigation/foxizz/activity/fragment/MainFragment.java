@@ -870,55 +870,65 @@ public class MainFragment extends Fragment {
         searchContent = searchEdit.getText().toString();
         if (TextUtils.isEmpty(searchContent)) {//如果搜索内容为空
             if (!isHistorySearchResult) {//如果不是搜索历史记录
-                SearchDataHelper.initSearchData(this);//初始化搜索记录
+                SearchDataHelper.initSearchData(MainFragment.this);//初始化搜索记录
                 isHistorySearchResult = true;//现在是搜索历史记录了
             }
             return;
         }
 
-        String searchCity = mCity;
-        //如果存储的城市不为空，则换用存储的城市
-        String saveCity = SPHelper.getString(Constants.DESTINATION_CITY, null);
-        if (!TextUtils.isEmpty(saveCity)) searchCity = saveCity;
-        if (TextUtils.isEmpty(searchCity)) {
-            requestPermission();//申请权限，获得权限后定位
-            return;
-        }
-        //如果是省份，则搜索城市列表设置为省份内所有的城市，否则设置为单个城市
-        searchCityList.clear();
-        if (searchCity != null) {
-            if (CityUtil.checkoutProvinceName(searchCity)) {
-                searchCityList.addAll(CityUtil.getCityList(searchCity));
-            } else {
-                searchCityList.add(searchCity);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String searchCity = mCity;
+                //如果存储的城市不为空，则换用存储的城市
+                String saveCity = SPHelper.getString(Constants.DESTINATION_CITY, null);
+                if (!TextUtils.isEmpty(saveCity)) searchCity = saveCity;
+                if (TextUtils.isEmpty(searchCity)) {
+                    requestPermission();//申请权限，获得权限后定位
+                    return;
+                }
+                //如果是省份，则搜索城市列表设置为省份内所有的城市，否则设置为单个城市
+                searchCityList.clear();
+                if (searchCity != null) {
+                    if (CityUtil.checkoutProvinceName(searchCity)) {
+                        searchCityList.addAll(CityUtil.getCityList(searchCity));
+                    } else {
+                        searchCityList.add(searchCity);
+                    }
+                }
+
+                if (!searchExpandFlag) {//展开搜索抽屉
+                    expandSearchDrawer(true);//展开搜索抽屉
+                    searchExpandFlag = true;//设置状态为展开
+                }
+                takeBackKeyboard();//收回键盘
+                searchResult.stopScroll();//停止信息列表滑动
+                mBaiduMap.clear();//清空地图上的所有标记点和绘制的路线
+                searchList.clear();//清空searchList
+
+                isHistorySearchResult = false;//已经不是搜索历史记录了
+                currentPage = 0;//页数归零
+
+                requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        searchAdapter.updateList();//通知adapter更新
+                        //滚动到顶部
+                        searchResult.stopScroll();
+                        searchResult.scrollToPosition(0);
+                        //加载搜索信息
+                        searchLoading.setVisibility(View.VISIBLE);
+                        searchResult.setVisibility(View.GONE);
+                    }
+                });
+
+                if (sharedPreferences.getBoolean(Constants.KEY_SEARCH_AROUND, false))
+                    mySearch.searchType = MySearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
+                else mySearch.searchType = MySearch.CITY_SEARCH;//设置搜索类型为城市内搜索
+
+                mySearch.startSearch(currentPage);//开始搜索
             }
-        }
-
-        if (!searchExpandFlag) {//展开搜索抽屉
-            expandSearchDrawer(true);//展开搜索抽屉
-            searchExpandFlag = true;//设置状态为展开
-        }
-        takeBackKeyboard();//收回键盘
-        searchResult.stopScroll();//停止信息列表滑动
-        mBaiduMap.clear();//清空地图上的所有标记点和绘制的路线
-        searchList.clear();//清空searchList
-        searchAdapter.notifyDataSetChanged();//通知adapter更新
-        isHistorySearchResult = false;//已经不是搜索历史记录了
-
-        //滚动到顶部
-        searchResult.stopScroll();
-        searchResult.scrollToPosition(0);
-        //加载搜索信息
-        searchLoading.setVisibility(View.VISIBLE);
-        searchResult.setVisibility(View.GONE);
-        //页数归零
-        currentPage = 0;
-
-        if (sharedPreferences.getBoolean(Constants.KEY_SEARCH_AROUND, false))
-            mySearch.poiSearchType = MySearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
-        else mySearch.poiSearchType = MySearch.CITY_SEARCH;//设置搜索类型为城市内搜索
-
-        mySearch.startPoiSearch(currentPage);//开始POI搜索
+        }).start();
     }
 
 }

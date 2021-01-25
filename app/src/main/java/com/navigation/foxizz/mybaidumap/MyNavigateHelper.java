@@ -44,13 +44,13 @@ import static com.navigation.foxizz.BaseApplication.getContext;
  */
 public class MyNavigateHelper {
 
-    private static boolean enableDriveNavigate = false;//是否可以进行驾车导航
-    private ProgressDialog progressDialog;
-
     private final MainFragment mainFragment;
     public MyNavigateHelper(MainFragment mainFragment) {
         this.mainFragment = mainFragment;
     }
+
+    private static boolean enableDriveNavigate = false;//是否可以进行驾车导航
+    private ProgressDialog progressDialog;
 
     /**
      * 初始化驾车导航引擎

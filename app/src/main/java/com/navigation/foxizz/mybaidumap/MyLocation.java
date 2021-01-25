@@ -1,7 +1,5 @@
 package com.navigation.foxizz.mybaidumap;
 
-import android.annotation.SuppressLint;
-
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
@@ -23,15 +21,15 @@ import static com.navigation.foxizz.BaseApplication.getContext;
  */
 public class MyLocation {
 
-    private final static int MAX_TIME = 10;//最大请求次数
-    private int requestLocationTime;//请求定位的次数
-    private boolean isFirstLoc;//是否是首次定位
-    public boolean refreshSearchList;//是否刷新搜索列表
-
     private final MainFragment mainFragment;
     public MyLocation(MainFragment mainFragment) {
         this.mainFragment = mainFragment;
     }
+
+    private final static int MAX_TIME = 10;//最大请求次数
+    private int requestLocationTime;//请求定位的次数
+    private boolean isFirstLoc;//是否是首次定位
+    public boolean refreshSearchList;//是否刷新搜索列表
 
     /**
      * 初始化定位

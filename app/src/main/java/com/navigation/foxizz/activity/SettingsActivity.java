@@ -112,7 +112,7 @@ public class SettingsActivity extends BaseActivity {
             if (imm != null) imm.hideSoftInputFromWindow(
                     getWindow().getDecorView().getWindowToken(), 0
             );//收回键盘
-            return true;
+            return false;
         }
         return super.onKeyUp(keyCode, event);
     }

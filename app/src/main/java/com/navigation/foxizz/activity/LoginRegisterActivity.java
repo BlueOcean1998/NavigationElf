@@ -384,7 +384,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         //如果是返回键
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (showReturnHintDialog()) return true;
+            if (showReturnHintDialog()) return false;
         }
         return super.onKeyUp(keyCode, event);
     }

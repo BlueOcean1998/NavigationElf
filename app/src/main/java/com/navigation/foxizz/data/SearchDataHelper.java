@@ -28,7 +28,7 @@ public class SearchDataHelper {
      * 初始化搜索数据库
      */
     public static void initSearchDataHelper() {
-        databaseHelper = new DatabaseHelper("Navigate.db", null, 1);
+        databaseHelper = new DatabaseHelper(Constants.LOCAL_DATABASE, null, 1);
     }
 
     private static DatabaseHelper databaseHelper;
@@ -63,7 +63,7 @@ public class SearchDataHelper {
             if (NetworkUtil.isNetworkConnected() && !NetworkUtil.isAirplaneModeOn()) {
                 flag = true;
                 //设置为详细搜索全部
-                mainFragment.mySearch.poiSearchType = MySearch.DETAIL_SEARCH_ALL;
+                mainFragment.mySearch.searchType = MySearch.DETAIL_SEARCH_ALL;
                 mainFragment.mySearch.isFirstDetailSearch = true;//第一次详细信息搜索
             }
 
@@ -85,10 +85,10 @@ public class SearchDataHelper {
                 }
             }
 
-            mainFragment.searchAdapter.notifyDataSetChanged();
+            mainFragment.searchAdapter.updateList();//通知adapter更新
         } else {
             mainFragment.searchList.clear();
-            mainFragment.searchAdapter.notifyDataSetChanged();
+            mainFragment.searchAdapter.updateList();//通知adapter更新
         }
     }
 

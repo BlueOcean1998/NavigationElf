@@ -37,12 +37,24 @@ import static com.navigation.foxizz.BaseApplication.getContext;
  */
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
 
-    private long clickTime = 0;
-
     private final MainFragment mainFragment;
     public SearchAdapter(MainFragment mainFragment) {
         this.mainFragment = mainFragment;
     }
+
+    /**
+     * 更新列表
+     */
+    public void updateList() {
+        mainFragment.requireActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                notifyDataSetChanged();
+            }
+        });
+    }
+
+    private long clickTime = 0;
 
     //设置item中的View
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -84,7 +96,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 && !mainFragment.mySearch.isSearching
                 && !mainFragment.isHistorySearchResult
                 && mainFragment.currentPage < mainFragment.totalPage)
-            mainFragment.mySearch.startPoiSearch(mainFragment.currentPage);
+            mainFragment.mySearch.startSearch(mainFragment.currentPage);
 
         //设置提示信息的内容
         if (!mainFragment.isHistorySearchResult
@@ -235,7 +247,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         mainFragment.searchInfoLoading.setVisibility(View.VISIBLE);
         mainFragment.searchInfoScroll.setVisibility(View.GONE);
 
-        mainFragment.mySearch.poiSearchType = MySearch.DETAIL_SEARCH;//设置为直接详细搜索
+        mainFragment.mySearch.searchType = MySearch.DETAIL_SEARCH;//设置为直接详细搜索
         mainFragment.mySearch.isFirstDetailSearch = true;//第一次详细信息搜索
         mainFragment.mPoiSearch.searchPoiDetail(//开始POI详细信息搜索
                 (new PoiDetailSearchOption()).poiUids(searchItem.getUid()));
