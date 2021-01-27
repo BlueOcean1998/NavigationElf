@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,9 +30,9 @@ import com.navigation.foxizz.activity.SettingsActivity;
 import com.navigation.foxizz.data.Constants;
 import com.navigation.foxizz.receiver.LocalReceiver;
 import com.navigation.foxizz.util.ToastUtil;
-import com.navigation.foxizz.view.AdaptationTextView;
 
 import cn.zerokirby.api.data.AvatarDataHelper;
+import cn.zerokirby.api.data.User;
 import cn.zerokirby.api.data.UserDataHelper;
 
 /**
@@ -50,8 +51,8 @@ public class UserFragment extends Fragment {
     public FrameLayout avatarLayout;//头像布局
     public ImageView avatarImage;//用户头像
     public LinearLayout userInfoLayout;//信息布局
-    public AdaptationTextView userName;//用户名
-    public AdaptationTextView userEmail;//用户email
+    public TextView userName;//用户名
+    public TextView userEmail;//用户email
 
     private PreferenceScreen preferenceScreen;
 
@@ -117,14 +118,22 @@ public class UserFragment extends Fragment {
         userName = view.findViewById(R.id.user_name);
         userEmail = view.findViewById(R.id.user_email);
 
+        if (AvatarDataHelper.getAvatar().length != 0) {
+            avatarImage.setImageBitmap(AvatarDataHelper.getBitmapAvatar());
+        }
+
+        User user = UserDataHelper.getUser();
+        if (!user.getUserId().equals("0")) {
+            userName.setText(user.getUsername());
+        }
+
         avatarLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (userId.equals("0")) {
                     startActivity(new Intent(getContext(), LoginRegisterActivity.class));
                 } else {
-                    //TODO
-                    ToastUtil.showToast("你已登录");
+                    AvatarDataHelper.checkAvatarPermission(requireActivity());
                 }
             }
         });
@@ -134,9 +143,6 @@ public class UserFragment extends Fragment {
             public void onClick(View v) {
                 if (userId.equals("0")) {
                     startActivity(new Intent(getContext(), LoginRegisterActivity.class));
-                } else {
-                    //TODO
-                    ToastUtil.showToast("你已登录");
                 }
             }
         });
@@ -176,7 +182,7 @@ public class UserFragment extends Fragment {
                     startActivity(browser.setData(Uri.parse("mailto:" + getString(R.string.contact_me_url))));
                     break;
                 case Constants.KEY_LOGOUT:
-                    showLogoutDialog(requireActivity(), preference);
+                    showLogoutDialog(requireContext(), preference);
                     break;
                 default:
                     break;
@@ -200,10 +206,11 @@ public class UserFragment extends Fragment {
 
                     UserDataHelper.logout();//数据库中的user_id和last_sync_time归零
 
-                    AvatarDataHelper.updateAvatar("".getBytes());//清空数据库中的头像
-                    //还原头像为默认
+                    AvatarDataHelper.saveAvatar("".getBytes());//清空数据库中的头像
+                    //还原用户名和头像为默认
                     if (context instanceof MainActivity) {
                         UserFragment userFragment = ((MainActivity) context).getUserFragment();
+                        userFragment.userName.setText(R.string.to_login);
                         userFragment.avatarImage.setImageResource(R.drawable.foxizz_sketch);
                     }
                 }

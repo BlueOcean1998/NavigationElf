@@ -1,6 +1,7 @@
 package com.navigation.foxizz.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -14,8 +15,12 @@ import androidx.fragment.app.FragmentManager;
 import com.navigation.foxizz.R;
 import com.navigation.foxizz.activity.fragment.MainFragment;
 import com.navigation.foxizz.activity.fragment.UserFragment;
+import com.navigation.foxizz.data.Constants;
 import com.navigation.foxizz.data.SearchDataHelper;
 import com.navigation.foxizz.util.ToastUtil;
+
+import cn.zerokirby.api.data.AvatarDataHelper;
+import cn.zerokirby.api.util.UriUtil;
 
 /**
  * 主页
@@ -130,6 +135,37 @@ public class MainActivity extends BaseActivity {
             } else
                 ToastUtil.showToast(R.string.get_permission_fail);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {//开启Activity并返回结果
+        switch (requestCode) {
+            case Constants.CHOOSE_PHOTO:
+                if (resultCode == RESULT_OK && intent != null) {
+                    Constants.avatarUri = AvatarDataHelper.startPhotoZoom(this, intent);
+                }
+                break;
+            case Constants.PHOTO_REQUEST_CUT:
+                if (resultCode == RESULT_OK) {
+                    AvatarDataHelper.showAvatarAndSave(
+                            userFragment.avatarImage, UriUtil.getPath(Constants.avatarUri));
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            AvatarDataHelper.uploadAvatar(UriUtil.getPath(Constants.avatarUri));
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ToastUtil.showToast(R.string.upload_avatar_successfully);
+                                }
+                            });
+                        }
+                    }).start();
+                }
+            default:
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, intent);
     }
 
     @Override

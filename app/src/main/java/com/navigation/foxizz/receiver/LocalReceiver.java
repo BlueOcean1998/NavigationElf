@@ -12,6 +12,7 @@ import com.navigation.foxizz.data.Constants;
 import com.navigation.foxizz.util.SettingUtil;
 
 import cn.zerokirby.api.data.AvatarDataHelper;
+import cn.zerokirby.api.data.UserDataHelper;
 
 /**
  * 本地接收器
@@ -64,6 +65,9 @@ public class LocalReceiver extends BroadcastReceiver {
             } else if (TextUtils.equals(intent.getAction(), Constants.LOGIN_BROADCAST)) {
                 UserFragment userFragment = mainActivity.getUserFragment();
                 switch (intent.getIntExtra(Constants.LOGIN_TYPE, 0)) {
+                    case Constants.SET_USERNAME:
+                        userFragment.userName.setText(UserDataHelper.getUser().getUsername());
+                        break;
                     case Constants.SET_AVATAR:
                         userFragment.avatarImage.setImageBitmap(AvatarDataHelper.getBitmapAvatar());
                         break;

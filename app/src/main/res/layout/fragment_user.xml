@@ -41,23 +41,22 @@
             android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <com.navigation.foxizz.view.AdaptationTextView
+            <TextView
                 android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:text="Foxizz"
+                android:text="@string/to_login"
                 android:textColor="@color/black"
-                android:textSize="24sp"
-                tools:ignore="HardcodedText" />
+                android:textSize="24sp" />
 
             <!-- 邮箱注册正在开发中 -->
-            <com.navigation.foxizz.view.AdaptationTextView
+            <TextView
                 android:id="@+id/user_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:text="2872545042@qq.com"
+                android:text="@string/contact_me_url"
                 android:textColor="@color/gray"
                 android:textSize="16sp"
                 android:visibility="gone"

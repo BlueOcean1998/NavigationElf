@@ -15,7 +15,9 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +65,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
     private ProgressBar loadingProgress;//加载进度条
 
     private boolean isLogin = true;//是否是登录页
+    private boolean isSending = false;//是否正在登录或注册
 
     private String username = "";//用户名
     private String password = "";//密码
@@ -76,7 +79,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login_register);
 
         instance = this;//获取LoginActivity实例
 
@@ -126,7 +129,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!showReturnHintDialog()) finish();
+                if (!isSending && !showReturnHintDialog()) finish();
             }
         });
 
@@ -200,10 +203,13 @@ public class LoginRegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadingProgress.setVisibility(View.VISIBLE);//显示进度条
+                loginRegisterButton.setEnabled(false);//登录或注册时不可点击
 
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
+                        isSending = true;
+
                         //提交账号信息，获取返回结果。该操作会阻塞线程，需在子线程进行
                         JSONObject jsonObject =  UserDataHelper.sendRequestWithOkHttp(username, password, isLogin);
 
@@ -256,15 +262,20 @@ public class LoginRegisterActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                isSending = false;
                                 ToastUtil.showToast(finalToastMessage, Toast.LENGTH_SHORT);//弹出提示信息
                                 loadingProgress.setVisibility(View.GONE);//隐藏进度条
+                                loginRegisterButton.setEnabled(true);//登录或注册完毕后可点击
                             }
                         });
 
                         //若登录成功
                         if (status == 1) {
                             UserDataHelper.initUserInfo(jsonObject, username, password, isLogin);//初始化用户信息
-                            AvatarDataHelper.downloadAvatar();//下载头像
+                            AvatarDataHelper.downloadAvatar(UserDataHelper.getUser().getUserId());//下载头像
+                            //发送本地广播通知更新用户名
+                            localBroadcastManager.sendBroadcast(new Intent(Constants.LOGIN_BROADCAST)
+                                    .putExtra(Constants.LOGIN_TYPE, Constants.SET_USERNAME));
                             //发送本地广播通知更新头像
                             localBroadcastManager.sendBroadcast(new Intent(Constants.LOGIN_BROADCAST)
                                     .putExtra(Constants.LOGIN_TYPE, Constants.SET_AVATAR));
@@ -279,18 +290,20 @@ public class LoginRegisterActivity extends AppCompatActivity {
         registerLoginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isLogin) {
-                    isLogin = false;
-                    pageTitle.setText(R.string.register);//设置页面标题为注册
-                    loginRegisterButton.setText(R.string.register);//设置登录或注册按钮为注册
-                    registerLoginHint.setText(R.string.login_hint);//设置登录提示
-                    registerLoginLink.setText(R.string.login_link);//设置登录链接
-                } else {
-                    isLogin = true;
-                    pageTitle.setText(R.string.login);//设置页面标题为登录
-                    loginRegisterButton.setText(R.string.login);//设置登录或注册按钮为登录
-                    registerLoginHint.setText(R.string.register_hint);//设置注册提示
-                    registerLoginLink.setText(R.string.register_link);//设置注册链接
+                if (!isSending) {
+                    if (isLogin) {
+                        isLogin = false;
+                        pageTitle.setText(R.string.register);//设置页面标题为注册
+                        loginRegisterButton.setText(R.string.register);//设置登录或注册按钮为注册
+                        registerLoginHint.setText(R.string.login_hint);//设置登录提示
+                        registerLoginLink.setText(R.string.login_link);//设置登录链接
+                    } else {
+                        isLogin = true;
+                        pageTitle.setText(R.string.login);//设置页面标题为登录
+                        loginRegisterButton.setText(R.string.login);//设置登录或注册按钮为登录
+                        registerLoginHint.setText(R.string.register_hint);//设置注册提示
+                        registerLoginLink.setText(R.string.register_link);//设置注册链接
+                    }
                 }
             }
         });
@@ -384,7 +397,8 @@ public class LoginRegisterActivity extends AppCompatActivity {
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         //如果是返回键
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (showReturnHintDialog()) return false;
+            //信息有修改或正在连接服务器时不可返回
+            if (isSending || showReturnHintDialog()) return false;
         }
         return super.onKeyUp(keyCode, event);
     }

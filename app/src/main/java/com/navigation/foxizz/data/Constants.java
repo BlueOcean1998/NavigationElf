@@ -1,5 +1,7 @@
 package com.navigation.foxizz.data;
 
+import android.net.Uri;
+
 /**
  * 常量
  */
@@ -51,6 +53,11 @@ public class Constants {
     //LoginBroadcast的广播类型
     public final static String LOGIN_BROADCAST = "com.navigation.foxizz.navigation.broadcast.LOGIN_BROADCAST";//登录变化广播
     public final static String LOGIN_TYPE = "login_type";//设置广播类型
-    public final static int SET_AVATAR = 1;//设置头像
+    public final static int SET_USERNAME = 1;//设置用户名
+    public final static int SET_AVATAR = 2;//设置头像
+
+    public final static int CHOOSE_PHOTO = 1;//选择图片
+    public final static int PHOTO_REQUEST_CUT = 2;//请求裁剪图片
+    public static Uri avatarUri;//服务端头像路径
 
 }

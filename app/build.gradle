@@ -10,7 +10,7 @@ android {
         //noinspection OldTargetApi
         targetSdkVersion 28
         versionCode Integer.valueOf(new Date().format("yyyyMMdd"))
-        versionName "1.1.0"
+        versionName "1.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

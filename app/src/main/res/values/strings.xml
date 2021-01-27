@@ -8,15 +8,6 @@
     <string name="main_button">首页</string>
     <string name="user_button">我的</string>
 
-    <string name="about">关于导航小精灵</string>
-    <string name="check_update">检查更新</string>
-    <string name="checking_update">检查中…</string>
-    <string name="sound_code">源码网址</string>
-    <string name="sound_code_url">github.com/BlueEra/Navigation</string>
-    <string name="contact_me">联系我</string>
-    <string name="contact_me_url">2872545042@qq.com</string>
-    <string name="logout">退出登录</string>
-
     <string name="standard_map">标准地图</string>
     <string name="satellite_map">卫星地图</string>
     <string name="traffic_map">交通地图</string>
@@ -116,6 +107,16 @@
     <string name="has_cleared">已清空搜索记录</string>
     <string name="loading">加载中…</string>
 
+    <string name="to_login">点击此处登录</string>
+    <string name="about">关于导航小精灵</string>
+    <string name="check_update">检查更新</string>
+    <string name="checking_update">检查中…</string>
+    <string name="sound_code">源码网址</string>
+    <string name="sound_code_url">github.com/BlueEra/Navigation</string>
+    <string name="contact_me">联系我</string>
+    <string name="contact_me_url">2872545042@qq.com</string>
+    <string name="logout">退出登录</string>
+
     <string name="login">登录</string>
     <string name="register">注册</string>
     <string name="username">用户名</string>
@@ -138,6 +139,7 @@
     <string name="sure_to_logout">你确定要退出登录吗？</string>
     <string name="logged_out">你已退出登录</string>
     <string name="digits">0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</string>
+    <string name="upload_avatar_successfully">头像上传成功</string>
 
     <string name="exit_app">再按一次退出程序</string>
 </resources>
