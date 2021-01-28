@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -86,11 +87,15 @@ public class UserFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        userId = UserDataHelper.getUser().getUserId();
+        User user = UserDataHelper.getUser();
+        userId = user.getUserId();
+
+        //设置用户名
+        if (!userId.equals("0")) userName.setText(user.getUsername());
+
+        //设置是否显示退出登录
         Preference preference = preferenceScreen.findPreference(Constants.KEY_LOGOUT);
-        if (preference != null) {
-            preference.setVisible(!userId.equals("0"));
-        }
+        if (preference != null) preference.setVisible(!userId.equals("0"));
     }
 
     @Override
@@ -118,32 +123,24 @@ public class UserFragment extends Fragment {
         userName = view.findViewById(R.id.user_name);
         userEmail = view.findViewById(R.id.user_email);
 
-        if (AvatarDataHelper.getAvatar().length != 0) {
-            avatarImage.setImageBitmap(AvatarDataHelper.getBitmapAvatar());
-        }
-
-        User user = UserDataHelper.getUser();
-        if (!user.getUserId().equals("0")) {
-            userName.setText(user.getUsername());
-        }
+        //设置头像
+        Bitmap avatarBitmap = AvatarDataHelper.getBitmapAvatar();
+        if (avatarBitmap != null) avatarImage.setImageBitmap(avatarBitmap);
 
         avatarLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (userId.equals("0")) {
+                if (userId.equals("0"))
                     startActivity(new Intent(getContext(), LoginRegisterActivity.class));
-                } else {
-                    AvatarDataHelper.checkAvatarPermission(requireActivity());
-                }
+                else AvatarDataHelper.checkAvatarPermission(requireActivity());
             }
         });
 
         userInfoLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (userId.equals("0")) {
+                if (userId.equals("0"))
                     startActivity(new Intent(getContext(), LoginRegisterActivity.class));
-                }
             }
         });
     }

@@ -77,7 +77,8 @@
         <activity
             android:name=".activity.LoginRegisterActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
 
         <!-- 驾车导航 -->
         <activity

@@ -15,12 +15,12 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -29,6 +29,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.navigation.foxizz.R;
 import com.navigation.foxizz.data.Constants;
 import com.navigation.foxizz.data.SPHelper;
+import com.navigation.foxizz.util.SettingUtil;
 import com.navigation.foxizz.util.ToastUtil;
 
 import org.json.JSONObject;
@@ -50,6 +51,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
         return instance;
     }
 
+    private RelativeLayout activityLoginRegister;//登录注册页
     private ImageButton backButton;//返回按钮
     private TextView pageTitle;//标题，登录或注册
     private EditText usernameEdit;//用户名输入框
@@ -66,13 +68,14 @@ public class LoginRegisterActivity extends AppCompatActivity {
 
     private boolean isLogin = true;//是否是登录页
     private boolean isSending = false;//是否正在登录或注册
+    private boolean isWatchPassword = false;//是否显示密码
 
     private String username = "";//用户名
     private String password = "";//密码
-
-    private boolean isWatchPassword = false;//是否显示密码
+    private String verify = "";//输入框里的验证码
     private String verifyCode;//验证码
-    private String verify;//输入框里的验证码
+
+    private CodeUtil codeUtil;//验证码生成工具
 
     private static LocalBroadcastManager localBroadcastManager;//本地广播管理器
 
@@ -83,15 +86,24 @@ public class LoginRegisterActivity extends AppCompatActivity {
 
         instance = this;//获取LoginActivity实例
 
+        codeUtil = new CodeUtil();
+
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
 
         initView();//初始化控件
+
+        //恢复输入框中的信息
+        if (savedInstanceState != null) {
+            username = savedInstanceState.getString("username");
+            password = savedInstanceState.getString("password");
+            verify = savedInstanceState.getString("verify");
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        resetUsernameAndPassword();//重新设置账号密码
+        resetEdit();//重设输入框填入的信息
     }
 
     @Override
@@ -106,8 +118,18 @@ public class LoginRegisterActivity extends AppCompatActivity {
         instance = null;//释放LoginActivity实例
     }
 
+    //活动被回收时保存输入框中的信息
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("username", username);
+        outState.putString("password", password);
+        outState.putString("verify", verify);
+    }
+
     //初始化控件
     private void initView() {
+        activityLoginRegister = findViewById(R.id.activity_login_register);
         backButton = findViewById(R.id.back_button);
         pageTitle = findViewById(R.id.page_title);
         usernameEdit = findViewById(R.id.username_edit);
@@ -122,8 +144,14 @@ public class LoginRegisterActivity extends AppCompatActivity {
         registerLoginLink = findViewById(R.id.register_login_link);
         loadingProgress = findViewById(R.id.loading_progress);
 
+        //平板模式重设登录注册页背景图
+        if (!SettingUtil.isMobile())
+            activityLoginRegister.setBackgroundResource(R.drawable.foxizz_on_the_beach);
+
         //设置密码输入框的类型
         passwordEdit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+        setUsernameAndPassword();//设置账号密码
 
         //返回按钮的点击事件
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -272,14 +300,16 @@ public class LoginRegisterActivity extends AppCompatActivity {
                         //若登录成功
                         if (status == 1) {
                             UserDataHelper.initUserInfo(jsonObject, username, password, isLogin);//初始化用户信息
-                            AvatarDataHelper.downloadAvatar(UserDataHelper.getUser().getUserId());//下载头像
                             //发送本地广播通知更新用户名
                             localBroadcastManager.sendBroadcast(new Intent(Constants.LOGIN_BROADCAST)
                                     .putExtra(Constants.LOGIN_TYPE, Constants.SET_USERNAME));
+
+                            finish();//关闭页面
+
+                            AvatarDataHelper.downloadAvatar(UserDataHelper.getUser().getUserId());//下载头像
                             //发送本地广播通知更新头像
                             localBroadcastManager.sendBroadcast(new Intent(Constants.LOGIN_BROADCAST)
                                     .putExtra(Constants.LOGIN_TYPE, Constants.SET_AVATAR));
-                            finish();//关闭页面
                         }
                     }
                 }).start();
@@ -309,8 +339,8 @@ public class LoginRegisterActivity extends AppCompatActivity {
         });
     }
 
-    //重新设置账号密码
-    private void resetUsernameAndPassword() {
+    //设置账号密码
+    private void setUsernameAndPassword() {
         User user = null;
         if (SPHelper.getBoolean(Constants.REMEMBER_USERNAME, false)) {
             user = UserDataHelper.getUser();
@@ -330,11 +360,18 @@ public class LoginRegisterActivity extends AppCompatActivity {
         }
     }
 
+    //重设输入框填入的信息
+    private void resetEdit() {
+        usernameEdit.setText(username);
+        passwordEdit.setText(password);
+        verifyEdit.setText(verify);
+    }
+
     //重新生成验证码
     private void resetVerify() {
-        Bitmap verifyBit = CodeUtil.createBitmap();//生成新验证码
+        Bitmap verifyBit = codeUtil.createBitmap();//生成新验证码
         verifyImage.setImageBitmap(verifyBit);//设置新生成的验证码图片
-        verifyCode = CodeUtil.getCode();//获取新生成的验证码
+        verifyCode = codeUtil.getCode();//获取新生成的验证码
         loginRegisterButton.setEnabled(false);//重新生成后不可直接登录
     }
 

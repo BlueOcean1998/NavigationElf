@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 
 import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
@@ -36,6 +37,12 @@ public class SettingUtil {
         }
 
         return false;
+    }
+
+    //判断是否是手机模式
+    public static boolean isMobile() {
+        return (getContext().getResources().getConfiguration().screenLayout
+                & Configuration.SCREENLAYOUT_SIZE_MASK) < Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
     /**
