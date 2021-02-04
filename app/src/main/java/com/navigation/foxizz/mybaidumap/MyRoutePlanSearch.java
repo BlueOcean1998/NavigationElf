@@ -108,8 +108,8 @@ public class MyRoutePlanSearch {
             //公交路线规划
             case 3:
                 //加载路线方案
-                mainFragment.schemeLoading.setVisibility(View.VISIBLE);
-                mainFragment.schemeResult.setVisibility(View.GONE);
+                mainFragment.llSchemeLoading.setVisibility(View.VISIBLE);
+                mainFragment.recyclerSchemeResult.setVisibility(View.GONE);
 
                 //收回所有展开的方案
                 for (int i = 0; i < mainFragment.schemeList.size(); i++) {//遍历所有item
@@ -117,8 +117,8 @@ public class MyRoutePlanSearch {
                         //用layoutManager找到相应的item
                         View view = mainFragment.schemeLayoutManager.findViewByPosition(i);
                         if (view != null) {
-                            LinearLayout infoDrawer = view.findViewById(R.id.info_drawer);
-                            ImageButton schemeExpand = view.findViewById(R.id.scheme_expand);
+                            LinearLayout infoDrawer = view.findViewById(R.id.ll_info_drawer);
+                            ImageButton schemeExpand = view.findViewById(R.id.ib_scheme_expand);
                             LayoutUtil.expandLayout(infoDrawer, false);
                             LayoutUtil.rotateExpandIcon(schemeExpand, 180, 0);//旋转伸展按钮
                             mainFragment.schemeList.get(i).setExpandFlag(false);
@@ -135,10 +135,10 @@ public class MyRoutePlanSearch {
                         .to(endNode));
 
                 //设置方案信息抽屉的高度为0
-                LayoutUtil.setViewHeight(mainFragment.schemeInfoLayout, 0);
+                LayoutUtil.setViewHeight(mainFragment.llSchemeInfoLayout, 0);
 
-                LayoutUtil.expandLayout(mainFragment.selectLayout, false);//收起选择布局
-                LayoutUtil.expandLayout(mainFragment.schemeDrawer, true);//展开方案抽屉
+                LayoutUtil.expandLayout(mainFragment.llSelectLayout, false);//收起选择布局
+                LayoutUtil.expandLayout(mainFragment.llSchemeDrawer, true);//展开方案抽屉
 
                 mainFragment.schemeFlag = MainFragment.SCHEME_LIST;//设置状态为方案列表
                 break;
@@ -199,8 +199,8 @@ public class MyRoutePlanSearch {
             @Override
             public void onGetMassTransitRouteResult(final MassTransitRouteResult massTransitRouteResult) {
                 //路线方案加载完成
-                mainFragment.schemeLoading.setVisibility(View.GONE);
-                mainFragment.schemeResult.setVisibility(View.VISIBLE);
+                mainFragment.llSchemeLoading.setVisibility(View.GONE);
+                mainFragment.recyclerSchemeResult.setVisibility(View.VISIBLE);
 
                 if (massTransitRouteResult.getRouteLines() == null
                         || massTransitRouteResult.getRouteLines().size() == 0) {
@@ -353,7 +353,7 @@ public class MyRoutePlanSearch {
         SchemeItem schemeItem = mainFragment.schemeList.get(index);
 
         //设置方案信息
-        mainFragment.schemeInfo.setText(schemeItem.getAllStationInfo()
+        mainFragment.tvSchemeInfo.setText(schemeItem.getAllStationInfo()
                 + "\n" + schemeItem.getDetailInfo() + "\n");
 
         //创建MassTransitRouteOverlay实例

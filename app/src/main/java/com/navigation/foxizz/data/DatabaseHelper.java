@@ -3,7 +3,7 @@ package com.navigation.foxizz.data;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import static com.navigation.foxizz.BaseApplication.getContext;
+import static com.navigation.foxizz.BaseApplication.getApplication;
 
 /**
  * 数据库帮助类
@@ -20,7 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + "time long)";//记录时间
 
     public DatabaseHelper(String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(getContext(), name, factory, version);
+        super(getApplication(), name, factory, version);
     }
 
     @Override

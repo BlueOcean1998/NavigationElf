@@ -73,10 +73,10 @@ public class TitleLayout extends LinearLayout {
 
     //初始化标题
     private void initTitle(Context context, AttributeSet attrs) {
-        LayoutInflater.from(context).inflate(R.layout.title_layout, this);
-        backButton = findViewById(R.id.back_button);
-        titleText = findViewById(R.id.title_text);
-        menuButton = findViewById(R.id.menu_button);
+        LayoutInflater.from(context).inflate(R.layout.view_title_layout, this);
+        backButton = findViewById(R.id.ib_back);
+        titleText = findViewById(R.id.tv_title);
+        menuButton = findViewById(R.id.ib_menu);
 
         backButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -86,9 +86,8 @@ public class TitleLayout extends LinearLayout {
         });
 
         //获取自定义属性
-        @SuppressLint({"Recycle", "CustomViewStyleable"})
-        TypedArray typedArray =
-                context.obtainStyledAttributes(attrs, R.styleable.TitleLayout);
+        @SuppressLint("Recycle")
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.TitleLayout);
         if (typedArray != null) {
             setBackButtonEnable(typedArray.getBoolean(//默认启用返回按钮
                     R.styleable.TitleLayout_back_enable, true));

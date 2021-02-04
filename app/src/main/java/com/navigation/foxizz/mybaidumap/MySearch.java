@@ -40,7 +40,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static com.navigation.foxizz.BaseApplication.getContext;
+import static com.navigation.foxizz.BaseApplication.getApplication;
 
 /**
  * 搜索模块
@@ -182,8 +182,8 @@ public class MySearch {
             public void onGetPoiResult(final PoiResult poiResult) {
                 if (currentPage == 0) {
                     //POI信息加载完成
-                    mainFragment.searchLoading.setVisibility(View.GONE);
-                    mainFragment.searchResult.setVisibility(View.VISIBLE);
+                    mainFragment.llSearchLoading.setVisibility(View.GONE);
+                    mainFragment.recyclerSearchResult.setVisibility(View.VISIBLE);
                 }
 
                 if (poiResult == null//没有找到检索结果
@@ -321,8 +321,8 @@ public class MySearch {
                     isFirstDetailSearch = false;
 
                     //详细信息加载完成
-                    mainFragment.searchInfoLoading.setVisibility(View.GONE);
-                    mainFragment.searchInfoScroll.setVisibility(View.VISIBLE);
+                    mainFragment.llSearchInfoLoading.setVisibility(View.GONE);
+                    mainFragment.svSearchInfo.setVisibility(View.VISIBLE);
 
                     if (poiDetailResult == null//没有找到检索结果
                             || poiDetailResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND)
@@ -346,11 +346,11 @@ public class MySearch {
                             searchItem.setUid(detailInfo.getUid());
 
                             //获取并设置目标名
-                            mainFragment.searchTargetName.setText(detailInfo.getName());
+                            mainFragment.tvSearchTargetName.setText(detailInfo.getName());
                             searchItem.setTargetName(detailInfo.getName());
 
                             //获取并设置目标地址
-                            mainFragment.searchAddress.setText(detailInfo.getAddress());
+                            mainFragment.tvSearchAddress.setText(detailInfo.getAddress());
                             searchItem.setAddress(detailInfo.getAddress());
 
                             LatLng latLng = detailInfo.getLocation();//获取目标坐标
@@ -361,7 +361,7 @@ public class MySearch {
                             //保留两位小数
                             BigDecimal bd = new BigDecimal(distance);
                             distance = bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                            mainFragment.searchDistance.setText(distance + "km");
+                            mainFragment.tvSearchDistance.setText(distance + "km");
                             searchItem.setDistance(distance);
 
                             //寻找搜索列表中Uid相同的item
@@ -383,7 +383,7 @@ public class MySearch {
                             //获取联系方式
                             if (detailInfo.getTelephone() != null && !detailInfo.getTelephone().isEmpty()) {
                                 try {
-                                    otherInfo.append(getContext().getString(R.string.phone_number)).append(detailInfo.getTelephone()).append("\n");
+                                    otherInfo.append(getApplication().getString(R.string.phone_number)).append(detailInfo.getTelephone()).append("\n");
                                 } catch (Exception ignored) {
 
                                 }
@@ -391,7 +391,7 @@ public class MySearch {
 
                             //获取营业时间
                             if (detailInfo.getShopHours() != null && !detailInfo.getShopHours().isEmpty()) {
-                                otherInfo.append(getContext().getString(R.string.shop_time)).append(detailInfo.getShopHours());
+                                otherInfo.append(getApplication().getString(R.string.shop_time)).append(detailInfo.getShopHours());
                                 int flag = 0;
 
                                 try {
@@ -410,17 +410,17 @@ public class MySearch {
                                 }
 
                                 if (flag == 1)
-                                    otherInfo.append(" ").append(getContext().getString(R.string.shopping));
+                                    otherInfo.append(" ").append(getApplication().getString(R.string.shopping));
                                 else if (flag == 0)
-                                    otherInfo.append(" ").append(getContext().getString(R.string.relaxing));
+                                    otherInfo.append(" ").append(getApplication().getString(R.string.relaxing));
                                 otherInfo.append("\n");
                             }
 
                             if (detailInfo.getPrice() != 0) {//获取平均消费
-                                otherInfo.append(getContext().getString(R.string.price)).append(detailInfo.getPrice()).append("元\n");
+                                otherInfo.append(getApplication().getString(R.string.price)).append(detailInfo.getPrice()).append("元\n");
                             }
 
-                            mainFragment.searchOthers.setText(otherInfo.toString());//设置其它信息
+                            mainFragment.tvSearchOthers.setText(otherInfo.toString());//设置其它信息
                         }
 
                     } else {//间接的详细信息搜索

@@ -30,7 +30,7 @@ import com.navigation.foxizz.util.LayoutUtil;
 import com.navigation.foxizz.util.NetworkUtil;
 import com.navigation.foxizz.util.ToastUtil;
 
-import static com.navigation.foxizz.BaseApplication.getContext;
+import static com.navigation.foxizz.BaseApplication.getApplication;
 
 /**
  * 搜索到的信息列表的适配器
@@ -40,6 +40,38 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     private final MainFragment mainFragment;
     public SearchAdapter(MainFragment mainFragment) {
         this.mainFragment = mainFragment;
+    }
+
+    private long clickTime = 0;
+
+    //设置item中的View
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        CardView cardSchemeInfo;
+        TextView tvTargetName;
+        TextView tvAddress;
+        TextView tvDistance;
+        Button btItem;
+        TextView tvEnd;
+
+        ViewHolder(View view) {
+            super(view);
+            cardSchemeInfo = view.findViewById(R.id.card_scheme_info);
+            tvTargetName = view.findViewById(R.id.tv_target_name);
+            tvAddress = view.findViewById(R.id.tv_address);
+            tvDistance = view.findViewById(R.id.tv_distance);
+            btItem = view.findViewById(R.id.bt_item);
+            tvEnd = view.findViewById(R.id.include_end_text_search).findViewById(R.id.tv_end);
+        }
+    }
+
+    /**
+     * 获取item数量
+     *
+     * @return int
+     */
+    @Override
+    public int getItemCount() {
+        return mainFragment.searchList.size();
     }
 
     /**
@@ -54,42 +86,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         });
     }
 
-    private long clickTime = 0;
-
-    //设置item中的View
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        CardView cardView;
-        TextView targetName;
-        TextView address;
-        TextView distance;
-        Button itemButton;
-        TextView endText;
-
-        ViewHolder(View view) {
-            super(view);
-            cardView = view.findViewById(R.id.card_view);
-            targetName = view.findViewById(R.id.target_name);
-            address = view.findViewById(R.id.address);
-            distance = view.findViewById(R.id.distance);
-            itemButton = view.findViewById(R.id.item_button);
-            endText = view.findViewById(R.id.search_end_text).findViewById(R.id.end_text);
-        }
-    }
-
-    //获取item数量
-    @Override
-    public int getItemCount() {
-        return mainFragment.searchList.size();
-    }
-
     //获取SearchItem的数据
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         SearchItem searchItem = mainFragment.searchList.get(position);
-        holder.targetName.setText(searchItem.getTargetName());
-        holder.address.setText(searchItem.getAddress());
-        holder.distance.setText(searchItem.getDistance() + "km");
+        holder.tvTargetName.setText(searchItem.getTargetName());
+        holder.tvAddress.setText(searchItem.getAddress());
+        holder.tvDistance.setText(searchItem.getDistance() + "km");
 
         //加载更多搜索结果
         if (position == getItemCount() - 4
@@ -101,25 +105,25 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         //设置提示信息的内容
         if (!mainFragment.isHistorySearchResult
                 && mainFragment.currentPage < mainFragment.totalPage)
-            holder.endText.setText(getContext().getString(R.string.loading));
-        else holder.endText.setText(getContext().getString(R.string.no_more));
+            holder.tvEnd.setText(getApplication().getString(R.string.loading));
+        else holder.tvEnd.setText(getApplication().getString(R.string.no_more));
 
         //只有底部显示提示信息
         if (position == mainFragment.searchList.size() - 1) {
-            holder.endText.setVisibility(View.VISIBLE);
-        } else holder.endText.setVisibility(View.GONE);
+            holder.tvEnd.setVisibility(View.VISIBLE);
+        } else holder.tvEnd.setVisibility(View.GONE);
     }
 
     //为recyclerView的每一个item设置点击事件
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.search_item, parent, false);
+                .inflate(R.layout.adapter_search_item, parent, false);
         final ViewHolder holder = new ViewHolder(view);
 
         //cardView的点击事件
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        holder.cardSchemeInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (unableToClick()) return;
@@ -136,9 +140,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
                 click(holder);
 
-                LayoutUtil.expandLayout(mainFragment.searchInfoLayout, true);//展开详细信息布局
+                LayoutUtil.expandLayout(mainFragment.llSearchInfoLayout, true);//展开详细信息布局
 
-                mainFragment.middleButton.setText(R.string.middle_button1);//设置按钮为路线
+                mainFragment.btMiddle.setText(R.string.middle_button1);//设置按钮为路线
                 mainFragment.infoFlag = true;//设置信息状态为详细信息
 
                 //获取点击的item
@@ -166,7 +170,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         });
 
         //itemButton的点击事件
-        holder.itemButton.setOnClickListener(new View.OnClickListener() {
+        holder.btItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (unableToClick()) return;
@@ -182,24 +186,24 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
                 click(holder);
 
-                LayoutUtil.expandLayout(mainFragment.selectLayout, true);//展开选择布局
+                LayoutUtil.expandLayout(mainFragment.llSelectLayout, true);//展开选择布局
 
-                mainFragment.middleButton.setText(R.string.middle_button2);//设置按钮为详细信息
+                mainFragment.btMiddle.setText(R.string.middle_button2);//设置按钮为详细信息
                 mainFragment.infoFlag = false;//设置信息状态为交通选择
 
                 //重置交通类型为步行
                 mainFragment.routePlanSelect = MainFragment.WALKING;
-                mainFragment.selectButton1.setBackgroundResource(R.drawable.button_background_gray);
-                mainFragment.selectButton2.setBackgroundResource(R.drawable.button_background_black);
-                mainFragment.selectButton3.setBackgroundResource(R.drawable.button_background_gray);
-                mainFragment.selectButton4.setBackgroundResource(R.drawable.button_background_gray);
+                mainFragment.btSelect1.setBackgroundResource(R.drawable.bt_bg_gray);
+                mainFragment.btSelect2.setBackgroundResource(R.drawable.bt_bg_black);
+                mainFragment.btSelect3.setBackgroundResource(R.drawable.bt_bg_gray);
+                mainFragment.btSelect4.setBackgroundResource(R.drawable.bt_bg_gray);
 
                 mainFragment.myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
             }
         });
 
         //cardView的长按事件
-        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.cardSchemeInfo.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 if (unableToClick()) return false;
@@ -227,25 +231,24 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     }
 
     //cardView和itemButton共同的点击事件
-    @SuppressLint("SetTextI18n")
     private void click(ViewHolder holder) {
         //获取点击的item
         int position = holder.getAdapterPosition();
         SearchItem searchItem = mainFragment.searchList.get(position);
 
-        LayoutUtil.expandLayout(mainFragment.searchLayout, false);//收起搜索布局
+        LayoutUtil.expandLayout(mainFragment.llSearchLayout, false);//收起搜索布局
         if (mainFragment.searchExpandFlag) {//如果状态为展开
             mainFragment.expandSearchDrawer(false);//收起展开的搜索抽屉
             mainFragment.searchExpandFlag = false;//设置状态为收起
         }
-        LayoutUtil.expandLayout(mainFragment.startLayout, true);//展开开始导航布局
+        LayoutUtil.expandLayout(mainFragment.llStartLayout, true);//展开开始导航布局
 
         //设置终点坐标
         mainFragment.endLocation = searchItem.getLatLng();
 
         //加载详细信息
-        mainFragment.searchInfoLoading.setVisibility(View.VISIBLE);
-        mainFragment.searchInfoScroll.setVisibility(View.GONE);
+        mainFragment.llSearchInfoLoading.setVisibility(View.VISIBLE);
+        mainFragment.svSearchInfo.setVisibility(View.GONE);
 
         mainFragment.mySearch.searchType = MySearch.DETAIL_SEARCH;//设置为直接详细搜索
         mainFragment.mySearch.isFirstDetailSearch = true;//第一次详细信息搜索

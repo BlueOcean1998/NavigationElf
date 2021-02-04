@@ -39,15 +39,15 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:id="@+id/map_standard_image"
+                        android:id="@+id/iv_map_standard"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
                         android:contentDescription="@string/standard_map"
                         android:src="@drawable/map_standard_off" />
 
-                    <com.navigation.foxizz.view.AdaptationTextView
-                        android:id="@+id/map_standard_text"
+                    <com.navigation.foxizz.view.AdaptiveTextView
+                        android:id="@+id/adaptive_tv_map_standard"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -66,15 +66,15 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:id="@+id/map_satellite_image"
+                        android:id="@+id/iv_map_satellite"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
                         android:contentDescription="@string/satellite_map"
                         android:src="@drawable/map_satellite_off" />
 
-                    <com.navigation.foxizz.view.AdaptationTextView
-                        android:id="@+id/map_satellite_text"
+                    <com.navigation.foxizz.view.AdaptiveTextView
+                        android:id="@+id/adaptive_tv_map_satellite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -93,15 +93,15 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:id="@+id/map_traffic_image"
+                        android:id="@+id/iv_map_traffic"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
                         android:contentDescription="@string/traffic_map"
                         android:src="@drawable/map_traffic_off" />
 
-                    <com.navigation.foxizz.view.AdaptationTextView
-                        android:id="@+id/map_traffic_text"
+                    <com.navigation.foxizz.view.AdaptiveTextView
+                        android:id="@+id/adaptive_tv_map_traffic"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -112,7 +112,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <include layout="@layout/parting_line" />
+            <include layout="@layout/include_parting_line" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -125,7 +125,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <com.navigation.foxizz.view.AdaptationTextView
+                    <com.navigation.foxizz.view.AdaptiveTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="6dp"
@@ -133,7 +133,7 @@
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
-                    <com.navigation.foxizz.view.AdaptationTextView
+                    <com.navigation.foxizz.view.AdaptiveTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="6dp"
@@ -156,7 +156,7 @@
                         android:src="@drawable/ic_my_location_gray_30dp" />
 
                     <Button
-                        android:id="@+id/destination_city_button"
+                        android:id="@+id/bt_destination_city"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -165,12 +165,12 @@
                         android:textSize="14sp" />
 
                     <EditText
-                        android:id="@+id/destination_city_edit_text"
+                        android:id="@+id/et_destination_city"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="6dp"
-                        android:background="@drawable/edit_background"
+                        android:background="@drawable/et_bg"
                         android:hint="@string/location_city"
                         android:importantForAutofill="no"
                         android:inputType="none"
@@ -184,7 +184,7 @@
                         android:textSize="16sp" />
 
                     <ImageButton
-                        android:id="@+id/destination_city_confirm"
+                        android:id="@+id/ib_destination_city_confirm"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -195,7 +195,7 @@
                         tools:ignore="RtlHardcoded" />
 
                     <ImageButton
-                        android:id="@+id/destination_city_cancel"
+                        android:id="@+id/ib_destination_city_cancel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -207,7 +207,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <include layout="@layout/parting_line" />
+            <include layout="@layout/include_parting_line" />
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -215,7 +215,7 @@
                 tools:ignore="NestedScrolling">
 
                 <FrameLayout
-                    android:id="@+id/settings_preferences"
+                    android:id="@+id/fl_settings_preferences"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </ScrollView>

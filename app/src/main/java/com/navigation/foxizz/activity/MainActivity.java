@@ -1,6 +1,5 @@
 package com.navigation.foxizz.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -27,19 +26,13 @@ import cn.zerokirby.api.util.UriUtil;
  */
 public class MainActivity extends BaseActivity {
 
-    //MainActivity实例
-    @SuppressLint("StaticFieldLeak")
-    private static MainActivity instance;
-    public static MainActivity getInstance() {
-        return instance;
-    }
-
-    private FragmentManager fragmentManager;
-    private Fragment fragmentLayout;
+    private Fragment flPage;
     private MainFragment mainFragment;
     private UserFragment userFragment;
     private Button mainButton;
     private Button userButton;
+
+    private FragmentManager fragmentManager;
 
     private long exitTime = 0;//实现再按一次退出程序时，用于保存系统时间
     private boolean isKeyDownFirst = false;//是否有先监听到按下，确保在第三方应用使用onKeyDown返回时，不会连续返回2次
@@ -56,8 +49,6 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        instance = this;//获取MainActivity实例
 
         initFragments();//初始化碎片
 
@@ -93,33 +84,32 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        instance = null;////释放MainActivity实例
     }
 
     //初始化碎片
     private void initFragments() {
         fragmentManager = getSupportFragmentManager();
 
-        fragmentLayout = mainFragment = new MainFragment();
+        flPage = mainFragment = new MainFragment();
         userFragment = new UserFragment();
 
         fragmentManager.beginTransaction()
-                .add(R.id.fragment_layout, userFragment).hide(userFragment)
-                .add(R.id.fragment_layout, mainFragment).commit();
+                .add(R.id.fl_page, userFragment).hide(userFragment)
+                .add(R.id.fl_page, mainFragment).commit();
     }
 
     //切换碎片
     private void replaceFragment(Fragment fragment) {
-        if (fragmentLayout != fragment) {//与显示的碎片不同才切换
-            fragmentManager.beginTransaction().hide(fragmentLayout).show(fragment).commit();
-            fragmentLayout = fragment;
+        if (flPage != fragment) {//与显示的碎片不同才切换
+            fragmentManager.beginTransaction().hide(flPage).show(fragment).commit();
+            flPage = fragment;
         }
     }
 
     //初始化控件
     private void initView() {
-        mainButton = findViewById(R.id.main_button);
-        userButton = findViewById(R.id.user_button);
+        mainButton = findViewById(R.id.bt_main);
+        userButton = findViewById(R.id.bt_user);
         mainButton.setTextColor(getResources().getColor(R.color.skyblue));
         userButton.setTextColor(getResources().getColor(R.color.black));
     }
@@ -148,7 +138,7 @@ public class MainActivity extends BaseActivity {
             case Constants.PHOTO_REQUEST_CUT:
                 if (resultCode == RESULT_OK) {
                     AvatarDataHelper.showAvatarAndSave(
-                            userFragment.avatarImage, UriUtil.getPath(Constants.avatarUri));
+                            userFragment.ivAvatar, UriUtil.getPath(Constants.avatarUri));
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -180,7 +170,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         //mainFragment
-        if (fragmentLayout == mainFragment) {
+        if (flPage == mainFragment) {
             //如果是返回键且有先监听到按下
             if (keyCode == KeyEvent.KEYCODE_BACK && isKeyDownFirst) {
                 isKeyDownFirst = false;
@@ -189,15 +179,15 @@ public class MainActivity extends BaseActivity {
                     return false;
                 }
                 if (!mainFragment.isHistorySearchResult) {//如果不是搜索历史记录
-                    mainFragment.searchResult.stopScroll();//停止信息列表滑动
+                    mainFragment.recyclerSearchResult.stopScroll();//停止信息列表滑动
                     SearchDataHelper.initSearchData(mainFragment);//初始化搜索记录
                     mainFragment.isHistorySearchResult = true;//现在是搜索历史记录了
                 }
                 //如果焦点在searchEdit上或searchEdit有内容
-                if (MainActivity.this.getWindow().getDecorView().findFocus() == mainFragment.searchEdit
-                        || !mainFragment.searchEdit.getText().toString().isEmpty()) {
-                    mainFragment.searchEdit.clearFocus();//使搜索输入框失去焦点
-                    mainFragment.searchEdit.setText("");
+                if (MainActivity.this.getWindow().getDecorView().findFocus() == mainFragment.etSearch
+                        || !mainFragment.etSearch.getText().toString().isEmpty()) {
+                    mainFragment.etSearch.clearFocus();//使搜索输入框失去焦点
+                    mainFragment.etSearch.setText("");
                     return false;
                 }
                 if (mainFragment.searchExpandFlag) {//收起搜索抽屉
@@ -215,11 +205,11 @@ public class MainActivity extends BaseActivity {
             //如果是Enter键
             if (keyCode == KeyEvent.KEYCODE_ENTER) {
                 mainFragment.startSearch();//开始搜索
-                mainFragment.searchEdit.requestFocus();//搜索框重新获得焦点
+                mainFragment.etSearch.requestFocus();//搜索框重新获得焦点
                 mainFragment.takeBackKeyboard();//收回键盘
                 return false;
             }
-        } else if (fragmentLayout == userFragment) {//userFragment
+        } else if (flPage == userFragment) {//userFragment
             //如果是返回键且有先监听到按下
             if (keyCode == KeyEvent.KEYCODE_BACK  && isKeyDownFirst) {
                 isKeyDownFirst = false;

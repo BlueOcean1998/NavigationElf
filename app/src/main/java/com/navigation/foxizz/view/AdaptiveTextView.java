@@ -10,7 +10,7 @@ import android.view.Gravity;
 
 import com.navigation.foxizz.R;
 
-public class AdaptationTextView extends androidx.appcompat.widget.AppCompatTextView {
+public class AdaptiveTextView extends androidx.appcompat.widget.AppCompatTextView {
 
     public final static boolean widthAdaptive = true;//宽度自适应
     public final static boolean heightAdaptive = false;//高度自适应
@@ -19,11 +19,11 @@ public class AdaptationTextView extends androidx.appcompat.widget.AppCompatTextV
     private Paint mTextPaint;//文本描述对象
     private boolean adaptiveType;//自适应类型
 
-    public AdaptationTextView(Context context) {
+    public AdaptiveTextView(Context context) {
         super(context);
     }
 
-    public AdaptationTextView(Context context, AttributeSet attrs) {
+    public AdaptiveTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initialise(context, attrs);
     }
@@ -42,8 +42,8 @@ public class AdaptationTextView extends androidx.appcompat.widget.AppCompatTextV
         mTextPaint.set(this.getPaint());
 
         //获取自定义属性，默认为宽度自适应
-        @SuppressLint("Recycle") TypedArray typedArray =
-                context.obtainStyledAttributes(attrs, R.styleable.AdaptationTextView);
+        @SuppressLint({"Recycle", "CustomViewStyleable"})
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.AdaptationTextView);
         if (typedArray != null) {
             adaptiveType = typedArray.getInt(
                     R.styleable.AdaptationTextView_adaptive_type, 0) == 0;

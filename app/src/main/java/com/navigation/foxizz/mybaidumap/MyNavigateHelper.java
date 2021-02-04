@@ -37,7 +37,7 @@ import com.navigation.foxizz.util.ToastUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.navigation.foxizz.BaseApplication.getContext;
+import static com.navigation.foxizz.BaseApplication.getApplication;
 
 /**
  * 导航模块
@@ -56,7 +56,7 @@ public class MyNavigateHelper {
      * 初始化驾车导航引擎
      */
     public void initDriveNavigateHelper() {
-        BaiduNaviManagerFactory.getBaiduNaviManager().init(getContext(),
+        BaiduNaviManagerFactory.getBaiduNaviManager().init(getApplication(),
                 AppUtil.getSDCardDir(),
                 AppUtil.getAppFolderName(),
                 new IBaiduNaviManager.INaviInitListener() {
@@ -105,7 +105,7 @@ public class MyNavigateHelper {
     //初始化语音合成模块
     private void initTTS() {
         BaiduNaviManagerFactory.getTTSManager().initTTS(new BNTTsInitConfig.Builder()
-                .context(getContext())
+                .context(getApplication())
                 .sdcardRootPath(AppUtil.getSDCardDir())
                 .appFolderName(AppUtil.getAppFolderName())
                 .appId(mainFragment.getString(R.string.app_id))
@@ -242,7 +242,7 @@ public class MyNavigateHelper {
                                 break;
                             case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_TO_NAVI:
                                 mainFragment.startActivity(
-                                        new Intent(getContext(), DNaviGuideActivity.class)
+                                        new Intent(getApplication(), DNaviGuideActivity.class)
                                 );
                                 break;
                             default:
@@ -309,7 +309,7 @@ public class MyNavigateHelper {
             @Override
             public void onRoutePlanSuccess() {
                 progressDialog.dismiss();
-                mainFragment.startActivity(new Intent(getContext(), WNaviGuideActivity.class));
+                mainFragment.startActivity(new Intent(getApplication(), WNaviGuideActivity.class));
             }
 
             @Override
@@ -341,7 +341,7 @@ public class MyNavigateHelper {
             @Override
             public void onRoutePlanSuccess() {
                 progressDialog.dismiss();
-                mainFragment.startActivity(new Intent(getContext(), BNaviGuideActivity.class));
+                mainFragment.startActivity(new Intent(getApplication(), BNaviGuideActivity.class));
             }
 
             @Override

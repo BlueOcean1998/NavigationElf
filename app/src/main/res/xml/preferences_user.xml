@@ -3,7 +3,7 @@
     tools:ignore="MissingDefaultResource">
 
     <PreferenceCategory
-        app:icon="@drawable/foxizz"
+        app:icon="@drawable/dolphizz_cartoon"
         app:title="@string/about">
         <Preference
             app:icon="@drawable/ic_settings_black_24dp"

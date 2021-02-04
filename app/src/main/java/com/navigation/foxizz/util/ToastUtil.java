@@ -2,7 +2,7 @@ package com.navigation.foxizz.util;
 
 import android.widget.Toast;
 
-import static com.navigation.foxizz.BaseApplication.getContext;
+import static com.navigation.foxizz.BaseApplication.getApplication;
 
 /**
  * Toast工具类
@@ -37,7 +37,7 @@ public class ToastUtil {
      */
     public static void showToast(String text, int duration) {
         if (toast != null) toast.cancel();//销毁上一个
-        toast = Toast.makeText(getContext(), null, duration);//弹出下一个
+        toast = Toast.makeText(getApplication(), null, duration);//弹出下一个
         toast.setText(text);//重设内容，去除小米自带的"appName:"
         toast.show();
     }
@@ -50,7 +50,7 @@ public class ToastUtil {
      */
     public static void showToast(int resId, int duration) {
         if (toast != null) toast.cancel();//销毁上一个
-        toast = Toast.makeText(getContext(), null, duration);//弹出下一个
+        toast = Toast.makeText(getApplication(), null, duration);//弹出下一个
         toast.setText(resId);//重设内容，去除小米自带的"appName:"
         toast.show();
     }

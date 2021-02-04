@@ -3,7 +3,7 @@ package com.navigation.foxizz.data;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import static com.navigation.foxizz.BaseApplication.getContext;
+import static com.navigation.foxizz.BaseApplication.getApplication;
 
 /**
  * SharedPreferences帮助类
@@ -16,7 +16,7 @@ public class SPHelper {
      * 初始化SharedPreferences
      */
     public static void initSharedPreferences() {
-        sp = getContext().getSharedPreferences(Constants.SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        sp = getApplication().getSharedPreferences(Constants.SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE);
     }
 
     public static void putBoolean(String key, boolean value) {

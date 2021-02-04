@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_view"
+        android:id="@+id/card_scheme_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="6dp"
@@ -17,7 +17,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/card_background_lightgray"
+            android:background="@drawable/card_bg_lightgray"
             android:orientation="horizontal"
             android:padding="6dp">
 
@@ -29,7 +29,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/target_name"
+                    android:id="@+id/tv_target_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
@@ -41,7 +41,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/address"
+                    android:id="@+id/tv_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
@@ -53,7 +53,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/distance"
+                android:id="@+id/tv_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -65,12 +65,12 @@
                 android:textSize="14sp" />
 
             <Button
-                android:id="@+id/item_button"
+                android:id="@+id/bt_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="6dp"
-                android:background="@drawable/button_background_skyblue"
+                android:background="@drawable/bt_bg_skyblue"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
                 android:padding="12dp"
@@ -80,6 +80,6 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <include android:id="@+id/search_end_text"
-        layout="@layout/end_text" />
+    <include android:id="@+id/include_end_text_search"
+        layout="@layout/include_end_text" />
 </LinearLayout>

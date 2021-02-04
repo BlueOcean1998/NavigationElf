@@ -1,7 +1,6 @@
 package com.navigation.foxizz.activity.fragment;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -72,19 +71,12 @@ import com.navigation.foxizz.util.ToastUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.navigation.foxizz.BaseApplication.getApplication;
+
 /**
  * 地图页
  */
 public class MainFragment extends Fragment {
-
-    /*
-     * MainFragment实例
-     */
-    @SuppressLint("StaticFieldLeak")
-    private static MainFragment instance;
-    public static MainFragment getInstance() {
-        return instance;
-    }
 
     /*
      * 地图控件
@@ -120,25 +112,25 @@ public class MainFragment extends Fragment {
     public PoiSearch mPoiSearch;//POI搜索
     public final List<String> searchCityList = new ArrayList<>();//要进行POI搜索的城市列表
     public String searchContent = "";//搜索内容
-    public LinearLayout searchLayout;//搜索布局
-    public EditText searchEdit;//搜索输入框
-    public ImageButton emptyButton;//清空按钮
-    public Button searchButton;//搜索按钮
-    public ImageButton searchExpand;//搜索结果伸缩按钮
+    public LinearLayout llSearchLayout;//搜索布局
+    public EditText etSearch;//搜索输入框
+    public ImageButton ibEmpty;//清空按钮
+    public Button btSearch;//搜索按钮
+    public ImageButton ibSearchExpand;//搜索结果伸缩按钮
     public boolean searchExpandFlag = false;//搜索伸缩状态
-    public LinearLayout searchDrawer;//搜索抽屉
-    public LinearLayout searchLoading;//搜索加载
-    public RecyclerView searchResult;//搜索结果
+    public LinearLayout llSearchDrawer;//搜索抽屉
+    public LinearLayout llSearchLoading;//搜索加载
+    public RecyclerView recyclerSearchResult;//搜索结果
     public final List<SearchItem> searchList = new ArrayList<>();//搜索列表
     public StaggeredGridLayoutManager searchLayoutManager;//搜索布局管理器
     public SearchAdapter searchAdapter;//搜索适配器
-    public LinearLayout searchInfoLayout;//详细信息布局
-    public LinearLayout searchInfoLoading;//信息加载
-    public ScrollView searchInfoScroll;//详细信息布局的拖动条
-    public TextView searchTargetName;//目标名
-    public TextView searchAddress;//目标地址
-    public TextView searchDistance;//与目标的距离
-    public TextView searchOthers;//目标的其它信息（联系方式，营业时间等）
+    public LinearLayout llSearchInfoLayout;//详细信息布局
+    public LinearLayout llSearchInfoLoading;//信息加载
+    public ScrollView svSearchInfo;//详细信息布局的拖动条
+    public TextView tvSearchTargetName;//目标名
+    public TextView tvSearchAddress;//目标地址
+    public TextView tvSearchDistance;//与目标的距离
+    public TextView tvSearchOthers;//目标的其它信息（联系方式，营业时间等）
     public boolean isHistorySearchResult = true;//是否是搜索历史记录
     public int currentPage;//当前页
     public int totalPage;//总页数
@@ -151,27 +143,27 @@ public class MainFragment extends Fragment {
     public final List<LatLng> busStationLocations = new ArrayList<>();//公交导航所有站点的坐标
     public LatLng endLocation;//终点
     //交通选择
-    public LinearLayout selectLayout;//选择布局
+    public LinearLayout llSelectLayout;//选择布局
     public final static int DRIVING = 0;//驾车
     public final static int WALKING = 1;//步行
     public final static int BIKING = 2;//骑行
     public final static int TRANSIT = 3;//公交
     public int routePlanSelect = WALKING;//默认为步行
-    public Button selectButton1;//选择驾车
-    public Button selectButton2;//选择步行
-    public Button selectButton3;//选择骑行
-    public Button selectButton4;//选择公交
+    public Button btSelect1;//选择驾车
+    public Button btSelect2;//选择步行
+    public Button btSelect3;//选择骑行
+    public Button btSelect4;//选择公交
     //方案布局
     public final static int SCHEME_NOT_ALREADY = 0;//未展开
     public final static int SCHEME_LIST = 1;//方案列表
     public final static int SCHEME_INFO = 2;//方案信息
     public int schemeFlag = SCHEME_NOT_ALREADY;//初始为未展开
-    public LinearLayout schemeDrawer;//方案抽屉
-    public LinearLayout schemeLoading;//方案加载
-    public RecyclerView schemeResult;//方案结果
-    public LinearLayout schemeInfoLayout;//方案信息抽屉
-    public ScrollView schemeInfoScroll;//方案信息的拖动条
-    public TextView schemeInfo;//方案信息
+    public LinearLayout llSchemeDrawer;//方案抽屉
+    public LinearLayout llSchemeLoading;//方案加载
+    public RecyclerView recyclerSchemeResult;//方案结果
+    public LinearLayout llSchemeInfoLayout;//方案信息抽屉
+    public ScrollView svSchemeInfo;//方案信息的拖动条
+    public TextView tvSchemeInfo;//方案信息
     public List<SchemeItem> schemeList = new ArrayList<>();//方案列表
     public StaggeredGridLayoutManager schemeLayoutManager;//方案布局管理器
     public SchemeAdapter schemeAdapter;//方案适配器
@@ -180,10 +172,10 @@ public class MainFragment extends Fragment {
      * 导航相关
      */
     public MyNavigateHelper myNavigateHelper;
-    public LinearLayout startLayout;//开始导航布局
-    public Button backButton;//返回按钮
-    public Button middleButton;//路线规划、详细信息切换按钮
-    public Button startButton;//开始导航按钮
+    public LinearLayout llStartLayout;//开始导航布局
+    public Button btBack;//返回按钮
+    public Button btMiddle;//路线规划、详细信息切换按钮
+    public Button btStart;//开始导航按钮
     public boolean infoFlag;//信息显示状态
 
     /*
@@ -192,9 +184,9 @@ public class MainFragment extends Fragment {
     public int bodyLength;//屏幕的长
     public int bodyShort;//屏幕的宽
     public InputMethodManager imm;//键盘
-    private ImageButton settings;//设置
-    private ImageButton refresh;//刷新
-    private ImageButton location;//定位
+    private ImageButton ibSettings;//设置
+    private ImageButton ibRefresh;//刷新
+    private ImageButton ibLocation;//定位
 
     /*
      * 设置相关
@@ -213,8 +205,6 @@ public class MainFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-
-        instance = this;//获取MainFragment实例
 
         //获取默认设置
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
@@ -291,8 +281,6 @@ public class MainFragment extends Fragment {
         mSearch.destroy();
 
         SpeechSynthesizer.getInstance().release();//释放语音合成实例
-
-        instance = null;//释放MainFragment实例
     }
 
     //初始化地图控件
@@ -424,84 +412,84 @@ public class MainFragment extends Fragment {
 
     //初始化自定义控件
     private void initView(View view) {
-        settings = view.findViewById(R.id.settings_button);
-        refresh = view.findViewById(R.id.refresh_button);
-        location = view.findViewById(R.id.location_button);
+        ibSettings = view.findViewById(R.id.ib_settings);
+        ibRefresh = view.findViewById(R.id.ib_refresh);
+        ibLocation = view.findViewById(R.id.ib_location);
 
-        selectLayout = view.findViewById(R.id.select_layout);
-        selectButton1 = view.findViewById(R.id.select_button1);
-        selectButton2 = view.findViewById(R.id.select_button2);
-        selectButton3 = view.findViewById(R.id.select_button3);
-        selectButton4 = view.findViewById(R.id.select_button4);
+        llSelectLayout = view.findViewById(R.id.ll_select_layout);
+        btSelect1 = view.findViewById(R.id.bt_select_1);
+        btSelect2 = view.findViewById(R.id.bt_select_2);
+        btSelect3 = view.findViewById(R.id.bt_select_3);
+        btSelect4 = view.findViewById(R.id.bt_select_4);
 
-        searchLayout = view.findViewById(R.id.search_layout);
-        searchEdit = view.findViewById(R.id.search_edit);
-        emptyButton = view.findViewById(R.id.empty_bottom);
-        searchButton = view.findViewById(R.id.search_button);
-        searchExpand = view.findViewById(R.id.search_expand);
-        searchDrawer = view.findViewById(R.id.search_drawer);
-        searchLoading = view.findViewById(R.id.search_loading);
-        searchResult = view.findViewById(R.id.search_result);
+        llSearchLayout = view.findViewById(R.id.ll_search_layout);
+        etSearch = view.findViewById(R.id.et_search);
+        ibEmpty = view.findViewById(R.id.ib_empty);
+        btSearch = view.findViewById(R.id.bt_search);
+        ibSearchExpand = view.findViewById(R.id.ib_search_expand);
+        llSearchDrawer = view.findViewById(R.id.ll_search_drawer);
+        llSearchLoading = view.findViewById(R.id.include_search_loading);
+        recyclerSearchResult = view.findViewById(R.id.recycler_search_result);
 
-        searchInfoLayout = view.findViewById(R.id.search_info_layout);
-        searchInfoLoading = view.findViewById(R.id.search_info_loading);
-        searchInfoScroll = view.findViewById(R.id.search_info_scroll);
-        searchTargetName = view.findViewById(R.id.search_target_name);
-        searchAddress = view.findViewById(R.id.search_address);
-        searchDistance = view.findViewById(R.id.search_distance);
-        searchOthers = view.findViewById(R.id.search_others);
+        llSearchInfoLayout = view.findViewById(R.id.ll_search_info_layout);
+        llSearchInfoLoading = view.findViewById(R.id.include_search_info_loading);
+        svSearchInfo = view.findViewById(R.id.sv_search_info);
+        tvSearchTargetName = view.findViewById(R.id.tv_search_target_name);
+        tvSearchAddress = view.findViewById(R.id.tv_search_address);
+        tvSearchDistance = view.findViewById(R.id.tv_search_distance);
+        tvSearchOthers = view.findViewById(R.id.tv_search_others);
 
-        schemeDrawer = view.findViewById(R.id.scheme_drawer);
-        schemeLoading = view.findViewById(R.id.scheme_loading);
-        schemeResult = view.findViewById(R.id.scheme_result);
-        schemeInfoLayout = view.findViewById(R.id.scheme_info_layout);
-        schemeInfoScroll = view.findViewById(R.id.scheme_info_scroll);
-        schemeInfo = view.findViewById(R.id.scheme_info);
+        llSchemeDrawer = view.findViewById(R.id.ll_scheme_drawer);
+        llSchemeLoading = view.findViewById(R.id.include_scheme_loading);
+        recyclerSchemeResult = view.findViewById(R.id.recycler_scheme_result);
+        llSchemeInfoLayout = view.findViewById(R.id.ll_scheme_info_layout);
+        svSchemeInfo = view.findViewById(R.id.sv_scheme_info);
+        tvSchemeInfo = view.findViewById(R.id.tv_scheme_info);
 
-        startLayout = view.findViewById(R.id.start_layout);
-        backButton = view.findViewById(R.id.return_button);
-        middleButton = view.findViewById(R.id.middle_button);
-        startButton = view.findViewById(R.id.start_button);
+        llStartLayout = view.findViewById(R.id.ll_start_layout);
+        btBack = view.findViewById(R.id.bt_return);
+        btMiddle = view.findViewById(R.id.bt_middle);
+        btStart = view.findViewById(R.id.bt_start);
 
         //设置选项布局、搜索结果抽屉、详细信息、方案抽屉、方案信息抽屉、开始导航布局初始高度为0
-        LayoutUtil.setViewHeight(selectLayout, 0);
-        LayoutUtil.setViewHeight(searchDrawer, 0);
-        LayoutUtil.setViewHeight(searchInfoLayout, 0);
-        LayoutUtil.setViewHeight(schemeDrawer, 0);
-        LayoutUtil.setViewHeight(schemeInfoLayout, 0);
-        LayoutUtil.setViewHeight(startLayout, 0);
+        LayoutUtil.setViewHeight(llSelectLayout, 0);
+        LayoutUtil.setViewHeight(llSearchDrawer, 0);
+        LayoutUtil.setViewHeight(llSearchInfoLayout, 0);
+        LayoutUtil.setViewHeight(llSchemeDrawer, 0);
+        LayoutUtil.setViewHeight(llSchemeInfoLayout, 0);
+        LayoutUtil.setViewHeight(llStartLayout, 0);
 
         //设置搜索、搜索信息、方案加载不可见
-        searchLoading.setVisibility(View.GONE);
-        searchInfoLoading.setVisibility(View.GONE);
-        schemeLoading.setVisibility(View.GONE);
+        llSearchLoading.setVisibility(View.GONE);
+        llSearchInfoLoading.setVisibility(View.GONE);
+        llSchemeLoading.setVisibility(View.GONE);
 
         searchAdapter = new SearchAdapter(this);//初始化搜索适配器
         searchLayoutManager = new StaggeredGridLayoutManager(
                 1, StaggeredGridLayoutManager.VERTICAL
         );//搜索布局行数为1
-        searchResult.setAdapter(searchAdapter);//设置搜索适配器
-        searchResult.setLayoutManager(searchLayoutManager);//设置搜索布局
+        recyclerSearchResult.setAdapter(searchAdapter);//设置搜索适配器
+        recyclerSearchResult.setLayoutManager(searchLayoutManager);//设置搜索布局
 
         schemeAdapter = new SchemeAdapter(this);//初始化方案适配器
         schemeLayoutManager = new StaggeredGridLayoutManager(
                 1, StaggeredGridLayoutManager.VERTICAL
         );//方案布局行数为1
-        schemeResult.setAdapter(schemeAdapter);//设置方案适配器
-        schemeResult.setLayoutManager(schemeLayoutManager);//设置方案布局
+        recyclerSchemeResult.setAdapter(schemeAdapter);//设置方案适配器
+        recyclerSchemeResult.setLayoutManager(schemeLayoutManager);//设置方案布局
 
         //设置按钮的点击事件
-        settings.setOnClickListener(new View.OnClickListener() {
+        ibSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), SettingsActivity.class);
+                Intent intent = new Intent(getApplication(), SettingsActivity.class);
                 if (mCity != null) intent.putExtra(Constants.MY_CITY, mCity);
                 startActivity(intent);
             }
         });
 
         //刷新按钮的点击事件
-        refresh.setOnClickListener(new View.OnClickListener() {
+        ibRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 requireActivity().finish();//关闭当前活动
@@ -510,7 +498,7 @@ public class MainFragment extends Fragment {
         });
 
         //定位按钮的点击事件
-        location.setOnClickListener(new View.OnClickListener() {
+        ibLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 requestPermission();//申请权限，获得权限后定位
@@ -518,16 +506,16 @@ public class MainFragment extends Fragment {
         });
 
         //默认为步行
-        selectButton2.setBackgroundResource(R.drawable.button_background_black);
+        btSelect2.setBackgroundResource(R.drawable.bt_bg_black);
 
         //驾车按钮的点击事件
-        selectButton1.setOnClickListener(new View.OnClickListener() {
+        btSelect1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectButton1.setBackgroundResource(R.drawable.button_background_black);
-                selectButton2.setBackgroundResource(R.drawable.button_background_gray);
-                selectButton3.setBackgroundResource(R.drawable.button_background_gray);
-                selectButton4.setBackgroundResource(R.drawable.button_background_gray);
+                btSelect1.setBackgroundResource(R.drawable.bt_bg_black);
+                btSelect2.setBackgroundResource(R.drawable.bt_bg_gray);
+                btSelect3.setBackgroundResource(R.drawable.bt_bg_gray);
+                btSelect4.setBackgroundResource(R.drawable.bt_bg_gray);
                 routePlanSelect = DRIVING;
 
                 myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
@@ -535,13 +523,13 @@ public class MainFragment extends Fragment {
         });
 
         //步行按钮的点击事件
-        selectButton2.setOnClickListener(new View.OnClickListener() {
+        btSelect2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectButton1.setBackgroundResource(R.drawable.button_background_gray);
-                selectButton2.setBackgroundResource(R.drawable.button_background_black);
-                selectButton3.setBackgroundResource(R.drawable.button_background_gray);
-                selectButton4.setBackgroundResource(R.drawable.button_background_gray);
+                btSelect1.setBackgroundResource(R.drawable.bt_bg_gray);
+                btSelect2.setBackgroundResource(R.drawable.bt_bg_black);
+                btSelect3.setBackgroundResource(R.drawable.bt_bg_gray);
+                btSelect4.setBackgroundResource(R.drawable.bt_bg_gray);
                 routePlanSelect = WALKING;
 
                 myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
@@ -549,13 +537,13 @@ public class MainFragment extends Fragment {
         });
 
         //骑行按钮的点击事件
-        selectButton3.setOnClickListener(new View.OnClickListener() {
+        btSelect3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectButton1.setBackgroundResource(R.drawable.button_background_gray);
-                selectButton2.setBackgroundResource(R.drawable.button_background_gray);
-                selectButton3.setBackgroundResource(R.drawable.button_background_black);
-                selectButton4.setBackgroundResource(R.drawable.button_background_gray);
+                btSelect1.setBackgroundResource(R.drawable.bt_bg_gray);
+                btSelect2.setBackgroundResource(R.drawable.bt_bg_gray);
+                btSelect3.setBackgroundResource(R.drawable.bt_bg_black);
+                btSelect4.setBackgroundResource(R.drawable.bt_bg_gray);
                 routePlanSelect = BIKING;
 
                 myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
@@ -563,23 +551,23 @@ public class MainFragment extends Fragment {
         });
 
         //公交按钮的点击事件
-        selectButton4.setOnClickListener(new View.OnClickListener() {
+        btSelect4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectButton1.setBackgroundResource(R.drawable.button_background_gray);
-                selectButton2.setBackgroundResource(R.drawable.button_background_gray);
-                selectButton3.setBackgroundResource(R.drawable.button_background_gray);
-                selectButton4.setBackgroundResource(R.drawable.button_background_black);
+                btSelect1.setBackgroundResource(R.drawable.bt_bg_gray);
+                btSelect2.setBackgroundResource(R.drawable.bt_bg_gray);
+                btSelect3.setBackgroundResource(R.drawable.bt_bg_gray);
+                btSelect4.setBackgroundResource(R.drawable.bt_bg_black);
                 routePlanSelect = TRANSIT;
 
                 myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
 
-                middleButton.setText(R.string.middle_button3);
+                btMiddle.setText(R.string.middle_button3);
             }
         });
 
         //输入框获取焦点时
-        searchEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        etSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -593,7 +581,7 @@ public class MainFragment extends Fragment {
         });
 
         //监听输入框内容改变
-        searchEdit.addTextChangedListener(new TextWatcher() {
+        etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -607,23 +595,23 @@ public class MainFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 //根据是否有内容判断显示和隐藏清空按钮
-                if (!searchEdit.getText().toString().isEmpty()) {
-                    emptyButton.setVisibility(View.VISIBLE);
+                if (!etSearch.getText().toString().isEmpty()) {
+                    ibEmpty.setVisibility(View.VISIBLE);
                 } else {
-                    emptyButton.setVisibility(View.INVISIBLE);
+                    ibEmpty.setVisibility(View.INVISIBLE);
                 }
             }
         });
 
         //清空按钮的点击事件
-        emptyButton.setOnClickListener(new View.OnClickListener() {
+        ibEmpty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                emptyButton.setVisibility(View.INVISIBLE);//隐藏清空按钮
-                searchEdit.setText("");//清空搜索内容
+                ibEmpty.setVisibility(View.INVISIBLE);//隐藏清空按钮
+                etSearch.setText("");//清空搜索内容
 
                 if (!isHistorySearchResult) {//如果不是搜索历史记录
-                    searchResult.stopScroll();//停止信息列表滑动
+                    recyclerSearchResult.stopScroll();//停止信息列表滑动
                     SearchDataHelper.initSearchData(MainFragment.this);//初始化搜索记录
                     isHistorySearchResult = true;//现在是搜索历史记录了
                 }
@@ -631,7 +619,7 @@ public class MainFragment extends Fragment {
         });
 
         //搜索按钮的点击事件
-        searchButton.setOnClickListener(new View.OnClickListener() {
+        btSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startSearch();//开始搜索
@@ -639,7 +627,7 @@ public class MainFragment extends Fragment {
         });
 
         //伸缩按钮的点击事件
-        searchExpand.setOnClickListener(new View.OnClickListener() {
+        ibSearchExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (searchExpandFlag) {//如果状态为展开
@@ -653,7 +641,7 @@ public class MainFragment extends Fragment {
         });
 
         //搜索列表的滑动监听
-        searchResult.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        recyclerSearchResult.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -661,7 +649,7 @@ public class MainFragment extends Fragment {
         });
 
         //返回按钮的点击事件
-        backButton.setOnClickListener(new View.OnClickListener() {
+        btBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 backToUpperStory();//返回上一层
@@ -669,48 +657,48 @@ public class MainFragment extends Fragment {
         });
 
         //路线规划、详细信息、交通选择切换按钮的点击事件
-        middleButton.setOnClickListener(new View.OnClickListener() {
+        btMiddle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (schemeFlag != SCHEME_NOT_ALREADY) {//如果方案布局已经展开
-                    LayoutUtil.expandLayout(selectLayout, true);//展开选择布局
+                    LayoutUtil.expandLayout(llSelectLayout, true);//展开选择布局
                     if (schemeFlag == SCHEME_LIST)//如果方案布局为方案列表
-                        LayoutUtil.expandLayout(schemeDrawer, false);//收起方案抽屉
+                        LayoutUtil.expandLayout(llSchemeDrawer, false);//收起方案抽屉
                     if (schemeFlag == SCHEME_INFO)//如果方案布局为单个方案
-                        LayoutUtil.expandLayout(schemeInfoLayout, false);//收起方案信息布局
+                        LayoutUtil.expandLayout(llSchemeInfoLayout, false);//收起方案信息布局
 
-                    middleButton.setText(R.string.middle_button2);//设置按钮为详细信息
+                    btMiddle.setText(R.string.middle_button2);//设置按钮为详细信息
                     infoFlag = false;//设置信息状态为交通选择
                     schemeFlag = SCHEME_NOT_ALREADY;//设置状态为没有展开
                     return;
                 }
 
                 if (infoFlag) {//如果显示为详细信息
-                    LayoutUtil.expandLayout(selectLayout, true);//展开选择布局
-                    LayoutUtil.expandLayout(searchInfoLayout, false);//收起详细信息布局
+                    LayoutUtil.expandLayout(llSelectLayout, true);//展开选择布局
+                    LayoutUtil.expandLayout(llSearchInfoLayout, false);//收起详细信息布局
 
-                    middleButton.setText(R.string.middle_button2);//设置按钮为详细信息
+                    btMiddle.setText(R.string.middle_button2);//设置按钮为详细信息
                     infoFlag = false;//设置信息状态交通选择
 
                     //重置交通类型为步行
                     routePlanSelect = WALKING;
-                    selectButton1.setBackgroundResource(R.drawable.button_background_gray);
-                    selectButton2.setBackgroundResource(R.drawable.button_background_black);
-                    selectButton3.setBackgroundResource(R.drawable.button_background_gray);
-                    selectButton4.setBackgroundResource(R.drawable.button_background_gray);
+                    btSelect1.setBackgroundResource(R.drawable.bt_bg_gray);
+                    btSelect2.setBackgroundResource(R.drawable.bt_bg_black);
+                    btSelect3.setBackgroundResource(R.drawable.bt_bg_gray);
+                    btSelect4.setBackgroundResource(R.drawable.bt_bg_gray);
 
                     myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
                 } else {//如果显示为交通选择
-                    middleButton.setText(R.string.middle_button1);//设置按钮为路线
-                    LayoutUtil.expandLayout(selectLayout, false);//收起选择布局
-                    LayoutUtil.expandLayout(searchInfoLayout, true);//展开详细信息布局
+                    btMiddle.setText(R.string.middle_button1);//设置按钮为路线
+                    LayoutUtil.expandLayout(llSelectLayout, false);//收起选择布局
+                    LayoutUtil.expandLayout(llSearchInfoLayout, true);//展开详细信息布局
                     infoFlag = true;//设置信息状态为详细信息
                 }
             }
         });
 
         //开始导航按钮的点击事件
-        startButton.setOnClickListener(new View.OnClickListener() {
+        btStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 myNavigateHelper.startNavigate();//开始导航
@@ -787,10 +775,10 @@ public class MainFragment extends Fragment {
         }
 
         //设置搜索抽屉的结果列表、详细信息布局的拖动布局、路线方案抽屉的结果列表、路线方案信息的拖动布局的高度
-        LayoutUtil.setViewHeight(searchResult, bodyLength / 2);
-        LayoutUtil.setViewHeight(searchInfoScroll, bodyLength / 4);
-        LayoutUtil.setViewHeight(schemeResult, 2 * bodyLength / 5);
-        LayoutUtil.setViewHeight(schemeInfoScroll, bodyLength / 4);
+        LayoutUtil.setViewHeight(recyclerSearchResult, bodyLength / 2);
+        LayoutUtil.setViewHeight(svSearchInfo, bodyLength / 4);
+        LayoutUtil.setViewHeight(recyclerSchemeResult, 2 * bodyLength / 5);
+        LayoutUtil.setViewHeight(svSchemeInfo, bodyLength / 4);
     }
 
     /**
@@ -799,9 +787,9 @@ public class MainFragment extends Fragment {
      * @param flag 伸或缩
      */
     public void expandSearchDrawer(boolean flag) {
-        LayoutUtil.expandLayout(searchDrawer, flag);
-        if (flag) LayoutUtil.rotateExpandIcon(searchExpand, 0, 180);//旋转伸展按钮
-        else LayoutUtil.rotateExpandIcon(searchExpand, 180, 0);//旋转伸展按钮
+        LayoutUtil.expandLayout(llSearchDrawer, flag);
+        if (flag) LayoutUtil.rotateExpandIcon(ibSearchExpand, 0, 180);//旋转伸展按钮
+        else LayoutUtil.rotateExpandIcon(ibSearchExpand, 180, 0);//旋转伸展按钮
     }
 
     /*
@@ -818,21 +806,21 @@ public class MainFragment extends Fragment {
      */
     public void backToUpperStory() {
         if (schemeFlag == SCHEME_INFO) {//如果方案布局为单个方案
-            LayoutUtil.expandLayout(schemeDrawer, true);//展开方案抽屉
-            LayoutUtil.expandLayout(schemeInfoLayout, false);//收起方案信息抽屉
+            LayoutUtil.expandLayout(llSchemeDrawer, true);//展开方案抽屉
+            LayoutUtil.expandLayout(llSchemeInfoLayout, false);//收起方案信息抽屉
             schemeFlag = SCHEME_LIST;//设置状态为方案列表
         } else {
-            LayoutUtil.expandLayout(selectLayout, false);//收起选择布局
-            LayoutUtil.expandLayout(searchLayout, true);//展开搜索布局
+            LayoutUtil.expandLayout(llSelectLayout, false);//收起选择布局
+            LayoutUtil.expandLayout(llSearchLayout, true);//展开搜索布局
             if (!searchExpandFlag) {//如果状态为收起
                 expandSearchDrawer(true);//展开搜索抽屉
                 searchExpandFlag = true;//设置状态为展开
             }
-            LayoutUtil.expandLayout(searchInfoLayout, false);//收起详细信息布局
-            LayoutUtil.expandLayout(startLayout, false);//收起开始导航布局
+            LayoutUtil.expandLayout(llSearchInfoLayout, false);//收起详细信息布局
+            LayoutUtil.expandLayout(llStartLayout, false);//收起开始导航布局
 
             if (schemeFlag == SCHEME_LIST) {//如果方案布局为方案列表
-                LayoutUtil.expandLayout(schemeDrawer, false);//收起方案抽屉
+                LayoutUtil.expandLayout(llSchemeDrawer, false);//收起方案抽屉
                 schemeFlag = SCHEME_NOT_ALREADY;//设置状态为没有展开
             }
         }
@@ -842,10 +830,10 @@ public class MainFragment extends Fragment {
      * 判断是否可以返回上一层
      */
     public boolean canBack() {
-        return !(selectLayout.getHeight() == 0 &&
-                searchLayout.getHeight() != 0 &&
-                searchInfoLayout.getHeight() == 0 &&
-                startLayout.getHeight() == 0);
+        return !(llSelectLayout.getHeight() == 0 &&
+                llSearchLayout.getHeight() != 0 &&
+                llSearchInfoLayout.getHeight() == 0 &&
+                llStartLayout.getHeight() == 0);
     }
 
     /**
@@ -867,7 +855,7 @@ public class MainFragment extends Fragment {
             return;
         }
 
-        searchContent = searchEdit.getText().toString();
+        searchContent = etSearch.getText().toString();
         if (TextUtils.isEmpty(searchContent)) {//如果搜索内容为空
             if (!isHistorySearchResult) {//如果不是搜索历史记录
                 SearchDataHelper.initSearchData(MainFragment.this);//初始化搜索记录
@@ -902,7 +890,7 @@ public class MainFragment extends Fragment {
                     searchExpandFlag = true;//设置状态为展开
                 }
                 takeBackKeyboard();//收回键盘
-                searchResult.stopScroll();//停止信息列表滑动
+                recyclerSearchResult.stopScroll();//停止信息列表滑动
                 mBaiduMap.clear();//清空地图上的所有标记点和绘制的路线
                 searchList.clear();//清空searchList
 
@@ -914,11 +902,11 @@ public class MainFragment extends Fragment {
                     public void run() {
                         searchAdapter.updateList();//通知adapter更新
                         //滚动到顶部
-                        searchResult.stopScroll();
-                        searchResult.scrollToPosition(0);
+                        recyclerSearchResult.stopScroll();
+                        recyclerSearchResult.scrollToPosition(0);
                         //加载搜索信息
-                        searchLoading.setVisibility(View.VISIBLE);
-                        searchResult.setVisibility(View.GONE);
+                        llSearchLoading.setVisibility(View.VISIBLE);
+                        recyclerSearchResult.setVisibility(View.GONE);
                     }
                 });
 

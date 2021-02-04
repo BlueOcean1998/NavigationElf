@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_main"
+    android:id="@+id/fl_fragment_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -21,32 +21,32 @@
         android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/settings_button"
+            android:id="@+id/ib_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="6dp"
-            android:background="@drawable/button_background_alpha"
+            android:background="@drawable/bt_bg_alpha"
             android:contentDescription="@string/settings"
             android:src="@drawable/ic_settings_gray_30dp" />
 
         <ImageButton
-            android:id="@+id/refresh_button"
+            android:id="@+id/ib_refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="6dp"
-            android:background="@drawable/button_background_alpha"
+            android:background="@drawable/bt_bg_alpha"
             android:contentDescription="@string/refresh"
             android:src="@drawable/ic_refresh_gray_30dp" />
 
         <ImageButton
-            android:id="@+id/location_button"
+            android:id="@+id/ib_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="6dp"
-            android:background="@drawable/button_background_alpha"
+            android:background="@drawable/bt_bg_alpha"
             android:contentDescription="@string/location"
             android:src="@drawable/ic_my_location_gray_30dp" />
     </LinearLayout>
@@ -61,16 +61,16 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/select_layout"
+            android:id="@+id/ll_select_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/layout_background_gray"
+            android:background="@drawable/layout_bg_gray"
             android:orientation="horizontal"
             android:paddingLeft="6dp"
             android:paddingRight="6dp">
 
             <Button
-                android:id="@+id/select_button1"
+                android:id="@+id/bt_select_1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -83,7 +83,7 @@
                 tools:ignore="ButtonStyle" />
 
             <Button
-                android:id="@+id/select_button2"
+                android:id="@+id/bt_select_2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -96,7 +96,7 @@
                 tools:ignore="ButtonStyle" />
 
             <Button
-                android:id="@+id/select_button3"
+                android:id="@+id/bt_select_3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -109,7 +109,7 @@
                 tools:ignore="ButtonStyle" />
 
             <Button
-                android:id="@+id/select_button4"
+                android:id="@+id/bt_select_4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -123,20 +123,20 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/search_layout"
+            android:id="@+id/ll_search_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/layout_background_white"
+            android:background="@drawable/layout_bg_white"
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/search_edit"
+                android:id="@+id/et_search"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="9"
                 android:layout_gravity="center"
                 android:layout_margin="6dp"
-                android:background="@drawable/edit_background"
+                android:background="@drawable/et_bg"
                 android:hint="@string/search_hint"
                 android:importantForAutofill="no"
                 android:inputType="none"
@@ -150,7 +150,7 @@
                 tools:ignore="RtlSymmetry" />
 
             <ImageButton
-                android:id="@+id/empty_bottom"
+                android:id="@+id/ib_empty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -162,19 +162,19 @@
                 tools:ignore="RtlHardcoded" />
 
             <Button
-                android:id="@+id/search_button"
+                android:id="@+id/bt_search"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:layout_gravity="center"
                 android:layout_marginStart="16dp"
-                android:background="@drawable/button_background_colorful"
+                android:background="@drawable/bt_bg_colorful"
                 android:text="@string/search_button"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
             <ImageButton
-                android:id="@+id/search_expand"
+                android:id="@+id/ib_search_expand"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -187,35 +187,35 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/search_drawer"
+            android:id="@+id/ll_search_drawer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="6dp"
-            android:background="@drawable/layout_background_white">
+            android:background="@drawable/layout_bg_white">
 
             <include
-                android:id="@+id/search_loading"
-                layout="@layout/loading_progressbar" />
+                android:id="@+id/include_search_loading"
+                layout="@layout/include_loading_progressbar" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/search_result"
+                android:id="@+id/recycler_search_result"
                 android:layout_width="match_parent"
                 android:layout_height="0dp" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/search_info_layout"
+            android:id="@+id/ll_search_info_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/layout_background_lightgray"
+            android:background="@drawable/layout_bg_lightgray"
             android:padding="3dp">
 
             <include
-                android:id="@+id/search_info_loading"
-                layout="@layout/loading_progressbar" />
+                android:id="@+id/include_search_info_loading"
+                layout="@layout/include_loading_progressbar" />
 
             <ScrollView
-                android:id="@+id/search_info_scroll"
+                android:id="@+id/sv_search_info"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -225,7 +225,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/search_target_name"
+                        android:id="@+id/tv_search_target_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
@@ -239,7 +239,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/search_address"
+                        android:id="@+id/tv_search_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
@@ -252,7 +252,7 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/search_distance"
+                        android:id="@+id/tv_search_distance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
@@ -266,7 +266,7 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/search_others"
+                        android:id="@+id/tv_search_others"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
@@ -282,37 +282,37 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/scheme_drawer"
+            android:id="@+id/ll_scheme_drawer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="6dp"
-            android:background="@drawable/layout_background_white">
+            android:background="@drawable/layout_bg_white">
 
             <include
-                android:id="@+id/scheme_loading"
-                layout="@layout/loading_progressbar" />
+                android:id="@+id/include_scheme_loading"
+                layout="@layout/include_loading_progressbar" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/scheme_result"
+                android:id="@+id/recycler_scheme_result"
                 android:layout_width="match_parent"
                 android:layout_height="0dp" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/scheme_info_layout"
+            android:id="@+id/ll_scheme_info_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="3dp"
-            android:background="@drawable/layout_background_lightgray">
+            android:background="@drawable/layout_bg_lightgray">
 
             <ScrollView
-                android:id="@+id/scheme_info_scroll"
+                android:id="@+id/sv_scheme_info"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:ignore="UselessParent">
 
                 <TextView
-                    android:id="@+id/scheme_info"
+                    android:id="@+id/tv_scheme_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="6dp"
@@ -327,15 +327,15 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/start_layout"
+            android:id="@+id/ll_start_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/layout_background_lightgray"
+            android:background="@drawable/layout_bg_lightgray"
             android:orientation="horizontal"
             android:padding="6dp">
 
             <Button
-                android:id="@+id/return_button"
+                android:id="@+id/bt_return"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -343,14 +343,14 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginEnd="12dp"
                 android:layout_marginBottom="6dp"
-                android:background="@drawable/button_background_seablue"
+                android:background="@drawable/bt_bg_seablue"
                 android:text="@string/return_button"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 tools:ignore="ButtonStyle" />
 
             <Button
-                android:id="@+id/middle_button"
+                android:id="@+id/bt_middle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -358,14 +358,14 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginRight="12dp"
                 android:layout_marginBottom="6dp"
-                android:background="@drawable/button_background_skyblue"
+                android:background="@drawable/bt_bg_skyblue"
                 android:text="@string/middle_button1"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 tools:ignore="ButtonStyle" />
 
             <Button
-                android:id="@+id/start_button"
+                android:id="@+id/bt_start"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -373,7 +373,7 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginEnd="18dp"
                 android:layout_marginBottom="6dp"
-                android:background="@drawable/button_background_deepblue"
+                android:background="@drawable/bt_bg_deepblue"
                 android:text="@string/start_button"
                 android:textColor="@color/white"
                 android:textSize="16sp"

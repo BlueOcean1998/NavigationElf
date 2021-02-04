@@ -66,10 +66,10 @@ public class LocalReceiver extends BroadcastReceiver {
                 UserFragment userFragment = mainActivity.getUserFragment();
                 switch (intent.getIntExtra(Constants.LOGIN_TYPE, 0)) {
                     case Constants.SET_USERNAME:
-                        userFragment.userName.setText(UserDataHelper.getUser().getUsername());
+                        userFragment.tvUserName.setText(UserDataHelper.getUser().getUsername());
                         break;
                     case Constants.SET_AVATAR:
-                        userFragment.avatarImage.setImageBitmap(AvatarDataHelper.getBitmapAvatar());
+                        userFragment.ivAvatar.setImageBitmap(AvatarDataHelper.getBitmapAvatar());
                         break;
                     default:
                         break;

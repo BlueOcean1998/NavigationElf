@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_login_register"
+    android:id="@+id/rl_activity_login_register"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/beach"
     tools:context="com.navigation.foxizz.activity.LoginRegisterActivity">
 
     <ImageButton
-        android:id="@+id/back_button"
+        android:id="@+id/ib_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
@@ -20,7 +20,7 @@
         android:layout_width="360dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="@drawable/layout_background_half_alpha"
+        android:background="@drawable/layout_bg_half_alpha"
         android:padding="16dp">
 
         <LinearLayout
@@ -29,7 +29,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/page_title"
+                android:id="@+id/tv_page_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
@@ -50,12 +50,12 @@
                     android:src="@drawable/ic_user_black_30dp" />
 
                 <EditText
-                    android:id="@+id/username_edit"
+                    android:id="@+id/et_username"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="6dp"
-                    android:background="@drawable/edit_background"
+                    android:background="@drawable/et_bg"
                     android:hint="@string/username"
                     android:importantForAutofill="no"
                     android:inputType="text"
@@ -82,12 +82,12 @@
                     android:src="@drawable/ic_key_black_30dp" />
 
                 <EditText
-                    android:id="@+id/password_edit"
+                    android:id="@+id/et_password"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="6dp"
-                    android:background="@drawable/edit_background"
+                    android:background="@drawable/et_bg"
                     android:hint="@string/password"
                     android:importantForAutofill="no"
                     android:inputType="text|textPassword"
@@ -100,7 +100,7 @@
                     tools:ignore="RtlSymmetry" />
 
                 <ImageButton
-                    android:id="@+id/watch_password_button"
+                    android:id="@+id/ib_watch_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -122,12 +122,12 @@
                     android:src="@drawable/ic_verify_code_black_30dp" />
 
                 <EditText
-                    android:id="@+id/verify_edit"
+                    android:id="@+id/et_verify"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="6dp"
-                    android:background="@drawable/edit_background"
+                    android:background="@drawable/et_bg"
                     android:hint="@string/verify_code"
                     android:importantForAutofill="no"
                     android:inputType="text"
@@ -140,7 +140,7 @@
                     tools:ignore="RtlSymmetry" />
 
                 <ImageView
-                    android:id="@+id/verify_image"
+                    android:id="@+id/ib_verify_image"
                     android:layout_width="120dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -158,7 +158,7 @@
                 android:orientation="horizontal">
 
                 <CheckBox
-                    android:id="@+id/remember_username"
+                    android:id="@+id/cb_remember_username"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -167,7 +167,7 @@
                     android:textSize="16sp" />
 
                 <CheckBox
-                    android:id="@+id/remember_password"
+                    android:id="@+id/cb_remember_password"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -183,10 +183,10 @@
                 android:layout_margin="12dp">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/login_register_button"
+                    android:id="@+id/app_compat_bt_login_register"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/login_button"
+                    android:background="@drawable/bt_bg_login"
                     android:enabled="false"
                     android:gravity="center"
                     android:text="@string/login"
@@ -197,7 +197,7 @@
     </ScrollView>
 
     <ProgressBar
-        android:id="@+id/loading_progress"
+        android:id="@+id/pb_loading"
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:layout_centerInParent="true"
@@ -213,7 +213,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/register_login_hint"
+            android:id="@+id/tv_register_login_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -222,7 +222,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/register_login_link"
+            android:id="@+id/tv_register_login_link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"

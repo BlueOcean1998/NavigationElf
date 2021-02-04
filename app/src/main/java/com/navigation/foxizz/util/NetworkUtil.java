@@ -5,7 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.provider.Settings;
 
-import static com.navigation.foxizz.BaseApplication.getContext;
+import static com.navigation.foxizz.BaseApplication.getApplication;
 
 /**
  * 网络工具类
@@ -18,16 +18,10 @@ public class NetworkUtil {//获取网络状态
      * @return boolean
      */
     public static boolean isNetworkConnected() {
-        ConnectivityManager mConnectivityManager = (ConnectivityManager) getContext()
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplication()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo mNetworkInfo = null;
-        if (mConnectivityManager != null) {
-            mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
-        }
-        if (mNetworkInfo != null) {
-            return mNetworkInfo.isAvailable();
-        }
-        return false;
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isAvailable();
     }
 
     /**
@@ -36,7 +30,7 @@ public class NetworkUtil {//获取网络状态
      * @return String
      */
     public static String getNetworkType() {
-        ConnectivityManager connectivity = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivity = (ConnectivityManager) getApplication().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivity != null) {
             NetworkInfo info = connectivity.getActiveNetworkInfo();
             if (info != null && info.isConnected()) {
@@ -56,7 +50,7 @@ public class NetworkUtil {//获取网络状态
      * @return boolean
      */
     public static boolean isAirplaneModeOn() {
-        return Settings.Global.getInt(getContext().getContentResolver(),
+        return Settings.Global.getInt(getApplication().getContentResolver(),
                 Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
     }
 

@@ -1,6 +1,5 @@
 package com.navigation.foxizz.activity;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -44,27 +43,20 @@ import cn.zerokirby.api.util.CodeUtil;
  */
 public class LoginRegisterActivity extends AppCompatActivity {
 
-    //LoginActivity实例
-    @SuppressLint("StaticFieldLeak")
-    private static LoginRegisterActivity instance;
-    public static LoginRegisterActivity getInstance() {
-        return instance;
-    }
-
-    private RelativeLayout activityLoginRegister;//登录注册页
-    private ImageButton backButton;//返回按钮
-    private TextView pageTitle;//标题，登录或注册
-    private EditText usernameEdit;//用户名输入框
-    private EditText passwordEdit;//密码输入框
-    private ImageButton watchPasswordButton;//显示密码按钮
-    private EditText verifyEdit;//验证码输入框
-    private ImageView verifyImage;//验证码图片
-    private CheckBox rememberUsername;//记住用户名
-    private CheckBox rememberPassword;//记住密码
-    private AppCompatButton loginRegisterButton;//登录或注册按钮
-    private TextView registerLoginHint;//注册或登录提示
-    private TextView registerLoginLink;//注册或登录按钮
-    private ProgressBar loadingProgress;//加载进度条
+    private RelativeLayout rlLoginRegister;//登录注册页
+    private ImageButton tbBack;//返回按钮
+    private TextView tvPageTitle;//标题，登录或注册
+    private EditText etUsername;//用户名输入框
+    private EditText etPassword;//密码输入框
+    private ImageButton ibWatchPassword;//显示密码按钮
+    private EditText ETVerify;//验证码输入框
+    private ImageView tvVerify;//验证码图片
+    private CheckBox cbRememberUsername;//记住用户名
+    private CheckBox cbRememberPassword;//记住密码
+    private AppCompatButton appCompatBtLoginRegister;//登录或注册按钮
+    private TextView tvRegisterLoginHint;//注册或登录提示
+    private TextView tvRegisterLoginLink;//注册或登录按钮
+    private ProgressBar pbLoadingProgress;//加载进度条
 
     private boolean isLogin = true;//是否是登录页
     private boolean isSending = false;//是否正在登录或注册
@@ -83,8 +75,6 @@ public class LoginRegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_register);
-
-        instance = this;//获取LoginActivity实例
 
         codeUtil = new CodeUtil();
 
@@ -115,7 +105,6 @@ public class LoginRegisterActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        instance = null;//释放LoginActivity实例
     }
 
     //活动被回收时保存输入框中的信息
@@ -129,32 +118,32 @@ public class LoginRegisterActivity extends AppCompatActivity {
 
     //初始化控件
     private void initView() {
-        activityLoginRegister = findViewById(R.id.activity_login_register);
-        backButton = findViewById(R.id.back_button);
-        pageTitle = findViewById(R.id.page_title);
-        usernameEdit = findViewById(R.id.username_edit);
-        passwordEdit = findViewById(R.id.password_edit);
-        watchPasswordButton = findViewById(R.id.watch_password_button);
-        verifyEdit = findViewById(R.id.verify_edit);
-        verifyImage = findViewById(R.id.verify_image);
-        rememberUsername = findViewById(R.id.remember_username);
-        rememberPassword = findViewById(R.id.remember_password);
-        loginRegisterButton = findViewById(R.id.login_register_button);
-        registerLoginHint = findViewById(R.id.register_login_hint);
-        registerLoginLink = findViewById(R.id.register_login_link);
-        loadingProgress = findViewById(R.id.loading_progress);
+        rlLoginRegister = findViewById(R.id.rl_activity_login_register);
+        tbBack = findViewById(R.id.ib_back);
+        tvPageTitle = findViewById(R.id.tv_page_title);
+        etUsername = findViewById(R.id.et_username);
+        etPassword = findViewById(R.id.et_password);
+        ibWatchPassword = findViewById(R.id.ib_watch_password);
+        ETVerify = findViewById(R.id.et_verify);
+        tvVerify = findViewById(R.id.ib_verify_image);
+        cbRememberUsername = findViewById(R.id.cb_remember_username);
+        cbRememberPassword = findViewById(R.id.cb_remember_password);
+        appCompatBtLoginRegister = findViewById(R.id.app_compat_bt_login_register);
+        tvRegisterLoginHint = findViewById(R.id.tv_register_login_hint);
+        tvRegisterLoginLink = findViewById(R.id.tv_register_login_link);
+        pbLoadingProgress = findViewById(R.id.pb_loading);
 
         //平板模式重设登录注册页背景图
         if (!SettingUtil.isMobile())
-            activityLoginRegister.setBackgroundResource(R.drawable.foxizz_on_the_beach);
+            rlLoginRegister.setBackgroundResource(R.drawable.foxizz_on_the_beach);
 
         //设置密码输入框的类型
-        passwordEdit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
         setUsernameAndPassword();//设置账号密码
 
         //返回按钮的点击事件
-        backButton.setOnClickListener(new View.OnClickListener() {
+        tbBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!isSending && !showReturnHintDialog()) finish();
@@ -175,38 +164,38 @@ public class LoginRegisterActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                username = usernameEdit.getText().toString();
-                password = passwordEdit.getText().toString();
-                verify = verifyEdit.getText().toString();
+                username = etUsername.getText().toString();
+                password = etPassword.getText().toString();
+                verify = ETVerify.getText().toString();
 
-                loginRegisterButton.setEnabled(!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)
+                appCompatBtLoginRegister.setEnabled(!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)
                         && !TextUtils.isEmpty(verify)
-                        && verifyEdit.getText().toString().equalsIgnoreCase(verifyCode));
+                        && ETVerify.getText().toString().equalsIgnoreCase(verifyCode));
             }
         };
-        usernameEdit.addTextChangedListener(textWatcher);
-        passwordEdit.addTextChangedListener(textWatcher);
-        verifyEdit.addTextChangedListener(textWatcher);
+        etUsername.addTextChangedListener(textWatcher);
+        etPassword.addTextChangedListener(textWatcher);
+        ETVerify.addTextChangedListener(textWatcher);
 
         //显示密码按钮的点击事件
-        watchPasswordButton.setOnClickListener(new View.OnClickListener() {
+        ibWatchPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isWatchPassword) {
                     isWatchPassword = false;
-                    watchPasswordButton.setImageResource(R.drawable.ic_eye_black_30dp);
-                    passwordEdit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    ibWatchPassword.setImageResource(R.drawable.ic_eye_black_30dp);
+                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 } else {
                     isWatchPassword = true;
-                    watchPasswordButton.setImageResource(R.drawable.ic_eye_blue_30dp);
-                    passwordEdit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    ibWatchPassword.setImageResource(R.drawable.ic_eye_blue_30dp);
+                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                 }
-                passwordEdit.setSelection(password.length());//移动焦点到末尾
+                etPassword.setSelection(password.length());//移动焦点到末尾
             }
         });
 
         resetVerify();//生成新验证码
-        verifyImage.setOnClickListener(new View.OnClickListener() {
+        tvVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 resetVerify();//生成新验证码
@@ -214,24 +203,24 @@ public class LoginRegisterActivity extends AppCompatActivity {
         });
 
         //记住账号按钮的点击事件
-        rememberUsername.setOnClickListener(new View.OnClickListener() {
+        cbRememberUsername.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (rememberUsername.isChecked()) {
-                    rememberPassword.setEnabled(true);
+                if (cbRememberUsername.isChecked()) {
+                    cbRememberPassword.setEnabled(true);
                 } else {
-                    rememberPassword.setEnabled(false);
-                    rememberPassword.setChecked(false);
+                    cbRememberPassword.setEnabled(false);
+                    cbRememberPassword.setChecked(false);
                 }
             }
         });
 
         //登录或注册按钮的点击事件
-        loginRegisterButton.setOnClickListener(new View.OnClickListener() {
+        appCompatBtLoginRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadingProgress.setVisibility(View.VISIBLE);//显示进度条
-                loginRegisterButton.setEnabled(false);//登录或注册时不可点击
+                pbLoadingProgress.setVisibility(View.VISIBLE);//显示进度条
+                appCompatBtLoginRegister.setEnabled(false);//登录或注册时不可点击
 
                 new Thread(new Runnable() {
                     @Override
@@ -292,8 +281,8 @@ public class LoginRegisterActivity extends AppCompatActivity {
                             public void run() {
                                 isSending = false;
                                 ToastUtil.showToast(finalToastMessage, Toast.LENGTH_SHORT);//弹出提示信息
-                                loadingProgress.setVisibility(View.GONE);//隐藏进度条
-                                loginRegisterButton.setEnabled(true);//登录或注册完毕后可点击
+                                pbLoadingProgress.setVisibility(View.GONE);//隐藏进度条
+                                appCompatBtLoginRegister.setEnabled(true);//登录或注册完毕后可点击
                             }
                         });
 
@@ -317,22 +306,22 @@ public class LoginRegisterActivity extends AppCompatActivity {
         });
 
         //注册或登录链接的点击事件
-        registerLoginLink.setOnClickListener(new View.OnClickListener() {
+        tvRegisterLoginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!isSending) {
                     if (isLogin) {
                         isLogin = false;
-                        pageTitle.setText(R.string.register);//设置页面标题为注册
-                        loginRegisterButton.setText(R.string.register);//设置登录或注册按钮为注册
-                        registerLoginHint.setText(R.string.login_hint);//设置登录提示
-                        registerLoginLink.setText(R.string.login_link);//设置登录链接
+                        tvPageTitle.setText(R.string.register);//设置页面标题为注册
+                        appCompatBtLoginRegister.setText(R.string.register);//设置登录或注册按钮为注册
+                        tvRegisterLoginHint.setText(R.string.login_hint);//设置登录提示
+                        tvRegisterLoginLink.setText(R.string.login_link);//设置登录链接
                     } else {
                         isLogin = true;
-                        pageTitle.setText(R.string.login);//设置页面标题为登录
-                        loginRegisterButton.setText(R.string.login);//设置登录或注册按钮为登录
-                        registerLoginHint.setText(R.string.register_hint);//设置注册提示
-                        registerLoginLink.setText(R.string.register_link);//设置注册链接
+                        tvPageTitle.setText(R.string.login);//设置页面标题为登录
+                        appCompatBtLoginRegister.setText(R.string.login);//设置登录或注册按钮为登录
+                        tvRegisterLoginHint.setText(R.string.register_hint);//设置注册提示
+                        tvRegisterLoginLink.setText(R.string.register_link);//设置注册链接
                     }
                 }
             }
@@ -345,44 +334,44 @@ public class LoginRegisterActivity extends AppCompatActivity {
         if (SPHelper.getBoolean(Constants.REMEMBER_USERNAME, false)) {
             user = UserDataHelper.getUser();
             username = user.getUsername();
-            usernameEdit.setText(username);
-            rememberUsername.setChecked(true);
-            rememberPassword.setEnabled(true);
+            etUsername.setText(username);
+            cbRememberUsername.setChecked(true);
+            cbRememberPassword.setEnabled(true);
         } else {
-            rememberPassword.setEnabled(false);
+            cbRememberPassword.setEnabled(false);
         }
 
         if (SPHelper.getBoolean(Constants.REMEMBER_PASSWORD, false)) {
             if (user == null) user = UserDataHelper.getUser();
             password = user.getPassword();
-            passwordEdit.setText(password);
-            rememberPassword.setChecked(true);
+            etPassword.setText(password);
+            cbRememberPassword.setChecked(true);
         }
     }
 
     //重设输入框填入的信息
     private void resetEdit() {
-        usernameEdit.setText(username);
-        passwordEdit.setText(password);
-        verifyEdit.setText(verify);
+        etUsername.setText(username);
+        etPassword.setText(password);
+        ETVerify.setText(verify);
     }
 
     //重新生成验证码
     private void resetVerify() {
         Bitmap verifyBit = codeUtil.createBitmap();//生成新验证码
-        verifyImage.setImageBitmap(verifyBit);//设置新生成的验证码图片
+        tvVerify.setImageBitmap(verifyBit);//设置新生成的验证码图片
         verifyCode = codeUtil.getCode();//获取新生成的验证码
-        loginRegisterButton.setEnabled(false);//重新生成后不可直接登录
+        appCompatBtLoginRegister.setEnabled(false);//重新生成后不可直接登录
     }
 
     //重设是否记住账号密码
     private void rememberUsernameAndPassword() {
-        SPHelper.putBoolean(Constants.REMEMBER_USERNAME, rememberUsername.isChecked());
-        SPHelper.putBoolean(Constants.REMEMBER_PASSWORD, rememberPassword.isChecked());
-        if (!rememberUsername.isChecked()) {
+        SPHelper.putBoolean(Constants.REMEMBER_USERNAME, cbRememberUsername.isChecked());
+        SPHelper.putBoolean(Constants.REMEMBER_PASSWORD, cbRememberPassword.isChecked());
+        if (!cbRememberUsername.isChecked()) {
             UserDataHelper.updateUser("username", "");
         }
-        if (!rememberPassword.isChecked()) {
+        if (!cbRememberPassword.isChecked()) {
             UserDataHelper.updateUser("password", "");
         }
     }

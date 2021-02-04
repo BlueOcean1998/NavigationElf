@@ -1,6 +1,5 @@
 package com.navigation.foxizz.activity.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,24 +35,19 @@ import cn.zerokirby.api.data.AvatarDataHelper;
 import cn.zerokirby.api.data.User;
 import cn.zerokirby.api.data.UserDataHelper;
 
+import static com.navigation.foxizz.BaseApplication.getApplication;
+
 /**
  * 用户页
  */
 public class UserFragment extends Fragment {
 
-    //UserFragment实例
-    @SuppressLint("StaticFieldLeak")
-    private static UserFragment instance;
-    public static UserFragment getInstance() {
-        return instance;
-    }
-
     public static String userId = "0";
-    public FrameLayout avatarLayout;//头像布局
-    public ImageView avatarImage;//用户头像
-    public LinearLayout userInfoLayout;//信息布局
-    public TextView userName;//用户名
-    public TextView userEmail;//用户email
+    public FrameLayout flAvatarLayout;//头像布局
+    public ImageView ivAvatar;//用户头像
+    public LinearLayout llUserInfoLayout;//信息布局
+    public TextView tvUserName;//用户名
+    public TextView tvUserEmail;//用户email
 
     private PreferenceScreen preferenceScreen;
 
@@ -67,8 +61,6 @@ public class UserFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
 
-        instance = this;//获取UserFragment实例
-
         initLocalBroadcast();//初始化本地广播接收器
 
         initView(view);//初始化控件
@@ -78,7 +70,7 @@ public class UserFragment extends Fragment {
         //初始化PreferenceScreen
         requireActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.user_preferences, preferenceScreen)
+                .replace(R.id.fl_user_preferences, preferenceScreen)
                 .commit();
 
         return view;
@@ -91,7 +83,7 @@ public class UserFragment extends Fragment {
         userId = user.getUserId();
 
         //设置用户名
-        if (!userId.equals("0")) userName.setText(user.getUsername());
+        if (!userId.equals("0")) tvUserName.setText(user.getUsername());
 
         //设置是否显示退出登录
         Preference preference = preferenceScreen.findPreference(Constants.KEY_LOGOUT);
@@ -102,7 +94,6 @@ public class UserFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         localBroadcastManager.unregisterReceiver(localReceiver);//释放设置接收器实例
-        instance = null;//释放UserFragment实例
     }
 
     //初始化本地广播接收器
@@ -116,31 +107,31 @@ public class UserFragment extends Fragment {
 
     //初始化用户布局
     private void initView(View view) {
-        avatarLayout = view.findViewById(R.id.avatar_layout);
-        avatarImage = view.findViewById(R.id.avatar_image);
+        flAvatarLayout = view.findViewById(R.id.fl_avatar_layout);
+        ivAvatar = view.findViewById(R.id.iv_avatar_image);
 
-        userInfoLayout = view.findViewById(R.id.user_info_layout);
-        userName = view.findViewById(R.id.user_name);
-        userEmail = view.findViewById(R.id.user_email);
+        llUserInfoLayout = view.findViewById(R.id.ll_user_info_layout);
+        tvUserName = view.findViewById(R.id.tv_user_name);
+        tvUserEmail = view.findViewById(R.id.tv_user_email);
 
         //设置头像
         Bitmap avatarBitmap = AvatarDataHelper.getBitmapAvatar();
-        if (avatarBitmap != null) avatarImage.setImageBitmap(avatarBitmap);
+        if (avatarBitmap != null) ivAvatar.setImageBitmap(avatarBitmap);
 
-        avatarLayout.setOnClickListener(new View.OnClickListener() {
+        flAvatarLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (userId.equals("0"))
-                    startActivity(new Intent(getContext(), LoginRegisterActivity.class));
+                    startActivity(new Intent(getApplication(), LoginRegisterActivity.class));
                 else AvatarDataHelper.checkAvatarPermission(requireActivity());
             }
         });
 
-        userInfoLayout.setOnClickListener(new View.OnClickListener() {
+        llUserInfoLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (userId.equals("0"))
-                    startActivity(new Intent(getContext(), LoginRegisterActivity.class));
+                    startActivity(new Intent(getApplication(), LoginRegisterActivity.class));
             }
         });
     }
@@ -150,7 +141,7 @@ public class UserFragment extends Fragment {
         //创建PreferenceScreen
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.user_preferences, rootKey);
+            setPreferencesFromResource(R.xml.preferences_user, rootKey);
         }
 
         //设置PreferenceScreen的点击事件
@@ -159,7 +150,7 @@ public class UserFragment extends Fragment {
             Intent browser = new Intent("android.intent.action.VIEW");
             switch (preference.getKey()) {
                 case Constants.KEY_TO_SETTINGS:
-                    Intent intent = new Intent(getContext(), SettingsActivity.class);
+                    Intent intent = new Intent(getApplication(), SettingsActivity.class);
 
                     //寻找mainFragment
                     MainFragment mainFragment = ((MainActivity) requireActivity()).getMainFragment();
@@ -207,8 +198,8 @@ public class UserFragment extends Fragment {
                     //还原用户名和头像为默认
                     if (context instanceof MainActivity) {
                         UserFragment userFragment = ((MainActivity) context).getUserFragment();
-                        userFragment.userName.setText(R.string.to_login);
-                        userFragment.avatarImage.setImageResource(R.drawable.foxizz_sketch);
+                        userFragment.tvUserName.setText(R.string.to_login);
+                        userFragment.ivAvatar.setImageResource(R.drawable.dolphizz_sketch);
                     }
                 }
             });

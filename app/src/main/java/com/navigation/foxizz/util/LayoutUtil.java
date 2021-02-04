@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.navigation.foxizz.R;
 
-import static com.navigation.foxizz.BaseApplication.getContext;
+import static com.navigation.foxizz.BaseApplication.getApplication;
 
 /**
  * 布局工具类
@@ -93,7 +93,7 @@ public class LayoutUtil {
     public static void expandLayout(LinearLayout linearLayout, boolean flag) {
         if (flag) {
             linearLayout.startAnimation(
-                    AnimationUtils.loadAnimation(getContext(), R.anim.adapter_alpha2)
+                    AnimationUtils.loadAnimation(getApplication(), R.anim.adapter_alpha2)
             );//动画2，出现;
 
             //计算布局自适应时的高度
@@ -105,7 +105,7 @@ public class LayoutUtil {
             getValueAnimator(linearLayout, 0, layoutHeight).start();//展开动画
         } else {
             linearLayout.startAnimation(
-                    AnimationUtils.loadAnimation(getContext(), R.anim.adapter_alpha1)
+                    AnimationUtils.loadAnimation(getApplication(), R.anim.adapter_alpha1)
             );//动画1，消失;
 
             int layoutHeight = linearLayout.getHeight();//获取布局的高度
@@ -149,7 +149,7 @@ public class LayoutUtil {
             final RecyclerView recyclerView, final int position) {
         if (flag) {
             linearLayout.startAnimation(
-                    AnimationUtils.loadAnimation(getContext(), R.anim.adapter_alpha2)
+                    AnimationUtils.loadAnimation(getApplication(), R.anim.adapter_alpha2)
             );//动画2，出现;
 
             //计算布局自适应时的高度
@@ -159,7 +159,7 @@ public class LayoutUtil {
                     .start();//展开动画
         } else {
             linearLayout.startAnimation(
-                    AnimationUtils.loadAnimation(getContext(), R.anim.adapter_alpha1)
+                    AnimationUtils.loadAnimation(getApplication(), R.anim.adapter_alpha1)
             );//动画1，消失;
 
             int layoutHeight = linearLayout.getHeight();//获取布局的高度
