@@ -81,7 +81,7 @@ public class MySearch {
         executorService.submit(new Runnable() {
             @Override
             public void run() {
-                isSearching = true;//正在搜索
+                isSearching = true;
                 MySearch.currentPage = currentPage;//当前页
                 uidList.clear();//清空uid集合
 
@@ -190,7 +190,9 @@ public class MySearch {
                         || poiResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {
                     //城市内搜索不到内容时切换到别的城市继续搜索
                     if (searchType == CITY_SEARCH) {
-                        if (poiResult != null && poiResult.getSuggestCityList() != null) {
+                        if (poiResult != null
+                                && poiResult.getSuggestCityList() != null
+                                && poiResult.getSuggestCityList().size() > 0) {
                             searchType = OTHER_CITY_SEARCH;
 
                             for (CityInfo cityInfo : poiResult.getSuggestCityList()) {
@@ -200,6 +202,8 @@ public class MySearch {
                                         .keyword(mainFragment.searchContent)
                                         .pageCapacity(PAGE_CAPACITY));
                             }
+                        } else {
+                            isSearching = false;
                         }
                         return;
                     }
@@ -216,6 +220,7 @@ public class MySearch {
                                 .pageCapacity(PAGE_CAPACITY));
                     } else if (uidList.size() == 0) {
                         ToastUtil.showToast(R.string.find_nothing);
+                        isSearching = false;
                     }
                     return;
                 }
@@ -298,7 +303,8 @@ public class MySearch {
 
                         mainFragment.searchAdapter.updateList();//通知adapter更新
                         mainFragment.currentPage++;//当前页+1
-                        isSearching = false;//搜索完成
+
+                        isSearching = false;
 
                     } else {
                         searchType = NEARBY_SEARCH;//设置搜索类型为周边搜索

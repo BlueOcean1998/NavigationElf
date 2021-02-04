@@ -46,7 +46,7 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
             llInfoDrawer = view.findViewById(R.id.ll_info_drawer);
             tvDetailInfo = view.findViewById(R.id.tv_detail_info);
             ibSchemeExpand = view.findViewById(R.id.ib_scheme_expand);
-            tvEnd = view.findViewById(R.id.include_end_text_scheme).findViewById(R.id.tv_end);
+            tvEnd = view.findViewById(R.id.include_tv_end_scheme).findViewById(R.id.tv_end);
         }
     }
 

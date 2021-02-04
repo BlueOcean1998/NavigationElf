@@ -4,7 +4,6 @@
     android:id="@+id/rl_activity_login_register"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/beach"
     tools:context="com.navigation.foxizz.activity.LoginRegisterActivity">
 
     <ImageButton

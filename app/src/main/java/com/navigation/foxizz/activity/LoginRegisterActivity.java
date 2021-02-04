@@ -2,6 +2,7 @@ package com.navigation.foxizz.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
@@ -133,9 +134,14 @@ public class LoginRegisterActivity extends AppCompatActivity {
         tvRegisterLoginLink = findViewById(R.id.tv_register_login_link);
         pbLoadingProgress = findViewById(R.id.pb_loading);
 
-        //平板模式重设登录注册页背景图
-        if (!SettingUtil.isMobile())
+        //手机模式只允许竖屏，平板模式只允许横屏，且根据不同的模式设置不同的背景图
+        if (SettingUtil.isMobile()) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            rlLoginRegister.setBackgroundResource(R.drawable.beach);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             rlLoginRegister.setBackgroundResource(R.drawable.foxizz_on_the_beach);
+        }
 
         //设置密码输入框的类型
         etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);

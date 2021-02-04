@@ -60,7 +60,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             tvAddress = view.findViewById(R.id.tv_address);
             tvDistance = view.findViewById(R.id.tv_distance);
             btItem = view.findViewById(R.id.bt_item);
-            tvEnd = view.findViewById(R.id.include_end_text_search).findViewById(R.id.tv_end);
+            tvEnd = view.findViewById(R.id.include_tv_end_search).findViewById(R.id.tv_end);
         }
     }
 

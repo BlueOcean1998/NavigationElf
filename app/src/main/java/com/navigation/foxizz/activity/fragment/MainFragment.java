@@ -875,6 +875,7 @@ public class MainFragment extends Fragment {
                     requestPermission();//申请权限，获得权限后定位
                     return;
                 }
+
                 //如果是省份，则搜索城市列表设置为省份内所有的城市，否则设置为单个城市
                 searchCityList.clear();
                 if (searchCity != null) {
@@ -885,22 +886,21 @@ public class MainFragment extends Fragment {
                     }
                 }
 
-                if (!searchExpandFlag) {//展开搜索抽屉
-                    expandSearchDrawer(true);//展开搜索抽屉
-                    searchExpandFlag = true;//设置状态为展开
-                }
-                takeBackKeyboard();//收回键盘
-                recyclerSearchResult.stopScroll();//停止信息列表滑动
-                mBaiduMap.clear();//清空地图上的所有标记点和绘制的路线
-                searchList.clear();//清空searchList
-
-                isHistorySearchResult = false;//已经不是搜索历史记录了
-                currentPage = 0;//页数归零
-
                 requireActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (!searchExpandFlag) {//展开搜索抽屉
+                            expandSearchDrawer(true);//展开搜索抽屉
+                            searchExpandFlag = true;//设置状态为展开
+                        }
+                        takeBackKeyboard();//收回键盘
+
+                        mBaiduMap.clear();//清空地图上的所有标记点和绘制的路线
+
+                        recyclerSearchResult.stopScroll();//停止信息列表滑动
+                        searchList.clear();//清空searchList
                         searchAdapter.updateList();//通知adapter更新
+
                         //滚动到顶部
                         recyclerSearchResult.stopScroll();
                         recyclerSearchResult.scrollToPosition(0);
@@ -909,6 +909,9 @@ public class MainFragment extends Fragment {
                         recyclerSearchResult.setVisibility(View.GONE);
                     }
                 });
+
+                isHistorySearchResult = false;//已经不是搜索历史记录了
+                currentPage = 0;//页数归零
 
                 if (sharedPreferences.getBoolean(Constants.KEY_SEARCH_AROUND, false))
                     mySearch.searchType = MySearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索

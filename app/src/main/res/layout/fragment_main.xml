@@ -195,7 +195,7 @@
 
             <include
                 android:id="@+id/include_search_loading"
-                layout="@layout/include_loading_progressbar" />
+                layout="@layout/include_pb_loading" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_search_result"
@@ -212,7 +212,7 @@
 
             <include
                 android:id="@+id/include_search_info_loading"
-                layout="@layout/include_loading_progressbar" />
+                layout="@layout/include_pb_loading" />
 
             <ScrollView
                 android:id="@+id/sv_search_info"
@@ -290,7 +290,7 @@
 
             <include
                 android:id="@+id/include_scheme_loading"
-                layout="@layout/include_loading_progressbar" />
+                layout="@layout/include_pb_loading" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_scheme_result"

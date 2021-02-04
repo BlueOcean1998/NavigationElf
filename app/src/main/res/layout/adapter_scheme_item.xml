@@ -72,6 +72,6 @@
             android:src="@drawable/ic_expand_more_black_24dp" />
     </LinearLayout>
 
-    <include android:id="@+id/include_end_text_scheme"
-        layout="@layout/include_end_text" />
+    <include android:id="@+id/include_tv_end_scheme"
+        layout="@layout/include_tv_end" />
 </LinearLayout>
