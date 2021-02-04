@@ -63,12 +63,7 @@ public class MyNavigateHelper {
                     @Override
                     public void onAuthResult(int status, final String msg) {
                         if (status != 0) {
-                            mainFragment.requireActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    ToastUtil.showToast(R.string.key_checkout_fail + msg);
-                                }
-                            });
+                            ToastUtil.showToast(getApplication().getString(R.string.key_checkout_fail) + msg);
                         }
                     }
 

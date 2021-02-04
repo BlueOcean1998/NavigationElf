@@ -1,5 +1,7 @@
 package com.navigation.foxizz.util;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
 
 import static com.navigation.foxizz.BaseApplication.getApplication;
@@ -35,11 +37,17 @@ public class ToastUtil {
      * @param text     提示信息
      * @param duration 延时（short/long）
      */
-    public static void showToast(String text, int duration) {
-        if (toast != null) toast.cancel();//销毁上一个
-        toast = Toast.makeText(getApplication(), null, duration);//弹出下一个
-        toast.setText(text);//重设内容，去除小米自带的"appName:"
-        toast.show();
+    public static void showToast(final String text, final int duration) {
+        //转移至主线程，防止在子线程更新UI
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                if (toast != null) toast.cancel();//销毁上一个
+                toast = Toast.makeText(getApplication(), null, duration);//弹出下一个
+                toast.setText(text);//重设内容，去除小米自带的"appName:"
+                toast.show();
+            }
+        });
     }
 
     /**
@@ -48,11 +56,17 @@ public class ToastUtil {
      * @param resId    提示信息的resId
      * @param duration 延时（short/long）
      */
-    public static void showToast(int resId, int duration) {
-        if (toast != null) toast.cancel();//销毁上一个
-        toast = Toast.makeText(getApplication(), null, duration);//弹出下一个
-        toast.setText(resId);//重设内容，去除小米自带的"appName:"
-        toast.show();
+    public static void showToast(final int resId, final int duration) {
+        //转移至主线程，防止在子线程更新UI
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                if (toast != null) toast.cancel();//销毁上一个
+                toast = Toast.makeText(getApplication(), null, duration);//弹出下一个
+                toast.setText(resId);//重设内容，去除小米自带的"appName:"
+                toast.show();
+            }
+        });
     }
 
 }

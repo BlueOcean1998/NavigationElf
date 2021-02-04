@@ -143,12 +143,7 @@ public class MainActivity extends BaseActivity {
                         @Override
                         public void run() {
                             AvatarDataHelper.uploadAvatar(UriUtil.getPath(Constants.avatarUri));
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    ToastUtil.showToast(R.string.upload_avatar_successfully);
-                                }
-                            });
+                            ToastUtil.showToast(R.string.upload_avatar_successfully);
                         }
                     }).start();
                 }

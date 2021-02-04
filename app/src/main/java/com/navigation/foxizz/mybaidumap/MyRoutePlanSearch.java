@@ -406,12 +406,7 @@ public class MyRoutePlanSearch {
             //将路线放在最佳视野位置
             overlay.zoomToSpan();
         } catch (Exception ignored) {
-            mainFragment.requireActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    ToastUtil.showToast(R.string.draw_route_fail);
-                }
-            });
+            ToastUtil.showToast(R.string.draw_route_fail);
         }
     }
 

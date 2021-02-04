@@ -280,13 +280,14 @@ public class LoginRegisterActivity extends AppCompatActivity {
                             }
                         }
 
-                        //返回UI线程进行UI操作（主线程）
                         final String finalToastMessage = toastMessage;
+                        isSending = false;
+                        ToastUtil.showToast(finalToastMessage, Toast.LENGTH_SHORT);//弹出提示信息
+
+                        //返回UI线程进行UI操作（主线程）
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                isSending = false;
-                                ToastUtil.showToast(finalToastMessage, Toast.LENGTH_SHORT);//弹出提示信息
                                 pbLoadingProgress.setVisibility(View.GONE);//隐藏进度条
                                 appCompatBtLoginRegister.setEnabled(true);//登录或注册完毕后可点击
                             }

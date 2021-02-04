@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,8 +16,6 @@ import com.navigation.foxizz.R;
 import com.navigation.foxizz.activity.fragment.MainFragment;
 import com.navigation.foxizz.data.SchemeItem;
 import com.navigation.foxizz.util.LayoutUtil;
-
-import org.jetbrains.annotations.NotNull;
 
 /**
  * 路线规划信息列表的适配器
@@ -98,7 +97,7 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
     }
 
     //为recyclerView的每一个item设置点击事件
-    @NotNull
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())

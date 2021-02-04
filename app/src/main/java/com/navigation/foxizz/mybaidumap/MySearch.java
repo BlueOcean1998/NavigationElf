@@ -144,12 +144,7 @@ public class MySearch {
                         }
 
                         if (uidList.size() == 0) {
-                            mainFragment.requireActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    ToastUtil.showToast(R.string.find_nothing);
-                                }
-                            });
+                            ToastUtil.showToast(R.string.find_nothing);
                         } else {
                             //要进行详细搜索的所有内容
                             for (String uid : uidList) {
