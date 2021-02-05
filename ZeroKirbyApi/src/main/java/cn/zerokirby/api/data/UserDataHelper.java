@@ -1,6 +1,9 @@
 package cn.zerokirby.api.data;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
+import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -13,23 +16,16 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * 用户数据帮助类
+ */
 public class UserDataHelper {
-
-    public static void initUserDataHelper() {
-        databaseHelper = new DatabaseHelper(Constants.LOCAL_DATABASE, null, 1);
-        initPhoneInfo();//初始化手机信息
-    }
-
-    private static DatabaseHelper databaseHelper;
-    private static SQLiteDatabase db;
-    private static android.database.Cursor cursor;
 
     /**
      * 初始化手机信息
      */
     public static void initPhoneInfo() {
-        try {
-            db = databaseHelper.getWritableDatabase();
+        try (SQLiteDatabase db = DatabaseHelper.getDatabaseHelper().getWritableDatabase()) {
             db.execSQL("update User set language = ?, version = ?, " +
                             "display = ?, model = ?, brand = ?",
                     new String[]{
@@ -40,14 +36,11 @@ public class UserDataHelper {
                             SystemUtil.getDeviceBrand()});
         } catch (Exception ignored) {
 
-        } finally {
-            if (cursor != null) cursor.close();
-            if (db != null) db.close();
         }
     }
 
     /**
-     * 提交账号信息，获取返回结果
+     * 登录或注册后向服务器提交账号信息并获取返回结果
      * 请不要在主线程使用该方法！！！
      *
      * @param username 用户名
@@ -55,7 +48,7 @@ public class UserDataHelper {
      * @param isLogin  是否是登录（而不是注册）
      * @return 从服务器获取到的json字符串
      */
-    public static JSONObject sendRequestWithOkHttp(
+    public static JSONObject loginRegisterSendRequest(
             final String username, final String password, final boolean isLogin) {
         Response response = null;
         try {
@@ -90,14 +83,14 @@ public class UserDataHelper {
     }
 
     /**
-     * 初始化用户信息
+     * 登录或注册后从服务器读取用户信息并录入本地数据库
      *
      * @param jsonObject 从服务器获取到的json字符串
      * @param username   用户名
      * @param password   密码
      * @param isLogin    是否是登录（而不是注册）
      */
-    public static void initUserInfo(
+    public static void loginRegisterInitUserInfo(
             final JSONObject jsonObject,
             final String username, final String password, final boolean isLogin) {
         try {
@@ -120,50 +113,37 @@ public class UserDataHelper {
     }
 
     /**
-     * 获取用户信息
+     * 获取登录用户id
      *
-     * @return User 用户对象
+     * @return userId
      */
-    public static User getUser() {
-        User user = new User();
-        try {
-            db = databaseHelper.getReadableDatabase();
-            cursor = db.rawQuery("select * from User", null);//查询用户数据表
-
-            if (cursor.moveToFirst()) {
-                user.setValid(true);//默认为有效用户
-                user.setUserId(cursor.getString(cursor.getColumnIndex("user_id")));//读取ID
-                user.setUsername(cursor.getString(cursor.getColumnIndex("username")));//读取用户名
-                user.setPassword(cursor.getString(cursor.getColumnIndex("password")));//读取密码
-                user.setLanguage(cursor.getString(cursor.getColumnIndex("language")));//读取语言
-                user.setVersion(cursor.getString(cursor.getColumnIndex("version")));//读取版本
-                user.setDisplay(cursor.getString(cursor.getColumnIndex("display")));//读取显示信息
-                user.setModel(cursor.getString(cursor.getColumnIndex("model")));//读取型号
-                user.setBrand(cursor.getString(cursor.getColumnIndex("brand")));//读取品牌
-                user.setRegisterTime(cursor.getLong(cursor.getColumnIndex("register_time")));//读取注册时间
-                user.setLastUse(cursor.getLong(cursor.getColumnIndex("last_use")));//读取上次登录时间
-                user.setLastSync(cursor.getLong(cursor.getColumnIndex("last_sync")));//读取上次同步时间
+    public static String getLoginUserId() {
+        try (SQLiteDatabase db = DatabaseHelper.getDatabaseHelper().getReadableDatabase();
+             Cursor cursor = db.rawQuery("select * from User", null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    if (!TextUtils.isEmpty(
+                            cursor.getString(cursor.getColumnIndex("password")))) {
+                        Log.d("Foxizz_Test", cursor.getString(cursor.getColumnIndex("user_id")));
+                        return cursor.getString(cursor.getColumnIndex("user_id"));
+                    }
+                } while (cursor.moveToNext());
             }
         } catch (Exception ignored) {
 
-        } finally {
-            if (cursor != null) cursor.close();
-            if (db != null) db.close();
         }
-
-        return user;
+        return "0";
     }
 
     /**
      * 登录，保存用户数据
      *
-     * @param user 用户类
+     * @param user 用户对象
      */
     public static void login(User user) {
-        try {
-            db = databaseHelper.getWritableDatabase();
+        try (SQLiteDatabase db = DatabaseHelper.getDatabaseHelper().getWritableDatabase()) {
             db.execSQL("update User set user_id = ?, username = ?, password = ?, " +
-                            "register_time = ?, last_use = ?, last_sync = ?",
+                            "register_time = ?, last_use = ?, last_sync = ? where user_id = '0'",
                     new String[]{
                             user.getUserId(),
                             user.getUsername(),
@@ -173,9 +153,46 @@ public class UserDataHelper {
                             String.valueOf(user.getLastSync())});
         } catch (Exception ignored) {
 
-        } finally {
-            if (db != null) db.close();
         }
+    }
+
+    /**
+     * 退出登录，清空登录用户除用户名和密码外的信息
+     */
+    public static void logout() {
+        String userId = getLoginUserId();
+        updateUser("user_id", "0", userId);
+        AvatarDataHelper.saveAvatar("".getBytes(), "0");//清空数据库中的头像
+    }
+
+    /**
+     * 获取某一用户信息
+     *
+     * @param userId 用户id
+     * @return User
+     */
+    public static User getUser(String userId) {
+        User user = new User();
+        try (SQLiteDatabase db = DatabaseHelper.getDatabaseHelper().getReadableDatabase();
+             Cursor cursor = db.rawQuery("select * from User where user_id = ?",
+                     new String[]{userId})) {
+            if (cursor != null && cursor.moveToFirst()) {
+                user.setUserId(userId);//设置用户id
+                user.setUsername(cursor.getString(cursor.getColumnIndex("username")));
+                user.setPassword(cursor.getString(cursor.getColumnIndex("password")));
+                user.setLanguage(cursor.getString(cursor.getColumnIndex("language")));
+                user.setVersion(cursor.getString(cursor.getColumnIndex("version")));
+                user.setDisplay(cursor.getString(cursor.getColumnIndex("display")));
+                user.setModel(cursor.getString(cursor.getColumnIndex("model")));
+                user.setBrand(cursor.getString(cursor.getColumnIndex("brand")));
+                user.setRegisterTime(cursor.getLong(cursor.getColumnIndex("register_time")));
+                user.setLastUse(cursor.getLong(cursor.getColumnIndex("last_use")));
+                user.setLastSync(cursor.getLong(cursor.getColumnIndex("last_sync")));
+            }
+        } catch (Exception ignored) {
+
+        }
+        return user;
     }
 
     /**
@@ -184,45 +201,13 @@ public class UserDataHelper {
      * @param column 列名
      * @param value  值
      */
-    public static void updateUser(String column, String value) {
-        try {
-            db = databaseHelper.getWritableDatabase();
-            db.execSQL("update User set " + column + " = ?",
-                    new String[]{value});
+    public static void updateUser(String column, String value, String userId) {
+        try (SQLiteDatabase db = DatabaseHelper.getDatabaseHelper().getWritableDatabase()) {
+            db.execSQL("update User set " + column + " = ? where user_id = ?",
+                    new String[]{value, userId});
         } catch (Exception ignored) {
 
-        } finally {
-            if (db != null) db.close();
         }
-    }
-
-    /**
-     * 更新同步时间
-     */
-    public static void updateSyncTime() {
-        updateUser("last_sync", String.valueOf(System.currentTimeMillis()));
-    }
-
-    /**
-     * 退出登录，设置用户ID和上次同步时间为0
-     */
-    public static void logout() {
-        try {
-            db = databaseHelper.getWritableDatabase();
-            db.execSQL("update User set user_id = ?, last_sync = ?",
-                    new String[]{"0", "0"});
-        } catch (Exception ignored) {
-
-        } finally {
-            if (db != null) db.close();
-        }
-    }
-
-    /**
-     * 关闭数据库，防止内存泄漏
-     */
-    public static void close() {
-        if (databaseHelper != null) databaseHelper.close();
     }
 
 }

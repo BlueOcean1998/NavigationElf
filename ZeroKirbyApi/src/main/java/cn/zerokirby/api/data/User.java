@@ -2,7 +2,6 @@ package cn.zerokirby.api.data;
 
 public class User {
 
-    private boolean isValid;//账号是否有效
     private String userId;//id
     private String username;//用户名
     private String password;//密码
@@ -77,14 +76,6 @@ public class User {
 
     public void setBrand(String brand) {
         this.brand = brand;
-    }
-
-    public boolean isValid() {
-        return isValid;
-    }
-
-    public void setValid(boolean isValid) {
-        this.isValid = isValid;
     }
 
     public long getRegisterTime() {

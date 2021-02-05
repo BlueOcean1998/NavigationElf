@@ -15,8 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -42,7 +40,6 @@ import static com.navigation.foxizz.BaseApplication.getApplication;
  */
 public class UserFragment extends Fragment {
 
-    public static String userId = "0";
     public FrameLayout flAvatarLayout;//头像布局
     public ImageView ivAvatar;//用户头像
     public LinearLayout llUserInfoLayout;//信息布局
@@ -54,11 +51,8 @@ public class UserFragment extends Fragment {
     private LocalReceiver localReceiver;//设置接收器
     private LocalBroadcastManager localBroadcastManager;//本地广播管理器
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
 
         initLocalBroadcast();//初始化本地广播接收器
@@ -79,8 +73,8 @@ public class UserFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        User user = UserDataHelper.getUser();
-        userId = user.getUserId();
+        String  userId = UserDataHelper.getLoginUserId();
+        User user = UserDataHelper.getUser(userId);
 
         //设置用户名
         if (!userId.equals("0")) tvUserName.setText(user.getUsername());
@@ -115,13 +109,14 @@ public class UserFragment extends Fragment {
         tvUserEmail = view.findViewById(R.id.tv_user_email);
 
         //设置头像
-        Bitmap avatarBitmap = AvatarDataHelper.getBitmapAvatar();
+        String userId = UserDataHelper.getLoginUserId();
+        Bitmap avatarBitmap = AvatarDataHelper.getBitmapAvatar(userId);
         if (avatarBitmap != null) ivAvatar.setImageBitmap(avatarBitmap);
 
         flAvatarLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (userId.equals("0"))
+                if (UserDataHelper.getLoginUserId().equals("0"))
                     startActivity(new Intent(getApplication(), LoginRegisterActivity.class));
                 else AvatarDataHelper.checkAvatarPermission(requireActivity());
             }
@@ -130,7 +125,7 @@ public class UserFragment extends Fragment {
         llUserInfoLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (userId.equals("0"))
+                if (UserDataHelper.getLoginUserId().equals("0"))
                     startActivity(new Intent(getApplication(), LoginRegisterActivity.class));
             }
         });
@@ -187,14 +182,11 @@ public class UserFragment extends Fragment {
             builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    userId = "0";
-
                     ToastUtil.showToast(R.string.logged_out);
                     preference.setVisible(false);
 
-                    UserDataHelper.logout();//数据库中的user_id和last_sync_time归零
+                    UserDataHelper.logout();//退出登录
 
-                    AvatarDataHelper.saveAvatar("".getBytes());//清空数据库中的头像
                     //还原用户名和头像为默认
                     if (context instanceof MainActivity) {
                         UserFragment userFragment = ((MainActivity) context).getUserFragment();

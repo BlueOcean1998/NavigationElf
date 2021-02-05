@@ -11,7 +11,9 @@ import static com.navigation.foxizz.BaseApplication.getApplication;
  */
 public class ToastUtil {
 
-    private static Toast toast;
+    private static Toast toast;//Toast对象
+
+    private final static Handler mainHandler = new Handler(Looper.getMainLooper());//主线程Handler
 
     /**
      * 弹出提示信息，默认显示时间为短
@@ -39,7 +41,7 @@ public class ToastUtil {
      */
     public static void showToast(final String text, final int duration) {
         //转移至主线程，防止在子线程更新UI
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
+        mainHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (toast != null) toast.cancel();//销毁上一个
@@ -58,7 +60,7 @@ public class ToastUtil {
      */
     public static void showToast(final int resId, final int duration) {
         //转移至主线程，防止在子线程更新UI
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
+        mainHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (toast != null) toast.cancel();//销毁上一个

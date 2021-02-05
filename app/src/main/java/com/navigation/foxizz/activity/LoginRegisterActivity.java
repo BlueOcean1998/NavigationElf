@@ -45,7 +45,7 @@ import cn.zerokirby.api.util.CodeUtil;
 public class LoginRegisterActivity extends AppCompatActivity {
 
     private RelativeLayout rlLoginRegister;//登录注册页
-    private ImageButton tbBack;//返回按钮
+    private ImageButton ibBack;//返回按钮
     private TextView tvPageTitle;//标题，登录或注册
     private EditText etUsername;//用户名输入框
     private EditText etPassword;//密码输入框
@@ -103,11 +103,6 @@ public class LoginRegisterActivity extends AppCompatActivity {
         rememberUsernameAndPassword();//重设是否记住账号密码
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
     //活动被回收时保存输入框中的信息
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
@@ -120,7 +115,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
     //初始化控件
     private void initView() {
         rlLoginRegister = findViewById(R.id.rl_activity_login_register);
-        tbBack = findViewById(R.id.ib_back);
+        ibBack = findViewById(R.id.ib_back);
         tvPageTitle = findViewById(R.id.tv_page_title);
         etUsername = findViewById(R.id.et_username);
         etPassword = findViewById(R.id.et_password);
@@ -149,7 +144,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
         setUsernameAndPassword();//设置账号密码
 
         //返回按钮的点击事件
-        tbBack.setOnClickListener(new View.OnClickListener() {
+        ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!isSending && !showReturnHintDialog()) finish();
@@ -234,7 +229,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
                         isSending = true;
 
                         //提交账号信息，获取返回结果。该操作会阻塞线程，需在子线程进行
-                        JSONObject jsonObject =  UserDataHelper.sendRequestWithOkHttp(username, password, isLogin);
+                        JSONObject jsonObject =  UserDataHelper.loginRegisterSendRequest(username, password, isLogin);
 
                         //获取登录或注册结果
                         int status = 2;
@@ -295,14 +290,17 @@ public class LoginRegisterActivity extends AppCompatActivity {
 
                         //若登录成功
                         if (status == 1) {
-                            UserDataHelper.initUserInfo(jsonObject, username, password, isLogin);//初始化用户信息
+                            //初始化用户信息
+                            UserDataHelper.loginRegisterInitUserInfo(jsonObject, username, password, isLogin);
+
                             //发送本地广播通知更新用户名
                             localBroadcastManager.sendBroadcast(new Intent(Constants.LOGIN_BROADCAST)
                                     .putExtra(Constants.LOGIN_TYPE, Constants.SET_USERNAME));
 
                             finish();//关闭页面
 
-                            AvatarDataHelper.downloadAvatar(UserDataHelper.getUser().getUserId());//下载头像
+                            AvatarDataHelper.downloadAvatar(UserDataHelper.getLoginUserId());//下载头像
+
                             //发送本地广播通知更新头像
                             localBroadcastManager.sendBroadcast(new Intent(Constants.LOGIN_BROADCAST)
                                     .putExtra(Constants.LOGIN_TYPE, Constants.SET_AVATAR));
@@ -337,9 +335,10 @@ public class LoginRegisterActivity extends AppCompatActivity {
 
     //设置账号密码
     private void setUsernameAndPassword() {
+        String userId = UserDataHelper.getLoginUserId();
         User user = null;
         if (SPHelper.getBoolean(Constants.REMEMBER_USERNAME, false)) {
-            user = UserDataHelper.getUser();
+            user = UserDataHelper.getUser(userId);
             username = user.getUsername();
             etUsername.setText(username);
             cbRememberUsername.setChecked(true);
@@ -349,7 +348,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
         }
 
         if (SPHelper.getBoolean(Constants.REMEMBER_PASSWORD, false)) {
-            if (user == null) user = UserDataHelper.getUser();
+            if (user == null) user = UserDataHelper.getUser(userId);
             password = user.getPassword();
             etPassword.setText(password);
             cbRememberPassword.setChecked(true);
@@ -373,20 +372,21 @@ public class LoginRegisterActivity extends AppCompatActivity {
 
     //重设是否记住账号密码
     private void rememberUsernameAndPassword() {
+        String userId = UserDataHelper.getLoginUserId();
         SPHelper.putBoolean(Constants.REMEMBER_USERNAME, cbRememberUsername.isChecked());
         SPHelper.putBoolean(Constants.REMEMBER_PASSWORD, cbRememberPassword.isChecked());
         if (!cbRememberUsername.isChecked()) {
-            UserDataHelper.updateUser("username", "");
+            UserDataHelper.updateUser("username", "", userId);
         }
         if (!cbRememberPassword.isChecked()) {
-            UserDataHelper.updateUser("password", "");
+            UserDataHelper.updateUser("password", "", userId);
         }
     }
 
     //显示返回提示对话框
     private boolean showReturnHintDialog() {
         if (isLogin) {//如果是登录页
-            User user = UserDataHelper.getUser();
+            User user = UserDataHelper.getUser(UserDataHelper.getLoginUserId());
             //如果账号或密码修改过
             if ((!username.equalsIgnoreCase(user.getUsername()) || !password.equals(user.getPassword()))) {
                 showReturnHintDialog(getString(R.string.login_page_return_hint));

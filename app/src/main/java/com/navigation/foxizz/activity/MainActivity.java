@@ -19,6 +19,7 @@ import com.navigation.foxizz.data.SearchDataHelper;
 import com.navigation.foxizz.util.ToastUtil;
 
 import cn.zerokirby.api.data.AvatarDataHelper;
+import cn.zerokirby.api.data.UserDataHelper;
 import cn.zerokirby.api.util.UriUtil;
 
 /**
@@ -81,11 +82,6 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
     //初始化碎片
     private void initFragments() {
         fragmentManager = getSupportFragmentManager();
@@ -138,7 +134,9 @@ public class MainActivity extends BaseActivity {
             case Constants.PHOTO_REQUEST_CUT:
                 if (resultCode == RESULT_OK) {
                     AvatarDataHelper.showAvatarAndSave(
-                            userFragment.ivAvatar, UriUtil.getPath(Constants.avatarUri));
+                            userFragment.ivAvatar, UriUtil.getPath(Constants.avatarUri),
+                            UserDataHelper.getLoginUserId()
+                    );
                     new Thread(new Runnable() {
                         @Override
                         public void run() {

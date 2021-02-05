@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,17 +30,9 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * 用户操作工具
+ * 头像数据帮助类
  */
 public class AvatarDataHelper {
-
-    public static void initAvatarDataHelper() {
-        databaseHelper = new DatabaseHelper(Constants.LOCAL_DATABASE, null, 1);
-    }
-
-    private static DatabaseHelper databaseHelper;
-    private static SQLiteDatabase db;
-    private static android.database.Cursor cursor;
 
     /**
      * 下载头像
@@ -69,7 +62,7 @@ public class AvatarDataHelper {
             output.close();
             byte[] bytes = output.toByteArray();
 
-            saveAvatar(bytes);
+            saveAvatar(bytes, userId);
         } catch (Exception ignored) {
 
         } finally {
@@ -86,7 +79,7 @@ public class AvatarDataHelper {
         try {
             File file = new File(imagePath);
             final MediaType MEDIA_TYPE_JPEG = MediaType.parse("image/jpeg");//设置媒体类型
-            final String userId = UserDataHelper.getUser().getUserId();//获取用户id
+            final String userId = UserDataHelper.getLoginUserId();//获取用户id
             OkHttpClient client = new OkHttpClient();
             RequestBody fileBody = RequestBody.create(MEDIA_TYPE_JPEG, file);//媒体类型为jpg
             RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
@@ -134,7 +127,7 @@ public class AvatarDataHelper {
     /**
      * 图片缩放
      *
-     * @param activity 启动图片缩放的活动
+     * @param activity   启动图片缩放的活动
      * @param intentData 带有本地图片路径的intent
      * @return 输出到服务器的路径
      */
@@ -180,8 +173,8 @@ public class AvatarDataHelper {
      *
      * @return 位图
      */
-    public static Bitmap getBitmapAvatar() {
-        byte[] avatarBytes = getAvatar();
+    public static Bitmap getBitmapAvatar(String userId) {
+        byte[] avatarBytes = getAvatar(userId);
         if (avatarBytes != null) {
             //将字节数组转化为位图，将位图显示为图片
             return BitmapFactory.decodeByteArray(avatarBytes, 0, avatarBytes.length);
@@ -195,11 +188,11 @@ public class AvatarDataHelper {
      * @param avatar    头像控件
      * @param imagePath 图片存储路径
      */
-    public static void showAvatarAndSave(ImageView avatar, String imagePath) {
+    public static void showAvatarAndSave(ImageView avatar, String imagePath, String userId) {
         if (imagePath != null) {
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);//解码位图
             avatar.setImageBitmap(bitmap);
-            saveAvatar(bitmapToBytes(bitmap));
+            saveAvatar(bitmapToBytes(bitmap), userId);
         }
     }
 
@@ -236,15 +229,12 @@ public class AvatarDataHelper {
      *
      * @param avatarBytes 带有头像数据的比特串
      */
-    public static void saveAvatar(byte[] avatarBytes) {
-        try {
-            db = databaseHelper.getWritableDatabase();
-            db.execSQL("update User set avatar = ?",
-                    new byte[][]{avatarBytes});
+    public static void saveAvatar(byte[] avatarBytes, String userId) {
+        try (SQLiteDatabase db = DatabaseHelper.getDatabaseHelper().getWritableDatabase()) {
+            db.execSQL("update User set avatar = ? where user_id = ?",
+                    new Object[]{avatarBytes, userId});
         } catch (Exception ignored) {
 
-        } finally {
-            if (db != null) db.close();
         }
     }
 
@@ -253,27 +243,17 @@ public class AvatarDataHelper {
      *
      * @return 带有头像数据的比特串
      */
-    public static byte[] getAvatar() {
-        try {
-            db = databaseHelper.getReadableDatabase();
-            cursor = db.rawQuery("select avatar from User", null);
+    public static byte[] getAvatar(String userId) {
+        try (SQLiteDatabase db = DatabaseHelper.getDatabaseHelper().getReadableDatabase();
+             Cursor cursor = db.rawQuery("select avatar from User where user_id = ?",
+                     new String[]{userId})) {
             if (cursor.moveToNext()) {
                 return cursor.getBlob(cursor.getColumnIndex("avatar"));
             }
         } catch (Exception ignored) {
 
-        } finally {
-            if (cursor != null) cursor.close();
-            if (db != null) db.close();
         }
         return "".getBytes();
-    }
-
-    /**
-     * 关闭数据库，防止内存泄漏
-     */
-    public static void close() {
-        if (databaseHelper != null) databaseHelper.close();
     }
 
 }

@@ -7,9 +7,20 @@ import static com.navigation.foxizz.BaseApplication.getApplication;
 
 /**
  * 数据库帮助类
- * 存放所有的数据表
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
+
+    private static DatabaseHelper databaseHelper;//数据库帮助对象
+
+    //初始化数据库帮助对象
+    public static void initDatabaseHelper() {
+        databaseHelper = new DatabaseHelper(Constants.LOCAL_DATABASE, null, 1);
+    }
+
+    //获取数据库帮助对象
+    public synchronized static DatabaseHelper getDatabaseHelper() {
+        return databaseHelper;
+    }
 
     private static final String CREATE_SEARCH = "create table SearchData ("
             + "uid text primary key, "//uid
@@ -19,7 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + "address text, "//目标地址
             + "time long)";//记录时间
 
-    public DatabaseHelper(String name, SQLiteDatabase.CursorFactory factory, int version) {
+    private DatabaseHelper(String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(getApplication(), name, factory, version);
     }
 

@@ -2,7 +2,7 @@ package cn.zerokirby.api;
 
 import android.app.Application;
 
-import cn.zerokirby.api.data.AvatarDataHelper;
+import cn.zerokirby.api.data.DatabaseHelper;
 import cn.zerokirby.api.data.UserDataHelper;
 
 public class ZerokirbyApi {
@@ -15,8 +15,8 @@ public class ZerokirbyApi {
 
     public static void initialize(Application application) {
         ZerokirbyApi.application = application;
-        UserDataHelper.initUserDataHelper();
-        AvatarDataHelper.initAvatarDataHelper();
+        DatabaseHelper.initDatabaseHelper();
+        UserDataHelper.initPhoneInfo();
     }
 
 }

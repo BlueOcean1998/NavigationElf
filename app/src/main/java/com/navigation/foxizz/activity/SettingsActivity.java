@@ -78,11 +78,6 @@ public class SettingsActivity extends BaseActivity {
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
     //提交输入的城市
     private void commitCity() {
         ibDestinationCityConfirm.setVisibility(View.GONE);//隐藏确定按钮

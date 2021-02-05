@@ -20,20 +20,8 @@ import java.util.List;
 
 /**
  * 搜索数据帮助类
- * 操作搜索数据表
  */
 public class SearchDataHelper {
-
-    /**
-     * 初始化搜索数据库
-     */
-    public static void initSearchDataHelper() {
-        databaseHelper = new DatabaseHelper(Constants.LOCAL_DATABASE, null, 1);
-    }
-
-    private static DatabaseHelper databaseHelper;
-    private static SQLiteDatabase db;
-    private static Cursor cursor;
 
     /**
      * 移动视角到最近的一条搜索记录
@@ -98,15 +86,11 @@ public class SearchDataHelper {
      * @return boolean
      */
     public static boolean isHasSearchData() {
-        try {
-            db = databaseHelper.getReadableDatabase();
-            cursor = db.rawQuery("select * from SearchData", null);
+        try (SQLiteDatabase db = DatabaseHelper.getDatabaseHelper().getReadableDatabase();
+             Cursor cursor = db.rawQuery("select * from SearchData", null)) {
             return cursor.getCount() > 0;
         } catch (Exception ignored) {
             return false;
-        } finally {
-            if (cursor != null) cursor.close();
-            if (db != null) db.close();
         }
     }
 
@@ -116,9 +100,11 @@ public class SearchDataHelper {
      * @return SearchItem
      */
     public static List<SearchItem> getSearchData() {
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
         List<SearchItem> searchItems = new ArrayList<>();
         try {
-            db = databaseHelper.getReadableDatabase();
+            db = DatabaseHelper.getDatabaseHelper().getReadableDatabase();
             //查询所有的搜索记录，按时间降序排列
             cursor = db.rawQuery("select * from SearchData order by time desc", null);
             if (cursor != null && cursor.moveToFirst()) {
@@ -151,16 +137,15 @@ public class SearchDataHelper {
      * @param info POI详细信息
      */
     public static void insertOrUpdateSearchData(PoiDetailInfo info) {
-        try {
-            db = databaseHelper.getReadableDatabase();
-            cursor = db.rawQuery("select * from SearchData where uid = ?", new String[]{info.getUid()});
-            if (cursor.getCount() > 0) updateSearchData(info);//有则更新
+        try (SQLiteDatabase db = DatabaseHelper.getDatabaseHelper().getReadableDatabase();
+             Cursor cursor = db.rawQuery(
+                     "select * from SearchData where uid = ?",
+                     new String[]{info.getUid()})) {
+            if (cursor.getCount() > 0)
+                updateSearchData(info);//有则更新
             else insertSearchData(info);//没有则添加
         } catch (Exception ignored) {
 
-        } finally {
-            if (cursor != null) cursor.close();
-            if (db != null) db.close();
         }
     }
 
@@ -170,8 +155,7 @@ public class SearchDataHelper {
      * @param info POI详细信息
      */
     public static void insertSearchData(PoiDetailInfo info) {
-        try {
-            db = databaseHelper.getWritableDatabase();
+        try (SQLiteDatabase db = DatabaseHelper.getDatabaseHelper().getWritableDatabase()) {
             db.execSQL("insert into SearchData " +
                             "(uid, latitude, longitude, target_name, address, time) " +
                             "values(?, ?, ?, ?, ?, ?)",
@@ -183,8 +167,6 @@ public class SearchDataHelper {
                             String.valueOf(System.currentTimeMillis())});
         } catch (Exception ignored) {
 
-        } finally {
-            if (db != null) db.close();
         }
     }
 
@@ -194,8 +176,7 @@ public class SearchDataHelper {
      * @param info POI详细信息
      */
     public static void updateSearchData(PoiDetailInfo info) {
-        try {
-            db = databaseHelper.getWritableDatabase();
+        try (SQLiteDatabase db = DatabaseHelper.getDatabaseHelper().getWritableDatabase()) {
             db.execSQL("update SearchData set latitude = ?, longitude = ?, " +
                             "target_name = ?, address = ?, time = ? where uid = ?",
                     new String[]{
@@ -207,8 +188,6 @@ public class SearchDataHelper {
                             info.getUid()});
         } catch (Exception ignored) {
 
-        } finally {
-            if (db != null) db.close();
         }
     }
 
@@ -218,13 +197,10 @@ public class SearchDataHelper {
      * @param uid uid
      */
     public static void deleteSearchData(String uid) {
-        try {
-            db = databaseHelper.getWritableDatabase();
+        try (SQLiteDatabase db = DatabaseHelper.getDatabaseHelper().getWritableDatabase()) {
             db.execSQL("delete from SearchData where uid = ?", new String[]{uid});
         } catch (Exception ignored) {
 
-        } finally {
-            if (db != null) db.close();
         }
     }
 
@@ -232,21 +208,11 @@ public class SearchDataHelper {
      * 清空搜索记录
      */
     public static void deleteSearchData() {
-        try {
-            db = databaseHelper.getWritableDatabase();
+        try (SQLiteDatabase db = DatabaseHelper.getDatabaseHelper().getWritableDatabase()) {
             db.execSQL("delete from SearchData");
         } catch (Exception ignored) {
 
-        } finally {
-            if (db != null) db.close();
         }
-    }
-
-    /**
-     * 关闭数据库，防止内存泄漏
-     */
-    public static void close() {
-        databaseHelper.close();
     }
 
 }
