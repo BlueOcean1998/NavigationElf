@@ -10,10 +10,10 @@ import com.navigation.foxizz.data.SPHelper;
 import cn.zerokirby.api.ZerokirbyApi;
 
 /**
- * app name: NavigationElf
- * author: Foxizz
- * accomplish date: 2020-04-30
- * last modify date: 2021-02-05
+ * App name: NavigationElf
+ * Author: Foxizz
+ * Accomplish date: 2020-04-30
+ * Last modify date: 2021-02-22
  */
 public class BaseApplication extends Application {
 

@@ -3,7 +3,7 @@ package com.navigation.foxizz.data;
 import android.net.Uri;
 
 /**
- * 常量
+ * 常量类
  */
 public class Constants {
 

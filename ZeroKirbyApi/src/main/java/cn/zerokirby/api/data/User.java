@@ -1,5 +1,8 @@
 package cn.zerokirby.api.data;
 
+/**
+ * 用户类
+ */
 public class User {
 
     private String userId;//id

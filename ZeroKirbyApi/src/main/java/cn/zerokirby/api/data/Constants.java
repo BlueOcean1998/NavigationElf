@@ -1,5 +1,8 @@
 package cn.zerokirby.api.data;
 
+/**
+ * 常量类
+ */
 public class Constants {
 
     public final static String LOCAL_DATABASE = "ZerokirbyAPI.db";//本地数据库

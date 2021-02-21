@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import com.baidu.mapapi.model.LatLng;
 
 /**
- * 搜索到的目标信息类
+ * 搜索目标信息类
  */
 public class SearchItem {
 
