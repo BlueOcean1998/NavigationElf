@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +42,9 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.UiSettings;
+import com.baidu.mapapi.map.offline.MKOLSearchRecord;
+import com.baidu.mapapi.map.offline.MKOfflineMap;
+import com.baidu.mapapi.map.offline.MKOfflineMapListener;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
@@ -61,6 +65,7 @@ import com.navigation.foxizz.mybaidumap.MyOrientationListener;
 import com.navigation.foxizz.mybaidumap.MyRoutePlanSearch;
 import com.navigation.foxizz.mybaidumap.MySearch;
 import com.navigation.foxizz.receiver.LocalReceiver;
+import com.navigation.foxizz.receiver.SystemReceiver;
 import com.navigation.foxizz.util.CityUtil;
 import com.navigation.foxizz.util.LayoutUtil;
 import com.navigation.foxizz.util.NetworkUtil;
@@ -102,6 +107,11 @@ public class MainFragment extends Fragment {
     public double mLatitude;//纬度
     public double mLongitude;//经度
     public String mCity;//所在城市
+
+    /*
+     * 离线地图
+     */
+    public MKOfflineMap mOffline;
 
     /*
      * 搜索相关
@@ -190,7 +200,8 @@ public class MainFragment extends Fragment {
     /*
      * 设置相关
      */
-    private LocalReceiver localReceiver;//设置接收器
+    private SystemReceiver systemReceiver;//系统广播接收器
+    private LocalReceiver localReceiver;//本地广播接收器
     private LocalBroadcastManager localBroadcastManager;//本地广播管理器
 
     /*
@@ -209,7 +220,8 @@ public class MainFragment extends Fragment {
 
         initSettings();//初始化偏好设置
 
-        initLocalBroadcast();//初始化本地广播接收器
+        initSystemReceiver();//初始化系统广播接收器
+        initLocalReceiver();//初始化本地广播接收器
 
         initView(view);//初始化控件
 
@@ -234,10 +246,9 @@ public class MainFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        //开启定位的允许
-        mBaiduMap.setMyLocationEnabled(true);
-        //开启方向传感
-        myOrientationListener.start();
+
+        mBaiduMap.setMyLocationEnabled(true);//开启定位
+        myOrientationListener.start();//开启方向传感
     }
 
     @Override
@@ -245,13 +256,13 @@ public class MainFragment extends Fragment {
         super.onResume();
         mMapView.onResume();
 
-        //计算屏幕宽高，用于设置控件的高度
-        calculateWidthAndHeightOfScreen();
+        calculateWidthAndHeightOfScreen();//计算屏幕宽高，用于设置控件的高度
     }
 
     @Override
     public void onPause() {
         super.onPause();
+
         mMapView.onPause();
     }
 
@@ -259,9 +270,10 @@ public class MainFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
 
-        localBroadcastManager.unregisterReceiver(localReceiver);//释放设置接收器实例
+        requireActivity().unregisterReceiver(systemReceiver);//释放系统广播接收器实例
+        localBroadcastManager.unregisterReceiver(localReceiver);//释放本地广播接收器实例
 
-        mBaiduMap.setMyLocationEnabled(false);//开启定位的允许
+        mBaiduMap.setMyLocationEnabled(false);//关闭定位
 
         myOrientationListener.stop();//停止方向传感
 
@@ -305,22 +317,37 @@ public class MainFragment extends Fragment {
         //移动视角到最近的一条搜索记录
         SearchDataHelper.moveToLastSearchRecordLocation(this);
 
-        /*离线地图要下载离线包，现在暂时不用
-        //下载离线地图
-        final MKOfflineMap mOffline = new MKOfflineMap();
+        //初始化离线地图下载器
+        mOffline = new MKOfflineMap();
         mOffline.init(new MKOfflineMapListener() {
             @Override
             public void onGetOfflineMapState(int i, int i1) {
-                //根据城市名获取城市id
-                ArrayList<MKOLSearchRecord> records = mOffline.searchCity(mCity);
-                if(records != null && records.size() == 1) {
-                    mOffline.start(records.get(0).cityID);
-                    mOffline.update(records.get(0).cityID);
-                    ToastUtil.showToast("正在下载离线地图");
-                }
+                Log.d("Foxizz_Test", "i=" + i + ",i1=" + i1);
             }
         });
-        */
+
+        //下载离线地图
+        String myCity = SPHelper.getString(Constants.MY_CITY, "");
+        if (!TextUtils.isEmpty(myCity)) {
+            downLoadOfflineMap(myCity);
+        }
+    }
+
+    //下载离线地图
+    public void downLoadOfflineMap(String cityName) {
+        //根据城市名获取城市id
+        int cityID = 0;
+        ArrayList<MKOLSearchRecord> records = mOffline.searchCity(cityName);
+        if(records != null && records.size() == 1) {
+            cityID = records.get(0).cityID;
+        }
+
+        //开始下载
+        if (cityID != 0) {
+            mOffline.start(cityID);
+            //mOffline.update(cityID);
+            //ToastUtil.showToast("正在下载离线地图");
+        }
     }
 
     /**
@@ -397,8 +424,16 @@ public class MainFragment extends Fragment {
         setCompass();
     }
 
+    //初始化系统广播接收器
+    private void initSystemReceiver() {
+        systemReceiver = new SystemReceiver(requireActivity());
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Constants.CONNECTIVITY_CHANGE);
+        requireActivity().registerReceiver(systemReceiver, intentFilter);
+    }
+
     //初始化本地广播接收器
-    private void initLocalBroadcast() {
+    private void initLocalReceiver() {
         localReceiver = new LocalReceiver(requireActivity());
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Constants.SETTINGS_BROADCAST);

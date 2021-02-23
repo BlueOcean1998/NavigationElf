@@ -393,11 +393,16 @@ public class MySearch {
                             //获取营业时间
                             if (detailInfo.getShopHours() != null && !detailInfo.getShopHours().isEmpty()) {
                                 otherInfo.append(getApplication().getString(R.string.shop_time)).append(detailInfo.getShopHours());
-                                int flag = 0;
 
+                                int flag = 0;
                                 try {
-                                    Date nowTime = new Date();
-                                    String[] shopHours = detailInfo.getShopHours().split(",");
+                                    Date nowTime = TimeUtil.parse(TimeUtil.format(new Date(),
+                                            TimeUtil.FORMATION_Hm), TimeUtil.FORMATION_Hm);
+
+                                    String[] shopHours = detailInfo.getShopHours()
+                                            //去除中文和头尾的空格
+                                            .replaceAll("[\\u4e00-\\u9fa5]", "").trim()
+                                            .split(",");
                                     for (String shopHour : shopHours) {
                                         String[] time = shopHour.split("-");
                                         Date startTime = TimeUtil.parse(time[0], TimeUtil.FORMATION_Hm);
@@ -409,11 +414,9 @@ public class MySearch {
                                 } catch (Exception ignored) {
                                     flag = -1;
                                 }
+                                if (flag == 1) otherInfo.append(" ").append(getApplication().getString(R.string.shopping));
+                                else if (flag == 0) otherInfo.append(" ").append(getApplication().getString(R.string.relaxing));
 
-                                if (flag == 1)
-                                    otherInfo.append(" ").append(getApplication().getString(R.string.shopping));
-                                else if (flag == 0)
-                                    otherInfo.append(" ").append(getApplication().getString(R.string.relaxing));
                                 otherInfo.append("\n");
                             }
 

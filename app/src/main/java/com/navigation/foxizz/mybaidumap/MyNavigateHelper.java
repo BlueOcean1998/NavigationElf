@@ -47,54 +47,64 @@ public class MyNavigateHelper {
     private final MainFragment mainFragment;
     public MyNavigateHelper(MainFragment mainFragment) {
         this.mainFragment = mainFragment;
+
+        initProgressDialog();//初始化加载弹窗
+
+        //初始化驾车导航引擎
+        if (NetworkUtil.isNetworkConnected()) {
+            initDriveNavigateHelper();
+        }
     }
 
+    private ProgressDialog loadingProgress;//加载弹窗
+    private static boolean hasInitDriveNavigate = false;//驾车导航是否已初始化
     private static boolean enableDriveNavigate = false;//是否可以进行驾车导航
-    private ProgressDialog progressDialog;
 
     /**
      * 初始化驾车导航引擎
      */
     public void initDriveNavigateHelper() {
-        BaiduNaviManagerFactory.getBaiduNaviManager().init(getApplication(),
-                AppUtil.getSDCardDir(),
-                AppUtil.getAppFolderName(),
-                new IBaiduNaviManager.INaviInitListener() {
-                    @Override
-                    public void onAuthResult(int status, final String msg) {
-                        if (status != 0) {
-                            ToastUtil.showToast(getApplication().getString(R.string.key_checkout_fail) + msg);
+        if (!hasInitDriveNavigate) {
+            BaiduNaviManagerFactory.getBaiduNaviManager().init(getApplication(),
+                    AppUtil.getSDCardDir(),
+                    AppUtil.getAppFolderName(),
+                    new IBaiduNaviManager.INaviInitListener() {
+                        @Override
+                        public void onAuthResult(int status, final String msg) {
+                            if (status != 0) {
+                                ToastUtil.showToast(getApplication().getString(R.string.key_checkout_fail) + msg);
+                            }
                         }
-                    }
 
-                    @Override
-                    public void initStart() {
+                        @Override
+                        public void initStart() {
 
-                    }
+                        }
 
-                    @Override
-                    public void initSuccess() {
-                        enableDriveNavigate = true;
+                        @Override
+                        public void initSuccess() {
+                            enableDriveNavigate = true;
 
-                        //初始化语音合成模块
-                        initTTS();
-                    }
+                            //初始化语音合成模块
+                            initTTS();
 
-                    @Override
-                    public void initFailed(int errCode) {
-                        ToastUtil.showToast(R.string.drive_navigate_init_fail + errCode);
-                    }
-                });
+                            hasInitDriveNavigate = true;
+                        }
 
-        initProgressDialog();
+                        @Override
+                        public void initFailed(int errCode) {
+                            ToastUtil.showToast(R.string.drive_navigate_init_fail + errCode);
+                        }
+                    });
+        }
     }
 
-    //初始化提示弹窗
+    //初始化加载弹窗
     private void initProgressDialog() {
-        progressDialog = new ProgressDialog(mainFragment.requireActivity());
-        progressDialog.setTitle(R.string.hint);
-        progressDialog.setMessage(mainFragment.getString(R.string.route_plan_please_wait));
-        progressDialog.setCancelable(false);
+        loadingProgress = new ProgressDialog(mainFragment.requireActivity());
+        loadingProgress.setTitle(R.string.hint);
+        loadingProgress.setMessage(mainFragment.getString(R.string.route_plan_please_wait));
+        loadingProgress.setCancelable(false);
     }
 
     //初始化语音合成模块
@@ -226,13 +236,13 @@ public class MyNavigateHelper {
                     public void handleMessage(Message msg) {
                         switch (msg.what) {
                             case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_START:
-                                progressDialog.show();
+                                loadingProgress.show();
                                 break;
                             case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_SUCCESS:
-                                progressDialog.dismiss();
+                                loadingProgress.dismiss();
                                 break;
                             case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_FAILED:
-                                progressDialog.dismiss();
+                                loadingProgress.dismiss();
                                 ToastUtil.showToast(R.string.drive_route_plan_fail);
                                 break;
                             case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_TO_NAVI:
@@ -298,18 +308,18 @@ public class MyNavigateHelper {
         WalkNavigateHelper.getInstance().routePlanWithRouteNode(walkParam, new IWRoutePlanListener() {
             @Override
             public void onRoutePlanStart() {
-                progressDialog.show();
+                loadingProgress.show();
             }
 
             @Override
             public void onRoutePlanSuccess() {
-                progressDialog.dismiss();
+                loadingProgress.dismiss();
                 mainFragment.startActivity(new Intent(getApplication(), WNaviGuideActivity.class));
             }
 
             @Override
             public void onRoutePlanFail(WalkRoutePlanError error) {
-                progressDialog.dismiss();
+                loadingProgress.dismiss();
                 ToastUtil.showToast(R.string.walk_route_plan_fail);
             }
         });
@@ -330,18 +340,18 @@ public class MyNavigateHelper {
         BikeNavigateHelper.getInstance().routePlanWithRouteNode(bikeParam, new IBRoutePlanListener() {
             @Override
             public void onRoutePlanStart() {
-                progressDialog.show();
+                loadingProgress.show();
             }
 
             @Override
             public void onRoutePlanSuccess() {
-                progressDialog.dismiss();
+                loadingProgress.dismiss();
                 mainFragment.startActivity(new Intent(getApplication(), BNaviGuideActivity.class));
             }
 
             @Override
             public void onRoutePlanFail(BikeRoutePlanError bikeRoutePlanError) {
-                progressDialog.dismiss();
+                loadingProgress.dismiss();
                 ToastUtil.showToast(R.string.bike_route_plan_fail);
             }
         });

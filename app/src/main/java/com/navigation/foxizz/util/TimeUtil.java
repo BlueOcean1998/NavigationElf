@@ -63,6 +63,9 @@ public class TimeUtil {
                     || nowTime.getTime() == endTime.getTime()) {
                 return true;
             }
+            if (startTime.getTime() > endTime.getTime()) {//结束时间超过24点时进入下一天
+                endTime.setTime(endTime.getTime() + 24 * 60 * 60 * 1000);
+            }
             return nowTime.after(startTime) && nowTime.before(endTime);
         }
         return false;

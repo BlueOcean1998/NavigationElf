@@ -1,5 +1,7 @@
 package com.navigation.foxizz.mybaidumap;
 
+import android.text.TextUtils;
+
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
@@ -11,6 +13,8 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.navigation.foxizz.R;
 import com.navigation.foxizz.activity.fragment.MainFragment;
+import com.navigation.foxizz.data.Constants;
+import com.navigation.foxizz.data.SPHelper;
 import com.navigation.foxizz.data.SearchDataHelper;
 import com.navigation.foxizz.util.ToastUtil;
 
@@ -68,6 +72,14 @@ public class MyLocation {
                         || mainFragment.mLocType == BDLocation.TypeNetWorkLocation //网络定位结果
                         || mainFragment.mLocType == BDLocation.TypeOffLineLocation) {//离线定位结果
                     //ToastUtil.showToast(location.getAddrStr());
+
+                    //到新城市时
+                    if (!TextUtils.equals(mainFragment.mCity,
+                            SPHelper.getString(Constants.MY_CITY, ""))) {
+                        mainFragment.downLoadOfflineMap(mainFragment.mCity);//下载新城市的离线地图
+                        SPHelper.putString(Constants.MY_CITY, mainFragment.mCity);//保存新城市
+                    }
+
                     if (isFirstLoc) {
                         isFirstLoc = false;
 
@@ -75,11 +87,8 @@ public class MyLocation {
                             refreshSearchList = false;
                             if (mainFragment.isHistorySearchResult)
                                 SearchDataHelper.initSearchData(mainFragment);//初始化搜索记录
-                            else
-                                mainFragment.startSearch();//开始搜索（有bug，暂时不作此操作）                      ）
+                            else mainFragment.startSearch();//开始搜索（有bug，暂时不作此操作）                      ）
                         }
-
-                        mainFragment.myNavigateHelper.initDriveNavigateHelper();//初始化驾车导航引擎
 
                         //移动视角并改变缩放等级
                         MapStatusUpdate msu = MapStatusUpdateFactory.newLatLng(mainFragment.latLng);

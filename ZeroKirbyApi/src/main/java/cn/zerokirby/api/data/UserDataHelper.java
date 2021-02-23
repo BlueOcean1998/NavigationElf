@@ -3,7 +3,6 @@ package cn.zerokirby.api.data;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
-import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -124,7 +123,6 @@ public class UserDataHelper {
                 do {
                     if (!TextUtils.isEmpty(
                             cursor.getString(cursor.getColumnIndex("password")))) {
-                        Log.d("Foxizz_Test", cursor.getString(cursor.getColumnIndex("user_id")));
                         return cursor.getString(cursor.getColumnIndex("user_id"));
                     }
                 } while (cursor.moveToNext());

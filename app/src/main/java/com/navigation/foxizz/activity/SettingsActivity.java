@@ -210,6 +210,9 @@ public class SettingsActivity extends BaseActivity {
         //获取从MainActivity中传来的所在城市名
         Intent intent = getIntent();
         mCity = intent.getStringExtra(Constants.MY_CITY);
+        if (TextUtils.isEmpty(mCity)) {
+            mCity = SPHelper.getString(Constants.MY_CITY, "");
+        }
 
         //设置城市信息
         saveCity = SPHelper.getString(Constants.DESTINATION_CITY, "");

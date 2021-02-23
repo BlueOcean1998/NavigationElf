@@ -9,14 +9,13 @@ public class Constants {
 
     public final static String LOCAL_DATABASE = "Navigate.db";//本地数据库
 
-    public final static String MY_CITY = "my_city";//所在城市
-
     //SettingsSharedPreferences的设置相关键
     public final static String SETTINGS_SHARED_PREFERENCES = "settings";//设置SharedPreferences
     public final static String MAP_TYPE = "map_type";//地图类型
     public final static String STANDARD_MAP = "standard_map";//标准地图
     public final static String SATELLITE_MAP = "satellite_map";//卫星地图
     public final static String TRAFFIC_MAP = "traffic_map";//交通地图
+    public final static String MY_CITY = "my_city";//所在城市
     public final static String DESTINATION_CITY = "destination_city";//目的城市
     public final static String REMEMBER_USERNAME = "remember_username";//记住用户名
     public final static String REMEMBER_PASSWORD = "remember_password";//记住密码
@@ -30,6 +29,9 @@ public class Constants {
     public final static String KEY_COMPASS = "compass";
     public final static String KEY_SEARCH_AROUND = "search_around";
     public final static String KEY_SEARCH_RECORD = "search_record";
+
+    //系统广播类型
+    public final static String CONNECTIVITY_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE";//网络连接状态改变
 
     //SettingsBroadcast的广播类型
     public final static String SETTINGS_BROADCAST = "com.navigation.foxizz.navigation.broadcast.SETTINGS_BROADCAST";//设置变化广播
