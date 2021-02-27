@@ -73,14 +73,14 @@
                 android:id="@+id/bt_select_1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center"
                 android:layout_margin="6dp"
-                android:background="@null"
+                android:layout_weight="1"
+                android:background="@drawable/bt_bg_alpha_black"
                 android:text="@string/select_button1"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                tools:ignore="ButtonStyle" />
+                android:textSize="16dp"
+                tools:ignore="ButtonStyle,SpUsage" />
 
             <Button
                 android:id="@+id/bt_select_2"
@@ -89,11 +89,11 @@
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:layout_margin="6dp"
-                android:background="@null"
+                android:background="@drawable/bt_bg_alpha_black"
                 android:text="@string/select_button2"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                tools:ignore="ButtonStyle" />
+                android:textSize="16dp"
+                tools:ignore="ButtonStyle,SpUsage" />
 
             <Button
                 android:id="@+id/bt_select_3"
@@ -102,11 +102,11 @@
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:layout_margin="6dp"
-                android:background="@null"
+                android:background="@drawable/bt_bg_alpha_black"
                 android:text="@string/select_button3"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                tools:ignore="ButtonStyle" />
+                android:textSize="16dp"
+                tools:ignore="ButtonStyle,SpUsage" />
 
             <Button
                 android:id="@+id/bt_select_4"
@@ -115,11 +115,11 @@
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:layout_margin="6dp"
-                android:background="@null"
+                android:background="@drawable/bt_bg_alpha_black"
                 android:text="@string/select_button4"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                tools:ignore="ButtonStyle" />
+                android:textSize="16dp"
+                tools:ignore="ButtonStyle,SpUsage" />
         </LinearLayout>
 
         <LinearLayout
@@ -171,7 +171,8 @@
                 android:background="@drawable/bt_bg_colorful"
                 android:text="@string/search_button"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="18dp"
+                tools:ignore="SpUsage" />
 
             <ImageButton
                 android:id="@+id/ib_search_expand"
@@ -343,11 +344,11 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginEnd="12dp"
                 android:layout_marginBottom="6dp"
-                android:background="@drawable/bt_bg_seablue"
+                android:background="@drawable/bt_bg_seablue_deepblue"
                 android:text="@string/return_button"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                tools:ignore="ButtonStyle" />
+                android:textSize="16dp"
+                tools:ignore="ButtonStyle,SpUsage" />
 
             <Button
                 android:id="@+id/bt_middle"
@@ -358,11 +359,11 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginRight="12dp"
                 android:layout_marginBottom="6dp"
-                android:background="@drawable/bt_bg_skyblue"
+                android:background="@drawable/bt_bg_skyblue_deepblue"
                 android:text="@string/middle_button1"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                tools:ignore="ButtonStyle" />
+                android:textSize="16dp"
+                tools:ignore="ButtonStyle,SpUsage" />
 
             <Button
                 android:id="@+id/bt_start"
@@ -373,11 +374,11 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginEnd="18dp"
                 android:layout_marginBottom="6dp"
-                android:background="@drawable/bt_bg_deepblue"
+                android:background="@drawable/bt_bg_deepblue_skyblue"
                 android:text="@string/start_button"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                tools:ignore="ButtonStyle" />
+                android:textSize="16dp"
+                tools:ignore="ButtonStyle,SpUsage" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

@@ -1,5 +1,6 @@
 package com.navigation.foxizz.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -71,6 +72,15 @@ public class LoginRegisterActivity extends AppCompatActivity {
     private CodeUtil codeUtil;//验证码生成工具
 
     private static LocalBroadcastManager localBroadcastManager;//本地广播管理器
+
+    /**
+     * 启动登录页
+     *
+     * @param context 上下文
+     */
+    public static void startActivity(Context context) {
+        context.startActivity(new Intent(context, LoginRegisterActivity.class));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -27,8 +27,8 @@
             android:background="@null"
             android:text="@string/main_button"
             android:textColor="@color/black"
-            android:textSize="16sp"
-            tools:ignore="ButtonStyle" />
+            android:textSize="16dp"
+            tools:ignore="ButtonStyle,SpUsage" />
 
         <Button
             android:id="@+id/bt_user"
@@ -39,8 +39,8 @@
             android:background="@null"
             android:text="@string/user_button"
             android:textColor="@color/black"
-            android:textSize="16sp"
-            tools:ignore="ButtonStyle" />
+            android:textSize="16dp"
+            tools:ignore="ButtonStyle,SpUsage" />
     </LinearLayout>
 
 </LinearLayout>

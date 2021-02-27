@@ -162,7 +162,8 @@
                         android:layout_gravity="center"
                         android:text="@string/location_city"
                         android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        android:textSize="14dp"
+                        tools:ignore="SpUsage" />
 
                     <EditText
                         android:id="@+id/et_destination_city"

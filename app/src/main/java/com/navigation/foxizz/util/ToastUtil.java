@@ -4,7 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
-import static com.navigation.foxizz.BaseApplication.getApplication;
+import static com.navigation.foxizz.BaseApplication.getBaseApplication;
 
 /**
  * Toast工具类
@@ -45,7 +45,7 @@ public class ToastUtil {
             @Override
             public void run() {
                 if (toast != null) toast.cancel();//销毁上一个
-                toast = Toast.makeText(getApplication(), null, duration);//弹出下一个
+                toast = Toast.makeText(getBaseApplication(), null, duration);//弹出下一个
                 toast.setText(text);//重设内容，去除小米自带的"appName:"
                 toast.show();
             }
@@ -64,7 +64,7 @@ public class ToastUtil {
             @Override
             public void run() {
                 if (toast != null) toast.cancel();//销毁上一个
-                toast = Toast.makeText(getApplication(), null, duration);//弹出下一个
+                toast = Toast.makeText(getBaseApplication(), null, duration);//弹出下一个
                 toast.setText(resId);//重设内容，去除小米自带的"appName:"
                 toast.show();
             }

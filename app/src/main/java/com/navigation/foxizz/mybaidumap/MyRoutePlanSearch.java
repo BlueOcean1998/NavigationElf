@@ -85,28 +85,28 @@ public class MyRoutePlanSearch {
 
         switch (mainFragment.routePlanSelect) {
             //驾车路线规划
-            case 0:
+            case MainFragment.DRIVING:
                 mainFragment.mSearch.drivingSearch((new DrivingRoutePlanOption())
                         .from(startNode)
                         .to(endNode));
                 break;
 
             //步行路线规划
-            case 1:
+            case MainFragment.WALKING:
                 mainFragment.mSearch.walkingSearch((new WalkingRoutePlanOption())
                         .from(startNode)
                         .to(endNode));
                 break;
 
             //骑行路线规划
-            case 2:
+            case MainFragment.BIKING:
                 mainFragment.mSearch.bikingSearch((new BikingRoutePlanOption())
                         .from(startNode)
                         .to(endNode));
                 break;
 
             //公交路线规划
-            case 3:
+            case MainFragment.TRANSIT:
                 //加载路线方案
                 mainFragment.llSchemeLoading.setVisibility(View.VISIBLE);
                 mainFragment.recyclerSchemeResult.setVisibility(View.GONE);
@@ -141,6 +141,10 @@ public class MyRoutePlanSearch {
                 LayoutUtil.expandLayout(mainFragment.llSchemeDrawer, true);//展开方案抽屉
 
                 mainFragment.schemeFlag = MainFragment.SCHEME_LIST;//设置状态为方案列表
+                mainFragment.btMiddle.setText(R.string.middle_button3);//设置按钮为交通选择
+                break;
+
+            default:
                 break;
         }
     }
@@ -274,9 +278,14 @@ public class MyRoutePlanSearch {
 
                             mainFragment.schemeList.add(schemeItem);//添加到列表中
                             mainFragment.schemeAdapter.updateList();//通知adapter更新
-                        }
 
-                        startMassTransitRoutePlan(0);//默认选择第一个方案
+                            mainFragment.requireActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    startMassTransitRoutePlan(0);//默认选择第一个方案
+                                }
+                            });
+                        }
                     }
                 }).start();
             }

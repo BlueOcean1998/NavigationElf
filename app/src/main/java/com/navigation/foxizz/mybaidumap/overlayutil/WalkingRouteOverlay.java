@@ -46,11 +46,12 @@ public class WalkingRouteOverlay extends OverlayManager {
         }
 
         List<OverlayOptions> overlayList = new ArrayList<>();
-        if (mRouteLine.getAllStep() != null
-                && mRouteLine.getAllStep().size() > 0) {
+
+        if (mRouteLine.getAllStep() != null && mRouteLine.getAllStep().size() > 0) {
             for (WalkingRouteLine.WalkingStep step : mRouteLine.getAllStep()) {
                 Bundle b = new Bundle();
                 b.putInt("index", mRouteLine.getAllStep().indexOf(step));
+
                 if (step.getEntrance() != null) {
                     overlayList.add((new MarkerOptions())
                             .position(step.getEntrance().getLocation())
@@ -71,32 +72,30 @@ public class WalkingRouteOverlay extends OverlayManager {
                             .zIndex(10)
                             .icon(BitmapDescriptorFactory
                                     .fromAssetWithDpi("Icon_line_node.png")));
-
                 }
             }
         }
+
         // starting
         if (mRouteLine.getStarting() != null) {
             overlayList.add((new MarkerOptions())
                     .position(mRouteLine.getStarting().getLocation())
                     .icon(getStartMarker() != null ? getStartMarker() :
-                            BitmapDescriptorFactory
-                                    .fromAssetWithDpi("Icon_start.png")).zIndex(10));
+                            BitmapDescriptorFactory.fromAssetWithDpi("Icon_start.png"))
+                    .zIndex(10));
         }
+
         // terminal
         if (mRouteLine.getTerminal() != null) {
-            overlayList
-                    .add((new MarkerOptions())
-                            .position(mRouteLine.getTerminal().getLocation())
-                            .icon(getTerminalMarker() != null ? getTerminalMarker() :
-                                    BitmapDescriptorFactory
-                                            .fromAssetWithDpi("Icon_end.png"))
-                            .zIndex(10));
+            overlayList.add((new MarkerOptions())
+                    .position(mRouteLine.getTerminal().getLocation())
+                    .icon(getTerminalMarker() != null ? getTerminalMarker() :
+                            BitmapDescriptorFactory.fromAssetWithDpi("Icon_end.png"))
+                    .zIndex(10));
         }
 
         // poly line list
-        if (mRouteLine.getAllStep() != null
-                && mRouteLine.getAllStep().size() > 0) {
+        if (mRouteLine.getAllStep() != null && mRouteLine.getAllStep().size() > 0) {
             LatLng lastStepLastPoint = null;
             for (WalkingRouteLine.WalkingStep step : mRouteLine.getAllStep()) {
                 List<LatLng> watPoints = step.getWayPoints();
@@ -106,12 +105,15 @@ public class WalkingRouteOverlay extends OverlayManager {
                         points.add(lastStepLastPoint);
                     }
                     points.addAll(watPoints);
-                    overlayList.add(new PolylineOptions().points(points).width(10)
-                            .color(getLineColor() != 0 ? getLineColor() : Color.argb(178, 0, 78, 255)).zIndex(0));
+                    overlayList.add(new PolylineOptions()
+                            .points(points)
+                            .width(10)
+                            .color(getLineColor() != 0 ? getLineColor() :
+                                    Color.argb(178, 0, 78, 255))
+                            .zIndex(0));
                     lastStepLastPoint = watPoints.get(watPoints.size() - 1);
                 }
             }
-
         }
 
         return overlayList;
@@ -148,8 +150,7 @@ public class WalkingRouteOverlay extends OverlayManager {
      * @return 是否处理了该点击事件
      */
     public boolean onRouteNodeClick(int i) {
-        if (mRouteLine.getAllStep() != null
-                && mRouteLine.getAllStep().get(i) != null) {
+        if (mRouteLine.getAllStep() != null && mRouteLine.getAllStep().get(i) != null) {
             Log.i("baidumapsdk", "WalkingRouteOverlay onRouteNodeClick");
         }
         return false;
@@ -172,4 +173,5 @@ public class WalkingRouteOverlay extends OverlayManager {
         // TODO Auto-generated method stub
         return false;
     }
+
 }

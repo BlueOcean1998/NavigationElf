@@ -4,6 +4,8 @@
 package com.navigation.foxizz.mybaidumap.activity;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -34,22 +36,13 @@ public class WNaviGuideActivity extends Activity {
 
     private WalkNavigateHelper mNaviHelper;
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mNaviHelper.quit();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mNaviHelper.resume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mNaviHelper.pause();
+    /**
+     * 启动步行导航诱导活动
+     *
+     * @param context 上下文
+     */
+    public static void startActivity(Context context) {
+        context.startActivity(new Intent(context, WNaviGuideActivity.class));
     }
 
     @Override
@@ -59,7 +52,7 @@ public class WNaviGuideActivity extends Activity {
         mNaviHelper = WalkNavigateHelper.getInstance();
 
         try {
-            View view = mNaviHelper.onCreate(WNaviGuideActivity.this);
+            View view = mNaviHelper.onCreate(this);
             if (view != null) {
                 setContentView(view);
             }
@@ -91,7 +84,7 @@ public class WNaviGuideActivity extends Activity {
             }
         });
 
-        boolean startResult = mNaviHelper.startWalkNavi(WNaviGuideActivity.this);
+        boolean startResult = mNaviHelper.startWalkNavi(this);
         Log.e(TAG, "startWalkNavi result : " + startResult);
 
         mNaviHelper.setRouteGuidanceListener(this, new IWRouteGuidanceListener() {
@@ -173,14 +166,33 @@ public class WNaviGuideActivity extends Activity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mNaviHelper.resume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mNaviHelper.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mNaviHelper.quit();
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == ArCameraView.WALK_AR_PERMISSION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 ToastUtil.showToast("没有相机权限,请打开后重试");
             } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                mNaviHelper.startCameraAndSetMapView(WNaviGuideActivity.this);
+                mNaviHelper.startCameraAndSetMapView(this);
             }
         }
     }
+
 }

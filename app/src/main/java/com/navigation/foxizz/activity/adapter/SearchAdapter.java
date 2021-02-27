@@ -30,8 +30,6 @@ import com.navigation.foxizz.util.LayoutUtil;
 import com.navigation.foxizz.util.NetworkUtil;
 import com.navigation.foxizz.util.ToastUtil;
 
-import static com.navigation.foxizz.BaseApplication.getApplication;
-
 /**
  * 搜索到的信息列表的适配器
  */
@@ -46,7 +44,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     //设置item中的View
     static class ViewHolder extends RecyclerView.ViewHolder {
-        CardView cardSchemeInfo;
+        CardView cardSearchInfo;
         TextView tvTargetName;
         TextView tvAddress;
         TextView tvDistance;
@@ -55,7 +53,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
         ViewHolder(View view) {
             super(view);
-            cardSchemeInfo = view.findViewById(R.id.card_scheme_info);
+            cardSearchInfo = view.findViewById(R.id.card_search_info);
             tvTargetName = view.findViewById(R.id.tv_target_name);
             tvAddress = view.findViewById(R.id.tv_address);
             tvDistance = view.findViewById(R.id.tv_distance);
@@ -105,8 +103,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         //设置提示信息的内容
         if (!mainFragment.isHistorySearchResult
                 && mainFragment.currentPage < mainFragment.totalPage)
-            holder.tvEnd.setText(getApplication().getString(R.string.loading));
-        else holder.tvEnd.setText(getApplication().getString(R.string.no_more));
+            holder.tvEnd.setText(mainFragment.getString(R.string.loading));
+        else holder.tvEnd.setText(mainFragment.getString(R.string.no_more));
 
         //只有底部显示提示信息
         if (position == mainFragment.searchList.size() - 1) {
@@ -123,7 +121,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         final ViewHolder holder = new ViewHolder(view);
 
         //cardView的点击事件
-        holder.cardSchemeInfo.setOnClickListener(new View.OnClickListener() {
+        holder.cardSearchInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (unableToClick()) return;
@@ -169,7 +167,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             }
         });
 
-        //itemButton的点击事件
+        //btItem的点击事件
         holder.btItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -187,23 +185,15 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 click(holder);
 
                 LayoutUtil.expandLayout(mainFragment.llSelectLayout, true);//展开选择布局
-
                 mainFragment.btMiddle.setText(R.string.middle_button2);//设置按钮为详细信息
                 mainFragment.infoFlag = false;//设置信息状态为交通选择
-
-                //重置交通类型为步行
-                mainFragment.routePlanSelect = MainFragment.WALKING;
-                mainFragment.btSelect1.setBackgroundResource(R.drawable.bt_bg_gray);
-                mainFragment.btSelect2.setBackgroundResource(R.drawable.bt_bg_black);
-                mainFragment.btSelect3.setBackgroundResource(R.drawable.bt_bg_gray);
-                mainFragment.btSelect4.setBackgroundResource(R.drawable.bt_bg_gray);
 
                 mainFragment.myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
             }
         });
 
         //cardView的长按事件
-        holder.cardSchemeInfo.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.cardSearchInfo.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 if (unableToClick()) return false;
@@ -260,7 +250,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     //显示删除搜索记录对话框
     private void showDeleteSearchDataDialog(final SearchItem searchItem) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mainFragment.requireContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(mainFragment.requireActivity());
         builder.setTitle(R.string.hint);
         builder.setMessage("你确定要删除'" + searchItem.getTargetName() + "'吗？");
 

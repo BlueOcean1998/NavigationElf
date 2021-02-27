@@ -44,10 +44,9 @@ public class DrivingRouteOverlay extends OverlayManager {
         }
 
         List<OverlayOptions> overlayOptionses = new ArrayList<>();
-        // step node
-        if (mRouteLine.getAllStep() != null
-                && mRouteLine.getAllStep().size() > 0) {
 
+        // step node
+        if (mRouteLine.getAllStep() != null && mRouteLine.getAllStep().size() > 0) {
             for (DrivingRouteLine.DrivingStep step : mRouteLine.getAllStep()) {
                 Bundle b = new Bundle();
                 b.putInt("index", mRouteLine.getAllStep().indexOf(step));
@@ -62,15 +61,14 @@ public class DrivingRouteOverlay extends OverlayManager {
                                     .fromAssetWithDpi("Icon_line_node.png")));
                 }
                 // 最后路段绘制出口点
-                if (mRouteLine.getAllStep().indexOf(step) == (mRouteLine
-                        .getAllStep().size() - 1) && step.getExit() != null) {
+                if (mRouteLine.getAllStep().indexOf(step) == (mRouteLine.getAllStep().size() - 1)
+                        && step.getExit() != null) {
                     overlayOptionses.add((new MarkerOptions())
                             .position(step.getExit().getLocation())
                             .anchor(0.5f, 0.5f)
                             .zIndex(10)
                             .icon(BitmapDescriptorFactory
                                     .fromAssetWithDpi("Icon_line_node.png")));
-
                 }
             }
         }
@@ -79,38 +77,38 @@ public class DrivingRouteOverlay extends OverlayManager {
             overlayOptionses.add((new MarkerOptions())
                     .position(mRouteLine.getStarting().getLocation())
                     .icon(getStartMarker() != null ? getStartMarker() :
-                            BitmapDescriptorFactory
-                                    .fromAssetWithDpi("Icon_start.png")).zIndex(10));
+                            BitmapDescriptorFactory.fromAssetWithDpi("Icon_start.png"))
+                    .zIndex(10));
         }
-        if (mRouteLine.getTerminal() != null) {
-            overlayOptionses
-                    .add((new MarkerOptions())
-                            .position(mRouteLine.getTerminal().getLocation())
-                            .icon(getTerminalMarker() != null ? getTerminalMarker() :
-                                    BitmapDescriptorFactory
-                                            .fromAssetWithDpi("Icon_end.png"))
-                            .zIndex(10));
-        }
-        // poly line
-        if (mRouteLine.getAllStep() != null
-                && mRouteLine.getAllStep().size() > 0) {
 
+        if (mRouteLine.getTerminal() != null) {
+            overlayOptionses.add((new MarkerOptions())
+                    .position(mRouteLine.getTerminal().getLocation())
+                    .icon(getTerminalMarker() != null ? getTerminalMarker() :
+                            BitmapDescriptorFactory.fromAssetWithDpi("Icon_end.png"))
+                    .zIndex(10));
+        }
+
+        // poly line
+        if (mRouteLine.getAllStep() != null && mRouteLine.getAllStep().size() > 0) {
             List<DrivingStep> steps = mRouteLine.getAllStep();
             int stepNum = steps.size();
 
-
             List<LatLng> points = new ArrayList<>();
             ArrayList<Integer> traffics = new ArrayList<>();
+
             int totalTraffic = 0;
             for (int i = 0; i < stepNum; i++) {
                 if (i == stepNum - 1) {
                     points.addAll(steps.get(i).getWayPoints());
                 } else {
-                    points.addAll(steps.get(i).getWayPoints().subList(0, steps.get(i).getWayPoints().size() - 1));
+                    points.addAll(steps.get(i).getWayPoints()
+                            .subList(0, steps.get(i).getWayPoints().size() - 1));
                 }
 
                 totalTraffic += steps.get(i).getWayPoints().size() - 1;
-                if (steps.get(i).getTrafficList() != null && steps.get(i).getTrafficList().length > 0) {
+                if (steps.get(i).getTrafficList() != null
+                        && steps.get(i).getTrafficList().length > 0) {
                     for (int j = 0; j < steps.get(i).getTrafficList().length; j++) {
                         traffics.add(steps.get(i).getTrafficList()[j]);
                     }
@@ -127,19 +125,26 @@ public class DrivingRouteOverlay extends OverlayManager {
 //                }
 //                indexList.putIntArray("indexs", raffic);
 //            }
-            boolean isDotLine = false;
 
+            boolean isDotLine = false;
             if (traffics.size() > 0) {
                 isDotLine = true;
             }
-            PolylineOptions option = new PolylineOptions().points(points).textureIndex(traffics)
-                    .width(7).dottedLine(isDotLine).focus(true)
-                    .color(getLineColor() != 0 ? getLineColor() : Color.argb(178, 0, 78, 255)).zIndex(0);
+            PolylineOptions option = new PolylineOptions()
+                    .points(points)
+                    .textureIndex(traffics)
+                    .width(7)
+                    .dottedLine(isDotLine)
+                    .focus(true)
+                    .color(getLineColor() != 0 ? getLineColor() :
+                            Color.argb(178, 0, 78, 255))
+                    .zIndex(0);
             if (isDotLine) {
                 option.customTextureList(getCustomTextureList());
             }
             overlayOptionses.add(option);
         }
+
         return overlayOptionses;
     }
 
@@ -196,8 +201,7 @@ public class DrivingRouteOverlay extends OverlayManager {
      * @return 是否处理了该点击事件
      */
     public boolean onRouteNodeClick(int i) {
-        if (mRouteLine.getAllStep() != null
-                && mRouteLine.getAllStep().get(i) != null) {
+        if (mRouteLine.getAllStep() != null && mRouteLine.getAllStep().get(i) != null) {
             Log.i("baidumapsdk", "DrivingRouteOverlay onRouteNodeClick");
         }
         return false;
@@ -235,10 +239,9 @@ public class DrivingRouteOverlay extends OverlayManager {
             if (mPolyline instanceof Polyline) {
                 // 选中
                 ((Polyline) mPolyline).setFocus(flag);
-
                 break;
             }
         }
-
     }
+
 }

@@ -46,7 +46,9 @@ public class IndoorPoiOverlay extends OverlayManager {
         if (mIndoorPoiResult == null || mIndoorPoiResult.getmArrayPoiInfo() == null) {
             return null;
         }
+
         List<OverlayOptions> markerList = new ArrayList<>();
+
         int markerSize = 0;
         for (int i = 0; i < mIndoorPoiResult.getmArrayPoiInfo().size()
                 && markerSize < MAX_POI_SIZE; i++) {
@@ -58,10 +60,11 @@ public class IndoorPoiOverlay extends OverlayManager {
             bundle.putInt("index", i);
             markerList.add(new MarkerOptions()
                     .icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_mark"
-                            + markerSize + ".png")).extraInfo(bundle)
+                            + markerSize + ".png"))
+                    .extraInfo(bundle)
                     .position(mIndoorPoiResult.getmArrayPoiInfo().get(i).latLng));
-
         }
+
         return markerList;
     }
 
@@ -76,7 +79,8 @@ public class IndoorPoiOverlay extends OverlayManager {
      * 覆写此方法以改变默认点击行为
      *
      * @param i 被点击的poi在
-     *          {@link com.baidu.mapapi.search.poi.PoiIndoorResult#getmArrayPoiInfo()} } 中的索引
+     *          {@link com.baidu.mapapi.search.poi.PoiIndoorResult#getmArrayPoiInfo()}
+     *          中的索引
      */
     public boolean onPoiClick(int i) {
         return false;
@@ -98,5 +102,6 @@ public class IndoorPoiOverlay extends OverlayManager {
         // TODO Auto-generated method stub
         return false;
     }
+
 }
 

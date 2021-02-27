@@ -7,7 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 
-import static com.navigation.foxizz.BaseApplication.getApplication;
+import static com.navigation.foxizz.BaseApplication.getBaseApplication;
 
 /**
  * 方向传感器
@@ -49,7 +49,7 @@ public class MyOrientationListener implements SensorEventListener {
      * 开始方向传感
      */
     public void start() {
-        mSensorManager = (SensorManager) getApplication().getSystemService(Context.SENSOR_SERVICE);
+        mSensorManager = (SensorManager) getBaseApplication().getSystemService(Context.SENSOR_SERVICE);
         if (mSensorManager != null) {
             //获得方向传感器
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

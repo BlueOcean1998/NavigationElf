@@ -1,7 +1,6 @@
 package com.navigation.foxizz.mybaidumap;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -37,7 +36,7 @@ import com.navigation.foxizz.util.ToastUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.navigation.foxizz.BaseApplication.getApplication;
+import static com.navigation.foxizz.BaseApplication.getBaseApplication;
 
 /**
  * 导航模块
@@ -65,14 +64,14 @@ public class MyNavigateHelper {
      */
     public void initDriveNavigateHelper() {
         if (!hasInitDriveNavigate) {
-            BaiduNaviManagerFactory.getBaiduNaviManager().init(getApplication(),
+            BaiduNaviManagerFactory.getBaiduNaviManager().init(getBaseApplication(),
                     AppUtil.getSDCardDir(),
                     AppUtil.getAppFolderName(),
                     new IBaiduNaviManager.INaviInitListener() {
                         @Override
                         public void onAuthResult(int status, final String msg) {
                             if (status != 0) {
-                                ToastUtil.showToast(getApplication().getString(R.string.key_checkout_fail) + msg);
+                                ToastUtil.showToast(mainFragment.getString(R.string.key_checkout_fail) + msg);
                             }
                         }
 
@@ -110,7 +109,7 @@ public class MyNavigateHelper {
     //初始化语音合成模块
     private void initTTS() {
         BaiduNaviManagerFactory.getTTSManager().initTTS(new BNTTsInitConfig.Builder()
-                .context(getApplication())
+                .context(getBaseApplication())
                 .sdcardRootPath(AppUtil.getSDCardDir())
                 .appFolderName(AppUtil.getAppFolderName())
                 .appId(mainFragment.getString(R.string.app_id))
@@ -203,6 +202,9 @@ public class MyNavigateHelper {
             case MainFragment.BIKING:
                 initBikeNavigateHelper();//开始骑行导航
                 break;
+
+            default:
+                break;
         }
     }
 
@@ -246,9 +248,7 @@ public class MyNavigateHelper {
                                 ToastUtil.showToast(R.string.drive_route_plan_fail);
                                 break;
                             case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_TO_NAVI:
-                                mainFragment.startActivity(
-                                        new Intent(getApplication(), DNaviGuideActivity.class)
-                                );
+                                DNaviGuideActivity.startActivity(mainFragment.requireActivity());
                                 break;
                             default:
                                 break;
@@ -314,7 +314,7 @@ public class MyNavigateHelper {
             @Override
             public void onRoutePlanSuccess() {
                 loadingProgress.dismiss();
-                mainFragment.startActivity(new Intent(getApplication(), WNaviGuideActivity.class));
+                WNaviGuideActivity.startActivity(mainFragment.requireActivity());
             }
 
             @Override
@@ -346,7 +346,7 @@ public class MyNavigateHelper {
             @Override
             public void onRoutePlanSuccess() {
                 loadingProgress.dismiss();
-                mainFragment.startActivity(new Intent(getApplication(), BNaviGuideActivity.class));
+                BNaviGuideActivity.startActivity(mainFragment.requireActivity());
             }
 
             @Override

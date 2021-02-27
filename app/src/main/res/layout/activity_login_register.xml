@@ -190,7 +190,8 @@
                     android:gravity="center"
                     android:text="@string/login"
                     android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    android:textSize="16dp"
+                    tools:ignore="SpUsage" />
             </LinearLayout>
 
             <LinearLayout

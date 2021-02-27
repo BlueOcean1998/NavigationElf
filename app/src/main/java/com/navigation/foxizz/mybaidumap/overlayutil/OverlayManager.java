@@ -28,7 +28,7 @@ import static com.baidu.mapapi.map.BaiduMap.OnMarkerClickListener;
  */
 public abstract class OverlayManager implements OnMarkerClickListener, OnPolylineClickListener {
 
-    BaiduMap mBaiduMap;
+    private final BaiduMap mBaiduMap;
     List<Overlay> mOverlayList = null;
     private List<OverlayOptions> mOverlayOptionList = null;
 
@@ -84,7 +84,6 @@ public abstract class OverlayManager implements OnMarkerClickListener, OnPolylin
         }
         mOverlayOptionList.clear();
         mOverlayList.clear();
-
     }
 
     /**
@@ -105,8 +104,7 @@ public abstract class OverlayManager implements OnMarkerClickListener, OnPolylin
                     builder.include(((Marker) overlay).getPosition());
                 }
             }
-            mBaiduMap.setMapStatus(MapStatusUpdateFactory
-                    .newLatLngBounds(builder.build()));
+            mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLngBounds(builder.build()));
         }
     }
 

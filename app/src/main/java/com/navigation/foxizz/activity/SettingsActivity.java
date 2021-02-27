@@ -59,6 +59,18 @@ public class SettingsActivity extends BaseActivity {
 
     private static LocalBroadcastManager localBroadcastManager;//本地广播管理器
 
+    /**
+     * 启动设置页
+     *
+     * @param context 上下文
+     * @param mCity   所在城市
+     */
+    public static void startActivity(Context context, String mCity) {
+        Intent intent = new Intent(context, SettingsActivity.class);
+        intent.putExtra(Constants.MY_CITY, mCity);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -335,7 +347,7 @@ public class SettingsActivity extends BaseActivity {
                 case Constants.KEY_SEARCH_AROUND:
                     break;
                 case Constants.KEY_SEARCH_RECORD:
-                    showDeleteAllSearchDataDialog(requireContext());//显示删除所有搜索记录对话框
+                    showDeleteAllSearchDataDialog(requireActivity());//显示删除所有搜索记录对话框
                 default:
                     break;
             }

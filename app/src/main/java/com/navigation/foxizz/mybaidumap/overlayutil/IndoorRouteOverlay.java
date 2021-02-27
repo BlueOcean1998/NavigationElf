@@ -32,10 +32,11 @@ public class IndoorRouteOverlay extends OverlayManager {
      */
     public IndoorRouteOverlay(BaiduMap baiduMap) {
         super(baiduMap);
-        colorInfo = new int[]{Color.argb(178, 0, 78, 255), Color.argb(178, 88, 208, 0), Color.argb(178, 88, 78,
-                255)};
+        colorInfo = new int[]{
+                Color.argb(178, 0, 78, 255),
+                Color.argb(178, 88, 208, 0),
+                Color.argb(178, 88, 78, 255)};
     }
-
 
     /**
      * 设置路线数据
@@ -76,37 +77,47 @@ public class IndoorRouteOverlay extends OverlayManager {
 
         List<OverlayOptions> overlayList = new ArrayList<>();
 
-
         // 添加step的节点
         if (mRouteLine.getAllStep() != null && mRouteLine.getAllStep().size() > 0) {
             for (IndoorRouteLine.IndoorRouteStep step : mRouteLine.getAllStep()) {
                 Bundle b = new Bundle();
                 b.putInt("index", mRouteLine.getAllStep().indexOf(step));
                 if (step.getEntrace() != null) {
-                    overlayList.add((new MarkerOptions()).position(step.getEntrace().getLocation())
-                            .zIndex(10).anchor(0.5f, 0.5f).extraInfo(b)
-                            .icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_walk_route.png")));
+                    overlayList.add((new MarkerOptions())
+                            .position(step.getEntrace().getLocation())
+                            .zIndex(10)
+                            .anchor(0.5f, 0.5f)
+                            .extraInfo(b)
+                            .icon(BitmapDescriptorFactory
+                                    .fromAssetWithDpi("Icon_walk_route.png")));
                 }
 
                 // 最后路段绘制出口点
                 if (mRouteLine.getAllStep().indexOf(step) == (mRouteLine.getAllStep().size() - 1)
                         && step.getExit() != null) {
-                    overlayList.add((new MarkerOptions()).position(step.getExit().getLocation()).anchor(0.5f, 0.5f)
-                            .zIndex(10).icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_walk_route.png")));
-
+                    overlayList.add((new MarkerOptions())
+                            .position(step.getExit().getLocation())
+                            .anchor(0.5f, 0.5f)
+                            .zIndex(10)
+                            .icon(BitmapDescriptorFactory
+                                    .fromAssetWithDpi("Icon_walk_route.png")));
                 }
             }
         }
+
         // 添加起点starting
         if (mRouteLine.getStarting() != null) {
-            overlayList.add((new MarkerOptions()).position(mRouteLine.getStarting().getLocation())
+            overlayList.add((new MarkerOptions())
+                    .position(mRouteLine.getStarting().getLocation())
                     .icon(getStartMarker() != null ? getStartMarker() :
                             BitmapDescriptorFactory.fromAssetWithDpi("Icon_start.png"))
                     .zIndex(10));
         }
+
         // 添加终点terminal
         if (mRouteLine.getTerminal() != null) {
-            overlayList.add((new MarkerOptions()).position(mRouteLine.getTerminal().getLocation())
+            overlayList.add((new MarkerOptions())
+                    .position(mRouteLine.getTerminal().getLocation())
                     .icon(getTerminalMarker() != null ? getTerminalMarker() :
                             BitmapDescriptorFactory.fromAssetWithDpi("Icon_end.png"))
                     .zIndex(10));
@@ -124,16 +135,17 @@ public class IndoorRouteOverlay extends OverlayManager {
                         points.add(lastStepLastPoint);
                     }
                     points.addAll(watPoints);
-                    overlayList.add(new PolylineOptions().points(points).width(10)
-                            .color(getLineColor() != 0 ? getLineColor() : colorInfo[idex++ % 3]).zIndex(0));
+                    overlayList.add(new PolylineOptions()
+                            .points(points)
+                            .width(10)
+                            .color(getLineColor() != 0 ? getLineColor() :
+                                    colorInfo[idex++ % 3]).zIndex(0));
                     lastStepLastPoint = watPoints.get(watPoints.size() - 1);
                 }
             }
-
         }
 
         return overlayList;
-
     }
 
 //    private BitmapDescriptor getIconForStep(IndoorRouteLine.TransitStep step) {
@@ -161,5 +173,6 @@ public class IndoorRouteOverlay extends OverlayManager {
     public boolean onPolylineClick(Polyline polyline) {
         return false;
     }
+
 }
 

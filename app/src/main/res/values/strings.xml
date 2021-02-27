@@ -32,6 +32,7 @@
     <string name="select_button2">步行</string>
     <string name="select_button3">骑行</string>
     <string name="select_button4">公交</string>
+    <string name="please_select_transportation">请选择交通工具</string>
 
     <string name="empty_button">清空</string>
     <string name="search_button">搜索</string>

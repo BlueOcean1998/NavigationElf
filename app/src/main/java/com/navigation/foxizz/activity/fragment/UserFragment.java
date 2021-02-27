@@ -1,6 +1,5 @@
 package com.navigation.foxizz.activity.fragment;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -32,8 +31,6 @@ import com.navigation.foxizz.util.ToastUtil;
 import cn.zerokirby.api.data.AvatarDataHelper;
 import cn.zerokirby.api.data.User;
 import cn.zerokirby.api.data.UserDataHelper;
-
-import static com.navigation.foxizz.BaseApplication.getApplication;
 
 /**
  * 用户页
@@ -95,7 +92,7 @@ public class UserFragment extends Fragment {
         localReceiver = new LocalReceiver(requireActivity());
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Constants.LOGIN_BROADCAST);
-        localBroadcastManager = LocalBroadcastManager.getInstance(requireContext());
+        localBroadcastManager = LocalBroadcastManager.getInstance(requireActivity());
         localBroadcastManager.registerReceiver(localReceiver, intentFilter);
     }
 
@@ -117,7 +114,7 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (UserDataHelper.getLoginUserId().equals("0"))
-                    startActivity(new Intent(getApplication(), LoginRegisterActivity.class));
+                    LoginRegisterActivity.startActivity(requireActivity());
                 else AvatarDataHelper.checkAvatarPermission(requireActivity());
             }
         });
@@ -126,7 +123,7 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (UserDataHelper.getLoginUserId().equals("0"))
-                    startActivity(new Intent(getApplication(), LoginRegisterActivity.class));
+                    LoginRegisterActivity.startActivity(requireActivity());
             }
         });
     }
@@ -145,15 +142,9 @@ public class UserFragment extends Fragment {
             Intent browser = new Intent("android.intent.action.VIEW");
             switch (preference.getKey()) {
                 case Constants.KEY_TO_SETTINGS:
-                    Intent intent = new Intent(getApplication(), SettingsActivity.class);
-
-                    //寻找mainFragment
-                    MainFragment mainFragment = ((MainActivity) requireActivity()).getMainFragment();
-                    //传递mCity
-                    if (mainFragment != null && mainFragment.mCity != null)
-                        intent.putExtra(Constants.MY_CITY, mainFragment.mCity);
-
-                    startActivity(intent);
+                    MainActivity mainActivity = (MainActivity) requireActivity();
+                    MainFragment mainFragment = mainActivity.getMainFragment();
+                    SettingsActivity.startActivity(mainActivity, mainFragment.mCity);
                     break;
                 case Constants.KEY_CHECK_UPDATE:
                     //TODO
@@ -165,7 +156,7 @@ public class UserFragment extends Fragment {
                     startActivity(browser.setData(Uri.parse("mailto:" + getString(R.string.contact_me_url))));
                     break;
                 case Constants.KEY_LOGOUT:
-                    showLogoutDialog(requireContext(), preference);
+                    showLogoutDialog((MainActivity) requireActivity(), preference);
                     break;
                 default:
                     break;
@@ -174,8 +165,8 @@ public class UserFragment extends Fragment {
         }
 
         //弹出退出登录提示对话框
-        private static void showLogoutDialog(final Context context, final Preference preference) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        private static void showLogoutDialog(final MainActivity mainActivity, final Preference preference) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
             builder.setTitle(R.string.hint);
             builder.setMessage(R.string.sure_to_logout);
 
@@ -188,11 +179,9 @@ public class UserFragment extends Fragment {
                     UserDataHelper.logout();//退出登录
 
                     //还原用户名和头像为默认
-                    if (context instanceof MainActivity) {
-                        UserFragment userFragment = ((MainActivity) context).getUserFragment();
-                        userFragment.tvUserName.setText(R.string.to_login);
-                        userFragment.ivAvatar.setImageResource(R.drawable.dolphizz_sketch);
-                    }
+                    UserFragment userFragment = mainActivity.getUserFragment();
+                    userFragment.tvUserName.setText(R.string.to_login);
+                    userFragment.ivAvatar.setImageResource(R.drawable.dolphizz_sketch);
                 }
             });
 

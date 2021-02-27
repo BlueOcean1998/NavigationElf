@@ -18,7 +18,7 @@ import com.navigation.foxizz.data.SPHelper;
 import com.navigation.foxizz.data.SearchDataHelper;
 import com.navigation.foxizz.util.ToastUtil;
 
-import static com.navigation.foxizz.BaseApplication.getApplication;
+import static com.navigation.foxizz.BaseApplication.getBaseApplication;
 
 /**
  * 定位模块
@@ -43,7 +43,7 @@ public class MyLocation {
         isFirstLoc = true;//首次定位
 
         //定位服务的客户端。宿主程序在客户端声明此类，并调用，目前只支持在主线程中启动
-        mainFragment.mLocationClient = new LocationClient(getApplication());
+        mainFragment.mLocationClient = new LocationClient(getBaseApplication());
 
         //定位监听
         mainFragment.mLocationClient.registerLocationListener(new BDAbstractLocationListener() {

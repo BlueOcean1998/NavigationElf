@@ -4,6 +4,8 @@
 package com.navigation.foxizz.mybaidumap.activity;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,16 +30,13 @@ public class BNaviGuideActivity extends Activity {
 
     private BikeNavigateHelper mNaviHelper;
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mNaviHelper.quit();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mNaviHelper.resume();
+    /**
+     * 启动骑行导航诱导活动
+     *
+     * @param context 上下文
+     */
+    public static void startActivity(Context context) {
+        context.startActivity(new Intent(context, BNaviGuideActivity.class));
     }
 
     @Override
@@ -46,7 +45,7 @@ public class BNaviGuideActivity extends Activity {
 
         mNaviHelper = BikeNavigateHelper.getInstance();
 
-        View view = mNaviHelper.onCreate(BNaviGuideActivity.this);
+        View view = mNaviHelper.onCreate(this);
         if (view != null) {
             setContentView(view);
         }
@@ -62,14 +61,12 @@ public class BNaviGuideActivity extends Activity {
             @Override
             public int playTTSText(String s, boolean b) {
                 Log.d("tts", s);
-
                 SpeechSynthesizer.getInstance().speak(s);//语音播报
-
                 return 0;
             }
         });
 
-        mNaviHelper.startBikeNavi(BNaviGuideActivity.this);
+        mNaviHelper.startBikeNavi(this);
 
         mNaviHelper.setRouteGuidanceListener(this, new IBRouteGuidanceListener() {
             @Override
@@ -135,6 +132,24 @@ public class BNaviGuideActivity extends Activity {
 
         //初始化设置
         SettingUtil.initSettings(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mNaviHelper.resume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mNaviHelper.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mNaviHelper.quit();
     }
 
 }

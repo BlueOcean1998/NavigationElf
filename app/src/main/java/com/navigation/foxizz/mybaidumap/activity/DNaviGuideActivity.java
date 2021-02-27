@@ -4,6 +4,7 @@
 package com.navigation.foxizz.mybaidumap.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -38,7 +39,6 @@ public class DNaviGuideActivity extends Activity {
     private final IBNaviListener.DayNightMode mMode = IBNaviListener.DayNightMode.DAY;
     private final IBNRouteGuideManager.OnNavigationListener mOnNavigationListener =
             new IBNRouteGuideManager.OnNavigationListener() {
-
                 @Override
                 public void onNaviGuideEnd() {
                     // 退出导航
@@ -54,6 +54,15 @@ public class DNaviGuideActivity extends Activity {
                     }
                 }
             };
+
+    /**
+     * 启动驾车导航诱导活动
+     *
+     * @param context 上下文
+     */
+    public static void startActivity(Context context) {
+        context.startActivity(new Intent(context, DNaviGuideActivity.class));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,11 +119,6 @@ public class DNaviGuideActivity extends Activity {
         );
     }
 
-    private void unInitTTSListener() {
-        BaiduNaviManagerFactory.getTTSManager().setOnTTSStateChangedListener(null);
-        BaiduNaviManagerFactory.getTTSManager().setOnTTSStateChangedHandler(null);
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -131,6 +135,7 @@ public class DNaviGuideActivity extends Activity {
         SettingUtil.initSettings(this);
     }
 
+    @Override
     protected void onPause() {
         super.onPause();
         mRouteGuideManager.onPause();
@@ -149,6 +154,11 @@ public class DNaviGuideActivity extends Activity {
         mRouteGuideManager.onDestroy(false);
         unInitTTSListener();
         mRouteGuideManager = null;
+    }
+
+    private void unInitTTSListener() {
+        BaiduNaviManagerFactory.getTTSManager().setOnTTSStateChangedListener(null);
+        BaiduNaviManagerFactory.getTTSManager().setOnTTSStateChangedHandler(null);
     }
 
     @Override
@@ -211,4 +221,5 @@ public class DNaviGuideActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         mRouteGuideManager.onActivityResult(requestCode, resultCode, data);
     }
+
 }

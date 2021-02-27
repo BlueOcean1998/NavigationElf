@@ -47,21 +47,20 @@ public class PoiOverlay extends OverlayManager {
         }
 
         List<OverlayOptions> markerList = new ArrayList<>();
-        int markerSize = 0;
 
+        int markerSize = 0;
         for (int i = 0; i < mPoiResult.getAllPoi().size() && markerSize < MAX_POI_SIZE; i++) {
             if (mPoiResult.getAllPoi().get(i).location == null) {
                 continue;
             }
-
             markerSize++;
             Bundle bundle = new Bundle();
             bundle.putInt("index", i);
             markerList.add(new MarkerOptions()
-                    .icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_mark" + markerSize + ".png"))
+                    .icon(BitmapDescriptorFactory
+                            .fromAssetWithDpi("Icon_mark" + markerSize + ".png"))
                     .extraInfo(bundle)
                     .position(mPoiResult.getAllPoi().get(i).location));
-
         }
 
         return markerList;
@@ -79,8 +78,7 @@ public class PoiOverlay extends OverlayManager {
     /**
      * 覆写此方法以改变默认点击行为
      *
-     * @param i 被点击的poi在
-     *          {@link PoiResult#getAllPoi()} 中的索引
+     * @param i 被点击的poi在 {@link PoiResult#getAllPoi()} 中的索引
      * @return true--事件已经处理，false--事件未处理
      */
     public boolean onPoiClick(int i) {
@@ -98,11 +96,9 @@ public class PoiOverlay extends OverlayManager {
         if (!mOverlayList.contains(marker)) {
             return false;
         }
-
         if (marker.getExtraInfo() != null) {
             return onPoiClick(marker.getExtraInfo().getInt("index"));
         }
-
         return false;
     }
 
@@ -110,4 +106,5 @@ public class PoiOverlay extends OverlayManager {
     public boolean onPolylineClick(Polyline polyline) {
         return false;
     }
+
 }

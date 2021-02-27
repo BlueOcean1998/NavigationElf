@@ -12,7 +12,7 @@ import androidx.preference.PreferenceManager;
 
 import com.navigation.foxizz.data.Constants;
 
-import static com.navigation.foxizz.BaseApplication.getApplication;
+import static com.navigation.foxizz.BaseApplication.getBaseApplication;
 
 /**
  * 设置工具类
@@ -31,7 +31,7 @@ public class SettingUtil {
         };
 
         for (String permission : permissions) {
-            if (ContextCompat.checkSelfPermission(getApplication(), permission)
+            if (ContextCompat.checkSelfPermission(getBaseApplication(), permission)
                     != PackageManager.PERMISSION_GRANTED)
                 return true;
         }
@@ -41,7 +41,7 @@ public class SettingUtil {
 
     //判断是否是手机模式
     public static boolean isMobile() {
-        return (getApplication().getResources().getConfiguration().screenLayout
+        return (getBaseApplication().getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK) < Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 

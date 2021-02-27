@@ -2,7 +2,6 @@ package com.navigation.foxizz.activity.fragment;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -74,8 +73,6 @@ import com.navigation.foxizz.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.navigation.foxizz.BaseApplication.getApplication;
 
 /**
  * 地图页
@@ -153,11 +150,11 @@ public class MainFragment extends Fragment {
     public LatLng endLocation;//终点
     //交通选择
     public LinearLayout llSelectLayout;//选择布局
-    public final static int DRIVING = 0;//驾车
-    public final static int WALKING = 1;//步行
-    public final static int BIKING = 2;//骑行
-    public final static int TRANSIT = 3;//公交
-    public int routePlanSelect = WALKING;//默认为步行
+    public final static int DRIVING = 1;//驾车
+    public final static int WALKING = 2;//步行
+    public final static int BIKING = 3;//骑行
+    public final static int TRANSIT = 4;//公交
+    public int routePlanSelect = 0;//默认为步行
     public Button btSelect1;//选择驾车
     public Button btSelect2;//选择步行
     public Button btSelect3;//选择骑行
@@ -214,7 +211,7 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         //获取默认设置
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
 
         initMap(view);//初始化地图控件
 
@@ -344,6 +341,7 @@ public class MainFragment extends Fragment {
 
         //开始下载
         if (cityID != 0) {
+            Log.d("Foxizz_Test", "cityID=" + cityID);
             mOffline.start(cityID);
             //mOffline.update(cityID);
             //ToastUtil.showToast("正在下载离线地图");
@@ -413,7 +411,7 @@ public class MainFragment extends Fragment {
     //初始化偏好设置
     private void initSettings() {
         //获取键盘对象
-        imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
         setMapType();
         SettingUtil.initSettings(requireActivity());
@@ -437,7 +435,7 @@ public class MainFragment extends Fragment {
         localReceiver = new LocalReceiver(requireActivity());
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Constants.SETTINGS_BROADCAST);
-        localBroadcastManager = LocalBroadcastManager.getInstance(requireContext());
+        localBroadcastManager = LocalBroadcastManager.getInstance(requireActivity());
         localBroadcastManager.registerReceiver(localReceiver, intentFilter);
     }
 
@@ -513,9 +511,7 @@ public class MainFragment extends Fragment {
         ibSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplication(), SettingsActivity.class);
-                if (mCity != null) intent.putExtra(Constants.MY_CITY, mCity);
-                startActivity(intent);
+                SettingsActivity.startActivity(requireActivity(), mCity);
             }
         });
 
@@ -536,17 +532,14 @@ public class MainFragment extends Fragment {
             }
         });
 
-        //默认为步行
-        btSelect2.setBackgroundResource(R.drawable.bt_bg_black);
-
         //驾车按钮的点击事件
         btSelect1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btSelect1.setBackgroundResource(R.drawable.bt_bg_black);
-                btSelect2.setBackgroundResource(R.drawable.bt_bg_gray);
-                btSelect3.setBackgroundResource(R.drawable.bt_bg_gray);
-                btSelect4.setBackgroundResource(R.drawable.bt_bg_gray);
+                btSelect1.setBackgroundResource(R.drawable.bt_bg_black_gray);
+                btSelect2.setBackgroundResource(R.drawable.bt_bg_alpha_black);
+                btSelect3.setBackgroundResource(R.drawable.bt_bg_alpha_black);
+                btSelect4.setBackgroundResource(R.drawable.bt_bg_alpha_black);
                 routePlanSelect = DRIVING;
 
                 myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
@@ -557,10 +550,10 @@ public class MainFragment extends Fragment {
         btSelect2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btSelect1.setBackgroundResource(R.drawable.bt_bg_gray);
-                btSelect2.setBackgroundResource(R.drawable.bt_bg_black);
-                btSelect3.setBackgroundResource(R.drawable.bt_bg_gray);
-                btSelect4.setBackgroundResource(R.drawable.bt_bg_gray);
+                btSelect1.setBackgroundResource(R.drawable.bt_bg_alpha_black);
+                btSelect2.setBackgroundResource(R.drawable.bt_bg_black_gray);
+                btSelect3.setBackgroundResource(R.drawable.bt_bg_alpha_black);
+                btSelect4.setBackgroundResource(R.drawable.bt_bg_alpha_black);
                 routePlanSelect = WALKING;
 
                 myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
@@ -571,10 +564,10 @@ public class MainFragment extends Fragment {
         btSelect3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btSelect1.setBackgroundResource(R.drawable.bt_bg_gray);
-                btSelect2.setBackgroundResource(R.drawable.bt_bg_gray);
-                btSelect3.setBackgroundResource(R.drawable.bt_bg_black);
-                btSelect4.setBackgroundResource(R.drawable.bt_bg_gray);
+                btSelect1.setBackgroundResource(R.drawable.bt_bg_alpha_black);
+                btSelect2.setBackgroundResource(R.drawable.bt_bg_alpha_black);
+                btSelect3.setBackgroundResource(R.drawable.bt_bg_black_gray);
+                btSelect4.setBackgroundResource(R.drawable.bt_bg_alpha_black);
                 routePlanSelect = BIKING;
 
                 myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
@@ -585,15 +578,13 @@ public class MainFragment extends Fragment {
         btSelect4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btSelect1.setBackgroundResource(R.drawable.bt_bg_gray);
-                btSelect2.setBackgroundResource(R.drawable.bt_bg_gray);
-                btSelect3.setBackgroundResource(R.drawable.bt_bg_gray);
-                btSelect4.setBackgroundResource(R.drawable.bt_bg_black);
+                btSelect1.setBackgroundResource(R.drawable.bt_bg_alpha_black);
+                btSelect2.setBackgroundResource(R.drawable.bt_bg_alpha_black);
+                btSelect3.setBackgroundResource(R.drawable.bt_bg_alpha_black);
+                btSelect4.setBackgroundResource(R.drawable.bt_bg_black_gray);
                 routePlanSelect = TRANSIT;
 
                 myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
-
-                btMiddle.setText(R.string.middle_button3);
             }
         });
 
@@ -711,13 +702,6 @@ public class MainFragment extends Fragment {
                     btMiddle.setText(R.string.middle_button2);//设置按钮为详细信息
                     infoFlag = false;//设置信息状态交通选择
 
-                    //重置交通类型为步行
-                    routePlanSelect = WALKING;
-                    btSelect1.setBackgroundResource(R.drawable.bt_bg_gray);
-                    btSelect2.setBackgroundResource(R.drawable.bt_bg_black);
-                    btSelect3.setBackgroundResource(R.drawable.bt_bg_gray);
-                    btSelect4.setBackgroundResource(R.drawable.bt_bg_gray);
-
                     myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
                 } else {//如果显示为交通选择
                     btMiddle.setText(R.string.middle_button1);//设置按钮为路线
@@ -732,6 +716,12 @@ public class MainFragment extends Fragment {
         btStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //交通选择
+                if (routePlanSelect == 0) {
+                    if (infoFlag) btMiddle.callOnClick();
+                    else ToastUtil.showToast(R.string.please_select_transportation);
+                    return;
+                }
                 myNavigateHelper.startNavigate();//开始导航
             }
         });
@@ -769,7 +759,7 @@ public class MainFragment extends Fragment {
         List<String> permissionList = new ArrayList<>();
 
         for (String permission : permissions) {
-            if (ContextCompat.checkSelfPermission(requireContext(), permission)
+            if (ContextCompat.checkSelfPermission(requireActivity(), permission)
                     != PackageManager.PERMISSION_GRANTED)
                 permissionList.add(permission);
         }
@@ -875,6 +865,8 @@ public class MainFragment extends Fragment {
             ToastUtil.showToast(R.string.wait_for_search_result);
             return;
         }
+
+        if (!searchExpandFlag) return;//如果状态为收起则不进行搜索
 
         if (!NetworkUtil.isNetworkConnected()) {//没有网络连接
             ToastUtil.showToast(R.string.network_error);

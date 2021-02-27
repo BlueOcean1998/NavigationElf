@@ -13,7 +13,7 @@ import com.navigation.foxizz.BuildConfig;
 
 import java.util.Objects;
 
-import static com.navigation.foxizz.BaseApplication.getApplication;
+import static com.navigation.foxizz.BaseApplication.getBaseApplication;
 
 /**
  * 应用工具类
@@ -27,15 +27,15 @@ public class AppUtil {
      */
     public static synchronized String getAppName() {
         try {
-            PackageManager packageManager = getApplication().getPackageManager();
+            PackageManager packageManager = getBaseApplication().getPackageManager();
             PackageInfo packageInfo = packageManager.getPackageInfo(
-                    getApplication().getPackageName(), 0);
+                    getBaseApplication().getPackageName(), 0);
             int labelRes = packageInfo.applicationInfo.labelRes;
-            return getApplication().getResources().getString(labelRes);
+            return getBaseApplication().getResources().getString(labelRes);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return "";
     }
 
     /**
@@ -45,14 +45,14 @@ public class AppUtil {
      */
     public static synchronized String getAppVersionName() {
         try {
-            PackageManager packageManager = getApplication().getPackageManager();
+            PackageManager packageManager = getBaseApplication().getPackageManager();
             PackageInfo packageInfo = packageManager.getPackageInfo(
-                    getApplication().getPackageName(), 0);
+                    getBaseApplication().getPackageName(), 0);
             return packageInfo.versionName;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return "";
     }
 
     /**
@@ -71,14 +71,14 @@ public class AppUtil {
      */
     public static synchronized String getPackageName() {
         try {
-            PackageManager packageManager = getApplication().getPackageManager();
+            PackageManager packageManager = getBaseApplication().getPackageManager();
             PackageInfo packageInfo = packageManager.getPackageInfo(
-                    getApplication().getPackageName(), 0);
+                    getBaseApplication().getPackageName(), 0);
             return packageInfo.packageName;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return "";
     }
 
     /**
@@ -90,10 +90,10 @@ public class AppUtil {
         PackageManager packageManager = null;
         ApplicationInfo applicationInfo;
         try {
-            packageManager = getApplication().getApplicationContext()
+            packageManager = getBaseApplication().getApplicationContext()
                     .getPackageManager();
             applicationInfo = packageManager.getApplicationInfo(
-                    getApplication().getPackageName(), 0);
+                    getBaseApplication().getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
             applicationInfo = null;
         }
@@ -108,15 +108,15 @@ public class AppUtil {
      * @return String
      */
     public static synchronized String getAppChannel() {
-        PackageManager packageManager = getApplication().getPackageManager();
+        PackageManager packageManager = getBaseApplication().getPackageManager();
         try {
-            PackageInfo packageInfo = packageManager.getPackageInfo(getApplication().getPackageName(), PackageManager.GET_META_DATA);
+            PackageInfo packageInfo = packageManager.getPackageInfo(getBaseApplication().getPackageName(), PackageManager.GET_META_DATA);
             Bundle metaData = packageInfo.applicationInfo.metaData;
             return metaData.getString("CHANNEL");
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        return null;
+        return "";
     }
 
     /**
@@ -134,7 +134,7 @@ public class AppUtil {
      * @return String
      */
     public static String getAppFolderName() {
-        return Objects.requireNonNull(getApplication().getExternalCacheDir()).getPath();
+        return Objects.requireNonNull(getBaseApplication().getExternalCacheDir()).getPath();
     }
 
 }

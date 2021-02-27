@@ -66,15 +66,14 @@ public class BikingRouteOverlay extends OverlayManager {
                 }
 
                 // 最后路段绘制出口点
-                if (mRouteLine.getAllStep().indexOf(step) == (mRouteLine
-                        .getAllStep().size() - 1) && step.getExit() != null) {
+                if (mRouteLine.getAllStep().indexOf(step) == (mRouteLine.getAllStep().size() - 1)
+                        && step.getExit() != null) {
                     overlayList.add((new MarkerOptions())
                             .position(step.getExit().getLocation())
                             .anchor(0.5f, 0.5f)
                             .zIndex(10)
                             .icon(BitmapDescriptorFactory
                                     .fromAssetWithDpi("Icon_line_node.png")));
-
                 }
             }
         }
@@ -83,18 +82,16 @@ public class BikingRouteOverlay extends OverlayManager {
             overlayList.add((new MarkerOptions())
                     .position(mRouteLine.getStarting().getLocation())
                     .icon(getStartMarker() != null ? getStartMarker() :
-                            BitmapDescriptorFactory
-                                    .fromAssetWithDpi("Icon_start.png")).zIndex(10));
+                            BitmapDescriptorFactory.fromAssetWithDpi("Icon_start.png"))
+                    .zIndex(10));
         }
         // terminal
         if (mRouteLine.getTerminal() != null) {
-            overlayList
-                    .add((new MarkerOptions())
-                            .position(mRouteLine.getTerminal().getLocation())
-                            .icon(getTerminalMarker() != null ? getTerminalMarker() :
-                                    BitmapDescriptorFactory
-                                            .fromAssetWithDpi("Icon_end.png"))
-                            .zIndex(10));
+            overlayList.add((new MarkerOptions())
+                    .position(mRouteLine.getTerminal().getLocation())
+                    .icon(getTerminalMarker() != null ? getTerminalMarker() :
+                            BitmapDescriptorFactory.fromAssetWithDpi("Icon_end.png"))
+                    .zIndex(10));
         }
 
         // poly line list
@@ -109,12 +106,15 @@ public class BikingRouteOverlay extends OverlayManager {
                         points.add(lastStepLastPoint);
                     }
                     points.addAll(watPoints);
-                    overlayList.add(new PolylineOptions().points(points).width(10)
-                            .color(getLineColor() != 0 ? getLineColor() : Color.argb(178, 0, 78, 255)).zIndex(0));
+                    overlayList.add(new PolylineOptions()
+                            .points(points)
+                            .width(10)
+                            .color(getLineColor() != 0 ? getLineColor() :
+                                    Color.argb(178, 0, 78, 255))
+                            .zIndex(0));
                     lastStepLastPoint = watPoints.get(watPoints.size() - 1);
                 }
             }
-
         }
 
         return overlayList;
@@ -151,8 +151,7 @@ public class BikingRouteOverlay extends OverlayManager {
      * @return 是否处理了该点击事件
      */
     public boolean onRouteNodeClick(int i) {
-        if (mRouteLine.getAllStep() != null
-                && mRouteLine.getAllStep().get(i) != null) {
+        if (mRouteLine.getAllStep() != null && mRouteLine.getAllStep().get(i) != null) {
             Log.i("baidumapsdk", "BikingRouteOverlay onRouteNodeClick");
         }
         return false;
@@ -175,4 +174,5 @@ public class BikingRouteOverlay extends OverlayManager {
         // TODO Auto-generated method stub
         return false;
     }
+
 }

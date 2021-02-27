@@ -34,7 +34,6 @@ public class MassTransitRouteOverlay extends OverlayManager {
         super(baiduMap);
     }
 
-
     /**
      * 设置路线数据
      *
@@ -79,28 +78,32 @@ public class MassTransitRouteOverlay extends OverlayManager {
         List<OverlayOptions> overlayOptionses = new ArrayList<>();
         List<List<MassTransitRouteLine.TransitStep>> steps = mRouteLine.getNewSteps();
         if (isSameCity) {
-            // 同城 (同城时，每个steps的get(i)对应的List是一条step的不同方案，此处都选第一条进行绘制，即get（0））
+            // 同城 （同城时，每个steps的get(i)对应的List是一条step的不同方案，此处都选第一条进行绘制，即get(0)）
 
             // step node
             for (int i = 0; i < steps.size(); i++) {
-
                 MassTransitRouteLine.TransitStep step = steps.get(i).get(0);
                 Bundle b = new Bundle();
                 b.putInt("index", i + 1);
 
                 if (step.getStartLocation() != null) {
-                    overlayOptionses.add((new MarkerOptions()).position(step.getStartLocation())
-                            .anchor(0.5f, 0.5f).zIndex(10).extraInfo(b).icon(Objects.requireNonNull(getIconForStep(step))));
+                    overlayOptionses.add((new MarkerOptions())
+                            .position(step.getStartLocation())
+                            .anchor(0.5f, 0.5f)
+                            .zIndex(10)
+                            .extraInfo(b)
+                            .icon(Objects.requireNonNull(getIconForStep(step))));
                 }
 
                 // 最后一个终点
                 if ((i == steps.size() - 1) && (step.getEndLocation() != null)) {
-                    overlayOptionses.add((new MarkerOptions()).position(step.getEndLocation())
-                            .anchor(0.5f, 0.5f).zIndex(10)
+                    overlayOptionses.add((new MarkerOptions())
+                            .position(step.getEndLocation())
+                            .anchor(0.5f, 0.5f)
+                            .zIndex(10)
                             .icon(Objects.requireNonNull(getIconForStep(step)))
                     );
                 }
-
             }
 
             // polyline
@@ -110,10 +113,12 @@ public class MassTransitRouteOverlay extends OverlayManager {
                 if (step.getVehileType() != MassTransitRouteLine.TransitStep
                         .StepVehicleInfoType.ESTEP_WALK) {
                     // color = Color.argb(178, 0, 78, 255);
-                    color = getLineColor() != 0 ? getLineColor() : Color.argb(178, 0, 78, 255);
+                    color = getLineColor() != 0 ? getLineColor() :
+                            Color.argb(178, 0, 78, 255);
                 } else {
                     // color = Color.argb(178, 88, 208, 0);
-                    color = getLineColor() != 0 ? getLineColor() : Color.argb(178, 88, 208, 0);
+                    color = getLineColor() != 0 ? getLineColor() :
+                            Color.argb(178, 88, 208, 0);
                 }
                 overlayOptionses.add(new PolylineOptions()
                         .points(step.getWayPoints()).width(10).color(color)
@@ -130,41 +135,47 @@ public class MassTransitRouteOverlay extends OverlayManager {
             // step node
             int k = 1;
             for (int i = 0; i < steps.size(); i++) {
-
                 for (int j = 0; j < steps.get(i).size(); j++) {
                     MassTransitRouteLine.TransitStep step = steps.get(i).get(j);
                     Bundle b = new Bundle();
                     b.putInt("index", k);
 
                     if (step.getStartLocation() != null) {
-                        overlayOptionses.add((new MarkerOptions()).position(step.getStartLocation())
-                                .anchor(0.5f, 0.5f).zIndex(10).extraInfo(b).icon(Objects.requireNonNull(getIconForStep(step))));
+                        overlayOptionses.add((new MarkerOptions())
+                                .position(step.getStartLocation())
+                                .anchor(0.5f, 0.5f)
+                                .zIndex(10)
+                                .extraInfo(b)
+                                .icon(Objects.requireNonNull(getIconForStep(step))));
                     }
 
                     // 最后一个终点
                     if ((k == stepSum) && (step.getEndLocation() != null)) {
-                        overlayOptionses.add((new MarkerOptions()).position(step.getEndLocation())
-                                .anchor(0.5f, 0.5f).zIndex(10).icon(Objects.requireNonNull(getIconForStep(step))));
+                        overlayOptionses.add((new MarkerOptions())
+                                .position(step.getEndLocation())
+                                .anchor(0.5f, 0.5f)
+                                .zIndex(10)
+                                .icon(Objects.requireNonNull(getIconForStep(step))));
                     }
 
                     k++;
                 }
             }
 
-
             // polyline
             for (int i = 0; i < steps.size(); i++) {
-
                 for (int j = 0; j < steps.get(i).size(); j++) {
                     MassTransitRouteLine.TransitStep step = steps.get(i).get(j);
                     int color;
                     if (step.getVehileType() != MassTransitRouteLine.TransitStep
                             .StepVehicleInfoType.ESTEP_WALK) {
                         // color = Color.argb(178, 0, 78, 255);
-                        color = getLineColor() != 0 ? getLineColor() : Color.argb(178, 0, 78, 255);
+                        color = getLineColor() != 0 ? getLineColor() :
+                                Color.argb(178, 0, 78, 255);
                     } else {
                         // color = Color.argb(178, 88, 208, 0);
-                        color = getLineColor() != 0 ? getLineColor() : Color.argb(178, 88, 208, 0);
+                        color = getLineColor() != 0 ? getLineColor() :
+                                Color.argb(178, 88, 208, 0);
                     }
                     if (step.getWayPoints() != null) {
                         overlayOptionses.add(new PolylineOptions()
@@ -173,29 +184,27 @@ public class MassTransitRouteOverlay extends OverlayManager {
                     }
                 }
             }
-
         }
 
         // 起点
         if (mRouteLine.getStarting() != null && mRouteLine.getStarting().getLocation() != null) {
-            overlayOptionses.add((new MarkerOptions()).position(mRouteLine.getStarting().getLocation())
-                    .icon(getStartMarker() != null
-                            ? getStartMarker() : BitmapDescriptorFactory.fromAssetWithDpi("Icon_start.png"))
+            overlayOptionses.add((new MarkerOptions())
+                    .position(mRouteLine.getStarting().getLocation())
+                    .icon(getStartMarker() != null ? getStartMarker() :
+                            BitmapDescriptorFactory.fromAssetWithDpi("Icon_start.png"))
                     .zIndex(10));
         }
+
         // 终点
         if (mRouteLine.getTerminal() != null && mRouteLine.getTerminal().getLocation() != null) {
-            overlayOptionses
-                    .add((new MarkerOptions())
-                            .position(mRouteLine.getTerminal().getLocation())
-                            .icon(getTerminalMarker() != null ? getTerminalMarker() :
-                                    BitmapDescriptorFactory
-                                            .fromAssetWithDpi("Icon_end.png"))
-                            .zIndex(10));
+            overlayOptionses.add((new MarkerOptions())
+                    .position(mRouteLine.getTerminal().getLocation())
+                    .icon(getTerminalMarker() != null ? getTerminalMarker() :
+                            BitmapDescriptorFactory.fromAssetWithDpi("Icon_end.png"))
+                    .zIndex(10));
         }
 
         return overlayOptionses;
-
     }
 
     private BitmapDescriptor getIconForStep(MassTransitRouteLine.TransitStep step) {
@@ -223,4 +232,5 @@ public class MassTransitRouteOverlay extends OverlayManager {
     public boolean onPolylineClick(Polyline polyline) {
         return false;
     }
+
 }

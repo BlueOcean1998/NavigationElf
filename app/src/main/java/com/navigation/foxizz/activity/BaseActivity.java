@@ -17,6 +17,22 @@ public class BaseActivity extends AppCompatActivity {
     private static final List<Activity> activities = new ArrayList<>();
 
     /**
+     * 获取指定活动
+     * 若该活动不在返回栈中，则返回MainActivity
+     *
+     * @param cls 活动类
+     * @return 活动
+     */
+    public static Activity findActivity(Class<?> cls) {
+        for (Activity activity : activities) {
+            if (activity.getClass() == cls) {
+                return activity;
+            }
+        }
+        return activities.get(0);
+    }
+
+    /**
      * 退出程序
      */
     public static void finishAll() {
