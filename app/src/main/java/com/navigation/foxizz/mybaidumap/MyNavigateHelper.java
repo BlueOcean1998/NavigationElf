@@ -50,7 +50,7 @@ public class MyNavigateHelper {
         initProgressDialog();//初始化加载弹窗
 
         //初始化驾车导航引擎
-        if (NetworkUtil.isNetworkConnected()) {
+        if (NetworkUtil.isNetworkConnected()) {//有网络连接
             initDriveNavigateHelper();
         }
     }

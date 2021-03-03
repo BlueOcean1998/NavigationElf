@@ -52,7 +52,7 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
     /**
      * 获取item数量
      *
-     * @return int
+     * @return item数量
      */
     @Override
     public int getItemCount() {

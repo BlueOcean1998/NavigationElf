@@ -200,7 +200,7 @@ public class AvatarDataHelper {
      * 图片转为二进制数据
      *
      * @param bitmap bitmap
-     * @return byte[]
+     * @return 二进制比特串
      */
     public static byte[] bitmapToBytes(Bitmap bitmap) {
         //将图片转化为位图

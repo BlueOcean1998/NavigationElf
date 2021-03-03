@@ -318,8 +318,8 @@ public class MainFragment extends Fragment {
         mOffline = new MKOfflineMap();
         mOffline.init(new MKOfflineMapListener() {
             @Override
-            public void onGetOfflineMapState(int i, int i1) {
-                Log.d("Foxizz_Test", "i=" + i + ",i1=" + i1);
+            public void onGetOfflineMapState(int result, int cityID) {
+                Log.d("Foxizz_Test", "result=" + result + ",cityID=" + cityID);
             }
         });
 
@@ -332,6 +332,11 @@ public class MainFragment extends Fragment {
 
     //下载离线地图
     public void downLoadOfflineMap(String cityName) {
+        if (TextUtils.isEmpty(cityName)) return;
+        if (!NetworkUtil.isNetworkConnected()//有网络连接
+                || !NetworkUtil.getNetworkType().equals("wifi"))//网络类型为wifi
+            return;
+
         //根据城市名获取城市id
         int cityID = 0;
         ArrayList<MKOLSearchRecord> records = mOffline.searchCity(cityName);
@@ -341,9 +346,9 @@ public class MainFragment extends Fragment {
 
         //开始下载
         if (cityID != 0) {
-            Log.d("Foxizz_Test", "cityID=" + cityID);
+            //mOffline.remove(cityID);
             mOffline.start(cityID);
-            //mOffline.update(cityID);
+            mOffline.update(cityID);
             //ToastUtil.showToast("正在下载离线地图");
         }
     }
@@ -902,7 +907,7 @@ public class MainFragment extends Fragment {
                 //如果是省份，则搜索城市列表设置为省份内所有的城市，否则设置为单个城市
                 searchCityList.clear();
                 if (searchCity != null) {
-                    if (CityUtil.checkoutProvinceName(searchCity)) {
+                    if (CityUtil.checkProvinceName(searchCity)) {
                         searchCityList.addAll(CityUtil.getCityList(searchCity));
                     } else {
                         searchCityList.add(searchCity);

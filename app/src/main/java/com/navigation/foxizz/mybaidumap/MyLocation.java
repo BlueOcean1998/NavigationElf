@@ -74,7 +74,8 @@ public class MyLocation {
                     //ToastUtil.showToast(location.getAddrStr());
 
                     //到新城市时
-                    if (!TextUtils.equals(mainFragment.mCity,
+                    if (!TextUtils.isEmpty(mainFragment.mCity)
+                            && !TextUtils.equals(mainFragment.mCity,
                             SPHelper.getString(Constants.MY_CITY, ""))) {
                         mainFragment.downLoadOfflineMap(mainFragment.mCity);//下载新城市的离线地图
                         SPHelper.putString(Constants.MY_CITY, mainFragment.mCity);//保存新城市

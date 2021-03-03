@@ -263,8 +263,10 @@ public class SettingsActivity extends BaseActivity {
 
                 if (!textCity.equals(saveCity)) {//不等于存储的城市名
                     ibDestinationCityCancel.setVisibility(View.VISIBLE);//显示取消按钮
-                    //校验通过或城市名为空
-                    if (CityUtil.checkoutCityName(textCity) || TextUtils.isEmpty(textCity)) {
+                    //城市名为空或校验通过
+                    if (TextUtils.isEmpty(textCity)
+                            || (CityUtil.checkCityName(textCity)
+                            && CityUtil.checkProvinceName(textCity))) {
                         ibDestinationCityConfirm.setVisibility(View.VISIBLE);//显示确定按钮
                     } else {
                         ibDestinationCityConfirm.setVisibility(View.GONE);//隐藏确定按钮

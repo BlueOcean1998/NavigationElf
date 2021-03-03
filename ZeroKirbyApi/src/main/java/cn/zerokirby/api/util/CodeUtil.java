@@ -75,7 +75,7 @@ public class CodeUtil {
     /**
      * 获取生成的验证码
      *
-     * @return codeString
+     * @return 验证码
      */
     public String getCode() {
         return code;

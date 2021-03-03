@@ -25,9 +25,9 @@ public class NetworkUtil {//获取网络状态
     }
 
     /**
-     * 判断网络类型
+     * 获取网络类型
      *
-     * @return String
+     * @return wifi或mobile
      */
     public static String getNetworkType() {
         ConnectivityManager connectivity = (ConnectivityManager) getBaseApplication().getSystemService(Context.CONNECTIVITY_SERVICE);

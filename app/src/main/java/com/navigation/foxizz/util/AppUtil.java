@@ -23,7 +23,7 @@ public class AppUtil {
     /**
      * 获取应用程序名称
      *
-     * @return String
+     * @return 应用程序名称
      */
     public static synchronized String getAppName() {
         try {
@@ -84,7 +84,7 @@ public class AppUtil {
     /**
      * 获取应用图标
      *
-     * @return Bitmap
+     * @return 应用图标Bitmap
      */
     public static synchronized Bitmap getAppBitmap() {
         PackageManager packageManager = null;
@@ -103,9 +103,9 @@ public class AppUtil {
     }
 
     /**
-     * 获取渠道名称 channel
+     * 获取渠道名称channel
      *
-     * @return String
+     * @return 渠道名称channel
      */
     public static synchronized String getAppChannel() {
         PackageManager packageManager = getBaseApplication().getPackageManager();
@@ -122,16 +122,16 @@ public class AppUtil {
     /**
      * 获取SD卡路径
      *
-     * @return String
+     * @return SD卡路径
      */
     public static String getSDCardDir() {
         return Environment.getExternalStorageDirectory().toString();
     }
 
     /**
-     * 获取app文件夹名
+     * 获取应用文件夹路径
      *
-     * @return String
+     * @return 应用文件夹路径
      */
     public static String getAppFolderName() {
         return Objects.requireNonNull(getBaseApplication().getExternalCacheDir()).getPath();

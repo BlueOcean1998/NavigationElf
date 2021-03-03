@@ -24,7 +24,7 @@ public class SystemReceiver extends BroadcastReceiver {
             MainFragment mainFragment = mainActivity.getMainFragment();
 
             if (TextUtils.equals(intent.getAction(), Constants.CONNECTIVITY_CHANGE)) {
-                if (NetworkUtil.isNetworkConnected()) {
+                if (NetworkUtil.isNetworkConnected()) {//有网络连接
                     //初始化驾车导航引擎
                     mainFragment.myNavigateHelper.initDriveNavigateHelper();
                 }

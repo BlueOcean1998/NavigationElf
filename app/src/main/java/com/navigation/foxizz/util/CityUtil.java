@@ -9,8 +9,8 @@ import java.util.List;
  */
 public class CityUtil {
 
-    //全国所有的城市名字符串数组，各个字符串为一个省份以及该省份的所有城市
-    public final static String[] CHINA_CITY_NAMES = {
+    //全国所有的城市名字符串数组，各个字符串由省份名、省会城市以及该省份下的所有城市组成
+    public final static String[] CHINA_CITY_PROVINCE_NAMES = {
             "直辖市 北京市 上海市 天津市 重庆市",
 
             "河南省 郑州市 洛阳市 焦作市 商丘市 信阳市 周口市 鹤壁市 安阳市 濮阳市 驻马店市 南阳市 " +
@@ -110,14 +110,16 @@ public class CityUtil {
     };
 
     /**
-     * 校验一个字符串是否是一个城市名或省份名
+     * 校验一个字符串是否是一个城市名
      *
      * @param str 要校验的字符串
      * @return boolean
      */
-    public static boolean checkoutCityName(String str) {
-        if (str.length() < 2) return false;
-        for (String cityNames : CHINA_CITY_NAMES) {
+    public static boolean checkCityName(String str) {
+        if (str == null || str.length() < 2) return false;
+        for (String cityProvinceNames : CHINA_CITY_PROVINCE_NAMES) {
+            String cityNames = cityProvinceNames.replaceFirst(
+                    cityProvinceNames.split("\\s+")[0], "").trim();
             if (cityNames.contains(str)) return true;
         }
         return false;
@@ -129,45 +131,75 @@ public class CityUtil {
      * @param str 要校验的字符串
      * @return boolean
      */
-    public static boolean checkoutProvinceName(String str) {
-        if (str.length() < 2) return false;
-        for (String cityNames : CHINA_CITY_NAMES) {
-            if (cityNames.split(" ")[0].contains(str)) return true;
+    public static boolean checkProvinceName(String str) {
+        if (str == null || str.length() < 2) return false;
+        for (String cityProvinceNames : CHINA_CITY_PROVINCE_NAMES) {
+            if (cityProvinceNames.split("\\s+")[0].contains(str)) return true;
         }
         return false;
     }
 
     /**
-     * 获取城市列表
+     * 获取所有城市列表
      *
-     * @return List<String>
+     * @return 所有城市列表
      */
     public static List<String> getCityList() {
         List<String> cityList = new ArrayList<>();
-        for (String cityNames : CHINA_CITY_NAMES) {
-            cityList.addAll(Arrays.asList(cityNames.split(" ")));
+        for (String cityProvinceNames : CHINA_CITY_PROVINCE_NAMES) {
+            cityList.addAll(Arrays.asList(cityProvinceNames.split("\\s+")));
         }
         return cityList;
     }
 
     /**
-     * 获取一个省份的城市列表
+     * 获取指定省份的城市列表
      *
-     * @param str 省份名
-     * @return List<String>
+     * @param provinceName 省份名
+     * @return 指定省份的城市列表
      */
-    public static List<String> getCityList(String str) {
-        if (checkoutProvinceName(str)) {
-            for (String cityNames : CHINA_CITY_NAMES) {
-                String province = cityNames.split("\\s+")[0];
-                if (province.contains(str)) {
-                    return new ArrayList<>(Arrays.asList(
-                            cityNames.replaceFirst(province, "").trim().split("\\s+")
-                    ));
+    public static List<String> getCityList(String provinceName) {
+        List<String> cityList = new ArrayList<>();
+        if (checkProvinceName(provinceName)) {
+            for (String cityProvinceNames : CHINA_CITY_PROVINCE_NAMES) {
+                String province = cityProvinceNames.split("\\s+")[0];
+                if (province.contains(provinceName)) {
+                    cityList.addAll(Arrays.asList(cityProvinceNames.replaceFirst(
+                            province, "").trim().split("\\s+")));
+                    break;
                 }
             }
         }
-        return new ArrayList<>();
+        return cityList;
+    }
+
+    /**
+     * 获取省份列表
+     *
+     * @return 省份列表
+     */
+    public static List<String> getProvince() {
+        List<String> provinceList = new ArrayList<>();
+        for (String cityProvinceNames : CHINA_CITY_PROVINCE_NAMES) {
+            provinceList.add(cityProvinceNames.split("\\s+")[0]);
+        }
+        return provinceList;
+    }
+
+    /**
+     * 获取省份
+     *
+     * @param cityName 城市名
+     * @return 省份
+     */
+    public static String getProvince(String cityName) {
+        if (checkCityName(cityName)) {
+            for (String cityProvinceNames : CHINA_CITY_PROVINCE_NAMES) {
+                if (cityProvinceNames.contains(cityName))
+                    return cityProvinceNames.split("\\s+")[0];
+            }
+        }
+        return "";
     }
 
 }

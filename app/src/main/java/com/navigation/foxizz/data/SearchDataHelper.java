@@ -97,7 +97,7 @@ public class SearchDataHelper {
     /**
      * 获取搜索信息
      *
-     * @return SearchItem
+     * @return 搜索历史记录列表
      */
     public static List<SearchItem> getSearchData() {
         SQLiteDatabase db = null;

@@ -13,7 +13,7 @@ import cn.zerokirby.api.ZerokirbyApi;
  * App name: NavigationElf
  * Author: Foxizz
  * Accomplish date: 2020-04-30
- * Last modify date: 2021-02-28
+ * Last modify date: 2021-03-03
  */
 public class BaseApplication extends Application {
 

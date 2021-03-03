@@ -65,7 +65,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     /**
      * 获取item数量
      *
-     * @return int
+     * @return item数量
      */
     @Override
     public int getItemCount() {
