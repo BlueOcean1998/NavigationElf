@@ -35,6 +35,7 @@ import com.navigation.foxizz.mybaidumap.overlayutil.WalkingRouteOverlay;
 import com.navigation.foxizz.util.LayoutUtil;
 import com.navigation.foxizz.util.NetworkUtil;
 import com.navigation.foxizz.util.SettingUtil;
+import com.navigation.foxizz.util.ThreadUtil;
 import com.navigation.foxizz.util.TimeUtil;
 import com.navigation.foxizz.util.ToastUtil;
 
@@ -43,10 +44,10 @@ import java.util.List;
 /**
  * 路线规划模块
  */
-public class MyRoutePlanSearch {
+public class MyRoutePlan {
 
     private final MainFragment mainFragment;
-    public MyRoutePlanSearch(MainFragment mainFragment) {
+    public MyRoutePlan(MainFragment mainFragment) {
         this.mainFragment = mainFragment;
     }
 
@@ -69,38 +70,38 @@ public class MyRoutePlanSearch {
             return;
         }
 
-        if (mainFragment.latLng == null) {//还没有得到定位
+        if (mainFragment.mLatLng == null) {//还没有得到定位
             ToastUtil.showToast(R.string.wait_for_location_result);
             return;
         }
 
-        if (mainFragment.endLocation == null) {
+        if (mainFragment.mEndLocation == null) {
             ToastUtil.showToast(R.string.end_location_is_null);
             return;
         }
 
         //获取定位点和目标点
-        PlanNode startNode = PlanNode.withLocation(mainFragment.latLng);
-        PlanNode endNode = PlanNode.withLocation(mainFragment.endLocation);
+        PlanNode startNode = PlanNode.withLocation(mainFragment.mLatLng);
+        PlanNode endNode = PlanNode.withLocation(mainFragment.mEndLocation);
 
-        switch (mainFragment.routePlanSelect) {
+        switch (mainFragment.mRoutePlanSelect) {
             //驾车路线规划
             case MainFragment.DRIVING:
-                mainFragment.mSearch.drivingSearch((new DrivingRoutePlanOption())
+                mainFragment.mRoutePlanSearch.drivingSearch((new DrivingRoutePlanOption())
                         .from(startNode)
                         .to(endNode));
                 break;
 
             //步行路线规划
             case MainFragment.WALKING:
-                mainFragment.mSearch.walkingSearch((new WalkingRoutePlanOption())
+                mainFragment.mRoutePlanSearch.walkingSearch((new WalkingRoutePlanOption())
                         .from(startNode)
                         .to(endNode));
                 break;
 
             //骑行路线规划
             case MainFragment.BIKING:
-                mainFragment.mSearch.bikingSearch((new BikingRoutePlanOption())
+                mainFragment.mRoutePlanSearch.bikingSearch((new BikingRoutePlanOption())
                         .from(startNode)
                         .to(endNode));
                 break;
@@ -112,25 +113,25 @@ public class MyRoutePlanSearch {
                 mainFragment.recyclerSchemeResult.setVisibility(View.GONE);
 
                 //收回所有展开的方案
-                for (int i = 0; i < mainFragment.schemeList.size(); i++) {//遍历所有item
-                    if (mainFragment.schemeList.get(i).getExpandFlag()) {//如果是展开状态
+                for (int i = 0; i < mainFragment.mSchemeList.size(); i++) {//遍历所有item
+                    if (mainFragment.mSchemeList.get(i).getExpandFlag()) {//如果是展开状态
                         //用layoutManager找到相应的item
-                        View view = mainFragment.schemeLayoutManager.findViewByPosition(i);
+                        View view = mainFragment.mSchemeLayoutManager.findViewByPosition(i);
                         if (view != null) {
                             LinearLayout infoDrawer = view.findViewById(R.id.ll_info_drawer);
                             ImageButton schemeExpand = view.findViewById(R.id.ib_scheme_expand);
                             LayoutUtil.expandLayout(infoDrawer, false);
                             LayoutUtil.rotateExpandIcon(schemeExpand, 180, 0);//旋转伸展按钮
-                            mainFragment.schemeList.get(i).setExpandFlag(false);
-                            mainFragment.schemeAdapter.updateList();//通知adapter更新
+                            mainFragment.mSchemeList.get(i).setExpandFlag(false);
+                            mainFragment.mSchemeAdapter.updateList();//通知adapter更新
                         }
                     }
                 }
 
-                mainFragment.schemeList.clear();//清空方案列表
-                mainFragment.schemeAdapter.updateList();//通知adapter更新
+                mainFragment.mSchemeList.clear();//清空方案列表
+                mainFragment.mSchemeAdapter.updateList();//通知adapter更新
 
-                mainFragment.mSearch.masstransitSearch((new MassTransitRoutePlanOption())
+                mainFragment.mRoutePlanSearch.masstransitSearch((new MassTransitRoutePlanOption())
                         .from(startNode)
                         .to(endNode));
 
@@ -154,7 +155,7 @@ public class MyRoutePlanSearch {
      */
     public void initRoutePlanSearch() {
         //创建路线规划检索实例
-        mainFragment.mSearch = RoutePlanSearch.newInstance();
+        mainFragment.mRoutePlanSearch = RoutePlanSearch.newInstance();
 
         //创建路线规划检索结果监听器
         OnGetRoutePlanResultListener listener = new OnGetRoutePlanResultListener() {
@@ -212,7 +213,7 @@ public class MyRoutePlanSearch {
                     return;
                 }
 
-                new Thread(new Runnable() {
+                ThreadUtil.execute(new Runnable() {
                     @Override
                     public void run() {
                         //所有的路线
@@ -276,8 +277,8 @@ public class MyRoutePlanSearch {
 
                             schemeItem.setDetailInfo(detailInfo.toString());
 
-                            mainFragment.schemeList.add(schemeItem);//添加到列表中
-                            mainFragment.schemeAdapter.updateList();//通知adapter更新
+                            mainFragment.mSchemeList.add(schemeItem);//添加到列表中
+                            mainFragment.mSchemeAdapter.updateList();//通知adapter更新
 
                             mainFragment.requireActivity().runOnUiThread(new Runnable() {
                                 @Override
@@ -287,7 +288,7 @@ public class MyRoutePlanSearch {
                             });
                         }
                     }
-                }).start();
+                });
             }
 
             @Override
@@ -351,7 +352,7 @@ public class MyRoutePlanSearch {
         };
 
         //设置路线规划检索监听器
-        mainFragment.mSearch.setOnGetRoutePlanResultListener(listener);
+        mainFragment.mRoutePlanSearch.setOnGetRoutePlanResultListener(listener);
     }
 
     /**
@@ -359,7 +360,7 @@ public class MyRoutePlanSearch {
      */
     @SuppressLint("SetTextI18n")
     public void startMassTransitRoutePlan(int index) {
-        SchemeItem schemeItem = mainFragment.schemeList.get(index);
+        SchemeItem schemeItem = mainFragment.mSchemeList.get(index);
 
         //设置方案信息
         mainFragment.tvSchemeInfo.setText(schemeItem.getAllStationInfo()
@@ -374,7 +375,7 @@ public class MyRoutePlanSearch {
         BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.ic_to_location);
 
         //清空临时保存的公交站点信息
-        mainFragment.busStationLocations.clear();
+        mainFragment.mBusStationLocations.clear();
 
         /*
          * getRouteLines(): 所有规划好的路线
@@ -394,7 +395,7 @@ public class MyRoutePlanSearch {
                 schemeItem.getRouteLine().getNewSteps()) {
             for (MassTransitRouteLine.TransitStep transitStep : transitSteps) {
                 //将获取到的站点信息临时保存
-                mainFragment.busStationLocations.add(transitStep.getEndLocation());
+                mainFragment.mBusStationLocations.add(transitStep.getEndLocation());
 
                 //构建MarkerOption，用于在地图上添加Marker
                 OverlayOptions option = new MarkerOptions()

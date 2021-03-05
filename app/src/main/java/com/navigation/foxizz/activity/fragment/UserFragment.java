@@ -52,7 +52,7 @@ public class UserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
 
-        initLocalBroadcast();//初始化本地广播接收器
+        initLocalReceiver();//初始化本地广播接收器
 
         initView(view);//初始化控件
 
@@ -88,7 +88,7 @@ public class UserFragment extends Fragment {
     }
 
     //初始化本地广播接收器
-    private void initLocalBroadcast() {
+    private void initLocalReceiver() {
         localReceiver = new LocalReceiver(requireActivity());
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Constants.LOGIN_BROADCAST);

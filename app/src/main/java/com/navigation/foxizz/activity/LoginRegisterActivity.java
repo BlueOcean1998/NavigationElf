@@ -31,6 +31,7 @@ import com.navigation.foxizz.R;
 import com.navigation.foxizz.data.Constants;
 import com.navigation.foxizz.data.SPHelper;
 import com.navigation.foxizz.util.SettingUtil;
+import com.navigation.foxizz.util.ThreadUtil;
 import com.navigation.foxizz.util.ToastUtil;
 
 import org.json.JSONObject;
@@ -69,9 +70,9 @@ public class LoginRegisterActivity extends AppCompatActivity {
     private String verify = "";//输入框里的验证码
     private String verifyCode;//验证码
 
-    private CodeUtil codeUtil;//验证码生成工具
+    private CodeUtil mCodeUtil;//验证码生成工具
 
-    private static LocalBroadcastManager localBroadcastManager;//本地广播管理器
+    private static LocalBroadcastManager mLocalBroadcastManager;//本地广播管理器
 
     /**
      * 启动登录页
@@ -87,9 +88,9 @@ public class LoginRegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_register);
 
-        codeUtil = new CodeUtil();
+        mCodeUtil = new CodeUtil();
 
-        localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
 
         initView();//初始化控件
 
@@ -233,7 +234,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
                 pbLoadingProgress.setVisibility(View.VISIBLE);//显示进度条
                 appCompatBtLoginRegister.setEnabled(false);//登录或注册时不可点击
 
-                new Thread(new Runnable() {
+                ThreadUtil.execute(new Runnable() {
                     @Override
                     public void run() {
                         isSending = true;
@@ -304,7 +305,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
                             UserDataHelper.loginRegisterInitUserInfo(jsonObject, username, password, isLogin);
 
                             //发送本地广播通知更新用户名
-                            localBroadcastManager.sendBroadcast(new Intent(Constants.LOGIN_BROADCAST)
+                            mLocalBroadcastManager.sendBroadcast(new Intent(Constants.LOGIN_BROADCAST)
                                     .putExtra(Constants.LOGIN_TYPE, Constants.SET_USERNAME));
 
                             finish();//关闭页面
@@ -312,11 +313,11 @@ public class LoginRegisterActivity extends AppCompatActivity {
                             AvatarDataHelper.downloadAvatar(UserDataHelper.getLoginUserId());//下载头像
 
                             //发送本地广播通知更新头像
-                            localBroadcastManager.sendBroadcast(new Intent(Constants.LOGIN_BROADCAST)
+                            mLocalBroadcastManager.sendBroadcast(new Intent(Constants.LOGIN_BROADCAST)
                                     .putExtra(Constants.LOGIN_TYPE, Constants.SET_AVATAR));
                         }
                     }
-                }).start();
+                });
             }
         });
 
@@ -374,9 +375,9 @@ public class LoginRegisterActivity extends AppCompatActivity {
 
     //重新生成验证码
     private void resetVerify() {
-        Bitmap verifyBit = codeUtil.createBitmap();//生成新验证码
+        Bitmap verifyBit = mCodeUtil.createBitmap();//生成新验证码
         tvVerify.setImageBitmap(verifyBit);//设置新生成的验证码图片
-        verifyCode = codeUtil.getCode();//获取新生成的验证码
+        verifyCode = mCodeUtil.getCode();//获取新生成的验证码
         appCompatBtLoginRegister.setEnabled(false);//重新生成后不可直接登录
     }
 

@@ -27,6 +27,7 @@ import com.navigation.foxizz.R;
 import com.navigation.foxizz.activity.fragment.MainFragment;
 import com.navigation.foxizz.data.SearchDataHelper;
 import com.navigation.foxizz.data.SearchItem;
+import com.navigation.foxizz.util.ThreadUtil;
 import com.navigation.foxizz.util.TimeUtil;
 import com.navigation.foxizz.util.ToastUtil;
 
@@ -37,8 +38,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * 搜索模块
@@ -67,16 +66,13 @@ public class MySearch {
     public boolean isFirstDetailSearch;//是否是第一次详细信息搜索
     public final Set<String> uidList = new HashSet<>();//uid集合
 
-    //线程池，容量4
-    private final ExecutorService executorService = Executors.newFixedThreadPool(4);
-
     /**
      * 开始搜索
      *
      * @param currentPage 第几页
      */
     public synchronized void startSearch(final int currentPage) {
-        executorService.submit(new Runnable() {
+        ThreadUtil.execute(new Runnable() {
             @Override
             public void run() {
                 isSearching = true;
@@ -102,7 +98,7 @@ public class MySearch {
                 } else if (searchType == NEARBY_SEARCH) {
                     //开始周边搜索
                     mainFragment.mPoiSearch.searchNearby(new PoiNearbySearchOption()
-                            .location(mainFragment.latLng)
+                            .location(mainFragment.mLatLng)
                             .radius(NEARBY_SEARCH_DISTANCE)
                             .keyword(mainFragment.searchContent)
                             .pageNum(currentPage)
@@ -128,7 +124,7 @@ public class MySearch {
         OnGetSuggestionResultListener suggestionResultListener = new OnGetSuggestionResultListener() {
             @Override
             public void onGetSuggestionResult(final SuggestionResult suggestionResult) {
-                executorService.submit(new Runnable() {
+                ThreadUtil.execute(new Runnable() {
                     @Override
                     public void run() {
                         //将Sug获取到的uid录入uid列表
@@ -176,7 +172,7 @@ public class MySearch {
                 if (currentPage == 0) {
                     //POI信息加载完成
                     mainFragment.llSearchLoading.setVisibility(View.GONE);
-                    mainFragment.recyclerSearchResult.setVisibility(View.VISIBLE);
+                    mainFragment.mRecyclerSearchResult.setVisibility(View.VISIBLE);
                 }
 
                 if (poiResult == null//没有找到检索结果
@@ -259,7 +255,7 @@ public class MySearch {
 
                                 //设置定位点到目标点的距离（单位：m，结果除以1000转化为km，保留两位小数）
                                 searchItem.setDistance(BigDecimal.valueOf
-                                        (DistanceUtil.getDistance(mainFragment.latLng, tLatLng) / 1000)
+                                        (DistanceUtil.getDistance(mainFragment.mLatLng, tLatLng) / 1000)
                                         .setScale(2, BigDecimal.ROUND_HALF_UP)
                                         .doubleValue());
 
@@ -294,7 +290,7 @@ public class MySearch {
                             }
                         }
 
-                        mainFragment.searchAdapter.updateList();//通知adapter更新
+                        mainFragment.mSearchAdapter.updateList();//通知adapter更新
                         mainFragment.currentPage++;//当前页+1
 
                         isSearching = false;
@@ -304,7 +300,7 @@ public class MySearch {
 
                         //开始周边搜索
                         mainFragment.mPoiSearch.searchNearby(new PoiNearbySearchOption()
-                                .location(mainFragment.latLng)
+                                .location(mainFragment.mLatLng)
                                 .radius(NEARBY_SEARCH_DISTANCE)
                                 .keyword(mainFragment.searchContent)
                                 .pageNum(currentPage)
@@ -347,7 +343,7 @@ public class MySearch {
                             searchItem.setLatLng(latLng);//设置目标坐标
 
                             //获取定位点到目标点的距离（单位：m，结果除以1000转化为km）
-                            double distance = (DistanceUtil.getDistance(mainFragment.latLng, latLng) / 1000);
+                            double distance = (DistanceUtil.getDistance(mainFragment.mLatLng, latLng) / 1000);
                             //保留两位小数
                             BigDecimal bd = new BigDecimal(distance);
                             distance = bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
@@ -437,7 +433,7 @@ public class MySearch {
 
                                 //设置定位点到目标点的距离（单位：m，结果除以1000转化为km，保留两位小数）
                                 searchItem.setDistance(BigDecimal.valueOf
-                                        (DistanceUtil.getDistance(mainFragment.latLng, tLatLng) / 1000)
+                                        (DistanceUtil.getDistance(mainFragment.mLatLng, tLatLng) / 1000)
                                         .setScale(2, BigDecimal.ROUND_HALF_UP)
                                         .doubleValue());
 
@@ -457,7 +453,7 @@ public class MySearch {
                         }
                     }
 
-                    mainFragment.searchAdapter.updateList();//通知adapter更新
+                    mainFragment.mSearchAdapter.updateList();//通知adapter更新
                 }
             }
 

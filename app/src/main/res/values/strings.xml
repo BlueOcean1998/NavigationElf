@@ -8,6 +8,9 @@
     <string name="main_button">首页</string>
     <string name="user_button">我的</string>
 
+    <string name="downloading_offline_map">导航小精灵正在下载离线地图</string>
+    <string name="click_to_see_more">点击查看更多</string>
+
     <string name="standard_map">标准地图</string>
     <string name="satellite_map">卫星地图</string>
     <string name="traffic_map">交通地图</string>

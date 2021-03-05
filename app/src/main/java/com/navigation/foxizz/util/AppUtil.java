@@ -21,6 +21,23 @@ import static com.navigation.foxizz.BaseApplication.getBaseApplication;
 public class AppUtil {
 
     /**
+     * 获取应用包名
+     *
+     * @return 应用包名
+     */
+    public static synchronized String getPackageName() {
+        try {
+            PackageManager packageManager = getBaseApplication().getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(
+                    getBaseApplication().getPackageName(), 0);
+            return packageInfo.packageName;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    /**
      * 获取应用程序名称
      *
      * @return 应用程序名称
@@ -39,9 +56,18 @@ public class AppUtil {
     }
 
     /**
-     * 获取应用版本名称信息
+     * 获取应用版本号
      *
-     * @return 当前应用的版本名称
+     * @return 应用的版本号
+     */
+    public static synchronized int getAppVersionCode() {
+        return BuildConfig.VERSION_CODE;
+    }
+
+    /**
+     * 获取应用版本名
+     *
+     * @return 应用的版本名
      */
     public static synchronized String getAppVersionName() {
         try {
@@ -49,32 +75,6 @@ public class AppUtil {
             PackageInfo packageInfo = packageManager.getPackageInfo(
                     getBaseApplication().getPackageName(), 0);
             return packageInfo.versionName;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
-    /**
-     * 获取应用版本名称信息
-     *
-     * @return 当前应用的版本名称
-     */
-    public static synchronized int getAppVersionCode() {
-        return BuildConfig.VERSION_CODE;
-    }
-
-    /**
-     * 获取应用程序版本名称信息
-     *
-     * @return 当前应用的版本名称
-     */
-    public static synchronized String getPackageName() {
-        try {
-            PackageManager packageManager = getBaseApplication().getPackageManager();
-            PackageInfo packageInfo = packageManager.getPackageInfo(
-                    getBaseApplication().getPackageName(), 0);
-            return packageInfo.packageName;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -110,9 +110,11 @@ public class AppUtil {
     public static synchronized String getAppChannel() {
         PackageManager packageManager = getBaseApplication().getPackageManager();
         try {
-            PackageInfo packageInfo = packageManager.getPackageInfo(getBaseApplication().getPackageName(), PackageManager.GET_META_DATA);
+            PackageInfo packageInfo = packageManager.getPackageInfo(
+                    getBaseApplication().getPackageName(), PackageManager.GET_META_DATA);
             Bundle metaData = packageInfo.applicationInfo.metaData;
-            return metaData.getString("CHANNEL");
+            String appChannel = metaData.getString("CHANNEL");
+            if (appChannel != null) return appChannel;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

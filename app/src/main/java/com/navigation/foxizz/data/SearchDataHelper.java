@@ -58,7 +58,7 @@ public class SearchDataHelper {
             List<SearchItem> searchItems = getSearchData();
             for (SearchItem searchItem : searchItems) {
                 //获取定位点到目标点的距离（单位：m，结果除以1000转化为km）
-                double distance = (DistanceUtil.getDistance(mainFragment.latLng, searchItem.getLatLng()) / 1000);
+                double distance = (DistanceUtil.getDistance(mainFragment.mLatLng, searchItem.getLatLng()) / 1000);
                 //保留两位小数
                 BigDecimal bd = new BigDecimal(distance);
                 distance = bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
@@ -73,10 +73,10 @@ public class SearchDataHelper {
                 }
             }
 
-            mainFragment.searchAdapter.updateList();//通知adapter更新
+            mainFragment.mSearchAdapter.updateList();//通知adapter更新
         } else {
             mainFragment.searchList.clear();
-            mainFragment.searchAdapter.updateList();//通知adapter更新
+            mainFragment.mSearchAdapter.updateList();//通知adapter更新
         }
     }
 

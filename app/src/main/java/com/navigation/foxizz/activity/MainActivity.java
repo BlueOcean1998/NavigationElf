@@ -16,6 +16,7 @@ import com.navigation.foxizz.activity.fragment.MainFragment;
 import com.navigation.foxizz.activity.fragment.UserFragment;
 import com.navigation.foxizz.data.Constants;
 import com.navigation.foxizz.data.SearchDataHelper;
+import com.navigation.foxizz.util.ThreadUtil;
 import com.navigation.foxizz.util.ToastUtil;
 
 import cn.zerokirby.api.data.AvatarDataHelper;
@@ -137,13 +138,13 @@ public class MainActivity extends BaseActivity {
                             userFragment.ivAvatar, UriUtil.getPath(Constants.avatarUri),
                             UserDataHelper.getLoginUserId()
                     );
-                    new Thread(new Runnable() {
+                    ThreadUtil.execute(new Runnable() {
                         @Override
                         public void run() {
                             AvatarDataHelper.uploadAvatar(UriUtil.getPath(Constants.avatarUri));
                             ToastUtil.showToast(R.string.upload_avatar_successfully);
                         }
-                    }).start();
+                    });
                 }
             default:
                 break;
@@ -172,7 +173,7 @@ public class MainActivity extends BaseActivity {
                     return false;
                 }
                 if (!mainFragment.isHistorySearchResult) {//如果不是搜索历史记录
-                    mainFragment.recyclerSearchResult.stopScroll();//停止信息列表滑动
+                    mainFragment.mRecyclerSearchResult.stopScroll();//停止信息列表滑动
                     SearchDataHelper.initSearchData(mainFragment);//初始化搜索记录
                     mainFragment.isHistorySearchResult = true;//现在是搜索历史记录了
                 }

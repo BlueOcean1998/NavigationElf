@@ -56,7 +56,7 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
      */
     @Override
     public int getItemCount() {
-        return mainFragment.schemeList.size();
+        return mainFragment.mSchemeList.size();
     }
 
     /**
@@ -74,7 +74,7 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
     //获取SearchItem的数据
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        SchemeItem schemeItem = mainFragment.schemeList.get(position);
+        SchemeItem schemeItem = mainFragment.mSchemeList.get(position);
         holder.tvSimpleInfo.setText(schemeItem.getSimpleInfo());
         holder.tvDetailInfo.setText(schemeItem.getDetailInfo());
 
@@ -91,7 +91,7 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
         }
 
         //底部显示提示信息
-        if (position == mainFragment.schemeList.size() - 1)
+        if (position == mainFragment.mSchemeList.size() - 1)
             holder.tvEnd.setVisibility(View.VISIBLE);
         else holder.tvEnd.setVisibility(View.GONE);
     }
@@ -117,7 +117,7 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
                 mainFragment.btMiddle.setText(R.string.middle_button3);//设置按钮为交通选择
                 mainFragment.schemeFlag = MainFragment.SCHEME_INFO;//如果方案布局为单个方案
 
-                mainFragment.myRoutePlanSearch.startMassTransitRoutePlan(position);
+                mainFragment.myRoutePlan.startMassTransitRoutePlan(position);
             }
         });
 
@@ -126,7 +126,7 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
             @Override
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
-                SchemeItem schemeItem = mainFragment.schemeList.get(position);
+                SchemeItem schemeItem = mainFragment.mSchemeList.get(position);
 
                 if (schemeItem.getExpandFlag()) {//收起
                     holder.tvSimpleInfo.setMaxLines(1);

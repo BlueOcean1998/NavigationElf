@@ -16,6 +16,7 @@ import com.navigation.foxizz.activity.fragment.MainFragment;
 import com.navigation.foxizz.data.Constants;
 import com.navigation.foxizz.data.SPHelper;
 import com.navigation.foxizz.data.SearchDataHelper;
+import com.navigation.foxizz.service.OfflineMapService;
 import com.navigation.foxizz.util.ToastUtil;
 
 import static com.navigation.foxizz.BaseApplication.getBaseApplication;
@@ -31,15 +32,14 @@ public class MyLocation {
     }
 
     private final static int MAX_TIME = 10;//最大请求次数
-    private int requestLocationTime;//请求定位的次数
-    private boolean isFirstLoc;//是否是首次定位
+    public int requestLocationTime;//请求定位的次数
     public boolean refreshSearchList;//是否刷新搜索列表
+    private boolean isFirstLoc;//是否是首次定位
 
     /**
      * 初始化定位
      */
     public void initLocationOption() {
-        requestLocationTime = 0;//请求次数置0
         isFirstLoc = true;//首次定位
 
         //定位服务的客户端。宿主程序在客户端声明此类，并调用，目前只支持在主线程中启动
@@ -53,7 +53,7 @@ public class MyLocation {
                 if (location == null || mainFragment.mMapView == null) return;
 
                 //获取定位数据
-                mainFragment.latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                mainFragment.mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
                 mainFragment.mLocType = location.getLocType();
                 mainFragment.mRadius = location.getRadius();
                 mainFragment.mLatitude = location.getLatitude();
@@ -61,12 +61,12 @@ public class MyLocation {
                 mainFragment.mCity = location.getCity();
 
                 //更新定位
-                mainFragment.locData = new MyLocationData.Builder()
+                mainFragment.mLocData = new MyLocationData.Builder()
                         .accuracy(mainFragment.mRadius)
                         .direction(mainFragment.mLastX)
                         .latitude(mainFragment.mLatitude)
                         .longitude(mainFragment.mLongitude).build();
-                mainFragment.mBaiduMap.setMyLocationData(mainFragment.locData);//设置定位数据
+                mainFragment.mBaiduMap.setMyLocationData(mainFragment.mLocData);//设置定位数据
 
                 if (mainFragment.mLocType == BDLocation.TypeGpsLocation //GPS定位结果
                         || mainFragment.mLocType == BDLocation.TypeNetWorkLocation //网络定位结果
@@ -77,7 +77,11 @@ public class MyLocation {
                     if (!TextUtils.isEmpty(mainFragment.mCity)
                             && !TextUtils.equals(mainFragment.mCity,
                             SPHelper.getString(Constants.MY_CITY, ""))) {
-                        mainFragment.downLoadOfflineMap(mainFragment.mCity);//下载新城市的离线地图
+                        //启动下载离线地图服务
+                        OfflineMapService.startService(
+                                mainFragment.requireActivity(), mainFragment.mCity
+                        );
+
                         SPHelper.putString(Constants.MY_CITY, mainFragment.mCity);//保存新城市
                     }
 
@@ -92,17 +96,16 @@ public class MyLocation {
                         }
 
                         //移动视角并改变缩放等级
-                        MapStatusUpdate msu = MapStatusUpdateFactory.newLatLng(mainFragment.latLng);
+                        MapStatusUpdate msu = MapStatusUpdateFactory.newLatLng(mainFragment.mLatLng);
                         mainFragment.mBaiduMap.setMapStatus(msu);
                         MapStatus.Builder builder = new MapStatus.Builder();
-                        builder.zoom(18.0f).target(mainFragment.latLng);
+                        builder.zoom(18.0f).target(mainFragment.mLatLng);
                         mainFragment.mBaiduMap.animateMapStatus(
                                 MapStatusUpdateFactory.newMapStatus(builder.build())
                         );
                     }
                 } else {
                     if (requestLocationTime < MAX_TIME) {
-                        initLocationOption();//再次请求定位
                         requestLocationTime++;//请求次数+1
                     } else {
                         //弹出错误提示

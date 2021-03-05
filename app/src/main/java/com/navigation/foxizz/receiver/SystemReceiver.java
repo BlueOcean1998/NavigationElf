@@ -3,7 +3,6 @@ package com.navigation.foxizz.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
 
 import com.navigation.foxizz.activity.MainActivity;
 import com.navigation.foxizz.activity.fragment.MainFragment;
@@ -23,10 +22,10 @@ public class SystemReceiver extends BroadcastReceiver {
             MainActivity mainActivity = (MainActivity) mContext;
             MainFragment mainFragment = mainActivity.getMainFragment();
 
-            if (TextUtils.equals(intent.getAction(), Constants.CONNECTIVITY_CHANGE)) {
+            if (Constants.CONNECTIVITY_CHANGE.equals(intent.getAction())) {
                 if (NetworkUtil.isNetworkConnected()) {//有网络连接
                     //初始化驾车导航引擎
-                    mainFragment.myNavigateHelper.initDriveNavigateHelper();
+                    mainFragment.myNavigation.initDriveNavigateHelper();
                 }
             }
         }

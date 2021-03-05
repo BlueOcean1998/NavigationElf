@@ -41,10 +41,10 @@ import static com.navigation.foxizz.BaseApplication.getBaseApplication;
 /**
  * 导航模块
  */
-public class MyNavigateHelper {
+public class MyNavigation {
 
     private final MainFragment mainFragment;
-    public MyNavigateHelper(MainFragment mainFragment) {
+    public MyNavigation(MainFragment mainFragment) {
         this.mainFragment = mainFragment;
 
         initProgressDialog();//初始化加载弹窗
@@ -176,17 +176,17 @@ public class MyNavigateHelper {
             return;
         }
 
-        if (mainFragment.latLng == null) {//还没有得到定位
+        if (mainFragment.mLatLng == null) {//还没有得到定位
             ToastUtil.showToast(R.string.wait_for_location_result);
             return;
         }
 
-        if (mainFragment.endLocation == null) {
+        if (mainFragment.mEndLocation == null) {
             ToastUtil.showToast(R.string.end_location_is_null);
             return;
         }
 
-        switch (mainFragment.routePlanSelect) {
+        switch (mainFragment.mRoutePlanSelect) {
             //驾车导航
             case MainFragment.DRIVING:
                 routeDrivePlanWithParam();//开始驾车导航
@@ -214,14 +214,14 @@ public class MyNavigateHelper {
 
         //设置驾车导航的起点和终点
         BNRoutePlanNode startNode = new BNRoutePlanNode.Builder()
-                .latitude(mainFragment.latLng.latitude)
-                .longitude(mainFragment.latLng.longitude)
+                .latitude(mainFragment.mLatLng.latitude)
+                .longitude(mainFragment.mLatLng.longitude)
                 .coordinateType(BNRoutePlanNode.CoordinateType.BD09LL)
                 .build();
 
         BNRoutePlanNode endNode = new BNRoutePlanNode.Builder()
-                .latitude(mainFragment.endLocation.latitude)
-                .longitude(mainFragment.endLocation.longitude)
+                .latitude(mainFragment.mEndLocation.latitude)
+                .longitude(mainFragment.mEndLocation.longitude)
                 .coordinateType(BNRoutePlanNode.CoordinateType.BD09LL)
                 .build();
 
@@ -264,36 +264,36 @@ public class MyNavigateHelper {
         WalkRouteNodeInfo walkEndNode = new WalkRouteNodeInfo();
 
         //设置起点
-        walkStartNode.setLocation(mainFragment.latLng);
+        walkStartNode.setLocation(mainFragment.mLatLng);
 
         //设置步行导航的终点
-        if (mainFragment.routePlanSelect == MainFragment.WALKING) {
-            walkEndNode.setLocation(mainFragment.endLocation);
+        if (mainFragment.mRoutePlanSelect == MainFragment.WALKING) {
+            walkEndNode.setLocation(mainFragment.mEndLocation);
 
             //计算公交导航的步行导航的终点
-        } else if (mainFragment.routePlanSelect == MainFragment.TRANSIT) {
-            if (mainFragment.busStationLocations.size() == 0) {
+        } else if (mainFragment.mRoutePlanSelect == MainFragment.TRANSIT) {
+            if (mainFragment.mBusStationLocations.size() == 0) {
                 ToastUtil.showToast(R.string.wait_for_route_plan_result);
                 return;
             }
 
             //设置目的地
             double minDistance = DistanceUtil.getDistance(
-                    mainFragment.latLng, mainFragment.endLocation
+                    mainFragment.mLatLng, mainFragment.mEndLocation
             );
-            walkEndNode.setLocation(mainFragment.endLocation);
-            for (int i = 0; i < mainFragment.busStationLocations.size(); i++) {
+            walkEndNode.setLocation(mainFragment.mEndLocation);
+            for (int i = 0; i < mainFragment.mBusStationLocations.size(); i++) {
                 double busStationDistance = DistanceUtil.getDistance(
-                        mainFragment.latLng, mainFragment.busStationLocations.get(i)
+                        mainFragment.mLatLng, mainFragment.mBusStationLocations.get(i)
                 );
                 if (busStationDistance < minDistance) {
                     minDistance = busStationDistance;
                     //最近的站点距离大于100m则将目的地设置为最近的站点
                     if (minDistance > 100) {
-                        walkEndNode.setLocation(mainFragment.busStationLocations.get(i));
+                        walkEndNode.setLocation(mainFragment.mBusStationLocations.get(i));
                         //否则设置为最近的站点的下一个站点
-                    } else if (i != mainFragment.busStationLocations.size() - 1) {
-                        walkEndNode.setLocation(mainFragment.busStationLocations.get(i + 1));
+                    } else if (i != mainFragment.mBusStationLocations.size() - 1) {
+                        walkEndNode.setLocation(mainFragment.mBusStationLocations.get(i + 1));
                     }
                 }
             }
@@ -329,7 +329,7 @@ public class MyNavigateHelper {
     private void routeBikePlanWithParam() {
         //获取定位点和目标点坐标
         BikeRouteNodeInfo bikeStartNode = new BikeRouteNodeInfo();
-        bikeStartNode.setLocation(mainFragment.latLng);
+        bikeStartNode.setLocation(mainFragment.mLatLng);
         BikeRouteNodeInfo bikeEndNode = new BikeRouteNodeInfo();
         bikeEndNode.setLocation(mainFragment.searchList.get(0).getLatLng());
 

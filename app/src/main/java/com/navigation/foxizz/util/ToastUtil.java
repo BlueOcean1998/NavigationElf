@@ -11,7 +11,7 @@ import static com.navigation.foxizz.BaseApplication.getBaseApplication;
  */
 public class ToastUtil {
 
-    private static Toast toast;//Toast对象
+    private static Toast mToast;//Toast对象
 
     private final static Handler mainHandler = new Handler(Looper.getMainLooper());//主线程Handler
 
@@ -44,10 +44,10 @@ public class ToastUtil {
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (toast != null) toast.cancel();//销毁上一个
-                toast = Toast.makeText(getBaseApplication(), null, duration);//弹出下一个
-                toast.setText(text);//重设内容，去除小米自带的"appName:"
-                toast.show();
+                if (mToast != null) mToast.cancel();//销毁上一个
+                mToast = Toast.makeText(getBaseApplication(), null, duration);//弹出下一个
+                mToast.setText(text);//重设内容，去除小米自带的"appName:"
+                mToast.show();
             }
         });
     }
@@ -63,10 +63,10 @@ public class ToastUtil {
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (toast != null) toast.cancel();//销毁上一个
-                toast = Toast.makeText(getBaseApplication(), null, duration);//弹出下一个
-                toast.setText(resId);//重设内容，去除小米自带的"appName:"
-                toast.show();
+                if (mToast != null) mToast.cancel();//销毁上一个
+                mToast = Toast.makeText(getBaseApplication(), null, duration);//弹出下一个
+                mToast.setText(resId);//重设内容，去除小米自带的"appName:"
+                mToast.show();
             }
         });
     }

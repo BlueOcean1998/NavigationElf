@@ -57,7 +57,7 @@ public class SettingsActivity extends BaseActivity {
 
     private InputMethodManager imm;//键盘
 
-    private static LocalBroadcastManager localBroadcastManager;//本地广播管理器
+    private static LocalBroadcastManager mLocalBroadcastManager;//本地广播管理器
 
     /**
      * 启动设置页
@@ -76,7 +76,7 @@ public class SettingsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
 
         initView();//初始化控件
 
@@ -167,7 +167,7 @@ public class SettingsActivity extends BaseActivity {
                 SPHelper.putString(Constants.MAP_TYPE, Constants.STANDARD_MAP);
 
                 //发送本地广播通知更新地图类型
-                localBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
+                mLocalBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
                         .putExtra(Constants.SETTINGS_TYPE, Constants.SET_MAP_TYPE));
             }
         });
@@ -189,7 +189,7 @@ public class SettingsActivity extends BaseActivity {
                 SPHelper.putString(Constants.MAP_TYPE, Constants.SATELLITE_MAP);
 
                 //发送本地广播通知更新地图类型
-                localBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
+                mLocalBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
                         .putExtra(Constants.SETTINGS_TYPE, Constants.SET_MAP_TYPE));
             }
         });
@@ -211,7 +211,7 @@ public class SettingsActivity extends BaseActivity {
                 SPHelper.putString(Constants.MAP_TYPE, Constants.TRAFFIC_MAP);
 
                 //发送本地广播通知更新地图类型
-                localBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
+                mLocalBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
                         .putExtra(Constants.SETTINGS_TYPE, Constants.SET_MAP_TYPE));
             }
         });
@@ -318,32 +318,32 @@ public class SettingsActivity extends BaseActivity {
             switch (preference.getKey()) {
                 case Constants.KEY_LANDSCAPE:
                     //发送本地广播通知更新是否允许横屏
-                    localBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
+                    mLocalBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
                             .putExtra(Constants.SETTINGS_TYPE, Constants.SET_LANDSCAPE));
                     break;
                 case Constants.KEY_ANGLE_3D:
                     //发送本地广播通知更新否启用3D视角
-                    localBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
+                    mLocalBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
                             .putExtra(Constants.SETTINGS_TYPE, Constants.SET_ANGLE_3D));
                     break;
                 case Constants.KEY_MAP_ROTATION:
                     //发送本地广播通知更新是否允许地图旋转
-                    localBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
+                    mLocalBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
                             .putExtra(Constants.SETTINGS_TYPE, Constants.SET_MAP_ROTATION));
                     break;
                 case Constants.KEY_SCALE_CONTROL:
                     //发送本地广播通知更新是否显示比例尺
-                    localBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
+                    mLocalBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
                             .putExtra(Constants.SETTINGS_TYPE, Constants.SET_SCALE_CONTROL));
                     break;
                 case Constants.KEY_ZOOM_CONTROLS:
                     //发送本地广播通知更新是否显示缩放按钮
-                    localBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
+                    mLocalBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
                             .putExtra(Constants.SETTINGS_TYPE, Constants.SET_ZOOM_CONTROLS));
                     break;
                 case Constants.KEY_COMPASS:
                     //发送本地广播通知更新是否显示指南针
-                    localBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
+                    mLocalBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
                             .putExtra(Constants.SETTINGS_TYPE, Constants.SET_COMPASS));
                     break;
                 case Constants.KEY_SEARCH_AROUND:
@@ -367,7 +367,7 @@ public class SettingsActivity extends BaseActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //发送本地广播通知清空搜索记录
-                localBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
+                mLocalBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
                         .putExtra(Constants.SETTINGS_TYPE, Constants.CLEAN_RECORD));
 
                 SearchDataHelper.deleteSearchData();//清空数据库中的搜索记录

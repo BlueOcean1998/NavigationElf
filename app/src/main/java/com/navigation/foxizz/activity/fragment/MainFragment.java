@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,9 +40,6 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.UiSettings;
-import com.baidu.mapapi.map.offline.MKOLSearchRecord;
-import com.baidu.mapapi.map.offline.MKOfflineMap;
-import com.baidu.mapapi.map.offline.MKOfflineMapListener;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
@@ -59,16 +55,18 @@ import com.navigation.foxizz.data.SchemeItem;
 import com.navigation.foxizz.data.SearchDataHelper;
 import com.navigation.foxizz.data.SearchItem;
 import com.navigation.foxizz.mybaidumap.MyLocation;
-import com.navigation.foxizz.mybaidumap.MyNavigateHelper;
+import com.navigation.foxizz.mybaidumap.MyNavigation;
 import com.navigation.foxizz.mybaidumap.MyOrientationListener;
-import com.navigation.foxizz.mybaidumap.MyRoutePlanSearch;
+import com.navigation.foxizz.mybaidumap.MyRoutePlan;
 import com.navigation.foxizz.mybaidumap.MySearch;
 import com.navigation.foxizz.receiver.LocalReceiver;
 import com.navigation.foxizz.receiver.SystemReceiver;
+import com.navigation.foxizz.service.OfflineMapService;
 import com.navigation.foxizz.util.CityUtil;
 import com.navigation.foxizz.util.LayoutUtil;
 import com.navigation.foxizz.util.NetworkUtil;
 import com.navigation.foxizz.util.SettingUtil;
+import com.navigation.foxizz.util.ThreadUtil;
 import com.navigation.foxizz.util.ToastUtil;
 
 import java.util.ArrayList;
@@ -97,18 +95,13 @@ public class MainFragment extends Fragment {
      */
     public MyLocation myLocation;
     public LocationClient mLocationClient;
-    public MyLocationData locData;//地址信息
-    public LatLng latLng;//坐标
+    public MyLocationData mLocData;//地址信息
+    public LatLng mLatLng;//坐标
     public int mLocType;//定位结果
     public float mRadius;//精度半径
     public double mLatitude;//纬度
     public double mLongitude;//经度
     public String mCity;//所在城市
-
-    /*
-     * 离线地图
-     */
-    public MKOfflineMap mOffline;
 
     /*
      * 搜索相关
@@ -126,10 +119,10 @@ public class MainFragment extends Fragment {
     public boolean searchExpandFlag = false;//搜索伸缩状态
     public LinearLayout llSearchDrawer;//搜索抽屉
     public LinearLayout llSearchLoading;//搜索加载
-    public RecyclerView recyclerSearchResult;//搜索结果
+    public RecyclerView mRecyclerSearchResult;//搜索结果
     public final List<SearchItem> searchList = new ArrayList<>();//搜索列表
-    public StaggeredGridLayoutManager searchLayoutManager;//搜索布局管理器
-    public SearchAdapter searchAdapter;//搜索适配器
+    public StaggeredGridLayoutManager mSearchLayoutManager;//搜索布局管理器
+    public SearchAdapter mSearchAdapter;//搜索适配器
     public LinearLayout llSearchInfoLayout;//详细信息布局
     public LinearLayout llSearchInfoLoading;//信息加载
     public ScrollView svSearchInfo;//详细信息布局的拖动条
@@ -144,17 +137,17 @@ public class MainFragment extends Fragment {
     /*
      * 路线规划相关
      */
-    public MyRoutePlanSearch myRoutePlanSearch;
-    public RoutePlanSearch mSearch;
-    public final List<LatLng> busStationLocations = new ArrayList<>();//公交导航所有站点的坐标
-    public LatLng endLocation;//终点
+    public MyRoutePlan myRoutePlan;
+    public RoutePlanSearch mRoutePlanSearch;
+    public final List<LatLng> mBusStationLocations = new ArrayList<>();//公交导航所有站点的坐标
+    public LatLng mEndLocation;//终点
     //交通选择
     public LinearLayout llSelectLayout;//选择布局
     public final static int DRIVING = 1;//驾车
     public final static int WALKING = 2;//步行
     public final static int BIKING = 3;//骑行
     public final static int TRANSIT = 4;//公交
-    public int routePlanSelect = 0;//默认为步行
+    public int mRoutePlanSelect = 0;//默认为步行
     public Button btSelect1;//选择驾车
     public Button btSelect2;//选择步行
     public Button btSelect3;//选择骑行
@@ -170,14 +163,14 @@ public class MainFragment extends Fragment {
     public LinearLayout llSchemeInfoLayout;//方案信息抽屉
     public ScrollView svSchemeInfo;//方案信息的拖动条
     public TextView tvSchemeInfo;//方案信息
-    public List<SchemeItem> schemeList = new ArrayList<>();//方案列表
-    public StaggeredGridLayoutManager schemeLayoutManager;//方案布局管理器
-    public SchemeAdapter schemeAdapter;//方案适配器
+    public List<SchemeItem> mSchemeList = new ArrayList<>();//方案列表
+    public StaggeredGridLayoutManager mSchemeLayoutManager;//方案布局管理器
+    public SchemeAdapter mSchemeAdapter;//方案适配器
 
     /*
      * 导航相关
      */
-    public MyNavigateHelper myNavigateHelper;
+    public MyNavigation myNavigation;
     public LinearLayout llStartLayout;//开始导航布局
     public Button btBack;//返回按钮
     public Button btMiddle;//路线规划、详细信息切换按钮
@@ -187,8 +180,8 @@ public class MainFragment extends Fragment {
     /*
      * 控制相关
      */
-    public int bodyLength;//屏幕的长
-    public int bodyShort;//屏幕的宽
+    public int mBodyLength;//屏幕的长
+    public int mBodyShort;//屏幕的宽
     public InputMethodManager imm;//键盘
     private ImageButton ibSettings;//设置
     private ImageButton ibRefresh;//刷新
@@ -197,21 +190,21 @@ public class MainFragment extends Fragment {
     /*
      * 设置相关
      */
-    private SystemReceiver systemReceiver;//系统广播接收器
-    private LocalReceiver localReceiver;//本地广播接收器
-    private LocalBroadcastManager localBroadcastManager;//本地广播管理器
+    private SystemReceiver mSystemReceiver;//系统广播接收器
+    private LocalReceiver mLocalReceiver;//本地广播接收器
+    private LocalBroadcastManager mLocalBroadcastManager;//本地广播管理器
 
     /*
      * 数据相关
      */
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences mSharedPreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         //获取默认设置
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
 
         initMap(view);//初始化地图控件
 
@@ -229,10 +222,10 @@ public class MainFragment extends Fragment {
         mySearch = new MySearch(this);//初始化搜索模块
         mySearch.initSearch();//初始化搜索目标信息
 
-        myRoutePlanSearch = new MyRoutePlanSearch(this);//初始化路线规划模块
-        myRoutePlanSearch.initRoutePlanSearch();//初始化路线规划
+        myRoutePlan = new MyRoutePlan(this);//初始化路线规划模块
+        myRoutePlan.initRoutePlanSearch();//初始化路线规划
 
-        myNavigateHelper = new MyNavigateHelper(this);//初始化导航模块
+        myNavigation = new MyNavigation(this);//初始化导航模块
 
         requestPermission();//申请权限，获得权限后定位
 
@@ -267,8 +260,8 @@ public class MainFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
 
-        requireActivity().unregisterReceiver(systemReceiver);//释放系统广播接收器实例
-        localBroadcastManager.unregisterReceiver(localReceiver);//释放本地广播接收器实例
+        requireActivity().unregisterReceiver(mSystemReceiver);//释放系统广播接收器实例
+        mLocalBroadcastManager.unregisterReceiver(mLocalReceiver);//释放本地广播接收器实例
 
         mBaiduMap.setMyLocationEnabled(false);//关闭定位
 
@@ -283,7 +276,7 @@ public class MainFragment extends Fragment {
         mMapView.onDestroy();
         mSuggestionSearch.destroy();
         mPoiSearch.destroy();
-        mSearch.destroy();
+        mRoutePlanSearch.destroy();
 
         SpeechSynthesizer.getInstance().release();//释放语音合成实例
     }
@@ -314,42 +307,11 @@ public class MainFragment extends Fragment {
         //移动视角到最近的一条搜索记录
         SearchDataHelper.moveToLastSearchRecordLocation(this);
 
-        //初始化离线地图下载器
-        mOffline = new MKOfflineMap();
-        mOffline.init(new MKOfflineMapListener() {
-            @Override
-            public void onGetOfflineMapState(int result, int cityID) {
-                Log.d("Foxizz_Test", "result=" + result + ",cityID=" + cityID);
-            }
-        });
-
         //下载离线地图
-        String myCity = SPHelper.getString(Constants.MY_CITY, "");
-        if (!TextUtils.isEmpty(myCity)) {
-            downLoadOfflineMap(myCity);
-        }
-    }
-
-    //下载离线地图
-    public void downLoadOfflineMap(String cityName) {
-        if (TextUtils.isEmpty(cityName)) return;
-        if (!NetworkUtil.isNetworkConnected()//有网络连接
-                || !NetworkUtil.getNetworkType().equals("wifi"))//网络类型为wifi
-            return;
-
-        //根据城市名获取城市id
-        int cityID = 0;
-        ArrayList<MKOLSearchRecord> records = mOffline.searchCity(cityName);
-        if(records != null && records.size() == 1) {
-            cityID = records.get(0).cityID;
-        }
-
-        //开始下载
-        if (cityID != 0) {
-            //mOffline.remove(cityID);
-            mOffline.start(cityID);
-            mOffline.update(cityID);
-            //ToastUtil.showToast("正在下载离线地图");
+        String mCity = SPHelper.getString(Constants.MY_CITY, "");
+        if (!TextUtils.isEmpty(mCity)) {
+            //启动下载离线地图服务
+            OfflineMapService.startService(requireActivity(), mCity);
         }
     }
 
@@ -382,35 +344,35 @@ public class MainFragment extends Fragment {
      * 设置是否启用3D视角
      */
     public void setAngle3D() {
-        mUiSettings.setOverlookingGesturesEnabled(sharedPreferences.getBoolean(Constants.KEY_ANGLE_3D, false));
+        mUiSettings.setOverlookingGesturesEnabled(mSharedPreferences.getBoolean(Constants.KEY_ANGLE_3D, false));
     }
 
     /**
      * 设置是否允许地图旋转
      */
     public void setMapRotation() {
-        mUiSettings.setRotateGesturesEnabled(sharedPreferences.getBoolean(Constants.KEY_MAP_ROTATION, false));
+        mUiSettings.setRotateGesturesEnabled(mSharedPreferences.getBoolean(Constants.KEY_MAP_ROTATION, false));
     }
 
     /**
      * 设置是否显示比例尺
      */
     public void setScaleControl() {
-        mMapView.showScaleControl(sharedPreferences.getBoolean(Constants.KEY_SCALE_CONTROL, true));
+        mMapView.showScaleControl(mSharedPreferences.getBoolean(Constants.KEY_SCALE_CONTROL, true));
     }
 
     /**
      * 设置是否显示缩放按钮
      */
     public void setZoomControls() {
-        mMapView.showZoomControls(sharedPreferences.getBoolean(Constants.KEY_ZOOM_CONTROLS, false));
+        mMapView.showZoomControls(mSharedPreferences.getBoolean(Constants.KEY_ZOOM_CONTROLS, false));
     }
 
     /**
      * 设置是否显示指南针
      */
     public void setCompass() {
-        mUiSettings.setCompassEnabled(sharedPreferences.getBoolean(Constants.KEY_COMPASS, true));
+        mUiSettings.setCompassEnabled(mSharedPreferences.getBoolean(Constants.KEY_COMPASS, true));
     }
 
     //初始化偏好设置
@@ -429,19 +391,19 @@ public class MainFragment extends Fragment {
 
     //初始化系统广播接收器
     private void initSystemReceiver() {
-        systemReceiver = new SystemReceiver(requireActivity());
+        mSystemReceiver = new SystemReceiver(requireActivity());
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Constants.CONNECTIVITY_CHANGE);
-        requireActivity().registerReceiver(systemReceiver, intentFilter);
+        requireActivity().registerReceiver(mSystemReceiver, intentFilter);
     }
 
     //初始化本地广播接收器
     private void initLocalReceiver() {
-        localReceiver = new LocalReceiver(requireActivity());
+        mLocalReceiver = new LocalReceiver(requireActivity());
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Constants.SETTINGS_BROADCAST);
-        localBroadcastManager = LocalBroadcastManager.getInstance(requireActivity());
-        localBroadcastManager.registerReceiver(localReceiver, intentFilter);
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(requireActivity());
+        mLocalBroadcastManager.registerReceiver(mLocalReceiver, intentFilter);
     }
 
     //初始化自定义控件
@@ -463,7 +425,7 @@ public class MainFragment extends Fragment {
         ibSearchExpand = view.findViewById(R.id.ib_search_expand);
         llSearchDrawer = view.findViewById(R.id.ll_search_drawer);
         llSearchLoading = view.findViewById(R.id.include_search_loading);
-        recyclerSearchResult = view.findViewById(R.id.recycler_search_result);
+        mRecyclerSearchResult = view.findViewById(R.id.recycler_search_result);
 
         llSearchInfoLayout = view.findViewById(R.id.ll_search_info_layout);
         llSearchInfoLoading = view.findViewById(R.id.include_search_info_loading);
@@ -498,19 +460,19 @@ public class MainFragment extends Fragment {
         llSearchInfoLoading.setVisibility(View.GONE);
         llSchemeLoading.setVisibility(View.GONE);
 
-        searchAdapter = new SearchAdapter(this);//初始化搜索适配器
-        searchLayoutManager = new StaggeredGridLayoutManager(
+        mSearchAdapter = new SearchAdapter(this);//初始化搜索适配器
+        mSearchLayoutManager = new StaggeredGridLayoutManager(
                 1, StaggeredGridLayoutManager.VERTICAL
         );//搜索布局行数为1
-        recyclerSearchResult.setAdapter(searchAdapter);//设置搜索适配器
-        recyclerSearchResult.setLayoutManager(searchLayoutManager);//设置搜索布局
+        mRecyclerSearchResult.setAdapter(mSearchAdapter);//设置搜索适配器
+        mRecyclerSearchResult.setLayoutManager(mSearchLayoutManager);//设置搜索布局
 
-        schemeAdapter = new SchemeAdapter(this);//初始化方案适配器
-        schemeLayoutManager = new StaggeredGridLayoutManager(
+        mSchemeAdapter = new SchemeAdapter(this);//初始化方案适配器
+        mSchemeLayoutManager = new StaggeredGridLayoutManager(
                 1, StaggeredGridLayoutManager.VERTICAL
         );//方案布局行数为1
-        recyclerSchemeResult.setAdapter(schemeAdapter);//设置方案适配器
-        recyclerSchemeResult.setLayoutManager(schemeLayoutManager);//设置方案布局
+        recyclerSchemeResult.setAdapter(mSchemeAdapter);//设置方案适配器
+        recyclerSchemeResult.setLayoutManager(mSchemeLayoutManager);//设置方案布局
 
         //设置按钮的点击事件
         ibSettings.setOnClickListener(new View.OnClickListener() {
@@ -545,9 +507,9 @@ public class MainFragment extends Fragment {
                 btSelect2.setBackgroundResource(R.drawable.bt_bg_alpha_black);
                 btSelect3.setBackgroundResource(R.drawable.bt_bg_alpha_black);
                 btSelect4.setBackgroundResource(R.drawable.bt_bg_alpha_black);
-                routePlanSelect = DRIVING;
+                mRoutePlanSelect = DRIVING;
 
-                myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
+                myRoutePlan.startRoutePlanSearch();//开始路线规划
             }
         });
 
@@ -559,9 +521,9 @@ public class MainFragment extends Fragment {
                 btSelect2.setBackgroundResource(R.drawable.bt_bg_black_gray);
                 btSelect3.setBackgroundResource(R.drawable.bt_bg_alpha_black);
                 btSelect4.setBackgroundResource(R.drawable.bt_bg_alpha_black);
-                routePlanSelect = WALKING;
+                mRoutePlanSelect = WALKING;
 
-                myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
+                myRoutePlan.startRoutePlanSearch();//开始路线规划
             }
         });
 
@@ -573,9 +535,9 @@ public class MainFragment extends Fragment {
                 btSelect2.setBackgroundResource(R.drawable.bt_bg_alpha_black);
                 btSelect3.setBackgroundResource(R.drawable.bt_bg_black_gray);
                 btSelect4.setBackgroundResource(R.drawable.bt_bg_alpha_black);
-                routePlanSelect = BIKING;
+                mRoutePlanSelect = BIKING;
 
-                myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
+                myRoutePlan.startRoutePlanSearch();//开始路线规划
             }
         });
 
@@ -587,9 +549,9 @@ public class MainFragment extends Fragment {
                 btSelect2.setBackgroundResource(R.drawable.bt_bg_alpha_black);
                 btSelect3.setBackgroundResource(R.drawable.bt_bg_alpha_black);
                 btSelect4.setBackgroundResource(R.drawable.bt_bg_black_gray);
-                routePlanSelect = TRANSIT;
+                mRoutePlanSelect = TRANSIT;
 
-                myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
+                myRoutePlan.startRoutePlanSearch();//开始路线规划
             }
         });
 
@@ -638,7 +600,7 @@ public class MainFragment extends Fragment {
                 etSearch.setText("");//清空搜索内容
 
                 if (!isHistorySearchResult) {//如果不是搜索历史记录
-                    recyclerSearchResult.stopScroll();//停止信息列表滑动
+                    mRecyclerSearchResult.stopScroll();//停止信息列表滑动
                     SearchDataHelper.initSearchData(MainFragment.this);//初始化搜索记录
                     isHistorySearchResult = true;//现在是搜索历史记录了
                 }
@@ -668,7 +630,7 @@ public class MainFragment extends Fragment {
         });
 
         //搜索列表的滑动监听
-        recyclerSearchResult.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRecyclerSearchResult.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -707,7 +669,7 @@ public class MainFragment extends Fragment {
                     btMiddle.setText(R.string.middle_button2);//设置按钮为详细信息
                     infoFlag = false;//设置信息状态交通选择
 
-                    myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
+                    myRoutePlan.startRoutePlanSearch();//开始路线规划
                 } else {//如果显示为交通选择
                     btMiddle.setText(R.string.middle_button1);//设置按钮为路线
                     LayoutUtil.expandLayout(llSelectLayout, false);//收起选择布局
@@ -722,12 +684,12 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //交通选择
-                if (routePlanSelect == 0) {
+                if (mRoutePlanSelect == 0) {
                     if (infoFlag) btMiddle.callOnClick();
                     else ToastUtil.showToast(R.string.please_select_transportation);
                     return;
                 }
-                myNavigateHelper.startNavigate();//开始导航
+                myNavigation.startNavigate();//开始导航
             }
         });
     }
@@ -742,12 +704,12 @@ public class MainFragment extends Fragment {
                 mLastX = x;
 
                 //更新方向
-                locData = new MyLocationData.Builder()
+                mLocData = new MyLocationData.Builder()
                         .accuracy(mRadius)
                         .direction(mLastX)//此处设置开发者获取到的方向信息，顺时针0-360
                         .latitude(mLatitude)
                         .longitude(mLongitude).build();
-                mBaiduMap.setMyLocationData(locData);//设置定位数据
+                mBaiduMap.setMyLocationData(mLocData);//设置定位数据
             }
         });
     }
@@ -773,6 +735,7 @@ public class MainFragment extends Fragment {
 
         //如果列表为空，则获取了全部权限不用再获取，否则要获取
         if (permissionList.isEmpty()) {
+            myLocation.requestLocationTime = 0;//请求定位的次数归零
             myLocation.refreshSearchList = true;//刷新搜索列表
             myLocation.initLocationOption();//初始化定位
         } else {
@@ -793,18 +756,18 @@ public class MainFragment extends Fragment {
         Configuration configuration = this.getResources().getConfiguration();//获取设置的配置信息
         int ori = configuration.orientation;//获取屏幕方向
         if (ori == Configuration.ORIENTATION_LANDSCAPE) {//横屏时
-            bodyLength = point.x;
-            bodyShort = point.y;
+            mBodyLength = point.x;
+            mBodyShort = point.y;
         } else if (ori == Configuration.ORIENTATION_PORTRAIT) {//竖屏时
-            bodyLength = point.y;
-            bodyShort = point.x;
+            mBodyLength = point.y;
+            mBodyShort = point.x;
         }
 
         //设置搜索抽屉的结果列表、详细信息布局的拖动布局、路线方案抽屉的结果列表、路线方案信息的拖动布局的高度
-        LayoutUtil.setViewHeight(recyclerSearchResult, bodyLength / 2);
-        LayoutUtil.setViewHeight(svSearchInfo, bodyLength / 4);
-        LayoutUtil.setViewHeight(recyclerSchemeResult, 2 * bodyLength / 5);
-        LayoutUtil.setViewHeight(svSchemeInfo, bodyLength / 4);
+        LayoutUtil.setViewHeight(mRecyclerSearchResult, mBodyLength / 2);
+        LayoutUtil.setViewHeight(svSearchInfo, mBodyLength / 4);
+        LayoutUtil.setViewHeight(recyclerSchemeResult, 2 * mBodyLength / 5);
+        LayoutUtil.setViewHeight(svSchemeInfo, mBodyLength / 4);
     }
 
     /**
@@ -892,7 +855,7 @@ public class MainFragment extends Fragment {
             return;
         }
 
-        new Thread(new Runnable() {
+        ThreadUtil.execute(new Runnable() {
             @Override
             public void run() {
                 String searchCity = mCity;
@@ -925,29 +888,29 @@ public class MainFragment extends Fragment {
 
                         mBaiduMap.clear();//清空地图上的所有标记点和绘制的路线
 
-                        recyclerSearchResult.stopScroll();//停止信息列表滑动
+                        mRecyclerSearchResult.stopScroll();//停止信息列表滑动
                         searchList.clear();//清空searchList
-                        searchAdapter.updateList();//通知adapter更新
+                        mSearchAdapter.updateList();//通知adapter更新
 
                         //滚动到顶部
-                        recyclerSearchResult.stopScroll();
-                        recyclerSearchResult.scrollToPosition(0);
+                        mRecyclerSearchResult.stopScroll();
+                        mRecyclerSearchResult.scrollToPosition(0);
                         //加载搜索信息
                         llSearchLoading.setVisibility(View.VISIBLE);
-                        recyclerSearchResult.setVisibility(View.GONE);
+                        mRecyclerSearchResult.setVisibility(View.GONE);
                     }
                 });
 
                 isHistorySearchResult = false;//已经不是搜索历史记录了
                 currentPage = 0;//页数归零
 
-                if (sharedPreferences.getBoolean(Constants.KEY_SEARCH_AROUND, false))
+                if (mSharedPreferences.getBoolean(Constants.KEY_SEARCH_AROUND, false))
                     mySearch.searchType = MySearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
                 else mySearch.searchType = MySearch.CITY_SEARCH;//设置搜索类型为城市内搜索
 
                 mySearch.startSearch(currentPage);//开始搜索
             }
-        }).start();
+        });
     }
 
 }

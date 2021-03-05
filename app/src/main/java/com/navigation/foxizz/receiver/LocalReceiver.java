@@ -56,7 +56,7 @@ public class LocalReceiver extends BroadcastReceiver {
                         break;
                     case Constants.CLEAN_RECORD:
                         mainFragment.searchList.clear();//清空搜索列表
-                        mainFragment.searchAdapter.updateList();//通知adapter更新
+                        mainFragment.mSearchAdapter.updateList();//通知adapter更新
                         break;
                     default:
                         break;

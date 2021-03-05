@@ -188,7 +188,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 mainFragment.btMiddle.setText(R.string.middle_button2);//设置按钮为详细信息
                 mainFragment.infoFlag = false;//设置信息状态为交通选择
 
-                mainFragment.myRoutePlanSearch.startRoutePlanSearch();//开始路线规划
+                mainFragment.myRoutePlan.startRoutePlanSearch();//开始路线规划
             }
         });
 
@@ -234,7 +234,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         LayoutUtil.expandLayout(mainFragment.llStartLayout, true);//展开开始导航布局
 
         //设置终点坐标
-        mainFragment.endLocation = searchItem.getLatLng();
+        mainFragment.mEndLocation = searchItem.getLatLng();
 
         //加载详细信息
         mainFragment.llSearchInfoLoading.setVisibility(View.VISIBLE);
