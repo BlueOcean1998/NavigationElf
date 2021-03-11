@@ -46,10 +46,10 @@ public class SearchDataHelper {
         if (isHasSearchData()) {
             mainFragment.searchList.clear();
 
-            boolean flag = false;//是否刷新搜索记录
+            boolean isRefreshSearchRecord = false;//是否刷新搜索记录
             //有网络连接且没有开飞行模式
             if (NetworkUtil.isNetworkConnected() && !NetworkUtil.isAirplaneModeOn()) {
-                flag = true;
+                isRefreshSearchRecord = true;
                 //设置为详细搜索全部
                 mainFragment.mySearch.searchType = MySearch.DETAIL_SEARCH_ALL;
                 mainFragment.mySearch.isFirstDetailSearch = true;//第一次详细信息搜索
@@ -66,7 +66,7 @@ public class SearchDataHelper {
 
                 mainFragment.searchList.add(searchItem);
 
-                if (flag) {
+                if (isRefreshSearchRecord) {
                     //通过网络重新获取搜索信息
                     mainFragment.mPoiSearch.searchPoiDetail(//开始POI详细信息搜索
                             (new PoiDetailSearchOption()).poiUids(searchItem.getUid()));

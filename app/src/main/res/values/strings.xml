@@ -27,8 +27,8 @@
     <string name="show_zoom_button">显示缩放按钮</string>
     <string name="show_compass">显示指南针</string>
     <string name="search">搜索</string>
-    <string name="disable_search_around">禁用周边搜索</string>
-    <string name="do_not_search_around">当城市内搜索到的内容过多时，不再会自动转为周边搜索</string>
+    <string name="enable_intelligent_search">启用智能搜索</string>
+    <string name="intelligent_search_around">当搜索结果过多时，自动推荐周边搜索</string>
     <string name="clean_search_record">清空搜索记录</string>
 
     <string name="select_button1">驾车</string>

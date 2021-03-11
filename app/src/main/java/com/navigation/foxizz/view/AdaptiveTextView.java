@@ -12,8 +12,6 @@ import com.navigation.foxizz.R;
 
 public class AdaptiveTextView extends androidx.appcompat.widget.AppCompatTextView {
 
-    public final static boolean widthAdaptive = true;//宽度自适应
-    public final static boolean heightAdaptive = false;//高度自适应
     private float mMaxTextSize;//默认字体大小
     private float mMinTextSize;//最小字体大小
     private Paint mTextPaint;//文本描述对象

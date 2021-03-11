@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class BaseActivity extends AppCompatActivity {
 
-    private static final List<Activity> activities = new ArrayList<>();
+    private static final List<Activity> ACTIVITIES = new ArrayList<>();
 
     /**
      * 获取指定活动
@@ -24,36 +24,36 @@ public class BaseActivity extends AppCompatActivity {
      * @return 活动
      */
     public static Activity findActivity(Class<?> cls) {
-        for (Activity activity : activities) {
+        for (Activity activity : ACTIVITIES) {
             if (activity.getClass() == cls) {
                 return activity;
             }
         }
-        return activities.get(0);
+        return ACTIVITIES.get(0);
     }
 
     /**
      * 退出程序
      */
     public static void finishAll() {
-        for (Activity activity : activities) {
+        for (Activity activity : ACTIVITIES) {
             if (!activity.isFinishing()) {
                 activity.finish();
             }
         }
-        activities.clear();
+        ACTIVITIES.clear();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activities.add(this);
+        ACTIVITIES.add(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        activities.remove(this);
+        ACTIVITIES.remove(this);
     }
 
 }

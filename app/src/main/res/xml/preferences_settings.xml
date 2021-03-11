@@ -45,10 +45,10 @@
         app:icon="@drawable/ic_search_black_24dp"
         app:title="@string/search">
         <SwitchPreferenceCompat
-            app:defaultValue="false"
-            app:key="search_around"
-            app:summary="@string/do_not_search_around"
-            app:title="@string/disable_search_around" />
+            app:defaultValue="true"
+            app:key="intelligent_search"
+            app:summary="@string/intelligent_search_around"
+            app:title="@string/enable_intelligent_search" />
         <Preference
             app:key="search_record"
             app:title="@string/clean_search_record" />

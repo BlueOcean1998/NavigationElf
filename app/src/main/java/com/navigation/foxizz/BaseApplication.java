@@ -13,11 +13,11 @@ import cn.zerokirby.api.ZerokirbyApi;
  * App name: NavigationElf
  * Author: Foxizz
  * Accomplish date: 2020-04-30
- * Last modify date: 2021-03-05
+ * Last modify date: 2021-03-10
  */
 public class BaseApplication extends Application {
 
-    private static BaseApplication baseApplication;
+    private static Application application;
 
     /**
      * 获取Application
@@ -25,14 +25,14 @@ public class BaseApplication extends Application {
      * @return application
      */
     public static Application getBaseApplication() {
-        return baseApplication;
+        return application;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        baseApplication = this;
+        application = this;
 
         SPHelper.initSharedPreferences(this);//初始化SharedPreferences
         DatabaseHelper.initDatabaseHelper(this);//初始化搜索数据库

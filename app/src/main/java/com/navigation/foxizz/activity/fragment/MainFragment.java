@@ -62,11 +62,8 @@ import com.navigation.foxizz.mybaidumap.MySearch;
 import com.navigation.foxizz.receiver.LocalReceiver;
 import com.navigation.foxizz.receiver.SystemReceiver;
 import com.navigation.foxizz.service.OfflineMapService;
-import com.navigation.foxizz.util.CityUtil;
 import com.navigation.foxizz.util.LayoutUtil;
-import com.navigation.foxizz.util.NetworkUtil;
 import com.navigation.foxizz.util.SettingUtil;
-import com.navigation.foxizz.util.ThreadUtil;
 import com.navigation.foxizz.util.ToastUtil;
 
 import java.util.ArrayList;
@@ -116,7 +113,6 @@ public class MainFragment extends Fragment {
     public ImageButton ibEmpty;//清空按钮
     public Button btSearch;//搜索按钮
     public ImageButton ibSearchExpand;//搜索结果伸缩按钮
-    public boolean searchExpandFlag = false;//搜索伸缩状态
     public LinearLayout llSearchDrawer;//搜索抽屉
     public LinearLayout llSearchLoading;//搜索加载
     public RecyclerView mRecyclerSearchResult;//搜索结果
@@ -153,10 +149,6 @@ public class MainFragment extends Fragment {
     public Button btSelect3;//选择骑行
     public Button btSelect4;//选择公交
     //方案布局
-    public final static int SCHEME_NOT_ALREADY = 0;//未展开
-    public final static int SCHEME_LIST = 1;//方案列表
-    public final static int SCHEME_INFO = 2;//方案信息
-    public int schemeFlag = SCHEME_NOT_ALREADY;//初始为未展开
     public LinearLayout llSchemeDrawer;//方案抽屉
     public LinearLayout llSchemeLoading;//方案加载
     public RecyclerView recyclerSchemeResult;//方案结果
@@ -197,7 +189,7 @@ public class MainFragment extends Fragment {
     /*
      * 数据相关
      */
-    private SharedPreferences mSharedPreferences;
+    public SharedPreferences mSharedPreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -560,10 +552,9 @@ public class MainFragment extends Fragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    //如果状态为收起且有搜索数据
-                    if (!searchExpandFlag && SearchDataHelper.isHasSearchData()) {
+                    //如果搜索抽屉收起且有搜索历史记录
+                    if (llSearchDrawer.getHeight() == 0 && SearchDataHelper.isHasSearchData()) {
                         expandSearchDrawer(true);//展开搜索抽屉
-                        searchExpandFlag = true;//设置状态为展开
                     }
                 }
             }
@@ -584,7 +575,7 @@ public class MainFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 //根据是否有内容判断显示和隐藏清空按钮
-                if (!etSearch.getText().toString().isEmpty()) {
+                if (!TextUtils.isEmpty(etSearch.getText().toString())) {
                     ibEmpty.setVisibility(View.VISIBLE);
                 } else {
                     ibEmpty.setVisibility(View.INVISIBLE);
@@ -611,7 +602,7 @@ public class MainFragment extends Fragment {
         btSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startSearch();//开始搜索
+                mySearch.startSearch();//开始搜索
             }
         });
 
@@ -619,13 +610,7 @@ public class MainFragment extends Fragment {
         ibSearchExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (searchExpandFlag) {//如果状态为展开
-                    expandSearchDrawer(false);//收起搜索抽屉
-                    searchExpandFlag = false;//设置状态为收起
-                } else {//如果是收起状态
-                    expandSearchDrawer(true);//展开搜索抽屉
-                    searchExpandFlag = true;//设置状态为展开
-                }
+                expandSearchDrawer(llSearchDrawer.getHeight() == 0);//展开或收起搜索抽屉
             }
         });
 
@@ -649,16 +634,16 @@ public class MainFragment extends Fragment {
         btMiddle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (schemeFlag != SCHEME_NOT_ALREADY) {//如果方案布局已经展开
+                //如果方案布局已经展开
+                if (llSchemeDrawer.getHeight() != 0 || llSchemeInfoLayout.getHeight() != 0) {
                     LayoutUtil.expandLayout(llSelectLayout, true);//展开选择布局
-                    if (schemeFlag == SCHEME_LIST)//如果方案布局为方案列表
+                    if (llSchemeDrawer.getHeight() != 0)//如果方案布局为方案列表
                         LayoutUtil.expandLayout(llSchemeDrawer, false);//收起方案抽屉
-                    if (schemeFlag == SCHEME_INFO)//如果方案布局为单个方案
+                    if (llSchemeInfoLayout.getHeight() != 0)//如果方案布局为单个方案
                         LayoutUtil.expandLayout(llSchemeInfoLayout, false);//收起方案信息布局
 
                     btMiddle.setText(R.string.middle_button2);//设置按钮为详细信息
                     infoFlag = false;//设置信息状态为交通选择
-                    schemeFlag = SCHEME_NOT_ALREADY;//设置状态为没有展开
                     return;
                 }
 
@@ -794,23 +779,20 @@ public class MainFragment extends Fragment {
      * 返回上一层
      */
     public void backToUpperStory() {
-        if (schemeFlag == SCHEME_INFO) {//如果方案布局为单个方案
+        if (llSchemeInfoLayout.getHeight() != 0) {//如果方案布局为单个方案
             LayoutUtil.expandLayout(llSchemeDrawer, true);//展开方案抽屉
             LayoutUtil.expandLayout(llSchemeInfoLayout, false);//收起方案信息抽屉
-            schemeFlag = SCHEME_LIST;//设置状态为方案列表
         } else {
             LayoutUtil.expandLayout(llSelectLayout, false);//收起选择布局
             LayoutUtil.expandLayout(llSearchLayout, true);//展开搜索布局
-            if (!searchExpandFlag) {//如果状态为收起
+            if (llSearchDrawer.getHeight() == 0) {//如果搜索抽屉收起
                 expandSearchDrawer(true);//展开搜索抽屉
-                searchExpandFlag = true;//设置状态为展开
             }
             LayoutUtil.expandLayout(llSearchInfoLayout, false);//收起详细信息布局
             LayoutUtil.expandLayout(llStartLayout, false);//收起开始导航布局
 
-            if (schemeFlag == SCHEME_LIST) {//如果方案布局为方案列表
+            if (llSchemeDrawer.getHeight() != 0) {//如果方案布局为方案列表
                 LayoutUtil.expandLayout(llSchemeDrawer, false);//收起方案抽屉
-                schemeFlag = SCHEME_NOT_ALREADY;//设置状态为没有展开
             }
         }
     }
@@ -823,94 +805,6 @@ public class MainFragment extends Fragment {
                 llSearchLayout.getHeight() != 0 &&
                 llSearchInfoLayout.getHeight() == 0 &&
                 llStartLayout.getHeight() == 0);
-    }
-
-    /**
-     * 开始搜索
-     */
-    public void startSearch() {
-        if (mySearch.isSearching) {
-            ToastUtil.showToast(R.string.wait_for_search_result);
-            return;
-        }
-
-        if (!searchExpandFlag) return;//如果状态为收起则不进行搜索
-
-        if (!NetworkUtil.isNetworkConnected()) {//没有网络连接
-            ToastUtil.showToast(R.string.network_error);
-            return;
-        }
-
-        if (NetworkUtil.isAirplaneModeOn()) {//没有关飞行模式
-            ToastUtil.showToast(R.string.close_airplane_mode);
-            return;
-        }
-
-        searchContent = etSearch.getText().toString();
-        if (TextUtils.isEmpty(searchContent)) {//如果搜索内容为空
-            if (!isHistorySearchResult) {//如果不是搜索历史记录
-                SearchDataHelper.initSearchData(MainFragment.this);//初始化搜索记录
-                isHistorySearchResult = true;//现在是搜索历史记录了
-            }
-            return;
-        }
-
-        ThreadUtil.execute(new Runnable() {
-            @Override
-            public void run() {
-                String searchCity = mCity;
-                //如果存储的城市不为空，则换用存储的城市
-                String saveCity = SPHelper.getString(Constants.DESTINATION_CITY, null);
-                if (!TextUtils.isEmpty(saveCity)) searchCity = saveCity;
-                if (TextUtils.isEmpty(searchCity)) {
-                    requestPermission();//申请权限，获得权限后定位
-                    return;
-                }
-
-                //如果是省份，则搜索城市列表设置为省份内所有的城市，否则设置为单个城市
-                searchCityList.clear();
-                if (searchCity != null) {
-                    if (CityUtil.checkProvinceName(searchCity)) {
-                        searchCityList.addAll(CityUtil.getCityList(searchCity));
-                    } else {
-                        searchCityList.add(searchCity);
-                    }
-                }
-
-                requireActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (!searchExpandFlag) {//展开搜索抽屉
-                            expandSearchDrawer(true);//展开搜索抽屉
-                            searchExpandFlag = true;//设置状态为展开
-                        }
-                        takeBackKeyboard();//收回键盘
-
-                        mBaiduMap.clear();//清空地图上的所有标记点和绘制的路线
-
-                        mRecyclerSearchResult.stopScroll();//停止信息列表滑动
-                        searchList.clear();//清空searchList
-                        mSearchAdapter.updateList();//通知adapter更新
-
-                        //滚动到顶部
-                        mRecyclerSearchResult.stopScroll();
-                        mRecyclerSearchResult.scrollToPosition(0);
-                        //加载搜索信息
-                        llSearchLoading.setVisibility(View.VISIBLE);
-                        mRecyclerSearchResult.setVisibility(View.GONE);
-                    }
-                });
-
-                isHistorySearchResult = false;//已经不是搜索历史记录了
-                currentPage = 0;//页数归零
-
-                if (mSharedPreferences.getBoolean(Constants.KEY_SEARCH_AROUND, false))
-                    mySearch.searchType = MySearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
-                else mySearch.searchType = MySearch.CITY_SEARCH;//设置搜索类型为城市内搜索
-
-                mySearch.startSearch(currentPage);//开始搜索
-            }
-        });
     }
 
 }

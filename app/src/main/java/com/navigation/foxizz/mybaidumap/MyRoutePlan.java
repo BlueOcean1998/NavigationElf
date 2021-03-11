@@ -141,7 +141,6 @@ public class MyRoutePlan {
                 LayoutUtil.expandLayout(mainFragment.llSelectLayout, false);//收起选择布局
                 LayoutUtil.expandLayout(mainFragment.llSchemeDrawer, true);//展开方案抽屉
 
-                mainFragment.schemeFlag = MainFragment.SCHEME_LIST;//设置状态为方案列表
                 mainFragment.btMiddle.setText(R.string.middle_button3);//设置按钮为交通选择
                 break;
 

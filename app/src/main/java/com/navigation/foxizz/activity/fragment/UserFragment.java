@@ -74,11 +74,11 @@ public class UserFragment extends Fragment {
         User user = UserDataHelper.getUser(userId);
 
         //设置用户名
-        if (!userId.equals("0")) tvUserName.setText(user.getUsername());
+        if (!"0".equals(userId)) tvUserName.setText(user.getUsername());
 
         //设置是否显示退出登录
         Preference preference = preferenceScreen.findPreference(Constants.KEY_LOGOUT);
-        if (preference != null) preference.setVisible(!userId.equals("0"));
+        if (preference != null) preference.setVisible(!"0".equals(userId));
     }
 
     @Override
@@ -113,7 +113,7 @@ public class UserFragment extends Fragment {
         flAvatarLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (UserDataHelper.getLoginUserId().equals("0"))
+                if ("0".equals(UserDataHelper.getLoginUserId()))
                     LoginRegisterActivity.startActivity(requireActivity());
                 else AvatarDataHelper.checkAvatarPermission(requireActivity());
             }
@@ -122,7 +122,7 @@ public class UserFragment extends Fragment {
         llUserInfoLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (UserDataHelper.getLoginUserId().equals("0"))
+                if ("0".equals(UserDataHelper.getLoginUserId()))
                     LoginRegisterActivity.startActivity(requireActivity());
             }
         });

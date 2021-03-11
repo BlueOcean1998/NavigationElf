@@ -166,6 +166,7 @@ public class DNaviGuideActivity extends Activity {
         mRouteGuideManager.onBackPressed(false, true);
     }
 
+    @Override
     public void onConfigurationChanged(@NonNull android.content.res.Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mRouteGuideManager.onConfigurationChanged(newConfig);

@@ -28,7 +28,7 @@ public class Constants {
     public final static String KEY_SCALE_CONTROL = "scale_control";
     public final static String KEY_ZOOM_CONTROLS = "zoom_controls";
     public final static String KEY_COMPASS = "compass";
-    public final static String KEY_SEARCH_AROUND = "search_around";
+    public final static String KEY_INTELLIGENT_SEARCH = "intelligent_search";
     public final static String KEY_SEARCH_RECORD = "search_record";
 
     //DefaultSharedPreferences的用户相关键

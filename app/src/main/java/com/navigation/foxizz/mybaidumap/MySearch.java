@@ -2,6 +2,7 @@ package com.navigation.foxizz.mybaidumap;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.baidu.mapapi.model.LatLng;
@@ -25,8 +26,12 @@ import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.navigation.foxizz.R;
 import com.navigation.foxizz.activity.fragment.MainFragment;
+import com.navigation.foxizz.data.Constants;
+import com.navigation.foxizz.data.SPHelper;
 import com.navigation.foxizz.data.SearchDataHelper;
 import com.navigation.foxizz.data.SearchItem;
+import com.navigation.foxizz.util.CityUtil;
+import com.navigation.foxizz.util.NetworkUtil;
 import com.navigation.foxizz.util.ThreadUtil;
 import com.navigation.foxizz.util.TimeUtil;
 import com.navigation.foxizz.util.ToastUtil;
@@ -51,7 +56,7 @@ public class MySearch {
 
     public final static int PAGE_CAPACITY = 16;//每页的容量
     public final static int TO_NEARBY_SEARCH_MIN_NUM = 64;//触发周边搜索需要的最小目标点数量
-    public final static int NEARBY_SEARCH_DISTANCE = 10000;//周边搜索的距离
+    public final static int NEARBY_SEARCH_DISTANCE = 5 * 1000;//周边搜索的距离
 
     public final static int CITY_SEARCH = 0;//城市内搜索
     public final static int OTHER_CITY_SEARCH = 1;//其它城市搜索，使用城市内搜索不到内容时启用
@@ -65,6 +70,93 @@ public class MySearch {
     private static int currentPage;//当前页数
     public boolean isFirstDetailSearch;//是否是第一次详细信息搜索
     public final Set<String> uidList = new HashSet<>();//uid集合
+
+    /**
+     * 开始搜索
+     */
+    public void startSearch() {
+        if (isSearching) {
+            ToastUtil.showToast(R.string.wait_for_search_result);
+            return;
+        }
+
+        if (!NetworkUtil.isNetworkConnected()) {//没有网络连接
+            ToastUtil.showToast(R.string.network_error);
+            return;
+        }
+
+        if (NetworkUtil.isAirplaneModeOn()) {//没有关飞行模式
+            ToastUtil.showToast(R.string.close_airplane_mode);
+            return;
+        }
+
+        if (mainFragment.llSearchLayout.getHeight() == 0) return;//如果搜索布局没有展开则不进行搜索
+
+        mainFragment.searchContent = mainFragment.etSearch.getText().toString();
+        if (TextUtils.isEmpty(mainFragment.searchContent)) {//如果搜索内容为空
+            if (!mainFragment.isHistorySearchResult) {//如果不是搜索历史记录
+                SearchDataHelper.initSearchData(mainFragment);//初始化搜索记录
+                mainFragment.isHistorySearchResult = true;//现在是搜索历史记录了
+            }
+            return;
+        }
+
+        ThreadUtil.execute(new Runnable() {
+            @Override
+            public void run() {
+                String searchCity = mainFragment.mCity;
+                //如果存储的城市不为空，则换用存储的城市
+                String saveCity = SPHelper.getString(Constants.DESTINATION_CITY, null);
+                if (!TextUtils.isEmpty(saveCity)) searchCity = saveCity;
+                if (TextUtils.isEmpty(searchCity)) {
+                    mainFragment.requestPermission();//申请权限，获得权限后定位
+                    return;
+                }
+
+                //如果是省份，则搜索城市列表设置为省份内所有的城市，否则设置为单个城市
+                mainFragment.searchCityList.clear();
+                if (searchCity != null) {
+                    if (CityUtil.checkProvinceName(searchCity)) {
+                        mainFragment.searchCityList.addAll(CityUtil.getCityList(searchCity));
+                    } else {
+                        mainFragment.searchCityList.add(searchCity);
+                    }
+                }
+
+                mainFragment.requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mainFragment.llSearchDrawer.getHeight() == 0) {//如果搜索抽屉收起
+                            mainFragment.expandSearchDrawer(true);//展开搜索抽屉
+                        }
+                        mainFragment.takeBackKeyboard();//收回键盘
+
+                        mainFragment.mBaiduMap.clear();//清空地图上的所有标记点和绘制的路线
+
+                        mainFragment.mRecyclerSearchResult.stopScroll();//停止信息列表滑动
+                        mainFragment.searchList.clear();//清空searchList
+                        mainFragment.mSearchAdapter.updateList();//通知adapter更新
+
+                        //滚动到顶部
+                        mainFragment.mRecyclerSearchResult.stopScroll();
+                        mainFragment.mRecyclerSearchResult.scrollToPosition(0);
+                        //加载搜索信息
+                        mainFragment.llSearchLoading.setVisibility(View.VISIBLE);
+                        mainFragment.mRecyclerSearchResult.setVisibility(View.GONE);
+                    }
+                });
+
+                mainFragment.isHistorySearchResult = false;//已经不是搜索历史记录了
+                currentPage = 0;//页数归零
+
+                if (mainFragment.mSharedPreferences.getBoolean(Constants.KEY_INTELLIGENT_SEARCH, true))
+                    mainFragment.mySearch.searchType = MySearch.CITY_SEARCH;//设置搜索类型为城市内搜索
+                else mainFragment.mySearch.searchType = MySearch.CONSTRAINT_CITY_SEARCH;//设置搜索类型为强制城市内搜索
+
+                startSearch(currentPage);//开始搜索
+            }
+        });
+    }
 
     /**
      * 开始搜索
@@ -369,7 +461,7 @@ public class MySearch {
                             StringBuilder otherInfo = new StringBuilder();
 
                             //获取联系方式
-                            if (detailInfo.getTelephone() != null && !detailInfo.getTelephone().isEmpty()) {
+                            if (!TextUtils.isEmpty(detailInfo.getTelephone())) {
                                 try {
                                     otherInfo.append(mainFragment.getString(R.string.phone_number)).append(detailInfo.getTelephone()).append("\n");
                                 } catch (Exception ignored) {
@@ -378,10 +470,10 @@ public class MySearch {
                             }
 
                             //获取营业时间
-                            if (detailInfo.getShopHours() != null && !detailInfo.getShopHours().isEmpty()) {
+                            if (!TextUtils.isEmpty(detailInfo.getShopHours())) {
                                 otherInfo.append(mainFragment.getString(R.string.shop_time)).append(detailInfo.getShopHours());
 
-                                int flag = 0;
+                                int isInShopHour = 0;
                                 try {
                                     Date nowTime = TimeUtil.parse(TimeUtil.format(new Date(),
                                             TimeUtil.FORMATION_Hm), TimeUtil.FORMATION_Hm);
@@ -395,14 +487,14 @@ public class MySearch {
                                         Date startTime = TimeUtil.parse(time[0], TimeUtil.FORMATION_Hm);
                                         Date endTime = TimeUtil.parse(time[1], TimeUtil.FORMATION_Hm);
                                         if (TimeUtil.isEffectiveDate(nowTime, startTime, endTime)) {
-                                            flag = 1;
+                                            isInShopHour = 1;
                                         }
                                     }
                                 } catch (Exception ignored) {
-                                    flag = -1;
+                                    isInShopHour = -1;//未知
                                 }
-                                if (flag == 1) otherInfo.append(" ").append(mainFragment.getString(R.string.shopping));
-                                else if (flag == 0) otherInfo.append(" ").append(mainFragment.getString(R.string.relaxing));
+                                if (isInShopHour == 1) otherInfo.append(" ").append(mainFragment.getString(R.string.shopping));
+                                else if (isInShopHour == 0) otherInfo.append(" ").append(mainFragment.getString(R.string.relaxing));
 
                                 otherInfo.append("\n");
                             }

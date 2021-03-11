@@ -115,7 +115,6 @@ public class SchemeAdapter extends RecyclerView.Adapter<SchemeAdapter.ViewHolder
                 LayoutUtil.expandLayout(mainFragment.llSchemeDrawer, false);//收起方案抽屉
                 LayoutUtil.expandLayout(mainFragment.llSchemeInfoLayout, true);//展开方案信息抽屉
                 mainFragment.btMiddle.setText(R.string.middle_button3);//设置按钮为交通选择
-                mainFragment.schemeFlag = MainFragment.SCHEME_INFO;//如果方案布局为单个方案
 
                 mainFragment.myRoutePlan.startMassTransitRoutePlan(position);
             }

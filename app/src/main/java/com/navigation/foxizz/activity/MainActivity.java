@@ -3,6 +3,7 @@ package com.navigation.foxizz.activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -179,14 +180,13 @@ public class MainActivity extends BaseActivity {
                 }
                 //如果焦点在searchEdit上或searchEdit有内容
                 if (MainActivity.this.getWindow().getDecorView().findFocus() == mainFragment.etSearch
-                        || !mainFragment.etSearch.getText().toString().isEmpty()) {
+                        || !TextUtils.isEmpty(mainFragment.etSearch.getText().toString())) {
                     mainFragment.etSearch.clearFocus();//使搜索输入框失去焦点
                     mainFragment.etSearch.setText("");
                     return false;
                 }
-                if (mainFragment.searchExpandFlag) {//收起搜索抽屉
-                    mainFragment.expandSearchDrawer(false);
-                    mainFragment.searchExpandFlag = false;
+                if (mainFragment.llSearchDrawer.getHeight() != 0) {//如果搜索抽屉展开
+                    mainFragment.expandSearchDrawer(false);//收起搜索抽屉
                     return false;
                 }
                 if ((System.currentTimeMillis() - exitTime) > 2000) {//弹出再按一次退出提示
@@ -198,7 +198,7 @@ public class MainActivity extends BaseActivity {
 
             //如果是Enter键
             if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                mainFragment.startSearch();//开始搜索
+                mainFragment.mySearch.startSearch();//开始搜索
                 mainFragment.etSearch.requestFocus();//搜索框重新获得焦点
                 mainFragment.takeBackKeyboard();//收回键盘
                 return false;

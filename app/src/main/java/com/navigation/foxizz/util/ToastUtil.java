@@ -13,7 +13,7 @@ public class ToastUtil {
 
     private static Toast mToast;//Toast对象
 
-    private final static Handler mainHandler = new Handler(Looper.getMainLooper());//主线程Handler
+    private final static Handler MAIN_HANDLER = new Handler(Looper.getMainLooper());//主线程Handler
 
     /**
      * 弹出提示信息，默认显示时间为短
@@ -41,7 +41,7 @@ public class ToastUtil {
      */
     public static void showToast(final String text, final int duration) {
         //转移至主线程，防止在子线程更新UI
-        mainHandler.post(new Runnable() {
+        MAIN_HANDLER.post(new Runnable() {
             @Override
             public void run() {
                 if (mToast != null) mToast.cancel();//销毁上一个
@@ -60,7 +60,7 @@ public class ToastUtil {
      */
     public static void showToast(final int resId, final int duration) {
         //转移至主线程，防止在子线程更新UI
-        mainHandler.post(new Runnable() {
+        MAIN_HANDLER.post(new Runnable() {
             @Override
             public void run() {
                 if (mToast != null) mToast.cancel();//销毁上一个

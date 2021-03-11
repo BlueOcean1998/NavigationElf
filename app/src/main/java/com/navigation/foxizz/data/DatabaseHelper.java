@@ -11,12 +11,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static DatabaseHelper databaseHelper;//数据库帮助对象
 
-    //初始化数据库帮助对象
+    /**
+     * 初始化数据库帮助对象
+     * @param context 上下文
+     */
     public static void initDatabaseHelper(Context context) {
         databaseHelper = new DatabaseHelper(context, Constants.LOCAL_DATABASE, null, 1);
     }
 
-    //获取数据库帮助对象
+    /**
+     * 获取数据库帮助对象
+     */
     public synchronized static DatabaseHelper getDatabaseHelper() {
         return databaseHelper;
     }

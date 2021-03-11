@@ -52,7 +52,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
     private EditText etUsername;//用户名输入框
     private EditText etPassword;//密码输入框
     private ImageButton ibWatchPassword;//显示密码按钮
-    private EditText ETVerify;//验证码输入框
+    private EditText etVerify;//验证码输入框
     private ImageView tvVerify;//验证码图片
     private CheckBox cbRememberUsername;//记住用户名
     private CheckBox cbRememberPassword;//记住密码
@@ -131,7 +131,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
         etUsername = findViewById(R.id.et_username);
         etPassword = findViewById(R.id.et_password);
         ibWatchPassword = findViewById(R.id.ib_watch_password);
-        ETVerify = findViewById(R.id.et_verify);
+        etVerify = findViewById(R.id.et_verify);
         tvVerify = findViewById(R.id.ib_verify_image);
         cbRememberUsername = findViewById(R.id.cb_remember_username);
         cbRememberPassword = findViewById(R.id.cb_remember_password);
@@ -178,16 +178,16 @@ public class LoginRegisterActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 username = etUsername.getText().toString();
                 password = etPassword.getText().toString();
-                verify = ETVerify.getText().toString();
+                verify = etVerify.getText().toString();
 
                 appCompatBtLoginRegister.setEnabled(!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)
                         && !TextUtils.isEmpty(verify)
-                        && ETVerify.getText().toString().equalsIgnoreCase(verifyCode));
+                        && etVerify.getText().toString().equalsIgnoreCase(verifyCode));
             }
         };
         etUsername.addTextChangedListener(textWatcher);
         etPassword.addTextChangedListener(textWatcher);
-        ETVerify.addTextChangedListener(textWatcher);
+        etVerify.addTextChangedListener(textWatcher);
 
         //显示密码按钮的点击事件
         ibWatchPassword.setOnClickListener(new View.OnClickListener() {
@@ -370,7 +370,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
     private void resetEdit() {
         etUsername.setText(username);
         etPassword.setText(password);
-        ETVerify.setText(verify);
+        etVerify.setText(verify);
     }
 
     //重新生成验证码

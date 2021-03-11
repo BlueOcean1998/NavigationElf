@@ -346,7 +346,7 @@ public class SettingsActivity extends BaseActivity {
                     mLocalBroadcastManager.sendBroadcast(new Intent(Constants.SETTINGS_BROADCAST)
                             .putExtra(Constants.SETTINGS_TYPE, Constants.SET_COMPASS));
                     break;
-                case Constants.KEY_SEARCH_AROUND:
+                case Constants.KEY_INTELLIGENT_SEARCH:
                     break;
                 case Constants.KEY_SEARCH_RECORD:
                     showDeleteAllSearchDataDialog(requireActivity());//显示删除所有搜索记录对话框
