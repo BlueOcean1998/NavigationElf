@@ -9,7 +9,7 @@
         <attr name="menu_enable" format="boolean" />
     </declare-styleable>
 
-    <declare-styleable name="AdaptationTextView">
+    <declare-styleable name="AdaptiveTextView">
         <!-- 适配类型，width_adaptive为宽度自适应，height_adaptive为高度自适应，默认为宽度自适应 -->
         <attr name="adaptive_type">
             <flag name="width_adaptive" value="0" />

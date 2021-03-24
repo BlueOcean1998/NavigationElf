@@ -19,8 +19,8 @@
         android:layout_width="360dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:padding="12dp"
-        android:background="@drawable/layout_bg_half_alpha">
+        android:background="@drawable/layout_bg_half_alpha"
+        android:padding="12dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,10 +55,10 @@
                     android:layout_gravity="center"
                     android:layout_margin="6dp"
                     android:background="@drawable/et_bg"
+                    android:digits="@string/digits"
                     android:hint="@string/username"
                     android:importantForAutofill="no"
                     android:inputType="text"
-                    android:digits="@string/digits"
                     android:maxLength="20"
                     android:padding="9dp"
                     android:singleLine="true"

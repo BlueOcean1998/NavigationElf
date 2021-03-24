@@ -1,6 +1,5 @@
-include ':ZeroKirbyApi'
+include ':app'
 include ':NaviTts'
 include ':onsdk_all'
 include ':ZeroKirbyApi'
-include ':app'
 rootProject.name = 'NavigationElf'

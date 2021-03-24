@@ -13,20 +13,20 @@
         <Preference
             app:icon="@drawable/ic_update_black_24dp"
             app:key="check_update"
-            app:title="@string/check_update"
-            app:summary="@string/checking_update" />
+            app:summary="@string/checking_update"
+            app:title="@string/check_update" />
 
         <Preference
             app:icon="@drawable/ic_code_black_24dp"
             app:key="sound_code"
-            app:title="@string/sound_code"
-            app:summary="@string/sound_code_url" />
+            app:summary="@string/sound_code_url"
+            app:title="@string/sound_code" />
 
         <Preference
             app:icon="@drawable/ic_info_black_24dp"
             app:key="contact_me"
-            app:title="@string/contact_me"
-            app:summary="@string/contact_me_url" />
+            app:summary="@string/contact_me_url"
+            app:title="@string/contact_me" />
     </PreferenceCategory>
 
     <PreferenceCategory>

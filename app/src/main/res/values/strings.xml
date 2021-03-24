@@ -1,16 +1,97 @@
 <resources>
     <string name="app_name">导航小精灵</string>
 
+    <!-- 百度权限 -->
+    <string name="app_id">19031902</string>
+    <string name="api_key">Y5HQLSAsKHcmmU2Yv2NGtST0nhBVj0iZ</string>
+    <string name="secret_key">FA6eK7iTuT3btn37ruG1OC4mhPyiepd5</string>
+    <string name="key_checkout_fail">key校验失败, </string>
+
+    <!-- 底部导航栏 -->
+    <string name="main_button">首页</string>
+    <string name="user_button">我的</string>
+
+    <!-- 右上角控制按钮 -->
     <string name="settings">设置</string>
     <string name="refresh">刷新</string>
     <string name="location">定位</string>
 
-    <string name="main_button">首页</string>
-    <string name="user_button">我的</string>
+    <!-- 交通选择栏 -->
+    <string name="select_button1">驾车</string>
+    <string name="select_button2">步行</string>
+    <string name="select_button3">骑行</string>
+    <string name="select_button4">公交</string>
+    <string name="please_select_transportation">请选择交通工具</string>
 
+    <!-- 搜索栏 -->
+    <string name="empty_button">清空</string>
+    <string name="search_button">搜索</string>
+    <string name="search_hint">在此输入你要查找的地址</string>
+    <string name="expand">伸缩</string>
+
+    <!-- 搜索信息栏 -->
+    <string name="wait_for_search_result">请等待搜索结果</string>
+    <string name="target_name">目标名</string>
+    <string name="address">地址</string>
+    <string name="distance">距离</string>
+    <string name="others">其它信息</string>
+    <string name="no_more">没有更多了</string>
+
+    <!-- 公交选择栏 -->
+    <string name="scheme_info">方案信息</string>
+    <string name="simple_info">简要信息</string>
+    <string name="detail_info">详细信息</string>
+    <string name="spend_time">预计耗时：</string>
+    <string name="hour">小时</string>
+    <string name="minute">分钟</string>
+    <string name="budget">预算：</string>
+    <string name="yuan">元</string>
+
+    <!-- 控制栏 -->
+    <string name="item_button">路线</string>
+    <string name="return_button">返回</string>
+    <string name="middle_button1">路线</string>
+    <string name="middle_button2">详细信息</string>
+    <string name="middle_button3">交通选择</string>
+    <string name="start_button">导航</string>
+    <string name="end_button">结束导航</string>
+
+    <!-- 离线地图 -->
     <string name="downloading_offline_map">导航小精灵正在下载离线地图</string>
     <string name="click_to_see_more">点击查看更多</string>
 
+    <!-- 定位模块 -->
+    <string name="get_location_permission_fail">获取权限失败，若要定位请手动开启</string>
+    <string name="close_airplane_mode">请检查是否有关闭飞行模式</string>
+    <string name="server_error">服务器错误</string>
+    <string name="network_error">网络错误，请检查网络连接是否正常</string>
+    <string name="unknown_error">未知错误</string>
+    <string name="wait_for_location_result">请等待定位结果</string>
+    <string name="find_nothing">未找到结果</string>
+    <string name="phone_number">联系方式：</string>
+    <string name="shop_time">营业时间：</string>
+    <string name="shopping">营业中</string>
+    <string name="relaxing">休息中</string>
+    <string name="price">平均消费：</string>
+
+    <!-- 路线规划模块 -->
+    <string name="suggest_not_to_walk">路程太远，不建议步行</string>
+    <string name="suggest_not_to_bike">路程太远，不建议骑行</string>
+    <string name="suggest_to_walk">路程太短，建议步行</string>
+    <string name="draw_route_fail">绘制路线失败</string>
+
+    <!-- 导航模块 -->
+    <string name="route_plan_please_wait">正在计算路线，请稍候…</string>
+    <string name="end_location_is_null">终点信息为空</string>
+    <string name="wait_for_route_plan_result">请等待路线规划结果</string>
+    <string name="drive_navigate_init_fail">驾车导航初始化失败，错误码：</string>
+    <string name="drive_route_plan_fail">驾车路线规划失败</string>
+    <string name="walk_navigate_init_fail">步行导航初始化失败</string>
+    <string name="walk_route_plan_fail">步行路线规划失败</string>
+    <string name="bike_navigate_init_fail">骑行导航初始化失败</string>
+    <string name="bike_route_plan_fail">骑行路线规划失败</string>
+
+    <!-- 设置页 -->
     <string name="standard_map">标准地图</string>
     <string name="satellite_map">卫星地图</string>
     <string name="traffic_map">交通地图</string>
@@ -31,87 +112,9 @@
     <string name="intelligent_search_around">当搜索结果过多时，自动推荐周边搜索</string>
     <string name="clean_search_record">清空搜索记录</string>
 
-    <string name="select_button1">驾车</string>
-    <string name="select_button2">步行</string>
-    <string name="select_button3">骑行</string>
-    <string name="select_button4">公交</string>
-    <string name="please_select_transportation">请选择交通工具</string>
-
-    <string name="empty_button">清空</string>
-    <string name="search_button">搜索</string>
-    <string name="search_hint">在此输入你要查找的地址</string>
-    <string name="expand">伸缩</string>
-
-    <string name="wait_for_search_result">请等待搜索结果</string>
-    <string name="target_name">目标名</string>
-    <string name="address">地址</string>
-    <string name="distance">距离</string>
-    <string name="others">其它信息</string>
-    <string name="no_more">没有更多了</string>
-
-    <string name="scheme_info">方案信息</string>
-    <string name="simple_info">简要信息</string>
-    <string name="detail_info">详细信息</string>
-    <string name="spend_time">预计耗时：</string>
-    <string name="hour">小时</string>
-    <string name="minute">分钟</string>
-    <string name="budget">预算：</string>
-    <string name="yuan">元</string>
-
-    <string name="item_button">路线</string>
-    <string name="return_button">返回</string>
-    <string name="middle_button1">路线</string>
-    <string name="middle_button2">详细信息</string>
-    <string name="middle_button3">交通选择</string>
-    <string name="start_button">导航</string>
-    <string name="end_button">结束导航</string>
-
-    <string name="app_id">19031902</string>
-    <string name="api_key">Y5HQLSAsKHcmmU2Yv2NGtST0nhBVj0iZ</string>
-    <string name="secret_key">FA6eK7iTuT3btn37ruG1OC4mhPyiepd5</string>
-    <string name="key_checkout_fail">key校验失败, </string>
-
-    <string name="get_permission_fail">获取权限失败，若要定位请手动开启</string>
-    <string name="close_airplane_mode">请检查是否有关闭飞行模式</string>
-    <string name="server_error">服务器错误</string>
-    <string name="network_error">网络错误，请检查网络连接是否正常</string>
-    <string name="unknown_error">未知错误</string>
-    <string name="wait_for_location_result">请等待定位结果</string>
-    <string name="find_nothing">未找到结果</string>
-    <string name="phone_number">联系方式：</string>
-    <string name="shop_time">营业时间：</string>
-    <string name="shopping">营业中</string>
-    <string name="relaxing">休息中</string>
-    <string name="price">平均消费：</string>
-
-    <string name="suggest_not_to_walk">路程太远，不建议步行</string>
-    <string name="suggest_not_to_bike">路程太远，不建议骑行</string>
-    <string name="suggest_to_walk">路程太短，建议步行</string>
-    <string name="draw_route_fail">绘制路线失败</string>
-
-    <string name="route_plan_please_wait">正在计算路线，请稍候…</string>
-    <string name="end_location_is_null">终点信息为空</string>
-    <string name="wait_for_route_plan_result">请等待路线规划结果</string>
-    <string name="drive_navigate_init_fail">驾车导航初始化失败，错误码：</string>
-    <string name="drive_route_plan_fail">驾车路线规划失败</string>
-    <string name="walk_navigate_init_fail">步行导航初始化失败</string>
-    <string name="walk_route_plan_fail">步行路线规划失败</string>
-    <string name="bike_navigate_init_fail">骑行导航初始化失败</string>
-    <string name="bike_route_plan_fail">骑行路线规划失败</string>
-
-    <string name="hint">提示</string>
-    <string name="warning">警告！</string>
-    <string name="confirm">确定</string>
-    <string name="cancel">取消</string>
-    <string name="clear">清空</string>
-    <string name="delete">删除</string>
-    <string name="to_delete">你确定要删除这条记录吗？</string>
-    <string name="has_deleted">已删除这条记录</string>
-    <string name="to_clear">你确定要清空搜索记录吗？</string>
-    <string name="has_cleared">已清空搜索记录</string>
-    <string name="loading">加载中…</string>
-
-    <string name="to_login">点击此处登录</string>
+    <!-- 用户页 -->
+    <string name="to_login">点击此处登录</string>CHOOSE_PHOTO
+    <string name="get_choose_photo_permission_fail">获取权限失败，若要修改头像请手动开启</string>
     <string name="about">关于导航小精灵</string>
     <string name="check_update">检查更新</string>
     <string name="checking_update">检查中…</string>
@@ -121,6 +124,7 @@
     <string name="contact_me_url">2872545042@qq.com</string>
     <string name="logout">退出登录</string>
 
+    <!-- 登录页 -->
     <string name="login">登录</string>
     <string name="register">注册</string>
     <string name="username">用户名</string>
@@ -144,6 +148,19 @@
     <string name="logged_out">你已退出登录</string>
     <string name="digits">0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</string>
     <string name="upload_avatar_successfully">头像上传成功</string>
+
+    <!-- 提示框 -->
+    <string name="hint">提示</string>
+    <string name="warning">警告！</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="clear">清空</string>
+    <string name="delete">删除</string>
+    <string name="to_delete">你确定要删除这条记录吗？</string>
+    <string name="has_deleted">已删除这条记录</string>
+    <string name="to_clear">你确定要清空搜索记录吗？</string>
+    <string name="has_cleared">已清空搜索记录</string>
+    <string name="loading">加载中…</string>
 
     <string name="exit_app">再按一次退出程序</string>
 </resources>

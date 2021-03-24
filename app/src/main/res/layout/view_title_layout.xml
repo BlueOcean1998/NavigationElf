@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="6dp"
+    android:background="@color/skyblue"
     android:orientation="horizontal"
-    android:background="@color/skyblue">
+    android:padding="6dp">
 
     <ImageButton
         android:id="@+id/ib_back"
@@ -20,9 +20,9 @@
         android:id="@+id/tv_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_gravity="center"
         android:layout_margin="6dp"
+        android:layout_weight="1"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold" />

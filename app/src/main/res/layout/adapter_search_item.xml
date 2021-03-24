@@ -82,6 +82,7 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <include android:id="@+id/include_tv_end_search"
+    <include
+        android:id="@+id/include_tv_end_search"
         layout="@layout/include_tv_end" />
 </LinearLayout>
