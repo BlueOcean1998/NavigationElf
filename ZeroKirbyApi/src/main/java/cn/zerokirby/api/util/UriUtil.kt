@@ -52,7 +52,7 @@ object UriUtil {
                 val docId = DocumentsContract.getDocumentId(uri)
                 val split = docId.split(":".toRegex()).toTypedArray()
                 val type = split[0]
-                if ("primary".equals(type, ignoreCase = true)) {
+                if ("primary".equals(type, true)) {
                     return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
                 }
             } else if (isDownloadsDocument(uri)) {
@@ -67,18 +67,17 @@ object UriUtil {
                     "image" -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                     "video" -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
                     "audio" -> MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-                    else -> null
+                    else -> Uri.parse("")
                 }
                 val selection = "_id=?"
                 val selectionArgs = arrayOf(
                         split[1]
                 )
-                if (contentUri != null)
-                    return getDataColumn(contentUri, selection, selectionArgs)
+                return getDataColumn(contentUri, selection, selectionArgs)
             }
-        } else if ("content".equals(uri.scheme, ignoreCase = true)) {
+        } else if ("content".equals(uri.scheme, true)) {
             return getDataColumn(uri, null, null)
-        } else if ("file".equals(uri.scheme, ignoreCase = true)) {
+        } else if ("file".equals(uri.scheme, true)) {
             return uri.path ?: ""
         }
         return ""

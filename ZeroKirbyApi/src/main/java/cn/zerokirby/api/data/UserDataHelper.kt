@@ -1,6 +1,7 @@
 package cn.zerokirby.api.data
 
 import android.text.TextUtils
+import cn.zerokirby.api.data.DatabaseHelper.Companion.databaseHelper
 import cn.zerokirby.api.util.SystemUtil
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
@@ -17,7 +18,7 @@ object UserDataHelper {
      */
     fun initPhoneInfo() {
         try {
-            DatabaseHelper.databaseHelper.writableDatabase.use { db ->
+            databaseHelper.writableDatabase.use { db ->
                 db.execSQL("update User set language = ?, version = ?, " +
                         "display = ?, model = ?, brand = ?", arrayOf(
                         SystemUtil.systemLanguage,
@@ -105,7 +106,7 @@ object UserDataHelper {
     val loginUserId: String
         get() {
             try {
-                DatabaseHelper.databaseHelper.readableDatabase.use { db ->
+                databaseHelper.readableDatabase.use { db ->
                     db.rawQuery("select * from User", null).use { cursor ->
                         if (cursor != null && cursor.moveToFirst()) {
                             do {
@@ -129,7 +130,7 @@ object UserDataHelper {
      */
     private fun login(user: User) {
         try {
-            DatabaseHelper.databaseHelper.writableDatabase.use { db ->
+            databaseHelper.writableDatabase.use { db ->
                 db.execSQL("update User set user_id = ?, username = ?, password = ?, " +
                         "register_time = ?, last_use = ?, last_sync = ? where user_id = '0'",
                         arrayOf(user.userId,
@@ -163,7 +164,7 @@ object UserDataHelper {
     fun getUser(userId: String): User {
         val user = User()
         try {
-            DatabaseHelper.databaseHelper.readableDatabase.use { db ->
+            databaseHelper.readableDatabase.use { db ->
                 db.rawQuery("select * from User where user_id = ?", arrayOf(userId)).use { cursor ->
                     if (cursor != null && cursor.moveToFirst()) {
                         user.run {
@@ -195,7 +196,7 @@ object UserDataHelper {
      */
     fun updateUser(column: String, value: String, userId: String) {
         try {
-            DatabaseHelper.databaseHelper.writableDatabase.use { db ->
+            databaseHelper.writableDatabase.use { db ->
                 db.execSQL("update User set $column = ? where user_id = ?",
                         arrayOf(value, userId))
             }

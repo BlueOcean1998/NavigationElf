@@ -5,7 +5,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import com.navigation.foxizz.BaseApplication
+import com.navigation.foxizz.BaseApplication.Companion.baseApplication
 import kotlin.math.abs
 
 /**
@@ -40,7 +40,7 @@ class MyOrientationListener : SensorEventListener {
      * 开始方向传感
      */
     fun start() {
-        mSensorManager = BaseApplication.instance.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        mSensorManager = baseApplication.getSystemService(Context.SENSOR_SERVICE) as SensorManager
         //获得方向传感器
         mSensor = mSensorManager.getDefaultSensor(Sensor.REPORTING_MODE_SPECIAL_TRIGGER)
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_UI)

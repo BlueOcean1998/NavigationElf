@@ -8,6 +8,7 @@ import cn.zerokirby.api.data.UserDataHelper
 import com.navigation.foxizz.activity.MainActivity
 import com.navigation.foxizz.data.Constants
 import com.navigation.foxizz.util.SettingUtil
+import kotlinx.android.synthetic.main.fragment_user.*
 
 /**
  * 本地接收器
@@ -29,7 +30,7 @@ class LocalReceiver(private val mContext: Context) : BroadcastReceiver() {
                     Constants.SET_ZOOM_CONTROLS -> mainFragment.setZoomControls()
                     Constants.SET_COMPASS -> mainFragment.setCompass()
                     Constants.CLEAN_RECORD -> {
-                        mainFragment.searchList.clear() //清空搜索列表
+                        mainFragment.mBaiduSearch.mSearchList.clear() //清空搜索列表
                         mainFragment.mSearchAdapter.updateList() //通知adapter更新
                     }
                 }
@@ -38,10 +39,10 @@ class LocalReceiver(private val mContext: Context) : BroadcastReceiver() {
                 val userFragment = mainActivity.userFragment
                 when (intent.getIntExtra(Constants.LOGIN_TYPE, 0)) {
                     Constants.SET_USERNAME ->
-                        userFragment.tvUserName.text =
+                        userFragment.tv_user_name.text =
                                 UserDataHelper.getUser(UserDataHelper.loginUserId).username
                     Constants.SET_AVATAR ->
-                        userFragment.ivAvatar.setImageBitmap(
+                        userFragment.iv_avatar_image.setImageBitmap(
                                 AvatarDataHelper.getBitmapAvatar(UserDataHelper.loginUserId))
                 }
             }

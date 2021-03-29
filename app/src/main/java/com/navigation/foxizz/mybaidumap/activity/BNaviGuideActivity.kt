@@ -65,8 +65,7 @@ class BNaviGuideActivity : Activity() {
             override fun onGetRouteDetailInfo(bikeRouteDetailInfo: BikeRouteDetailInfo) {}
         })
 
-        //初始化设置
-        SettingUtil.initSettings(this)
+        SettingUtil.initSettings(this) //初始化设置
     }
 
     override fun onResume() {

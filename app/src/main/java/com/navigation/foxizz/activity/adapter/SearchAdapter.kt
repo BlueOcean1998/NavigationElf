@@ -19,6 +19,9 @@ import com.navigation.foxizz.data.SearchDataHelper
 import com.navigation.foxizz.data.SearchItem
 import com.navigation.foxizz.mybaidumap.BaiduSearch
 import com.navigation.foxizz.util.*
+import kotlinx.android.synthetic.main.adapter_search_item.view.*
+import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.include_tv_end.view.*
 
 /**
  * 搜索到的信息列表的适配器
@@ -28,12 +31,12 @@ class SearchAdapter(private val mainFragment: MainFragment) : RecyclerView.Adapt
 
     //设置item中的View
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val cardSearchInfo: CardView = view.findViewById(R.id.card_search_info)
-        val tvTargetName: TextView = view.findViewById(R.id.tv_target_name)
-        val tvAddress: TextView = view.findViewById(R.id.tv_address)
-        val tvDistance: TextView = view.findViewById(R.id.tv_distance)
-        val btItem: TextView = view.findViewById(R.id.bt_item)
-        val tvEnd: TextView = view.findViewById<LinearLayout>(R.id.include_tv_end_search).findViewById(R.id.tv_end)
+        val cardSearchInfo: CardView = view.card_search_info
+        val tvTargetName: TextView = view.tv_target_name
+        val tvAddress: TextView = view.tv_address
+        val tvDistance: TextView = view.tv_distance
+        val btItem: TextView = view.bt_item
+        val tvEnd: TextView = view.include_tv_end_search.tv_end
     }
 
     /**
@@ -42,7 +45,7 @@ class SearchAdapter(private val mainFragment: MainFragment) : RecyclerView.Adapt
      * @return item数量
      */
     override fun getItemCount(): Int {
-        return mainFragment.searchList.size
+        return mainFragment.mBaiduSearch.mSearchList.size
     }
 
     /**
@@ -57,7 +60,7 @@ class SearchAdapter(private val mainFragment: MainFragment) : RecyclerView.Adapt
     //获取SearchItem的数据
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val searchItem = mainFragment.searchList[position]
+        val searchItem = mainFragment.mBaiduSearch.mSearchList[position]
         holder.tvTargetName.text = searchItem.targetName
         holder.tvAddress.text = searchItem.address
         holder.tvDistance.text = searchItem.distance.toString() + "km"
@@ -75,7 +78,7 @@ class SearchAdapter(private val mainFragment: MainFragment) : RecyclerView.Adapt
         else holder.tvEnd.text = mainFragment.getString(R.string.no_more)
 
         //只有底部显示提示信息
-        if (position == mainFragment.searchList.size - 1) {
+        if (position == mainFragment.mBaiduSearch.mSearchList.size - 1) {
             holder.tvEnd.visibility = View.VISIBLE
         } else holder.tvEnd.visibility = View.GONE
     }
@@ -98,13 +101,13 @@ class SearchAdapter(private val mainFragment: MainFragment) : RecyclerView.Adapt
                 return@setOnClickListener
             }
             click(holder)
-            LayoutUtil.expandLayout(mainFragment.llSearchInfoLayout, true) //展开详细信息布局
+            LayoutUtil.expandLayout(mainFragment.ll_search_info_layout, true) //展开详细信息布局
             mainFragment.infoFlag = 0 //设置信息状态为详细信息
-            mainFragment.btMiddle.setText(R.string.middle_button1) //设置按钮为路线
+            mainFragment.bt_middle.setText(R.string.middle_button1) //设置按钮为路线
 
             //获取点击的item
             val position = holder.adapterPosition
-            val searchItem = mainFragment.searchList[position]
+            val searchItem = mainFragment.mBaiduSearch.mSearchList[position]
 
             //移动视角到指定位置
             val builder = LatLngBounds.Builder()
@@ -138,8 +141,8 @@ class SearchAdapter(private val mainFragment: MainFragment) : RecyclerView.Adapt
             }
             click(holder)
             mainFragment.infoFlag = 1 //设置信息状态为交通选择
-            mainFragment.btMiddle.setText(R.string.middle_button2) //设置按钮为详细信息
-            LayoutUtil.expandLayout(mainFragment.llSelectLayout, true) //展开选择布局
+            mainFragment.bt_middle.setText(R.string.middle_button2) //设置按钮为详细信息
+            LayoutUtil.expandLayout(mainFragment.ll_select_layout, true) //展开选择布局
             mainFragment.mBaiduRoutePlan.startRoutePlanSearch() //开始路线规划
         }
 
@@ -147,11 +150,11 @@ class SearchAdapter(private val mainFragment: MainFragment) : RecyclerView.Adapt
         holder.cardSearchInfo.setOnLongClickListener(OnLongClickListener {
             if (unableToClick()) return@OnLongClickListener false
             val position = holder.adapterPosition
-            val searchItem = mainFragment.searchList[position]
+            val searchItem = mainFragment.mBaiduSearch.mSearchList[position]
             if (mainFragment.isHistorySearchResult) { //如果是搜索历史记录
                 showDeleteSearchDataDialog(searchItem, position) //显示删除搜索记录对话框
             } else { //如果不是
-                mainFragment.searchList.remove(searchItem) //移除搜索列表的这条记录
+                mainFragment.mBaiduSearch.mSearchList.remove(searchItem) //移除搜索列表的这条记录
                 notifyItemRemoved(position) //通知adapter移除这条记录
                 SearchDataHelper.deleteSearchData(searchItem.uid) //删除数据库中的搜索记录
             }
@@ -164,21 +167,21 @@ class SearchAdapter(private val mainFragment: MainFragment) : RecyclerView.Adapt
     private fun click(holder: ViewHolder) {
         //获取点击的item
         val position = holder.adapterPosition
-        val searchItem = mainFragment.searchList[position]
-        LayoutUtil.expandLayout(mainFragment.llSearchLayout, false) //收起搜索布局
+        val searchItem = mainFragment.mBaiduSearch.mSearchList[position]
+        LayoutUtil.expandLayout(mainFragment.ll_search_layout, false) //收起搜索布局
         if (mainFragment.searchExpandFlag) { //如果搜索抽屉展开
             mainFragment.searchExpandFlag = false //设置搜索抽屉为收起
             mainFragment.expandSearchDrawer(false) //收起搜索抽屉
         }
-        LayoutUtil.expandLayout(mainFragment.llStartLayout, true) //展开开始导航布局
+        LayoutUtil.expandLayout(mainFragment.ll_start_layout, true) //展开开始导航布局
 
         //设置终点坐标
         mainFragment.mBaiduRoutePlan.mEndLocation = searchItem.latLng
 
         //加载详细信息
-        mainFragment.llSearchInfoLoading.visibility = View.VISIBLE
-        mainFragment.svSearchInfo.visibility = View.GONE
-        mainFragment.mBaiduSearch.searchType = BaiduSearch.DETAIL_SEARCH //设置为直接详细搜索
+        mainFragment.include_search_info_loading.visibility = View.VISIBLE
+        mainFragment.sv_search_info.visibility = View.GONE
+        mainFragment.mBaiduSearch.mSearchType = BaiduSearch.DETAIL_SEARCH //设置为直接详细搜索
         mainFragment.mBaiduSearch.isFirstDetailSearch = true //第一次详细信息搜索
         mainFragment.mBaiduSearch.mPoiSearch.searchPoiDetail( //开始POI详细信息搜索
                 PoiDetailSearchOption().poiUids(searchItem.uid))
@@ -191,7 +194,7 @@ class SearchAdapter(private val mainFragment: MainFragment) : RecyclerView.Adapt
         builder.setTitle(R.string.hint)
         builder.setMessage("你确定要删除'" + searchItem.targetName + "'吗？")
         builder.setPositiveButton(R.string.delete) { _, _ ->
-            mainFragment.searchList.remove(searchItem) //移除搜索列表的这条记录
+            mainFragment.mBaiduSearch.mSearchList.remove(searchItem) //移除搜索列表的这条记录
             notifyItemRemoved(position) //通知adapter移除这条记录
             SearchDataHelper.deleteSearchData(searchItem.uid) //删除数据库中的搜索记录
             R.string.has_deleted.showToast()

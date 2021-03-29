@@ -9,11 +9,8 @@ import android.text.InputType
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
-import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatButton
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import cn.zerokirby.api.data.AvatarDataHelper
 import cn.zerokirby.api.data.User
 import cn.zerokirby.api.data.UserDataHelper
@@ -21,17 +18,17 @@ import cn.zerokirby.api.util.CodeUtil
 import com.navigation.foxizz.R
 import com.navigation.foxizz.data.Constants
 import com.navigation.foxizz.data.SPHelper
+import com.navigation.foxizz.lbm
 import com.navigation.foxizz.util.SettingUtil
 import com.navigation.foxizz.util.ThreadUtil
 import com.navigation.foxizz.util.showToast
+import kotlinx.android.synthetic.main.activity_login_register.*
 
 /**
  * 登录页
  */
 class LoginRegisterActivity : AppCompatActivity() {
     companion object {
-        private lateinit var mLocalBroadcastManager: LocalBroadcastManager//本地广播管理器
-
         /**
          * 启动登录页
          *
@@ -41,21 +38,6 @@ class LoginRegisterActivity : AppCompatActivity() {
             context.startActivity(Intent(context, LoginRegisterActivity::class.java))
         }
     }
-
-    private lateinit var rlLoginRegister: RelativeLayout //登录注册页
-    private lateinit var ibBack: ImageButton //返回按钮
-    private lateinit var tvPageTitle: TextView //标题，登录或注册
-    private lateinit var etUsername: EditText //用户名输入框
-    private lateinit var etPassword: EditText //密码输入框
-    private lateinit var ibWatchPassword: ImageButton //显示密码按钮
-    private lateinit var etVerify: EditText //验证码输入框
-    private lateinit var tvVerify: ImageView //验证码图片
-    private lateinit var cbRememberUsername: CheckBox //记住用户名
-    private lateinit var cbRememberPassword: CheckBox //记住密码
-    private lateinit var appCompatBtLoginRegister: AppCompatButton //登录或注册按钮
-    private lateinit var tvRegisterLoginHint: TextView //注册或登录提示
-    private lateinit var tvRegisterLoginLink: TextView //注册或登录按钮
-    private lateinit var pbLoadingProgress: ProgressBar //加载进度条
 
     private var isLogin = true //是否是登录页
     private var isSending = false //是否正在登录或注册
@@ -69,8 +51,8 @@ class LoginRegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_register)
+
         mCodeUtil = CodeUtil()
-        mLocalBroadcastManager = LocalBroadcastManager.getInstance(this)
         initView() //初始化控件
 
         //恢复输入框中的信息
@@ -101,36 +83,21 @@ class LoginRegisterActivity : AppCompatActivity() {
 
     //初始化控件
     private fun initView() {
-        rlLoginRegister = findViewById(R.id.rl_activity_login_register)
-        ibBack = findViewById(R.id.ib_back)
-        tvPageTitle = findViewById(R.id.tv_page_title)
-        etUsername = findViewById(R.id.et_username)
-        etPassword = findViewById(R.id.et_password)
-        ibWatchPassword = findViewById(R.id.ib_watch_password)
-        etVerify = findViewById(R.id.et_verify)
-        tvVerify = findViewById(R.id.ib_verify_image)
-        cbRememberUsername = findViewById(R.id.cb_remember_username)
-        cbRememberPassword = findViewById(R.id.cb_remember_password)
-        appCompatBtLoginRegister = findViewById(R.id.app_compat_bt_login_register)
-        tvRegisterLoginHint = findViewById(R.id.tv_register_login_hint)
-        tvRegisterLoginLink = findViewById(R.id.tv_register_login_link)
-        pbLoadingProgress = findViewById(R.id.pb_loading)
-
         //手机模式只允许竖屏，平板模式只允许横屏，且根据不同的模式设置不同的背景图
         if (SettingUtil.isMobile) {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-            rlLoginRegister.setBackgroundResource(R.drawable.beach)
+            rl_activity_login_register.setBackgroundResource(R.drawable.beach)
         } else {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-            rlLoginRegister.setBackgroundResource(R.drawable.foxizz_on_the_beach)
+            rl_activity_login_register.setBackgroundResource(R.drawable.foxizz_on_the_beach)
         }
 
         //设置密码输入框的类型
-        etPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        et_password.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
         setUsernameAndPassword() //设置账号密码
 
         //返回按钮的点击事件
-        ibBack.setOnClickListener {
+        ib_back.setOnClickListener {
             if (!isSending && !showReturnHintDialog()) finish()
         }
 
@@ -139,51 +106,51 @@ class LoginRegisterActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable) {
-                username = etUsername.text.toString()
-                password = etPassword.text.toString()
-                verify = etVerify.text.toString()
-                appCompatBtLoginRegister.isEnabled =
+                username = et_username.text.toString()
+                password = et_password.text.toString()
+                verify = et_verify.text.toString()
+                app_compat_bt_login_register.isEnabled =
                         (username.isNotEmpty() && password.isNotEmpty()
                                 && verify.isNotEmpty()
-                                && etVerify.text.toString().equals(verifyCode, ignoreCase = true))
+                                && et_verify.text.toString().equals(verifyCode, true))
             }
         }
-        etUsername.addTextChangedListener(textWatcher)
-        etPassword.addTextChangedListener(textWatcher)
-        etVerify.addTextChangedListener(textWatcher)
+        et_username.addTextChangedListener(textWatcher)
+        et_password.addTextChangedListener(textWatcher)
+        et_verify.addTextChangedListener(textWatcher)
 
         //显示密码按钮的点击事件
-        ibWatchPassword.setOnClickListener {
+        ib_watch_password.setOnClickListener {
             if (isWatchPassword) {
                 isWatchPassword = false
-                ibWatchPassword.setImageResource(R.drawable.ic_eye_black_30dp)
-                etPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                ib_watch_password.setImageResource(R.drawable.ic_eye_black_30dp)
+                et_password.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             } else {
                 isWatchPassword = true
-                ibWatchPassword.setImageResource(R.drawable.ic_eye_blue_30dp)
-                etPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                ib_watch_password.setImageResource(R.drawable.ic_eye_blue_30dp)
+                et_password.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
             }
-            etPassword.setSelection(password.length) //移动焦点到末尾
+            et_password.setSelection(password.length) //移动焦点到末尾
         }
         resetVerify() //生成新验证码
-        tvVerify.setOnClickListener {
+        ib_verify_image.setOnClickListener {
             resetVerify() //生成新验证码
         }
 
         //记住账号按钮的点击事件
-        cbRememberUsername.setOnClickListener {
-            if (cbRememberUsername.isChecked) {
-                cbRememberPassword.isEnabled = true
+        cb_remember_username.setOnClickListener {
+            if (cb_remember_username.isChecked) {
+                cb_remember_password.isEnabled = true
             } else {
-                cbRememberPassword.isEnabled = false
-                cbRememberPassword.isChecked = false
+                cb_remember_password.isEnabled = false
+                cb_remember_password.isChecked = false
             }
         }
 
         //登录或注册按钮的点击事件
-        appCompatBtLoginRegister.setOnClickListener {
-            pbLoadingProgress.visibility = View.VISIBLE //显示进度条
-            appCompatBtLoginRegister.isEnabled = false //登录或注册时不可点击
+        app_compat_bt_login_register.setOnClickListener {
+            pb_loading.visibility = View.VISIBLE //显示进度条
+            app_compat_bt_login_register.isEnabled = false //登录或注册时不可点击
             ThreadUtil.execute {
                 isSending = true
 
@@ -220,8 +187,8 @@ class LoginRegisterActivity : AppCompatActivity() {
 
                 //返回UI线程进行UI操作（主线程）
                 runOnUiThread {
-                    pbLoadingProgress.visibility = View.GONE //隐藏进度条
-                    appCompatBtLoginRegister.isEnabled = true //登录或注册完毕后可点击
+                    pb_loading.visibility = View.GONE //隐藏进度条
+                    app_compat_bt_login_register.isEnabled = true //登录或注册完毕后可点击
                 }
 
                 //若登录成功
@@ -230,33 +197,33 @@ class LoginRegisterActivity : AppCompatActivity() {
                     UserDataHelper.loginRegisterInitUserInfo(jsonObject, username, password, isLogin)
 
                     //发送本地广播通知更新用户名
-                    mLocalBroadcastManager.sendBroadcast(Intent(Constants.LOGIN_BROADCAST)
+                    lbm.sendBroadcast(Intent(Constants.LOGIN_BROADCAST)
                             .putExtra(Constants.LOGIN_TYPE, Constants.SET_USERNAME))
                     finish() //关闭页面
                     AvatarDataHelper.downloadAvatar(UserDataHelper.loginUserId) //下载头像
 
                     //发送本地广播通知更新头像
-                    mLocalBroadcastManager.sendBroadcast(Intent(Constants.LOGIN_BROADCAST)
+                    lbm.sendBroadcast(Intent(Constants.LOGIN_BROADCAST)
                             .putExtra(Constants.LOGIN_TYPE, Constants.SET_AVATAR))
                 }
             }
         }
 
         //注册或登录链接的点击事件
-        tvRegisterLoginLink.setOnClickListener {
+        tv_register_login_link.setOnClickListener {
             if (!isSending) {
                 if (isLogin) {
                     isLogin = false
-                    tvPageTitle.setText(R.string.register) //设置页面标题为注册
-                    appCompatBtLoginRegister.setText(R.string.register) //设置登录或注册按钮为注册
-                    tvRegisterLoginHint.setText(R.string.login_hint) //设置登录提示
-                    tvRegisterLoginLink.setText(R.string.login_link) //设置登录链接
+                    tv_page_title.setText(R.string.register) //设置页面标题为注册
+                    app_compat_bt_login_register.setText(R.string.register) //设置登录或注册按钮为注册
+                    tv_register_login_hint.setText(R.string.login_hint) //设置登录提示
+                    tv_register_login_link.setText(R.string.login_link) //设置登录链接
                 } else {
                     isLogin = true
-                    tvPageTitle.setText(R.string.login) //设置页面标题为登录
-                    appCompatBtLoginRegister.setText(R.string.login) //设置登录或注册按钮为登录
-                    tvRegisterLoginHint.setText(R.string.register_hint) //设置注册提示
-                    tvRegisterLoginLink.setText(R.string.register_link) //设置注册链接
+                    tv_page_title.setText(R.string.login) //设置页面标题为登录
+                    app_compat_bt_login_register.setText(R.string.login) //设置登录或注册按钮为登录
+                    tv_register_login_hint.setText(R.string.register_hint) //设置注册提示
+                    tv_register_login_link.setText(R.string.register_link) //设置注册链接
                 }
             }
         }
@@ -268,43 +235,43 @@ class LoginRegisterActivity : AppCompatActivity() {
         val user: User = UserDataHelper.getUser(userId)
         if (SPHelper.getBoolean(Constants.REMEMBER_USERNAME, false)) {
             username = user.username
-            etUsername.setText(username)
-            cbRememberUsername.isChecked = true
-            cbRememberPassword.isEnabled = true
+            et_username.setText(username)
+            cb_remember_username.isChecked = true
+            cb_remember_password.isEnabled = true
         } else {
-            cbRememberPassword.isEnabled = false
+            cb_remember_password.isEnabled = false
         }
         if (SPHelper.getBoolean(Constants.REMEMBER_PASSWORD, false)) {
             password = user.password
-            etPassword.setText(password)
-            cbRememberPassword.isChecked = true
+            et_password.setText(password)
+            cb_remember_password.isChecked = true
         }
     }
 
     //重设输入框填入的信息
     private fun resetEdit() {
-        etUsername.setText(username)
-        etPassword.setText(password)
-        etVerify.setText(verify)
+        et_username.setText(username)
+        et_password.setText(password)
+        et_verify.setText(verify)
     }
 
     //重新生成验证码
     private fun resetVerify() {
         val verifyBit = mCodeUtil.createBitmap() //生成新验证码
-        tvVerify.setImageBitmap(verifyBit) //设置新生成的验证码图片
+        ib_verify_image.setImageBitmap(verifyBit) //设置新生成的验证码图片
         verifyCode = mCodeUtil.code //获取新生成的验证码
-        appCompatBtLoginRegister.isEnabled = false //重新生成后不可直接登录
+        app_compat_bt_login_register.isEnabled = false //重新生成后不可直接登录
     }
 
     //重设是否记住账号密码
     private fun rememberUsernameAndPassword() {
         val userId = UserDataHelper.loginUserId
-        SPHelper.putBoolean(Constants.REMEMBER_USERNAME, cbRememberUsername.isChecked)
-        SPHelper.putBoolean(Constants.REMEMBER_PASSWORD, cbRememberPassword.isChecked)
-        if (!cbRememberUsername.isChecked) {
+        SPHelper.putBoolean(Constants.REMEMBER_USERNAME, cb_remember_username.isChecked)
+        SPHelper.putBoolean(Constants.REMEMBER_PASSWORD, cb_remember_password.isChecked)
+        if (!cb_remember_username.isChecked) {
             UserDataHelper.updateUser("username", "", userId)
         }
-        if (!cbRememberPassword.isChecked) {
+        if (!cb_remember_password.isChecked) {
             UserDataHelper.updateUser("password", "", userId)
         }
     }
@@ -314,7 +281,7 @@ class LoginRegisterActivity : AppCompatActivity() {
         if (isLogin) { //如果是登录页
             val user = UserDataHelper.getUser(UserDataHelper.loginUserId)
             //如果账号或密码修改过
-            if (!username.equals(user.username, ignoreCase = true) || password != user.password) {
+            if (!username.equals(user.username, true) || password != user.password) {
                 showReturnHintDialog(getString(R.string.login_page_return_hint))
                 return true //显示
             }

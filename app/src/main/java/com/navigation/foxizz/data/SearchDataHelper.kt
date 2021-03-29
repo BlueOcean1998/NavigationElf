@@ -9,6 +9,7 @@ import com.baidu.mapapi.search.core.PoiDetailInfo
 import com.baidu.mapapi.search.poi.PoiDetailSearchOption
 import com.baidu.mapapi.utils.DistanceUtil
 import com.navigation.foxizz.activity.fragment.MainFragment
+import com.navigation.foxizz.data.DatabaseHelper.Companion.databaseHelper
 import com.navigation.foxizz.mybaidumap.BaiduSearch
 import com.navigation.foxizz.util.NetworkUtil
 import java.math.BigDecimal
@@ -39,13 +40,13 @@ object SearchDataHelper {
      */
     fun initSearchData(mainFragment: MainFragment) {
         if (isHasSearchData) {
-            mainFragment.searchList.clear()
+            mainFragment.mBaiduSearch.mSearchList.clear()
             var isRefreshSearchRecord = false //是否刷新搜索记录
             //有网络连接且没有开飞行模式
             if (NetworkUtil.isNetworkConnected && !NetworkUtil.isAirplaneModeOn) {
                 isRefreshSearchRecord = true
                 //设置为详细搜索全部
-                mainFragment.mBaiduSearch.searchType = BaiduSearch.DETAIL_SEARCH_ALL
+                mainFragment.mBaiduSearch.mSearchType = BaiduSearch.DETAIL_SEARCH_ALL
                 mainFragment.mBaiduSearch.isFirstDetailSearch = true //第一次详细信息搜索
             }
             val searchItems = searchData
@@ -56,7 +57,7 @@ object SearchDataHelper {
                 val bd = BigDecimal(distance)
                 distance = bd.setScale(2, BigDecimal.ROUND_HALF_UP).toDouble()
                 searchItem.distance = distance
-                mainFragment.searchList.add(searchItem)
+                mainFragment.mBaiduSearch.mSearchList.add(searchItem)
                 if (isRefreshSearchRecord) {
                     //通过网络重新获取搜索信息
                     mainFragment.mBaiduSearch.mPoiSearch.searchPoiDetail( //开始POI详细信息搜索
@@ -65,7 +66,7 @@ object SearchDataHelper {
             }
             mainFragment.mSearchAdapter.updateList() //通知adapter更新
         } else {
-            mainFragment.searchList.clear()
+            mainFragment.mBaiduSearch.mSearchList.clear()
             mainFragment.mSearchAdapter.updateList() //通知adapter更新
         }
     }
@@ -78,7 +79,7 @@ object SearchDataHelper {
     val isHasSearchData: Boolean
         get() {
             try {
-                DatabaseHelper.databaseHelper.readableDatabase.use { db ->
+                databaseHelper.readableDatabase.use { db ->
                     db.rawQuery("select * from SearchData", null).use { cursor ->
                         return cursor.count > 0
                     }
@@ -99,7 +100,7 @@ object SearchDataHelper {
             var cursor: Cursor? = null
             val searchItems = ArrayList<SearchItem>()
             try {
-                db = DatabaseHelper.databaseHelper.readableDatabase
+                db = databaseHelper.readableDatabase
                 //查询所有的搜索记录，按时间降序排列
                 cursor = db.rawQuery("select * from SearchData order by time desc", null)
                 if (cursor != null && cursor.moveToFirst()) {
@@ -129,7 +130,7 @@ object SearchDataHelper {
      */
     fun insertOrUpdateSearchData(info: PoiDetailInfo) {
         try {
-            DatabaseHelper.databaseHelper.readableDatabase.use { db ->
+            databaseHelper.readableDatabase.use { db ->
                 db.rawQuery("select * from SearchData where uid = ?", arrayOf(info.uid))
                         .use { cursor ->
                             if (cursor.count > 0) updateSearchData(info) //有则更新
@@ -147,7 +148,7 @@ object SearchDataHelper {
      */
     private fun insertSearchData(info: PoiDetailInfo) {
         try {
-            DatabaseHelper.databaseHelper.writableDatabase.use { db ->
+            databaseHelper.writableDatabase.use { db ->
                 db.execSQL("insert into SearchData " +
                         "(uid, latitude, longitude, target_name, address, time) " +
                         "values(?, ?, ?, ?, ?, ?)",
@@ -170,7 +171,7 @@ object SearchDataHelper {
      */
     private fun updateSearchData(info: PoiDetailInfo) {
         try {
-            DatabaseHelper.databaseHelper.writableDatabase.use { db ->
+            databaseHelper.writableDatabase.use { db ->
                 db.execSQL("update SearchData set latitude = ?, longitude = ?, " +
                         "target_name = ?, address = ?, time = ? where uid = ?",
                         arrayOf(info.location.latitude.toString(),
@@ -193,7 +194,7 @@ object SearchDataHelper {
      */
     fun deleteSearchData(uid: String?) {
         try {
-            DatabaseHelper.databaseHelper.writableDatabase
+            databaseHelper.writableDatabase
                     .use { db ->
                         db.execSQL("delete from SearchData where uid = ?",
                                 arrayOf(uid))
@@ -207,7 +208,7 @@ object SearchDataHelper {
      */
     fun deleteSearchData() {
         try {
-            DatabaseHelper.databaseHelper.writableDatabase.use { db ->
+            databaseHelper.writableDatabase.use { db ->
                 db.execSQL("delete from SearchData")
             }
         } catch (ignored: Exception) {

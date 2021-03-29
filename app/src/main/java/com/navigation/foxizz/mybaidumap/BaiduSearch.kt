@@ -13,7 +13,9 @@ import com.baidu.mapapi.utils.DistanceUtil
 import com.navigation.foxizz.R
 import com.navigation.foxizz.activity.fragment.MainFragment
 import com.navigation.foxizz.data.*
+import com.navigation.foxizz.dsp
 import com.navigation.foxizz.util.*
+import kotlinx.android.synthetic.main.fragment_main.*
 import java.math.BigDecimal
 import java.util.*
 
@@ -38,13 +40,14 @@ class BaiduSearch(private val mainFragment: MainFragment) {
     lateinit var mSuggestionSearch: SuggestionSearch //Sug搜索
     lateinit var mPoiSearch: PoiSearch //POI搜索
 
-    val searchCityList = ArrayList<String>() //要进行POI搜索的城市列表
-    var searchContent = "" //搜索内容
+    val mSearchList = ArrayList<SearchItem>() //搜索列表
+    val mSearchCityList = ArrayList<String>() //要进行POI搜索的城市列表
+    var mSearchContent = "" //搜索内容
+    var mSearchType = 0//使用的搜索类型
 
-    var searchType = 0//使用的搜索类型
     var isSearching = false//是否正在搜索
     var isFirstDetailSearch = false//是否是第一次详细信息搜索
-    val uidList: MutableSet<String> = HashSet() //uid集合
+    val uidList = HashSet<String>() //uid集合
 
     var mTotalPage = 0 //总页数
     var mCurrentPage = 0 //当前页
@@ -66,8 +69,8 @@ class BaiduSearch(private val mainFragment: MainFragment) {
             return
         }
         if (!mainFragment.searchExpandFlag) return  //如果搜索布局没有展开则不进行搜索
-        searchContent = mainFragment.etSearch.text.toString()
-        if (searchContent.isEmpty()) { //如果搜索内容为空
+        mSearchContent = mainFragment.et_search.text.toString()
+        if (mSearchContent.isEmpty()) { //如果搜索内容为空
             if (!mainFragment.isHistorySearchResult) { //如果不是搜索历史记录
                 mainFragment.isHistorySearchResult = true //现在是搜索历史记录了
                 SearchDataHelper.initSearchData(mainFragment) //初始化搜索记录
@@ -85,11 +88,11 @@ class BaiduSearch(private val mainFragment: MainFragment) {
             }
 
             //如果是省份，则搜索城市列表设置为省份内所有的城市，否则设置为单个城市
-            searchCityList.clear()
+            mSearchCityList.clear()
             if (CityUtil.checkProvinceName(searchCity)) {
-                searchCityList.addAll(CityUtil.getCityList(searchCity))
+                mSearchCityList.addAll(CityUtil.getCityList(searchCity))
             } else {
-                searchCityList.add(searchCity)
+                mSearchCityList.add(searchCity)
             }
             mainFragment.requireActivity().runOnUiThread {
                 if (!mainFragment.searchExpandFlag) { //如果搜索抽屉收起
@@ -98,22 +101,22 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                 }
                 mainFragment.takeBackKeyboard() //收回键盘
                 mainFragment.mBaiduMap.clear() //清空地图上的所有标记点和绘制的路线
-                mainFragment.mRecyclerSearchResult.stopScroll() //停止信息列表滑动
-                mainFragment.searchList.clear() //清空searchList
+                mainFragment.recycler_search_result.stopScroll() //停止信息列表滑动
+                mSearchList.clear() //清空searchList
                 mainFragment.mSearchAdapter.updateList() //通知adapter更新
 
                 //滚动到顶部
-                mainFragment.mRecyclerSearchResult.stopScroll()
-                mainFragment.mRecyclerSearchResult.scrollToPosition(0)
+                mainFragment.recycler_search_result.stopScroll()
+                mainFragment.recycler_search_result.scrollToPosition(0)
                 //加载搜索信息
-                mainFragment.llSearchLoading.visibility = View.VISIBLE
-                mainFragment.mRecyclerSearchResult.visibility = View.GONE
+                mainFragment.include_search_loading.visibility = View.VISIBLE
+                mainFragment.recycler_search_result.visibility = View.GONE
             }
             mainFragment.isHistorySearchResult = false //已经不是搜索历史记录了
             mCurrentPage = 0 //页数归零
-            if (mainFragment.mSharedPreferences.getBoolean(Constants.KEY_INTELLIGENT_SEARCH, true))
-                mainFragment.mBaiduSearch.searchType = CITY_SEARCH //设置搜索类型为城市内搜索
-            else mainFragment.mBaiduSearch.searchType = CONSTRAINT_CITY_SEARCH //设置搜索类型为强制城市内搜索
+            if (dsp.getBoolean(Constants.KEY_INTELLIGENT_SEARCH, true))
+                mainFragment.mBaiduSearch.mSearchType = CITY_SEARCH //设置搜索类型为城市内搜索
+            else mainFragment.mBaiduSearch.mSearchType = CONSTRAINT_CITY_SEARCH //设置搜索类型为强制城市内搜索
             startSearch(mCurrentPage) //开始搜索
         }
     }
@@ -129,30 +132,30 @@ class BaiduSearch(private val mainFragment: MainFragment) {
             isSearching = true
             mCurrentPage = currentPage //当前页
             uidList.clear() //清空uid集合
-            if (searchType == CITY_SEARCH || searchType == CONSTRAINT_CITY_SEARCH) {
+            if (mSearchType == CITY_SEARCH || mSearchType == CONSTRAINT_CITY_SEARCH) {
                 if (currentPage == 0) {
                     //开始Sug搜索
-                    if (searchCityList.isNotEmpty()) {
+                    if (mSearchCityList.isNotEmpty()) {
                         mSuggestionSearch.requestSuggestion(SuggestionSearchOption()
-                                .city(searchCityList[0])
-                                .keyword(searchContent))
+                                .city(mSearchCityList[0])
+                                .keyword(mSearchContent))
                     }
                 } else {
-                    if (searchCityList.isNotEmpty()) {
+                    if (mSearchCityList.isNotEmpty()) {
                         //开始POI城市内搜索
                         mPoiSearch.searchInCity(PoiCitySearchOption()
-                                .city(searchCityList[0])
-                                .keyword(searchContent)
+                                .city(mSearchCityList[0])
+                                .keyword(mSearchContent)
                                 .pageNum(currentPage)
                                 .pageCapacity(PAGE_CAPACITY))
                     }
                 }
-            } else if (searchType == NEARBY_SEARCH) {
+            } else if (mSearchType == NEARBY_SEARCH) {
                 //开始周边搜索
                 mPoiSearch.searchNearby(PoiNearbySearchOption()
                         .location(mainFragment.mBaiduLocation.mLatLng)
                         .radius(NEARBY_SEARCH_DISTANCE)
-                        .keyword(searchContent)
+                        .keyword(mSearchContent)
                         .pageNum(currentPage)
                         .pageCapacity(PAGE_CAPACITY))
             }
@@ -194,8 +197,8 @@ class BaiduSearch(private val mainFragment: MainFragment) {
 
                 //开始城市内搜索
                 mPoiSearch.searchInCity(PoiCitySearchOption()
-                        .city(searchCityList[0])
-                        .keyword(searchContent)
+                        .city(mSearchCityList[0])
+                        .keyword(mSearchContent)
                         .pageCapacity(PAGE_CAPACITY))
             }
         }
@@ -210,19 +213,19 @@ class BaiduSearch(private val mainFragment: MainFragment) {
             override fun onGetPoiResult(poiResult: PoiResult) {
                 if (mCurrentPage == 0) {
                     //POI信息加载完成
-                    mainFragment.llSearchLoading.visibility = View.GONE
-                    mainFragment.mRecyclerSearchResult.visibility = View.VISIBLE
+                    mainFragment.include_search_loading.visibility = View.GONE
+                    mainFragment.recycler_search_result.visibility = View.VISIBLE
                 }
                 if (poiResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {
                     //城市内搜索不到内容时切换到别的城市继续搜索
-                    if (searchType == CITY_SEARCH) {
+                    if (mSearchType == CITY_SEARCH) {
                         if (poiResult.suggestCityList != null && poiResult.suggestCityList.size > 0) {
-                            searchType = OTHER_CITY_SEARCH
+                            mSearchType = OTHER_CITY_SEARCH
                             for (cityInfo in poiResult.suggestCityList) {
                                 //开始别的城市内搜索
                                 mPoiSearch.searchInCity(PoiCitySearchOption()
                                         .city(cityInfo.city)
-                                        .keyword(searchContent)
+                                        .keyword(mSearchContent)
                                         .pageCapacity(PAGE_CAPACITY))
                             }
                         } else {
@@ -232,13 +235,13 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                     }
 
                     //周边搜索不到内容时切换回城市内搜索
-                    if (searchType == NEARBY_SEARCH) {
-                        searchType = CONSTRAINT_CITY_SEARCH //设置搜索类型为强制城市内搜索
+                    if (mSearchType == NEARBY_SEARCH) {
+                        mSearchType = CONSTRAINT_CITY_SEARCH //设置搜索类型为强制城市内搜索
 
                         //开始城市内搜索
                         mPoiSearch.searchInCity(PoiCitySearchOption()
-                                .city(searchCityList[0])
-                                .keyword(searchContent)
+                                .city(mSearchCityList[0])
+                                .keyword(mSearchContent)
                                 .pageNum(mCurrentPage)
                                 .pageCapacity(PAGE_CAPACITY))
                     } else if (uidList.size == 0) {
@@ -251,7 +254,7 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                 }
                 if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) { //检索结果正常返回
                     //如果目标数量小于预设值或搜索类型为其它城市搜索或周边搜索或强制城市内搜索
-                    if (poiResult.totalPoiNum < TO_NEARBY_SEARCH_MIN_NUM || searchType == OTHER_CITY_SEARCH || searchType == NEARBY_SEARCH || searchType == CONSTRAINT_CITY_SEARCH) {
+                    if (poiResult.totalPoiNum < TO_NEARBY_SEARCH_MIN_NUM || mSearchType == OTHER_CITY_SEARCH || mSearchType == NEARBY_SEARCH || mSearchType == CONSTRAINT_CITY_SEARCH) {
                         mTotalPage = poiResult.totalPageNum
                         mCurrentPage = poiResult.currentPageNum
 
@@ -289,17 +292,17 @@ class BaiduSearch(private val mainFragment: MainFragment) {
 
                         //周边搜索按距离升序排序
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-                                && searchType == NEARBY_SEARCH) {
+                                && mSearchType == NEARBY_SEARCH) {
                             searchItems.sortWith { o1, o2 ->
                                 o1.distance.compareTo(o2.distance)
                             }
                         }
-                        mainFragment.searchList.addAll(searchItems) //将所有searchItem添加到searchList中
+                        mSearchList.addAll(searchItems) //将所有searchItem添加到searchList中
                         if (mCurrentPage == 0) { //第0页全部排序
                             //周边搜索按距离升序排序
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-                                    && searchType == NEARBY_SEARCH) {
-                                mainFragment.searchList.sortWith { o1, o2 ->
+                                    && mSearchType == NEARBY_SEARCH) {
+                                mSearchList.sortWith { o1, o2 ->
                                     o1.distance.compareTo(o2.distance)
                                 }
                             }
@@ -308,13 +311,13 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                         mCurrentPage++ //当前页+1
                         isSearching = false
                     } else {
-                        searchType = NEARBY_SEARCH //设置搜索类型为周边搜索
+                        mSearchType = NEARBY_SEARCH //设置搜索类型为周边搜索
 
                         //开始周边搜索
                         mPoiSearch.searchNearby(PoiNearbySearchOption()
                                 .location(mainFragment.mBaiduLocation.mLatLng)
                                 .radius(NEARBY_SEARCH_DISTANCE)
-                                .keyword(searchContent)
+                                .keyword(mSearchContent)
                                 .pageNum(mCurrentPage)
                                 .pageCapacity(PAGE_CAPACITY))
                     }
@@ -327,17 +330,17 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                     isFirstDetailSearch = false
 
                     //详细信息加载完成
-                    mainFragment.llSearchInfoLoading.visibility = View.GONE
-                    mainFragment.svSearchInfo.visibility = View.VISIBLE
+                    mainFragment.include_search_info_loading.visibility = View.GONE
+                    mainFragment.sv_search_info.visibility = View.VISIBLE
                     if (poiDetailResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) return
                 }
                 if (poiDetailResult.error == SearchResult.ERRORNO.NO_ERROR) { //检索结果正常返回
                     //直接的详细信息搜索
-                    if (searchType == DETAIL_SEARCH || searchType == DETAIL_SEARCH_ALL) {
+                    if (mSearchType == DETAIL_SEARCH || mSearchType == DETAIL_SEARCH_ALL) {
                         //由于一般只传入一个uid，列表里往往只有一个搜索结果，即使这里用了循环语句
                         for (detailInfo in poiDetailResult.poiDetailInfoList) {
                             //将结果保存到数据库
-                            if (searchType == DETAIL_SEARCH) SearchDataHelper.insertOrUpdateSearchData(detailInfo)
+                            if (mSearchType == DETAIL_SEARCH) SearchDataHelper.insertOrUpdateSearchData(detailInfo)
 
                             //更新搜索结果列表
                             val searchItem = SearchItem()
@@ -355,18 +358,18 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                             searchItem.distance = distance
 
                             //寻找搜索列表中Uid相同的item
-                            for (i in mainFragment.searchList.indices) {
-                                if (mainFragment.searchList[i].uid == detailInfo.uid) {
-                                    if (searchType == DETAIL_SEARCH) {
-                                        mainFragment.searchList.removeAt(i) //移除原本位置的item
-                                        mainFragment.searchList.add(0, searchItem) //将其添加到头部
-                                    } else if (searchType == DETAIL_SEARCH_ALL) {
-                                        mainFragment.searchList[i] = searchItem //直接修改原位置的item
+                            for (i in mSearchList.indices) {
+                                if (mSearchList[i].uid == detailInfo.uid) {
+                                    if (mSearchType == DETAIL_SEARCH) {
+                                        mSearchList.removeAt(i) //移除原本位置的item
+                                        mSearchList.add(0, searchItem) //将其添加到头部
+                                    } else if (mSearchType == DETAIL_SEARCH_ALL) {
+                                        mSearchList[i] = searchItem //直接修改原位置的item
                                     }
                                     break
                                 }
                             }
-                            if (searchType == DETAIL_SEARCH_ALL) return  //详细搜索全部不更新详细信息布局
+                            if (mSearchType == DETAIL_SEARCH_ALL) return  //详细搜索全部不更新详细信息布局
 
                             //获取其它信息
                             val otherInfo = StringBuilder()
@@ -411,10 +414,10 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                             }
 
                             //更新详细信息布局
-                            mainFragment.tvSearchTargetName.text = detailInfo.name
-                            mainFragment.tvSearchAddress.text = detailInfo.address
-                            mainFragment.tvSearchDistance.text = distance.toString() + "km"
-                            mainFragment.tvSearchOthers.text = otherInfo.toString()
+                            mainFragment.tv_search_target_name.text = detailInfo.name
+                            mainFragment.tv_search_address.text = detailInfo.address
+                            mainFragment.tv_search_distance.text = distance.toString() + "km"
+                            mainFragment.tv_search_others.text = otherInfo.toString()
                         }
                     } else { //间接的详细信息搜索
                         //由于一般只传入一个uid，列表里往往只有一个搜索结果，即使这里用了循环语句
@@ -434,13 +437,13 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                                         .toDouble()
 
                                 //添加搜索到的不同uid的内容添加到searchItems
-                                mainFragment.searchList.add(searchItem)
+                                mSearchList.add(searchItem)
                             }
                         }
 
                         //按距离升序排序
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            mainFragment.searchList.sortWith { o1, o2 ->
+                            mSearchList.sortWith { o1, o2 ->
                                 o1.distance.compareTo(o2.distance)
                             }
                         }
@@ -459,7 +462,7 @@ class BaiduSearch(private val mainFragment: MainFragment) {
 
     //判断Uid是否不存在于搜索列表中
     private fun isUidNotInSearList(uid: String): Boolean {
-        for (searchItem in mainFragment.searchList) {
+        for (searchItem in mSearchList) {
             if (uid == searchItem.uid) {
                 return false
             }

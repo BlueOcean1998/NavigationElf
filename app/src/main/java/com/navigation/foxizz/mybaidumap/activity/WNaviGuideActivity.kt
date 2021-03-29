@@ -103,8 +103,7 @@ class WNaviGuideActivity : Activity() {
             override fun onVibrate() {}
         })
 
-        //初始化设置
-        SettingUtil.initSettings(this)
+        SettingUtil.initSettings(this) //初始化设置
     }
 
     override fun onResume() {

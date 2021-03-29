@@ -108,8 +108,7 @@ class DNaviGuideActivity : Activity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         mRouteGuideManager.onResume()
 
-        //若在其它生命周期中调用该方法驾车导航内置设置会覆盖掉该app的设置
-        SettingUtil.initSettings(this)
+        SettingUtil.initSettings(this) //初始化设置
     }
 
     override fun onPause() {

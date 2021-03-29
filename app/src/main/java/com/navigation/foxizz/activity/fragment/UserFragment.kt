@@ -7,10 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -25,33 +21,32 @@ import com.navigation.foxizz.activity.SettingsActivity
 import com.navigation.foxizz.data.Constants
 import com.navigation.foxizz.receiver.LocalReceiver
 import com.navigation.foxizz.util.showToast
+import kotlinx.android.synthetic.main.fragment_user.*
 
 /**
  * 用户页
  */
 class UserFragment : Fragment() {
-    private lateinit var flAvatarLayout: FrameLayout //头像布局
-    lateinit var ivAvatar: ImageView //用户头像
-    private lateinit var llUserInfoLayout: LinearLayout //信息布局
-    lateinit var tvUserName: TextView //用户名
-    private lateinit var tvUserEmail: TextView //用户email
-
     private lateinit var preferenceScreen: PreferenceScreen
     private lateinit var localReceiver: LocalReceiver //设置接收器
     private lateinit var localBroadcastManager: LocalBroadcastManager //本地广播管理器
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_user, container, false)
+        return inflater.inflate(R.layout.fragment_user, container, false)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+
         initLocalReceiver() //初始化本地广播接收器
-        initView(view) //初始化控件
-        preferenceScreen = PreferenceScreen()
+        initView() //初始化控件
 
         //初始化PreferenceScreen
+        preferenceScreen = PreferenceScreen()
         requireActivity().supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fl_user_preferences, preferenceScreen)
                 .commit()
-        return view
     }
 
     override fun onResume() {
@@ -60,11 +55,11 @@ class UserFragment : Fragment() {
         val user = UserDataHelper.getUser(userId)
 
         //设置用户名
-        if ("0" != userId) tvUserName.text = user.username
+        if ("0" != userId) tv_user_name.text = user.username
 
         //设置是否显示退出登录
         val preference = preferenceScreen.findPreference<Preference>(Constants.KEY_LOGOUT)
-        if (preference != null) preference.isVisible = "0" != userId
+        preference?.isVisible = "0" != userId
     }
 
     override fun onDestroy() {
@@ -82,27 +77,21 @@ class UserFragment : Fragment() {
     }
 
     //初始化用户布局
-    private fun initView(view: View) {
-        flAvatarLayout = view.findViewById(R.id.fl_avatar_layout)
-        ivAvatar = view.findViewById(R.id.iv_avatar_image)
-        llUserInfoLayout = view.findViewById(R.id.ll_user_info_layout)
-        tvUserName = view.findViewById(R.id.tv_user_name)
-        tvUserEmail = view.findViewById(R.id.tv_user_email)
-
+    private fun initView() {
         //设置头像
         val userId = UserDataHelper.loginUserId
         if (userId != "0") {
             val avatarBitmap = AvatarDataHelper.getBitmapAvatar(userId)
-            ivAvatar.setImageBitmap(avatarBitmap)
+            iv_avatar_image.setImageBitmap(avatarBitmap)
         }
 
-        flAvatarLayout.setOnClickListener {
+        fl_avatar_layout.setOnClickListener {
             if ("0" == UserDataHelper.loginUserId)
                 LoginRegisterActivity.startActivity(requireActivity())
             else AvatarDataHelper.checkPermissionsAndOpenAlbum(requireActivity())
         }
 
-        llUserInfoLayout.setOnClickListener {
+        ll_user_info_layout.setOnClickListener {
             if ("0" == UserDataHelper.loginUserId)
                 LoginRegisterActivity.startActivity(requireActivity())
         }
@@ -151,8 +140,8 @@ class UserFragment : Fragment() {
 
                     //还原用户名和头像为默认
                     val userFragment = mainActivity.userFragment
-                    userFragment.tvUserName.setText(R.string.to_login)
-                    userFragment.ivAvatar.setImageResource(R.drawable.dolphizz_sketch)
+                    userFragment.tv_user_name.setText(R.string.to_login)
+                    userFragment.iv_avatar_image.setImageResource(R.drawable.dolphizz_sketch)
                 }
                 builder.setNegativeButton(R.string.cancel) { _, _ ->
                     //do nothing

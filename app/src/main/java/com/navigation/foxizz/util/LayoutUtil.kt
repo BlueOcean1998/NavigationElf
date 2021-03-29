@@ -8,7 +8,7 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.navigation.foxizz.BaseApplication
+import com.navigation.foxizz.BaseApplication.Companion.baseApplication
 import com.navigation.foxizz.R
 
 /**
@@ -86,7 +86,7 @@ object LayoutUtil {
     fun expandLayout(linearLayout: LinearLayout, flag: Boolean) {
         if (flag) {
             linearLayout.startAnimation(
-                    AnimationUtils.loadAnimation(BaseApplication.instance, R.anim.adapter_alpha2)
+                    AnimationUtils.loadAnimation(baseApplication, R.anim.adapter_alpha2)
             ) //动画2，出现;
 
             //计算布局自适应时的高度
@@ -97,7 +97,7 @@ object LayoutUtil {
             getValueAnimator(linearLayout, 0, layoutHeight).start() //展开动画
         } else {
             linearLayout.startAnimation(
-                    AnimationUtils.loadAnimation(BaseApplication.instance, R.anim.adapter_alpha1)
+                    AnimationUtils.loadAnimation(baseApplication, R.anim.adapter_alpha1)
             ) //动画1，消失;
             val layoutHeight = linearLayout.height //获取布局的高度
             getValueAnimator(linearLayout, layoutHeight, 0).start() //收起动画
@@ -135,7 +135,7 @@ object LayoutUtil {
             recyclerView: RecyclerView, position: Int) {
         if (flag) {
             linearLayout.startAnimation(
-                    AnimationUtils.loadAnimation(BaseApplication.instance, R.anim.adapter_alpha2)
+                    AnimationUtils.loadAnimation(baseApplication, R.anim.adapter_alpha2)
             ) //动画2，出现;
 
             //计算布局自适应时的高度
@@ -144,7 +144,7 @@ object LayoutUtil {
                     .start() //展开动画
         } else {
             linearLayout.startAnimation(
-                    AnimationUtils.loadAnimation(BaseApplication.instance, R.anim.adapter_alpha1)
+                    AnimationUtils.loadAnimation(baseApplication, R.anim.adapter_alpha1)
             ) //动画1，消失;
             val layoutHeight = linearLayout.height //获取布局的高度
             getValueAnimator(linearLayout, layoutHeight, 0, recyclerView, position)

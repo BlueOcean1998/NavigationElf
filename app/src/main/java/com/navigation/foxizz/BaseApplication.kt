@@ -11,7 +11,7 @@ import com.navigation.foxizz.data.SPHelper
  * App name: NavigationElf
  * Author: Foxizz
  * Accomplish date: 2020-04-30
- * Last modify date: 2021-03-24
+ * Last modify date: 2021-03-29
  */
 class BaseApplication : Application() {
     companion object {
@@ -20,12 +20,12 @@ class BaseApplication : Application() {
          *
          * @return application
          */
-        lateinit var instance: BaseApplication
+        lateinit var baseApplication: BaseApplication
     }
 
     override fun onCreate() {
         super.onCreate()
-        instance = this
+        baseApplication = this
         SPHelper.initSharedPreferences(this) //初始化SharedPreferences
         DatabaseHelper.initDatabaseHelper(this) //初始化搜索数据库
 

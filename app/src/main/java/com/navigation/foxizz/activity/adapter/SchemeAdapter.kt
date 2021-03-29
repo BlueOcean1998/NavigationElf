@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.navigation.foxizz.R
 import com.navigation.foxizz.activity.fragment.MainFragment
 import com.navigation.foxizz.util.LayoutUtil
+import kotlinx.android.synthetic.main.adapter_scheme_item.view.*
+import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.include_tv_end.view.*
 
 /**
  * 路线规划信息列表的适配器
@@ -19,12 +22,12 @@ class SchemeAdapter(private val mainFragment: MainFragment) :
 
     //设置item中的View
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var cardSchemeInfo: CardView = view.findViewById(R.id.card_scheme_info)
-        var tvSimpleInfo: TextView = view.findViewById(R.id.tv_simple_info)
-        var llInfoDrawer: LinearLayout = view.findViewById(R.id.ll_info_drawer)
-        var tvDetailInfo: TextView = view.findViewById(R.id.tv_detail_info)
-        var ibSchemeExpand: ImageButton = view.findViewById(R.id.ib_scheme_expand)
-        var tvEnd: View = view.findViewById<View>(R.id.include_tv_end_scheme).findViewById(R.id.tv_end)
+        var cardSchemeInfo: CardView = view.card_scheme_info
+        var tvSimpleInfo: TextView = view.tv_simple_info
+        var llInfoDrawer: LinearLayout = view.ll_info_drawer
+        var tvDetailInfo: TextView = view.tv_detail_info
+        var ibSchemeExpand: ImageButton = view.ib_scheme_expand
+        var tvEnd: View = view.include_tv_end_scheme.tv_end
     }
 
     /**
@@ -33,7 +36,7 @@ class SchemeAdapter(private val mainFragment: MainFragment) :
      * @return item数量
      */
     override fun getItemCount(): Int {
-        return mainFragment.mSchemeList.size
+        return mainFragment.mBaiduRoutePlan.mSchemeList.size
     }
 
     /**
@@ -47,7 +50,7 @@ class SchemeAdapter(private val mainFragment: MainFragment) :
 
     //获取SearchItem的数据
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val schemeItem = mainFragment.mSchemeList[position]
+        val schemeItem = mainFragment.mBaiduRoutePlan.mSchemeList[position]
         holder.tvSimpleInfo.text = schemeItem.simpleInfo
         holder.tvDetailInfo.text = schemeItem.detailInfo
 
@@ -64,7 +67,7 @@ class SchemeAdapter(private val mainFragment: MainFragment) :
         }
 
         //底部显示提示信息
-        if (position == mainFragment.mSchemeList.size - 1)
+        if (position == mainFragment.mBaiduRoutePlan.mSchemeList.size - 1)
             holder.tvEnd.visibility = View.VISIBLE
         else holder.tvEnd.visibility = View.GONE
     }
@@ -80,27 +83,27 @@ class SchemeAdapter(private val mainFragment: MainFragment) :
             if (unableToClick()) return@setOnClickListener
             val position = holder.adapterPosition
             mainFragment.infoFlag = 2 //设置信息状态为交通选择
-            mainFragment.btMiddle.setText(R.string.middle_button3) //设置按钮为交通选择
+            mainFragment.bt_middle.setText(R.string.middle_button3) //设置按钮为交通选择
             mainFragment.mBaiduRoutePlan.startMassTransitRoutePlan(position)
             mainFragment.schemeExpandFlag = 2 //设置方案布局为单个方案
-            LayoutUtil.expandLayout(mainFragment.llSchemeDrawer, false) //收起方案抽屉
-            LayoutUtil.expandLayout(mainFragment.llSchemeInfoLayout, true) //展开方案信息布局
+            LayoutUtil.expandLayout(mainFragment.ll_scheme_drawer, false) //收起方案抽屉
+            LayoutUtil.expandLayout(mainFragment.ll_scheme_info_layout, true) //展开方案信息布局
         }
 
         //伸展按钮的点击事件
         holder.ibSchemeExpand.setOnClickListener {
             val position = holder.adapterPosition
-            val schemeItem = mainFragment.mSchemeList[position]
+            val schemeItem = mainFragment.mBaiduRoutePlan.mSchemeList[position]
             if (schemeItem.expandFlag) { //收起
                 holder.tvSimpleInfo.maxLines = 1
                 LayoutUtil.expandLayout(holder.llInfoDrawer, false, holder.tvDetailInfo,
-                        mainFragment.recyclerSchemeResult, position)
+                        mainFragment.recycler_scheme_result, position)
                 LayoutUtil.rotateExpandIcon(holder.ibSchemeExpand, 180f, 0f) //旋转伸展按钮
                 schemeItem.expandFlag = false
             } else { //展开
                 holder.tvSimpleInfo.maxLines = 8
                 LayoutUtil.expandLayout(holder.llInfoDrawer, true, holder.tvDetailInfo,
-                        mainFragment.recyclerSchemeResult, position)
+                        mainFragment.recycler_scheme_result, position)
                 LayoutUtil.rotateExpandIcon(holder.ibSchemeExpand, 0f, 180f) //旋转伸展按钮
                 schemeItem.expandFlag = true
             }

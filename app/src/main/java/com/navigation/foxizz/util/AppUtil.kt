@@ -4,7 +4,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Environment
-import com.navigation.foxizz.BaseApplication
+import com.navigation.foxizz.BaseApplication.Companion.baseApplication
 import com.navigation.foxizz.BuildConfig
 import com.navigation.foxizz.R
 
@@ -24,7 +24,7 @@ object AppUtil {
      *
      * @return 应用程序名称
      */
-    val appName = BaseApplication.instance.getString(R.string.app_name)
+    val appName = baseApplication.getString(R.string.app_name)
 
     /**
      * 获取应用版本号
@@ -47,9 +47,9 @@ object AppUtil {
      */
     val appBitmap: Bitmap
         get() {
-            val packageManager = BaseApplication.instance.packageManager
+            val packageManager = baseApplication.packageManager
             val applicationInfo = packageManager.getApplicationInfo(
-                    BaseApplication.instance.packageName, 0
+                    baseApplication.packageName, 0
             )
             return (packageManager.getApplicationIcon(applicationInfo) as BitmapDrawable).bitmap
         }
@@ -61,9 +61,9 @@ object AppUtil {
      */
     val appChannel: String
         get() {
-            val packageManager = BaseApplication.instance.packageManager
+            val packageManager = baseApplication.packageManager
             val packageInfo = packageManager.getPackageInfo(
-                    BaseApplication.instance.packageName, PackageManager.GET_META_DATA
+                    baseApplication.packageName, PackageManager.GET_META_DATA
             )
             val metaData = packageInfo.applicationInfo.metaData
             val channel = metaData.getString("CHANNEL")
@@ -84,5 +84,5 @@ object AppUtil {
      *
      * @return 应用文件夹路径
      */
-    val appFolderName = BaseApplication.instance.externalCacheDir?.path
+    val appFolderName = baseApplication.externalCacheDir?.path
 }

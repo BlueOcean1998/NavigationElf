@@ -7,9 +7,9 @@ import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import androidx.core.content.ContextCompat
-import androidx.preference.PreferenceManager
-import com.navigation.foxizz.BaseApplication
+import com.navigation.foxizz.BaseApplication.Companion.baseApplication
 import com.navigation.foxizz.data.Constants
+import com.navigation.foxizz.dsp
 
 /**
  * 设置工具类
@@ -25,7 +25,7 @@ object SettingUtil {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.ACCESS_COARSE_LOCATION)
         for (permission in permissions) {
-            if (ContextCompat.checkSelfPermission(BaseApplication.instance, permission)
+            if (ContextCompat.checkSelfPermission(baseApplication, permission)
                     != PackageManager.PERMISSION_GRANTED) return true
         }
         return false
@@ -33,7 +33,7 @@ object SettingUtil {
 
     //判断是否是手机模式
     val isMobile: Boolean
-        get() = (BaseApplication.instance.resources.configuration.screenLayout
+        get() = (baseApplication.resources.configuration.screenLayout
                 and Configuration.SCREENLAYOUT_SIZE_MASK) < Configuration.SCREENLAYOUT_SIZE_LARGE
 
     /**
@@ -41,12 +41,11 @@ object SettingUtil {
      *
      * @param context 上下文
      */
-    fun initSettings(context: Context?) {
+    fun initSettings(context: Context) {
         if (context is Activity) {
 
             //设置是否允许横屏
-            if (PreferenceManager.getDefaultSharedPreferences(context)
-                            .getBoolean(Constants.KEY_LANDSCAPE, false))
+            if (dsp.getBoolean(Constants.KEY_LANDSCAPE, false))
                 context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED //自动旋转
             else context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT //只允许竖屏
         }

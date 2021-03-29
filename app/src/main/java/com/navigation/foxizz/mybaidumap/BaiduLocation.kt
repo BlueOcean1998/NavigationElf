@@ -8,7 +8,7 @@ import com.baidu.mapapi.map.MapStatus
 import com.baidu.mapapi.map.MapStatusUpdateFactory
 import com.baidu.mapapi.map.MyLocationData
 import com.baidu.mapapi.model.LatLng
-import com.navigation.foxizz.BaseApplication
+import com.navigation.foxizz.BaseApplication.Companion.baseApplication
 import com.navigation.foxizz.R
 import com.navigation.foxizz.activity.fragment.MainFragment
 import com.navigation.foxizz.data.Constants
@@ -44,7 +44,7 @@ class BaiduLocation(private val mainFragment: MainFragment) {
         isFirstLoc = true //首次定位
 
         //定位服务的客户端。宿主程序在客户端声明此类，并调用，目前只支持在主线程中启动
-        mLocationClient = LocationClient(BaseApplication.instance)
+        mLocationClient = LocationClient(baseApplication)
 
         //定位监听
         mLocationClient.registerLocationListener(object : BDAbstractLocationListener() {

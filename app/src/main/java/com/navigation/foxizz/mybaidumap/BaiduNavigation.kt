@@ -22,7 +22,7 @@ import com.baidu.navisdk.adapter.BaiduNaviManagerFactory
 import com.baidu.navisdk.adapter.IBNRoutePlanManager
 import com.baidu.navisdk.adapter.IBaiduNaviManager.INaviInitListener
 import com.baidu.navisdk.adapter.struct.BNTTsInitConfig
-import com.navigation.foxizz.BaseApplication
+import com.navigation.foxizz.BaseApplication.Companion.baseApplication
 import com.navigation.foxizz.R
 import com.navigation.foxizz.activity.fragment.MainFragment
 import com.navigation.foxizz.mybaidumap.activity.BNaviGuideActivity
@@ -45,7 +45,7 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
      */
     fun initDriveNavigateHelper() {
         if (!hasInitDriveNavigate) {
-            BaiduNaviManagerFactory.getBaiduNaviManager().init(BaseApplication.instance,
+            BaiduNaviManagerFactory.getBaiduNaviManager().init(baseApplication,
                     AppUtil.sdCardDir,
                     AppUtil.appFolderName,
                     object : INaviInitListener {
@@ -82,7 +82,7 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
     //初始化语音合成模块
     private fun initTTS() {
         BaiduNaviManagerFactory.getTTSManager().initTTS(BNTTsInitConfig.Builder()
-                .context(BaseApplication.instance)
+                .context(baseApplication)
                 .sdcardRootPath(AppUtil.sdCardDir)
                 .appFolderName(AppUtil.appFolderName)
                 .appId(mainFragment.getString(R.string.app_id))
@@ -182,13 +182,16 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
                 object : Handler(Looper.getMainLooper()) {
                     override fun handleMessage(msg: Message) {
                         when (msg.what) {
-                            IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_START -> loadingProgress.show()
-                            IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_SUCCESS -> loadingProgress.dismiss()
+                            IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_START ->
+                                loadingProgress.show()
+                            IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_SUCCESS ->
+                                loadingProgress.dismiss()
                             IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_FAILED -> {
                                 loadingProgress.dismiss()
                                 R.string.drive_route_plan_fail.showToast()
                             }
-                            IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_TO_NAVI -> DNaviGuideActivity.startActivity(mainFragment.requireActivity())
+                            IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_TO_NAVI ->
+                                DNaviGuideActivity.startActivity(mainFragment.requireActivity())
                         }
                     }
                 }
@@ -262,7 +265,7 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
         val bikeStartNode = BikeRouteNodeInfo()
         bikeStartNode.location = mainFragment.mBaiduLocation.mLatLng
         val bikeEndNode = BikeRouteNodeInfo()
-        bikeEndNode.location = mainFragment.searchList[0].latLng
+        bikeEndNode.location = mainFragment.mBaiduSearch.mSearchList[0].latLng
         val bikeParam = BikeNaviLaunchParam()
                 .startNodeInfo(bikeStartNode)
                 .endNodeInfo(bikeEndNode)

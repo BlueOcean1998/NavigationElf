@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.Gravity
 import androidx.appcompat.widget.AppCompatTextView
 import com.navigation.foxizz.R
+import com.navigation.foxizz.util.pxToSp
 
 class AdaptiveTextView(context: Context, attrs: AttributeSet) : AppCompatTextView(context, attrs) {
     init {
@@ -79,7 +80,7 @@ class AdaptiveTextView(context: Context, attrs: AttributeSet) : AppCompatTextVie
             }
 
             //setTextSize参数值为sp值
-            textSize = px2sp(context, trySize)
+            textSize = trySize.pxToSp()
         }
     }
 
@@ -101,13 +102,7 @@ class AdaptiveTextView(context: Context, attrs: AttributeSet) : AppCompatTextVie
             }
 
             //setTextSize参数值为sp值
-            textSize = px2sp(context, trySize)
+            textSize = trySize.pxToSp()
         }
-    }
-
-    //将px值转换为sp值，保证文字大小不变
-    private fun px2sp(context: Context, pxValue: Float): Float {
-        val fontScale = context.resources.displayMetrics.scaledDensity
-        return pxValue / fontScale
     }
 }

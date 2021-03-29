@@ -2,8 +2,6 @@ package com.navigation.foxizz.mybaidumap
 
 import android.annotation.SuppressLint
 import android.view.View
-import android.widget.ImageButton
-import android.widget.LinearLayout
 import com.baidu.mapapi.map.BitmapDescriptorFactory
 import com.baidu.mapapi.map.MarkerOptions
 import com.baidu.mapapi.map.OverlayOptions
@@ -15,6 +13,8 @@ import com.navigation.foxizz.activity.fragment.MainFragment
 import com.navigation.foxizz.data.SchemeItem
 import com.navigation.foxizz.mybaidumap.overlayutil.*
 import com.navigation.foxizz.util.*
+import kotlinx.android.synthetic.main.adapter_scheme_item.view.*
+import kotlinx.android.synthetic.main.fragment_main.*
 import java.util.*
 
 /**
@@ -30,6 +30,7 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
     }
 
     lateinit var mRoutePlanSearch: RoutePlanSearch
+    var mSchemeList = ArrayList<SchemeItem>() //方案列表
     var mBusStationLocations = ArrayList<LatLng>() //公交导航所有站点的坐标
     var mEndLocation: LatLng? = null //终点
 
@@ -76,28 +77,26 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
                             .to(endNode))
             TRANSIT -> {
                 //加载路线方案
-                mainFragment.llSchemeLoading.visibility = View.VISIBLE
-                mainFragment.recyclerSchemeResult.visibility = View.GONE
+                mainFragment.include_scheme_loading.visibility = View.VISIBLE
+                mainFragment.recycler_scheme_result.visibility = View.GONE
 
                 //收回所有展开的方案
-                var i = 0
-                while (i < mainFragment.mSchemeList.size) {
+                for (i in 0 until mSchemeList.size) {
                     //遍历所有item
-                    if (mainFragment.mSchemeList[i].expandFlag) { //如果是展开状态
+                    if (mSchemeList[i].expandFlag) { //如果是展开状态
                         //用layoutManager找到相应的item
                         val view = mainFragment.mSchemeLayoutManager.findViewByPosition(i)
                         if (view != null) {
-                            val infoDrawer = view.findViewById<LinearLayout>(R.id.ll_info_drawer)
-                            val schemeExpand = view.findViewById<ImageButton>(R.id.ib_scheme_expand)
+                            val infoDrawer = view.ll_info_drawer
+                            val schemeExpand = view.ib_scheme_expand
                             LayoutUtil.expandLayout(infoDrawer, false)
                             LayoutUtil.rotateExpandIcon(schemeExpand, 180f, 0f) //旋转伸展按钮
-                            mainFragment.mSchemeList[i].expandFlag = false
+                            mSchemeList[i].expandFlag = false
                             mainFragment.mSchemeAdapter.updateList() //通知adapter更新
                         }
                     }
-                    i++
                 }
-                mainFragment.mSchemeList.clear() //清空方案列表
+                mSchemeList.clear() //清空方案列表
                 mainFragment.mSchemeAdapter.updateList() //通知adapter更新
                 mRoutePlanSearch
                         .masstransitSearch(MassTransitRoutePlanOption()
@@ -105,11 +104,11 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
                                 .to(endNode))
 
                 mainFragment.infoFlag = 2 //设置信息状态为交通选择
-                mainFragment.btMiddle.setText(R.string.middle_button3) //设置按钮为交通选择
-                LayoutUtil.expandLayout(mainFragment.llSelectLayout, false) //收起选择布局
+                mainFragment.bt_middle.setText(R.string.middle_button3) //设置按钮为交通选择
+                LayoutUtil.expandLayout(mainFragment.ll_select_layout, false) //收起选择布局
                 mainFragment.schemeExpandFlag = 1 //设置方案布局为方案列表
-                LayoutUtil.setViewHeight(mainFragment.llSchemeInfoLayout, 0)//设置方案信息布局的高度为0
-                LayoutUtil.expandLayout(mainFragment.llSchemeDrawer, true) //展开方案抽屉
+                LayoutUtil.setViewHeight(mainFragment.ll_scheme_info_layout, 0)//设置方案信息布局的高度为0
+                LayoutUtil.expandLayout(mainFragment.ll_scheme_drawer, true) //展开方案抽屉
             }
         }
     }
@@ -165,8 +164,8 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
 
             override fun onGetMassTransitRouteResult(massTransitRouteResult: MassTransitRouteResult) {
                 //路线方案加载完成
-                mainFragment.llSchemeLoading.visibility = View.GONE
-                mainFragment.recyclerSchemeResult.visibility = View.VISIBLE
+                mainFragment.include_scheme_loading.visibility = View.GONE
+                mainFragment.recycler_scheme_result.visibility = View.VISIBLE
                 if (massTransitRouteResult.routeLines == null
                         || massTransitRouteResult.routeLines.size == 0) {
                     R.string.suggest_to_walk.showToast()
@@ -229,7 +228,7 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
                                     .append(massTransitRouteLine.price.toInt()).append(mainFragment.getString(R.string.yuan))
                         }
                         schemeItem.detailInfo = detailInfo.toString()
-                        mainFragment.mSchemeList.add(schemeItem) //添加到列表中
+                        mSchemeList.add(schemeItem) //添加到列表中
                         mainFragment.mSchemeAdapter.updateList() //通知adapter更新
                         mainFragment.requireActivity().runOnUiThread {
                             startMassTransitRoutePlan(0) //默认选择第一个方案
@@ -302,10 +301,10 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
      */
     @SuppressLint("SetTextI18n")
     fun startMassTransitRoutePlan(index: Int) {
-        val schemeItem = mainFragment.mSchemeList[index]
+        val schemeItem = mSchemeList[index]
 
         //设置方案信息
-        mainFragment.tvSchemeInfo.text = schemeItem.allStationInfo + schemeItem.detailInfo
+        mainFragment.tv_scheme_info.text = schemeItem.allStationInfo + schemeItem.detailInfo
 
         //创建MassTransitRouteOverlay实例
         val overlay = MassTransitRouteOverlay(mainFragment.mBaiduMap)

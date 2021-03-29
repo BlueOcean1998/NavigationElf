@@ -3,7 +3,7 @@ package com.navigation.foxizz.util
 import android.content.Context
 import android.net.ConnectivityManager
 import android.provider.Settings
-import com.navigation.foxizz.BaseApplication
+import com.navigation.foxizz.BaseApplication.Companion.baseApplication
 
 /**
  * 网络工具类
@@ -17,7 +17,7 @@ object NetworkUtil {
      */
     val isNetworkConnected: Boolean
         get() {
-            val connectivityManager = BaseApplication.instance
+            val connectivityManager = baseApplication
                     .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val networkInfo = connectivityManager.activeNetworkInfo
             return networkInfo != null && networkInfo.isConnected
@@ -30,7 +30,7 @@ object NetworkUtil {
      */
     val networkType: String
         get() {
-            val connectivity = BaseApplication.instance.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val connectivity = baseApplication.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val networkInfo = connectivity.activeNetworkInfo
             if (networkInfo != null && networkInfo.isConnected) {
                 if (networkInfo.type == ConnectivityManager.TYPE_WIFI) {
@@ -48,6 +48,6 @@ object NetworkUtil {
      * @return boolean
      */
     val isAirplaneModeOn: Boolean
-        get() = Settings.Global.getInt(BaseApplication.instance.contentResolver,
+        get() = Settings.Global.getInt(baseApplication.contentResolver,
                 Settings.Global.AIRPLANE_MODE_ON, 0) != 0
 }
