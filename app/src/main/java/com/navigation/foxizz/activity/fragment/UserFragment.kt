@@ -4,9 +4,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -26,17 +24,13 @@ import kotlinx.android.synthetic.main.fragment_user.*
 /**
  * 用户页
  */
-class UserFragment : Fragment() {
+class UserFragment : Fragment(R.layout.fragment_user) {
     private lateinit var preferenceScreen: PreferenceScreen
     private lateinit var localReceiver: LocalReceiver //设置接收器
     private lateinit var localBroadcastManager: LocalBroadcastManager //本地广播管理器
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_user, container, false)
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initLocalReceiver() //初始化本地广播接收器
         initView() //初始化控件

@@ -35,7 +35,7 @@ import java.util.*
 /**
  * 地图页
  */
-class MainFragment : Fragment() {
+class MainFragment : Fragment(R.layout.fragment_main) {
     //地图控件
     lateinit var mBaiduMap: BaiduMap
     private lateinit var mUiSettings: UiSettings
@@ -74,12 +74,8 @@ class MainFragment : Fragment() {
     private lateinit var mSystemReceiver: SystemReceiver //系统广播接收器
     private lateinit var mLocalReceiver: LocalReceiver //本地广播接收器
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_main, container, false)
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initMap() //初始化地图控件
         initSettings() //初始化偏好设置
