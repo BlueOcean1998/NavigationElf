@@ -68,7 +68,7 @@ class BaiduSearch(private val mainFragment: MainFragment) {
             R.string.close_airplane_mode.showToast()
             return
         }
-        if (!mainFragment.searchExpandFlag) return  //如果搜索布局没有展开则不进行搜索
+        if (!mainFragment.searchLayoutFlag) return //如果搜索布局没有展开则不进行搜索
         mSearchContent = mainFragment.et_search.text.toString()
         if (mSearchContent.isEmpty()) { //如果搜索内容为空
             if (!mainFragment.isHistorySearchResult) { //如果不是搜索历史记录
@@ -369,7 +369,7 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                                     break
                                 }
                             }
-                            if (mSearchType == DETAIL_SEARCH_ALL) return  //详细搜索全部不更新详细信息布局
+                            if (mSearchType == DETAIL_SEARCH_ALL) return //详细搜索全部不更新详细信息布局
 
                             //获取其它信息
                             val otherInfo = StringBuilder()

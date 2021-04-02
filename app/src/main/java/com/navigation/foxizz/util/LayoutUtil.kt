@@ -16,9 +16,9 @@ import com.navigation.foxizz.R
  */
 object LayoutUtil {
     /**
-     * 获取视图尺寸
+     * 获取控件真实尺寸
      *
-     * @param view 视图
+     * @param view 控件
      * @param type true:宽 false:高
      * @return 尺寸
      */
@@ -26,7 +26,8 @@ object LayoutUtil {
         val heightOrWidth = IntArray(1)
         view.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                if (type) heightOrWidth[0] = view.width else heightOrWidth[0] = view.height
+                if (type) heightOrWidth[0] = view.width
+                else heightOrWidth[0] = view.height
                 view.viewTreeObserver.removeOnGlobalLayoutListener(this)
             }
         })
@@ -34,78 +35,7 @@ object LayoutUtil {
     }
 
     /**
-     * 获取视图宽度
-     *
-     * @param view 视图
-     * @return 宽度
-     */
-    fun getViewWidth(view: View): Int {
-        return getViewSize(view, true)
-    }
-
-    /**
-     * 获取视图高度
-     *
-     * @param view 视图
-     * @return 高度
-     */
-    fun getViewHeight(view: View): Int {
-        return getViewSize(view, false)
-    }
-
-    /**
-     * 设置视图宽度
-     *
-     * @param view  视图
-     * @param width 宽度
-     */
-    fun setViewWidth(view: View, width: Int) {
-        val params = view.layoutParams
-        params.width = width
-        view.layoutParams = params
-    }
-
-    /**
-     * 设置视图高度
-     *
-     * @param view   视图
-     * @param height 高度
-     */
-    fun setViewHeight(view: View, height: Int) {
-        val params = view.layoutParams
-        params.height = height
-        view.layoutParams = params
-    }
-
-    /**
-     * 伸缩布局
-     *
-     * @param linearLayout 需要伸缩的linearLayout
-     * @param flag         伸或缩
-     */
-    fun expandLayout(linearLayout: LinearLayout, flag: Boolean) {
-        if (flag) {
-            linearLayout.startAnimation(
-                    AnimationUtils.loadAnimation(baseApplication, R.anim.adapter_alpha2)
-            ) //动画2，出现;
-
-            //计算布局自适应时的高度
-            var layoutHeight = 0
-            for (i in 0 until linearLayout.childCount) {
-                layoutHeight += linearLayout.getChildAt(i).layoutParams.height
-            }
-            getValueAnimator(linearLayout, 0, layoutHeight).start() //展开动画
-        } else {
-            linearLayout.startAnimation(
-                    AnimationUtils.loadAnimation(baseApplication, R.anim.adapter_alpha1)
-            ) //动画1，消失;
-            val layoutHeight = linearLayout.height //获取布局的高度
-            getValueAnimator(linearLayout, layoutHeight, 0).start() //收起动画
-        }
-    }
-
-    /**
-     * 获取改变视图尺寸动画
+     * 获取改变控件尺寸动画
      *
      * @param view        需要改变高度的view
      * @param startHeight 动画前的高度
@@ -122,38 +52,7 @@ object LayoutUtil {
     }
 
     /**
-     * 伸缩布局，同时固定点击的item
-     *
-     * @param linearLayout 需要伸缩的linearLayout
-     * @param flag         伸或缩
-     * @param textView     子布局中的TextView
-     * @param recyclerView 需要回滚的recyclerView
-     * @param position     回滚的位置
-     */
-    fun expandLayout(
-            linearLayout: LinearLayout, flag: Boolean, textView: TextView,
-            recyclerView: RecyclerView, position: Int) {
-        if (flag) {
-            linearLayout.startAnimation(
-                    AnimationUtils.loadAnimation(baseApplication, R.anim.adapter_alpha2)
-            ) //动画2，出现;
-
-            //计算布局自适应时的高度
-            val layoutHeight = textView.lineHeight * (textView.lineCount + 1)
-            getValueAnimator(linearLayout, 0, layoutHeight, recyclerView, position)
-                    .start() //展开动画
-        } else {
-            linearLayout.startAnimation(
-                    AnimationUtils.loadAnimation(baseApplication, R.anim.adapter_alpha1)
-            ) //动画1，消失;
-            val layoutHeight = linearLayout.height //获取布局的高度
-            getValueAnimator(linearLayout, layoutHeight, 0, recyclerView, position)
-                    .start() //收起动画
-        }
-    }
-
-    /**
-     * 获取改变视图尺寸，同时固定点击的item的动画
+     * 获取改变控件尺寸，同时固定点击的item的动画
      *
      * @param view         需要改变高度的view
      * @param startHeight  动画前的高度
@@ -175,21 +74,114 @@ object LayoutUtil {
         }
         return valueAnimator
     }
+}
 
-    /**
-     * 旋转视图动画
-     *
-     * @param view 需要旋转的view
-     * @param from 动画前的旋转角度
-     * @param to   动画后的旋转角度
-     */
-    fun rotateExpandIcon(view: View, from: Float, to: Float) {
-        val valueAnimator = ValueAnimator.ofFloat(from, to)
-        valueAnimator.interpolator = DecelerateInterpolator() //先加速后减速的动画
-        //valueAnimator.duration = 300;//动画时间（默认就是300）
-        valueAnimator.addUpdateListener { //逐渐改变view的旋转角度
-            view.rotation = valueAnimator.animatedValue as Float
+/**
+ * 将px值转换为sp值
+ */
+fun Float.pxToSp(): Float = this / baseApplication.resources.displayMetrics.scaledDensity
+
+/**
+ * 将sp值转换为px值
+ */
+fun Float.spToPx(): Float = this * baseApplication.resources.displayMetrics.scaledDensity
+
+/**
+ * 获取控件宽度
+ *
+ * @return 宽度
+ */
+fun View.getRealWidth(): Int {
+    return LayoutUtil.getViewSize(this, true)
+}
+
+/**
+ * 获取控件高度
+ *
+ * @return 高度
+ */
+fun View.getRealHeight(): Int {
+    return LayoutUtil.getViewSize(this, false)
+}
+
+/**
+ * 设置控件宽度
+ *
+ * @param width 宽度
+ */
+fun View.setWidth(width: Int) {
+    layoutParams.width = width
+}
+
+/**
+ * 设置控件高度
+ *
+ * @param height 高度
+ */
+fun View.setHeight(height: Int) {
+    layoutParams.height = height
+}
+
+/**
+ * 伸缩布局
+ *
+ * @param flag 伸或缩
+ */
+fun LinearLayout.expandLayout(flag: Boolean) {
+    if (flag) {
+        //动画2，出现
+        startAnimation(AnimationUtils.loadAnimation(baseApplication, R.anim.adapter_alpha2))
+        //计算布局自适应时的高度
+        var layoutHeight = 0
+        for (i in 0 until childCount) {
+            layoutHeight += getChildAt(i).layoutParams.height
         }
-        valueAnimator.start()
+        LayoutUtil.getValueAnimator(this, 0, layoutHeight).start() //展开动画
+    } else {
+        //动画1，消失;
+        startAnimation(AnimationUtils.loadAnimation(baseApplication, R.anim.adapter_alpha1))
+        val layoutHeight = height //获取布局的高度
+        LayoutUtil.getValueAnimator(this, layoutHeight, 0).start() //收起动画
     }
+}
+
+/**
+ * 伸缩布局，同时固定点击的item
+ *
+ * @param flag         伸或缩
+ * @param textView     子布局中的TextView
+ * @param recyclerView 需要回滚的recyclerView
+ * @param position     回滚的位置
+ */
+fun LinearLayout.expandLayout(
+        flag: Boolean, textView: TextView, recyclerView: RecyclerView, position: Int) {
+    if (flag) {
+        //动画2，出现
+        startAnimation(AnimationUtils.loadAnimation(baseApplication, R.anim.adapter_alpha2))
+        //计算布局自适应时的高度
+        val layoutHeight = textView.lineHeight * (textView.lineCount + 1)
+        LayoutUtil.getValueAnimator(this, 0, layoutHeight, recyclerView, position)
+                .start() //展开动画
+    } else {//动画1，消失
+        startAnimation(AnimationUtils.loadAnimation(baseApplication, R.anim.adapter_alpha1))
+        val layoutHeight = height //获取布局的高度
+        LayoutUtil.getValueAnimator(this, layoutHeight, 0, recyclerView, position)
+                .start() //收起动画
+    }
+}
+
+/**
+ * 旋转控件动画
+ *
+ * @param from 动画前的旋转角度
+ * @param to   动画后的旋转角度
+ */
+fun View.rotateExpandIcon(from: Float, to: Float) {
+    val valueAnimator = ValueAnimator.ofFloat(from, to)
+    valueAnimator.interpolator = DecelerateInterpolator() //先加速后减速的动画
+    //valueAnimator.duration = 300;//动画时间（默认就是300）
+    valueAnimator.addUpdateListener { //逐渐改变view的旋转角度
+        rotation = valueAnimator.animatedValue as Float
+    }
+    valueAnimator.start()
 }

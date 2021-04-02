@@ -8,7 +8,9 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.navigation.foxizz.R
 import com.navigation.foxizz.activity.fragment.MainFragment
-import com.navigation.foxizz.util.LayoutUtil
+import com.navigation.foxizz.util.expandLayout
+import com.navigation.foxizz.util.rotateExpandIcon
+import com.navigation.foxizz.util.setHeight
 import kotlinx.android.synthetic.main.adapter_scheme_item.view.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.include_tv_end.view.*
@@ -56,12 +58,12 @@ class SchemeAdapter(private val mainFragment: MainFragment) :
 
         //根据保存的展开状态设置信息抽屉的高度、旋转角度和最大行数
         if (schemeItem.expandFlag) {
-            LayoutUtil.setViewHeight(holder.llInfoDrawer,
+            holder.llInfoDrawer.setHeight(
                     holder.tvDetailInfo.lineHeight * (holder.tvDetailInfo.lineCount + 1))
             holder.ibSchemeExpand.rotation = 180f
             holder.tvSimpleInfo.maxLines = 8
         } else {
-            LayoutUtil.setViewHeight(holder.llInfoDrawer, 0)
+            holder.llInfoDrawer.setHeight(0)
             holder.ibSchemeExpand.rotation = 0f
             holder.tvSimpleInfo.maxLines = 1
         }
@@ -86,8 +88,8 @@ class SchemeAdapter(private val mainFragment: MainFragment) :
             mainFragment.bt_middle.setText(R.string.middle_button3) //设置按钮为交通选择
             mainFragment.mBaiduRoutePlan.startMassTransitRoutePlan(position)
             mainFragment.schemeExpandFlag = 2 //设置方案布局为单个方案
-            LayoutUtil.expandLayout(mainFragment.ll_scheme_drawer, false) //收起方案抽屉
-            LayoutUtil.expandLayout(mainFragment.ll_scheme_info_layout, true) //展开方案信息布局
+            mainFragment.ll_scheme_drawer.expandLayout(false) //收起方案抽屉
+            mainFragment.ll_scheme_info_layout.expandLayout(true) //展开方案信息布局
         }
 
         //伸展按钮的点击事件
@@ -96,15 +98,15 @@ class SchemeAdapter(private val mainFragment: MainFragment) :
             val schemeItem = mainFragment.mBaiduRoutePlan.mSchemeList[position]
             if (schemeItem.expandFlag) { //收起
                 holder.tvSimpleInfo.maxLines = 1
-                LayoutUtil.expandLayout(holder.llInfoDrawer, false, holder.tvDetailInfo,
+                holder.llInfoDrawer.expandLayout(false, holder.tvDetailInfo,
                         mainFragment.recycler_scheme_result, position)
-                LayoutUtil.rotateExpandIcon(holder.ibSchemeExpand, 180f, 0f) //旋转伸展按钮
+                holder.ibSchemeExpand.rotateExpandIcon(180f, 0f) //旋转伸展按钮
                 schemeItem.expandFlag = false
             } else { //展开
                 holder.tvSimpleInfo.maxLines = 8
-                LayoutUtil.expandLayout(holder.llInfoDrawer, true, holder.tvDetailInfo,
+                holder.llInfoDrawer.expandLayout(true, holder.tvDetailInfo,
                         mainFragment.recycler_scheme_result, position)
-                LayoutUtil.rotateExpandIcon(holder.ibSchemeExpand, 0f, 180f) //旋转伸展按钮
+                holder.ibSchemeExpand.rotateExpandIcon(0f, 180f) //旋转伸展按钮
                 schemeItem.expandFlag = true
             }
         }

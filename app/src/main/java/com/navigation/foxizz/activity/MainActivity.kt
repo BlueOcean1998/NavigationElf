@@ -116,6 +116,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    //监听按键按下事件
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             isKeyDownFirst = true
@@ -129,7 +130,7 @@ class MainActivity : BaseActivity() {
             //如果是返回键且有先监听到按下
             if (keyCode == KeyEvent.KEYCODE_BACK && isKeyDownFirst) {
                 isKeyDownFirst = false
-                if (mainFragment.canBack()) { //如果可以返回
+                if (!mainFragment.searchLayoutFlag) { //如果搜索布局没有展开
                     mainFragment.backToUpperStory() //返回上一层
                     return false
                 }

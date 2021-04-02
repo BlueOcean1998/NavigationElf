@@ -116,18 +116,16 @@ object AvatarDataHelper {
      */
     fun cropImage(activity: Activity, data: Intent): Uri {
         //创建临时文件，Android11后必须使用公共目录
-        val cropImageFile = File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES).path, System.currentTimeMillis().toString())
-        try {
-            if (cropImageFile.exists()) cropImageFile.delete()
-            cropImageFile.createNewFile()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
+        val cropImagePath = File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "NavigationElf")
+        if (!cropImagePath.exists()) cropImagePath.mkdir()
+        val cropImageFile = File(cropImagePath, "crop_image.png")
+        if (cropImageFile.exists()) cropImageFile.delete()
+        cropImageFile.createNewFile()
         val cropImageUri = Uri.fromFile(cropImageFile)
 
         data.action = "com.android.camera.action.CROP" //设置intent类型为裁剪图片
-        data.putExtra(MediaStore.EXTRA_OUTPUT, cropImageUri) //设置临时文件url
+        data.putExtra(MediaStore.EXTRA_OUTPUT, cropImageUri) //设置临时文件uri
 
         //设置初始裁剪比例
         data.putExtra("aspectX", 1)

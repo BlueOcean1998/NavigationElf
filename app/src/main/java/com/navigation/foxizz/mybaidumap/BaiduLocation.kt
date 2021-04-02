@@ -86,8 +86,7 @@ class BaiduLocation(private val mainFragment: MainFragment) {
                         if (refreshSearchList) {
                             refreshSearchList = false
                             if (mainFragment.isHistorySearchResult)
-                                SearchDataHelper.initSearchData(mainFragment) //初始化搜索记录
-                            else mainFragment.mBaiduSearch.startSearch() //开始搜索（有bug，暂时不作此操作）                      ）
+                                SearchDataHelper.initSearchData(mainFragment) //初始化搜索记录                    ）
                         }
 
                         //移动视角并改变缩放等级

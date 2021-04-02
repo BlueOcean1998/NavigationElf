@@ -101,7 +101,7 @@ class SearchAdapter(private val mainFragment: MainFragment) : RecyclerView.Adapt
                 return@setOnClickListener
             }
             click(holder)
-            LayoutUtil.expandLayout(mainFragment.ll_search_info_layout, true) //展开详细信息布局
+            mainFragment.ll_search_info_layout.expandLayout(true) //展开详细信息布局
             mainFragment.infoFlag = 0 //设置信息状态为详细信息
             mainFragment.bt_middle.setText(R.string.middle_button1) //设置按钮为路线
 
@@ -142,7 +142,7 @@ class SearchAdapter(private val mainFragment: MainFragment) : RecyclerView.Adapt
             click(holder)
             mainFragment.infoFlag = 1 //设置信息状态为交通选择
             mainFragment.bt_middle.setText(R.string.middle_button2) //设置按钮为详细信息
-            LayoutUtil.expandLayout(mainFragment.ll_select_layout, true) //展开选择布局
+            mainFragment.ll_select_layout.expandLayout(true) //展开选择布局
             mainFragment.mBaiduRoutePlan.startRoutePlanSearch() //开始路线规划
         }
 
@@ -168,12 +168,13 @@ class SearchAdapter(private val mainFragment: MainFragment) : RecyclerView.Adapt
         //获取点击的item
         val position = holder.adapterPosition
         val searchItem = mainFragment.mBaiduSearch.mSearchList[position]
-        LayoutUtil.expandLayout(mainFragment.ll_search_layout, false) //收起搜索布局
+        mainFragment.searchLayoutFlag = false //设置搜索布局为收起
+        mainFragment.ll_search_layout.expandLayout(false) //收起搜索布局
         if (mainFragment.searchExpandFlag) { //如果搜索抽屉展开
             mainFragment.searchExpandFlag = false //设置搜索抽屉为收起
             mainFragment.expandSearchDrawer(false) //收起搜索抽屉
         }
-        LayoutUtil.expandLayout(mainFragment.ll_start_layout, true) //展开开始导航布局
+        mainFragment.ll_start_layout.expandLayout(true) //展开开始导航布局
 
         //设置终点坐标
         mainFragment.mBaiduRoutePlan.mEndLocation = searchItem.latLng

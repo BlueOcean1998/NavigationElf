@@ -27,8 +27,7 @@ import com.navigation.foxizz.lbm
 import com.navigation.foxizz.mybaidumap.*
 import com.navigation.foxizz.receiver.LocalReceiver
 import com.navigation.foxizz.receiver.SystemReceiver
-import com.navigation.foxizz.util.LayoutUtil
-import com.navigation.foxizz.util.showToast
+import com.navigation.foxizz.util.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import java.util.*
 
@@ -48,16 +47,15 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     //搜索相关
     lateinit var mBaiduSearch: BaiduSearch
+    var searchLayoutFlag = true //搜索布局展开状态
     var searchExpandFlag = false //搜索抽屉展开状态
+    var isHistorySearchResult = true //是否是搜索历史记录
     private lateinit var mSearchLayoutManager: StaggeredGridLayoutManager //搜索布局管理器
     lateinit var mSearchAdapter: SearchAdapter //搜索适配器
-    var isHistorySearchResult = true //是否是搜索历史记录
 
     //路线规划相关
     lateinit var mBaiduRoutePlan: BaiduRoutePlan
-    var mRoutePlanSelect = 0
-
-    //方案布局
+    var mRoutePlanSelect = 0 //交通工具选择
     var schemeExpandFlag = 0 //方案布局展开状态（0：未展开，1：方案列表，2：单个方案）
     lateinit var mSchemeLayoutManager: StaggeredGridLayoutManager //方案布局管理器
     lateinit var mSchemeAdapter: SchemeAdapter //方案适配器
@@ -168,6 +166,16 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         */
     }
 
+    //初始化偏好设置
+    private fun initSettings() {
+        setMapType()
+        setAngle3D()
+        setMapRotation()
+        setScaleControl()
+        setZoomControls()
+        setCompass()
+    }
+
     /**
      * 设置地图类型
      */
@@ -231,16 +239,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 dsp.getBoolean(Constants.KEY_COMPASS, true)
     }
 
-    //初始化偏好设置
-    private fun initSettings() {
-        setMapType()
-        setAngle3D()
-        setMapRotation()
-        setScaleControl()
-        setZoomControls()
-        setCompass()
-    }
-
     //初始化系统广播接收器
     private fun initSystemReceiver() {
         mSystemReceiver = SystemReceiver(requireActivity())
@@ -260,12 +258,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     //初始化自定义控件
     private fun initView() {
         //设置选项布局、搜索结果抽屉、详细信息、方案抽屉、方案信息布局、开始导航布局初始高度为0
-        LayoutUtil.setViewHeight(ll_select_layout, 0)
-        LayoutUtil.setViewHeight(ll_search_drawer, 0)
-        LayoutUtil.setViewHeight(ll_search_info_layout, 0)
-        LayoutUtil.setViewHeight(ll_scheme_drawer, 0)
-        LayoutUtil.setViewHeight(ll_scheme_info_layout, 0)
-        LayoutUtil.setViewHeight(ll_start_layout, 0)
+        ll_select_layout.setHeight(0)
+        ll_search_drawer.setHeight(0)
+        ll_search_info_layout.setHeight(0)
+        ll_scheme_drawer.setHeight(0)
+        ll_scheme_info_layout.setHeight(0)
+        ll_start_layout.setHeight(0)
 
         //设置搜索、搜索信息、方案加载不可见
         include_search_loading.visibility = View.GONE
@@ -394,11 +392,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         //路线规划、详细信息、交通选择切换按钮的点击事件
         bt_middle.setOnClickListener {
             if (schemeExpandFlag != 0) {//如果方案布局已展开
-                LayoutUtil.expandLayout(ll_select_layout, true) //展开选择布局
+                ll_select_layout.expandLayout(true) //展开选择布局
                 if (schemeExpandFlag == 1)//如果方案布局为方案列表
-                    LayoutUtil.expandLayout(ll_scheme_drawer, false) //收起方案抽屉
+                    ll_scheme_drawer.expandLayout(false) //收起方案抽屉
                 if (schemeExpandFlag == 2) //如果方案布局为单个方案
-                    LayoutUtil.expandLayout(ll_scheme_info_layout, false) //收起方案信息布局
+                    ll_scheme_info_layout.expandLayout(false) //收起方案信息布局
                 schemeExpandFlag = 0 //设置方案布局状态为收起
                 infoFlag = 1 //设置信息状态为交通选择
                 bt_middle.setText(R.string.middle_button2) //设置按钮为详细信息
@@ -407,14 +405,14 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             if (infoFlag == 0) { //如果显示为详细信息
                 infoFlag = 1 //设置信息状态为详细信息
                 bt_middle.setText(R.string.middle_button2) //设置按钮为详细信息
-                LayoutUtil.expandLayout(ll_select_layout, true) //展开选择布局
-                LayoutUtil.expandLayout(ll_search_info_layout, false) //收起详细信息布局
+                ll_select_layout.expandLayout(true) //展开选择布局
+                ll_search_info_layout.expandLayout(false) //收起详细信息布局
                 mBaiduRoutePlan.startRoutePlanSearch() //开始路线规划
             } else { //如果显示为详细信息或交通选择
                 infoFlag = 0 //设置信息状态为路线
                 bt_middle.setText(R.string.middle_button1) //设置按钮为路线
-                LayoutUtil.expandLayout(ll_select_layout, false) //收起选择布局
-                LayoutUtil.expandLayout(ll_search_info_layout, true) //展开详细信息布局
+                ll_select_layout.expandLayout(false) //收起选择布局
+                ll_search_info_layout.expandLayout(true) //展开详细信息布局
             }
         }
 
@@ -493,10 +491,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
         //设置搜索抽屉的结果列表、详细信息布局的拖动布局、路线方案抽屉的结果列表、路线方案信息的拖动布局的高度
-        LayoutUtil.setViewHeight(recycler_search_result, mBodyLength / 2)
-        LayoutUtil.setViewHeight(sv_search_info, mBodyLength / 4)
-        LayoutUtil.setViewHeight(recycler_scheme_result, 2 * mBodyLength / 5)
-        LayoutUtil.setViewHeight(sv_scheme_info, mBodyLength / 4)
+        recycler_search_result.setHeight(mBodyLength / 2)
+        sv_search_info.setHeight(mBodyLength / 4)
+        recycler_scheme_result.setHeight(2 * mBodyLength / 5)
+        sv_scheme_info.setHeight(mBodyLength / 4)
     }
 
     /**
@@ -505,9 +503,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
      * @param flag 伸或缩
      */
     fun expandSearchDrawer(flag: Boolean) {
-        LayoutUtil.expandLayout(ll_search_drawer, flag)
-        if (flag) LayoutUtil.rotateExpandIcon(ib_search_expand, 0f, 180f) //旋转伸展按钮
-        else LayoutUtil.rotateExpandIcon(ib_search_expand, 180f, 0f) //旋转伸展按钮
+        ll_search_drawer.expandLayout(flag)
+        if (flag) ib_search_expand.rotateExpandIcon(0f, 180f) //旋转伸展按钮
+        else ib_search_expand.rotateExpandIcon(180f, 0f) //旋转伸展按钮
     }
 
     /*
@@ -523,31 +521,22 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     fun backToUpperStory() {
         if (schemeExpandFlag == 2) { //如果方案布局为单个方案
             schemeExpandFlag = 1 //设置方案布局状态为方案列表
-            LayoutUtil.expandLayout(ll_scheme_drawer, true) //展开方案抽屉
-            LayoutUtil.expandLayout(ll_scheme_info_layout, false) //收起方案信息布局
+            ll_scheme_drawer.expandLayout(true) //展开方案抽屉
+            ll_scheme_info_layout.expandLayout(false) //收起方案信息布局
         } else {
-            LayoutUtil.expandLayout(ll_select_layout, false) //收起选择布局
-            LayoutUtil.expandLayout(ll_search_layout, true) //展开搜索布局
+            ll_select_layout.expandLayout(false) //收起选择布局
+            searchLayoutFlag = true //设置搜索布局为展开
+            ll_search_layout.expandLayout(true) //展开搜索布局
             if (!searchExpandFlag) { //如果搜索抽屉收起
                 searchExpandFlag = true //设置搜索抽屉为收起
                 expandSearchDrawer(true) //展开搜索抽屉
             }
-            LayoutUtil.expandLayout(ll_search_info_layout, false) //收起详细信息布局
-            LayoutUtil.expandLayout(ll_start_layout, false) //收起开始导航布局
+            ll_search_info_layout.expandLayout(false) //收起详细信息布局
+            ll_start_layout.expandLayout(false) //收起开始导航布局
             if (schemeExpandFlag == 1) { //如果方案布局为方案列表
                 schemeExpandFlag = 0 //设置方案布局为收起
-                LayoutUtil.expandLayout(ll_scheme_drawer, false) //收起方案抽屉
+                ll_scheme_drawer.expandLayout(false) //收起方案抽屉
             }
         }
-    }
-
-    /**
-     * 判断是否可以返回上一层
-     */
-    fun canBack(): Boolean {
-        return !(ll_select_layout.height == 0
-                && ll_search_layout.height != 0
-                && ll_search_info_layout.height == 0
-                && ll_start_layout.height == 0)
     }
 }

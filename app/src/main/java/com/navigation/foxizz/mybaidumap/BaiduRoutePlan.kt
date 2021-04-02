@@ -89,8 +89,8 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
                         if (view != null) {
                             val infoDrawer = view.ll_info_drawer
                             val schemeExpand = view.ib_scheme_expand
-                            LayoutUtil.expandLayout(infoDrawer, false)
-                            LayoutUtil.rotateExpandIcon(schemeExpand, 180f, 0f) //旋转伸展按钮
+                            infoDrawer.expandLayout(false)
+                            schemeExpand.rotateExpandIcon(180f, 0f) //旋转伸展按钮
                             mSchemeList[i].expandFlag = false
                             mainFragment.mSchemeAdapter.updateList() //通知adapter更新
                         }
@@ -105,10 +105,10 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
 
                 mainFragment.infoFlag = 2 //设置信息状态为交通选择
                 mainFragment.bt_middle.setText(R.string.middle_button3) //设置按钮为交通选择
-                LayoutUtil.expandLayout(mainFragment.ll_select_layout, false) //收起选择布局
+                mainFragment.ll_select_layout.expandLayout(false) //收起选择布局
                 mainFragment.schemeExpandFlag = 1 //设置方案布局为方案列表
-                LayoutUtil.setViewHeight(mainFragment.ll_scheme_info_layout, 0)//设置方案信息布局的高度为0
-                LayoutUtil.expandLayout(mainFragment.ll_scheme_drawer, true) //展开方案抽屉
+                mainFragment.ll_scheme_info_layout.setHeight(0)//设置方案信息布局的高度为0
+                mainFragment.ll_scheme_drawer.expandLayout(true) //展开方案抽屉
             }
         }
     }
@@ -185,9 +185,9 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
                             //每一段的所有信息
                             for (transitStep in transitSteps) {
                                 //只收集巴士和长途巴士的信息
-                                if (transitStep.vehileType ==  //巴士
+                                if (transitStep.vehileType == //巴士
                                         StepVehicleInfoType.ESTEP_BUS
-                                        || transitStep.vehileType ==  //长途巴士
+                                        || transitStep.vehileType == //长途巴士
                                         StepVehicleInfoType.ESTEP_COACH) {
                                     if (transitStep.busInfo != null) { //巴士
                                         simpleInfo.append("—").append(transitStep.busInfo.name)
