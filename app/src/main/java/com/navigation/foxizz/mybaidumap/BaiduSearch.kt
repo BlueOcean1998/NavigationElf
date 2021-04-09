@@ -23,6 +23,11 @@ import java.util.*
  * 搜索模块
  */
 class BaiduSearch(private val mainFragment: MainFragment) {
+    init {
+        initSugSearch()
+        initPoiSearch()
+    }
+
     companion object {
         const val TO_NEARBY_SEARCH_MIN_NUM = 64 //触发周边搜索需要的最小目标点数量
         const val NEARBY_SEARCH_DISTANCE = 5 * 1000 //周边搜索的距离
@@ -80,7 +85,7 @@ class BaiduSearch(private val mainFragment: MainFragment) {
         ThreadUtil.execute {
             var searchCity = mainFragment.mBaiduLocation.mCity
             //如果存储的城市不为空，则换用存储的城市
-            val saveCity = SPHelper.getString(Constants.DESTINATION_CITY, "")
+            val saveCity = SPUtil.getString(Constants.DESTINATION_CITY)
             if (saveCity.isNotEmpty()) searchCity = saveCity
             if (searchCity.isEmpty()) {
                 mainFragment.requestPermission() //申请权限，获得权限后定位
@@ -160,14 +165,6 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                         .pageCapacity(PAGE_CAPACITY))
             }
         }
-    }
-
-    /*
-     * 初始化搜索
-     */
-    fun initSearch() {
-        initSugSearch()
-        initPoiSearch()
     }
 
     //初始化Sug搜索
@@ -378,7 +375,7 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                             if (detailInfo.telephone.isNotEmpty()) {
                                 try {
                                     otherInfo.append(mainFragment.getString(R.string.phone_number)).append(detailInfo.telephone).append("\n")
-                                } catch (ignored: Exception) {
+                                } catch (e: Exception) {
                                 }
                             }
 
@@ -400,7 +397,7 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                                             isInShopHour = 1
                                         }
                                     }
-                                } catch (ignored: Exception) {
+                                } catch (e: Exception) {
                                     isInShopHour = -1 //未知
                                 }
                                 if (isInShopHour == 1)

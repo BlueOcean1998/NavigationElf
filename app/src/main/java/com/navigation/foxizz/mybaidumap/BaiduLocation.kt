@@ -12,8 +12,8 @@ import com.navigation.foxizz.BaseApplication.Companion.baseApplication
 import com.navigation.foxizz.R
 import com.navigation.foxizz.activity.fragment.MainFragment
 import com.navigation.foxizz.data.Constants
-import com.navigation.foxizz.data.SPHelper
 import com.navigation.foxizz.data.SearchDataHelper
+import com.navigation.foxizz.util.SPUtil
 import com.navigation.foxizz.util.showToast
 
 /**
@@ -24,14 +24,15 @@ class BaiduLocation(private val mainFragment: MainFragment) {
         private const val MAX_TIME = 8 //最大请求次数
     }
 
-    lateinit var mLocationClient: LocationClient
+    //定位服务的客户端。宿主程序在客户端声明此类，并调用，目前只支持在主线程中启动
+    var mLocationClient = LocationClient(baseApplication)
     lateinit var mLocData: MyLocationData //地址信息
     var mLatLng: LatLng? = null //坐标
     var mLocType = 0 //定位结果
     var mRadius = 0f //精度半径
     var mLatitude = 0.0 //纬度
     var mLongitude = 0.0 //经度
-    lateinit var mCity: String //所在城市
+    var mCity = "" //所在城市
 
     var requestLocationTime = 0//请求定位的次数
     var refreshSearchList = false//是否刷新搜索列表
@@ -42,9 +43,6 @@ class BaiduLocation(private val mainFragment: MainFragment) {
      */
     fun initLocationOption() {
         isFirstLoc = true //首次定位
-
-        //定位服务的客户端。宿主程序在客户端声明此类，并调用，目前只支持在主线程中启动
-        mLocationClient = LocationClient(baseApplication)
 
         //定位监听
         mLocationClient.registerLocationListener(object : BDAbstractLocationListener() {
@@ -70,16 +68,14 @@ class BaiduLocation(private val mainFragment: MainFragment) {
                     //location.addrStr.showToast()
 
                     //到新城市时
-                    if (mCity.isNotEmpty()
-                            && mCity !=
-                            SPHelper.getString(Constants.MY_CITY, "")) {
+                    if (mCity.isNotEmpty() && mCity != SPUtil.getString(Constants.MY_CITY)) {
                         /*
                         //启动下载离线地图服务
                         OfflineMapService.startService(
                                 mainFragment.requireActivity(), mainFragment.mBaiduLocation.mCity
                         )
                         */
-                        SPHelper.putString(Constants.MY_CITY, mCity) //保存新城市
+                        SPUtil.put(Constants.MY_CITY, mCity) //保存新城市
                     }
                     if (isFirstLoc) {
                         isFirstLoc = false

@@ -49,7 +49,7 @@ object AvatarDataHelper {
             }
             val bytes = outputStream.toByteArray()
             saveAvatar(bytes, userId)
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
         } finally {
             inputStream?.close()
             outputStream?.close()
@@ -76,7 +76,7 @@ object AvatarDataHelper {
                     .url(Constants.UPLOAD_AVATAR_URL)
                     .post(requestBody).build()
             response = client.newCall(request).execute()
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
         } finally {
             response?.close()
         }
@@ -144,7 +144,7 @@ object AvatarDataHelper {
      *
      * @return 位图
      */
-    fun getBitmapAvatar(userId: String): Bitmap {
+    fun getBitmapAvatar(userId: String): Bitmap? {
         val avatarBytes = getAvatar(userId)
         return BitmapFactory.decodeByteArray(avatarBytes, 0, avatarBytes.size)
     }
@@ -200,7 +200,7 @@ object AvatarDataHelper {
                 db.execSQL("update User set avatar = ? where user_id = ?",
                         arrayOf<Any>(avatarBytes, userId))
             }
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
         }
     }
 
@@ -219,7 +219,7 @@ object AvatarDataHelper {
                     }
                 }
             }
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
         }
         return "".toByteArray()
     }

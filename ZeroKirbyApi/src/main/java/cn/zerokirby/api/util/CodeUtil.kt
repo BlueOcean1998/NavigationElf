@@ -15,7 +15,7 @@ class CodeUtil {
      *
      * @return 验证码
      */
-    lateinit var code: String //生成的验证码
+    var code = ""//生成的验证码
 
     private var paddingLeft = 0
     private var paddingTop = 0

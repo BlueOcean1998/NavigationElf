@@ -37,10 +37,9 @@ import java.util.*
 class MainFragment : Fragment(R.layout.fragment_main) {
     //地图控件
     lateinit var mBaiduMap: BaiduMap
-    private lateinit var mUiSettings: UiSettings
 
     //方向传感器
-    lateinit var mOrientationListener: MyOrientationListener
+    val mOrientationListener = MyOrientationListener()
 
     //定位相关
     lateinit var mBaiduLocation: BaiduLocation
@@ -50,14 +49,16 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     var searchLayoutFlag = true //搜索布局展开状态
     var searchExpandFlag = false //搜索抽屉展开状态
     var isHistorySearchResult = true //是否是搜索历史记录
-    private lateinit var mSearchLayoutManager: StaggeredGridLayoutManager //搜索布局管理器
+    private var mSearchLayoutManager = StaggeredGridLayoutManager(
+            1, StaggeredGridLayoutManager.VERTICAL) //搜索布局管理器
     lateinit var mSearchAdapter: SearchAdapter //搜索适配器
 
     //路线规划相关
     lateinit var mBaiduRoutePlan: BaiduRoutePlan
     var mRoutePlanSelect = 0 //交通工具选择
     var schemeExpandFlag = 0 //方案布局展开状态（0：未展开，1：方案列表，2：单个方案）
-    lateinit var mSchemeLayoutManager: StaggeredGridLayoutManager //方案布局管理器
+    var mSchemeLayoutManager = StaggeredGridLayoutManager(
+            1, StaggeredGridLayoutManager.VERTICAL) //方案布局管理器
     lateinit var mSchemeAdapter: SchemeAdapter //方案适配器
 
     //导航相关
@@ -84,9 +85,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         mBaiduLocation = BaiduLocation(this) //初始化定位模块
         mBaiduSearch = BaiduSearch(this) //初始化搜索模块
-        mBaiduSearch.initSearch() //初始化搜索目标信息
         mBaiduRoutePlan = BaiduRoutePlan(this) //初始化路线规划模块
-        mBaiduRoutePlan.initRoutePlanSearch() //初始化路线规划
         mBaiduNavigation = BaiduNavigation(this) //初始化导航模块
 
         requestPermission() //申请权限，获得权限后定位
@@ -136,7 +135,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun initMap() {
         //获取地图控件引用
         mBaiduMap = map_view.map
-        mUiSettings = mBaiduMap.uiSettings
 
         //配置定位图层显示方式，使用默认的定位图标，设置精确度圆的填充色和边框色
         //LocationMode定位模式有三种：普通模式，跟随模式，罗盘模式，在这使用普通模式
@@ -180,7 +178,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
      * 设置地图类型
      */
     fun setMapType() {
-        when (SPHelper.getString(Constants.MAP_TYPE, Constants.STANDARD_MAP)) {
+        when (SPUtil.getString(Constants.MAP_TYPE, Constants.STANDARD_MAP)) {
             Constants.STANDARD_MAP -> {
                 if (mBaiduMap.mapType != BaiduMap.MAP_TYPE_NORMAL)
                     mBaiduMap.mapType = BaiduMap.MAP_TYPE_NORMAL
@@ -203,7 +201,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
      * 设置是否启用3D视角
      */
     fun setAngle3D() {
-        mUiSettings.isOverlookingGesturesEnabled =
+        mBaiduMap.uiSettings.isOverlookingGesturesEnabled =
                 dsp.getBoolean(Constants.KEY_ANGLE_3D, false)
     }
 
@@ -211,7 +209,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
      * 设置是否允许地图旋转
      */
     fun setMapRotation() {
-        mUiSettings.isRotateGesturesEnabled =
+        mBaiduMap.uiSettings.isRotateGesturesEnabled =
                 dsp.getBoolean(Constants.KEY_MAP_ROTATION, false)
     }
 
@@ -235,7 +233,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
      * 设置是否显示指南针
      */
     fun setCompass() {
-        mUiSettings.isCompassEnabled =
+        mBaiduMap.uiSettings.isCompassEnabled =
                 dsp.getBoolean(Constants.KEY_COMPASS, true)
     }
 
@@ -271,15 +269,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         include_scheme_loading.visibility = View.GONE
 
         mSearchAdapter = SearchAdapter(this) //初始化搜索适配器
-        mSearchLayoutManager = StaggeredGridLayoutManager(
-                1, StaggeredGridLayoutManager.VERTICAL
-        ) //搜索布局行数为1
         recycler_search_result.adapter = mSearchAdapter //设置搜索适配器
         recycler_search_result.layoutManager = mSearchLayoutManager //设置搜索布局
+
         mSchemeAdapter = SchemeAdapter(this) //初始化方案适配器
-        mSchemeLayoutManager = StaggeredGridLayoutManager(
-                1, StaggeredGridLayoutManager.VERTICAL
-        ) //方案布局行数为1
         recycler_scheme_result.adapter = mSchemeAdapter //设置方案适配器
         recycler_scheme_result.layoutManager = mSchemeLayoutManager //设置方案布局
 
@@ -431,7 +424,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     //初始化方向传感器
     private fun initMyDirectionSensor() {
         //方向传感器
-        mOrientationListener = MyOrientationListener()
         mOrientationListener.setOnOrientationListener(object : MyOrientationListener.OnOrientationListener {
             override fun onOrientationChanged(x: Float) {
                 //更新方向

@@ -17,8 +17,8 @@ import cn.zerokirby.api.data.UserDataHelper
 import cn.zerokirby.api.util.CodeUtil
 import com.navigation.foxizz.R
 import com.navigation.foxizz.data.Constants
-import com.navigation.foxizz.data.SPHelper
 import com.navigation.foxizz.lbm
+import com.navigation.foxizz.util.SPUtil
 import com.navigation.foxizz.util.SettingUtil
 import com.navigation.foxizz.util.ThreadUtil
 import com.navigation.foxizz.util.showToast
@@ -45,14 +45,13 @@ class LoginRegisterActivity : AppCompatActivity() {
     private var username = "" //用户名
     private var password = "" //密码
     private var verify = "" //输入框里的验证码
-    private lateinit var verifyCode: String //验证码
-    private lateinit var mCodeUtil: CodeUtil //验证码生成工具
+    private var verifyCode = "" //验证码
+    private var mCodeUtil = CodeUtil() //验证码生成工具
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_register)
 
-        mCodeUtil = CodeUtil()
         initView() //初始化控件
 
         //恢复输入框中的信息
@@ -161,7 +160,7 @@ class LoginRegisterActivity : AppCompatActivity() {
                 var status = 2
                 try {
                     status = jsonObject.getInt("Status")
-                } catch (ignored: Exception) {
+                } catch (e: Exception) {
                 }
 
                 //生成登录或注册结果提示信息
@@ -233,7 +232,7 @@ class LoginRegisterActivity : AppCompatActivity() {
     private fun setUsernameAndPassword() {
         val userId = UserDataHelper.loginUserId
         val user: User = UserDataHelper.getUser(userId)
-        if (SPHelper.getBoolean(Constants.REMEMBER_USERNAME, false)) {
+        if (SPUtil.getBoolean(Constants.REMEMBER_USERNAME, false)) {
             username = user.username
             et_username.setText(username)
             cb_remember_username.isChecked = true
@@ -241,7 +240,7 @@ class LoginRegisterActivity : AppCompatActivity() {
         } else {
             cb_remember_password.isEnabled = false
         }
-        if (SPHelper.getBoolean(Constants.REMEMBER_PASSWORD, false)) {
+        if (SPUtil.getBoolean(Constants.REMEMBER_PASSWORD, false)) {
             password = user.password
             et_password.setText(password)
             cb_remember_password.isChecked = true
@@ -266,8 +265,8 @@ class LoginRegisterActivity : AppCompatActivity() {
     //重设是否记住账号密码
     private fun rememberUsernameAndPassword() {
         val userId = UserDataHelper.loginUserId
-        SPHelper.putBoolean(Constants.REMEMBER_USERNAME, cb_remember_username.isChecked)
-        SPHelper.putBoolean(Constants.REMEMBER_PASSWORD, cb_remember_password.isChecked)
+        SPUtil.put(Constants.REMEMBER_USERNAME, cb_remember_username.isChecked)
+        SPUtil.put(Constants.REMEMBER_PASSWORD, cb_remember_password.isChecked)
         if (!cb_remember_username.isChecked) {
             UserDataHelper.updateUser("username", "", userId)
         }

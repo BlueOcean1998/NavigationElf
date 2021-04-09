@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.include_tv_end.view.*
  */
 class SchemeAdapter(private val mainFragment: MainFragment) :
         RecyclerView.Adapter<SchemeAdapter.ViewHolder>() {
-    private var clickTime: Long = 0
+    private var clickTime = 0L
 
     //设置item中的View
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

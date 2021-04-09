@@ -12,8 +12,8 @@ import kotlin.math.abs
  * 方向传感器
  */
 class MyOrientationListener : SensorEventListener {
-    private lateinit var mSensorManager: SensorManager
-    private lateinit var mSensor: Sensor
+    private val mSensorManager = baseApplication.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+    private val mSensor = mSensorManager.getDefaultSensor(Sensor.REPORTING_MODE_SPECIAL_TRIGGER)
     private lateinit var mOnOrientationListener: OnOrientationListener
     var mLastX = 0f //方向角度
 
@@ -40,9 +40,6 @@ class MyOrientationListener : SensorEventListener {
      * 开始方向传感
      */
     fun start() {
-        mSensorManager = baseApplication.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        //获得方向传感器
-        mSensor = mSensorManager.getDefaultSensor(Sensor.REPORTING_MODE_SPECIAL_TRIGGER)
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_UI)
     }
 

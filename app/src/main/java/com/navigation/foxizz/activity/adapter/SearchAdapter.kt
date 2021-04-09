@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.include_tv_end.view.*
  * 搜索到的信息列表的适配器
  */
 class SearchAdapter(private val mainFragment: MainFragment) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
-    private var clickTime: Long = 0
+    private var clickTime = 0L
 
     //设置item中的View
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

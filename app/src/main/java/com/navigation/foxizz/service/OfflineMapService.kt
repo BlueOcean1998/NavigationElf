@@ -15,10 +15,10 @@ import com.baidu.mapapi.map.offline.MKOfflineMap
 import com.navigation.foxizz.R
 import com.navigation.foxizz.activity.MainActivity
 import com.navigation.foxizz.data.Constants
-import com.navigation.foxizz.data.SPHelper
 import com.navigation.foxizz.util.AppUtil
 import com.navigation.foxizz.util.CityUtil
 import com.navigation.foxizz.util.NetworkUtil
+import com.navigation.foxizz.util.SPUtil
 
 /*
 * 下载离线地图服务
@@ -117,10 +117,10 @@ class OfflineMapService : Service() {
         Log.d("Foxizz_Test", "cityID=$cityID")
         if (cityID != 0) {
             //mkOfflineMap.remove(cityID);
-            //SPHelper.putString(Constants.OFFLINE_CITIES, "");
+            //SPUtil.put(Constants.OFFLINE_CITIES, "");
             if (mkOfflineMap.start(cityID)) { //开始下载
                 //限制离线地图城市数量
-                var offlineCities = SPHelper.getString(Constants.OFFLINE_CITIES, "")
+                var offlineCities = SPUtil.getString(Constants.OFFLINE_CITIES, "")
                 Log.d("Foxizz_Test", "oldOfflineCities=$offlineCities")
                 if (offlineCities.isNotEmpty()) {
                     for (offlineCity in offlineCities.split(" ")) {
@@ -134,7 +134,7 @@ class OfflineMapService : Service() {
                     mkOfflineMap.remove(offlineCity.toInt())
                     offlineCities = offlineCities.replaceFirst(offlineCity, "").trim()
                 }
-                SPHelper.putString(Constants.OFFLINE_CITIES, offlineCities)
+                SPUtil.put(Constants.OFFLINE_CITIES, offlineCities)
                 Log.d("Foxizz_Test", "newOfflineCities=$offlineCities")
             } else {
                 mkOfflineMap.update(cityID) //更新离线地图

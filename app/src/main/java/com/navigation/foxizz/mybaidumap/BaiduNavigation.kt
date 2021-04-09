@@ -38,7 +38,21 @@ import java.util.*
  * 导航模块
  */
 class BaiduNavigation(private val mainFragment: MainFragment) {
-    private lateinit var loadingProgress: ProgressDialog //加载弹窗
+    init {
+        initProgressDialog() //初始化加载弹窗
+
+        //初始化驾车导航引擎
+        if (NetworkUtil.isNetworkConnected) { //有网络连接
+            initDriveNavigateHelper()
+        }
+    }
+
+    companion object {
+        private var hasInitDriveNavigate = false //驾车导航是否已初始化
+        private var enableDriveNavigate = false //是否可以进行驾车导航
+    }
+
+    private lateinit var mLoadingProgress: ProgressDialog //加载弹窗
 
     /**
      * 初始化驾车导航引擎
@@ -73,10 +87,10 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
 
     //初始化加载弹窗
     private fun initProgressDialog() {
-        loadingProgress = ProgressDialog(mainFragment.requireActivity())
-        loadingProgress.setTitle(R.string.hint)
-        loadingProgress.setMessage(mainFragment.getString(R.string.route_plan_please_wait))
-        loadingProgress.setCancelable(false)
+        mLoadingProgress = ProgressDialog(mainFragment.requireActivity())
+        mLoadingProgress.setTitle(R.string.hint)
+        mLoadingProgress.setMessage(mainFragment.getString(R.string.route_plan_please_wait))
+        mLoadingProgress.setCancelable(false)
     }
 
     //初始化语音合成模块
@@ -183,11 +197,11 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
                     override fun handleMessage(msg: Message) {
                         when (msg.what) {
                             IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_START ->
-                                loadingProgress.show()
+                                mLoadingProgress.show()
                             IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_SUCCESS ->
-                                loadingProgress.dismiss()
+                                mLoadingProgress.dismiss()
                             IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_FAILED -> {
-                                loadingProgress.dismiss()
+                                mLoadingProgress.dismiss()
                                 R.string.drive_route_plan_fail.showToast()
                             }
                             IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_TO_NAVI ->
@@ -244,16 +258,16 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
         walkParam.extraNaviMode(0) //普通步行导航
         WalkNavigateHelper.getInstance().routePlanWithRouteNode(walkParam, object : IWRoutePlanListener {
             override fun onRoutePlanStart() {
-                loadingProgress.show()
+                mLoadingProgress.show()
             }
 
             override fun onRoutePlanSuccess() {
-                loadingProgress.dismiss()
+                mLoadingProgress.dismiss()
                 WNaviGuideActivity.startActivity(mainFragment.requireActivity())
             }
 
             override fun onRoutePlanFail(error: WalkRoutePlanError) {
-                loadingProgress.dismiss()
+                mLoadingProgress.dismiss()
                 R.string.walk_route_plan_fail.showToast()
             }
         })
@@ -271,32 +285,18 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
                 .endNodeInfo(bikeEndNode)
         BikeNavigateHelper.getInstance().routePlanWithRouteNode(bikeParam, object : IBRoutePlanListener {
             override fun onRoutePlanStart() {
-                loadingProgress.show()
+                mLoadingProgress.show()
             }
 
             override fun onRoutePlanSuccess() {
-                loadingProgress.dismiss()
+                mLoadingProgress.dismiss()
                 BNaviGuideActivity.startActivity(mainFragment.requireActivity())
             }
 
             override fun onRoutePlanFail(bikeRoutePlanError: BikeRoutePlanError) {
-                loadingProgress.dismiss()
+                mLoadingProgress.dismiss()
                 R.string.bike_route_plan_fail.showToast()
             }
         })
-    }
-
-    companion object {
-        private var hasInitDriveNavigate = false //驾车导航是否已初始化
-        private var enableDriveNavigate = false //是否可以进行驾车导航
-    }
-
-    init {
-        initProgressDialog() //初始化加载弹窗
-
-        //初始化驾车导航引擎
-        if (NetworkUtil.isNetworkConnected) { //有网络连接
-            initDriveNavigateHelper()
-        }
     }
 }

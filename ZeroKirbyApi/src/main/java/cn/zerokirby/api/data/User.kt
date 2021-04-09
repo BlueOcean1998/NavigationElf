@@ -12,7 +12,7 @@ data class User(
         var display: String = "", //显示信息
         var model: String = "", //型号
         var brand: String = "", //品牌
-        var registerTime: Long = 0, //注册时间
-        var lastUse: Long = 0, //上次使用时间
-        var lastSync: Long = 0, //上次同步时间
+        var registerTime: Long = 0L, //注册时间
+        var lastUse: Long = 0L, //上次使用时间
+        var lastSync: Long = 0L, //上次同步时间
 )

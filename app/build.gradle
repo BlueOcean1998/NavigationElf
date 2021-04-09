@@ -1,10 +1,14 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 28
     buildToolsVersion "29.0.3"
+
+    kotlinOptions {
+        jvmTarget = 1.8
+    }
 
     defaultConfig {
         applicationId "com.navigation.foxizz"

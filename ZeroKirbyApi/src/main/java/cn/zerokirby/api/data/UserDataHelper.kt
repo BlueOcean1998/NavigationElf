@@ -27,7 +27,7 @@ object UserDataHelper {
                         SystemUtil.systemModel,
                         SystemUtil.deviceBrand))
             }
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
         }
     }
 
@@ -63,7 +63,7 @@ object UserDataHelper {
             response = client.newCall(request).execute() //等待接收返回数据
             val responseData = response.body?.string() ?: "" //将得到的数据转为String类型
             JSONObject(responseData)
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
             JSONObject()
         } finally {
             response?.close()
@@ -94,7 +94,7 @@ object UserDataHelper {
                 user.registerTime = System.currentTimeMillis()
             }
             login(user) //更新用户数据库
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
         }
     }
 
@@ -118,7 +118,7 @@ object UserDataHelper {
                         }
                     }
                 }
-            } catch (ignored: Exception) {
+            } catch (e: Exception) {
             }
             return "0"
         }
@@ -142,7 +142,7 @@ object UserDataHelper {
                         )
                 )
             }
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
         }
     }
 
@@ -183,7 +183,7 @@ object UserDataHelper {
                     }
                 }
             }
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
         }
         return user
     }
@@ -200,7 +200,7 @@ object UserDataHelper {
                 db.execSQL("update User set $column = ? where user_id = ?",
                         arrayOf(value, userId))
             }
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
         }
     }
 }

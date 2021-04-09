@@ -13,11 +13,11 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.navigation.foxizz.R
 import com.navigation.foxizz.data.Constants
-import com.navigation.foxizz.data.SPHelper
 import com.navigation.foxizz.data.SearchDataHelper
 import com.navigation.foxizz.imm
 import com.navigation.foxizz.lbm
 import com.navigation.foxizz.util.CityUtil
+import com.navigation.foxizz.util.SPUtil
 import com.navigation.foxizz.util.showToast
 import kotlinx.android.synthetic.main.activity_settings.*
 import java.util.*
@@ -41,9 +41,9 @@ class SettingsActivity : BaseActivity() {
     }
 
     //设置目的地所在城市
-    private lateinit var mCity: String //所在城市
-    private lateinit var saveCity: String //存储的城市
-    private lateinit var textCity: String //输入框内输入的城市
+    private var mCity = "" //所在城市
+    private var saveCity = "" //存储的城市
+    private var textCity = "" //输入框内输入的城市
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +60,7 @@ class SettingsActivity : BaseActivity() {
 
     //初始化控件
     private fun initView() {
-        when (Objects.requireNonNull(SPHelper.getString("map_type", Constants.STANDARD_MAP))) {
+        when (Objects.requireNonNull(SPUtil.getString("map_type", Constants.STANDARD_MAP))) {
             Constants.STANDARD_MAP -> {
                 iv_map_standard.setImageResource(R.drawable.map_standard_on)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
@@ -88,7 +88,7 @@ class SettingsActivity : BaseActivity() {
             adaptive_tv_map_traffic.setTextColor(getColor(R.color.black))
 
             //保存地图类型到sharedPreferences
-            SPHelper.putString(Constants.MAP_TYPE, Constants.STANDARD_MAP)
+            SPUtil.put(Constants.MAP_TYPE, Constants.STANDARD_MAP)
 
             //发送本地广播通知更新地图类型
             lbm.sendBroadcast(Intent(Constants.SETTINGS_BROADCAST)
@@ -105,7 +105,7 @@ class SettingsActivity : BaseActivity() {
             adaptive_tv_map_traffic.setTextColor(getColor(R.color.black))
 
             //保存地图类型到sharedPreferences
-            SPHelper.putString(Constants.MAP_TYPE, Constants.SATELLITE_MAP)
+            SPUtil.put(Constants.MAP_TYPE, Constants.SATELLITE_MAP)
 
             //发送本地广播通知更新地图类型
             lbm.sendBroadcast(Intent(Constants.SETTINGS_BROADCAST)
@@ -122,7 +122,7 @@ class SettingsActivity : BaseActivity() {
             adaptive_tv_map_traffic.setTextColor(getColor(R.color.deepblue))
 
             //保存地图类型到sharedPreferences
-            SPHelper.putString(Constants.MAP_TYPE, Constants.TRAFFIC_MAP)
+            SPUtil.put(Constants.MAP_TYPE, Constants.TRAFFIC_MAP)
 
             //发送本地广播通知更新地图类型
             lbm.sendBroadcast(Intent(Constants.SETTINGS_BROADCAST)
@@ -132,14 +132,13 @@ class SettingsActivity : BaseActivity() {
         ib_destination_city_cancel.visibility = View.GONE //隐藏取消按钮
 
         //获取从MainActivity中传来的所在城市名
-        val intent = intent
         mCity = intent.getStringExtra(Constants.MY_CITY)
         if (mCity.isEmpty()) {
-            mCity = SPHelper.getString(Constants.MY_CITY, "")
+            mCity = SPUtil.getString(Constants.MY_CITY, "")
         }
 
         //设置城市信息
-        saveCity = SPHelper.getString(Constants.DESTINATION_CITY, "")
+        saveCity = SPUtil.getString(Constants.DESTINATION_CITY, "")
         if (saveCity.isNotEmpty()) //如果存储的城市信息不为空
             et_destination_city.setText(saveCity) //设置城市信息
 
@@ -201,7 +200,7 @@ class SettingsActivity : BaseActivity() {
         ib_destination_city_cancel.visibility = View.GONE //隐藏取消按钮
 
         //将城市信息录入sharedPreferences
-        SPHelper.putString(Constants.DESTINATION_CITY, textCity)
+        SPUtil.put(Constants.DESTINATION_CITY, textCity)
         saveCity = textCity
     }
 

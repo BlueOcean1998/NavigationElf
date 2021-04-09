@@ -7,6 +7,7 @@ import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.iterator
 import androidx.recyclerview.widget.RecyclerView
 import com.navigation.foxizz.BaseApplication.Companion.baseApplication
 import com.navigation.foxizz.R
@@ -133,8 +134,8 @@ fun LinearLayout.expandLayout(flag: Boolean) {
         startAnimation(AnimationUtils.loadAnimation(baseApplication, R.anim.adapter_alpha2))
         //计算布局自适应时的高度
         var layoutHeight = 0
-        for (i in 0 until childCount) {
-            layoutHeight += getChildAt(i).layoutParams.height
+        for (view in this) {
+            layoutHeight += view.layoutParams.height
         }
         LayoutUtil.getValueAnimator(this, 0, layoutHeight).start() //展开动画
     } else {

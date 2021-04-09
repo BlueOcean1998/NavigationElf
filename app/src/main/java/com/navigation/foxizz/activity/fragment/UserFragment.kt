@@ -25,9 +25,9 @@ import kotlinx.android.synthetic.main.fragment_user.*
  * 用户页
  */
 class UserFragment : Fragment(R.layout.fragment_user) {
-    private lateinit var preferenceScreen: PreferenceScreen
-    private lateinit var localReceiver: LocalReceiver //设置接收器
-    private lateinit var localBroadcastManager: LocalBroadcastManager //本地广播管理器
+    private var mPreferenceScreen = PreferenceScreen()
+    private lateinit var mLocalReceiver: LocalReceiver //设置接收器
+    private lateinit var mLocalBroadcastManager: LocalBroadcastManager //本地广播管理器
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,10 +36,9 @@ class UserFragment : Fragment(R.layout.fragment_user) {
         initView() //初始化控件
 
         //初始化PreferenceScreen
-        preferenceScreen = PreferenceScreen()
         requireActivity().supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fl_user_preferences, preferenceScreen)
+                .replace(R.id.fl_user_preferences, mPreferenceScreen)
                 .commit()
     }
 
@@ -52,22 +51,22 @@ class UserFragment : Fragment(R.layout.fragment_user) {
         if ("0" != userId) tv_user_name.text = user.username
 
         //设置是否显示退出登录
-        val preference = preferenceScreen.findPreference<Preference>(Constants.KEY_LOGOUT)
+        val preference = mPreferenceScreen.findPreference<Preference>(Constants.KEY_LOGOUT)
         preference?.isVisible = "0" != userId
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        localBroadcastManager.unregisterReceiver(localReceiver) //释放设置接收器实例
+        mLocalBroadcastManager.unregisterReceiver(mLocalReceiver) //释放设置接收器实例
     }
 
     //初始化本地广播接收器
     private fun initLocalReceiver() {
-        localReceiver = LocalReceiver(requireActivity())
+        mLocalReceiver = LocalReceiver(requireActivity())
         val intentFilter = IntentFilter()
         intentFilter.addAction(Constants.LOGIN_BROADCAST)
-        localBroadcastManager = LocalBroadcastManager.getInstance(requireActivity())
-        localBroadcastManager.registerReceiver(localReceiver, intentFilter)
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(requireActivity())
+        mLocalBroadcastManager.registerReceiver(mLocalReceiver, intentFilter)
     }
 
     //初始化用户布局

@@ -62,5 +62,5 @@ object Constants {
     const val GET_LOCATION = 0 //定位权限
     const val CHOOSE_PHOTO = 1 //选择图片
     const val PHOTO_REQUEST_CUT = 2 //请求裁剪图片
-    lateinit var avatarUri: Uri//服务端头像路径
+    var avatarUri: Uri = Uri.parse("") //服务端头像路径
 }

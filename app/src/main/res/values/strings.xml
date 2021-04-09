@@ -113,7 +113,7 @@
     <string name="clean_search_record">清空搜索记录</string>
 
     <!-- 用户页 -->
-    <string name="to_login">点击此处登录</string>CHOOSE_PHOTO
+    <string name="to_login">点击此处登录</string>
     <string name="get_choose_photo_permission_fail">获取权限失败，若要修改头像请手动开启</string>
     <string name="about">关于导航小精灵</string>
     <string name="check_update">检查更新</string>

@@ -21,6 +21,10 @@ import java.util.*
  * 路线规划模块
  */
 class BaiduRoutePlan(private val mainFragment: MainFragment) {
+    init {
+        initRoutePlanSearch()
+    }
+
     //交通选择
     companion object {
         const val DRIVING = 1 //驾车
@@ -29,7 +33,7 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
         const val TRANSIT = 4 //公交
     }
 
-    lateinit var mRoutePlanSearch: RoutePlanSearch
+    lateinit var mRoutePlanSearch: RoutePlanSearch //路线规划
     var mSchemeList = ArrayList<SchemeItem>() //方案列表
     var mBusStationLocations = ArrayList<LatLng>() //公交导航所有站点的坐标
     var mEndLocation: LatLng? = null //终点
@@ -116,7 +120,7 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
     /**
      * 初始化路线规划
      */
-    fun initRoutePlanSearch() {
+    private fun initRoutePlanSearch() {
         //创建路线规划检索实例
         mRoutePlanSearch = RoutePlanSearch.newInstance()
 
@@ -209,11 +213,10 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
 
                         //获取详细信息
                         val detailInfo = StringBuilder()
-                        var spendTime: Long
                         val nowTime = System.currentTimeMillis()
                         val arriveTime = TimeUtil.parse(massTransitRouteLine.arriveTime,
                                 TimeUtil.FORMATION_yMdHms).time
-                        spendTime = arriveTime - nowTime
+                        val spendTime = arriveTime - nowTime
                         if (spendTime < 3 * 60 * 60 * 1000) { //小于3小时
                             detailInfo.append(mainFragment.getString(R.string.spend_time))
                                     .append(spendTime / 1000 / 60).append(mainFragment.getString(R.string.minute))
@@ -353,7 +356,7 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
             overlay.addToMap()
             //将路线放在最佳视野位置
             overlay.zoomToSpan()
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
             R.string.draw_route_fail.showToast()
         }
     }

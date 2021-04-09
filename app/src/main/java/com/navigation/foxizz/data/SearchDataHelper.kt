@@ -84,7 +84,7 @@ object SearchDataHelper {
                         return cursor.count > 0
                     }
                 }
-            } catch (ignored: Exception) {
+            } catch (e: Exception) {
                 return false
             }
         }//查询所有的搜索记录，按时间降序排列
@@ -115,7 +115,7 @@ object SearchDataHelper {
                         searchItems.add(searchItem)
                     } while (cursor.moveToNext())
                 }
-            } catch (ignored: Exception) {
+            } catch (e: Exception) {
             } finally {
                 cursor?.close()
                 db?.close()
@@ -137,7 +137,7 @@ object SearchDataHelper {
                             else insertSearchData(info) //没有则添加
                         }
             }
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
         }
     }
 
@@ -160,7 +160,7 @@ object SearchDataHelper {
                         )
                 )
             }
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
         }
     }
 
@@ -183,7 +183,7 @@ object SearchDataHelper {
                         )
                 )
             }
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
         }
     }
 
@@ -199,7 +199,7 @@ object SearchDataHelper {
                         db.execSQL("delete from SearchData where uid = ?",
                                 arrayOf(uid))
                     }
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
         }
     }
 
@@ -211,7 +211,7 @@ object SearchDataHelper {
             databaseHelper.writableDatabase.use { db ->
                 db.execSQL("delete from SearchData")
             }
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
         }
     }
 }

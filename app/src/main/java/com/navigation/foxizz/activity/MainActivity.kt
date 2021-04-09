@@ -24,12 +24,12 @@ import kotlinx.android.synthetic.main.fragment_user.*
  * 主页
  */
 class MainActivity : BaseActivity() {
-    private lateinit var flPage: Fragment
+    private lateinit var mFlPage: Fragment
     lateinit var mainFragment: MainFragment
     lateinit var userFragment: UserFragment
 
-    private var exitTime: Long = 0 //实现再按一次退出程序时，用于保存系统时间
     private var isKeyDownFirst = false //是否有先监听到按下，确保在第三方应用使用onKeyDown返回时，不会连续返回2次
+    private var exitTime = 0L //实现再按一次退出程序时，用于保存系统时间
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +59,7 @@ class MainActivity : BaseActivity() {
     //初始化碎片
     private fun initFragments() {
         mainFragment = MainFragment()
-        flPage = mainFragment
+        mFlPage = mainFragment
         userFragment = UserFragment()
         supportFragmentManager.beginTransaction()
                 .add(R.id.fl_page, mainFragment)
@@ -69,9 +69,9 @@ class MainActivity : BaseActivity() {
 
     //切换碎片
     private fun replaceFragment(fragment: Fragment) {
-        if (flPage != fragment) { //与显示的碎片不同才切换
-            supportFragmentManager.beginTransaction().hide(flPage).show(fragment).commit()
-            flPage = fragment
+        if (mFlPage != fragment) { //与显示的碎片不同才切换
+            supportFragmentManager.beginTransaction().hide(mFlPage).show(fragment).commit()
+            mFlPage = fragment
         }
     }
 
@@ -126,7 +126,7 @@ class MainActivity : BaseActivity() {
 
     //监听按键抬起事件
     override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
-        if (flPage == mainFragment) { //mainFragment
+        if (mFlPage == mainFragment) { //mainFragment
             //如果是返回键且有先监听到按下
             if (keyCode == KeyEvent.KEYCODE_BACK && isKeyDownFirst) {
                 isKeyDownFirst = false
@@ -165,7 +165,7 @@ class MainActivity : BaseActivity() {
                 mainFragment.takeBackKeyboard() //收回键盘
                 return false
             }
-        } else if (flPage == userFragment) { //userFragment
+        } else if (mFlPage == userFragment) { //userFragment
             //如果是返回键且有先监听到按下
             if (keyCode == KeyEvent.KEYCODE_BACK && isKeyDownFirst) {
                 isKeyDownFirst = false
