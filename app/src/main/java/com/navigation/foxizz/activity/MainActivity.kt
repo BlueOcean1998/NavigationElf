@@ -1,21 +1,25 @@
 package com.navigation.foxizz.activity
 
+import Constants
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
+import base.foxizz.BaseActivity
+import base.foxizz.BaseConstants
+import base.foxizz.util.SettingUtil
+import base.foxizz.util.ThreadUtil
+import base.foxizz.util.UriUtil
+import base.foxizz.util.showToast
 import cn.zerokirby.api.data.AvatarDataHelper
 import cn.zerokirby.api.data.UserDataHelper
-import cn.zerokirby.api.util.UriUtil
+import com.baidu.mapapi.CoordType
+import com.baidu.mapapi.SDKInitializer
 import com.navigation.foxizz.R
 import com.navigation.foxizz.activity.fragment.MainFragment
 import com.navigation.foxizz.activity.fragment.UserFragment
-import com.navigation.foxizz.data.Constants
 import com.navigation.foxizz.data.SearchDataHelper
-import com.navigation.foxizz.util.SettingUtil
-import com.navigation.foxizz.util.ThreadUtil
-import com.navigation.foxizz.util.showToast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_user.*
@@ -28,13 +32,15 @@ class MainActivity : BaseActivity() {
     lateinit var mainFragment: MainFragment
     lateinit var userFragment: UserFragment
 
-    private var isKeyDownFirst = false //是否有先监听到按下，确保在第三方应用使用onKeyDown返回时，不会连续返回2次
+    //是否有先监听到按下，确保在第三方应用使用onKeyDown返回时，不会连续返回2次
+    private var isKeyDownFirst = false
     private var exitTime = 0L //实现再按一次退出程序时，用于保存系统时间
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        initBaiduMapSDK() //初始化百度地图SDK
         SettingUtil.initSettings(this) //初始化设置
         initFragments() //初始化碎片
         initView() //初始化控件
@@ -54,6 +60,15 @@ class MainActivity : BaseActivity() {
             bt_user.setTextColor(getColor(R.color.skyblue))
             mainFragment.takeBackKeyboard() //收回键盘
         }
+    }
+
+    //初始化百度地图SDK
+    private fun initBaiduMapSDK() {
+        //在使用SDK各组件之前初始化context信息，传入ApplicationContext
+        SDKInitializer.initialize(this.applicationContext)
+        //自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
+        //包括BD09LL和GCJ02两种坐标，默认是BD09LL坐标。
+        SDKInitializer.setCoordType(CoordType.BD09LL)
     }
 
     //初始化碎片
@@ -88,29 +103,31 @@ class MainActivity : BaseActivity() {
         when (requestCode) {
             Constants.GET_LOCATION ->
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mainFragment.mBaiduLocation.requestLocationTime = 0 //请求定位的次数归零
-                    mainFragment.mBaiduLocation.refreshSearchList = true //刷新搜索列表
-                    mainFragment.mBaiduLocation.initLocationOption() //初始化定位
-                } else R.string.get_location_permission_fail.showToast()
-            Constants.CHOOSE_PHOTO ->
+                    mainFragment.mBaiduLocation.run {
+                        requestLocationTime = 0 //请求定位的次数归零
+                        refreshSearchList = true //刷新搜索列表
+                        initLocationOption() //初始化定位
+                    }
+                } else showToast(R.string.get_location_permission_fail)
+            BaseConstants.CHOOSE_PHOTO ->
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
                     AvatarDataHelper.openAlbum(this)
-                else R.string.get_choose_photo_permission_fail.showToast()
+                else showToast(R.string.get_choose_photo_permission_fail)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data) //开启Activity并返回结果
         when (requestCode) {
-            Constants.CHOOSE_PHOTO -> if (resultCode == RESULT_OK && data != null)
+            BaseConstants.CHOOSE_PHOTO -> if (resultCode == RESULT_OK && data != null)
                 Constants.avatarUri = AvatarDataHelper.cropImage(this, data)
-            Constants.PHOTO_REQUEST_CUT -> if (resultCode == RESULT_OK) {
+            BaseConstants.PHOTO_REQUEST_CUT -> if (resultCode == RESULT_OK) {
                 val avatarPath = UriUtil.getPath(Constants.avatarUri)
                 AvatarDataHelper.showAvatarAndSave(
                         userFragment.iv_avatar_image, avatarPath, UserDataHelper.loginUserId)
                 ThreadUtil.execute {
                     AvatarDataHelper.uploadAvatar(UriUtil.getPath(Constants.avatarUri))
-                    R.string.upload_avatar_successfully.showToast()
+                    showToast(R.string.upload_avatar_successfully)
                 }
             }
         }
@@ -126,46 +143,48 @@ class MainActivity : BaseActivity() {
 
     //监听按键抬起事件
     override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
-        if (mFlPage == mainFragment) { //mainFragment
-            //如果是返回键且有先监听到按下
-            if (keyCode == KeyEvent.KEYCODE_BACK && isKeyDownFirst) {
-                isKeyDownFirst = false
-                if (!mainFragment.searchLayoutFlag) { //如果搜索布局没有展开
-                    mainFragment.backToUpperStory() //返回上一层
-                    return false
+        if (mFlPage == mainFragment) {
+            mainFragment.run {
+                //如果是返回键且有先监听到按下
+                if (keyCode == KeyEvent.KEYCODE_BACK && isKeyDownFirst) {
+                    isKeyDownFirst = false
+                    if (!searchLayoutFlag) { //如果搜索布局没有展开
+                        backToUpperStory() //返回上一层
+                        return false
+                    }
+                    if (!isHistorySearchResult) { //如果不是搜索历史记录
+                        recycler_search_result.stopScroll() //停止信息列表滑动
+                        isHistorySearchResult = true //现在是搜索历史记录了
+                        SearchDataHelper.initSearchData(this) //初始化搜索记录
+                    }
+                    //如果焦点在searchEdit上或searchEdit有内容
+                    if (window.decorView.findFocus() == et_search
+                            || et_search.text.toString().isNotEmpty()) {
+                        et_search.clearFocus() //使搜索输入框失去焦点
+                        et_search.setText("")
+                        return false
+                    }
+                    if (searchExpandFlag) { //如果搜索抽屉展开
+                        searchExpandFlag = false //设置搜索抽屉为收起
+                        expandSearchDrawer(false) //收起搜索抽屉
+                        return false
+                    }
+                    if (System.currentTimeMillis() - exitTime > 2000) { //弹出再按一次退出提示
+                        showToast(R.string.exit_app)
+                        exitTime = System.currentTimeMillis()
+                        return false
+                    }
                 }
-                if (!mainFragment.isHistorySearchResult) { //如果不是搜索历史记录
-                    mainFragment.recycler_search_result.stopScroll() //停止信息列表滑动
-                    mainFragment.isHistorySearchResult = true //现在是搜索历史记录了
-                    SearchDataHelper.initSearchData(mainFragment) //初始化搜索记录
-                }
-                //如果焦点在searchEdit上或searchEdit有内容
-                if (this.window.decorView.findFocus() == mainFragment.et_search
-                        || mainFragment.et_search.text.toString().isNotEmpty()) {
-                    mainFragment.et_search.clearFocus() //使搜索输入框失去焦点
-                    mainFragment.et_search.setText("")
-                    return false
-                }
-                if (mainFragment.searchExpandFlag) { //如果搜索抽屉展开
-                    mainFragment.searchExpandFlag = false //设置搜索抽屉为收起
-                    mainFragment.expandSearchDrawer(false) //收起搜索抽屉
-                    return false
-                }
-                if (System.currentTimeMillis() - exitTime > 2000) { //弹出再按一次退出提示
-                    R.string.exit_app.showToast()
-                    exitTime = System.currentTimeMillis()
-                    return false
-                }
-            }
 
-            //如果是Enter键
-            if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                mainFragment.mBaiduSearch.startSearch() //开始搜索
-                mainFragment.et_search.requestFocus() //搜索框重新获得焦点
-                mainFragment.takeBackKeyboard() //收回键盘
-                return false
+                //如果是Enter键
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    mBaiduSearch.startSearch() //开始搜索
+                    et_search.requestFocus() //搜索框重新获得焦点
+                    takeBackKeyboard() //收回键盘
+                    return false
+                }
             }
-        } else if (mFlPage == userFragment) { //userFragment
+        } else if (mFlPage == userFragment) {
             //如果是返回键且有先监听到按下
             if (keyCode == KeyEvent.KEYCODE_BACK && isKeyDownFirst) {
                 isKeyDownFirst = false

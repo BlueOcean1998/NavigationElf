@@ -1,7 +1,10 @@
-package cn.zerokirby.api.data
+package cn.zerokirby.api
 
 /**
- * 常量类
+ * Api name: ZeroKirbyApi
+ * Author: ZeroKirby & Foxizz
+ * Accomplish date: 2021-02-04
+ * Last modify date: 2021-04-28
  */
 object Constants {
     const val LOCAL_DATABASE = "ZerokirbyAPI.db" //本地数据库
@@ -10,6 +13,4 @@ object Constants {
     const val REGISTER_URL = ROOT_URL + "RegisterServlet" //注册服务程序
     const val DOWNLOAD_AVATAR_URL = ROOT_URL + "DownloadAvatarServlet" //下载头像服务程序
     const val UPLOAD_AVATAR_URL = ROOT_URL + "UploadAvatarServlet" //上传头像服务程序
-    const val CHOOSE_PHOTO = 1 //选择图片
-    const val PHOTO_REQUEST_CUT = 2 //请求裁剪图片
 }

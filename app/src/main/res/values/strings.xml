@@ -90,6 +90,7 @@
     <string name="walk_route_plan_fail">步行路线规划失败</string>
     <string name="bike_navigate_init_fail">骑行导航初始化失败</string>
     <string name="bike_route_plan_fail">骑行路线规划失败</string>
+    <string name="no_camera_permissions">没有相机权限，请打开后重试</string>
 
     <!-- 设置页 -->
     <string name="standard_map">标准地图</string>

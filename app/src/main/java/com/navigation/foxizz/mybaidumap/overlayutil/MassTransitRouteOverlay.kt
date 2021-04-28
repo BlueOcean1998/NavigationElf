@@ -75,7 +75,7 @@ class MassTransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
                                 .anchor(0.5f, 0.5f)
                                 .zIndex(10)
                                 .extraInfo(b)
-                                .icon(Objects.requireNonNull(getIconForStep(step))))
+                                .icon(getIconForStep(step)))
                     }
 
                     // 最后一个终点
@@ -84,7 +84,7 @@ class MassTransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
                                 .position(step.endLocation)
                                 .anchor(0.5f, 0.5f)
                                 .zIndex(10)
-                                .icon(Objects.requireNonNull(getIconForStep(step)))
+                                .icon(getIconForStep(step))
                         )
                     }
                 }
@@ -127,7 +127,7 @@ class MassTransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
                                     .anchor(0.5f, 0.5f)
                                     .zIndex(10)
                                     .extraInfo(b)
-                                    .icon(Objects.requireNonNull(getIconForStep(step))))
+                                    .icon(getIconForStep(step)))
                         }
 
                         // 最后一个终点
@@ -136,7 +136,7 @@ class MassTransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
                                     .position(step.endLocation)
                                     .anchor(0.5f, 0.5f)
                                     .zIndex(10)
-                                    .icon(Objects.requireNonNull(getIconForStep(step))))
+                                    .icon(getIconForStep(step)))
                         }
                         k++
                     }
@@ -188,7 +188,10 @@ class MassTransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
         return when (step.vehileType) {
             StepVehicleInfoType.ESTEP_WALK -> BitmapDescriptorFactory.fromAssetWithDpi("Icon_walk_route.png")
             StepVehicleInfoType.ESTEP_TRAIN -> BitmapDescriptorFactory.fromAssetWithDpi("Icon_subway_station.png")
-            StepVehicleInfoType.ESTEP_DRIVING, StepVehicleInfoType.ESTEP_COACH, StepVehicleInfoType.ESTEP_PLANE, StepVehicleInfoType.ESTEP_BUS -> BitmapDescriptorFactory.fromAssetWithDpi("Icon_bus_station.png")
+            StepVehicleInfoType.ESTEP_DRIVING,
+            StepVehicleInfoType.ESTEP_COACH,
+            StepVehicleInfoType.ESTEP_PLANE,
+            StepVehicleInfoType.ESTEP_BUS -> BitmapDescriptorFactory.fromAssetWithDpi("Icon_bus_station.png")
             else -> null
         }
     }

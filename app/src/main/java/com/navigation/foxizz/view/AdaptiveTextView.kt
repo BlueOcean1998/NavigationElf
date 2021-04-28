@@ -1,26 +1,20 @@
 package com.navigation.foxizz.view
 
 import android.content.Context
-import android.graphics.Paint
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.Gravity
 import androidx.appcompat.widget.AppCompatTextView
+import base.foxizz.util.pxToSp
 import com.navigation.foxizz.R
-import com.navigation.foxizz.util.pxToSp
 
-class AdaptiveTextView(context: Context, attrs: AttributeSet) : AppCompatTextView(context, attrs) {
-    init {
-        initialise(context, attrs)
-    }
-
+class AdaptiveTextView(context: Context, attrs: AttributeSet? = null) : AppCompatTextView(context, attrs) {
     private var mMaxTextSize = 0f //默认字体大小
     private var mMinTextSize = 0f //最小字体大小
-    private lateinit var mTextPaint: Paint //文本描述对象
+    private var mTextPaint = TextPaint() //文本描述对象
     private var adaptiveType = false //自适应类型
 
-    //默认设置
-    private fun initialise(context: Context, attrs: AttributeSet) {
+    init {
         gravity = gravity or Gravity.CENTER_VERTICAL //水平居中
         setLines(1) //一行
 
@@ -29,8 +23,7 @@ class AdaptiveTextView(context: Context, attrs: AttributeSet) : AppCompatTextVie
         mMinTextSize = 8f
 
         //获取文本描述对象
-        mTextPaint = TextPaint()
-        (mTextPaint as TextPaint).set(this.paint)
+        mTextPaint.set(this.paint)
 
         //获取自定义属性，默认为宽度自适应
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.AdaptiveTextView)
@@ -80,7 +73,7 @@ class AdaptiveTextView(context: Context, attrs: AttributeSet) : AppCompatTextVie
             }
 
             //setTextSize参数值为sp值
-            textSize = trySize.pxToSp()
+            textSize = trySize.pxToSp
         }
     }
 
@@ -102,7 +95,7 @@ class AdaptiveTextView(context: Context, attrs: AttributeSet) : AppCompatTextVie
             }
 
             //setTextSize参数值为sp值
-            textSize = trySize.pxToSp()
+            textSize = trySize.pxToSp
         }
     }
 }

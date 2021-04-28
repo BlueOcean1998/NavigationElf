@@ -9,12 +9,12 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
+import base.foxizz.util.SettingUtil
 import com.baidu.mapapi.bikenavi.BikeNavigateHelper
 import com.baidu.mapapi.bikenavi.adapter.IBRouteGuidanceListener
 import com.baidu.mapapi.bikenavi.model.BikeRouteDetailInfo
 import com.baidu.mapapi.walknavi.model.RouteGuideKind
 import com.baidu.tts.client.SpeechSynthesizer
-import com.navigation.foxizz.util.SettingUtil
 
 /**
  * 骑行导航诱导活动
@@ -47,7 +47,6 @@ class BNaviGuideActivity : Activity() {
         mNaviHelper.setTTsPlayer { s, _ ->
             Log.d("tts", s)
             SpeechSynthesizer.getInstance().speak(s) //语音播报
-            0
         }
         mNaviHelper.startBikeNavi(this)
         mNaviHelper.setRouteGuidanceListener(this, object : IBRouteGuidanceListener {

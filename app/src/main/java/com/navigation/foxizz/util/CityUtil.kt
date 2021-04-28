@@ -1,5 +1,6 @@
 package com.navigation.foxizz.util
 
+import base.foxizz.util.removeFirst
 import java.util.*
 
 /**
@@ -112,13 +113,12 @@ object CityUtil {
      * 校验一个字符串是否是一个城市名
      *
      * @param cityName 要校验的字符串
-     * @return boolean
+     * @return Boolean
      */
-    fun checkCityName(cityName: String): Boolean {
+    fun isCityName(cityName: String): Boolean {
         if (cityName.length < 2) return false
         for (names in CHINA_CITY_PROVINCE_NAMES) {
-            val cityNames = names.replaceFirst(
-                    names.split(" ")[0], "").trim()
+            val cityNames = names.removeFirst(names.split(" ")[0]).trim()
             if (cityNames.contains(cityName)) {
                 return true
             }
@@ -130,9 +130,9 @@ object CityUtil {
      * 校验一个字符串是否是一个省份名
      *
      * @param provinceName 要校验的字符串
-     * @return boolean
+     * @return Boolean
      */
-    fun checkProvinceName(provinceName: String): Boolean {
+    fun isProvinceName(provinceName: String): Boolean {
         if (provinceName.length < 2) return false
         for (names in CHINA_CITY_PROVINCE_NAMES) {
             if (names.split(" ")[0].contains(provinceName)) {
@@ -164,12 +164,11 @@ object CityUtil {
      */
     fun getCityList(provinceName: String): List<String> {
         val cityList = ArrayList<String>()
-        if (checkProvinceName(provinceName)) {
+        if (isProvinceName(provinceName)) {
             for (names in CHINA_CITY_PROVINCE_NAMES) {
                 val province = names.split(" ")[0]
                 if (province.contains((provinceName))) {
-                    cityList.addAll(names.replaceFirst(
-                            province, "").trim().split(" "))
+                    cityList.addAll(names.removeFirst(province).trim().split(" "))
                     break
                 }
             }
@@ -198,7 +197,7 @@ object CityUtil {
      * @return 省份
      */
     fun getProvince(cityName: String): String {
-        if (checkCityName(cityName)) {
+        if (isCityName(cityName)) {
             for (names in CHINA_CITY_PROVINCE_NAMES) {
                 if (names.contains((cityName)))
                     return names.split(" ")[0]

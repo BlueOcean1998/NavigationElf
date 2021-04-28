@@ -36,13 +36,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.appcompat:appcompat:1.3.0-alpha02'
+    implementation 'androidx.preference:preference-ktx:1.1.1'
     implementation 'com.google.android.material:material:1.2.1'
-    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
-
-    implementation project(path: ':base')
-}
-
-repositories {
-    mavenCentral()
+    implementation 'com.google.android.material:material:1.3.0-alpha04'
 }

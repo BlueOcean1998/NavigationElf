@@ -4,7 +4,8 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteDatabase.CursorFactory
 import android.database.sqlite.SQLiteOpenHelper
-import cn.zerokirby.api.ZerokirbyApi
+import base.foxizz.BaseApplication.Companion.baseApplication
+import cn.zerokirby.api.Constants
 
 /**
  * 数据库帮助类
@@ -17,7 +18,7 @@ class DatabaseHelper private constructor(
          * 获取数据库帮助对象
          */
         @get:Synchronized
-        val databaseHelper = DatabaseHelper(ZerokirbyApi.application, Constants.LOCAL_DATABASE, null, 1)
+        val databaseHelper = DatabaseHelper(baseApplication, Constants.LOCAL_DATABASE, null, 1)
 
         private const val CREATE_USER = ("create table User ("
                 + "user_id text, " //用户id

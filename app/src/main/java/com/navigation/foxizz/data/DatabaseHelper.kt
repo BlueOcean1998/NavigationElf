@@ -1,10 +1,11 @@
 package com.navigation.foxizz.data
 
+import Constants
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteDatabase.CursorFactory
 import android.database.sqlite.SQLiteOpenHelper
-import com.navigation.foxizz.BaseApplication.Companion.baseApplication
+import base.foxizz.BaseApplication.Companion.baseApplication
 
 /**
  * 数据库帮助类

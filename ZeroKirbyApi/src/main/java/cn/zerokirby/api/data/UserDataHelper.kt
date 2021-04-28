@@ -1,8 +1,9 @@
 package cn.zerokirby.api.data
 
 import android.text.TextUtils
+import base.foxizz.util.SystemUtil
+import cn.zerokirby.api.Constants
 import cn.zerokirby.api.data.DatabaseHelper.Companion.databaseHelper
-import cn.zerokirby.api.util.SystemUtil
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -109,12 +110,14 @@ object UserDataHelper {
                 databaseHelper.readableDatabase.use { db ->
                     db.rawQuery("select * from User", null).use { cursor ->
                         if (cursor != null && cursor.moveToFirst()) {
-                            do {
-                                if (!TextUtils.isEmpty(
-                                                cursor.getString(cursor.getColumnIndex("password")))) {
-                                    return cursor.getString(cursor.getColumnIndex("user_id"))
-                                }
-                            } while (cursor.moveToNext())
+                            cursor.run {
+                                do {
+                                    if (!TextUtils.isEmpty(
+                                                    getString(getColumnIndex("password")))) {
+                                        return getString(getColumnIndex("user_id"))
+                                    }
+                                } while (moveToNext())
+                            }
                         }
                     }
                 }
@@ -122,6 +125,7 @@ object UserDataHelper {
             }
             return "0"
         }
+
 
     /**
      * 登录，保存用户数据
@@ -131,16 +135,17 @@ object UserDataHelper {
     private fun login(user: User) {
         try {
             databaseHelper.writableDatabase.use { db ->
-                db.execSQL("update User set user_id = ?, username = ?, password = ?, " +
-                        "register_time = ?, last_use = ?, last_sync = ? where user_id = '0'",
-                        arrayOf(user.userId,
-                                user.username,
-                                user.password,
-                                user.registerTime.toString(),
-                                System.currentTimeMillis().toString(),
-                                user.lastSync.toString()
-                        )
-                )
+                user.run {
+                    db.execSQL("update User set user_id = ?, username = ?, password = ?, " +
+                            "register_time = ?, last_use = ?, last_sync = ? where user_id = '0'",
+                            arrayOf(userId,
+                                    username,
+                                    password,
+                                    registerTime,
+                                    System.currentTimeMillis(),
+                                    lastSync)
+                    )
+                }
             }
         } catch (e: Exception) {
         }
@@ -150,8 +155,7 @@ object UserDataHelper {
      * 退出登录，清空登录用户除用户名和密码外的信息
      */
     fun logout() {
-        val userId = loginUserId
-        updateUser("user_id", "0", userId)
+        updateUser("user_id", "0", loginUserId)
         AvatarDataHelper.saveAvatar("".toByteArray(), "0") //清空数据库中的头像
     }
 
@@ -167,18 +171,20 @@ object UserDataHelper {
             databaseHelper.readableDatabase.use { db ->
                 db.rawQuery("select * from User where user_id = ?", arrayOf(userId)).use { cursor ->
                     if (cursor != null && cursor.moveToFirst()) {
-                        user.run {
-                            this.userId = userId //设置用户id
-                            username = cursor.getString(cursor.getColumnIndex("username"))
-                            password = cursor.getString(cursor.getColumnIndex("password"))
-                            language = cursor.getString(cursor.getColumnIndex("language"))
-                            version = cursor.getString(cursor.getColumnIndex("version"))
-                            display = cursor.getString(cursor.getColumnIndex("display"))
-                            model = cursor.getString(cursor.getColumnIndex("model"))
-                            brand = cursor.getString(cursor.getColumnIndex("brand"))
-                            registerTime = cursor.getLong(cursor.getColumnIndex("register_time"))
-                            lastUse = cursor.getLong(cursor.getColumnIndex("last_use"))
-                            lastSync = cursor.getLong(cursor.getColumnIndex("last_sync"))
+                        cursor.run {
+                            user.run {
+                                this.userId = userId //设置用户id
+                                username = getString(getColumnIndex("username"))
+                                password = getString(getColumnIndex("password"))
+                                language = getString(getColumnIndex("language"))
+                                version = getString(getColumnIndex("version"))
+                                display = getString(getColumnIndex("display"))
+                                model = getString(getColumnIndex("model"))
+                                brand = getString(getColumnIndex("brand"))
+                                registerTime = getLong(getColumnIndex("register_time"))
+                                lastUse = getLong(getColumnIndex("last_use"))
+                                lastSync = getLong(getColumnIndex("last_sync"))
+                            }
                         }
                     }
                 }

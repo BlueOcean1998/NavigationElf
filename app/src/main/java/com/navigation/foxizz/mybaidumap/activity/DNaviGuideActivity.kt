@@ -13,12 +13,12 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
+import base.foxizz.util.SettingUtil
 import com.baidu.navisdk.adapter.BNaviCommonParams
 import com.baidu.navisdk.adapter.BaiduNaviManagerFactory
 import com.baidu.navisdk.adapter.IBNRouteGuideManager
 import com.baidu.navisdk.adapter.IBNTTSManager.IOnTTSPlayStateChangedListener
 import com.baidu.navisdk.adapter.IBNaviListener
-import com.navigation.foxizz.util.SettingUtil
 
 /**
  * 驾车导航诱导活动

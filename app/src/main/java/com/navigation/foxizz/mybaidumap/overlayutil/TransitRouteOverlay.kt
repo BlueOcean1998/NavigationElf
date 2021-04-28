@@ -68,7 +68,7 @@ class TransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
                                 .anchor(0.5f, 0.5f)
                                 .zIndex(10)
                                 .extraInfo(b)
-                                .icon(Objects.requireNonNull(getIconForStep(step))))
+                                .icon(getIconForStep(step)))
                     }
 
                     // 最后路段绘制出口点
@@ -78,7 +78,7 @@ class TransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
                                 .position(step.exit.location)
                                 .anchor(0.5f, 0.5f)
                                 .zIndex(10)
-                                .icon(Objects.requireNonNull(getIconForStep(step))))
+                                .icon(getIconForStep(step)))
                     }
                 }
             }

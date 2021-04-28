@@ -9,6 +9,8 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.*
 import android.util.Log
+import base.foxizz.util.SettingUtil
+import base.foxizz.util.showToast
 import com.baidu.mapapi.walknavi.WalkNavigateHelper
 import com.baidu.mapapi.walknavi.adapter.IWNaviStatusListener
 import com.baidu.mapapi.walknavi.adapter.IWRouteGuidanceListener
@@ -16,8 +18,7 @@ import com.baidu.mapapi.walknavi.model.RouteGuideKind
 import com.baidu.platform.comapi.walknavi.WalkNaviModeSwitchListener
 import com.baidu.platform.comapi.walknavi.widget.ArCameraView
 import com.baidu.tts.client.SpeechSynthesizer
-import com.navigation.foxizz.util.SettingUtil
-import com.navigation.foxizz.util.showToast
+import com.navigation.foxizz.R
 
 /**
  * 步行导航诱导活动
@@ -61,7 +62,6 @@ class WNaviGuideActivity : Activity() {
         mNaviHelper.setTTsPlayer { s, _ ->
             Log.d(TAG, "tts: $s")
             SpeechSynthesizer.getInstance().speak(s) //语音播报
-            0
         }
         val startResult = mNaviHelper.startWalkNavi(this)
         Log.e(TAG, "startWalkNavi result : $startResult")
@@ -125,7 +125,7 @@ class WNaviGuideActivity : Activity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == ArCameraView.WALK_AR_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED)
-                "没有相机权限,请打开后重试".showToast()
+                showToast(R.string.no_camera_permissions)
             else if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 mNaviHelper.startCameraAndSetMapView(this)
         }

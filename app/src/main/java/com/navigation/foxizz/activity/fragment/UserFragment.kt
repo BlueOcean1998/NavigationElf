@@ -1,5 +1,6 @@
 package com.navigation.foxizz.activity.fragment
 
+import Constants
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
@@ -10,15 +11,14 @@ import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import base.foxizz.util.showToast
 import cn.zerokirby.api.data.AvatarDataHelper
 import cn.zerokirby.api.data.UserDataHelper
 import com.navigation.foxizz.R
 import com.navigation.foxizz.activity.LoginRegisterActivity
 import com.navigation.foxizz.activity.MainActivity
 import com.navigation.foxizz.activity.SettingsActivity
-import com.navigation.foxizz.data.Constants
 import com.navigation.foxizz.receiver.LocalReceiver
-import com.navigation.foxizz.util.showToast
 import kotlinx.android.synthetic.main.fragment_user.*
 
 /**
@@ -123,23 +123,23 @@ class UserFragment : Fragment(R.layout.fragment_user) {
         companion object {
             //弹出退出登录提示对话框
             private fun showLogoutDialog(mainActivity: MainActivity, preference: Preference) {
-                val builder = AlertDialog.Builder(mainActivity)
-                builder.setTitle(R.string.hint)
-                builder.setMessage(R.string.sure_to_logout)
-                builder.setPositiveButton(R.string.confirm) { _, _ ->
-                    R.string.logged_out.showToast()
-                    preference.isVisible = false
-                    UserDataHelper.logout() //退出登录
+                AlertDialog.Builder(mainActivity)
+                        .setTitle(R.string.hint)
+                        .setMessage(R.string.sure_to_logout)
+                        .setPositiveButton(R.string.confirm) { _, _ ->
+                            showToast(R.string.logged_out)
+                            preference.isVisible = false
+                            UserDataHelper.logout() //退出登录
 
-                    //还原用户名和头像为默认
-                    val userFragment = mainActivity.userFragment
-                    userFragment.tv_user_name.setText(R.string.to_login)
-                    userFragment.iv_avatar_image.setImageResource(R.drawable.dolphizz_sketch)
-                }
-                builder.setNegativeButton(R.string.cancel) { _, _ ->
-                    //do nothing
-                }
-                builder.show()
+                            //还原用户名和头像为默认
+                            val userFragment = mainActivity.userFragment
+                            userFragment.tv_user_name.setText(R.string.to_login)
+                            userFragment.iv_avatar_image.setImageResource(R.drawable.dolphizz_sketch)
+                        }
+                        .setNegativeButton(R.string.cancel) { _, _ ->
+                            //do nothing
+                        }
+                        .show()
             }
         }
     }

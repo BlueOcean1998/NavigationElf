@@ -1,4 +1,4 @@
-package com.navigation.foxizz.util
+package base.foxizz.util
 
 import android.annotation.SuppressLint
 import java.text.DateFormat
@@ -53,15 +53,14 @@ object TimeUtil {
      * @param nowTime   现在的时间
      * @param startTime 开始时间
      * @param endTime   结束时间
-     * @return boolean
+     * @return Boolean
      */
-    fun isEffectiveDate(nowTime: Date, startTime: Date, endTime: Date): Boolean {
-        if (nowTime.time == startTime.time
-                || nowTime.time == endTime.time) {
+    fun isInTime(nowTime: Date, startTime: Date, endTime: Date): Boolean {
+        if (nowTime.time == startTime.time || nowTime.time == endTime.time) {
             return true
         }
-        if (startTime.time > endTime.time) { //结束时间超过24点时进入下一天
-            endTime.time = endTime.time + 24 * 60 * 60 * 1000
+        while (startTime.time > endTime.time) { //结束时间超过24点时进入下一天
+            endTime.time += 24 * 60 * 60 * 1000
         }
         return nowTime.after(startTime) && nowTime.before(endTime)
     }

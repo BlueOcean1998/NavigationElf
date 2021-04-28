@@ -152,13 +152,14 @@ class DrivingRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
 
     private val customTextureList: List<BitmapDescriptor>
         get() {
-            val list = ArrayList<BitmapDescriptor>()
-            list.add(BitmapDescriptorFactory.fromAsset("Icon_road_blue_arrow.png"))
-            list.add(BitmapDescriptorFactory.fromAsset("Icon_road_green_arrow.png"))
-            list.add(BitmapDescriptorFactory.fromAsset("Icon_road_yellow_arrow.png"))
-            list.add(BitmapDescriptorFactory.fromAsset("Icon_road_red_arrow.png"))
-            list.add(BitmapDescriptorFactory.fromAsset("Icon_road_nofocus.png"))
-            return list
+            ArrayList<BitmapDescriptor>().run {
+                add(BitmapDescriptorFactory.fromAsset("Icon_road_blue_arrow.png"))
+                add(BitmapDescriptorFactory.fromAsset("Icon_road_green_arrow.png"))
+                add(BitmapDescriptorFactory.fromAsset("Icon_road_yellow_arrow.png"))
+                add(BitmapDescriptorFactory.fromAsset("Icon_road_red_arrow.png"))
+                add(BitmapDescriptorFactory.fromAsset("Icon_road_nofocus.png"))
+                return this
+            }
         }
 
     /**

@@ -4,14 +4,27 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
-import android.view.LayoutInflater
-import android.widget.LinearLayout
+import android.widget.FrameLayout
 import com.navigation.foxizz.R
 import kotlinx.android.synthetic.main.view_title_layout.view.*
 
-class TitleLayout(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+class TitleLayout(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
     init {
-        initialise(context, attrs)
+        inflate(context, R.layout.view_title_layout, this)
+
+        ib_back.setOnClickListener {
+            (context as? Activity)?.finish()
+        }
+
+        //获取自定义属性
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.TitleLayout)
+        setBackButtonEnable(typedArray.getBoolean( //默认启用返回按钮
+                R.styleable.TitleLayout_back_enable, true))
+        setTitleTextContent(typedArray.getString(
+                R.styleable.TitleLayout_title) ?: "")
+        setMenuButtonEnable(typedArray.getBoolean( //默认不启用菜单按钮
+                R.styleable.TitleLayout_menu_enable, false))
+        typedArray.recycle()
     }
 
     /**
@@ -54,25 +67,6 @@ class TitleLayout(context: Context, attrs: AttributeSet) : LinearLayout(context,
      */
     fun setMenuOnClickListener(menuOnClickListener: OnClickListener) {
         ib_menu.setOnClickListener(menuOnClickListener)
-    }
-
-    //初始化标题
-    private fun initialise(context: Context, attrs: AttributeSet) {
-        LayoutInflater.from(context).inflate(R.layout.view_title_layout, this)
-
-        ib_back.setOnClickListener {
-            (getContext() as Activity).finish()
-        }
-
-        //获取自定义属性
-        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.TitleLayout)
-        setBackButtonEnable(typedArray.getBoolean( //默认启用返回按钮
-                R.styleable.TitleLayout_back_enable, true))
-        setTitleTextContent(typedArray.getString(
-                R.styleable.TitleLayout_title) ?: "")
-        setMenuButtonEnable(typedArray.getBoolean( //默认不启用菜单按钮
-                R.styleable.TitleLayout_menu_enable, false))
-        typedArray.recycle()
     }
 
     override fun onDraw(canvas: Canvas) {

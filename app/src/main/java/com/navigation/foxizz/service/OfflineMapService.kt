@@ -1,5 +1,6 @@
 package com.navigation.foxizz.service
 
+import Constants
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -10,15 +11,14 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import base.foxizz.util.AppUtil
+import base.foxizz.util.NetworkUtil
+import base.foxizz.util.SPUtil
 import com.baidu.mapapi.map.offline.MKOLSearchRecord
 import com.baidu.mapapi.map.offline.MKOfflineMap
 import com.navigation.foxizz.R
 import com.navigation.foxizz.activity.MainActivity
-import com.navigation.foxizz.data.Constants
-import com.navigation.foxizz.util.AppUtil
 import com.navigation.foxizz.util.CityUtil
-import com.navigation.foxizz.util.NetworkUtil
-import com.navigation.foxizz.util.SPUtil
 
 /*
 * 下载离线地图服务
@@ -97,7 +97,7 @@ class OfflineMapService : Service() {
     //下载离线地图
     private fun downloadOfflineMap(intent: Intent) {
         val mCity = intent.getStringExtra(Constants.MY_CITY)
-        if (!CityUtil.checkCityName(mCity)) return
+        if (!CityUtil.isCityName(mCity)) return
         //没有有网络连接或网络类型不为wifi
         if (!NetworkUtil.isNetworkConnected || NetworkUtil.networkType != "wifi") return
 

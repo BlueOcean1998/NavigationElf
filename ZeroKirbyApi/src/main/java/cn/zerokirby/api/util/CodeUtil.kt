@@ -57,13 +57,13 @@ class CodeUtil {
 
     //生成验证码
     private fun createCode(): String {
-        val sb = StringBuilder()
-        //利用random生成随机下标
-        //验证码个数，线条数，字体大小
-        for (i in 0 until CODE_LENGTH) {
-            sb.append(CHARS[random.nextInt(CHARS.size)])
+        StringBuilder().run {
+            //利用random生成随机下标，验证码个数，线条数，字体大小
+            for (i in 0 until CODE_LENGTH) {
+                append(CHARS[random.nextInt(CHARS.size)])
+            }
+            return toString()
         }
-        return sb.toString()
     }
 
     //随机文字样式，颜色，文字粗细与倾斜度

@@ -4,6 +4,12 @@ import android.app.ProgressDialog
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import base.foxizz.BaseApplication.Companion.baseApplication
+import base.foxizz.getString
+import base.foxizz.util.AppUtil
+import base.foxizz.util.NetworkUtil
+import base.foxizz.util.SettingUtil
+import base.foxizz.util.showToast
 import com.baidu.mapapi.bikenavi.BikeNavigateHelper
 import com.baidu.mapapi.bikenavi.adapter.IBEngineInitListener
 import com.baidu.mapapi.bikenavi.adapter.IBRoutePlanListener
@@ -22,16 +28,11 @@ import com.baidu.navisdk.adapter.BaiduNaviManagerFactory
 import com.baidu.navisdk.adapter.IBNRoutePlanManager
 import com.baidu.navisdk.adapter.IBaiduNaviManager.INaviInitListener
 import com.baidu.navisdk.adapter.struct.BNTTsInitConfig
-import com.navigation.foxizz.BaseApplication.Companion.baseApplication
 import com.navigation.foxizz.R
 import com.navigation.foxizz.activity.fragment.MainFragment
 import com.navigation.foxizz.mybaidumap.activity.BNaviGuideActivity
 import com.navigation.foxizz.mybaidumap.activity.DNaviGuideActivity
 import com.navigation.foxizz.mybaidumap.activity.WNaviGuideActivity
-import com.navigation.foxizz.util.AppUtil
-import com.navigation.foxizz.util.NetworkUtil
-import com.navigation.foxizz.util.SettingUtil
-import com.navigation.foxizz.util.showToast
 import java.util.*
 
 /**
@@ -43,13 +44,13 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
 
         //初始化驾车导航引擎
         if (NetworkUtil.isNetworkConnected) { //有网络连接
-            initDriveNavigateHelper()
+            initDriveNavigateHelper() //初始化驾车
+            initTTS() //初始化语音合成
         }
     }
 
     companion object {
         private var hasInitDriveNavigate = false //驾车导航是否已初始化
-        private var enableDriveNavigate = false //是否可以进行驾车导航
     }
 
     private lateinit var mLoadingProgress: ProgressDialog //加载弹窗
@@ -65,21 +66,17 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
                     object : INaviInitListener {
                         override fun onAuthResult(status: Int, msg: String) {
                             if (status != 0) {
-                                (mainFragment.getString(R.string.key_checkout_fail) + msg).showToast()
+                                showToast(getString(R.string.key_checkout_fail) + msg)
                             }
                         }
 
                         override fun initStart() {}
                         override fun initSuccess() {
-                            enableDriveNavigate = true
-
-                            //初始化语音合成模块
-                            initTTS()
                             hasInitDriveNavigate = true
                         }
 
                         override fun initFailed(errCode: Int) {
-                            (R.string.drive_navigate_init_fail + errCode).showToast()
+                            showToast(getString(R.string.drive_navigate_init_fail) + errCode)
                         }
                     })
         }
@@ -88,9 +85,11 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
     //初始化加载弹窗
     private fun initProgressDialog() {
         mLoadingProgress = ProgressDialog(mainFragment.requireActivity())
-        mLoadingProgress.setTitle(R.string.hint)
-        mLoadingProgress.setMessage(mainFragment.getString(R.string.route_plan_please_wait))
-        mLoadingProgress.setCancelable(false)
+        mLoadingProgress.run {
+            setTitle(R.string.hint)
+            setMessage(getString(R.string.route_plan_please_wait))
+            setCancelable(false)
+        }
     }
 
     //初始化语音合成模块
@@ -99,9 +98,9 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
                 .context(baseApplication)
                 .sdcardRootPath(AppUtil.sdCardDir)
                 .appFolderName(AppUtil.appFolderName)
-                .appId(mainFragment.getString(R.string.app_id))
-                .appKey(mainFragment.getString(R.string.api_key))
-                .secretKey(mainFragment.getString(R.string.secret_key))
+                .appId(getString(R.string.app_id))
+                .appKey(getString(R.string.api_key))
+                .secretKey(getString(R.string.secret_key))
                 .build()
         )
     }
@@ -118,7 +117,7 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
             }
 
             override fun engineInitFail() {
-                R.string.walk_navigate_init_fail.showToast()
+                showToast(R.string.walk_navigate_init_fail)
             }
         })
     }
@@ -135,7 +134,7 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
             }
 
             override fun engineInitFail() {
-                R.string.bike_navigate_init_fail.showToast()
+                showToast(R.string.bike_navigate_init_fail)
             }
         })
     }
@@ -145,50 +144,57 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
      */
     fun startNavigate() {
         if (!NetworkUtil.isNetworkConnected) { //没有网络连接
-            R.string.network_error.showToast()
+            showToast(R.string.network_error)
             return
         }
-        if (NetworkUtil.isAirplaneModeOn) { //没有关飞行模式
-            R.string.close_airplane_mode.showToast()
+        if (NetworkUtil.isAirplaneModeEnable) { //没有关飞行模式
+            showToast(R.string.close_airplane_mode)
             return
         }
-        if (SettingUtil.haveReadWriteAndLocationPermissions()) { //权限不足
-            mainFragment.requestPermission() //申请权限，获得权限后定位
-            return
-        }
-        if (mainFragment.mBaiduLocation.mLatLng == null) { //还没有得到定位
-            R.string.wait_for_location_result.showToast()
-            return
-        }
-        if (mainFragment.mBaiduRoutePlan.mEndLocation == null) {
-            R.string.end_location_is_null.showToast()
-            return
-        }
-        when (mainFragment.mRoutePlanSelect) {
-            BaiduRoutePlan.DRIVING -> routeDrivePlanWithParam() //开始驾车导航
-            BaiduRoutePlan.WALKING, BaiduRoutePlan.TRANSIT -> initWalkNavigateHelper() //开始步行导航
-            BaiduRoutePlan.BIKING -> initBikeNavigateHelper() //开始骑行导航
+
+        mainFragment.run {
+            if (SettingUtil.haveReadWriteAndLocationPermissions()) { //权限不足
+                checkPermissionAndLocate() //申请权限，获得权限后定位
+                return
+            }
+            if (mBaiduLocation.mLatLng == null) { //还没有得到定位
+                showToast(R.string.wait_for_location_result)
+                return
+            }
+            if (mBaiduRoutePlan.mEndLocation == null) {
+                showToast(R.string.end_location_is_null)
+                return
+            }
+            when (mRoutePlanSelect) {
+                BaiduRoutePlan.DRIVING -> routeDrivePlanWithParam() //开始驾车导航
+                BaiduRoutePlan.WALKING, BaiduRoutePlan.TRANSIT ->
+                    initWalkNavigateHelper() //开始步行导航
+                BaiduRoutePlan.BIKING -> initBikeNavigateHelper() //开始骑行导航
+            }
         }
     }
 
     //初始化驾车路线规划
     private fun routeDrivePlanWithParam() {
-        if (!enableDriveNavigate) return
+        if (!hasInitDriveNavigate) return
 
         //设置驾车导航的起点和终点
-        val startNode = BNRoutePlanNode.Builder()
-                .latitude(mainFragment.mBaiduLocation.mLatLng?.latitude!!)
-                .longitude(mainFragment.mBaiduLocation.mLatLng?.longitude!!)
-                .coordinateType(BNRoutePlanNode.CoordinateType.BD09LL)
-                .build()
-        val endNode = BNRoutePlanNode.Builder()
-                .latitude(mainFragment.mBaiduRoutePlan.mEndLocation?.latitude!!)
-                .longitude(mainFragment.mBaiduRoutePlan.mEndLocation?.longitude!!)
-                .coordinateType(BNRoutePlanNode.CoordinateType.BD09LL)
-                .build()
         val mBNRoutePlanNodes = ArrayList<BNRoutePlanNode>()
-        mBNRoutePlanNodes.add(startNode)
-        mBNRoutePlanNodes.add(endNode)
+        mainFragment.run {
+            val startNode = BNRoutePlanNode.Builder()
+                    .latitude(mBaiduLocation.mLatLng?.latitude!!)
+                    .longitude(mBaiduLocation.mLatLng?.longitude!!)
+                    .coordinateType(BNRoutePlanNode.CoordinateType.BD09LL)
+                    .build()
+            val endNode = BNRoutePlanNode.Builder()
+                    .latitude(mBaiduRoutePlan.mEndLocation?.latitude!!)
+                    .longitude(mBaiduRoutePlan.mEndLocation?.longitude!!)
+                    .coordinateType(BNRoutePlanNode.CoordinateType.BD09LL)
+                    .build()
+            mBNRoutePlanNodes.add(startNode)
+            mBNRoutePlanNodes.add(endNode)
+        }
+
         BaiduNaviManagerFactory.getRoutePlanManager().routeplanToNavi(
                 mBNRoutePlanNodes,
                 IBNRoutePlanManager.RoutePlanPreference.ROUTE_PLAN_PREFERENCE_DEFAULT,
@@ -202,7 +208,7 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
                                 mLoadingProgress.dismiss()
                             IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_FAILED -> {
                                 mLoadingProgress.dismiss()
-                                R.string.drive_route_plan_fail.showToast()
+                                showToast(R.string.drive_route_plan_fail)
                             }
                             IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_TO_NAVI ->
                                 DNaviGuideActivity.startActivity(mainFragment.requireActivity())
@@ -217,41 +223,44 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
         val walkStartNode = WalkRouteNodeInfo()
         val walkEndNode = WalkRouteNodeInfo()
 
-        //设置起点
-        walkStartNode.location = mainFragment.mBaiduLocation.mLatLng
+        mainFragment.run {
+            //设置起点
+            walkStartNode.location = mBaiduLocation.mLatLng
 
-        //设置步行导航的终点
-        if (mainFragment.mRoutePlanSelect == BaiduRoutePlan.WALKING) {
-            walkEndNode.location = mainFragment.mBaiduRoutePlan.mEndLocation
+            //设置步行导航的终点
+            if (mRoutePlanSelect == BaiduRoutePlan.WALKING) {
+                walkEndNode.location = mBaiduRoutePlan.mEndLocation
 
-            //计算公交导航的步行导航的终点
-        } else if (mainFragment.mRoutePlanSelect == BaiduRoutePlan.TRANSIT) {
-            if (mainFragment.mBaiduRoutePlan.mBusStationLocations.size == 0) {
-                R.string.wait_for_route_plan_result.showToast()
-                return
-            }
+                //计算公交导航的步行导航的终点
+            } else if (mRoutePlanSelect == BaiduRoutePlan.TRANSIT) {
+                if (mBaiduRoutePlan.mBusStationLocations.size == 0) {
+                    showToast(R.string.wait_for_route_plan_result)
+                    return
+                }
 
-            //设置目的地
-            var minDistance = DistanceUtil.getDistance(
-                    mainFragment.mBaiduLocation.mLatLng, mainFragment.mBaiduRoutePlan.mEndLocation
-            )
-            walkEndNode.location = mainFragment.mBaiduRoutePlan.mEndLocation
-            for (i in mainFragment.mBaiduRoutePlan.mBusStationLocations.indices) {
-                val busStationDistance = DistanceUtil.getDistance(
-                        mainFragment.mBaiduLocation.mLatLng, mainFragment.mBaiduRoutePlan.mBusStationLocations[i]
+                //设置目的地
+                var minDistance = DistanceUtil.getDistance(
+                        mBaiduLocation.mLatLng, mBaiduRoutePlan.mEndLocation
                 )
-                if (busStationDistance < minDistance) {
-                    minDistance = busStationDistance
-                    //最近的站点距离大于100m则将目的地设置为最近的站点
-                    if (minDistance > 100) {
-                        walkEndNode.location = mainFragment.mBaiduRoutePlan.mBusStationLocations[i]
-                        //否则设置为最近的站点的下一个站点
-                    } else if (i != mainFragment.mBaiduRoutePlan.mBusStationLocations.size - 1) {
-                        walkEndNode.location = mainFragment.mBaiduRoutePlan.mBusStationLocations[i + 1]
+                walkEndNode.location = mBaiduRoutePlan.mEndLocation
+                for (i in mBaiduRoutePlan.mBusStationLocations.indices) {
+                    val busStationDistance = DistanceUtil.getDistance(
+                            mBaiduLocation.mLatLng, mBaiduRoutePlan.mBusStationLocations[i]
+                    )
+                    if (busStationDistance < minDistance) {
+                        minDistance = busStationDistance
+                        //最近的站点距离大于100m则将目的地设置为最近的站点
+                        if (minDistance > 100) {
+                            walkEndNode.location = mBaiduRoutePlan.mBusStationLocations[i]
+                            //否则设置为最近的站点的下一个站点
+                        } else if (i != mBaiduRoutePlan.mBusStationLocations.size - 1) {
+                            walkEndNode.location = mBaiduRoutePlan.mBusStationLocations[i + 1]
+                        }
                     }
                 }
             }
         }
+
         val walkParam = WalkNaviLaunchParam()
                 .startNodeInfo(walkStartNode)
                 .endNodeInfo(walkEndNode)
@@ -268,7 +277,7 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
 
             override fun onRoutePlanFail(error: WalkRoutePlanError) {
                 mLoadingProgress.dismiss()
-                R.string.walk_route_plan_fail.showToast()
+                showToast(R.string.walk_route_plan_fail)
             }
         })
     }
@@ -295,7 +304,7 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
 
             override fun onRoutePlanFail(bikeRoutePlanError: BikeRoutePlanError) {
                 mLoadingProgress.dismiss()
-                R.string.bike_route_plan_fail.showToast()
+                showToast(R.string.bike_route_plan_fail)
             }
         })
     }

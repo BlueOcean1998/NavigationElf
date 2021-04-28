@@ -33,7 +33,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
-        android:name="com.navigation.foxizz.BaseApplication"
+        android:name="base.foxizz.BaseApplication"
         android:allowBackup="true"
         android:fullBackupContent="false"
         android:icon="@drawable/dolphizz_cartoon"

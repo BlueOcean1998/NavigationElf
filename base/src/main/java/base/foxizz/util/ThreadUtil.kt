@@ -1,4 +1,4 @@
-package com.navigation.foxizz.util
+package base.foxizz.util
 
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
@@ -13,16 +13,12 @@ object ThreadUtil {
      *
      * @param runnable Runnable接口
      */
-    fun execute(runnable: Runnable) {
-        mExecutorService.execute(runnable)
-    }
+    fun execute(runnable: Runnable) = mExecutorService.execute(runnable)
 
     /**
      * 执行线程
      *
      * @param task Callable接口
      */
-    fun submit(task: Callable<*>): Future<*> {
-        return mExecutorService.submit(task)
-    }
+    fun submit(task: Callable<*>): Future<*> = mExecutorService.submit(task)
 }

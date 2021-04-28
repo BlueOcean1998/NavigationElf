@@ -1,33 +1,35 @@
 package com.navigation.foxizz.activity
 
+import Constants
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import base.foxizz.BaseActivity
+import base.foxizz.lbm
+import base.foxizz.mlh
+import base.foxizz.util.SPUtil
+import base.foxizz.util.SettingUtil
+import base.foxizz.util.ThreadUtil
+import base.foxizz.util.showToast
 import cn.zerokirby.api.data.AvatarDataHelper
 import cn.zerokirby.api.data.User
 import cn.zerokirby.api.data.UserDataHelper
 import cn.zerokirby.api.util.CodeUtil
 import com.navigation.foxizz.R
-import com.navigation.foxizz.data.Constants
-import com.navigation.foxizz.lbm
-import com.navigation.foxizz.util.SPUtil
-import com.navigation.foxizz.util.SettingUtil
-import com.navigation.foxizz.util.ThreadUtil
-import com.navigation.foxizz.util.showToast
 import kotlinx.android.synthetic.main.activity_login_register.*
 
 /**
  * 登录页
  */
-class LoginRegisterActivity : AppCompatActivity() {
+class LoginRegisterActivity : BaseActivity() {
     companion object {
         /**
          * 启动登录页
@@ -55,10 +57,10 @@ class LoginRegisterActivity : AppCompatActivity() {
         initView() //初始化控件
 
         //恢复输入框中的信息
-        if (savedInstanceState != null) {
-            username = savedInstanceState.getString("username")!!
-            password = savedInstanceState.getString("password")!!
-            verify = savedInstanceState.getString("verify")!!
+        savedInstanceState?.run {
+            username = getString("username") ?: ""
+            password = getString("password") ?: ""
+            verify = getString("verify") ?: ""
         }
     }
 
@@ -73,17 +75,19 @@ class LoginRegisterActivity : AppCompatActivity() {
     }
 
     //活动被回收时保存输入框中的信息
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString("username", username)
-        outState.putString("password", password)
-        outState.putString("verify", verify)
+    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
+        super.onSaveInstanceState(outState, outPersistentState)
+        outState?.run {
+            putString("username", username)
+            putString("password", password)
+            putString("verify", verify)
+        }
     }
 
     //初始化控件
     private fun initView() {
         //手机模式只允许竖屏，平板模式只允许横屏，且根据不同的模式设置不同的背景图
-        if (SettingUtil.isMobile) {
+        if (SettingUtil.isMobile()) {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
             rl_activity_login_register.setBackgroundResource(R.drawable.beach)
         } else {
@@ -101,7 +105,7 @@ class LoginRegisterActivity : AppCompatActivity() {
         }
 
         //监听用户输入变化，账号密码都不为空且验证码正确时，登录或注册按钮可点击
-        val textWatcher: TextWatcher = object : TextWatcher {
+        val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable) {
@@ -164,28 +168,27 @@ class LoginRegisterActivity : AppCompatActivity() {
                 }
 
                 //生成登录或注册结果提示信息
-                var toastMessage = ""
-                if (isLogin) { //登录页
+                showToast(if (isLogin) { //登录页
                     when (status) {
-                        2 -> toastMessage = resources.getString(R.string.server_error)
-                        1 -> toastMessage = getString(R.string.login_successfully)
-                        0 -> toastMessage = getString(R.string.wrong_username_or_password)
-                        -1 -> toastMessage = getString(R.string.username_banned)
-                        -2 -> toastMessage = getString(R.string.username_not_exists)
+                        2 -> R.string.server_error
+                        1 -> R.string.login_successfully
+                        0 -> R.string.wrong_username_or_password
+                        -1 -> R.string.username_banned
+                        -2 -> R.string.username_not_exists
+                        else -> R.string.unknown_error
                     }
                 } else { //注册页
-                    toastMessage = when (status) {
-                        2 -> resources.getString(R.string.server_error)
-                        1 -> resources.getString(R.string.register_successfully)
-                        else -> resources.getString(R.string.username_already_exists)
+                    when (status) {
+                        2 -> R.string.server_error
+                        1 -> R.string.register_successfully
+                        else -> R.string.username_already_exists
                     }
-                }
-                val finalToastMessage = toastMessage
+                })
+
                 isSending = false
-                finalToastMessage.showToast()//弹出提示信息
 
                 //返回UI线程进行UI操作（主线程）
-                runOnUiThread {
+                mlh.post {
                     pb_loading.visibility = View.GONE //隐藏进度条
                     app_compat_bt_login_register.isEnabled = true //登录或注册完毕后可点击
                 }
@@ -296,16 +299,16 @@ class LoginRegisterActivity : AppCompatActivity() {
 
     //设置返回提示对话框并弹出
     private fun showReturnHintDialog(message: String) {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle(R.string.hint)
-        builder.setMessage(message)
-        builder.setPositiveButton(R.string.confirm) { _, _ ->
-            finish() //退出登录页
-        }
-        builder.setNegativeButton(R.string.cancel) { _, _ ->
-            //do nothing
-        }
-        builder.show()
+        AlertDialog.Builder(this)
+                .setTitle(R.string.hint)
+                .setMessage(message)
+                .setPositiveButton(R.string.confirm) { _, _ ->
+                    finish() //退出登录页
+                }
+                .setNegativeButton(R.string.cancel) { _, _ ->
+                    //do nothing
+                }
+                .show()
     }
 
     //监听按键抬起事件

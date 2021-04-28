@@ -1,9 +1,10 @@
-package com.navigation.foxizz.data
-
 import android.net.Uri
 
 /**
- * 常量类
+ * App name: NavigationElf
+ * Author: Foxizz
+ * Accomplish date: 2020-04-30
+ * Last modify date: 2021-04-28
  */
 object Constants {
     const val LOCAL_DATABASE = "Navigate.db" //本地数据库
@@ -60,7 +61,5 @@ object Constants {
 
     //定位权限与系统相册
     const val GET_LOCATION = 0 //定位权限
-    const val CHOOSE_PHOTO = 1 //选择图片
-    const val PHOTO_REQUEST_CUT = 2 //请求裁剪图片
     var avatarUri: Uri = Uri.parse("") //服务端头像路径
 }

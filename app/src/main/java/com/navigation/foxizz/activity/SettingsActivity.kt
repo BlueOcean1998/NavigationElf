@@ -1,24 +1,23 @@
 package com.navigation.foxizz.activity
 
+import Constants
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.doAfterTextChanged
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import base.foxizz.BaseActivity
+import base.foxizz.imm
+import base.foxizz.lbm
+import base.foxizz.util.SPUtil
+import base.foxizz.util.showToast
 import com.navigation.foxizz.R
-import com.navigation.foxizz.data.Constants
 import com.navigation.foxizz.data.SearchDataHelper
-import com.navigation.foxizz.imm
-import com.navigation.foxizz.lbm
 import com.navigation.foxizz.util.CityUtil
-import com.navigation.foxizz.util.SPUtil
-import com.navigation.foxizz.util.showToast
 import kotlinx.android.synthetic.main.activity_settings.*
 import java.util.*
 
@@ -52,29 +51,25 @@ class SettingsActivity : BaseActivity() {
         initView() //初始化控件
 
         //初始化PreferenceScreen
-        supportFragmentManager
-                .beginTransaction()
+        supportFragmentManager.beginTransaction()
                 .replace(R.id.fl_settings_preferences, PreferenceScreen())
                 .commit()
     }
 
     //初始化控件
     private fun initView() {
-        when (Objects.requireNonNull(SPUtil.getString("map_type", Constants.STANDARD_MAP))) {
+        when (SPUtil.getString("map_type", Constants.STANDARD_MAP)) {
             Constants.STANDARD_MAP -> {
                 iv_map_standard.setImageResource(R.drawable.map_standard_on)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                    adaptive_tv_map_standard.setTextColor(getColor(R.color.deepblue))
+                adaptive_tv_map_standard.setTextColor(getColor(R.color.deepblue))
             }
             Constants.SATELLITE_MAP -> {
                 iv_map_satellite.setImageResource(R.drawable.map_satellite_on)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                    adaptive_tv_map_satellite.setTextColor(getColor(R.color.deepblue))
+                adaptive_tv_map_satellite.setTextColor(getColor(R.color.deepblue))
             }
             Constants.TRAFFIC_MAP -> {
                 iv_map_traffic.setImageResource(R.drawable.map_traffic_on)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                    adaptive_tv_map_traffic.setTextColor(getColor(R.color.deepblue))
+                adaptive_tv_map_traffic.setTextColor(getColor(R.color.deepblue))
             }
         }
 
@@ -153,28 +148,24 @@ class SettingsActivity : BaseActivity() {
         }
 
         //监听输入框的内容变化
-        et_destination_city.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                //获取输入框内的城市信息
-                textCity = et_destination_city.text.toString()
-                if (textCity != saveCity) { //不等于存储的城市名
-                    ib_destination_city_cancel.visibility = View.VISIBLE //显示取消按钮
-                    //城市名为空或校验通过
-                    if (textCity.isEmpty()
-                            || CityUtil.checkCityName(textCity)
-                            || CityUtil.checkProvinceName(textCity)) {
-                        ib_destination_city_confirm.visibility = View.VISIBLE //显示确定按钮
-                    } else {
-                        ib_destination_city_confirm.visibility = View.GONE //隐藏确定按钮
-                    }
+        et_destination_city.doAfterTextChanged {
+            //获取输入框内的城市信息
+            textCity = et_destination_city.text.toString()
+            if (textCity != saveCity) { //不等于存储的城市名
+                ib_destination_city_cancel.visibility = View.VISIBLE //显示取消按钮
+                //城市名为空或校验通过
+                if (textCity.isEmpty()
+                        || CityUtil.isCityName(textCity)
+                        || CityUtil.isProvinceName(textCity)) {
+                    ib_destination_city_confirm.visibility = View.VISIBLE //显示确定按钮
                 } else {
                     ib_destination_city_confirm.visibility = View.GONE //隐藏确定按钮
-                    ib_destination_city_cancel.visibility = View.GONE //隐藏取消按钮
                 }
+            } else {
+                ib_destination_city_confirm.visibility = View.GONE //隐藏确定按钮
+                ib_destination_city_cancel.visibility = View.GONE //隐藏取消按钮
             }
-        })
+        }
 
         //确定按钮的点击事件
         ib_destination_city_confirm.setOnClickListener {
@@ -205,7 +196,7 @@ class SettingsActivity : BaseActivity() {
     }
 
     //监听按键抬起事件
-    override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
         //如果是Enter键
         if (keyCode == KeyEvent.KEYCODE_ENTER) {
             commitCity() //提交输入的城市
@@ -259,19 +250,19 @@ class SettingsActivity : BaseActivity() {
 
         //显示删除所有搜索记录对话框
         private fun showDeleteAllSearchDataDialog(context: Context) {
-            val builder = AlertDialog.Builder(context)
-            builder.setTitle(context.getString(R.string.warning))
-            builder.setMessage(context.getString(R.string.to_clear))
-            builder.setPositiveButton(R.string.clear) { _, _ -> //发送本地广播通知清空搜索记录
-                lbm.sendBroadcast(Intent(Constants.SETTINGS_BROADCAST)
-                        .putExtra(Constants.SETTINGS_TYPE, Constants.CLEAN_RECORD))
-                SearchDataHelper.deleteSearchData() //清空数据库中的搜索记录
-                R.string.has_cleared.showToast()
-            }
-            builder.setNegativeButton(R.string.cancel) { _, _ ->
-                //do nothing
-            }
-            builder.show()
+            AlertDialog.Builder(context)
+                    .setTitle(getString(R.string.warning))
+                    .setMessage(getString(R.string.to_clear))
+                    .setPositiveButton(R.string.clear) { _, _ -> //发送本地广播通知清空搜索记录
+                        lbm.sendBroadcast(Intent(Constants.SETTINGS_BROADCAST)
+                                .putExtra(Constants.SETTINGS_TYPE, Constants.CLEAN_RECORD))
+                        SearchDataHelper.deleteSearchData() //清空数据库中的搜索记录
+                        showToast(R.string.has_cleared)
+                    }
+                    .setNegativeButton(R.string.cancel) { _, _ ->
+                        //do nothing
+                    }
+                    .show()
         }
     }
 }

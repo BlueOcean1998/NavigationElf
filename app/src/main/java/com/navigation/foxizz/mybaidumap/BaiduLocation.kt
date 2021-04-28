@@ -1,5 +1,9 @@
 package com.navigation.foxizz.mybaidumap
 
+import Constants
+import base.foxizz.BaseApplication.Companion.baseApplication
+import base.foxizz.util.SPUtil
+import base.foxizz.util.showToast
 import com.baidu.location.BDAbstractLocationListener
 import com.baidu.location.BDLocation
 import com.baidu.location.LocationClient
@@ -8,13 +12,9 @@ import com.baidu.mapapi.map.MapStatus
 import com.baidu.mapapi.map.MapStatusUpdateFactory
 import com.baidu.mapapi.map.MyLocationData
 import com.baidu.mapapi.model.LatLng
-import com.navigation.foxizz.BaseApplication.Companion.baseApplication
 import com.navigation.foxizz.R
 import com.navigation.foxizz.activity.fragment.MainFragment
-import com.navigation.foxizz.data.Constants
 import com.navigation.foxizz.data.SearchDataHelper
-import com.navigation.foxizz.util.SPUtil
-import com.navigation.foxizz.util.showToast
 
 /**
  * 定位模块
@@ -43,6 +43,9 @@ class BaiduLocation(private val mainFragment: MainFragment) {
      */
     fun initLocationOption() {
         isFirstLoc = true //首次定位
+
+        //停止定位服务
+        if (mLocationClient.isStarted) mLocationClient.stop()
 
         //定位监听
         mLocationClient.registerLocationListener(object : BDAbstractLocationListener() {
@@ -77,6 +80,7 @@ class BaiduLocation(private val mainFragment: MainFragment) {
                         */
                         SPUtil.put(Constants.MY_CITY, mCity) //保存新城市
                     }
+
                     if (isFirstLoc) {
                         isFirstLoc = false
                         if (refreshSearchList) {
@@ -91,8 +95,7 @@ class BaiduLocation(private val mainFragment: MainFragment) {
                         val builder = MapStatus.Builder()
                         builder.zoom(18.0f).target(mLatLng)
                         mainFragment.mBaiduMap.animateMapStatus(
-                                MapStatusUpdateFactory.newMapStatus(builder.build())
-                        )
+                                MapStatusUpdateFactory.newMapStatus(builder.build()))
                     }
                 } else {
                     if (requestLocationTime < MAX_TIME) {
@@ -100,10 +103,10 @@ class BaiduLocation(private val mainFragment: MainFragment) {
                     } else {
                         //弹出错误提示
                         when (mLocType) {
-                            BDLocation.TypeServerError -> R.string.server_error.showToast()
-                            BDLocation.TypeNetWorkException -> R.string.network_error.showToast()
-                            BDLocation.TypeCriteriaException -> R.string.close_airplane_mode.showToast()
-                            else -> R.string.unknown_error.showToast()
+                            BDLocation.TypeServerError -> showToast(R.string.server_error)
+                            BDLocation.TypeNetWorkException -> showToast(R.string.network_error)
+                            BDLocation.TypeCriteriaException -> showToast(R.string.close_airplane_mode)
+                            else -> showToast(R.string.unknown_error)
                         }
                     }
                 }
@@ -111,42 +114,41 @@ class BaiduLocation(private val mainFragment: MainFragment) {
         })
 
         //声明LocationClient类实例并配置定位参数
-        val option = LocationClientOption()
-        //可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
-        option.locationMode = LocationClientOption.LocationMode.Hight_Accuracy
-        //可选，默认gcj02，设置返回的定位结果坐标系，如果配合百度地图使用，建议设置为bd09ll;
-        option.setCoorType("bd09ll")
-        //可选，默认0，即仅定位一次，设置发起连续定位请求的间隔需要大于等于1000ms才是有效的
-        option.setScanSpan(1000)
-        //可选，设置是否需要地址信息，默认不需要
-        option.setIsNeedAddress(true)
-        //可选，设置是否需要地址描述
-        option.setIsNeedLocationDescribe(true)
-        //可选，设置是否需要设备方向结果
-        option.setNeedDeviceDirect(true)
-        //可选，默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
-        option.isLocationNotify = false
-        //可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
-        option.setIgnoreKillProcess(true)
-        //可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，
-        //结果类似于“在北京天安门附近”
-        option.setIsNeedLocationDescribe(true)
-        //可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
-        option.setIsNeedLocationPoiList(true)
-        //可选，默认false，设置是否收集CRASH信息，默认收集
-        option.SetIgnoreCacheException(true)
-        //可选，默认false，设置是否开启Gps定位
-        option.isOpenGps = true
-        //可选，默认false，设置定位时是否需要海拔信息，默认不需要，除基础定位版本都可用
-        option.setIsNeedAltitude(false)
-        //设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者，
-        //该模式下开发者无需再关心定位间隔是多少，定位SDK本身发现位置变化就会及时回调给开发者
-        option.setOpenAutoNotifyMode()
-        //设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者
-        //option.setOpenAutoNotifyMode(3000, 1, LocationClientOption.LOC_SENSITIVITY_HIGHT);
-        //需将配置好的LocationClientOption对象，通过setLocOption方法传递给LocationClient对象使用
-        mLocationClient.locOption = option
-        //开启定位
+        LocationClientOption().run {
+            //默认高精度，设置定位模式，高精度，低功耗，仅设备
+            locationMode = LocationClientOption.LocationMode.Hight_Accuracy
+            //默认false，设置是否开启GPS定位
+            isOpenGps = true
+            //默认false，设置是否当GPS有效时按照1S1次频率输出GPS结果
+            isLocationNotify = false
+            //默认gcj02，设置返回的定位结果坐标系，如果配合百度地图使用，建议设置为bd09ll;
+            setCoorType("bd09ll")
+            //默认0，即仅定位一次，设置发起连续定位请求的间隔需要大于等于1000ms才是有效的
+            setScanSpan(1000)
+            //设置是否需要地址信息，默认不需要
+            setIsNeedAddress(true)
+            //设置是否需要设备方向结果
+            setNeedDeviceDirect(true)
+            //默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
+            setIgnoreKillProcess(true)
+            //默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，
+            //结果类似于“在北京天安门附近”
+            setIsNeedLocationDescribe(true)
+            //默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
+            setIsNeedLocationPoiList(true)
+            //默认false，设置是否收集CRASH信息，默认收集
+            SetIgnoreCacheException(true)
+            //默认false，设置定位时是否需要海拔信息，默认不需要，除基础定位版本都可用
+            setIsNeedAltitude(false)
+            //设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者，
+            //该模式下开发者无需再关心定位间隔是多少，定位SDK本身发现位置变化就会及时回调给开发者
+            setOpenAutoNotifyMode()
+            //设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者
+            //setOpenAutoNotifyMode(3000, 1, LocationClientOption.LOC_SENSITIVITY_HIGHT)
+            //需将配置好的LocationClientOption对象，通过setLocOption方法传递给LocationClient对象使用
+            mLocationClient.locOption = this
+        }
+        //启动定位服务
         mLocationClient.start()
     }
 }

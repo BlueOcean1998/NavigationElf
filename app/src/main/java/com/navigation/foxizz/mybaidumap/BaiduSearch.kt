@@ -1,8 +1,13 @@
 package com.navigation.foxizz.mybaidumap
 
+import Constants
 import android.annotation.SuppressLint
 import android.os.Build
 import android.view.*
+import base.foxizz.dsp
+import base.foxizz.getString
+import base.foxizz.mlh
+import base.foxizz.util.*
 import com.baidu.mapapi.search.core.PoiInfo
 import com.baidu.mapapi.search.core.SearchResult
 import com.baidu.mapapi.search.poi.*
@@ -13,7 +18,6 @@ import com.baidu.mapapi.utils.DistanceUtil
 import com.navigation.foxizz.R
 import com.navigation.foxizz.activity.fragment.MainFragment
 import com.navigation.foxizz.data.*
-import com.navigation.foxizz.dsp
 import com.navigation.foxizz.util.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import java.math.BigDecimal
@@ -62,68 +66,73 @@ class BaiduSearch(private val mainFragment: MainFragment) {
      */
     fun startSearch() {
         if (isSearching) {
-            R.string.wait_for_search_result.showToast()
+            showToast(R.string.wait_for_search_result)
             return
         }
         if (!NetworkUtil.isNetworkConnected) { //没有网络连接
-            R.string.network_error.showToast()
+            showToast(R.string.network_error)
             return
         }
-        if (NetworkUtil.isAirplaneModeOn) { //没有关飞行模式
-            R.string.close_airplane_mode.showToast()
+        if (NetworkUtil.isAirplaneModeEnable) { //没有关飞行模式
+            showToast(R.string.close_airplane_mode)
             return
         }
-        if (!mainFragment.searchLayoutFlag) return //如果搜索布局没有展开则不进行搜索
-        mSearchContent = mainFragment.et_search.text.toString()
-        if (mSearchContent.isEmpty()) { //如果搜索内容为空
-            if (!mainFragment.isHistorySearchResult) { //如果不是搜索历史记录
-                mainFragment.isHistorySearchResult = true //现在是搜索历史记录了
-                SearchDataHelper.initSearchData(mainFragment) //初始化搜索记录
-            }
-            return
-        }
-        ThreadUtil.execute {
-            var searchCity = mainFragment.mBaiduLocation.mCity
-            //如果存储的城市不为空，则换用存储的城市
-            val saveCity = SPUtil.getString(Constants.DESTINATION_CITY)
-            if (saveCity.isNotEmpty()) searchCity = saveCity
-            if (searchCity.isEmpty()) {
-                mainFragment.requestPermission() //申请权限，获得权限后定位
-                return@execute
-            }
-
-            //如果是省份，则搜索城市列表设置为省份内所有的城市，否则设置为单个城市
-            mSearchCityList.clear()
-            if (CityUtil.checkProvinceName(searchCity)) {
-                mSearchCityList.addAll(CityUtil.getCityList(searchCity))
-            } else {
-                mSearchCityList.add(searchCity)
-            }
-            mainFragment.requireActivity().runOnUiThread {
-                if (!mainFragment.searchExpandFlag) { //如果搜索抽屉收起
-                    mainFragment.searchExpandFlag = true //设置搜索抽屉为展开
-                    mainFragment.expandSearchDrawer(true) //展开搜索抽屉
+        mainFragment.run {
+            if (!searchLayoutFlag) return //如果搜索布局没有展开则不进行搜索
+            mSearchContent = et_search.text.toString()
+            if (mSearchContent.isEmpty()) { //如果搜索内容为空
+                if (!isHistorySearchResult) { //如果不是搜索历史记录
+                    isHistorySearchResult = true //现在是搜索历史记录了
+                    SearchDataHelper.initSearchData(this) //初始化搜索记录
                 }
-                mainFragment.takeBackKeyboard() //收回键盘
-                mainFragment.mBaiduMap.clear() //清空地图上的所有标记点和绘制的路线
-                mainFragment.recycler_search_result.stopScroll() //停止信息列表滑动
-                mSearchList.clear() //清空searchList
-                mainFragment.mSearchAdapter.updateList() //通知adapter更新
-
-                //滚动到顶部
-                mainFragment.recycler_search_result.stopScroll()
-                mainFragment.recycler_search_result.scrollToPosition(0)
-                //加载搜索信息
-                mainFragment.include_search_loading.visibility = View.VISIBLE
-                mainFragment.recycler_search_result.visibility = View.GONE
+                return
             }
-            mainFragment.isHistorySearchResult = false //已经不是搜索历史记录了
-            mCurrentPage = 0 //页数归零
-            if (dsp.getBoolean(Constants.KEY_INTELLIGENT_SEARCH, true))
-                mainFragment.mBaiduSearch.mSearchType = CITY_SEARCH //设置搜索类型为城市内搜索
-            else mainFragment.mBaiduSearch.mSearchType = CONSTRAINT_CITY_SEARCH //设置搜索类型为强制城市内搜索
-            startSearch(mCurrentPage) //开始搜索
+            ThreadUtil.execute {
+                var searchCity = mBaiduLocation.mCity
+                //如果存储的城市不为空，则换用存储的城市
+                val saveCity = SPUtil.getString(Constants.DESTINATION_CITY)
+                if (saveCity.isNotEmpty()) searchCity = saveCity
+                if (searchCity.isEmpty()) {
+                    checkPermissionAndLocate() //申请权限，获得权限后定位
+                    return@execute
+                }
+
+                //如果是省份，则搜索城市列表设置为省份内所有的城市，否则设置为单个城市
+                mSearchCityList.clear()
+                if (CityUtil.isProvinceName(searchCity)) {
+                    mSearchCityList.addAll(CityUtil.getCityList(searchCity))
+                } else {
+                    mSearchCityList.add(searchCity)
+                }
+
+                mlh.post {
+                    if (!searchExpandFlag) { //如果搜索抽屉收起
+                        searchExpandFlag = true //设置搜索抽屉为展开
+                        expandSearchDrawer(true) //展开搜索抽屉
+                    }
+                    takeBackKeyboard() //收回键盘
+                    mBaiduMap.clear() //清空地图上的所有标记点和绘制的路线
+                    recycler_search_result.stopScroll() //停止信息列表滑动
+                    mSearchList.clear() //清空searchList
+                    mSearchAdapter.updateList() //通知adapter更新
+
+                    //滚动到顶部
+                    recycler_search_result.stopScroll()
+                    recycler_search_result.scrollToPosition(0)
+                    //加载搜索信息
+                    include_search_loading.visibility = View.VISIBLE
+                    recycler_search_result.visibility = View.GONE
+                }
+
+                isHistorySearchResult = false //已经不是搜索历史记录了
+                mCurrentPage = 0 //页数归零
+                if (dsp.getBoolean(Constants.KEY_INTELLIGENT_SEARCH, true))
+                    mBaiduSearch.mSearchType = CITY_SEARCH //设置搜索类型为城市内搜索
+                else mBaiduSearch.mSearchType = CONSTRAINT_CITY_SEARCH //设置搜索类型为强制城市内搜索
+                startSearch(mCurrentPage) //开始搜索
+            }
         }
+
     }
 
     /**
@@ -182,7 +191,7 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                 if (uidList.size == 0) {
                     mainFragment.isHistorySearchResult = true //现在是搜索历史记录了
                     SearchDataHelper.initSearchData(mainFragment) //初始化搜索记录
-                    R.string.find_nothing.showToast()
+                    showToast(R.string.find_nothing)
                 } else {
                     //要进行详细搜索的所有内容
                     for (uid in uidList) {
@@ -245,7 +254,7 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                         isSearching = false
                         mainFragment.isHistorySearchResult = true //现在是搜索历史记录了
                         SearchDataHelper.initSearchData(mainFragment) //初始化搜索记录
-                        R.string.find_nothing.showToast()
+                        showToast(R.string.find_nothing)
                     }
                     return
                 }
@@ -258,9 +267,11 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                         /*
                         val poiOverlay = PoiOverlay(mainFragment.mBaiduMap)
                         mainFragment.mBaiduMap.setOnMarkerClickListener(poiOverlay)
-                        poiOverlay.setData(poiResult) //设置POI数据
-                        poiOverlay.addToMap() //将所有的overlay添加到地图上
-                        poiOverlay.zoomToSpan() //移动地图到目标点上
+                        poiOverlay.run {
+                            setData(poiResult) //设置POI数据
+                            addToMap() //将所有的overlay添加到地图上
+                            zoomToSpan() //移动地图到目标点上
+                        }
                         */
 
                         //新建searchItems，用于保存本次的搜索结果
@@ -278,7 +289,9 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                                 searchItem.latLng = tLatLng //设置目标坐标
 
                                 //设置定位点到目标点的距离（单位：m，结果除以1000转化为km，保留两位小数）
-                                searchItem.distance = BigDecimal.valueOf(DistanceUtil.getDistance(mainFragment.mBaiduLocation.mLatLng, tLatLng) / 1000)
+                                searchItem.distance = BigDecimal
+                                        .valueOf(DistanceUtil.getDistance(
+                                                mainFragment.mBaiduLocation.mLatLng, tLatLng) / 1000)
                                         .setScale(2, BigDecimal.ROUND_HALF_UP)
                                         .toDouble()
 
@@ -371,50 +384,49 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                             //获取其它信息
                             val otherInfo = StringBuilder()
 
-                            //获取联系方式
-                            if (detailInfo.telephone.isNotEmpty()) {
-                                try {
-                                    otherInfo.append(mainFragment.getString(R.string.phone_number)).append(detailInfo.telephone).append("\n")
-                                } catch (e: Exception) {
+                            otherInfo.run {
+                                //获取联系方式
+                                if (detailInfo.telephone.isNotEmpty()) {
+                                    append(getString(R.string.phone_number), detailInfo.telephone, "\n")
                                 }
-                            }
 
-                            //获取营业时间
-                            if (detailInfo.getShopHours().isNotEmpty()) {
-                                otherInfo.append(mainFragment.getString(R.string.shop_time)).append(detailInfo.getShopHours())
-                                var isInShopHour = 0
-                                try {
-                                    val nowTime = TimeUtil.parse(TimeUtil.format(Date(),
-                                            TimeUtil.FORMATION_Hm), TimeUtil.FORMATION_Hm)
-                                    val shopHours = detailInfo.getShopHours() //去除中文和头尾的空格
-                                            .replace("[\\u4e00-\\u9fa5]", "").trim()
-                                            .split(",")
-                                    for (shopHour in shopHours) {
-                                        val time = shopHour.split("-")
-                                        val startTime = TimeUtil.parse(time[0], TimeUtil.FORMATION_Hm)
-                                        val endTime = TimeUtil.parse(time[1], TimeUtil.FORMATION_Hm)
-                                        if (TimeUtil.isEffectiveDate(nowTime, startTime, endTime)) {
-                                            isInShopHour = 1
+                                //获取营业时间
+                                if (detailInfo.getShopHours().isNotEmpty()) {
+                                    append(getString(R.string.shop_time), detailInfo.getShopHours())
+                                    var isInShopHour = 0
+                                    try {
+                                        val nowTime = TimeUtil.parse(TimeUtil.format(Date(),
+                                                TimeUtil.FORMATION_Hm), TimeUtil.FORMATION_Hm)
+                                        val shopHours = detailInfo.getShopHours() //去除中文和头尾的空格
+                                                .replace("[\\u4e00-\\u9fa5]", "").trim()
+                                                .split(",")
+                                        for (shopHour in shopHours) {
+                                            val time = shopHour.split("-")
+                                            val startTime = TimeUtil.parse(time[0], TimeUtil.FORMATION_Hm)
+                                            val endTime = TimeUtil.parse(time[1], TimeUtil.FORMATION_Hm)
+                                            if (TimeUtil.isInTime(nowTime, startTime, endTime)) {
+                                                isInShopHour = 1
+                                            }
                                         }
+                                    } catch (e: Exception) {
+                                        isInShopHour = -1 //未知
                                     }
-                                } catch (e: Exception) {
-                                    isInShopHour = -1 //未知
+                                    if (isInShopHour == 1) append(" ", getString(R.string.shopping))
+                                    else if (isInShopHour == 0) append(" ", getString(R.string.relaxing))
+                                    append("\n")
                                 }
-                                if (isInShopHour == 1)
-                                    otherInfo.append(" ").append(mainFragment.getString(R.string.shopping))
-                                else if (isInShopHour == 0)
-                                    otherInfo.append(" ").append(mainFragment.getString(R.string.relaxing))
-                                otherInfo.append("\n")
-                            }
-                            if (detailInfo.getPrice() != 0.0) { //获取平均消费
-                                otherInfo.append(mainFragment.getString(R.string.price)).append(detailInfo.getPrice()).append("元\n")
+                                if (detailInfo.getPrice() != 0.0) { //获取平均消费
+                                    append(getString(R.string.price), detailInfo.getPrice(), "元\n")
+                                }
                             }
 
                             //更新详细信息布局
-                            mainFragment.tv_search_target_name.text = detailInfo.name
-                            mainFragment.tv_search_address.text = detailInfo.address
-                            mainFragment.tv_search_distance.text = distance.toString() + "km"
-                            mainFragment.tv_search_others.text = otherInfo.toString()
+                            mainFragment.run {
+                                tv_search_target_name.text = detailInfo.name
+                                tv_search_address.text = detailInfo.address
+                                tv_search_distance.text = distance.toString() + "km"
+                                tv_search_others.text = otherInfo.toString()
+                            }
                         }
                     } else { //间接的详细信息搜索
                         //由于一般只传入一个uid，列表里往往只有一个搜索结果，即使这里用了循环语句

@@ -1,29 +1,29 @@
 package com.navigation.foxizz.activity.fragment
 
+import Constants
 import android.Manifest
 import android.content.*
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Point
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.*
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import base.foxizz.dsp
+import base.foxizz.imm
+import base.foxizz.lbm
+import base.foxizz.util.*
 import com.baidu.mapapi.map.*
-import com.baidu.tts.client.SpeechSynthesizer
 import com.navigation.foxizz.R
 import com.navigation.foxizz.activity.SettingsActivity
 import com.navigation.foxizz.activity.adapter.SchemeAdapter
 import com.navigation.foxizz.activity.adapter.SearchAdapter
 import com.navigation.foxizz.data.*
-import com.navigation.foxizz.dsp
-import com.navigation.foxizz.imm
-import com.navigation.foxizz.lbm
 import com.navigation.foxizz.mybaidumap.*
 import com.navigation.foxizz.receiver.LocalReceiver
 import com.navigation.foxizz.receiver.SystemReceiver
@@ -49,16 +49,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     var searchLayoutFlag = true //搜索布局展开状态
     var searchExpandFlag = false //搜索抽屉展开状态
     var isHistorySearchResult = true //是否是搜索历史记录
-    private var mSearchLayoutManager = StaggeredGridLayoutManager(
-            1, StaggeredGridLayoutManager.VERTICAL) //搜索布局管理器
     lateinit var mSearchAdapter: SearchAdapter //搜索适配器
 
     //路线规划相关
     lateinit var mBaiduRoutePlan: BaiduRoutePlan
     var mRoutePlanSelect = 0 //交通工具选择
     var schemeExpandFlag = 0 //方案布局展开状态（0：未展开，1：方案列表，2：单个方案）
-    var mSchemeLayoutManager = StaggeredGridLayoutManager(
-            1, StaggeredGridLayoutManager.VERTICAL) //方案布局管理器
     lateinit var mSchemeAdapter: SchemeAdapter //方案适配器
 
     //导航相关
@@ -88,7 +84,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         mBaiduRoutePlan = BaiduRoutePlan(this) //初始化路线规划模块
         mBaiduNavigation = BaiduNavigation(this) //初始化导航模块
 
-        requestPermission() //申请权限，获得权限后定位
+        SearchDataHelper.initSearchData(this) //初始化搜索记录
+
+        checkPermissionAndLocate() //申请权限，获得权限后定位
     }
 
     //管理地图的生命周期
@@ -119,16 +117,14 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         mOrientationListener.stop() //停止方向传感
 
         //停止定位服务
-        if (mBaiduLocation.mLocationClient.isStarted) {
-            mBaiduLocation.mLocationClient.stop()
-        }
+        if (mBaiduLocation.mLocationClient.isStarted) mBaiduLocation.mLocationClient.stop()
 
         //释放地图、Sug搜索、POI搜索、路线规划、语音合成实例
         map_view?.onDestroy()
         mBaiduSearch.mSuggestionSearch.destroy()
         mBaiduSearch.mPoiSearch.destroy()
         mBaiduRoutePlan.mRoutePlanSearch.destroy()
-        SpeechSynthesizer.getInstance().release()
+        //SpeechSynthesizer.getInstance().release()
     }
 
     //初始化地图控件
@@ -178,21 +174,20 @@ class MainFragment : Fragment(R.layout.fragment_main) {
      * 设置地图类型
      */
     fun setMapType() {
-        when (SPUtil.getString(Constants.MAP_TYPE, Constants.STANDARD_MAP)) {
-            Constants.STANDARD_MAP -> {
-                if (mBaiduMap.mapType != BaiduMap.MAP_TYPE_NORMAL)
-                    mBaiduMap.mapType = BaiduMap.MAP_TYPE_NORMAL
-                mBaiduMap.isTrafficEnabled = false
-            }
-            Constants.SATELLITE_MAP -> {
-                if (mBaiduMap.mapType != BaiduMap.MAP_TYPE_SATELLITE)
-                    mBaiduMap.mapType = BaiduMap.MAP_TYPE_SATELLITE
-                mBaiduMap.isTrafficEnabled = false
-            }
-            Constants.TRAFFIC_MAP -> {
-                if (mBaiduMap.mapType != BaiduMap.MAP_TYPE_NORMAL)
-                    mBaiduMap.mapType = BaiduMap.MAP_TYPE_NORMAL
-                mBaiduMap.isTrafficEnabled = true
+        mBaiduMap.run {
+            when (SPUtil.getString(Constants.MAP_TYPE, Constants.STANDARD_MAP)) {
+                Constants.STANDARD_MAP -> {
+                    mapType = BaiduMap.MAP_TYPE_NORMAL
+                    isTrafficEnabled = false
+                }
+                Constants.SATELLITE_MAP -> {
+                    mapType = BaiduMap.MAP_TYPE_SATELLITE
+                    isTrafficEnabled = false
+                }
+                Constants.TRAFFIC_MAP -> {
+                    mapType = BaiduMap.MAP_TYPE_NORMAL
+                    isTrafficEnabled = true
+                }
             }
         }
     }
@@ -216,25 +211,20 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     /**
      * 设置是否显示比例尺
      */
-    fun setScaleControl() {
-        map_view.showScaleControl(
-                dsp.getBoolean(Constants.KEY_SCALE_CONTROL, true))
-    }
+    fun setScaleControl() =
+            map_view.showScaleControl(dsp.getBoolean(Constants.KEY_SCALE_CONTROL, true))
 
     /**
      * 设置是否显示缩放按钮
      */
-    fun setZoomControls() {
-        map_view.showZoomControls(
-                dsp.getBoolean(Constants.KEY_ZOOM_CONTROLS, false))
-    }
+    fun setZoomControls() =
+            map_view.showZoomControls(dsp.getBoolean(Constants.KEY_ZOOM_CONTROLS, false))
 
     /**
      * 设置是否显示指南针
      */
     fun setCompass() {
-        mBaiduMap.uiSettings.isCompassEnabled =
-                dsp.getBoolean(Constants.KEY_COMPASS, true)
+        mBaiduMap.uiSettings.isCompassEnabled = dsp.getBoolean(Constants.KEY_COMPASS, true)
     }
 
     //初始化系统广播接收器
@@ -270,11 +260,13 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         mSearchAdapter = SearchAdapter(this) //初始化搜索适配器
         recycler_search_result.adapter = mSearchAdapter //设置搜索适配器
-        recycler_search_result.layoutManager = mSearchLayoutManager //设置搜索布局
+        recycler_search_result.layoutManager = StaggeredGridLayoutManager(
+                1, StaggeredGridLayoutManager.VERTICAL) //设置搜索布局管理器
 
         mSchemeAdapter = SchemeAdapter(this) //初始化方案适配器
         recycler_scheme_result.adapter = mSchemeAdapter //设置方案适配器
-        recycler_scheme_result.layoutManager = mSchemeLayoutManager //设置方案布局
+        recycler_scheme_result.layoutManager = StaggeredGridLayoutManager(
+                1, StaggeredGridLayoutManager.VERTICAL) //设置方案布局管理器
 
         //设置按钮的点击事件
         ib_settings.setOnClickListener {
@@ -289,7 +281,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         //定位按钮的点击事件
         ib_location.setOnClickListener {
-            requestPermission() //申请权限，获得权限后定位
+            checkPermissionAndLocate() //申请权限，获得权限后定位
         }
 
         //驾车按钮的点击事件
@@ -336,7 +328,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         et_search.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 //如果搜索抽屉收起且有搜索历史记录
-                if (!searchExpandFlag && SearchDataHelper.isHasSearchData) {
+                if (!searchExpandFlag && SearchDataHelper.isHasSearchData()) {
                     searchExpandFlag = true //设置搜索抽屉为展开
                     expandSearchDrawer(true) //展开搜索抽屉
                 }
@@ -344,16 +336,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
         //监听输入框内容改变
-        et_search.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                //根据是否有内容判断显示和隐藏清空按钮
-                if (et_search.text.toString().isNotEmpty())
-                    ib_empty.visibility = View.VISIBLE
-                else ib_empty.visibility = View.INVISIBLE
-            }
-        })
+        et_search.doAfterTextChanged {
+            //根据是否有内容判断显示和隐藏清空按钮
+            if (et_search.text.toString().isNotEmpty())
+                ib_empty.visibility = View.VISIBLE
+            else ib_empty.visibility = View.INVISIBLE
+        }
 
         //清空按钮的点击事件
         ib_empty.setOnClickListener {
@@ -414,7 +402,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             //交通选择
             if (mRoutePlanSelect == 0) {
                 if (infoFlag == 0) bt_middle.callOnClick()
-                else R.string.please_select_transportation.showToast()
+                else showToast(R.string.please_select_transportation)
                 return@setOnClickListener
             }
             mBaiduNavigation.startNavigate() //开始导航
@@ -441,7 +429,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     /**
      * 申请权限，获得权限后定位
      */
-    fun requestPermission() {
+    fun checkPermissionAndLocate() {
         val permissions = arrayOf(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE, //读写手机存储
                 Manifest.permission.ACCESS_COARSE_LOCATION //定位
@@ -459,9 +447,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             mBaiduLocation.requestLocationTime = 0 //请求定位的次数归零
             mBaiduLocation.refreshSearchList = true //刷新搜索列表
             mBaiduLocation.initLocationOption() //初始化定位
-        } else
+        } else {
             ActivityCompat.requestPermissions(requireActivity(),
-                    toApplyPermissions.toTypedArray(), 0)
+                    toApplyPermissions.toTypedArray(), Constants.GET_LOCATION)
+        }
     }
 
     /**

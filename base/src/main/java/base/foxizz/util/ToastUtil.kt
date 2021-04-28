@@ -1,8 +1,9 @@
-package com.navigation.foxizz.util
+package base.foxizz.util
 
 import android.widget.Toast
-import com.navigation.foxizz.BaseApplication.Companion.baseApplication
-import com.navigation.foxizz.mlh
+import androidx.annotation.StringRes
+import base.foxizz.BaseApplication.Companion.baseApplication
+import base.foxizz.mlh
 
 //下一个Toast弹出时立刻覆盖掉上一个Toast
 private var mToast: Toast? = null
@@ -10,13 +11,15 @@ private var mToast: Toast? = null
 /**
  * 弹出提示信息
  *
+ * @param string 字符串
  * @param duration 延时（short/long），默认为short
  */
-fun String.showToast(duration: Int = Toast.LENGTH_SHORT) {
+@JvmName("baseShowToast")
+fun showToast(string: String, duration: Int = Toast.LENGTH_SHORT) {
     mlh.post {
         mToast?.cancel()
         mToast = Toast.makeText(baseApplication, null, duration)
-        mToast!!.setText(this)
+        mToast!!.setText(string)
         mToast!!.show()
     }
 }
@@ -24,13 +27,15 @@ fun String.showToast(duration: Int = Toast.LENGTH_SHORT) {
 /**
  * 弹出提示信息
  *
+ * @param resId StringRes
  * @param duration 延时（short/long），默认为short
  */
-fun Int.showToast(duration: Int = Toast.LENGTH_SHORT) {
+@JvmName("baseShowToast")
+fun showToast(@StringRes resId: Int, duration: Int = Toast.LENGTH_SHORT) {
     mlh.post {
         mToast?.cancel()
         mToast = Toast.makeText(baseApplication, null, duration)
-        mToast!!.setText(this)
+        mToast!!.setText(resId)
         mToast!!.show()
     }
 }

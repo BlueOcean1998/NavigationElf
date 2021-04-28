@@ -1,4 +1,4 @@
-package com.navigation.foxizz.util
+package base.foxizz.util
 
 import android.animation.ValueAnimator
 import android.view.View
@@ -9,8 +9,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.iterator
 import androidx.recyclerview.widget.RecyclerView
-import com.navigation.foxizz.BaseApplication.Companion.baseApplication
-import com.navigation.foxizz.R
+import base.foxizz.BaseApplication.Companion.baseApplication
+import base.foxizz.R
 
 /**
  * 布局工具类
@@ -24,15 +24,14 @@ object LayoutUtil {
      * @return 尺寸
      */
     fun getViewSize(view: View, type: Boolean): Int {
-        val heightOrWidth = IntArray(1)
+        var heightOrWidth = 0
         view.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                if (type) heightOrWidth[0] = view.width
-                else heightOrWidth[0] = view.height
+                heightOrWidth = if (type) view.width else view.height
                 view.viewTreeObserver.removeOnGlobalLayoutListener(this)
             }
         })
-        return heightOrWidth[0]
+        return heightOrWidth
     }
 
     /**
@@ -43,13 +42,14 @@ object LayoutUtil {
      * @param endHeight   动画后的高度
      */
     fun getValueAnimator(view: View, startHeight: Int, endHeight: Int): ValueAnimator {
-        val valueAnimator = ValueAnimator.ofInt(startHeight, endHeight)
-        //valueAnimator.duration = 300;//动画时间（默认就是300）
-        valueAnimator.addUpdateListener { animation -> //逐渐改变view的高度
-            view.layoutParams.height = animation.animatedValue as Int
-            view.requestLayout()
+        ValueAnimator.ofInt(startHeight, endHeight).run {
+            //duration = 300;//动画时间（默认就是300）
+            addUpdateListener { animation -> //逐渐改变view的高度
+                view.layoutParams.height = animation.animatedValue as Int
+                view.requestLayout()
+            }
+            return this
         }
-        return valueAnimator
     }
 
     /**
@@ -64,46 +64,52 @@ object LayoutUtil {
     fun getValueAnimator(
             view: View, startHeight: Int, endHeight: Int,
             recyclerView: RecyclerView, position: Int): ValueAnimator {
-        val valueAnimator = ValueAnimator.ofInt(startHeight, endHeight)
-        //valueAnimator.duration = 300;//动画时间（默认就是300）
-        valueAnimator.addUpdateListener { animation -> //逐渐改变view的高度
-            view.layoutParams.height = animation.animatedValue as Int
-            view.requestLayout()
-
-            //不断地移动回点击的item的位置
-            recyclerView.scrollToPosition(position)
+        ValueAnimator.ofInt(startHeight, endHeight).run {
+            //duration = 300;//动画时间（默认就是300）
+            addUpdateListener { animation -> //逐渐改变view的高度
+                view.layoutParams.height = animation.animatedValue as Int
+                view.requestLayout()
+                //不断地移动回点击的item的位置
+                recyclerView.scrollToPosition(position)
+            }
+            return this
         }
-        return valueAnimator
     }
 }
 
 /**
  * 将px值转换为sp值
  */
-fun Float.pxToSp(): Float = this / baseApplication.resources.displayMetrics.scaledDensity
+val Int.pxToSp get() = this / baseApplication.resources.displayMetrics.scaledDensity.toInt()
 
 /**
  * 将sp值转换为px值
  */
-fun Float.spToPx(): Float = this * baseApplication.resources.displayMetrics.scaledDensity
+val Int.spToPx get() = this * baseApplication.resources.displayMetrics.scaledDensity.toInt()
+
+/**
+ * 将px值转换为sp值
+ */
+val Float.pxToSp get() = this / baseApplication.resources.displayMetrics.scaledDensity
+
+/**
+ * 将sp值转换为px值
+ */
+val Float.spToPx get() = this * baseApplication.resources.displayMetrics.scaledDensity
 
 /**
  * 获取控件宽度
  *
  * @return 宽度
  */
-fun View.getRealWidth(): Int {
-    return LayoutUtil.getViewSize(this, true)
-}
+val View.realWidth get() = LayoutUtil.getViewSize(this, true)
 
 /**
  * 获取控件高度
  *
  * @return 高度
  */
-fun View.getRealHeight(): Int {
-    return LayoutUtil.getViewSize(this, false)
-}
+val View.realHeight get() = LayoutUtil.getViewSize(this, false)
 
 /**
  * 设置控件宽度
@@ -154,8 +160,8 @@ fun LinearLayout.expandLayout(flag: Boolean) {
  * @param recyclerView 需要回滚的recyclerView
  * @param position     回滚的位置
  */
-fun LinearLayout.expandLayout(
-        flag: Boolean, textView: TextView, recyclerView: RecyclerView, position: Int) {
+fun LinearLayout.expandLayout(flag: Boolean, textView: TextView,
+                              recyclerView: RecyclerView, position: Int) {
     if (flag) {
         //动画2，出现
         startAnimation(AnimationUtils.loadAnimation(baseApplication, R.anim.adapter_alpha2))
@@ -178,11 +184,12 @@ fun LinearLayout.expandLayout(
  * @param to   动画后的旋转角度
  */
 fun View.rotateExpandIcon(from: Float, to: Float) {
-    val valueAnimator = ValueAnimator.ofFloat(from, to)
-    valueAnimator.interpolator = DecelerateInterpolator() //先加速后减速的动画
-    //valueAnimator.duration = 300;//动画时间（默认就是300）
-    valueAnimator.addUpdateListener { //逐渐改变view的旋转角度
-        rotation = valueAnimator.animatedValue as Float
+    ValueAnimator.ofFloat(from, to).run {
+        interpolator = DecelerateInterpolator() //先加速后减速的动画
+        //duration = 300;//动画时间（默认就是300）
+        addUpdateListener { //逐渐改变view的旋转角度
+            rotation = animatedValue as Float
+        }
+        start()
     }
-    valueAnimator.start()
 }

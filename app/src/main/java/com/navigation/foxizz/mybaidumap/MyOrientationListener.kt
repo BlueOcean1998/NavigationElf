@@ -5,7 +5,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import com.navigation.foxizz.BaseApplication.Companion.baseApplication
+import base.foxizz.BaseApplication.Companion.baseApplication
 import kotlin.math.abs
 
 /**

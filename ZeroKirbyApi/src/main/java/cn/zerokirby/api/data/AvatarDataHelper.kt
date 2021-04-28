@@ -12,6 +12,8 @@ import android.provider.MediaStore
 import android.widget.ImageView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import base.foxizz.BaseConstants
+import cn.zerokirby.api.Constants
 import cn.zerokirby.api.data.DatabaseHelper.Companion.databaseHelper
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
@@ -91,7 +93,7 @@ object AvatarDataHelper {
         val permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
         if (ContextCompat.checkSelfPermission(activity, permission)
                 != PackageManager.PERMISSION_GRANTED)
-            ActivityCompat.requestPermissions(activity, arrayOf(permission), Constants.CHOOSE_PHOTO)
+            ActivityCompat.requestPermissions(activity, arrayOf(permission), BaseConstants.CHOOSE_PHOTO)
         else openAlbum(activity)
     }
 
@@ -104,7 +106,7 @@ object AvatarDataHelper {
         val data = Intent(Intent.ACTION_GET_CONTENT)
         data.data = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI //设置外部存储url
         data.type = "image/*" //设置只显示图片类型的文件
-        activity.startActivityForResult(data, Constants.CHOOSE_PHOTO)
+        activity.startActivityForResult(data, BaseConstants.CHOOSE_PHOTO)
     }
 
     /**
@@ -124,17 +126,19 @@ object AvatarDataHelper {
         cropImageFile.createNewFile()
         val cropImageUri = Uri.fromFile(cropImageFile)
 
-        data.action = "com.android.camera.action.CROP" //设置intent类型为裁剪图片
-        data.putExtra(MediaStore.EXTRA_OUTPUT, cropImageUri) //设置临时文件uri
+        data.run {
+            action = "com.android.camera.action.CROP" //设置intent类型为裁剪图片
+            putExtra(MediaStore.EXTRA_OUTPUT, cropImageUri) //设置临时文件uri
 
-        //设置初始裁剪比例
-        data.putExtra("aspectX", 1)
-        data.putExtra("aspectY", 1)
-        //设置裁剪后的宽高
-        data.putExtra("outputX", 256)
-        data.putExtra("outputY", 256)
+            //设置初始裁剪比例
+            putExtra("aspectX", 1)
+            putExtra("aspectY", 1)
+            //设置裁剪后的宽高
+            putExtra("outputX", 256)
+            putExtra("outputY", 256)
 
-        activity.startActivityForResult(data, Constants.PHOTO_REQUEST_CUT)
+            activity.startActivityForResult(this, BaseConstants.PHOTO_REQUEST_CUT)
+        }
 
         return cropImageUri
     }

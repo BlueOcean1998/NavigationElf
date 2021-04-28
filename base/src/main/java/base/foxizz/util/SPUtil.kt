@@ -1,15 +1,15 @@
-package com.navigation.foxizz.util
+package base.foxizz.util
 
 import android.content.Context
 import androidx.core.content.edit
-import com.navigation.foxizz.BaseApplication.Companion.baseApplication
-import com.navigation.foxizz.data.Constants
+import base.foxizz.BaseApplication.Companion.baseApplication
+import base.foxizz.BaseConstants
 
 /**
  * SharedPreferences工具类
  */
 object SPUtil {
-    private val sp = baseApplication.getSharedPreferences(Constants.SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+    private val sp = baseApplication.getSharedPreferences(BaseConstants.SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE)
 
     /**
      * 设置键值
@@ -46,9 +46,7 @@ object SPUtil {
      * @param key 键
      * @param defValue 默认值
      */
-    fun getBoolean(key: String, defValue: Boolean = false): Boolean {
-        return sp.getBoolean(key, defValue)
-    }
+    fun getBoolean(key: String, defValue: Boolean = false) = sp.getBoolean(key, defValue)
 
     /**
      * 获取Int值
@@ -56,9 +54,7 @@ object SPUtil {
      * @param key 键
      * @param defValue 默认值
      */
-    fun getInt(key: String, defValue: Int = 0): Int {
-        return sp.getInt(key, defValue)
-    }
+    fun getInt(key: String, defValue: Int = 0) = sp.getInt(key, defValue)
 
     /**
      * 获取Float值
@@ -66,9 +62,7 @@ object SPUtil {
      * @param key 键
      * @param defValue 默认值
      */
-    fun getFloat(key: String, defValue: Float = 0F): Float {
-        return sp.getFloat(key, defValue)
-    }
+    fun getFloat(key: String, defValue: Float = 0F) = sp.getFloat(key, defValue)
 
     /**
      * 获取Long值
@@ -76,9 +70,7 @@ object SPUtil {
      * @param key 键
      * @param defValue 默认值
      */
-    fun getLong(key: String, defValue: Long = 0): Long {
-        return sp.getLong(key, defValue)
-    }
+    fun getLong(key: String, defValue: Long = 0) = sp.getLong(key, defValue)
 
     /**
      * 获取String值
@@ -86,7 +78,5 @@ object SPUtil {
      * @param key 键
      * @param defValue 默认值
      */
-    fun getString(key: String, defValue: String = ""): String {
-        return sp.getString(key, defValue) ?: ""
-    }
+    fun getString(key: String, defValue: String = "") = sp.getString(key, defValue) ?: ""
 }

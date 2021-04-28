@@ -1,32 +1,31 @@
-package com.navigation.foxizz.activity
+package base.foxizz
 
-import android.app.Activity
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import java.util.*
+import kotlin.reflect.KClass
 
 /**
  * 基础活动
  * 管理除3个百度导航诱导活动外的所有活动
  */
-open class BaseActivity : AppCompatActivity() {
+open class BaseActivity : FragmentActivity() {
     companion object {
-        private val ACTIVITIES = ArrayList<Activity>()
+        private val ACTIVITIES = ArrayList<BaseActivity>()
 
         /**
          * 获取指定活动
-         * 若该活动不在返回栈中，则返回MainActivity
          *
-         * @param cls 活动类
-         * @return 活动
+         * @param baseActivityClass 基础活动类
+         * @return 基础活动
          */
-        fun findActivity(cls: Class<*>): Activity {
+        fun findActivity(baseActivityClass: KClass<out BaseActivity>): BaseActivity? {
             for (activity in ACTIVITIES) {
-                if (activity.javaClass == cls) {
+                if (activity::class == baseActivityClass) {
                     return activity
                 }
             }
-            return ACTIVITIES[0]
+            return null
         }
 
         /**

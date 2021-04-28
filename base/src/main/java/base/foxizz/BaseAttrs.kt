@@ -1,4 +1,4 @@
-package com.navigation.foxizz
+package base.foxizz
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,7 +7,7 @@ import android.os.Looper
 import android.view.inputmethod.InputMethodManager
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceManager
-import com.navigation.foxizz.BaseApplication.Companion.baseApplication
+import base.foxizz.BaseApplication.Companion.baseApplication
 
 val mlh = Handler(Looper.getMainLooper())
 val dsp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseApplication)
