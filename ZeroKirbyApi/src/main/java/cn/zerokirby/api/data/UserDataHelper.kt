@@ -22,11 +22,12 @@ object UserDataHelper {
             databaseHelper.writableDatabase.use { db ->
                 db.execSQL("update User set language = ?, version = ?, " +
                         "display = ?, model = ?, brand = ?", arrayOf(
-                        SystemUtil.systemLanguage,
-                        SystemUtil.systemVersion,
-                        SystemUtil.systemDisplay,
-                        SystemUtil.systemModel,
-                        SystemUtil.deviceBrand))
+                    SystemUtil.systemLanguage,
+                    SystemUtil.systemVersion,
+                    SystemUtil.systemDisplay,
+                    SystemUtil.systemModel,
+                    SystemUtil.deviceBrand
+                ))
             }
         } catch (e: Exception) {
         }
@@ -42,25 +43,25 @@ object UserDataHelper {
      * @return 从服务器获取到的json字符串
      */
     fun loginRegisterSendRequest(
-            username: String, password: String, isLogin: Boolean): JSONObject {
+        username: String, password: String, isLogin: Boolean,
+    ): JSONObject {
         var response: Response? = null
         return try {
             val client = OkHttpClient() //使用OkHttp发送HTTP请求调用服务端登录servlet
             //创建请求返回的数据格式
             val requestBody = FormBody.Builder()
-                    .add("username", username)
-                    .add("password", password)
-                    .add("language", SystemUtil.systemLanguage)
-                    .add("version", SystemUtil.systemVersion)
-                    .add("display", SystemUtil.systemDisplay)
-                    .add("model", SystemUtil.systemModel)
-                    .add("brand", SystemUtil.deviceBrand).build()
+                .add("username", username)
+                .add("password", password)
+                .add("language", SystemUtil.systemLanguage)
+                .add("version", SystemUtil.systemVersion)
+                .add("display", SystemUtil.systemDisplay)
+                .add("model", SystemUtil.systemModel)
+                .add("brand", SystemUtil.deviceBrand).build()
             //发送登录或注册请求
-            val request: Request = if (isLogin) { //登录页
-                Request.Builder().url(Constants.LOGIN_URL).post(requestBody).build()
-            } else { //注册页
-                Request.Builder().url(Constants.REGISTER_URL).post(requestBody).build()
-            }
+            val request = Request.Builder().url(
+                if (isLogin) Constants.LOGIN_URL //登录页
+                else Constants.REGISTER_URL //注册页
+            ).post(requestBody).build()
             response = client.newCall(request).execute() //等待接收返回数据
             val responseData = response.body?.string() ?: "" //将得到的数据转为String类型
             JSONObject(responseData)
@@ -80,21 +81,23 @@ object UserDataHelper {
      * @param isLogin    是否是登录（而不是注册）
      */
     fun loginRegisterInitUserInfo(
-            jsonObject: JSONObject, username: String, password: String, isLogin: Boolean) {
+        jsonObject: JSONObject, username: String, password: String, isLogin: Boolean,
+    ) {
         try {
-            val user = User()
             val userId = jsonObject.getString("Id")
-            user.userId = userId
-            user.username = username
-            user.password = password
-            user.lastUse = System.currentTimeMillis()
-            if (isLogin) { //登录
-                user.registerTime = jsonObject.getLong("RegisterTime")
-                user.lastSync = jsonObject.getLong("SyncTime")
-            } else { //注册
-                user.registerTime = System.currentTimeMillis()
+            User().let {
+                it.userId = userId
+                it.username = username
+                it.password = password
+                it.lastUse = System.currentTimeMillis()
+                if (isLogin) { //登录
+                    it.registerTime = jsonObject.getLong("RegisterTime")
+                    it.lastSync = jsonObject.getLong("SyncTime")
+                } else { //注册
+                    it.registerTime = System.currentTimeMillis()
+                }
+                login(it) //更新用户数据库
             }
-            login(user) //更新用户数据库
         } catch (e: Exception) {
         }
     }
@@ -113,7 +116,9 @@ object UserDataHelper {
                             cursor.run {
                                 do {
                                     if (!TextUtils.isEmpty(
-                                                    getString(getColumnIndex("password")))) {
+                                            getString(getColumnIndex("password"))
+                                        )
+                                    ) {
                                         return getString(getColumnIndex("user_id"))
                                     }
                                 } while (moveToNext())
@@ -138,12 +143,14 @@ object UserDataHelper {
                 user.run {
                     db.execSQL("update User set user_id = ?, username = ?, password = ?, " +
                             "register_time = ?, last_use = ?, last_sync = ? where user_id = '0'",
-                            arrayOf(userId,
-                                    username,
-                                    password,
-                                    registerTime,
-                                    System.currentTimeMillis(),
-                                    lastSync)
+                        arrayOf(
+                            userId,
+                            username,
+                            password,
+                            registerTime,
+                            System.currentTimeMillis(),
+                            lastSync
+                        )
                     )
                 }
             }
@@ -204,7 +211,8 @@ object UserDataHelper {
         try {
             databaseHelper.writableDatabase.use { db ->
                 db.execSQL("update User set $column = ? where user_id = ?",
-                        arrayOf(value, userId))
+                    arrayOf(value, userId)
+                )
             }
         } catch (e: Exception) {
         }

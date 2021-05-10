@@ -9,7 +9,8 @@ import base.foxizz.BaseConstants
  * SharedPreferences工具类
  */
 object SPUtil {
-    private val sp = baseApplication.getSharedPreferences(BaseConstants.SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+    private val sp = baseApplication.getSharedPreferences(
+        BaseConstants.SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE)
 
     /**
      * 设置键值

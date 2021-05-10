@@ -5,6 +5,10 @@ import androidx.annotation.StringRes
 import base.foxizz.BaseApplication.Companion.baseApplication
 
 /**
+ * 基础函数
+ */
+
+/**
  * 获取字符串资源
  *
  * @param resId StringRes

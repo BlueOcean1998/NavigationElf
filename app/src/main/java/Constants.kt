@@ -1,10 +1,8 @@
-import android.net.Uri
-
 /**
  * App name: NavigationElf
  * Author: Foxizz
  * Accomplish date: 2020-04-30
- * Last modify date: 2021-04-28
+ * Last modify date: 2021-05-11
  */
 object Constants {
     const val LOCAL_DATABASE = "Navigate.db" //本地数据库
@@ -42,7 +40,8 @@ object Constants {
     const val CONNECTIVITY_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE" //网络连接状态改变
 
     //SettingsBroadcast的广播类型
-    const val SETTINGS_BROADCAST = "com.navigation.foxizz.navigation.broadcast.SETTINGS_BROADCAST" //设置变化广播
+    const val SETTINGS_BROADCAST =
+        "com.navigation.foxizz.navigation.broadcast.SETTINGS_BROADCAST" //设置变化广播
     const val SETTINGS_TYPE = "settings_type" //设置广播类型
     const val SET_MAP_TYPE = 1 //设置地图类型
     const val SET_LANDSCAPE = 2 //设置是否允许横屏
@@ -54,12 +53,9 @@ object Constants {
     const val CLEAN_RECORD = 8 //清空搜索记录
 
     //LoginBroadcast的广播类型
-    const val LOGIN_BROADCAST = "com.navigation.foxizz.navigation.broadcast.LOGIN_BROADCAST" //登录变化广播
+    const val LOGIN_BROADCAST =
+        "com.navigation.foxizz.navigation.broadcast.LOGIN_BROADCAST" //登录变化广播
     const val LOGIN_TYPE = "login_type" //设置广播类型
     const val SET_USERNAME = 1 //设置用户名
     const val SET_AVATAR = 2 //设置头像
-
-    //定位权限与系统相册
-    const val GET_LOCATION = 0 //定位权限
-    var avatarUri: Uri = Uri.parse("") //服务端头像路径
 }

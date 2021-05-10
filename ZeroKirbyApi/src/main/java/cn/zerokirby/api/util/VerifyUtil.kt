@@ -9,7 +9,35 @@ import java.util.*
 /**
  * 生成验证码工具类
  */
-class CodeUtil {
+class VerifyUtil {
+    companion object {
+        //随机码集
+        private const val CODES =
+            "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+
+        //验证码个数
+        private const val CODE_LENGTH = 4
+
+        //字体大小
+        private const val FONT_SIZE = 50
+
+        //线条数
+        private const val LINE_NUMBER = 5
+
+        //padding，其中base的意思是初始值，而range是变化范围。数值根据自己想要的大小来设置
+        private const val BASE_PADDING_LEFT = 10
+        private const val RANGE_PADDING_LEFT = 100
+        private const val BASE_PADDING_TOP = 75
+        private const val RANGE_PADDING_TOP = 50
+
+        //验证码默认宽高
+        private const val DEFAULT_WIDTH = 360
+        private const val DEFAULT_HEIGHT = 120
+
+        //随机数
+        private val random = Random()
+    }
+
     /**
      * 获取生成的验证码
      *
@@ -43,7 +71,7 @@ class CodeUtil {
             randomTextStyle(paint)
             randomPadding()
             //这里的padding_left,padding_top是文字的基线
-            c.drawText(element.toString() + "", paddingLeft.toFloat(), paddingTop.toFloat(), paint)
+            c.drawText(element.toString(), paddingLeft.toFloat(), paddingTop.toFloat(), paint)
         }
         //画干扰线
         for (i in 0 until LINE_NUMBER) {
@@ -60,7 +88,7 @@ class CodeUtil {
         StringBuilder().run {
             //利用random生成随机下标，验证码个数，线条数，字体大小
             for (i in 0 until CODE_LENGTH) {
-                append(CHARS[random.nextInt(CHARS.size)])
+                append(CODES[random.nextInt(CODES.length)])
             }
             return toString()
         }
@@ -87,13 +115,13 @@ class CodeUtil {
     //画干扰线
     private fun drawLine(canvas: Canvas, paint: Paint) {
         val color = randomColor()
-        val startX = random.nextInt(DEFAULT_WIDTH)
-        val startY = random.nextInt(DEFAULT_HEIGHT)
-        val stopX = random.nextInt(DEFAULT_WIDTH)
-        val stopY = random.nextInt(DEFAULT_HEIGHT)
+        val startX = random.nextInt(DEFAULT_WIDTH).toFloat()
+        val startY = random.nextInt(DEFAULT_HEIGHT).toFloat()
+        val stopX = random.nextInt(DEFAULT_WIDTH).toFloat()
+        val stopY = random.nextInt(DEFAULT_HEIGHT).toFloat()
         paint.strokeWidth = 1f
         paint.color = color
-        canvas.drawLine(startX.toFloat(), startY.toFloat(), stopX.toFloat(), stopY.toFloat(), paint)
+        canvas.drawLine(startX, startY, stopX, stopY, paint)
     }
 
     //生成随机颜色
@@ -102,38 +130,5 @@ class CodeUtil {
         val green = random.nextInt(256)
         val blue = random.nextInt(256)
         return Color.rgb(red, green, blue)
-    }
-
-    companion object {
-        //随机码集
-        private val CHARS = charArrayOf(
-                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-                'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'm',
-                'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
-        )
-
-        //验证码个数
-        private const val CODE_LENGTH = 4
-
-        //字体大小
-        private const val FONT_SIZE = 50
-
-        //线条数
-        private const val LINE_NUMBER = 5
-
-        //padding，其中base的意思是初始值，而range是变化范围。数值根据自己想要的大小来设置
-        private const val BASE_PADDING_LEFT = 10
-        private const val RANGE_PADDING_LEFT = 100
-        private const val BASE_PADDING_TOP = 75
-        private const val RANGE_PADDING_TOP = 50
-
-        //验证码默认宽高
-        private const val DEFAULT_WIDTH = 360
-        private const val DEFAULT_HEIGHT = 120
-
-        //随机数
-        private val random = Random()
     }
 }

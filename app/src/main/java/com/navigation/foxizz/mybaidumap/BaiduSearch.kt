@@ -27,11 +27,6 @@ import java.util.*
  * 搜索模块
  */
 class BaiduSearch(private val mainFragment: MainFragment) {
-    init {
-        initSugSearch()
-        initPoiSearch()
-    }
-
     companion object {
         const val TO_NEARBY_SEARCH_MIN_NUM = 64 //触发周边搜索需要的最小目标点数量
         const val NEARBY_SEARCH_DISTANCE = 5 * 1000 //周边搜索的距离
@@ -60,6 +55,11 @@ class BaiduSearch(private val mainFragment: MainFragment) {
 
     var mTotalPage = 0 //总页数
     var mCurrentPage = 0 //当前页
+
+    init {
+        initSugSearch()
+        initPoiSearch()
+    }
 
     /**
      * 开始搜索
@@ -99,11 +99,9 @@ class BaiduSearch(private val mainFragment: MainFragment) {
 
                 //如果是省份，则搜索城市列表设置为省份内所有的城市，否则设置为单个城市
                 mSearchCityList.clear()
-                if (CityUtil.isProvinceName(searchCity)) {
+                if (CityUtil.isProvinceName(searchCity))
                     mSearchCityList.addAll(CityUtil.getCityList(searchCity))
-                } else {
-                    mSearchCityList.add(searchCity)
-                }
+                else mSearchCityList.add(searchCity)
 
                 mlh.post {
                     if (!searchExpandFlag) { //如果搜索抽屉收起
@@ -132,7 +130,6 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                 startSearch(mCurrentPage) //开始搜索
             }
         }
-
     }
 
     /**
@@ -151,27 +148,27 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                     //开始Sug搜索
                     if (mSearchCityList.isNotEmpty()) {
                         mSuggestionSearch.requestSuggestion(SuggestionSearchOption()
-                                .city(mSearchCityList[0])
-                                .keyword(mSearchContent))
+                            .city(mSearchCityList[0])
+                            .keyword(mSearchContent))
                     }
                 } else {
                     if (mSearchCityList.isNotEmpty()) {
                         //开始POI城市内搜索
                         mPoiSearch.searchInCity(PoiCitySearchOption()
-                                .city(mSearchCityList[0])
-                                .keyword(mSearchContent)
-                                .pageNum(currentPage)
-                                .pageCapacity(PAGE_CAPACITY))
+                            .city(mSearchCityList[0])
+                            .keyword(mSearchContent)
+                            .pageNum(currentPage)
+                            .pageCapacity(PAGE_CAPACITY))
                     }
                 }
             } else if (mSearchType == NEARBY_SEARCH) {
                 //开始周边搜索
                 mPoiSearch.searchNearby(PoiNearbySearchOption()
-                        .location(mainFragment.mBaiduLocation.mLatLng)
-                        .radius(NEARBY_SEARCH_DISTANCE)
-                        .keyword(mSearchContent)
-                        .pageNum(currentPage)
-                        .pageCapacity(PAGE_CAPACITY))
+                    .location(mainFragment.mBaiduLocation.mLatLng)
+                    .radius(NEARBY_SEARCH_DISTANCE)
+                    .keyword(mSearchContent)
+                    .pageNum(currentPage)
+                    .pageCapacity(PAGE_CAPACITY))
             }
         }
     }
@@ -181,7 +178,8 @@ class BaiduSearch(private val mainFragment: MainFragment) {
         //获取Sug搜索实例
         mSuggestionSearch = SuggestionSearch.newInstance()
         val suggestionResultListener = OnGetSuggestionResultListener { suggestionResult ->
-            ThreadUtil.execute { //将Sug获取到的uid录入uid列表
+            ThreadUtil.execute {
+                //将Sug获取到的uid录入uid列表
                 val suggestionInfoList = suggestionResult.allSuggestions
                 if (suggestionInfoList != null && suggestionInfoList.size > 0) {
                     for (suggestionInfo in suggestionResult.allSuggestions) {
@@ -196,16 +194,15 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                     //要进行详细搜索的所有内容
                     for (uid in uidList) {
                         //uid的集合，最多可以传入10个uid，多个uid之间用英文逗号分隔。
-                        mPoiSearch.searchPoiDetail( //开始详细信息搜索
-                                PoiDetailSearchOption().poiUids(uid))
+                        mPoiSearch.searchPoiDetail(PoiDetailSearchOption().poiUids(uid))
                     }
                 }
 
                 //开始城市内搜索
                 mPoiSearch.searchInCity(PoiCitySearchOption()
-                        .city(mSearchCityList[0])
-                        .keyword(mSearchContent)
-                        .pageCapacity(PAGE_CAPACITY))
+                    .city(mSearchCityList[0])
+                    .keyword(mSearchContent)
+                    .pageCapacity(PAGE_CAPACITY))
             }
         }
         mSuggestionSearch.setOnGetSuggestionResultListener(suggestionResultListener)
@@ -215,257 +212,282 @@ class BaiduSearch(private val mainFragment: MainFragment) {
     private fun initPoiSearch() {
         //获取POI搜索实例
         mPoiSearch = PoiSearch.newInstance()
-        val poiSearchResultListener: OnGetPoiSearchResultListener = object : OnGetPoiSearchResultListener {
-            override fun onGetPoiResult(poiResult: PoiResult) {
-                if (mCurrentPage == 0) {
-                    //POI信息加载完成
-                    mainFragment.include_search_loading.visibility = View.GONE
-                    mainFragment.recycler_search_result.visibility = View.VISIBLE
-                }
-                if (poiResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {
-                    //城市内搜索不到内容时切换到别的城市继续搜索
-                    if (mSearchType == CITY_SEARCH) {
-                        if (poiResult.suggestCityList != null && poiResult.suggestCityList.size > 0) {
-                            mSearchType = OTHER_CITY_SEARCH
-                            for (cityInfo in poiResult.suggestCityList) {
-                                //开始别的城市内搜索
-                                mPoiSearch.searchInCity(PoiCitySearchOption()
+        val poiSearchResultListener: OnGetPoiSearchResultListener =
+            object : OnGetPoiSearchResultListener {
+                override fun onGetPoiResult(poiResult: PoiResult) {
+                    if (mCurrentPage == 0) {
+                        //POI信息加载完成
+                        mainFragment.include_search_loading.visibility = View.GONE
+                        mainFragment.recycler_search_result.visibility = View.VISIBLE
+                    }
+                    if (poiResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {
+                        //城市内搜索不到内容时切换到别的城市继续搜索
+                        if (mSearchType == CITY_SEARCH) {
+                            if (poiResult.suggestCityList != null
+                                && poiResult.suggestCityList.size > 0
+                            ) {
+                                mSearchType = OTHER_CITY_SEARCH
+                                for (cityInfo in poiResult.suggestCityList) {
+                                    //开始别的城市内搜索
+                                    mPoiSearch.searchInCity(PoiCitySearchOption()
                                         .city(cityInfo.city)
                                         .keyword(mSearchContent)
                                         .pageCapacity(PAGE_CAPACITY))
-                            }
-                        } else {
-                            isSearching = false
+                                }
+                            } else isSearching = false
+                            return
                         }
-                        return
-                    }
 
-                    //周边搜索不到内容时切换回城市内搜索
-                    if (mSearchType == NEARBY_SEARCH) {
-                        mSearchType = CONSTRAINT_CITY_SEARCH //设置搜索类型为强制城市内搜索
+                        //周边搜索不到内容时切换回城市内搜索
+                        if (mSearchType == NEARBY_SEARCH) {
+                            mSearchType = CONSTRAINT_CITY_SEARCH //设置搜索类型为强制城市内搜索
 
-                        //开始城市内搜索
-                        mPoiSearch.searchInCity(PoiCitySearchOption()
+                            //开始城市内搜索
+                            mPoiSearch.searchInCity(PoiCitySearchOption()
                                 .city(mSearchCityList[0])
                                 .keyword(mSearchContent)
                                 .pageNum(mCurrentPage)
                                 .pageCapacity(PAGE_CAPACITY))
-                    } else if (uidList.size == 0) {
-                        isSearching = false
-                        mainFragment.isHistorySearchResult = true //现在是搜索历史记录了
-                        SearchDataHelper.initSearchData(mainFragment) //初始化搜索记录
-                        showToast(R.string.find_nothing)
+                        } else if (uidList.size == 0) {
+                            isSearching = false
+                            mainFragment.isHistorySearchResult = true //现在是搜索历史记录了
+                            SearchDataHelper.initSearchData(mainFragment) //初始化搜索记录
+                            showToast(R.string.find_nothing)
+                        }
+                        return
                     }
-                    return
-                }
-                if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) { //检索结果正常返回
-                    //如果目标数量小于预设值或搜索类型为其它城市搜索或周边搜索或强制城市内搜索
-                    if (poiResult.totalPoiNum < TO_NEARBY_SEARCH_MIN_NUM || mSearchType == OTHER_CITY_SEARCH || mSearchType == NEARBY_SEARCH || mSearchType == CONSTRAINT_CITY_SEARCH) {
-                        mTotalPage = poiResult.totalPageNum
-                        mCurrentPage = poiResult.currentPageNum
+                    if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) { //检索结果正常返回
+                        //如果目标数量小于预设值或搜索类型为其它城市搜索或周边搜索或强制城市内搜索
+                        if (poiResult.totalPoiNum < TO_NEARBY_SEARCH_MIN_NUM
+                            || mSearchType == OTHER_CITY_SEARCH
+                            || mSearchType == NEARBY_SEARCH
+                            || mSearchType == CONSTRAINT_CITY_SEARCH
+                        ) {
+                            mTotalPage = poiResult.totalPageNum
+                            mCurrentPage = poiResult.currentPageNum
 
-                        /*
-                        val poiOverlay = PoiOverlay(mainFragment.mBaiduMap)
-                        mainFragment.mBaiduMap.setOnMarkerClickListener(poiOverlay)
-                        poiOverlay.run {
-                            setData(poiResult) //设置POI数据
-                            addToMap() //将所有的overlay添加到地图上
-                            zoomToSpan() //移动地图到目标点上
-                        }
-                        */
-
-                        //新建searchItems，用于保存本次的搜索结果
-                        val searchItems = ArrayList<SearchItem>()
-
-                        //将POI获取到的信息录入搜索结果列表
-                        for (poiInfo in poiResult.allPoi) {
-                            if (!uidList.contains(poiInfo.getUid()) //uid不重复且类型不是下面那些
-                                    && poiInfo.getType() != PoiInfo.POITYPE.BUS_STATION && poiInfo.getType() != PoiInfo.POITYPE.BUS_LINE && poiInfo.getType() != PoiInfo.POITYPE.SUBWAY_STATION && poiInfo.getType() != PoiInfo.POITYPE.SUBWAY_LINE && isUidNotInSearList(poiInfo.getUid())) {
-                                val searchItem = SearchItem()
-                                searchItem.uid = poiInfo.getUid() //获取并设置Uid
-                                searchItem.targetName = poiInfo.getName() //获取并设置目标名
-                                searchItem.address = poiInfo.getAddress() //获取并设置目标地址
-                                val tLatLng = poiInfo.getLocation() //获取目标坐标
-                                searchItem.latLng = tLatLng //设置目标坐标
-
-                                //设置定位点到目标点的距离（单位：m，结果除以1000转化为km，保留两位小数）
-                                searchItem.distance = BigDecimal
-                                        .valueOf(DistanceUtil.getDistance(
-                                                mainFragment.mBaiduLocation.mLatLng, tLatLng) / 1000)
-                                        .setScale(2, BigDecimal.ROUND_HALF_UP)
-                                        .toDouble()
-
-                                //添加搜索到的不同uid的内容添加到searchItems
-                                searchItems.add(searchItem)
+                            /*
+                            PoiOverlay(mainFragment.mBaiduMap).run {
+                                mainFragment.mBaiduMap.setOnMarkerClickListener(this)
+                                setData(poiResult) //设置POI数据
+                                addToMap() //将所有的overlay添加到地图上
+                                zoomToSpan() //移动地图到目标点上
                             }
-                        }
+                            */
 
-                        //周边搜索按距离升序排序
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-                                && mSearchType == NEARBY_SEARCH) {
-                            searchItems.sortWith { o1, o2 ->
-                                o1.distance.compareTo(o2.distance)
+                            //新建searchItems，用于保存本次的搜索结果
+                            val searchItems = ArrayList<SearchItem>()
+
+                            //将POI获取到的信息录入搜索结果列表
+                            for (poiInfo in poiResult.allPoi) {
+                                if (!uidList.contains(poiInfo.uid) //uid不重复且类型不是下面那些
+                                    && poiInfo.type != PoiInfo.POITYPE.BUS_STATION
+                                    && poiInfo.type != PoiInfo.POITYPE.BUS_LINE
+                                    && poiInfo.type != PoiInfo.POITYPE.SUBWAY_STATION
+                                    && poiInfo.type != PoiInfo.POITYPE.SUBWAY_LINE
+                                    && isUidNotInSearList(poiInfo.uid)
+                                ) {
+                                    SearchItem().run {
+                                        uid = poiInfo.uid //获取并设置Uid
+                                        val tLatLng = poiInfo.location //获取目标坐标
+                                        latLng = tLatLng //设置目标坐标
+                                        targetName = poiInfo.name //获取并设置目标名
+                                        address = poiInfo.address //获取并设置目标地址
+
+                                        //设置定位点到目标点的距离（单位：m，结果除以1000转化为km，保留两位小数）
+                                        distance = BigDecimal
+                                            .valueOf(DistanceUtil.getDistance(
+                                                mainFragment.mBaiduLocation.mLatLng,
+                                                tLatLng) / 1000)
+                                            .setScale(2, BigDecimal.ROUND_HALF_UP)
+                                            .toDouble()
+
+                                        //添加搜索到的不同uid的内容添加到searchItems
+                                        searchItems.add(this)
+                                    }
+                                }
                             }
-                        }
-                        mSearchList.addAll(searchItems) //将所有searchItem添加到searchList中
-                        if (mCurrentPage == 0) { //第0页全部排序
+
                             //周边搜索按距离升序排序
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-                                    && mSearchType == NEARBY_SEARCH) {
+                                && mSearchType == NEARBY_SEARCH
+                            ) {
+                                searchItems.sortWith { o1, o2 ->
+                                    o1.distance.compareTo(o2.distance)
+                                }
+                            }
+                            mSearchList.addAll(searchItems) //将所有searchItem添加到searchList中
+                            if (mCurrentPage == 0) { //第0页全部排序
+                                //周边搜索按距离升序排序
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+                                    && mSearchType == NEARBY_SEARCH
+                                ) {
+                                    mSearchList.sortWith { o1, o2 ->
+                                        o1.distance.compareTo(o2.distance)
+                                    }
+                                }
+                            }
+                            mainFragment.mSearchAdapter.updateList() //通知adapter更新
+                            mCurrentPage++ //当前页+1
+                            isSearching = false
+                        } else {
+                            mSearchType = NEARBY_SEARCH //设置搜索类型为周边搜索
+
+                            //开始周边搜索
+                            mPoiSearch.searchNearby(PoiNearbySearchOption()
+                                .location(mainFragment.mBaiduLocation.mLatLng)
+                                .radius(NEARBY_SEARCH_DISTANCE)
+                                .keyword(mSearchContent)
+                                .pageNum(mCurrentPage)
+                                .pageCapacity(PAGE_CAPACITY))
+                        }
+                    }
+                }
+
+                override fun onGetPoiDetailResult(poiDetailResult: PoiDetailSearchResult) {
+                    if (isFirstDetailSearch) { //如果是第一次详细信息搜索
+                        isFirstDetailSearch = false
+
+                        //详细信息加载完成
+                        mainFragment.include_search_info_loading.visibility = View.GONE
+                        mainFragment.sv_search_info.visibility = View.VISIBLE
+                        if (poiDetailResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) return
+                    }
+                    if (poiDetailResult.error == SearchResult.ERRORNO.NO_ERROR) { //检索结果正常返回
+                        //直接的详细信息搜索
+                        if (mSearchType == DETAIL_SEARCH || mSearchType == DETAIL_SEARCH_ALL) {
+                            //由于一般只传入一个uid，列表里往往只有一个搜索结果，即使这里用了循环语句
+                            for (detailInfo in poiDetailResult.poiDetailInfoList) {
+                                //将结果保存到数据库
+                                if (mSearchType == DETAIL_SEARCH)
+                                    SearchDataHelper.insertOrUpdateSearchData(detailInfo)
+
+                                val latLng = detailInfo.location //获取目标坐标
+
+                                //获取定位点到目标点的距离（单位：m，结果除以1000转化为km）
+                                var distance = DistanceUtil.getDistance(
+                                    mainFragment.mBaiduLocation.mLatLng, latLng) / 1000
+                                //保留两位小数
+                                val bd = BigDecimal(distance)
+                                distance = bd.setScale(2, BigDecimal.ROUND_HALF_UP).toDouble()
+
+                                //更新搜索结果列表
+                                SearchItem().let {
+                                    it.uid = detailInfo.uid //获取并设置目标uid
+                                    it.targetName = detailInfo.name //获取并设置目标名
+                                    it.address = detailInfo.address //获取并设置目标地址
+                                    it.latLng = latLng //设置目标坐标
+                                    it.distance = distance
+
+                                    //寻找搜索列表中Uid相同的item
+                                    for (i in mSearchList.indices) {
+                                        if (mSearchList[i].uid == detailInfo.uid) {
+                                            if (mSearchType == DETAIL_SEARCH) {
+                                                mSearchList.removeAt(i) //移除原本位置的item
+                                                mSearchList.add(0, it) //将其添加到头部
+                                            } else if (mSearchType == DETAIL_SEARCH_ALL) {
+                                                mSearchList[i] = it //直接修改原位置的item
+                                            }
+                                            break
+                                        }
+                                    }
+                                }
+
+                                if (mSearchType == DETAIL_SEARCH_ALL) return //详细搜索全部不更新详细信息布局
+
+                                //获取其它信息
+                                val otherInfo = StringBuilder()
+                                otherInfo.run {
+                                    //获取联系方式
+                                    if (detailInfo.telephone.isNotEmpty())
+                                        append(getString(R.string.phone_number),
+                                            detailInfo.telephone, "\n")
+
+                                    //获取营业时间
+                                    if (detailInfo.getShopHours().isNotEmpty()) {
+                                        append(getString(R.string.shop_time),
+                                            detailInfo.getShopHours())
+                                        var isInShopHour = 0
+                                        try {
+                                            TimeUtil.run {
+                                                val nowTime = parse(format(Date(), FORMATION_Hm),
+                                                    FORMATION_Hm)
+                                                //去除中文和头尾的空格
+                                                val shopHours = detailInfo.getShopHours()
+                                                    .removeChinese().trim().split(",")
+                                                for (shopHour in shopHours) {
+                                                    val time = shopHour.split("-")
+                                                    val startTime = parse(time[0], FORMATION_Hm)
+                                                    val endTime = parse(time[1], FORMATION_Hm)
+                                                    if (isInTime(nowTime, startTime, endTime))
+                                                        isInShopHour = 1
+                                                }
+                                            }
+                                        } catch (e: Exception) {
+                                            isInShopHour = -1 //未知
+                                        }
+                                        if (isInShopHour == 1) append(
+                                            " ", getString(R.string.shopping))
+                                        else if (isInShopHour == 0) append(
+                                            " ", getString(R.string.relaxing))
+                                        append("\n")
+                                    }
+                                    if (detailInfo.getPrice() != 0.0) { //获取平均消费
+                                        append(getString(R.string.price),
+                                            detailInfo.getPrice(), "元\n")
+                                    }
+                                }
+
+                                //更新详细信息布局
+                                mainFragment.run {
+                                    tv_search_target_name.text = detailInfo.name
+                                    tv_search_address.text = detailInfo.address
+                                    @SuppressLint("SetTextI18n")
+                                    tv_search_distance.text = "${distance}km"
+                                    tv_search_others.text = otherInfo
+                                }
+                            }
+                        } else { //间接的详细信息搜索
+                            //由于一般只传入一个uid，列表里往往只有一个搜索结果，即使这里用了循环语句
+                            for (detailInfo in poiDetailResult.poiDetailInfoList) {
+                                if (isUidNotInSearList(detailInfo.uid)) {
+                                    SearchItem().let {
+                                        it.uid = detailInfo.uid //获取并设置Uid
+                                        it.targetName = detailInfo.name //获取并设置目标名
+                                        it.address = detailInfo.address //获取并设置目标地址
+                                        val tLatLng = detailInfo.location //获取目标坐标
+                                        it.latLng = tLatLng //设置目标坐标
+
+                                        //设置定位点到目标点的距离（单位：m，结果除以1000转化为km，保留两位小数）
+                                        it.distance = BigDecimal
+                                            .valueOf(DistanceUtil.getDistance(
+                                                mainFragment.mBaiduLocation.mLatLng,
+                                                tLatLng) / 1000)
+                                            .setScale(2, BigDecimal.ROUND_HALF_UP)
+                                            .toDouble()
+
+                                        //添加搜索到的不同uid的内容添加到searchItems
+                                        mSearchList.add(it)
+                                    }
+                                }
+                            }
+
+                            //按距离升序排序
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                 mSearchList.sortWith { o1, o2 ->
                                     o1.distance.compareTo(o2.distance)
                                 }
                             }
                         }
                         mainFragment.mSearchAdapter.updateList() //通知adapter更新
-                        mCurrentPage++ //当前页+1
-                        isSearching = false
-                    } else {
-                        mSearchType = NEARBY_SEARCH //设置搜索类型为周边搜索
-
-                        //开始周边搜索
-                        mPoiSearch.searchNearby(PoiNearbySearchOption()
-                                .location(mainFragment.mBaiduLocation.mLatLng)
-                                .radius(NEARBY_SEARCH_DISTANCE)
-                                .keyword(mSearchContent)
-                                .pageNum(mCurrentPage)
-                                .pageCapacity(PAGE_CAPACITY))
                     }
                 }
+
+                override fun onGetPoiIndoorResult(poiIndoorResult: PoiIndoorResult) {}
+
+                //已弃用的方法，但仍需实现
+                override fun onGetPoiDetailResult(poiDetailResult: PoiDetailResult) {}
             }
-
-            @SuppressLint("SetTextI18n")
-            override fun onGetPoiDetailResult(poiDetailResult: PoiDetailSearchResult) {
-                if (isFirstDetailSearch) { //如果是第一次详细信息搜索
-                    isFirstDetailSearch = false
-
-                    //详细信息加载完成
-                    mainFragment.include_search_info_loading.visibility = View.GONE
-                    mainFragment.sv_search_info.visibility = View.VISIBLE
-                    if (poiDetailResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) return
-                }
-                if (poiDetailResult.error == SearchResult.ERRORNO.NO_ERROR) { //检索结果正常返回
-                    //直接的详细信息搜索
-                    if (mSearchType == DETAIL_SEARCH || mSearchType == DETAIL_SEARCH_ALL) {
-                        //由于一般只传入一个uid，列表里往往只有一个搜索结果，即使这里用了循环语句
-                        for (detailInfo in poiDetailResult.poiDetailInfoList) {
-                            //将结果保存到数据库
-                            if (mSearchType == DETAIL_SEARCH) SearchDataHelper.insertOrUpdateSearchData(detailInfo)
-
-                            //更新搜索结果列表
-                            val searchItem = SearchItem()
-                            searchItem.uid = detailInfo.uid //获取并设置目标uid
-                            searchItem.targetName = detailInfo.name //获取并设置目标名
-                            searchItem.address = detailInfo.address //获取并设置目标地址
-                            val latLng = detailInfo.location //获取目标坐标
-                            searchItem.latLng = latLng //设置目标坐标
-
-                            //获取定位点到目标点的距离（单位：m，结果除以1000转化为km）
-                            var distance = DistanceUtil.getDistance(mainFragment.mBaiduLocation.mLatLng, latLng) / 1000
-                            //保留两位小数
-                            val bd = BigDecimal(distance)
-                            distance = bd.setScale(2, BigDecimal.ROUND_HALF_UP).toDouble()
-                            searchItem.distance = distance
-
-                            //寻找搜索列表中Uid相同的item
-                            for (i in mSearchList.indices) {
-                                if (mSearchList[i].uid == detailInfo.uid) {
-                                    if (mSearchType == DETAIL_SEARCH) {
-                                        mSearchList.removeAt(i) //移除原本位置的item
-                                        mSearchList.add(0, searchItem) //将其添加到头部
-                                    } else if (mSearchType == DETAIL_SEARCH_ALL) {
-                                        mSearchList[i] = searchItem //直接修改原位置的item
-                                    }
-                                    break
-                                }
-                            }
-                            if (mSearchType == DETAIL_SEARCH_ALL) return //详细搜索全部不更新详细信息布局
-
-                            //获取其它信息
-                            val otherInfo = StringBuilder()
-
-                            otherInfo.run {
-                                //获取联系方式
-                                if (detailInfo.telephone.isNotEmpty()) {
-                                    append(getString(R.string.phone_number), detailInfo.telephone, "\n")
-                                }
-
-                                //获取营业时间
-                                if (detailInfo.getShopHours().isNotEmpty()) {
-                                    append(getString(R.string.shop_time), detailInfo.getShopHours())
-                                    var isInShopHour = 0
-                                    try {
-                                        val nowTime = TimeUtil.parse(TimeUtil.format(Date(),
-                                                TimeUtil.FORMATION_Hm), TimeUtil.FORMATION_Hm)
-                                        val shopHours = detailInfo.getShopHours() //去除中文和头尾的空格
-                                                .replace("[\\u4e00-\\u9fa5]", "").trim()
-                                                .split(",")
-                                        for (shopHour in shopHours) {
-                                            val time = shopHour.split("-")
-                                            val startTime = TimeUtil.parse(time[0], TimeUtil.FORMATION_Hm)
-                                            val endTime = TimeUtil.parse(time[1], TimeUtil.FORMATION_Hm)
-                                            if (TimeUtil.isInTime(nowTime, startTime, endTime)) {
-                                                isInShopHour = 1
-                                            }
-                                        }
-                                    } catch (e: Exception) {
-                                        isInShopHour = -1 //未知
-                                    }
-                                    if (isInShopHour == 1) append(" ", getString(R.string.shopping))
-                                    else if (isInShopHour == 0) append(" ", getString(R.string.relaxing))
-                                    append("\n")
-                                }
-                                if (detailInfo.getPrice() != 0.0) { //获取平均消费
-                                    append(getString(R.string.price), detailInfo.getPrice(), "元\n")
-                                }
-                            }
-
-                            //更新详细信息布局
-                            mainFragment.run {
-                                tv_search_target_name.text = detailInfo.name
-                                tv_search_address.text = detailInfo.address
-                                tv_search_distance.text = distance.toString() + "km"
-                                tv_search_others.text = otherInfo.toString()
-                            }
-                        }
-                    } else { //间接的详细信息搜索
-                        //由于一般只传入一个uid，列表里往往只有一个搜索结果，即使这里用了循环语句
-                        for (detailInfo in poiDetailResult.poiDetailInfoList) {
-                            if (isUidNotInSearList(detailInfo.uid)) {
-                                val searchItem = SearchItem()
-                                searchItem.uid = detailInfo.uid //获取并设置Uid
-                                searchItem.targetName = detailInfo.name //获取并设置目标名
-                                searchItem.address = detailInfo.address //获取并设置目标地址
-                                val tLatLng = detailInfo.location //获取目标坐标
-                                searchItem.latLng = tLatLng //设置目标坐标
-
-                                //设置定位点到目标点的距离（单位：m，结果除以1000转化为km，保留两位小数）
-                                searchItem.distance = BigDecimal.valueOf(DistanceUtil
-                                        .getDistance(mainFragment.mBaiduLocation.mLatLng, tLatLng) / 1000)
-                                        .setScale(2, BigDecimal.ROUND_HALF_UP)
-                                        .toDouble()
-
-                                //添加搜索到的不同uid的内容添加到searchItems
-                                mSearchList.add(searchItem)
-                            }
-                        }
-
-                        //按距离升序排序
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            mSearchList.sortWith { o1, o2 ->
-                                o1.distance.compareTo(o2.distance)
-                            }
-                        }
-                    }
-                    mainFragment.mSearchAdapter.updateList() //通知adapter更新
-                }
-            }
-
-            override fun onGetPoiIndoorResult(poiIndoorResult: PoiIndoorResult) {}
-
-            //已弃用的方法，但仍需实现
-            override fun onGetPoiDetailResult(poiDetailResult: PoiDetailResult) {}
-        }
         mPoiSearch.setOnGetPoiSearchResultListener(poiSearchResultListener)
     }
 

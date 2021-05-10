@@ -62,8 +62,8 @@ object LayoutUtil {
      * @param position     回滚的位置
      */
     fun getValueAnimator(
-            view: View, startHeight: Int, endHeight: Int,
-            recyclerView: RecyclerView, position: Int): ValueAnimator {
+        view: View, startHeight: Int, endHeight: Int, recyclerView: RecyclerView, position: Int,
+    ): ValueAnimator {
         ValueAnimator.ofInt(startHeight, endHeight).run {
             //duration = 300;//动画时间（默认就是300）
             addUpdateListener { animation -> //逐渐改变view的高度
@@ -160,20 +160,21 @@ fun LinearLayout.expandLayout(flag: Boolean) {
  * @param recyclerView 需要回滚的recyclerView
  * @param position     回滚的位置
  */
-fun LinearLayout.expandLayout(flag: Boolean, textView: TextView,
-                              recyclerView: RecyclerView, position: Int) {
+fun LinearLayout.expandLayout(
+    flag: Boolean, textView: TextView, recyclerView: RecyclerView, position: Int,
+) {
     if (flag) {
         //动画2，出现
         startAnimation(AnimationUtils.loadAnimation(baseApplication, R.anim.adapter_alpha2))
         //计算布局自适应时的高度
         val layoutHeight = textView.lineHeight * (textView.lineCount + 1)
         LayoutUtil.getValueAnimator(this, 0, layoutHeight, recyclerView, position)
-                .start() //展开动画
+            .start() //展开动画
     } else {//动画1，消失
         startAnimation(AnimationUtils.loadAnimation(baseApplication, R.anim.adapter_alpha1))
         val layoutHeight = height //获取布局的高度
         LayoutUtil.getValueAnimator(this, layoutHeight, 0, recyclerView, position)
-                .start() //收起动画
+            .start() //收起动画
     }
 }
 

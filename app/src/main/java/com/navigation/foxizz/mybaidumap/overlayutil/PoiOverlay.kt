@@ -49,10 +49,9 @@ class PoiOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
                 val bundle = Bundle()
                 bundle.putInt("index", i)
                 markerList.add(MarkerOptions()
-                        .icon(BitmapDescriptorFactory
-                                .fromAssetWithDpi("Icon_mark$markerSize.png"))
-                        .extraInfo(bundle)
-                        .position(mPoiResult.allPoi[i].location))
+                    .extraInfo(bundle)
+                    .position(mPoiResult.allPoi[i].location)
+                    .icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_mark$markerSize.png")))
                 i++
             }
             return markerList

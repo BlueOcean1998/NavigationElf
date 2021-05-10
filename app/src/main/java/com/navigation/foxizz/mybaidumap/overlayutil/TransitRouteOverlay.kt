@@ -41,7 +41,7 @@ class TransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
      * @return 起点图标
      */
     private val startMarker: BitmapDescriptor =
-            BitmapDescriptorFactory.fromAssetWithDpi("Icon_start.png")
+        BitmapDescriptorFactory.fromAssetWithDpi("Icon_start.png")
 
     /**
      * 覆写此方法以改变默认终点图标
@@ -49,53 +49,54 @@ class TransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
      * @return 终点图标
      */
     private val terminalMarker: BitmapDescriptor =
-            BitmapDescriptorFactory.fromAssetWithDpi("Icon_end.png")
+        BitmapDescriptorFactory.fromAssetWithDpi("Icon_end.png")
 
-    // polyline
-    // step node
+    //polyline
+    //step node
     override val overlayOptions: List<OverlayOptions>
         get() {
             val overlayOptionses = ArrayList<OverlayOptions>()
 
-            // step node
+            //step node
             if (mRouteLine.allStep != null && mRouteLine.allStep.size > 0) {
                 for (step in mRouteLine.allStep) {
                     val b = Bundle()
                     b.putInt("index", mRouteLine.allStep.indexOf(step))
                     if (step.entrance != null) {
                         overlayOptionses.add(MarkerOptions()
-                                .position(step.entrance.location)
-                                .anchor(0.5f, 0.5f)
-                                .zIndex(10)
-                                .extraInfo(b)
-                                .icon(getIconForStep(step)))
+                            .position(step.entrance.location)
+                            .anchor(0.5f, 0.5f)
+                            .zIndex(10)
+                            .extraInfo(b)
+                            .icon(getIconForStep(step)))
                     }
 
-                    // 最后路段绘制出口点
+                    //最后路段绘制出口点
                     if (mRouteLine.allStep.indexOf(step) == mRouteLine
-                                    .allStep.size - 1 && step.exit != null) {
+                            .allStep.size - 1 && step.exit != null
+                    ) {
                         overlayOptionses.add(MarkerOptions()
-                                .position(step.exit.location)
-                                .anchor(0.5f, 0.5f)
-                                .zIndex(10)
-                                .icon(getIconForStep(step)))
+                            .position(step.exit.location)
+                            .anchor(0.5f, 0.5f)
+                            .zIndex(10)
+                            .icon(getIconForStep(step)))
                     }
                 }
             }
             if (mRouteLine.starting != null) {
                 overlayOptionses.add(MarkerOptions()
-                        .position(mRouteLine.starting.location)
-                        .icon(startMarker)
-                        .zIndex(10))
+                    .position(mRouteLine.starting.location)
+                    .icon(startMarker)
+                    .zIndex(10))
             }
             if (mRouteLine.terminal != null) {
                 overlayOptionses.add(MarkerOptions()
-                        .position(mRouteLine.terminal.location)
-                        .icon(terminalMarker)
-                        .zIndex(10))
+                    .position(mRouteLine.terminal.location)
+                    .icon(terminalMarker)
+                    .zIndex(10))
             }
 
-            // polyline
+            //polyline
             if (mRouteLine.allStep != null && mRouteLine.allStep.size > 0) {
                 for (step in mRouteLine.allStep) {
                     if (step.wayPoints == null) {
@@ -107,10 +108,10 @@ class TransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
                         if (lineColor != 0) lineColor else Color.argb(178, 88, 208, 0)
                     }
                     overlayOptionses.add(PolylineOptions()
-                            .points(step.wayPoints)
-                            .width(10)
-                            .color(color)
-                            .zIndex(0))
+                        .points(step.wayPoints)
+                        .width(10)
+                        .color(color)
+                        .zIndex(0))
                 }
             }
             return overlayOptionses
@@ -118,9 +119,12 @@ class TransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
 
     private fun getIconForStep(step: TransitRouteLine.TransitStep): BitmapDescriptor? {
         return when (step.stepType) {
-            TransitRouteStepType.BUSLINE -> BitmapDescriptorFactory.fromAssetWithDpi("Icon_bus_station.png")
-            TransitRouteStepType.SUBWAY -> BitmapDescriptorFactory.fromAssetWithDpi("Icon_subway_station.png")
-            TransitRouteStepType.WAKLING -> BitmapDescriptorFactory.fromAssetWithDpi("Icon_walk_route.png")
+            TransitRouteStepType.BUSLINE ->
+                BitmapDescriptorFactory.fromAssetWithDpi("Icon_bus_station.png")
+            TransitRouteStepType.SUBWAY ->
+                BitmapDescriptorFactory.fromAssetWithDpi("Icon_subway_station.png")
+            TransitRouteStepType.WAKLING ->
+                BitmapDescriptorFactory.fromAssetWithDpi("Icon_walk_route.png")
             else -> null
         }
     }

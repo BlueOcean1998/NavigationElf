@@ -30,7 +30,8 @@ import kotlinx.android.synthetic.main.include_tv_end.view.*
 /**
  * 搜索到的信息列表的适配器
  */
-class SearchAdapter(private val mainFragment: MainFragment) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
+class SearchAdapter(private val mainFragment: MainFragment) :
+    RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
     private var clickTime = 0L
 
     //设置item中的View
@@ -64,11 +65,12 @@ class SearchAdapter(private val mainFragment: MainFragment) : RecyclerView.Adapt
                     val searchItem = mSearchList[position]
                     tvTargetName.text = searchItem.targetName
                     tvAddress.text = searchItem.address
-                    tvDistance.text = searchItem.distance.toString() + "km"
+                    tvDistance.text = "${searchItem.distance}km"
 
                     //加载更多搜索结果
                     if (position == itemCount - 4 && !isSearching
-                            && !isHistorySearchResult && mCurrentPage < mTotalPage)
+                        && !isHistorySearchResult && mCurrentPage < mTotalPage
+                    )
                         startSearch(mCurrentPage)
 
                     //设置提示信息的内容
@@ -88,7 +90,7 @@ class SearchAdapter(private val mainFragment: MainFragment) : RecyclerView.Adapt
     //为recyclerView的每一个item设置点击事件
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.adapter_search_item, parent, false)
+            .inflate(R.layout.adapter_search_item, parent, false)
         val holder = ViewHolder(view)
 
         holder.run {
@@ -96,6 +98,7 @@ class SearchAdapter(private val mainFragment: MainFragment) : RecyclerView.Adapt
                 mBaiduSearch.run {
                     //cardView的点击事件
                     cardSearchInfo.setOnClickListener {
+                        val position = bindingAdapterPosition
                         if (unableToClick()) return@setOnClickListener
                         if (!NetworkUtil.isNetworkConnected) { //没有网络连接
                             showToast(R.string.network_error)
@@ -111,7 +114,7 @@ class SearchAdapter(private val mainFragment: MainFragment) : RecyclerView.Adapt
                         bt_middle.setText(R.string.middle_button1) //设置按钮为路线
 
                         //获取点击的item
-                        val searchItem = mSearchList[adapterPosition]
+                        val searchItem = mSearchList[position]
 
                         //移动视角到指定位置
                         val builder = LatLngBounds.Builder()
@@ -123,11 +126,11 @@ class SearchAdapter(private val mainFragment: MainFragment) : RecyclerView.Adapt
                         mBaiduMap.clear()
                         //构建Marker图标
                         val bitmap = BitmapDescriptorFactory
-                                .fromResource(R.drawable.ic_to_location)
+                            .fromResource(R.drawable.ic_to_location)
                         //构建MarkerOption，用于在地图上添加Marker
                         val option: OverlayOptions = MarkerOptions()
-                                .position(searchItem.latLng)
-                                .icon(bitmap)
+                            .position(searchItem.latLng)
+                            .icon(bitmap)
                         //在地图上添加Marker，并显示
                         mBaiduMap.addOverlay(option)
                     }
@@ -152,10 +155,12 @@ class SearchAdapter(private val mainFragment: MainFragment) : RecyclerView.Adapt
 
                     //cardView的长按事件
                     cardSearchInfo.setOnLongClickListener(OnLongClickListener {
+                        val position = bindingAdapterPosition
                         if (unableToClick()) return@OnLongClickListener false
-                        val searchItem = mSearchList[adapterPosition]
+                        val searchItem = mSearchList[position]
                         if (isHistorySearchResult) { //如果是搜索历史记录
-                            showDeleteSearchDataDialog(searchItem, adapterPosition) //显示删除搜索记录对话框
+                            showDeleteSearchDataDialog(searchItem,
+                                position) //显示删除搜索记录对话框
                         } else { //如果不是
                             mSearchList.remove(searchItem) //移除搜索列表的这条记录
                             notifyItemRemoved(position) //通知adapter移除这条记录
@@ -174,7 +179,7 @@ class SearchAdapter(private val mainFragment: MainFragment) : RecyclerView.Adapt
         mainFragment.run {
             mBaiduSearch.run {
                 //获取点击的item
-                val searchItem = mSearchList[holder.adapterPosition]
+                val searchItem = mSearchList[holder.bindingAdapterPosition]
                 searchLayoutFlag = false //设置搜索布局为收起
                 ll_search_layout.expandLayout(false) //收起搜索布局
                 if (searchExpandFlag) { //如果搜索抽屉展开
@@ -191,8 +196,7 @@ class SearchAdapter(private val mainFragment: MainFragment) : RecyclerView.Adapt
                 sv_search_info.visibility = View.GONE
                 mSearchType = BaiduSearch.DETAIL_SEARCH //设置为直接详细搜索
                 isFirstDetailSearch = true //第一次详细信息搜索
-                mPoiSearch.searchPoiDetail( //开始POI详细信息搜索
-                        PoiDetailSearchOption().poiUids(searchItem.uid))
+                mPoiSearch.searchPoiDetail(PoiDetailSearchOption().poiUids(searchItem.uid))
                 takeBackKeyboard() //收回键盘
             }
         }
@@ -200,19 +204,19 @@ class SearchAdapter(private val mainFragment: MainFragment) : RecyclerView.Adapt
 
     //显示删除搜索记录对话框
     private fun showDeleteSearchDataDialog(searchItem: SearchItem, position: Int) {
-        AlertDialog.Builder(mainFragment.requireActivity())
-                .setTitle(R.string.hint)
-                .setMessage("你确定要删除'" + searchItem.targetName + "'吗？")
-                .setPositiveButton(R.string.delete) { _, _ ->
-                    mainFragment.mBaiduSearch.mSearchList.remove(searchItem) //移除搜索列表的这条记录
-                    notifyItemRemoved(position) //通知adapter移除这条记录
-                    SearchDataHelper.deleteSearchData(searchItem.uid) //删除数据库中的搜索记录
-                    showToast(R.string.has_deleted)
-                }
-                .setNegativeButton(R.string.cancel) { _, _ ->
-                    //do nothing
-                }
-                .show()
+        AlertDialog.Builder(mainFragment.baseActivity)
+            .setTitle(R.string.hint)
+            .setMessage("你确定要删除'" + searchItem.targetName + "'吗？")
+            .setPositiveButton(R.string.delete) { _, _ ->
+                mainFragment.mBaiduSearch.mSearchList.remove(searchItem) //移除搜索列表的这条记录
+                notifyItemRemoved(position) //通知adapter移除这条记录
+                SearchDataHelper.deleteSearchData(searchItem.uid) //删除数据库中的搜索记录
+                showToast(R.string.has_deleted)
+            }
+            .setNegativeButton(R.string.cancel) { _, _ ->
+                //do nothing
+            }
+            .show()
     }
 
     //不允许同时点击多个item

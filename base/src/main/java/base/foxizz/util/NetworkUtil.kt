@@ -3,6 +3,7 @@ package base.foxizz.util
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.provider.Settings
 import base.foxizz.BaseApplication.Companion.baseApplication
 
@@ -25,17 +26,15 @@ object NetworkUtil {
      */
     val networkType: String
         @SuppressLint("MissingPermission")
-        get() {
-            (baseApplication.getSystemService(Context.CONNECTIVITY_SERVICE)
-                    as ConnectivityManager).activeNetworkInfo.run {
-                if (this != null && isConnected) {
-                    when (type) {
-                        ConnectivityManager.TYPE_WIFI -> return "wifi"
-                        ConnectivityManager.TYPE_MOBILE -> return "mobile"
-                    }
+        get() = (baseApplication.getSystemService(Context.CONNECTIVITY_SERVICE)
+                as ConnectivityManager).run {
+            getNetworkCapabilities(activeNetwork).run {
+                when {
+                    hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> "wifi"
+                    hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> "cellular"
+                    else -> ""
                 }
             }
-            return ""
         }
 
     /**
@@ -43,5 +42,5 @@ object NetworkUtil {
      */
     val isAirplaneModeEnable
         get() = Settings.Global.getInt(baseApplication.contentResolver,
-                Settings.Global.AIRPLANE_MODE_ON, 0) != 0
+            Settings.Global.AIRPLANE_MODE_ON, 0) != 0
 }

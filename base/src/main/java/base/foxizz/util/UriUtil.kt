@@ -9,7 +9,7 @@ import android.provider.MediaStore
 import base.foxizz.BaseApplication.Companion.baseApplication
 
 /**
- * Uri工具
+ * Uri工具类
  */
 object UriUtil {
     /**
@@ -18,7 +18,7 @@ object UriUtil {
      * @param uri The Uri to check.
      */
     private fun isExternalStorageDocument(uri: Uri) =
-            "com.android.externalstorage.documents" == uri.authority
+        "com.android.externalstorage.documents" == uri.authority
 
     /**
      * Whether the Uri authority is DownloadsProvider.
@@ -26,7 +26,7 @@ object UriUtil {
      * @param uri The Uri to check.
      */
     private fun isDownloadsDocument(uri: Uri) =
-            "com.android.providers.downloads.documents" == uri.authority
+        "com.android.providers.downloads.documents" == uri.authority
 
     /**
      * Whether the Uri authority is MediaProvider.
@@ -34,7 +34,7 @@ object UriUtil {
      * @param uri The Uri to check.
      */
     private fun isMediaDocument(uri: Uri) =
-            "com.android.providers.media.documents" == uri.authority
+        "com.android.providers.media.documents" == uri.authority
 
     /**
      * Get a file path from a Uri. This will get the the path for Storage Access
@@ -43,23 +43,24 @@ object UriUtil {
      *
      * @param uri The Uri to query.
      */
-    fun getPath(uri: Uri) = when { // DocumentProvider
+    fun getPath(uri: Uri) = when { //DocumentProvider
         DocumentsContract.isDocumentUri(baseApplication, uri) -> {
-            when { // ExternalStorageProvider
+            when { //ExternalStorageProvider
                 isExternalStorageDocument(uri) -> {
                     val split = DocumentsContract.getDocumentId(uri).split(":").toTypedArray()
-                    if ("primary".equals(split[0], true)) {
+                    if ("primary".equals(split[0], true))
                         Environment.getExternalStorageDirectory().toString() + "/" + split[1]
-                    } else ""
+                    else ""
                 }
                 isDownloadsDocument(uri) -> {
-                    getDataColumn(ContentUris.withAppendedId(Uri.parse(
-                            "content://downloads/public_downloads"),
-                            DocumentsContract.getDocumentId(uri).toLong()),
-                            null, null)
+                    getDataColumn(ContentUris.withAppendedId(
+                        Uri.parse("content://downloads/public_downloads"),
+                        DocumentsContract.getDocumentId(uri).toLong()),
+                        null, null)
                 }
                 isMediaDocument(uri) -> {
-                    val split = DocumentsContract.getDocumentId(uri).split(":".toRegex()).toTypedArray()
+                    val split =
+                        DocumentsContract.getDocumentId(uri).split(":").toTypedArray()
                     val contentUri = when (split[0]) {
                         "image" -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                         "video" -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
@@ -71,12 +72,9 @@ object UriUtil {
                 else -> ""
             }
         }
-        "content".equals(uri.scheme, true) -> {
+        "content".equals(uri.scheme, true) ->
             getDataColumn(uri, null, null)
-        }
-        "file".equals(uri.scheme, true) -> {
-            uri.path ?: ""
-        }
+        "file".equals(uri.scheme, true) -> uri.path ?: ""
         else -> ""
     }
 
@@ -89,16 +87,19 @@ object UriUtil {
      * @param selectionArgs (Optional) Selection arguments used in the query.
      * @return The value of the _data column, which is typically a file path.
      */
-    private fun getDataColumn(uri: Uri, selection: String?,
-                              selectionArgs: Array<String>?): String {
+    private fun getDataColumn(
+        uri: Uri, selection: String?, selectionArgs: Array<String>?,
+    ): String {
         var cursor: Cursor? = null
         val column = "_data"
         try {
-            cursor = baseApplication.contentResolver
-                    .query(uri, arrayOf(column), selection, selectionArgs, null)
-            if (cursor != null && cursor.moveToFirst()) {
-                val columnIndex = cursor.getColumnIndexOrThrow(column)
-                return cursor.getString(columnIndex)
+            cursor = baseApplication.contentResolver.query(
+                uri, arrayOf(column), selection, selectionArgs, null)
+            cursor?.run {
+                if (moveToFirst()) {
+                    val columnIndex = getColumnIndexOrThrow(column)
+                    return getString(columnIndex)
+                }
             }
         } catch (e: Exception) {
         } finally {

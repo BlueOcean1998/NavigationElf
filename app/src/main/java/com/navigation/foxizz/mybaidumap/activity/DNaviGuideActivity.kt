@@ -42,20 +42,20 @@ class DNaviGuideActivity : Activity() {
     private val mMode = IBNaviListener.DayNightMode.DAY
 
     private val mOnNavigationListener: IBNRouteGuideManager.OnNavigationListener =
-            object : IBNRouteGuideManager.OnNavigationListener {
-                override fun onNaviGuideEnd() {
-                    // 退出导航
-                    finish()
-                }
+        object : IBNRouteGuideManager.OnNavigationListener {
+            override fun onNaviGuideEnd() {
+                //退出导航
+                finish()
+            }
 
-                override fun notifyOtherAction(actionType: Int, arg2: Int, p2: Int, obj: Any?) {
-                    if (actionType == 0) {
-                        // 导航到达目的地 自动退出
-                        Log.i(TAG, "notifyOtherAction actionType = $actionType,导航到达目的地！")
-                        mRouteGuideManager.forceQuitNaviWithoutDialog()
-                    }
+            override fun notifyOtherAction(actionType: Int, arg2: Int, p2: Int, obj: Any?) {
+                if (actionType == 0) {
+                    //导航到达目的地，自动退出
+                    Log.i(TAG, "notifyOtherAction actionType = $actionType,导航到达目的地！")
+                    mRouteGuideManager.forceQuitNaviWithoutDialog()
                 }
             }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,35 +66,35 @@ class DNaviGuideActivity : Activity() {
         val view = mRouteGuideManager.onCreate(this, mOnNavigationListener, null, params)
         view?.let { setContentView(it) }
         BaiduNaviManagerFactory.getProfessionalNaviSettingManager()
-                .setShowMainAuxiliaryOrBridge(true)
+            .setShowMainAuxiliaryOrBridge(true)
         initTTSListener()
     }
 
     private fun initTTSListener() {
-        // 注册同步内置tts状态回调
+        //注册同步内置tts状态回调
         BaiduNaviManagerFactory.getTTSManager().setOnTTSStateChangedListener(
-                object : IOnTTSPlayStateChangedListener {
-                    override fun onPlayStart() {
-                        Log.e(TAG, "ttsCallback.onPlayStart")
-                    }
-
-                    override fun onPlayEnd(speechId: String) {
-                        Log.e(TAG, "ttsCallback.onPlayEnd")
-                    }
-
-                    override fun onPlayError(code: Int, message: String) {
-                        Log.e(TAG, "ttsCallback.onPlayError")
-                    }
+            object : IOnTTSPlayStateChangedListener {
+                override fun onPlayStart() {
+                    Log.e(TAG, "ttsCallback.onPlayStart")
                 }
+
+                override fun onPlayEnd(speechId: String) {
+                    Log.e(TAG, "ttsCallback.onPlayEnd")
+                }
+
+                override fun onPlayError(code: Int, message: String) {
+                    Log.e(TAG, "ttsCallback.onPlayError")
+                }
+            }
         )
 
-        // 注册内置tts 异步状态消息
+        //注册内置tts 异步状态消息
         BaiduNaviManagerFactory.getTTSManager().setOnTTSStateChangedHandler(
-                object : Handler(Looper.getMainLooper()) {
-                    override fun handleMessage(msg: Message) {
-                        Log.e(TAG, "ttsHandler.msg.what=" + msg.what)
-                    }
+            object : Handler(Looper.getMainLooper()) {
+                override fun handleMessage(msg: Message) {
+                    Log.e(TAG, "ttsHandler.msg.what=${msg.what}")
                 }
+            }
         )
     }
 
@@ -149,27 +149,26 @@ class DNaviGuideActivity : Activity() {
     }
 
     private fun supportFullScreen(): Boolean {
-        val window = window
-        val color: Int = if (Build.VERSION.SDK_INT >= 23)
-            Color.TRANSPARENT
-        else 0x2d000000
-        window.statusBarColor = color
-        if (Build.VERSION.SDK_INT >= 23) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            var uiVisibility = window.decorView.systemUiVisibility
-            if (mMode == IBNaviListener.DayNightMode.DAY) {
-                uiVisibility = uiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            }
-            window.decorView.systemUiVisibility = uiVisibility
-        } else {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        window.run {
+            val color: Int = if (Build.VERSION.SDK_INT >= 23)
+                Color.TRANSPARENT
+            else 0x2d000000
+            statusBarColor = color
+            decorView.systemUiVisibility = if (Build.VERSION.SDK_INT >= 23) {
+                var uiVisibility = decorView.systemUiVisibility
+                if (mMode == IBNaviListener.DayNightMode.DAY) {
+                    uiVisibility = uiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                }
+                uiVisibility
+            } else View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            return true
         }
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        return true
     }
 
     override fun onRequestPermissionsResult(
-            requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        requestCode: Int, permissions: Array<String>, grantResults: IntArray,
+    ) {
         mRouteGuideManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 

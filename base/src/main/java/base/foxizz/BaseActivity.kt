@@ -1,6 +1,7 @@
 package base.foxizz
 
 import android.os.Bundle
+import androidx.annotation.LayoutRes
 import androidx.fragment.app.FragmentActivity
 import java.util.*
 import kotlin.reflect.KClass
@@ -8,8 +9,10 @@ import kotlin.reflect.KClass
 /**
  * 基础活动
  * 管理除3个百度导航诱导活动外的所有活动
+ *
+ * @param contentLayoutId 内容布局id
  */
-open class BaseActivity : FragmentActivity() {
+open class BaseActivity(@LayoutRes contentLayoutId: Int) : FragmentActivity(contentLayoutId) {
     companion object {
         private val ACTIVITIES = ArrayList<BaseActivity>()
 

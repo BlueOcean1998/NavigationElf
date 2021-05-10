@@ -4,7 +4,7 @@ package cn.zerokirby.api
  * Api name: ZeroKirbyApi
  * Author: ZeroKirby & Foxizz
  * Accomplish date: 2021-02-04
- * Last modify date: 2021-04-28
+ * Last modify date: 2021-05-11
  */
 object Constants {
     const val LOCAL_DATABASE = "ZerokirbyAPI.db" //本地数据库

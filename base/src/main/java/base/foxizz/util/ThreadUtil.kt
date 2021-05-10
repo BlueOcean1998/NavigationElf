@@ -4,6 +4,9 @@ import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
 
+/**
+ * 线程工具类
+ */
 object ThreadUtil {
     //线程池，最大容量
     private val mExecutorService = Executors.newCachedThreadPool()

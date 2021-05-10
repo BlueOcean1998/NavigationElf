@@ -19,14 +19,14 @@ object AppUtil {
      */
     val appName: String = baseApplication.run {
         resources.getString(packageManager.getPackageInfo(packageName, 0)
-                .applicationInfo.labelRes)
+            .applicationInfo.labelRes)
     }
 
     /**
      * 获取应用版本号
      */
     val appVersionCode = baseApplication.packageManager.getPackageInfo(
-            baseApplication.packageName, 0).run {
+        baseApplication.packageName, 0).run {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
             longVersionCode
         } else {
@@ -55,7 +55,7 @@ object AppUtil {
      */
     val appChannel = baseApplication.run {
         packageManager.getPackageInfo(packageName, PackageManager.GET_META_DATA)
-                .applicationInfo.metaData.getString("CHANNEL") ?: ""
+            .applicationInfo.metaData.getString("CHANNEL") ?: ""
     }
 
     /**

@@ -11,14 +11,15 @@ import cn.zerokirby.api.Constants
  * 数据库帮助类
  */
 class DatabaseHelper private constructor(
-        context: Context, name: String, factory: CursorFactory?, version: Int) :
-        SQLiteOpenHelper(context, name, factory, version) {
+    context: Context, name: String, factory: CursorFactory?, version: Int,
+) : SQLiteOpenHelper(context, name, factory, version) {
     companion object {
         /**
          * 获取数据库帮助对象
          */
         @get:Synchronized
-        val databaseHelper = DatabaseHelper(baseApplication, Constants.LOCAL_DATABASE, null, 1)
+        val databaseHelper = DatabaseHelper(baseApplication, Constants.LOCAL_DATABASE,
+            null, 1)
 
         private const val CREATE_USER = ("create table User ("
                 + "user_id text, " //用户id

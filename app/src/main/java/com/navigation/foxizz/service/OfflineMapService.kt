@@ -73,7 +73,7 @@ class OfflineMapService : Service() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             val notificationChannel = NotificationChannel(
-                    channelId, appName, NotificationManager.IMPORTANCE_DEFAULT)
+                channelId, appName, NotificationManager.IMPORTANCE_DEFAULT)
             notificationManager.createNotificationChannel(notificationChannel)
         }
 
@@ -81,16 +81,15 @@ class OfflineMapService : Service() {
         val appIntent = Intent(this, MainActivity::class.java)
         appIntent.action = Intent.ACTION_MAIN
         appIntent.addCategory(Intent.CATEGORY_LAUNCHER)
-        val pendingIntent = PendingIntent.getActivity(
-                this, 0, appIntent, 0)
+        val pendingIntent = PendingIntent.getActivity(this, 0, appIntent, 0)
 
         //设置通知信息
         val notification = NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(R.drawable.dolphizz_cartoon)
-                .setContentTitle(getString(R.string.downloading_offline_map))
-                .setContentText(getString(R.string.click_to_see_more))
-                .setContentIntent(pendingIntent)
-                .build()
+            .setSmallIcon(R.drawable.dolphizz_cartoon)
+            .setContentTitle(getString(R.string.downloading_offline_map))
+            .setContentText(getString(R.string.click_to_see_more))
+            .setContentIntent(pendingIntent)
+            .build()
         startForeground(1, notification)
     }
 
@@ -136,9 +135,7 @@ class OfflineMapService : Service() {
                 }
                 SPUtil.put(Constants.OFFLINE_CITIES, offlineCities)
                 Log.d("Foxizz_Test", "newOfflineCities=$offlineCities")
-            } else {
-                mkOfflineMap.update(cityID) //更新离线地图
-            }
+            } else mkOfflineMap.update(cityID) //更新离线地图
         }
     }
 }

@@ -5,7 +5,11 @@ import androidx.annotation.StringRes
 import base.foxizz.BaseApplication.Companion.baseApplication
 import base.foxizz.mlh
 
-//下一个Toast弹出时立刻覆盖掉上一个Toast
+/**
+ * Toast工具类
+ * 下一个Toast弹出时立刻覆盖掉上一个Toast
+ */
+
 private var mToast: Toast? = null
 
 /**

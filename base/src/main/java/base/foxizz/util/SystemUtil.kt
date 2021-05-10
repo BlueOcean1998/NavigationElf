@@ -4,7 +4,7 @@ import android.os.Build
 import java.util.*
 
 /**
- * 系统信息工具
+ * 系统信息工具类
  */
 object SystemUtil {
     /**

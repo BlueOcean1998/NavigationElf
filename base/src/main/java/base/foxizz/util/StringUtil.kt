@@ -1,5 +1,9 @@
 package base.foxizz.util
 
+/**
+ * 字符串工具类
+ */
+
 val REGEX_DIGITS = "[0-9]".toRegex() //数字
 val REGEX_LETTERS = "[A-Za-z]".toRegex() //字母
 val REGEX_CHINESE = "[\u4e00-\u9fa5]".toRegex() //中文
@@ -27,6 +31,7 @@ fun String.containsCount(string: String): Int {
  * @return Boolean
  */
 fun String.isDigits(): Boolean {
+    if (this.isEmpty()) return false
     for (c in this) if (!c.isDigit()) return false
     return true
 }
@@ -37,6 +42,7 @@ fun String.isDigits(): Boolean {
  * @return Boolean
  */
 fun String.isLetters(): Boolean {
+    if (this.isEmpty()) return false
     for (c in this) if (!c.isLetter()) return false
     return true
 }
@@ -47,6 +53,7 @@ fun String.isLetters(): Boolean {
  * @return Boolean
  */
 fun String.isChinese(): Boolean {
+    if (this.isEmpty()) return false
     for (c in this) if (!REGEX_CHINESE.matches(c.toString())) return false
     return true
 }
@@ -133,7 +140,7 @@ fun StringBuilder.appends(time: Int, vararg value: Any): StringBuilder {
  * @param newValue 新字符串
  */
 fun StringBuilder.replace(oldValue: String, newValue: String) =
-        toString().replace(oldValue, newValue)
+    toString().replace(oldValue, newValue)
 
 /**
  * 替换字符串中第一个子串
@@ -142,7 +149,7 @@ fun StringBuilder.replace(oldValue: String, newValue: String) =
  * @param newValue 新字符串
  */
 fun StringBuilder.replaceFirst(oldValue: String, newValue: String) =
-        toString().replaceFirst(oldValue, newValue)
+    toString().replaceFirst(oldValue, newValue)
 
 /**
  * 移除字符串中的子串

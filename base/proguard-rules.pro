@@ -1,45 +1,45 @@
 # 忽略警告
 -ignorewarnings
 
--keep class vi.com.gdi.*.* { *; }
+-keep class vi.com.gdi.** { *; }
 
 -dontwarn com.google.protobuf.**
--keep class com.google.protobuf.*.* { *;}
--keep interface com.google.protobuf.*.* { *;}
+-keep class com.google.protobuf.** { *; }
+-keep interface com.google.protobuf.** { *; }
 
 -dontwarn com.google.android.support.v4.**
--keep class com.google.android.support.v4.*.* { *; }
--keep interface com.google.android.support.v4.app.*.* { *; }
--keep public class * extends com.google.android.support.v4.*.*
+-keep class com.google.android.support.v4.** { *; }
+-keep interface com.google.android.support.v4.app.** { *; }
+-keep public class * extends com.google.android.support.v4.**
 
 # Android类
--keep public class * extends android.app.Fragment
+-dontwarn android.telephony.**
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
+-keep public class * extends android.app.Fragment
 -keep public class * extends android.app.Service
--keep public class * extends android.content.BroadcastReceiver
--keep public class * extends android.preference.Preference
--keep public class * extends android.content.ContentProvider
 -keep public class * extends android.app.backup.BackupAgentHelper
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
 -keep public class * extends android.preference.Preference
 -keep public class * extends android.view.View
 -keep public class com.android.vending.licensing.ILicensingService*
 
 # support
 -dontwarn android.support.**
--keep class android.support.*.* { *; }
--keep interface android.support.*.* { *; }
+-keep class android.support.** { *; }
+-keep interface android.support.** { *; }
 
 # support v4/7库
--keep public class * extends android.support.v4.*.*
--keep public class * extends android.support.v7.*.*
--keep public class * extends android.support.annotation.*.*
+-keep public class * extends android.support.v4.**
+-keep public class * extends android.support.v7.**
+-keep public class * extends android.support.annotation.**
 
 # androidx
 -dontwarn androidx.**
--keep class androidx.*.* {*;}
--keep public class * extends androidx.*.*
--keep interface androidx.*.* {*;}
+-keep class androidx.** { *; }
+-keep interface androidx.** { *; }
+-keep public class * extends androidx.**
 
 # 自定义控件类的 get/set 方法和构造函数
 -keep public class * extends android.view.View {
@@ -54,7 +54,7 @@
 -keep class **.R$* { *; }
 
 # layout中onclick方法（android:onclick="onClick"）
--keepclassmembers class * extends android.app.Activity{
+-keepclassmembers class * extends android.app.Activity {
     public void *(android.view.View);
 }
 
@@ -71,7 +71,7 @@
 
 # Parcelable
 -keep class * implements android.os.Parcelable {
-  public static final android.os.Parcelable$Creator *;
+    public static final android.os.Parcelable$Creator *;
 }
 
 # Serializable接口的子类中指定的某些成员变量和方法
@@ -101,5 +101,12 @@
 
 # OkHttp3
 -dontwarn com.squareup.okhttp3.**
--keep class com.squareup.okhttp3.*.* { *; }
 -dontwarn okio.**
+-dontwarn org.conscrypt.ConscryptHostnameVerifier
+-keep class com.squareup.okhttp3.** { *; }
+
+# Glide
+-dontwarn com.bumptech.glide.**
+-keep class com.bumptech.glide.** { *; }
+-keep public class * extends com.bumptech.glide.** { *; }
+-keep public class * implements com.bumptech.glide.** { *; }

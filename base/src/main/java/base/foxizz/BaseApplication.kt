@@ -2,6 +2,9 @@ package base.foxizz
 
 import android.app.Application
 
+/**
+ * 基础应用
+ */
 class BaseApplication : Application() {
     companion object {
         /**

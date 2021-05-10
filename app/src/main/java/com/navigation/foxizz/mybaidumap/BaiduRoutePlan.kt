@@ -7,7 +7,6 @@ import base.foxizz.mlh
 import base.foxizz.util.*
 import com.baidu.mapapi.map.BitmapDescriptorFactory
 import com.baidu.mapapi.map.MarkerOptions
-import com.baidu.mapapi.map.OverlayOptions
 import com.baidu.mapapi.model.LatLng
 import com.baidu.mapapi.search.route.*
 import com.baidu.mapapi.search.route.MassTransitRouteLine.TransitStep.StepVehicleInfoType
@@ -23,11 +22,6 @@ import java.util.*
  * 路线规划模块
  */
 class BaiduRoutePlan(private val mainFragment: MainFragment) {
-    init {
-        initRoutePlanSearch()
-    }
-
-    //交通选择
     companion object {
         const val DRIVING = 1 //驾车
         const val WALKING = 2 //步行
@@ -39,6 +33,10 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
     var mSchemeList = ArrayList<SchemeItem>() //方案列表
     var mBusStationLocations = ArrayList<LatLng>() //公交导航所有站点的坐标
     var mEndLocation: LatLng? = null //终点
+
+    init {
+        initRoutePlanSearch()
+    }
 
     /**
      * 开始路线规划
@@ -72,14 +70,17 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
             val endNode = PlanNode.withLocation(mEndLocation)
             when (mRoutePlanSelect) {
                 DRIVING -> mRoutePlanSearch.drivingSearch(DrivingRoutePlanOption()
-                        .from(startNode)
-                        .to(endNode))
+                    .from(startNode)
+                    .to(endNode)
+                )
                 WALKING -> mRoutePlanSearch.walkingSearch(WalkingRoutePlanOption()
-                        .from(startNode)
-                        .to(endNode))
+                    .from(startNode)
+                    .to(endNode)
+                )
                 BIKING -> mRoutePlanSearch.bikingSearch(BikingRoutePlanOption()
-                        .from(startNode)
-                        .to(endNode))
+                    .from(startNode)
+                    .to(endNode)
+                )
                 TRANSIT -> {
                     //加载路线方案
                     include_scheme_loading.visibility = View.VISIBLE
@@ -99,9 +100,11 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
                     mSchemeList.clear() //清空方案列表
                     mSchemeAdapter.updateList() //通知adapter更新
 
-                    mRoutePlanSearch.masstransitSearch(MassTransitRoutePlanOption()
+                    mRoutePlanSearch.masstransitSearch(
+                        MassTransitRoutePlanOption()
                             .from(startNode)
-                            .to(endNode))
+                            .to(endNode)
+                    )
 
                     infoFlag = 2 //设置信息状态为交通选择
                     bt_middle.setText(R.string.middle_button3) //设置按钮为交通选择
@@ -110,7 +113,8 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
                     ll_scheme_info_layout.setHeight(0)//设置方案信息布局的高度为0
                     ll_scheme_drawer.expandLayout(true) //展开方案抽屉
                 }
-                else -> null
+                else -> {
+                }
             }
         }
     }
@@ -126,17 +130,16 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
         val listener: OnGetRoutePlanResultListener = object : OnGetRoutePlanResultListener {
             override fun onGetWalkingRouteResult(walkingRouteResult: WalkingRouteResult) {
                 if (walkingRouteResult.routeLines == null
-                        || walkingRouteResult.routeLines.size == 0) {
+                    || walkingRouteResult.routeLines.size == 0
+                ) {
                     showToast(R.string.suggest_not_to_walk)
                     return
                 }
 
-                mainFragment.mBaiduMap.clear()
-                //获取路径规划数据,(以返回的第一条数据为例)
-                //创建WalkingRouteOverlay实例
-                val overlay = WalkingRouteOverlay(mainFragment.mBaiduMap)
                 //清空地图上的标记
-                overlay.run {
+                mainFragment.mBaiduMap.clear()
+                //创建WalkingRouteOverlay实例
+                WalkingRouteOverlay(mainFragment.mBaiduMap).run {
                     //为WalkingRouteOverlay实例设置路径数据
                     setData(walkingRouteResult.routeLines[0])
                     //在地图上绘制WalkingRouteOverlay
@@ -148,7 +151,8 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
 
             override fun onGetTransitRouteResult(transitRouteResult: TransitRouteResult) {
                 if (transitRouteResult.routeLines == null
-                        || transitRouteResult.routeLines.size == 0) {
+                    || transitRouteResult.routeLines.size == 0
+                ) {
                     showToast(R.string.suggest_to_walk)
                     return
                 }
@@ -156,9 +160,7 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
                 //清空地图上的标记
                 mainFragment.mBaiduMap.clear()
                 //创建TransitRouteOverlay实例
-                val overlay = TransitRouteOverlay(mainFragment.mBaiduMap)
-                //获取路径规划数据,(以返回的第一条数据为例)
-                overlay.run {
+                TransitRouteOverlay(mainFragment.mBaiduMap).run {
                     //为TransitRouteOverlay实例设置路径数据
                     setData(transitRouteResult.routeLines[0])
                     //在地图上绘制TransitRouteOverlay
@@ -173,7 +175,8 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
                 mainFragment.include_scheme_loading.visibility = View.GONE
                 mainFragment.recycler_scheme_result.visibility = View.VISIBLE
                 if (massTransitRouteResult.routeLines == null
-                        || massTransitRouteResult.routeLines.size == 0) {
+                    || massTransitRouteResult.routeLines.size == 0
+                ) {
                     showToast(R.string.suggest_to_walk)
                     return
                 }
@@ -191,10 +194,9 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
                             //每一段的所有信息
                             for (transitStep in transitSteps) {
                                 //只收集巴士和长途巴士的信息
-                                if (transitStep.vehileType == //巴士
-                                        StepVehicleInfoType.ESTEP_BUS
-                                        || transitStep.vehileType == //长途巴士
-                                        StepVehicleInfoType.ESTEP_COACH) {
+                                if (transitStep.vehileType == StepVehicleInfoType.ESTEP_BUS //巴士
+                                    || transitStep.vehileType == StepVehicleInfoType.ESTEP_COACH //长途巴士
+                                ) {
                                     if (transitStep.busInfo != null) { //巴士
                                         allStationInfo.append(transitStep.busInfo.name)
                                         simpleInfo.append("—", transitStep.busInfo.name)
@@ -203,9 +205,8 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
                                         allStationInfo.append(transitStep.coachInfo.name)
                                         simpleInfo.append("—", transitStep.coachInfo.name)
                                     }
-                                    //终点站
                                     allStationInfo.append("—终点站：",
-                                            transitStep.busInfo.arriveStation).append("\n")
+                                        transitStep.busInfo.arriveStation, "\n")
                                 }
                             }
                         }
@@ -216,20 +217,19 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
                         StringBuilder().run {
                             val nowTime = System.currentTimeMillis()
                             val arriveTime = TimeUtil.parse(massTransitRouteLine.arriveTime,
-                                    TimeUtil.FORMATION_yMdHms).time
+                                TimeUtil.FORMATION_yMdHms).time
                             val spendTime = arriveTime - nowTime
-                            if (spendTime < 3 * 60 * 60 * 1000) { //小于3小时
-                                append(getString(R.string.spend_time),
-                                        spendTime / 1000 / 60, getString(R.string.minute))
-                            } else {
-                                append(getString(R.string.spend_time),
-                                        spendTime / 1000 / 60 / 60, getString(R.string.hour),
-                                        spendTime / 1000 / 60 % 60, getString(R.string.minute))
+                            spendTime.let {
+                                if (it < 3 * 60 * 60 * 1000) //小于3小时
+                                    append(getString(R.string.spend_time),
+                                        it / 1000 / 60, getString(R.string.minute))
+                                else append(getString(R.string.spend_time),
+                                    it / 1000 / 60 / 60, getString(R.string.hour),
+                                    it / 1000 / 60 % 60, getString(R.string.minute))
                             }
-                            if (massTransitRouteLine.price > 10) {
+                            if (massTransitRouteLine.price > 10)
                                 append("\n", getString(R.string.budget),
-                                        massTransitRouteLine.price.toString(), getString(R.string.yuan))
-                            }
+                                    massTransitRouteLine.price, getString(R.string.yuan))
                             schemeItem.detailInfo = this.toString()
                         }
 
@@ -244,13 +244,13 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
 
             override fun onGetDrivingRouteResult(drivingRouteResult: DrivingRouteResult) {
                 if (drivingRouteResult.routeLines == null
-                        || drivingRouteResult.routeLines.size == 0) return
+                    || drivingRouteResult.routeLines.size == 0
+                ) return
+
                 //清空地图上的标记
                 mainFragment.mBaiduMap.clear()
                 //创建DrivingRouteOverlay实例
-                val overlay = DrivingRouteOverlay(mainFragment.mBaiduMap)
-                //获取路径规划数据,(以返回的第一条路线为例）
-                overlay.run {
+                DrivingRouteOverlay(mainFragment.mBaiduMap).run {
                     //为DrivingRouteOverlay实例设置数据
                     setData(drivingRouteResult.routeLines[0])
                     //在地图上绘制DrivingRouteOverlay
@@ -262,14 +262,13 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
 
             override fun onGetIndoorRouteResult(indoorRouteResult: IndoorRouteResult) {
                 if (indoorRouteResult.routeLines == null
-                        || indoorRouteResult.routeLines.size == 0) return
+                    || indoorRouteResult.routeLines.size == 0
+                ) return
 
                 //清空地图上的标记
                 mainFragment.mBaiduMap.clear()
                 //创建IndoorRouteOverlay实例
-                val overlay = IndoorRouteOverlay(mainFragment.mBaiduMap)
-                //获取室内路径规划数据（以返回的第一条路线为例）
-                overlay.run {
+                IndoorRouteOverlay(mainFragment.mBaiduMap).run {
                     //为IndoorRouteOverlay实例设置数据
                     setData(indoorRouteResult.routeLines[0])
                     //在地图上绘制IndoorRouteOverlay
@@ -281,7 +280,8 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
 
             override fun onGetBikingRouteResult(bikingRouteResult: BikingRouteResult) {
                 if (bikingRouteResult.routeLines == null
-                        || bikingRouteResult.routeLines.size == 0) {
+                    || bikingRouteResult.routeLines.size == 0
+                ) {
                     showToast(R.string.suggest_not_to_bike)
                     return
                 }
@@ -289,9 +289,7 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
                 //清空地图上的标记
                 mainFragment.mBaiduMap.clear()
                 //创建BikingRouteOverlay实例
-                val overlay = BikingRouteOverlay(mainFragment.mBaiduMap)
-                //获取路径规划数据,(以返回的第一条路线为例）
-                overlay.run {
+                BikingRouteOverlay(mainFragment.mBaiduMap).run {
                     //为BikingRouteOverlay实例设置数据
                     setData(bikingRouteResult.routeLines[0])
                     //在地图上绘制BikingRouteOverlay
@@ -342,9 +340,9 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
                     mBusStationLocations.add(transitStep.endLocation)
 
                     //构建MarkerOption，用于在地图上添加Marker
-                    val option: OverlayOptions = MarkerOptions()
-                            .position(transitStep.endLocation)
-                            .icon(bitmap)
+                    val option = MarkerOptions()
+                        .position(transitStep.endLocation)
+                        .icon(bitmap)
 
                     //在地图上添加Marker，并显示
                     mBaiduMap.addOverlay(option)
@@ -353,9 +351,7 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
 
             try {
                 //创建MassTransitRouteOverlay实例
-                val overlay = MassTransitRouteOverlay(mBaiduMap)
-                //获取路线规划数据
-                overlay.run {
+                MassTransitRouteOverlay(mBaiduMap).run {
                     if (schemeItem.routeLine != null) {
                         //清空地图上的所有标记点和绘制的路线
                         mBaiduMap.clear()

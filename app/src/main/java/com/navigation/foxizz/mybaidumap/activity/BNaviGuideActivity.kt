@@ -52,7 +52,11 @@ class BNaviGuideActivity : Activity() {
         mNaviHelper.setRouteGuidanceListener(this, object : IBRouteGuidanceListener {
             override fun onRouteGuideIconUpdate(icon: Drawable) {}
             override fun onRouteGuideKind(routeGuideKind: RouteGuideKind) {}
-            override fun onRoadGuideTextUpdate(charSequence: CharSequence, charSequence1: CharSequence) {}
+            override fun onRoadGuideTextUpdate(
+                charSequence: CharSequence, charSequence1: CharSequence,
+            ) {
+            }
+
             override fun onRemainDistanceUpdate(charSequence: CharSequence) {}
             override fun onRemainTimeUpdate(charSequence: CharSequence) {}
             override fun onGpsStatusChange(charSequence: CharSequence, drawable: Drawable) {}

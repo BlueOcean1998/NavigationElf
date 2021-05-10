@@ -1,18 +1,13 @@
 package cn.zerokirby.api.data
 
-import android.Manifest
-import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import android.widget.ImageView
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import base.foxizz.BaseConstants
+import androidx.activity.result.ActivityResultLauncher
 import cn.zerokirby.api.Constants
 import cn.zerokirby.api.data.DatabaseHelper.Companion.databaseHelper
 import okhttp3.*
@@ -38,8 +33,8 @@ object AvatarDataHelper {
             val client = OkHttpClient()
             val requestBody: RequestBody = FormBody.Builder().add("userId", userId).build()
             val request: Request = Request.Builder()
-                    .url(Constants.DOWNLOAD_AVATAR_URL)
-                    .post(requestBody).build()
+                .url(Constants.DOWNLOAD_AVATAR_URL)
+                .post(requestBody).build()
             response = client.newCall(request).execute()
             inputStream = response.body?.byteStream()
             outputStream = ByteArrayOutputStream()
@@ -72,11 +67,11 @@ object AvatarDataHelper {
             val client = OkHttpClient()
             val fileBody = file.asRequestBody(mediaTypeJpeg) //媒体类型为jpg
             val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-                    .addFormDataPart("userId", userId)
-                    .addFormDataPart("file", "$userId.jpg", fileBody).build()
+                .addFormDataPart("userId", userId)
+                .addFormDataPart("file", "$userId.jpg", fileBody).build()
             val request: Request = Request.Builder()
-                    .url(Constants.UPLOAD_AVATAR_URL)
-                    .post(requestBody).build()
+                .url(Constants.UPLOAD_AVATAR_URL)
+                .post(requestBody).build()
             response = client.newCall(request).execute()
         } catch (e: Exception) {
         } finally {
@@ -85,41 +80,28 @@ object AvatarDataHelper {
     }
 
     /**
-     * 申请读写外部存储权限，若已有则打开相册
-     *
-     * @param activity 启动检查权限的活动
-     */
-    fun checkPermissionsAndOpenAlbum(activity: Activity) {
-        val permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
-        if (ContextCompat.checkSelfPermission(activity, permission)
-                != PackageManager.PERMISSION_GRANTED)
-            ActivityCompat.requestPermissions(activity, arrayOf(permission), BaseConstants.CHOOSE_PHOTO)
-        else openAlbum(activity)
-    }
-
-    /**
      * 开启相册
      *
-     * @param activity 活动
+     * @param activityResultLauncher 活动结果反射器
      */
-    fun openAlbum(activity: Activity) {
+    fun openAlbum(activityResultLauncher: ActivityResultLauncher<Intent>) {
         val data = Intent(Intent.ACTION_GET_CONTENT)
         data.data = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI //设置外部存储url
         data.type = "image/*" //设置只显示图片类型的文件
-        activity.startActivityForResult(data, BaseConstants.CHOOSE_PHOTO)
+        activityResultLauncher.launch(data)
     }
 
     /**
      * 调用系统方法裁剪图片
      *
-     * @param activity   启动图片缩放的活动
      * @param data 带有本地图片路径的intent
+     * @param activityResultLauncher 活动结果反射器
      * @return 输出到服务器的路径
      */
-    fun cropImage(activity: Activity, data: Intent): Uri {
+    fun cropImage(data: Intent, activityResultLauncher: ActivityResultLauncher<Intent>): Uri {
         //创建临时文件，Android11后必须使用公共目录
         val cropImagePath = File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "NavigationElf")
+            Environment.DIRECTORY_PICTURES), "NavigationElf")
         if (!cropImagePath.exists()) cropImagePath.mkdir()
         val cropImageFile = File(cropImagePath, "crop_image.png")
         if (cropImageFile.exists()) cropImageFile.delete()
@@ -137,7 +119,7 @@ object AvatarDataHelper {
             putExtra("outputX", 256)
             putExtra("outputY", 256)
 
-            activity.startActivityForResult(this, BaseConstants.PHOTO_REQUEST_CUT)
+            activityResultLauncher.launch(this)
         }
 
         return cropImageUri
@@ -202,7 +184,8 @@ object AvatarDataHelper {
         try {
             databaseHelper.writableDatabase.use { db ->
                 db.execSQL("update User set avatar = ? where user_id = ?",
-                        arrayOf<Any>(avatarBytes, userId))
+                    arrayOf<Any>(avatarBytes, userId)
+                )
             }
         } catch (e: Exception) {
         }
@@ -216,8 +199,10 @@ object AvatarDataHelper {
     private fun getAvatar(userId: String): ByteArray {
         try {
             databaseHelper.readableDatabase.use { db ->
-                db.rawQuery("select avatar from User where user_id = ?",
-                        arrayOf(userId)).use { cursor ->
+                db.rawQuery(
+                    "select avatar from User where user_id = ?",
+                    arrayOf(userId)
+                ).use { cursor ->
                     if (cursor.moveToNext()) {
                         return cursor.getBlob(cursor.getColumnIndex("avatar"))
                     }

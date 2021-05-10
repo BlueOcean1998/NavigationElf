@@ -21,7 +21,8 @@ import com.baidu.mapapi.model.LatLngBounds
  * 复写[.onMarkerClick] 处理Marker点击事件
  *
  */
-abstract class OverlayManager(private val mBaiduMap: BaiduMap) : OnMarkerClickListener, OnPolylineClickListener {
+abstract class OverlayManager(private val mBaiduMap: BaiduMap) : OnMarkerClickListener,
+    OnPolylineClickListener {
     var mOverlayList = ArrayList<Overlay>()
 
     private var mOverlayOptionList = ArrayList<OverlayOptions>()
@@ -67,7 +68,7 @@ abstract class OverlayManager(private val mBaiduMap: BaiduMap) : OnMarkerClickLi
         if (mOverlayList.size > 0) {
             val builder = LatLngBounds.Builder()
             for (overlay in mOverlayList) {
-                // polyline 中的点可能太多，只按marker 缩放
+                //polyline 中的点可能太多，只按marker 缩放
                 if (overlay is Marker) {
                     builder.include(overlay.position)
                 }

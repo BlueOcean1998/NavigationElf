@@ -60,14 +60,15 @@ class BaiduLocation(private val mainFragment: MainFragment) {
 
                 //更新定位
                 mLocData = MyLocationData.Builder()
-                        .accuracy(mRadius)
-                        .direction(mainFragment.mOrientationListener.mLastX)
-                        .latitude(mLatitude)
-                        .longitude(mLongitude).build()
+                    .accuracy(mRadius)
+                    .direction(mainFragment.mOrientationListener.mLastX)
+                    .latitude(mLatitude)
+                    .longitude(mLongitude).build()
                 mainFragment.mBaiduMap.setMyLocationData(mLocData) //设置定位数据
                 if (mLocType == BDLocation.TypeGpsLocation //GPS定位结果
-                        || mLocType == BDLocation.TypeNetWorkLocation //网络定位结果
-                        || mLocType == BDLocation.TypeOffLineLocation) { //离线定位结果
+                    || mLocType == BDLocation.TypeNetWorkLocation //网络定位结果
+                    || mLocType == BDLocation.TypeOffLineLocation
+                ) { //离线定位结果
                     //location.addrStr.showToast()
 
                     //到新城市时
@@ -75,7 +76,7 @@ class BaiduLocation(private val mainFragment: MainFragment) {
                         /*
                         //启动下载离线地图服务
                         OfflineMapService.startService(
-                                mainFragment.requireActivity(), mainFragment.mBaiduLocation.mCity
+                                mainFragment.baseActivity, mainFragment.mBaiduLocation.mCity
                         )
                         */
                         SPUtil.put(Constants.MY_CITY, mCity) //保存新城市
@@ -95,7 +96,7 @@ class BaiduLocation(private val mainFragment: MainFragment) {
                         val builder = MapStatus.Builder()
                         builder.zoom(18.0f).target(mLatLng)
                         mainFragment.mBaiduMap.animateMapStatus(
-                                MapStatusUpdateFactory.newMapStatus(builder.build()))
+                            MapStatusUpdateFactory.newMapStatus(builder.build()))
                     }
                 } else {
                     if (requestLocationTime < MAX_TIME) {

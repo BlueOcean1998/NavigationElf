@@ -25,7 +25,7 @@ object SearchDataHelper {
      * @param mainFragment 地图页碎片
      */
     fun moveToLastSearchRecordLocation(mainFragment: MainFragment) {
-        if (isHasSearchData()) { //如果有搜索记录
+        if (isHasSearchData) { //如果有搜索记录
             val builder = LatLngBounds.Builder()
             builder.include(searchData[0].latLng)
             val msu = MapStatusUpdateFactory.newLatLngBounds(builder.build())
@@ -40,7 +40,7 @@ object SearchDataHelper {
      */
     fun initSearchData(mainFragment: MainFragment) {
         mainFragment.run {
-            if (isHasSearchData()) {
+            if (isHasSearchData) {
                 mBaiduSearch.mSearchList.clear()
                 var isRefreshSearchRecord = false //是否刷新搜索记录
                 //有网络连接且没有开飞行模式
@@ -53,16 +53,16 @@ object SearchDataHelper {
                 val searchItems = searchData
                 for (searchItem in searchItems) {
                     //获取定位点到目标点的距离（单位：m，结果除以1000转化为km）
-                    var distance = DistanceUtil.getDistance(mBaiduLocation.mLatLng, searchItem.latLng) / 1000
+                    var distance =
+                        DistanceUtil.getDistance(mBaiduLocation.mLatLng, searchItem.latLng) / 1000
                     //保留两位小数
                     val bd = BigDecimal(distance)
                     distance = bd.setScale(2, BigDecimal.ROUND_HALF_UP).toDouble()
                     searchItem.distance = distance
                     mBaiduSearch.mSearchList.add(searchItem)
-                    if (isRefreshSearchRecord) {
-                        //通过网络重新获取搜索信息
-                        mBaiduSearch.mPoiSearch.searchPoiDetail( //开始POI详细信息搜索
-                                PoiDetailSearchOption().poiUids(searchItem.uid))
+                    if (isRefreshSearchRecord) { //通过网络重新获取搜索信息
+                        mBaiduSearch.mPoiSearch.searchPoiDetail(
+                            PoiDetailSearchOption().poiUids(searchItem.uid))
                     }
                 }
                 mSearchAdapter.updateList() //通知adapter更新
@@ -78,16 +78,16 @@ object SearchDataHelper {
      *
      * @return Boolean
      */
-    fun isHasSearchData() =
-            try {
-                databaseHelper.readableDatabase.use { db ->
-                    db.rawQuery("select * from SearchData", null).use { cursor ->
-                        cursor.count > 0
-                    }
+    val isHasSearchData: Boolean
+        get() = try {
+            databaseHelper.readableDatabase.use { db ->
+                db.rawQuery("select * from SearchData", null).use { cursor ->
+                    cursor.count > 0
                 }
-            } catch (e: Exception) {
-                false
             }
+        } catch (e: Exception) {
+            false
+        }
 
     /**
      * 获取搜索信息
@@ -102,18 +102,21 @@ object SearchDataHelper {
             try {
                 db = databaseHelper.readableDatabase
                 //查询所有的搜索记录，按时间降序排列
-                cursor = db.rawQuery("select * from SearchData order by time desc", null)
-                if (cursor != null && cursor.moveToFirst()) {
-                    cursor.run {
+                cursor = db.rawQuery("select * from SearchData order by time desc",
+                    null)
+                cursor?.run {
+                    if (cursor.moveToFirst()) {
                         do {
-                            val searchItem = SearchItem()
-                            searchItem.uid = getString(getColumnIndex("uid"))
-                            searchItem.targetName = getString(getColumnIndex("target_name"))
-                            searchItem.address = getString(getColumnIndex("address"))
-                            searchItem.latLng = LatLng(
+                            SearchItem().run {
+                                uid = getString(getColumnIndex("uid"))
+                                targetName = getString(getColumnIndex("target_name"))
+                                address = getString(getColumnIndex("address"))
+                                latLng = LatLng(
                                     getDouble(getColumnIndex("latitude")),
-                                    getDouble(getColumnIndex("longitude")))
-                            searchItems.add(searchItem)
+                                    getDouble(getColumnIndex("longitude"))
+                                )
+                                searchItems.add(this)
+                            }
                         } while (moveToNext())
                     }
                 }
@@ -133,11 +136,14 @@ object SearchDataHelper {
     fun insertOrUpdateSearchData(poiDetailInfo: PoiDetailInfo) {
         try {
             databaseHelper.readableDatabase.use { db ->
-                db.rawQuery("select * from SearchData where uid = ?", arrayOf(poiDetailInfo.uid))
+                poiDetailInfo.let {
+                    db.rawQuery("select * from SearchData where uid = ?",
+                        arrayOf(it.uid))
                         .use { cursor ->
-                            if (cursor.count > 0) updateSearchData(poiDetailInfo) //有则更新
-                            else insertSearchData(poiDetailInfo) //没有则添加
+                            if (cursor.count > 0) updateSearchData(it) //有则更新
+                            else insertSearchData(it) //没有则添加
                         }
+                }
             }
         } catch (e: Exception) {
         }
@@ -155,11 +161,14 @@ object SearchDataHelper {
                     db.execSQL("insert into SearchData " +
                             "(uid, latitude, longitude, target_name, address, time) " +
                             "values(?, ?, ?, ?, ?, ?)",
-                            arrayOf(uid,
-                                    location.latitude.toString(),
-                                    location.longitude.toString(),
-                                    name,
-                                    address, System.currentTimeMillis().toString())
+                        arrayOf(
+                            uid,
+                            location.latitude,
+                            location.longitude,
+                            name,
+                            address,
+                            System.currentTimeMillis()
+                        )
                     )
                 }
             }
@@ -174,17 +183,18 @@ object SearchDataHelper {
      */
     private fun updateSearchData(poiDetailInfo: PoiDetailInfo) {
         try {
-
             databaseHelper.writableDatabase.use { db ->
                 poiDetailInfo.run {
                     db.execSQL("update SearchData set latitude = ?, longitude = ?, " +
                             "target_name = ?, address = ?, time = ? where uid = ?",
-                            arrayOf(location.latitude.toString(),
-                                    location.longitude.toString(),
-                                    name,
-                                    address,
-                                    System.currentTimeMillis().toString(),
-                                    uid)
+                        arrayOf(
+                            location.latitude,
+                            location.longitude,
+                            name,
+                            address,
+                            System.currentTimeMillis(),
+                            uid
+                        )
                     )
                 }
             }
@@ -200,10 +210,11 @@ object SearchDataHelper {
     fun deleteSearchData(uid: String?) {
         try {
             databaseHelper.writableDatabase
-                    .use { db ->
-                        db.execSQL("delete from SearchData where uid = ?",
-                                arrayOf(uid))
-                    }
+                .use { db ->
+                    db.execSQL("delete from SearchData where uid = ?",
+                        arrayOf(uid)
+                    )
+                }
         } catch (e: Exception) {
         }
     }

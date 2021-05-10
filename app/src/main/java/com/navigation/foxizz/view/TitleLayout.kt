@@ -2,7 +2,6 @@ package com.navigation.foxizz.view
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.Canvas
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import com.navigation.foxizz.R
@@ -18,12 +17,14 @@ class TitleLayout(context: Context, attrs: AttributeSet? = null) : FrameLayout(c
 
         //获取自定义属性
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.TitleLayout)
-        setBackButtonEnable(typedArray.getBoolean( //默认启用返回按钮
-                R.styleable.TitleLayout_back_enable, true))
+        //默认启用返回按钮
+        setBackButtonEnable(typedArray.getBoolean(
+            R.styleable.TitleLayout_back_enable, true))
         setTitleTextContent(typedArray.getString(
-                R.styleable.TitleLayout_title) ?: "")
-        setMenuButtonEnable(typedArray.getBoolean( //默认不启用菜单按钮
-                R.styleable.TitleLayout_menu_enable, false))
+            R.styleable.TitleLayout_title) ?: "")
+        //默认不启用菜单按钮
+        setMenuButtonEnable(typedArray.getBoolean(
+            R.styleable.TitleLayout_menu_enable, false))
         typedArray.recycle()
     }
 
@@ -32,8 +33,7 @@ class TitleLayout(context: Context, attrs: AttributeSet? = null) : FrameLayout(c
      * @param enable 是否启用
      */
     fun setBackButtonEnable(enable: Boolean) {
-        if (enable) ib_back.visibility = VISIBLE
-        else ib_back.visibility = GONE
+        ib_back.visibility = if (enable) VISIBLE else GONE
     }
 
     /**
@@ -49,27 +49,20 @@ class TitleLayout(context: Context, attrs: AttributeSet? = null) : FrameLayout(c
      * @param enable 是否启用
      */
     fun setMenuButtonEnable(enable: Boolean) {
-        if (enable) ib_menu.visibility = VISIBLE
-        else ib_menu.visibility = GONE
+        ib_menu.visibility = if (enable) VISIBLE else GONE
     }
 
     /**
      * 设置返回按钮点击事件
      * @param backOnClickListener 返回按钮点击事件
      */
-    fun setBackOnClickListener(backOnClickListener: OnClickListener) {
+    fun setBackOnClickListener(backOnClickListener: OnClickListener) =
         ib_menu.setOnClickListener(backOnClickListener)
-    }
 
     /**
      * 设置菜单按钮点击事件
      * @param menuOnClickListener 菜单按钮点击事件
      */
-    fun setMenuOnClickListener(menuOnClickListener: OnClickListener) {
+    fun setMenuOnClickListener(menuOnClickListener: OnClickListener) =
         ib_menu.setOnClickListener(menuOnClickListener)
-    }
-
-    override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
-    }
 }

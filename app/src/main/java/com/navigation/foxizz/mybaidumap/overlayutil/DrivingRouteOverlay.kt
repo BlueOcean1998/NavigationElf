@@ -41,7 +41,7 @@ class DrivingRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
      * @return 起点图标
      */
     private var startMarker: BitmapDescriptor =
-            BitmapDescriptorFactory.fromAssetWithDpi("Icon_start.png")
+        BitmapDescriptorFactory.fromAssetWithDpi("Icon_start.png")
 
     /**
      * 覆写此方法以改变默认终点图标
@@ -49,55 +49,54 @@ class DrivingRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
      * @return 终点图标
      */
     private val terminalMarker: BitmapDescriptor =
-            BitmapDescriptorFactory.fromAssetWithDpi("Icon_end.png")
+        BitmapDescriptorFactory.fromAssetWithDpi("Icon_end.png")
 
-    // poly line
-    // step node
+    //poly line
+    //step node
     override val overlayOptions: List<OverlayOptions>
         get() {
             val overlayOptionses = ArrayList<OverlayOptions>()
 
-            // step node
+            //step node
             if (mRouteLine.allStep != null && mRouteLine.allStep.size > 0) {
                 for (step in mRouteLine.allStep) {
                     val b = Bundle()
                     b.putInt("index", mRouteLine.allStep.indexOf(step))
                     if (step.entrance != null) {
                         overlayOptionses.add(MarkerOptions()
-                                .position(step.entrance.location)
-                                .anchor(0.5f, 0.5f)
-                                .zIndex(10)
-                                .rotate((360 - step.direction).toFloat())
-                                .extraInfo(b)
-                                .icon(BitmapDescriptorFactory
-                                        .fromAssetWithDpi("Icon_line_node.png")))
+                            .position(step.entrance.location)
+                            .anchor(0.5f, 0.5f)
+                            .zIndex(10)
+                            .rotate((360 - step.direction).toFloat())
+                            .extraInfo(b)
+                            .icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_line_node.png")))
                     }
-                    // 最后路段绘制出口点
+                    //最后路段绘制出口点
                     if (mRouteLine.allStep.indexOf(step) == mRouteLine.allStep.size - 1
-                            && step.exit != null) {
+                        && step.exit != null
+                    ) {
                         overlayOptionses.add(MarkerOptions()
-                                .position(step.exit.location)
-                                .anchor(0.5f, 0.5f)
-                                .zIndex(10)
-                                .icon(BitmapDescriptorFactory
-                                        .fromAssetWithDpi("Icon_line_node.png")))
+                            .position(step.exit.location)
+                            .anchor(0.5f, 0.5f)
+                            .zIndex(10)
+                            .icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_line_node.png")))
                     }
                 }
             }
             if (mRouteLine.starting != null) {
                 overlayOptionses.add(MarkerOptions()
-                        .position(mRouteLine.starting.location)
-                        .icon(startMarker)
-                        .zIndex(10))
+                    .position(mRouteLine.starting.location)
+                    .icon(startMarker)
+                    .zIndex(10))
             }
             if (mRouteLine.terminal != null) {
                 overlayOptionses.add(MarkerOptions()
-                        .position(mRouteLine.terminal.location)
-                        .icon(terminalMarker)
-                        .zIndex(10))
+                    .position(mRouteLine.terminal.location)
+                    .icon(terminalMarker)
+                    .zIndex(10))
             }
 
-            // poly line
+            //poly line
             if (mRouteLine.allStep != null && mRouteLine.allStep.size > 0) {
                 val steps = mRouteLine.allStep
                 val stepNum = steps.size
@@ -108,40 +107,45 @@ class DrivingRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
                     if (i == stepNum - 1) {
                         points.addAll(steps[i].wayPoints)
                     } else {
-                        points.addAll(steps[i].wayPoints
-                                .subList(0, steps[i].wayPoints.size - 1))
+                        points.addAll(
+                            steps[i].wayPoints
+                                .subList(0, steps[i].wayPoints.size - 1)
+                        )
                     }
                     totalTraffic += steps[i].wayPoints.size - 1
                     if (steps[i].trafficList != null
-                            && steps[i].trafficList.isNotEmpty()) {
+                        && steps[i].trafficList.isNotEmpty()
+                    ) {
                         for (j in steps[i].trafficList.indices) {
                             traffics.add(steps[i].trafficList[j])
                         }
                     }
                 }
-
-//            Bundle indexList = new Bundle();
-//            if (traffics.size() > 0) {
-//                int raffic[] = new int[traffics.size()];
-//                int index = 0;
-//                for (Integer tempTraff : traffics) {
-//                    raffic[index] = tempTraff.intValue();
-//                    index++;
-//                }
-//                indexList.putIntArray("indexs", raffic);
-//            }
+                /*
+                Bundle indexList = new Bundle();
+                if (traffics.size() > 0) {
+                    int raffic [] = new int [traffics.size()];
+                    int index = 0;
+                    for (Integer tempTraff : traffics) {
+                        raffic[index] = tempTraff.intValue();
+                        index++;
+                    }
+                    indexList.putIntArray("indexs", raffic);
+                }
+                */
                 var isDotLine = false
                 if (traffics.size > 0) {
                     isDotLine = true
                 }
                 val option = PolylineOptions()
-                        .points(points)
-                        .textureIndex(traffics)
-                        .width(7)
-                        .dottedLine(isDotLine)
-                        .focus(true)
-                        .color(if (lineColor != 0) lineColor else Color.argb(178, 0, 78, 255))
-                        .zIndex(0)
+                    .points(points)
+                    .textureIndex(traffics)
+                    .width(7)
+                    .dottedLine(isDotLine)
+                    .focus(true)
+                    .color(if (lineColor != 0) lineColor
+                    else Color.argb(178, 0, 78, 255))
+                    .zIndex(0)
                 if (isDotLine) {
                     option.customTextureList(customTextureList)
                 }
@@ -190,7 +194,7 @@ class DrivingRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
         var flag = false
         for (mPolyline in mOverlayList) {
             if (mPolyline is Polyline && mPolyline == polyline) {
-                // 选中
+                //选中
                 flag = true
                 break
             }
@@ -202,7 +206,7 @@ class DrivingRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
     private fun setFocus(flag: Boolean) {
         for (mPolyline in mOverlayList) {
             if (mPolyline is Polyline) {
-                // 选中
+                //选中
                 mPolyline.isFocus = flag
                 break
             }

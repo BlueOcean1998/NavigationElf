@@ -8,7 +8,8 @@ import androidx.appcompat.widget.AppCompatTextView
 import base.foxizz.util.pxToSp
 import com.navigation.foxizz.R
 
-class AdaptiveTextView(context: Context, attrs: AttributeSet? = null) : AppCompatTextView(context, attrs) {
+class AdaptiveTextView(context: Context, attrs: AttributeSet? = null) :
+    AppCompatTextView(context, attrs) {
     private var mMaxTextSize = 0f //默认字体大小
     private var mMinTextSize = 0f //最小字体大小
     private var mTextPaint = TextPaint() //文本描述对象
@@ -19,16 +20,17 @@ class AdaptiveTextView(context: Context, attrs: AttributeSet? = null) : AppCompa
         setLines(1) //一行
 
         //最大字体大小为默认大小，最小为8
-        mMaxTextSize = this.textSize
+        mMaxTextSize = textSize
         mMinTextSize = 8f
 
         //获取文本描述对象
-        mTextPaint.set(this.paint)
+        mTextPaint.set(paint)
 
         //获取自定义属性，默认为宽度自适应
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.AdaptiveTextView)
         adaptiveType = typedArray.getInt(
-                R.styleable.AdaptiveTextView_adaptive_type, 0) == 0
+            R.styleable.AdaptiveTextView_adaptive_type, 0
+        ) == 0
         typedArray.recycle()
     }
 
@@ -42,7 +44,9 @@ class AdaptiveTextView(context: Context, attrs: AttributeSet? = null) : AppCompa
     }
 
     //内容改变时
-    override fun onTextChanged(text: CharSequence, start: Int, lengthBefore: Int, lengthAfter: Int) {
+    override fun onTextChanged(
+        text: CharSequence, start: Int, lengthBefore: Int, lengthAfter: Int,
+    ) {
         if (adaptiveType) refitTextWidth(text.toString(), width) //textView视图的宽度
         else refitTextHeight(height) //textView视图的高度
         super.onTextChanged(text, start, lengthBefore, lengthAfter)
@@ -50,16 +54,17 @@ class AdaptiveTextView(context: Context, attrs: AttributeSet? = null) : AppCompa
 
     //高度改变时
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        if (adaptiveType)
-            if (w != oldw) refitTextWidth(this.text.toString(), w)
+        if (adaptiveType) {
+            if (w != oldw) refitTextWidth(text.toString(), w)
             else if (h != oldh) refitTextHeight(h)
+        }
     }
 
     //调整字体大小，使其适应文本框的宽度
     private fun refitTextWidth(text: String, textWidth: Int) {
         if (textWidth > 0) {
             //减去边距计算字体的实际宽度
-            val availableWidth = textWidth - this.paddingLeft - this.paddingRight
+            val availableWidth = textWidth - paddingLeft - paddingRight
             var trySize = mMaxTextSize
             mTextPaint.textSize = trySize
             //测量的字体宽度过大，不断地缩放
@@ -81,7 +86,7 @@ class AdaptiveTextView(context: Context, attrs: AttributeSet? = null) : AppCompa
     private fun refitTextHeight(height: Int) {
         if (height > 0) {
             //减去边距计算字体的实际高度
-            val availableHeight = height - this.paddingTop - this.paddingBottom
+            val availableHeight = height - paddingTop - paddingBottom
             var trySize = mMaxTextSize
             mTextPaint.textSize = trySize
             //测量的字体高度过大，不断地缩放

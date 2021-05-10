@@ -22,12 +22,13 @@ object SettingUtil {
      */
     fun haveReadWriteAndLocationPermissions(): Boolean {
         val permissions = arrayOf(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.ACCESS_COARSE_LOCATION)
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
         for (permission in permissions) {
             if (ContextCompat.checkSelfPermission(baseApplication, permission)
-                    != PackageManager.PERMISSION_GRANTED)
-                return true
+                != PackageManager.PERMISSION_GRANTED
+            ) return true
         }
         return false
     }
@@ -44,9 +45,10 @@ object SettingUtil {
     fun initSettings(context: Context) {
         if (context is Activity) {
             //设置是否允许横屏
-            if (dsp.getBoolean(BaseConstants.KEY_LANDSCAPE, false))
-                context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED //自动旋转
-            else context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT //只允许竖屏
+            context.requestedOrientation =
+                if (dsp.getBoolean(BaseConstants.KEY_LANDSCAPE, false))
+                    ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED //自动旋转
+                else ActivityInfo.SCREEN_ORIENTATION_PORTRAIT //只允许竖屏
         }
     }
 }

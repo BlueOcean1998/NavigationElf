@@ -6,14 +6,13 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Point
-import android.os.Bundle
 import android.view.*
 import android.widget.*
-import androidx.core.app.ActivityCompat
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import base.foxizz.BaseFragment
 import base.foxizz.dsp
 import base.foxizz.imm
 import base.foxizz.lbm
@@ -34,7 +33,7 @@ import java.util.*
 /**
  * 地图页
  */
-class MainFragment : Fragment(R.layout.fragment_main) {
+class MainFragment : BaseFragment(R.layout.fragment_main) {
     //地图控件
     lateinit var mBaiduMap: BaiduMap
 
@@ -43,6 +42,17 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     //定位相关
     lateinit var mBaiduLocation: BaiduLocation
+    private var locateLauncher = //获取定位权限后的操作
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { map ->
+            val grantedList = map.filterValues { it }.mapNotNull { it.key }
+            if (grantedList.size == map.size) {
+                mBaiduLocation.run {
+                    requestLocationTime = 0 //请求定位的次数归零
+                    refreshSearchList = true //刷新搜索列表
+                    initLocationOption() //初始化定位
+                }
+            } else showToast(R.string.get_location_permission_fail)
+        }
 
     //搜索相关
     lateinit var mBaiduSearch: BaiduSearch
@@ -69,14 +79,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private lateinit var mSystemReceiver: SystemReceiver //系统广播接收器
     private lateinit var mLocalReceiver: LocalReceiver //本地广播接收器
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun initView() {
         initMap() //初始化地图控件
         initSettings() //初始化偏好设置
         initSystemReceiver() //初始化系统广播接收器
         initLocalReceiver() //初始化本地广播接收器
-        initView() //初始化控件
+        initControlView() //初始化控制控件
         initMyDirectionSensor() //初始化方向传感器
 
         mBaiduLocation = BaiduLocation(this) //初始化定位模块
@@ -110,7 +118,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onDestroy() {
         super.onDestroy()
 
-        requireActivity().unregisterReceiver(mSystemReceiver) //释放系统广播接收器实例
+        baseActivity.unregisterReceiver(mSystemReceiver) //释放系统广播接收器实例
         lbm.unregisterReceiver(mLocalReceiver) //释放本地广播接收器实例
 
         mBaiduMap.isMyLocationEnabled = false //关闭定位
@@ -135,7 +143,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         //配置定位图层显示方式，使用默认的定位图标，设置精确度圆的填充色和边框色
         //LocationMode定位模式有三种：普通模式，跟随模式，罗盘模式，在这使用普通模式
         val myLocationConfiguration = MyLocationConfiguration(
-                MyLocationConfiguration.LocationMode.NORMAL, true, null, -0x55401001, -0x55603001)
+            MyLocationConfiguration.LocationMode.NORMAL, true, null, -0x55401001, -0x55603001)
         mBaiduMap.setMyLocationConfiguration(myLocationConfiguration)
 
         //map_view.removeViewAt(1);//去除百度水印
@@ -155,7 +163,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         val mCity = SPHelper.getString(Constants.MY_CITY, "")
         if (mCity.isNotEmpty()) {
             //启动下载离线地图服务
-            OfflineMapService.startService(requireActivity(), mCity)
+            OfflineMapService.startService(baseActivity, mCity)
         }
         */
     }
@@ -197,7 +205,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
      */
     fun setAngle3D() {
         mBaiduMap.uiSettings.isOverlookingGesturesEnabled =
-                dsp.getBoolean(Constants.KEY_ANGLE_3D, false)
+            dsp.getBoolean(Constants.KEY_ANGLE_3D, false)
     }
 
     /**
@@ -205,20 +213,20 @@ class MainFragment : Fragment(R.layout.fragment_main) {
      */
     fun setMapRotation() {
         mBaiduMap.uiSettings.isRotateGesturesEnabled =
-                dsp.getBoolean(Constants.KEY_MAP_ROTATION, false)
+            dsp.getBoolean(Constants.KEY_MAP_ROTATION, false)
     }
 
     /**
      * 设置是否显示比例尺
      */
     fun setScaleControl() =
-            map_view.showScaleControl(dsp.getBoolean(Constants.KEY_SCALE_CONTROL, true))
+        map_view.showScaleControl(dsp.getBoolean(Constants.KEY_SCALE_CONTROL, true))
 
     /**
      * 设置是否显示缩放按钮
      */
     fun setZoomControls() =
-            map_view.showZoomControls(dsp.getBoolean(Constants.KEY_ZOOM_CONTROLS, false))
+        map_view.showZoomControls(dsp.getBoolean(Constants.KEY_ZOOM_CONTROLS, false))
 
     /**
      * 设置是否显示指南针
@@ -229,22 +237,22 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     //初始化系统广播接收器
     private fun initSystemReceiver() {
-        mSystemReceiver = SystemReceiver(requireActivity())
+        mSystemReceiver = SystemReceiver(baseActivity)
         val intentFilter = IntentFilter()
         intentFilter.addAction(Constants.CONNECTIVITY_CHANGE)
-        requireActivity().registerReceiver(mSystemReceiver, intentFilter)
+        baseActivity.registerReceiver(mSystemReceiver, intentFilter)
     }
 
     //初始化本地广播接收器
     private fun initLocalReceiver() {
-        mLocalReceiver = LocalReceiver(requireActivity())
+        mLocalReceiver = LocalReceiver(baseActivity)
         val intentFilter = IntentFilter()
         intentFilter.addAction(Constants.SETTINGS_BROADCAST)
         lbm.registerReceiver(mLocalReceiver, intentFilter)
     }
 
-    //初始化自定义控件
-    private fun initView() {
+    //初始化控制控件
+    private fun initControlView() {
         //设置选项布局、搜索结果抽屉、详细信息、方案抽屉、方案信息布局、开始导航布局初始高度为0
         ll_select_layout.setHeight(0)
         ll_search_drawer.setHeight(0)
@@ -261,22 +269,22 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         mSearchAdapter = SearchAdapter(this) //初始化搜索适配器
         recycler_search_result.adapter = mSearchAdapter //设置搜索适配器
         recycler_search_result.layoutManager = StaggeredGridLayoutManager(
-                1, StaggeredGridLayoutManager.VERTICAL) //设置搜索布局管理器
+            1, StaggeredGridLayoutManager.VERTICAL) //设置搜索布局管理器
 
         mSchemeAdapter = SchemeAdapter(this) //初始化方案适配器
         recycler_scheme_result.adapter = mSchemeAdapter //设置方案适配器
         recycler_scheme_result.layoutManager = StaggeredGridLayoutManager(
-                1, StaggeredGridLayoutManager.VERTICAL) //设置方案布局管理器
+            1, StaggeredGridLayoutManager.VERTICAL) //设置方案布局管理器
 
         //设置按钮的点击事件
         ib_settings.setOnClickListener {
-            SettingsActivity.startActivity(requireActivity(), mBaiduLocation.mCity)
+            SettingsActivity.startActivity(baseActivity, mBaiduLocation.mCity)
         }
 
         //刷新按钮的点击事件
         ib_refresh.setOnClickListener {
-            requireActivity().finish() //关闭当前活动
-            startActivity(requireActivity().intent) //重启当前活动
+            baseActivity.finish() //关闭当前活动
+            startActivity(baseActivity.intent) //重启当前活动
         }
 
         //定位按钮的点击事件
@@ -286,49 +294,49 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         //驾车按钮的点击事件
         bt_select_1.setOnClickListener {
+            mRoutePlanSelect = BaiduRoutePlan.DRIVING
+            mBaiduRoutePlan.startRoutePlanSearch() //开始路线规划
             bt_select_1.setBackgroundResource(R.drawable.bt_bg_black_gray)
             bt_select_2.setBackgroundResource(R.drawable.bt_bg_alpha_black)
             bt_select_3.setBackgroundResource(R.drawable.bt_bg_alpha_black)
             bt_select_4.setBackgroundResource(R.drawable.bt_bg_alpha_black)
-            mRoutePlanSelect = BaiduRoutePlan.DRIVING
-            mBaiduRoutePlan.startRoutePlanSearch() //开始路线规划
         }
 
         //步行按钮的点击事件
         bt_select_2.setOnClickListener {
+            mRoutePlanSelect = BaiduRoutePlan.WALKING
+            mBaiduRoutePlan.startRoutePlanSearch() //开始路线规划
             bt_select_1.setBackgroundResource(R.drawable.bt_bg_alpha_black)
             bt_select_2.setBackgroundResource(R.drawable.bt_bg_black_gray)
             bt_select_3.setBackgroundResource(R.drawable.bt_bg_alpha_black)
             bt_select_4.setBackgroundResource(R.drawable.bt_bg_alpha_black)
-            mRoutePlanSelect = BaiduRoutePlan.WALKING
-            mBaiduRoutePlan.startRoutePlanSearch() //开始路线规划
         }
 
         //骑行按钮的点击事件
         bt_select_3.setOnClickListener {
+            mRoutePlanSelect = BaiduRoutePlan.BIKING
+            mBaiduRoutePlan.startRoutePlanSearch() //开始路线规划
             bt_select_1.setBackgroundResource(R.drawable.bt_bg_alpha_black)
             bt_select_2.setBackgroundResource(R.drawable.bt_bg_alpha_black)
             bt_select_3.setBackgroundResource(R.drawable.bt_bg_black_gray)
             bt_select_4.setBackgroundResource(R.drawable.bt_bg_alpha_black)
-            mRoutePlanSelect = BaiduRoutePlan.BIKING
-            mBaiduRoutePlan.startRoutePlanSearch() //开始路线规划
         }
 
         //公交按钮的点击事件
         bt_select_4.setOnClickListener {
+            mRoutePlanSelect = BaiduRoutePlan.TRANSIT
+            mBaiduRoutePlan.startRoutePlanSearch() //开始路线规划
             bt_select_1.setBackgroundResource(R.drawable.bt_bg_alpha_black)
             bt_select_2.setBackgroundResource(R.drawable.bt_bg_alpha_black)
             bt_select_3.setBackgroundResource(R.drawable.bt_bg_alpha_black)
             bt_select_4.setBackgroundResource(R.drawable.bt_bg_black_gray)
-            mRoutePlanSelect = BaiduRoutePlan.TRANSIT
-            mBaiduRoutePlan.startRoutePlanSearch() //开始路线规划
         }
 
         //输入框获取焦点时
         et_search.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 //如果搜索抽屉收起且有搜索历史记录
-                if (!searchExpandFlag && SearchDataHelper.isHasSearchData()) {
+                if (!searchExpandFlag && SearchDataHelper.isHasSearchData) {
                     searchExpandFlag = true //设置搜索抽屉为展开
                     expandSearchDrawer(true) //展开搜索抽屉
                 }
@@ -412,15 +420,16 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     //初始化方向传感器
     private fun initMyDirectionSensor() {
         //方向传感器
-        mOrientationListener.setOnOrientationListener(object : MyOrientationListener.OnOrientationListener {
+        mOrientationListener.setOnOrientationListener(object :
+            MyOrientationListener.OnOrientationListener {
             override fun onOrientationChanged(x: Float) {
                 //更新方向
                 mOrientationListener.mLastX = x
                 mBaiduLocation.mLocData = MyLocationData.Builder()
-                        .accuracy(mBaiduLocation.mRadius)
-                        .direction(mOrientationListener.mLastX) //此处设置开发者获取到的方向信息，顺时针0-360
-                        .latitude(mBaiduLocation.mLatitude)
-                        .longitude(mBaiduLocation.mLongitude).build()
+                    .accuracy(mBaiduLocation.mRadius)
+                    .direction(mOrientationListener.mLastX) //此处设置开发者获取到的方向信息，顺时针0-360
+                    .latitude(mBaiduLocation.mLatitude)
+                    .longitude(mBaiduLocation.mLongitude).build()
                 mBaiduMap.setMyLocationData(mBaiduLocation.mLocData) //设置定位数据
             }
         })
@@ -431,15 +440,15 @@ class MainFragment : Fragment(R.layout.fragment_main) {
      */
     fun checkPermissionAndLocate() {
         val permissions = arrayOf(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE, //读写手机存储
-                Manifest.permission.ACCESS_COARSE_LOCATION //定位
+            Manifest.permission.WRITE_EXTERNAL_STORAGE, //读写手机存储
+            Manifest.permission.ACCESS_COARSE_LOCATION //定位
         )
         //将没有获得的权限加入申请列表
         val toApplyPermissions = ArrayList<String>()
         for (permission in permissions) {
-            if (ContextCompat.checkSelfPermission(requireActivity(), permission)
-                    != PackageManager.PERMISSION_GRANTED)
-                toApplyPermissions.add(permission)
+            if (ContextCompat.checkSelfPermission(baseActivity, permission)
+                != PackageManager.PERMISSION_GRANTED
+            ) toApplyPermissions.add(permission)
         }
 
         //若权限都已获取，则开始定位，反之则申请权限
@@ -447,10 +456,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             mBaiduLocation.requestLocationTime = 0 //请求定位的次数归零
             mBaiduLocation.refreshSearchList = true //刷新搜索列表
             mBaiduLocation.initLocationOption() //初始化定位
-        } else {
-            ActivityCompat.requestPermissions(requireActivity(),
-                    toApplyPermissions.toTypedArray(), Constants.GET_LOCATION)
-        }
+        } else locateLauncher.launch(toApplyPermissions.toTypedArray())
     }
 
     /**
@@ -458,7 +464,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
      */
     private fun calculateWidthAndHeightOfScreen() {
         //计算屏幕宽高，用于设置控件的高度
-        val defaultDisplay = requireActivity().windowManager.defaultDisplay
+        val defaultDisplay = baseActivity.windowManager.defaultDisplay
         val point = Point()
         defaultDisplay.getSize(point)
         val configuration = this.resources.configuration //获取设置的配置信息
@@ -493,7 +499,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
      * 收回键盘
      */
     fun takeBackKeyboard() {
-        imm.hideSoftInputFromWindow(requireActivity().window.decorView.windowToken, 0)
+        imm.hideSoftInputFromWindow(baseActivity.window.decorView.windowToken, 0)
     }
 
     /**

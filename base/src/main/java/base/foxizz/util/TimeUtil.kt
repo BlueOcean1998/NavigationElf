@@ -1,7 +1,6 @@
 package base.foxizz.util
 
 import android.annotation.SuppressLint
-import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -24,10 +23,8 @@ object TimeUtil {
      * @return 格式化的日期
      */
     @SuppressLint("SimpleDateFormat")
-    fun format(date: Date, formation: String): String {
-        val sdf: DateFormat = SimpleDateFormat(formation)
-        return sdf.format(date)
-    }
+    fun format(date: Date, formation: String): String =
+        SimpleDateFormat(formation).format(date)
 
     /**
      * 反格式化日期
@@ -37,15 +34,13 @@ object TimeUtil {
      * @return 日期
      */
     @SuppressLint("SimpleDateFormat")
-    fun parse(formatString: String, formation: String): Date {
-        val sdf: DateFormat = SimpleDateFormat(formation)
+    fun parse(formatString: String, formation: String): Date =
         try {
-            return sdf.parse(formatString)
+            SimpleDateFormat(formation).parse(formatString)
         } catch (e: ParseException) {
             e.printStackTrace()
+            Date()
         }
-        return Date()
-    }
 
     /**
      * 判断是否在时间内

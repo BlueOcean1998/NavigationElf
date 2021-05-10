@@ -39,7 +39,8 @@ class IndoorPoiOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
             var markerSize = 0
             var i = 0
             while (i < indoorPoiResult.getmArrayPoiInfo().size
-                    && markerSize < MAX_POI_SIZE) {
+                && markerSize < MAX_POI_SIZE
+            ) {
                 if (indoorPoiResult.getmArrayPoiInfo()[i].latLng == null) {
                     i++
                     continue
@@ -48,10 +49,9 @@ class IndoorPoiOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
                 val bundle = Bundle()
                 bundle.putInt("index", i)
                 markerList.add(MarkerOptions()
-                        .icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_mark"
-                                + markerSize + ".png"))
-                        .extraInfo(bundle)
-                        .position(indoorPoiResult.getmArrayPoiInfo()[i].latLng))
+                    .icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_mark$markerSize.png"))
+                    .extraInfo(bundle)
+                    .position(indoorPoiResult.getmArrayPoiInfo()[i].latLng))
                 i++
             }
             return markerList

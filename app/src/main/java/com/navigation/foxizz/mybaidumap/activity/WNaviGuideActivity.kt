@@ -64,16 +64,18 @@ class WNaviGuideActivity : Activity() {
             SpeechSynthesizer.getInstance().speak(s) //语音播报
         }
         val startResult = mNaviHelper.startWalkNavi(this)
-        Log.e(TAG, "startWalkNavi result : $startResult")
+        Log.e(TAG, "startWalkNavi result: $startResult")
         mNaviHelper.setRouteGuidanceListener(this, object : IWRouteGuidanceListener {
             override fun onRouteGuideIconUpdate(icon: Drawable) {}
             override fun onRouteGuideKind(routeGuideKind: RouteGuideKind) {
                 Log.d(TAG, "onRouteGuideKind: $routeGuideKind")
             }
 
-            override fun onRoadGuideTextUpdate(charSequence: CharSequence, charSequence1: CharSequence) {
-                Log.d(TAG, "onRoadGuideTextUpdate   charSequence=: " + charSequence + "   charSequence1 = : " +
-                        charSequence1)
+            override fun onRoadGuideTextUpdate(
+                charSequence: CharSequence, charSequence1: CharSequence,
+            ) {
+                Log.d(TAG, "onRoadGuideTextUpdate charSequence=: $charSequence " +
+                        "charSequence1=: $charSequence1")
             }
 
             override fun onRemainDistanceUpdate(charSequence: CharSequence) {
@@ -121,12 +123,14 @@ class WNaviGuideActivity : Activity() {
         mNaviHelper.quit()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<String>, grantResults: IntArray,
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == ArCameraView.WALK_AR_PERMISSION) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED)
+        if (requestCode == ArCameraView.WALK_AR_PERMISSION && grantResults.isNotEmpty()) {
+            if (grantResults[0] == PackageManager.PERMISSION_DENIED)
                 showToast(R.string.no_camera_permissions)
-            else if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            else if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 mNaviHelper.startCameraAndSetMapView(this)
         }
     }

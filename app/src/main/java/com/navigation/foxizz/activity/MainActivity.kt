@@ -1,19 +1,11 @@
 package com.navigation.foxizz.activity
 
-import Constants
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import base.foxizz.BaseActivity
-import base.foxizz.BaseConstants
 import base.foxizz.util.SettingUtil
-import base.foxizz.util.ThreadUtil
-import base.foxizz.util.UriUtil
 import base.foxizz.util.showToast
-import cn.zerokirby.api.data.AvatarDataHelper
-import cn.zerokirby.api.data.UserDataHelper
 import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.SDKInitializer
 import com.navigation.foxizz.R
@@ -22,12 +14,11 @@ import com.navigation.foxizz.activity.fragment.UserFragment
 import com.navigation.foxizz.data.SearchDataHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main.*
-import kotlinx.android.synthetic.main.fragment_user.*
 
 /**
  * 主页
  */
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(R.layout.activity_main) {
     private lateinit var mFlPage: Fragment
     lateinit var mainFragment: MainFragment
     lateinit var userFragment: UserFragment
@@ -38,7 +29,6 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         initBaiduMapSDK() //初始化百度地图SDK
         SettingUtil.initSettings(this) //初始化设置
@@ -77,9 +67,9 @@ class MainActivity : BaseActivity() {
         mFlPage = mainFragment
         userFragment = UserFragment()
         supportFragmentManager.beginTransaction()
-                .add(R.id.fl_page, mainFragment)
-                .add(R.id.fl_page, userFragment)
-                .hide(userFragment).commit()
+            .add(R.id.fl_page, mainFragment)
+            .add(R.id.fl_page, userFragment)
+            .hide(userFragment).commit()
     }
 
     //切换碎片
@@ -94,43 +84,6 @@ class MainActivity : BaseActivity() {
     private fun initView() {
         bt_main.setTextColor(getColor(R.color.skyblue))
         bt_user.setTextColor(getColor(R.color.black))
-    }
-
-    //监听权限申请
-    override fun onRequestPermissionsResult(
-            requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            Constants.GET_LOCATION ->
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mainFragment.mBaiduLocation.run {
-                        requestLocationTime = 0 //请求定位的次数归零
-                        refreshSearchList = true //刷新搜索列表
-                        initLocationOption() //初始化定位
-                    }
-                } else showToast(R.string.get_location_permission_fail)
-            BaseConstants.CHOOSE_PHOTO ->
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    AvatarDataHelper.openAlbum(this)
-                else showToast(R.string.get_choose_photo_permission_fail)
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data) //开启Activity并返回结果
-        when (requestCode) {
-            BaseConstants.CHOOSE_PHOTO -> if (resultCode == RESULT_OK && data != null)
-                Constants.avatarUri = AvatarDataHelper.cropImage(this, data)
-            BaseConstants.PHOTO_REQUEST_CUT -> if (resultCode == RESULT_OK) {
-                val avatarPath = UriUtil.getPath(Constants.avatarUri)
-                AvatarDataHelper.showAvatarAndSave(
-                        userFragment.iv_avatar_image, avatarPath, UserDataHelper.loginUserId)
-                ThreadUtil.execute {
-                    AvatarDataHelper.uploadAvatar(UriUtil.getPath(Constants.avatarUri))
-                    showToast(R.string.upload_avatar_successfully)
-                }
-            }
-        }
     }
 
     //监听按键按下事件
@@ -159,7 +112,8 @@ class MainActivity : BaseActivity() {
                     }
                     //如果焦点在searchEdit上或searchEdit有内容
                     if (window.decorView.findFocus() == et_search
-                            || et_search.text.toString().isNotEmpty()) {
+                        || et_search.text.toString().isNotEmpty()
+                    ) {
                         et_search.clearFocus() //使搜索输入框失去焦点
                         et_search.setText("")
                         return false

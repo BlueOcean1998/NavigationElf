@@ -1,10 +1,10 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">导航小精灵</string>
 
     <!-- 百度权限 -->
     <string name="app_id">19031902</string>
     <string name="api_key">Y5HQLSAsKHcmmU2Yv2NGtST0nhBVj0iZ</string>
-    <string name="secret_key">FA6eK7iTuT3btn37ruG1OC4mhPyiepd5</string>
+    <string name="secret_key" tools:ignore="Typos">FA6eK7iTuT3btn37ruG1OC4mhPyiepd5</string>
     <string name="key_checkout_fail">key校验失败, </string>
 
     <!-- 底部导航栏 -->
