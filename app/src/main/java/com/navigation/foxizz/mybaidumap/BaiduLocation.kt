@@ -18,6 +18,8 @@ import com.navigation.foxizz.data.SearchDataHelper
 
 /**
  * 定位模块
+ *
+ * @param mainFragment 地图页
  */
 class BaiduLocation(private val mainFragment: MainFragment) {
     companion object {
@@ -65,57 +67,65 @@ class BaiduLocation(private val mainFragment: MainFragment) {
                     .latitude(mLatitude)
                     .longitude(mLongitude).build()
                 mainFragment.mBaiduMap.setMyLocationData(mLocData) //设置定位数据
-                if (mLocType == BDLocation.TypeGpsLocation //GPS定位结果
-                    || mLocType == BDLocation.TypeNetWorkLocation //网络定位结果
-                    || mLocType == BDLocation.TypeOffLineLocation
-                ) { //离线定位结果
-                    //location.addrStr.showToast()
 
-                    //到新城市时
-                    if (mCity.isNotEmpty() && mCity != SPUtil.getString(Constants.MY_CITY)) {
-                        /*
-                        //启动下载离线地图服务
-                        OfflineMapService.startService(
-                                mainFragment.baseActivity, mainFragment.mBaiduLocation.mCity
-                        )
-                        */
-                        SPUtil.put(Constants.MY_CITY, mCity) //保存新城市
-                    }
+                when (mLocType) {
+                    BDLocation.TypeGpsLocation, //GPS定位结果
+                    BDLocation.TypeNetWorkLocation, //网络定位结果
+                    BDLocation.TypeOffLineLocation //离线定位结果
+                    -> {
+                        //showToast(location.addrStr)
 
-                    if (isFirstLoc) {
-                        isFirstLoc = false
-                        if (refreshSearchList) {
-                            refreshSearchList = false
-                            if (mainFragment.isHistorySearchResult)
-                                SearchDataHelper.initSearchData(mainFragment) //初始化搜索记录                    ）
+                        //到新城市时
+                        if (mCity.isNotEmpty() && mCity != SPUtil.getString(Constants.MY_CITY)) {
+                            /*
+                            //启动下载离线地图服务
+                            OfflineMapService.startService(
+                                    mainFragment.baseActivity, mainFragment.mBaiduLocation.mCity
+                            )
+                            */
+                            SPUtil.put(Constants.MY_CITY, mCity) //保存新城市
                         }
 
-                        //移动视角并改变缩放等级
-                        val msu = MapStatusUpdateFactory.newLatLng(mLatLng)
-                        mainFragment.mBaiduMap.setMapStatus(msu)
-                        val builder = MapStatus.Builder()
-                        builder.zoom(18.0f).target(mLatLng)
-                        mainFragment.mBaiduMap.animateMapStatus(
-                            MapStatusUpdateFactory.newMapStatus(builder.build()))
+                        if (isFirstLoc) {
+                            isFirstLoc = false
+                            if (refreshSearchList) {
+                                refreshSearchList = false
+                                if (mainFragment.isHistorySearchResult)
+                                    SearchDataHelper.initSearchData(mainFragment) //初始化搜索记录                    ）
+                            }
+
+                            //移动视角并改变缩放等级
+                            val msu = MapStatusUpdateFactory.newLatLng(mLatLng)
+                            mainFragment.mBaiduMap.setMapStatus(msu)
+                            val builder = MapStatus.Builder()
+                            builder.zoom(18.0f).target(mLatLng)
+                            mainFragment.mBaiduMap.animateMapStatus(
+                                MapStatusUpdateFactory.newMapStatus(builder.build())
+                            )
+                        }
                     }
-                } else {
-                    if (requestLocationTime < MAX_TIME) {
-                        requestLocationTime++ //请求次数+1
-                    } else {
-                        //弹出错误提示
-                        when (mLocType) {
-                            BDLocation.TypeServerError -> showToast(R.string.server_error)
-                            BDLocation.TypeNetWorkException -> showToast(R.string.network_error)
-                            BDLocation.TypeCriteriaException -> showToast(R.string.close_airplane_mode)
-                            else -> showToast(R.string.unknown_error)
+                    else -> {
+                        if (requestLocationTime < MAX_TIME) {
+                            requestLocationTime++ //请求次数+1
+                        } else {
+                            //弹出错误提示
+                            showToast(
+                                when (mLocType) {
+                                    BDLocation.TypeServerError -> R.string.server_error
+                                    BDLocation.TypeNetWorkException -> R.string.network_error
+                                    BDLocation.TypeCriteriaException -> R.string.close_airplane_mode
+                                    else -> R.string.unknown_error
+                                }
+                            )
                         }
                     }
                 }
             }
         })
 
+        //需将配置好的LocationClientOption对象，通过setLocOption方法传递给LocationClient对象使用
         //声明LocationClient类实例并配置定位参数
-        LocationClientOption().run {
+        mLocationClient.locOption = LocationClientOption().apply {
             //默认高精度，设置定位模式，高精度，低功耗，仅设备
             locationMode = LocationClientOption.LocationMode.Hight_Accuracy
             //默认false，设置是否开启GPS定位
@@ -146,8 +156,6 @@ class BaiduLocation(private val mainFragment: MainFragment) {
             setOpenAutoNotifyMode()
             //设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者
             //setOpenAutoNotifyMode(3000, 1, LocationClientOption.LOC_SENSITIVITY_HIGHT)
-            //需将配置好的LocationClientOption对象，通过setLocOption方法传递给LocationClient对象使用
-            mLocationClient.locOption = this
         }
         //启动定位服务
         mLocationClient.start()

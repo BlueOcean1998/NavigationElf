@@ -12,6 +12,8 @@ import kotlinx.android.synthetic.main.fragment_user.*
 
 /**
  * 本地接收器
+ *
+ * @param mContext 上下文
  */
 class LocalReceiver(private val mContext: Context) : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -45,7 +47,8 @@ class LocalReceiver(private val mContext: Context) : BroadcastReceiver() {
                                 SET_USERNAME -> tv_user_name.text =
                                     UserDataHelper.getUser(UserDataHelper.loginUserId).username
                                 SET_AVATAR -> iv_avatar_image.setImageBitmap(
-                                    AvatarDataHelper.getBitmapAvatar(UserDataHelper.loginUserId))
+                                    AvatarDataHelper.getBitmapAvatar(UserDataHelper.loginUserId)
+                                )
                             }
                         }
                     }

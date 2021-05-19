@@ -17,9 +17,9 @@ val REGEX_HEXADECIMAL = "[0-9A-Fa-f]+".toRegex() //十六进制数
  */
 fun String.containsCount(string: String): Int {
     var count = 0
-    for (i in 0..length - string.length) {
-        if (this.substring(i, i + string.length) == string) {
-            count++
+    for (i in string.length..length) {
+        if (substring(i, i + string.length) == string) {
+            ++count
         }
     }
     return count
@@ -31,7 +31,7 @@ fun String.containsCount(string: String): Int {
  * @return Boolean
  */
 fun String.isDigits(): Boolean {
-    if (this.isEmpty()) return false
+    if (isEmpty()) return false
     for (c in this) if (!c.isDigit()) return false
     return true
 }
@@ -42,7 +42,7 @@ fun String.isDigits(): Boolean {
  * @return Boolean
  */
 fun String.isLetters(): Boolean {
-    if (this.isEmpty()) return false
+    if (isEmpty()) return false
     for (c in this) if (!c.isLetter()) return false
     return true
 }
@@ -53,7 +53,7 @@ fun String.isLetters(): Boolean {
  * @return Boolean
  */
 fun String.isChinese(): Boolean {
-    if (this.isEmpty()) return false
+    if (isEmpty()) return false
     for (c in this) if (!REGEX_CHINESE.matches(c.toString())) return false
     return true
 }
@@ -124,14 +124,11 @@ fun String.removeChinese() = remove(REGEX_CHINESE)
 /**
  * 附加字符串
  *
- * @param time 次数
+ * @param time  次数
  * @param value 任意个字符串
- * @return String
  */
-fun StringBuilder.appends(time: Int, vararg value: Any): StringBuilder {
-    for (i in 1..time) for (item in value) append(item)
-    return this
-}
+fun StringBuilder.appends(time: Int, vararg value: Any) =
+    apply { for (i in 1..time) for (item in value) append(item) }
 
 /**
  * 替换字符串中的子串

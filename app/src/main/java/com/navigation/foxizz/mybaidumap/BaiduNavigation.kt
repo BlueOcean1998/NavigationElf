@@ -37,6 +37,8 @@ import java.util.*
 
 /**
  * 导航模块
+ *
+ * @param mainFragment 地图页
  */
 class BaiduNavigation(private val mainFragment: MainFragment) {
     companion object {
@@ -91,14 +93,16 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
 
     //初始化语音合成模块
     private fun initTTS() {
-        BaiduNaviManagerFactory.getTTSManager().initTTS(BNTTsInitConfig.Builder()
-            .context(baseApplication)
-            .sdcardRootPath(AppUtil.sdCardDir)
-            .appFolderName(AppUtil.appFolderName)
-            .appId(getString(R.string.app_id))
-            .appKey(getString(R.string.api_key))
-            .secretKey(getString(R.string.secret_key))
-            .build())
+        BaiduNaviManagerFactory.getTTSManager().initTTS(
+            BNTTsInitConfig.Builder()
+                .context(baseApplication)
+                .sdcardRootPath(AppUtil.sdCardDir)
+                .appFolderName(AppUtil.appFolderName)
+                .appId(getString(R.string.app_id))
+                .appKey(getString(R.string.api_key))
+                .secretKey(getString(R.string.secret_key))
+                .build()
+        )
     }
 
     /**
@@ -106,11 +110,11 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
      */
     private fun initWalkNavigateHelper() {
         //步行引擎初始化
-        WalkNavigateHelper.getInstance().initNaviEngine(mainFragment.baseActivity,
-            object : IWEngineInitListener {
-                override fun engineInitSuccess() = routeWalkPlanWithParam()
-                override fun engineInitFail() = showToast(R.string.walk_navigate_init_fail)
-            })
+        WalkNavigateHelper.getInstance().initNaviEngine(mainFragment.baseActivity, object
+            : IWEngineInitListener {
+            override fun engineInitSuccess() = routeWalkPlanWithParam()
+            override fun engineInitFail() = showToast(R.string.walk_navigate_init_fail)
+        })
     }
 
     /**
@@ -118,11 +122,11 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
      */
     private fun initBikeNavigateHelper() {
         //骑行引擎初始化
-        BikeNavigateHelper.getInstance().initNaviEngine(mainFragment.baseActivity,
-            object : IBEngineInitListener {
-                override fun engineInitSuccess() = routeBikePlanWithParam()
-                override fun engineInitFail() = showToast(R.string.bike_navigate_init_fail)
-            })
+        BikeNavigateHelper.getInstance().initNaviEngine(mainFragment.baseActivity, object
+            : IBEngineInitListener {
+            override fun engineInitSuccess() = routeBikePlanWithParam()
+            override fun engineInitFail() = showToast(R.string.bike_navigate_init_fail)
+        })
     }
 
     /**
@@ -139,7 +143,7 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
         }
 
         mainFragment.run {
-            if (SettingUtil.haveReadWriteAndLocationPermissions()) { //权限不足
+            if (SettingUtil.hasReadWriteAndLocationPermissions) { //权限不足
                 checkPermissionAndLocate() //申请权限，获得权限后定位
                 return
             }
@@ -249,44 +253,46 @@ class BaiduNavigation(private val mainFragment: MainFragment) {
         val walkParam = WalkNaviLaunchParam()
             .startNodeInfo(walkStartNode)
             .endNodeInfo(walkEndNode)
-        walkParam.extraNaviMode(0) //普通步行导航
-        WalkNavigateHelper.getInstance().routePlanWithRouteNode(walkParam,
-            object : IWRoutePlanListener {
-                override fun onRoutePlanStart() = mLoadingProgress.show()
-                override fun onRoutePlanSuccess() {
-                    mLoadingProgress.dismiss()
-                    WNaviGuideActivity.startActivity(mainFragment.baseActivity)
-                }
+            .extraNaviMode(0) //普通步行导航
+        WalkNavigateHelper.getInstance().routePlanWithRouteNode(walkParam, object
+            : IWRoutePlanListener {
+            override fun onRoutePlanStart() = mLoadingProgress.show()
+            override fun onRoutePlanSuccess() {
+                mLoadingProgress.dismiss()
+                WNaviGuideActivity.startActivity(mainFragment.baseActivity)
+            }
 
-                override fun onRoutePlanFail(error: WalkRoutePlanError) {
-                    mLoadingProgress.dismiss()
-                    showToast(R.string.walk_route_plan_fail)
-                }
-            })
+            override fun onRoutePlanFail(error: WalkRoutePlanError) {
+                mLoadingProgress.dismiss()
+                showToast(R.string.walk_route_plan_fail)
+            }
+        })
     }
 
     //初始化骑行路线规划
     private fun routeBikePlanWithParam() {
         //获取定位点和目标点坐标
-        val bikeStartNode = BikeRouteNodeInfo()
-        bikeStartNode.location = mainFragment.mBaiduLocation.mLatLng
-        val bikeEndNode = BikeRouteNodeInfo()
-        bikeEndNode.location = mainFragment.mBaiduSearch.mSearchList[0].latLng
+        val bikeStartNode = BikeRouteNodeInfo().apply {
+            location = mainFragment.mBaiduLocation.mLatLng
+        }
+        val bikeEndNode = BikeRouteNodeInfo().apply {
+            location = mainFragment.mBaiduSearch.mSearchList[0].latLng
+        }
         val bikeParam = BikeNaviLaunchParam()
             .startNodeInfo(bikeStartNode)
             .endNodeInfo(bikeEndNode)
-        BikeNavigateHelper.getInstance()
-            .routePlanWithRouteNode(bikeParam, object : IBRoutePlanListener {
-                override fun onRoutePlanStart() = mLoadingProgress.show()
-                override fun onRoutePlanSuccess() {
-                    mLoadingProgress.dismiss()
-                    BNaviGuideActivity.startActivity(mainFragment.baseActivity)
-                }
+        BikeNavigateHelper.getInstance().routePlanWithRouteNode(bikeParam, object
+            : IBRoutePlanListener {
+            override fun onRoutePlanStart() = mLoadingProgress.show()
+            override fun onRoutePlanSuccess() {
+                mLoadingProgress.dismiss()
+                BNaviGuideActivity.startActivity(mainFragment.baseActivity)
+            }
 
-                override fun onRoutePlanFail(bikeRoutePlanError: BikeRoutePlanError) {
-                    mLoadingProgress.dismiss()
-                    showToast(R.string.bike_route_plan_fail)
-                }
-            })
+            override fun onRoutePlanFail(bikeRoutePlanError: BikeRoutePlanError) {
+                mLoadingProgress.dismiss()
+                showToast(R.string.bike_route_plan_fail)
+            }
+        })
     }
 }

@@ -8,6 +8,12 @@ import androidx.appcompat.widget.AppCompatTextView
 import base.foxizz.util.pxToSp
 import com.navigation.foxizz.R
 
+/**
+ * 自适应TextView
+ *
+ * @param context 上下文
+ * @param attrs   自定义属性
+ */
 class AdaptiveTextView(context: Context, attrs: AttributeSet? = null) :
     AppCompatTextView(context, attrs) {
     private var mMaxTextSize = 0f //默认字体大小
@@ -28,9 +34,7 @@ class AdaptiveTextView(context: Context, attrs: AttributeSet? = null) :
 
         //获取自定义属性，默认为宽度自适应
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.AdaptiveTextView)
-        adaptiveType = typedArray.getInt(
-            R.styleable.AdaptiveTextView_adaptive_type, 0
-        ) == 0
+        adaptiveType = 0 == typedArray.getInt(R.styleable.AdaptiveTextView_adaptive_type, 0)
         typedArray.recycle()
     }
 
@@ -45,7 +49,7 @@ class AdaptiveTextView(context: Context, attrs: AttributeSet? = null) :
 
     //内容改变时
     override fun onTextChanged(
-        text: CharSequence, start: Int, lengthBefore: Int, lengthAfter: Int,
+        text: CharSequence, start: Int, lengthBefore: Int, lengthAfter: Int
     ) {
         if (adaptiveType) refitTextWidth(text.toString(), width) //textView视图的宽度
         else refitTextHeight(height) //textView视图的高度
@@ -69,8 +73,8 @@ class AdaptiveTextView(context: Context, attrs: AttributeSet? = null) :
             mTextPaint.textSize = trySize
             //测量的字体宽度过大，不断地缩放
             while (mTextPaint.measureText(text) > availableWidth) {
-                trySize-- //字体不断地减小来适应
-                if (trySize <= mMinTextSize) {
+                --trySize //字体不断地减小来适应
+                if (trySize < mMinTextSize) {
                     trySize = mMinTextSize
                     break
                 }
@@ -91,8 +95,8 @@ class AdaptiveTextView(context: Context, attrs: AttributeSet? = null) :
             mTextPaint.textSize = trySize
             //测量的字体高度过大，不断地缩放
             while (mTextPaint.descent() - mTextPaint.ascent() > availableHeight) {
-                trySize-- //字体不断地减小来适应
-                if (trySize <= mMinTextSize) {
+                --trySize //字体不断地减小来适应
+                if (trySize < mMinTextSize) {
                     trySize = mMinTextSize //最小为这个
                     break
                 }

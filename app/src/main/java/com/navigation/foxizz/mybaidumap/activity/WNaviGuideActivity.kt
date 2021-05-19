@@ -33,9 +33,8 @@ class WNaviGuideActivity : Activity() {
          *
          * @param context 上下文
          */
-        fun startActivity(context: Context) {
+        fun startActivity(context: Context) =
             context.startActivity(Intent(context, WNaviGuideActivity::class.java))
-        }
     }
 
     private lateinit var mNaviHelper: WalkNavigateHelper
@@ -72,10 +71,12 @@ class WNaviGuideActivity : Activity() {
             }
 
             override fun onRoadGuideTextUpdate(
-                charSequence: CharSequence, charSequence1: CharSequence,
+                charSequence: CharSequence, charSequence1: CharSequence
             ) {
-                Log.d(TAG, "onRoadGuideTextUpdate charSequence=: $charSequence " +
-                        "charSequence1=: $charSequence1")
+                Log.d(
+                    TAG, "onRoadGuideTextUpdate charSequence=: $charSequence " +
+                            "charSequence1=: $charSequence1"
+                )
             }
 
             override fun onRemainDistanceUpdate(charSequence: CharSequence) {
@@ -124,7 +125,7 @@ class WNaviGuideActivity : Activity() {
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String>, grantResults: IntArray,
+        requestCode: Int, permissions: Array<String>, grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == ArCameraView.WALK_AR_PERMISSION && grantResults.isNotEmpty()) {

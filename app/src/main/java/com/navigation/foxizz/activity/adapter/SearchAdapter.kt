@@ -29,6 +29,8 @@ import kotlinx.android.synthetic.main.include_tv_end.view.*
 
 /**
  * 搜索到的信息列表的适配器
+ *
+ * @param mainFragment 地图页
  */
 class SearchAdapter(private val mainFragment: MainFragment) :
     RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
@@ -46,8 +48,6 @@ class SearchAdapter(private val mainFragment: MainFragment) :
 
     /**
      * 获取item数量
-     *
-     * @return item数量
      */
     override fun getItemCount() = mainFragment.mBaiduSearch.mSearchList.size
 
@@ -70,18 +70,17 @@ class SearchAdapter(private val mainFragment: MainFragment) :
                     //加载更多搜索结果
                     if (position == itemCount - 4 && !isSearching
                         && !isHistorySearchResult && mCurrentPage < mTotalPage
-                    )
-                        startSearch(mCurrentPage)
+                    ) startSearch(mCurrentPage)
 
                     //设置提示信息的内容
-                    if (!isHistorySearchResult && mCurrentPage < mTotalPage)
-                        tvEnd.text = getString(R.string.loading)
-                    else tvEnd.text = getString(R.string.no_more)
+                    tvEnd.text = getString(
+                        if (!isHistorySearchResult && mCurrentPage < mTotalPage)
+                            R.string.loading else R.string.no_more
+                    )
 
                     //只有底部显示提示信息
-                    if (position == mSearchList.size - 1)
-                        tvEnd.visibility = View.VISIBLE
-                    else tvEnd.visibility = View.GONE
+                    tvEnd.visibility = if (position == mSearchList.size - 1)
+                        View.VISIBLE else View.GONE
                 }
             }
         }
@@ -93,13 +92,13 @@ class SearchAdapter(private val mainFragment: MainFragment) :
             .inflate(R.layout.adapter_search_item, parent, false)
         val holder = ViewHolder(view)
 
-        holder.run {
+        return holder.apply {
             mainFragment.run {
                 mBaiduSearch.run {
                     //cardView的点击事件
                     cardSearchInfo.setOnClickListener {
                         val position = bindingAdapterPosition
-                        if (unableToClick()) return@setOnClickListener
+                        if (unableToClick) return@setOnClickListener
                         if (!NetworkUtil.isNetworkConnected) { //没有网络连接
                             showToast(R.string.network_error)
                             return@setOnClickListener
@@ -137,7 +136,7 @@ class SearchAdapter(private val mainFragment: MainFragment) :
 
                     //btItem的点击事件
                     btItem.setOnClickListener {
-                        if (unableToClick()) return@setOnClickListener
+                        if (unableToClick) return@setOnClickListener
                         if (!NetworkUtil.isNetworkConnected) { //没有网络连接
                             showToast(R.string.network_error)
                             return@setOnClickListener
@@ -156,11 +155,12 @@ class SearchAdapter(private val mainFragment: MainFragment) :
                     //cardView的长按事件
                     cardSearchInfo.setOnLongClickListener(OnLongClickListener {
                         val position = bindingAdapterPosition
-                        if (unableToClick()) return@OnLongClickListener false
+                        if (unableToClick) return@OnLongClickListener false
                         val searchItem = mSearchList[position]
                         if (isHistorySearchResult) { //如果是搜索历史记录
-                            showDeleteSearchDataDialog(searchItem,
-                                position) //显示删除搜索记录对话框
+                            showDeleteSearchDataDialog(
+                                searchItem, position
+                            ) //显示删除搜索记录对话框
                         } else { //如果不是
                             mSearchList.remove(searchItem) //移除搜索列表的这条记录
                             notifyItemRemoved(position) //通知adapter移除这条记录
@@ -170,7 +170,6 @@ class SearchAdapter(private val mainFragment: MainFragment) :
                     })
                 }
             }
-            return this
         }
     }
 
@@ -220,8 +219,9 @@ class SearchAdapter(private val mainFragment: MainFragment) :
     }
 
     //不允许同时点击多个item
-    private fun unableToClick() = if (System.currentTimeMillis() - clickTime > 1000) {
-        clickTime = System.currentTimeMillis()
-        false
-    } else true
+    private val unableToClick
+        get() = if (System.currentTimeMillis() - clickTime > 1000) {
+            clickTime = System.currentTimeMillis()
+            false
+        } else true
 }

@@ -7,12 +7,9 @@ import com.baidu.mapapi.search.poi.PoiIndoorResult
 import java.util.*
 
 /**
- * 用于显示indoorpoi的overly
- */
-/**
- * 构造函数
+ * 用于显示室内poi的overlay
  *
- * @param baiduMap 该 IndoorPoiOverlay 引用的 BaiduMap 对象
+ * @param baiduMap 百度地图
  */
 class IndoorPoiOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
     companion object {
@@ -48,10 +45,12 @@ class IndoorPoiOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
                 markerSize++
                 val bundle = Bundle()
                 bundle.putInt("index", i)
-                markerList.add(MarkerOptions()
-                    .icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_mark$markerSize.png"))
-                    .extraInfo(bundle)
-                    .position(indoorPoiResult.getmArrayPoiInfo()[i].latLng))
+                markerList.add(
+                    MarkerOptions()
+                        .icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_mark$markerSize.png"))
+                        .extraInfo(bundle)
+                        .position(indoorPoiResult.getmArrayPoiInfo()[i].latLng)
+                )
                 i++
             }
             return markerList

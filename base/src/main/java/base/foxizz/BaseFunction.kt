@@ -11,15 +11,13 @@ import base.foxizz.BaseApplication.Companion.baseApplication
 /**
  * 获取字符串资源
  *
- * @param resId StringRes
+ * @param resId 字符串资源id
  */
-@JvmName("baseGetString")
 fun getString(@StringRes resId: Int): String = baseApplication.getString(resId)
 
 /**
  * 获取颜色资源
  *
- * @param resId ColorRes
+ * @param resId 颜色资源id
  */
-@JvmName("baseGetColor")
 fun getColor(@ColorRes resId: Int) = baseApplication.getColor(resId)

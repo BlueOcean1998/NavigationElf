@@ -140,8 +140,6 @@ object CityUtil {
 
     /**
      * 获取所有城市列表
-     *
-     * @return 所有城市列表
      */
     val cityList: List<String>
         get() {
@@ -174,8 +172,6 @@ object CityUtil {
 
     /**
      * 获取省份列表
-     *
-     * @return 省份列表
      */
     val provinceList: List<String>
         get() {

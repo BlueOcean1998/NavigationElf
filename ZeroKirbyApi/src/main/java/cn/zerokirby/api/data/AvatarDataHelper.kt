@@ -30,12 +30,11 @@ object AvatarDataHelper {
         var inputStream: InputStream? = null
         var outputStream: OutputStream? = null
         try {
-            val client = OkHttpClient()
-            val requestBody: RequestBody = FormBody.Builder().add("userId", userId).build()
-            val request: Request = Request.Builder()
+            val requestBody = FormBody.Builder().add("userId", userId).build()
+            val request = Request.Builder()
                 .url(Constants.DOWNLOAD_AVATAR_URL)
                 .post(requestBody).build()
-            response = client.newCall(request).execute()
+            response = OkHttpClient().newCall(request).execute()
             inputStream = response.body?.byteStream()
             outputStream = ByteArrayOutputStream()
             if (inputStream == null) return
@@ -61,18 +60,16 @@ object AvatarDataHelper {
     fun uploadAvatar(imagePath: String) {
         var response: Response? = null
         try {
-            val file = File(imagePath)
-            val mediaTypeJpeg: MediaType = "image/jpeg".toMediaType() //设置媒体类型
+            val mediaTypeJpeg = "image/jpeg".toMediaType() //设置媒体类型
             val userId = UserDataHelper.loginUserId //获取用户id
-            val client = OkHttpClient()
-            val fileBody = file.asRequestBody(mediaTypeJpeg) //媒体类型为jpg
+            val fileBody = File(imagePath).asRequestBody(mediaTypeJpeg) //媒体类型为jpg
             val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("userId", userId)
                 .addFormDataPart("file", "$userId.jpg", fileBody).build()
-            val request: Request = Request.Builder()
+            val request = Request.Builder()
                 .url(Constants.UPLOAD_AVATAR_URL)
                 .post(requestBody).build()
-            response = client.newCall(request).execute()
+            response = OkHttpClient().newCall(request).execute()
         } catch (e: Exception) {
         } finally {
             response?.close()
@@ -94,14 +91,17 @@ object AvatarDataHelper {
     /**
      * 调用系统方法裁剪图片
      *
-     * @param data 带有本地图片路径的intent
+     * @param data                   带有本地图片路径的intent
      * @param activityResultLauncher 活动结果反射器
      * @return 输出到服务器的路径
      */
     fun cropImage(data: Intent, activityResultLauncher: ActivityResultLauncher<Intent>): Uri {
         //创建临时文件，Android11后必须使用公共目录
-        val cropImagePath = File(Environment.getExternalStoragePublicDirectory(
-            Environment.DIRECTORY_PICTURES), "NavigationElf")
+        val cropImagePath = File(
+            Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES
+            ), "NavigationElf"
+        )
         if (!cropImagePath.exists()) cropImagePath.mkdir()
         val cropImageFile = File(cropImagePath, "crop_image.png")
         if (cropImageFile.exists()) cropImageFile.delete()
@@ -130,9 +130,8 @@ object AvatarDataHelper {
      *
      * @return 位图
      */
-    fun getBitmapAvatar(userId: String): Bitmap? {
-        val avatarBytes = getAvatar(userId)
-        return BitmapFactory.decodeByteArray(avatarBytes, 0, avatarBytes.size)
+    fun getBitmapAvatar(userId: String): Bitmap? = getAvatar(userId).run {
+        BitmapFactory.decodeByteArray(this, 0, this.size)
     }
 
     /**
@@ -180,15 +179,14 @@ object AvatarDataHelper {
      *
      * @param avatarBytes 带有头像数据的比特串
      */
-    fun saveAvatar(avatarBytes: ByteArray, userId: String) {
-        try {
-            databaseHelper.writableDatabase.use { db ->
-                db.execSQL("update User set avatar = ? where user_id = ?",
-                    arrayOf<Any>(avatarBytes, userId)
-                )
-            }
-        } catch (e: Exception) {
+    fun saveAvatar(avatarBytes: ByteArray, userId: String) = try {
+        databaseHelper.writableDatabase.use { db ->
+            db.execSQL(
+                "update User set avatar = ? where user_id = ?",
+                arrayOf<Any>(avatarBytes, userId)
+            )
         }
+    } catch (e: Exception) {
     }
 
     /**

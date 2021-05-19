@@ -9,12 +9,10 @@ import com.baidu.mapapi.search.route.DrivingRouteLine
 import java.util.*
 
 /**
- * 用于显示一条驾车路线的overlay，自3.4.0版本起可实例化多个添加在地图中显示，当数据中包含路况数据时，则默认使用路况纹理分段绘制
- */
-/**
- * 构造函数
+ * 用于显示一条驾车路线的overlay，
+ * 自3.4.0版本起可实例化多个添加在地图中显示，当数据中包含路况数据时，则默认使用路况纹理分段绘制
  *
- * @param baiduMap 该DrivingRouteOvelray引用的 BaiduMap
+ * @param baiduMap 百度地图
  */
 class DrivingRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
     private lateinit var mRouteLine: DrivingRouteLine
@@ -63,37 +61,45 @@ class DrivingRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
                     val b = Bundle()
                     b.putInt("index", mRouteLine.allStep.indexOf(step))
                     if (step.entrance != null) {
-                        overlayOptionses.add(MarkerOptions()
-                            .position(step.entrance.location)
-                            .anchor(0.5f, 0.5f)
-                            .zIndex(10)
-                            .rotate((360 - step.direction).toFloat())
-                            .extraInfo(b)
-                            .icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_line_node.png")))
+                        overlayOptionses.add(
+                            MarkerOptions()
+                                .position(step.entrance.location)
+                                .anchor(0.5f, 0.5f)
+                                .zIndex(10)
+                                .rotate((360 - step.direction).toFloat())
+                                .extraInfo(b)
+                                .icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_line_node.png"))
+                        )
                     }
                     //最后路段绘制出口点
                     if (mRouteLine.allStep.indexOf(step) == mRouteLine.allStep.size - 1
                         && step.exit != null
                     ) {
-                        overlayOptionses.add(MarkerOptions()
-                            .position(step.exit.location)
-                            .anchor(0.5f, 0.5f)
-                            .zIndex(10)
-                            .icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_line_node.png")))
+                        overlayOptionses.add(
+                            MarkerOptions()
+                                .position(step.exit.location)
+                                .anchor(0.5f, 0.5f)
+                                .zIndex(10)
+                                .icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_line_node.png"))
+                        )
                     }
                 }
             }
             if (mRouteLine.starting != null) {
-                overlayOptionses.add(MarkerOptions()
-                    .position(mRouteLine.starting.location)
-                    .icon(startMarker)
-                    .zIndex(10))
+                overlayOptionses.add(
+                    MarkerOptions()
+                        .position(mRouteLine.starting.location)
+                        .icon(startMarker)
+                        .zIndex(10)
+                )
             }
             if (mRouteLine.terminal != null) {
-                overlayOptionses.add(MarkerOptions()
-                    .position(mRouteLine.terminal.location)
-                    .icon(terminalMarker)
-                    .zIndex(10))
+                overlayOptionses.add(
+                    MarkerOptions()
+                        .position(mRouteLine.terminal.location)
+                        .icon(terminalMarker)
+                        .zIndex(10)
+                )
             }
 
             //poly line
@@ -143,8 +149,10 @@ class DrivingRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
                     .width(7)
                     .dottedLine(isDotLine)
                     .focus(true)
-                    .color(if (lineColor != 0) lineColor
-                    else Color.argb(178, 0, 78, 255))
+                    .color(
+                        if (lineColor != 0) lineColor
+                        else Color.argb(178, 0, 78, 255)
+                    )
                     .zIndex(0)
                 if (isDotLine) {
                     option.customTextureList(customTextureList)
@@ -156,13 +164,12 @@ class DrivingRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
 
     private val customTextureList: List<BitmapDescriptor>
         get() {
-            ArrayList<BitmapDescriptor>().run {
+            return ArrayList<BitmapDescriptor>().apply {
                 add(BitmapDescriptorFactory.fromAsset("Icon_road_blue_arrow.png"))
                 add(BitmapDescriptorFactory.fromAsset("Icon_road_green_arrow.png"))
                 add(BitmapDescriptorFactory.fromAsset("Icon_road_yellow_arrow.png"))
                 add(BitmapDescriptorFactory.fromAsset("Icon_road_red_arrow.png"))
                 add(BitmapDescriptorFactory.fromAsset("Icon_road_nofocus.png"))
-                return this
             }
         }
 

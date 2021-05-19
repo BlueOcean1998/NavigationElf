@@ -36,9 +36,8 @@ class LoginRegisterActivity : BaseActivity(R.layout.activity_login_register) {
          *
          * @param context 上下文
          */
-        fun startActivity(context: Context) {
+        fun startActivity(context: Context) =
             context.startActivity(Intent(context, LoginRegisterActivity::class.java))
-        }
     }
 
     private var isLogin = true //是否是登录页
@@ -86,7 +85,7 @@ class LoginRegisterActivity : BaseActivity(R.layout.activity_login_register) {
     //初始化控件
     private fun initView() {
         //手机模式只允许竖屏，平板模式只允许横屏，且根据不同的模式设置不同的背景图
-        requestedOrientation = if (SettingUtil.isMobile()) {
+        requestedOrientation = if (SettingUtil.isMobile) {
             rl_activity_login_register.setBackgroundResource(R.drawable.beach)
             ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         } else {
@@ -124,16 +123,13 @@ class LoginRegisterActivity : BaseActivity(R.layout.activity_login_register) {
 
         //显示密码按钮的点击事件
         ib_watch_password.setOnClickListener {
-            if (isWatchPassword) {
-                isWatchPassword = false
-                ib_watch_password.setImageResource(R.drawable.ic_eye_black_30dp)
-                et_password.inputType =
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-            } else {
-                isWatchPassword = true
+            isWatchPassword = !isWatchPassword
+            et_password.inputType = if (isWatchPassword) {
                 ib_watch_password.setImageResource(R.drawable.ic_eye_blue_30dp)
-                et_password.inputType =
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            } else {
+                ib_watch_password.setImageResource(R.drawable.ic_eye_black_30dp)
+                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             }
             et_password.setSelection(password.length) //移动焦点到末尾
         }
@@ -161,7 +157,8 @@ class LoginRegisterActivity : BaseActivity(R.layout.activity_login_register) {
 
                     //提交账号信息，获取返回结果。该操作会阻塞线程，需在子线程进行
                     val jsonObject = UserDataHelper.loginRegisterSendRequest(
-                        username, password, isLogin)
+                        username, password, isLogin
+                    )
 
                     //获取登录或注册结果
                     var status = 2
@@ -202,17 +199,22 @@ class LoginRegisterActivity : BaseActivity(R.layout.activity_login_register) {
                     if (status == 1) {
                         //初始化用户信息
                         UserDataHelper.loginRegisterInitUserInfo(
-                            jsonObject, username, password, isLogin)
+                            jsonObject, username, password, isLogin
+                        )
 
                         //发送本地广播通知更新用户名
-                        lbm.sendBroadcast(Intent(Constants.LOGIN_BROADCAST)
-                            .putExtra(Constants.LOGIN_TYPE, Constants.SET_USERNAME))
+                        lbm.sendBroadcast(
+                            Intent(Constants.LOGIN_BROADCAST)
+                                .putExtra(Constants.LOGIN_TYPE, Constants.SET_USERNAME)
+                        )
                         finish() //关闭页面
                         AvatarDataHelper.downloadAvatar(UserDataHelper.loginUserId) //下载头像
 
                         //发送本地广播通知更新头像
-                        lbm.sendBroadcast(Intent(Constants.LOGIN_BROADCAST)
-                            .putExtra(Constants.LOGIN_TYPE, Constants.SET_AVATAR))
+                        lbm.sendBroadcast(
+                            Intent(Constants.LOGIN_BROADCAST)
+                                .putExtra(Constants.LOGIN_TYPE, Constants.SET_AVATAR)
+                        )
                     }
                 }
             }

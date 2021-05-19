@@ -20,22 +20,24 @@ object SettingUtil {
      *
      * @return Boolean
      */
-    fun haveReadWriteAndLocationPermissions(): Boolean {
-        val permissions = arrayOf(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        )
-        for (permission in permissions) {
-            if (ContextCompat.checkSelfPermission(baseApplication, permission)
-                != PackageManager.PERMISSION_GRANTED
-            ) return true
+    val hasReadWriteAndLocationPermissions: Boolean
+        get() {
+            val permissions = arrayOf(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+            for (permission in permissions) {
+                if (ContextCompat.checkSelfPermission(baseApplication, permission)
+                    != PackageManager.PERMISSION_GRANTED
+                ) return true
+            }
+            return false
         }
-        return false
-    }
 
     //判断是否是手机模式
-    fun isMobile() = (baseApplication.resources.configuration.screenLayout
-            and Configuration.SCREENLAYOUT_SIZE_MASK) < Configuration.SCREENLAYOUT_SIZE_LARGE
+    val isMobile
+        get() = (baseApplication.resources.configuration.screenLayout and
+                Configuration.SCREENLAYOUT_SIZE_MASK) < Configuration.SCREENLAYOUT_SIZE_LARGE
 
     /**
      * 初始化设置（目前只有一个设置）

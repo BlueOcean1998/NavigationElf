@@ -142,9 +142,9 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
 
         //配置定位图层显示方式，使用默认的定位图标，设置精确度圆的填充色和边框色
         //LocationMode定位模式有三种：普通模式，跟随模式，罗盘模式，在这使用普通模式
-        val myLocationConfiguration = MyLocationConfiguration(
-            MyLocationConfiguration.LocationMode.NORMAL, true, null, -0x55401001, -0x55603001)
-        mBaiduMap.setMyLocationConfiguration(myLocationConfiguration)
+        mBaiduMap.setMyLocationConfiguration(MyLocationConfiguration(
+            MyLocationConfiguration.LocationMode.NORMAL, true, null, -0x55401001, -0x55603001
+        ))
 
         //map_view.removeViewAt(1);//去除百度水印
         map_view.scaleControlPosition = Point() //改变比例尺位置
@@ -183,18 +183,21 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
      */
     fun setMapType() {
         mBaiduMap.run {
-            when (SPUtil.getString(Constants.MAP_TYPE, Constants.STANDARD_MAP)) {
-                Constants.STANDARD_MAP -> {
-                    mapType = BaiduMap.MAP_TYPE_NORMAL
-                    isTrafficEnabled = false
-                }
-                Constants.SATELLITE_MAP -> {
-                    mapType = BaiduMap.MAP_TYPE_SATELLITE
-                    isTrafficEnabled = false
-                }
-                Constants.TRAFFIC_MAP -> {
-                    mapType = BaiduMap.MAP_TYPE_NORMAL
-                    isTrafficEnabled = true
+            Constants.run {
+                isTrafficEnabled = when (SPUtil.getString(MAP_TYPE, STANDARD_MAP)) {
+                    STANDARD_MAP -> {
+                        mapType = BaiduMap.MAP_TYPE_NORMAL
+                        false
+                    }
+                    SATELLITE_MAP -> {
+                        mapType = BaiduMap.MAP_TYPE_SATELLITE
+                        false
+                    }
+                    TRAFFIC_MAP -> {
+                        mapType = BaiduMap.MAP_TYPE_NORMAL
+                        true
+                    }
+                    else -> false
                 }
             }
         }
@@ -238,9 +241,9 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
     //初始化系统广播接收器
     private fun initSystemReceiver() {
         mSystemReceiver = SystemReceiver(baseActivity)
-        val intentFilter = IntentFilter()
-        intentFilter.addAction(Constants.CONNECTIVITY_CHANGE)
-        baseActivity.registerReceiver(mSystemReceiver, intentFilter)
+        baseActivity.registerReceiver(mSystemReceiver, IntentFilter().apply {
+            addAction(Constants.CONNECTIVITY_CHANGE)
+        })
     }
 
     //初始化本地广播接收器
@@ -269,12 +272,14 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
         mSearchAdapter = SearchAdapter(this) //初始化搜索适配器
         recycler_search_result.adapter = mSearchAdapter //设置搜索适配器
         recycler_search_result.layoutManager = StaggeredGridLayoutManager(
-            1, StaggeredGridLayoutManager.VERTICAL) //设置搜索布局管理器
+            1, StaggeredGridLayoutManager.VERTICAL
+        ) //设置搜索布局管理器
 
         mSchemeAdapter = SchemeAdapter(this) //初始化方案适配器
         recycler_scheme_result.adapter = mSchemeAdapter //设置方案适配器
         recycler_scheme_result.layoutManager = StaggeredGridLayoutManager(
-            1, StaggeredGridLayoutManager.VERTICAL) //设置方案布局管理器
+            1, StaggeredGridLayoutManager.VERTICAL
+        ) //设置方案布局管理器
 
         //设置按钮的点击事件
         ib_settings.setOnClickListener {
@@ -346,9 +351,8 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
         //监听输入框内容改变
         et_search.doAfterTextChanged {
             //根据是否有内容判断显示和隐藏清空按钮
-            if (et_search.text.toString().isNotEmpty())
-                ib_empty.visibility = View.VISIBLE
-            else ib_empty.visibility = View.INVISIBLE
+            ib_empty.visibility = if (et_search.text.toString().isNotEmpty())
+                View.VISIBLE else View.INVISIBLE
         }
 
         //清空按钮的点击事件
@@ -427,7 +431,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
                 mOrientationListener.mLastX = x
                 mBaiduLocation.mLocData = MyLocationData.Builder()
                     .accuracy(mBaiduLocation.mRadius)
-                    .direction(mOrientationListener.mLastX) //此处设置开发者获取到的方向信息，顺时针0-360
+                    .direction(mOrientationListener.mLastX) //此处设置获取到的方向信息，顺时针0-360
                     .latitude(mBaiduLocation.mLatitude)
                     .longitude(mBaiduLocation.mLongitude).build()
                 mBaiduMap.setMyLocationData(mBaiduLocation.mLocData) //设置定位数据
@@ -446,8 +450,8 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
         //将没有获得的权限加入申请列表
         val toApplyPermissions = ArrayList<String>()
         for (permission in permissions) {
-            if (ContextCompat.checkSelfPermission(baseActivity, permission)
-                != PackageManager.PERMISSION_GRANTED
+            if (PackageManager.PERMISSION_GRANTED !=
+                ContextCompat.checkSelfPermission(baseActivity, permission)
             ) toApplyPermissions.add(permission)
         }
 
@@ -498,9 +502,8 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
     /*
      * 收回键盘
      */
-    fun takeBackKeyboard() {
+    fun takeBackKeyboard() =
         imm.hideSoftInputFromWindow(baseActivity.window.decorView.windowToken, 0)
-    }
 
     /**
      * 返回上一层

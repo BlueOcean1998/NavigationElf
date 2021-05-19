@@ -9,12 +9,10 @@ import com.baidu.mapapi.search.route.TransitRouteLine.TransitStep.TransitRouteSt
 import java.util.*
 
 /**
- * 用于显示换乘路线的Overlay，自3.4.0版本起可实例化多个添加在地图中显示
- */
-/**
- * 构造函数
+ * 用于显示换乘路线的Overlay，
+ * 自3.4.0版本起可实例化多个添加在地图中显示
  *
- * @param baiduMap 该TransitRouteOverlay引用的 BaiduMap 对象
+ * @param baiduMap 百度地图
  */
 class TransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
     private lateinit var mRouteLine: TransitRouteLine
@@ -63,37 +61,45 @@ class TransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
                     val b = Bundle()
                     b.putInt("index", mRouteLine.allStep.indexOf(step))
                     if (step.entrance != null) {
-                        overlayOptionses.add(MarkerOptions()
-                            .position(step.entrance.location)
-                            .anchor(0.5f, 0.5f)
-                            .zIndex(10)
-                            .extraInfo(b)
-                            .icon(getIconForStep(step)))
+                        overlayOptionses.add(
+                            MarkerOptions()
+                                .position(step.entrance.location)
+                                .anchor(0.5f, 0.5f)
+                                .zIndex(10)
+                                .extraInfo(b)
+                                .icon(getIconForStep(step))
+                        )
                     }
 
                     //最后路段绘制出口点
                     if (mRouteLine.allStep.indexOf(step) == mRouteLine
                             .allStep.size - 1 && step.exit != null
                     ) {
-                        overlayOptionses.add(MarkerOptions()
-                            .position(step.exit.location)
-                            .anchor(0.5f, 0.5f)
-                            .zIndex(10)
-                            .icon(getIconForStep(step)))
+                        overlayOptionses.add(
+                            MarkerOptions()
+                                .position(step.exit.location)
+                                .anchor(0.5f, 0.5f)
+                                .zIndex(10)
+                                .icon(getIconForStep(step))
+                        )
                     }
                 }
             }
             if (mRouteLine.starting != null) {
-                overlayOptionses.add(MarkerOptions()
-                    .position(mRouteLine.starting.location)
-                    .icon(startMarker)
-                    .zIndex(10))
+                overlayOptionses.add(
+                    MarkerOptions()
+                        .position(mRouteLine.starting.location)
+                        .icon(startMarker)
+                        .zIndex(10)
+                )
             }
             if (mRouteLine.terminal != null) {
-                overlayOptionses.add(MarkerOptions()
-                    .position(mRouteLine.terminal.location)
-                    .icon(terminalMarker)
-                    .zIndex(10))
+                overlayOptionses.add(
+                    MarkerOptions()
+                        .position(mRouteLine.terminal.location)
+                        .icon(terminalMarker)
+                        .zIndex(10)
+                )
             }
 
             //polyline
@@ -107,11 +113,13 @@ class TransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
                     } else {
                         if (lineColor != 0) lineColor else Color.argb(178, 88, 208, 0)
                     }
-                    overlayOptionses.add(PolylineOptions()
-                        .points(step.wayPoints)
-                        .width(10)
-                        .color(color)
-                        .zIndex(0))
+                    overlayOptionses.add(
+                        PolylineOptions()
+                            .points(step.wayPoints)
+                            .width(10)
+                            .color(color)
+                            .zIndex(0)
+                    )
                 }
             }
             return overlayOptionses

@@ -7,6 +7,12 @@ import android.widget.FrameLayout
 import com.navigation.foxizz.R
 import kotlinx.android.synthetic.main.view_title_layout.view.*
 
+/**
+ * 自定义标题栏
+ *
+ * @param context 上下文
+ * @param attrs   自定义属性
+ */
 class TitleLayout(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
     init {
         inflate(context, R.layout.view_title_layout, this)
@@ -17,19 +23,21 @@ class TitleLayout(context: Context, attrs: AttributeSet? = null) : FrameLayout(c
 
         //获取自定义属性
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.TitleLayout)
-        //默认启用返回按钮
-        setBackButtonEnable(typedArray.getBoolean(
-            R.styleable.TitleLayout_back_enable, true))
-        setTitleTextContent(typedArray.getString(
-            R.styleable.TitleLayout_title) ?: "")
-        //默认不启用菜单按钮
-        setMenuButtonEnable(typedArray.getBoolean(
-            R.styleable.TitleLayout_menu_enable, false))
+        val backButtonEnable = //默认启用返回按钮
+            typedArray.getBoolean(R.styleable.TitleLayout_back_enable, true)
+        val titleTextContent = typedArray.getString(R.styleable.TitleLayout_title) ?: ""
+        val menuButtonEnable = //默认不启用菜单按钮
+            typedArray.getBoolean(R.styleable.TitleLayout_menu_enable, false)
         typedArray.recycle()
+
+        setBackButtonEnable(backButtonEnable)
+        setTitleTextContent(titleTextContent)
+        setMenuButtonEnable(menuButtonEnable)
     }
 
     /**
      * 设置返回按钮是否启用
+     *
      * @param enable 是否启用
      */
     fun setBackButtonEnable(enable: Boolean) {
@@ -38,6 +46,7 @@ class TitleLayout(context: Context, attrs: AttributeSet? = null) : FrameLayout(c
 
     /**
      * 设置标题内容
+     *
      * @param content 内容
      */
     private fun setTitleTextContent(content: String) {
@@ -46,6 +55,7 @@ class TitleLayout(context: Context, attrs: AttributeSet? = null) : FrameLayout(c
 
     /**
      * 设置菜单按钮是否启用
+     *
      * @param enable 是否启用
      */
     fun setMenuButtonEnable(enable: Boolean) {
@@ -54,6 +64,7 @@ class TitleLayout(context: Context, attrs: AttributeSet? = null) : FrameLayout(c
 
     /**
      * 设置返回按钮点击事件
+     *
      * @param backOnClickListener 返回按钮点击事件
      */
     fun setBackOnClickListener(backOnClickListener: OnClickListener) =
@@ -61,6 +72,7 @@ class TitleLayout(context: Context, attrs: AttributeSet? = null) : FrameLayout(c
 
     /**
      * 设置菜单按钮点击事件
+     *
      * @param menuOnClickListener 菜单按钮点击事件
      */
     fun setMenuOnClickListener(menuOnClickListener: OnClickListener) =

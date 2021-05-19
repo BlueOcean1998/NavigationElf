@@ -125,17 +125,24 @@ class UserFragment : BaseFragment(R.layout.fragment_user) {
                     val mainActivity = requireActivity() as? MainActivity
                     mainActivity?.run {
                         SettingsActivity.startActivity(
-                            this, mainFragment.mBaiduLocation.mCity)
+                            this, mainFragment.mBaiduLocation.mCity
+                        )
                     }
                 }
                 Constants.KEY_CHECK_UPDATE -> {
                 }
                 Constants.KEY_SOUND_CODE ->
-                    startActivity(browser.setData(Uri.parse(
-                        "https://${getString(R.string.sound_code_url)}")))
+                    startActivity(
+                        browser.setData(
+                            Uri.parse("https://${getString(R.string.sound_code_url)}")
+                        )
+                    )
                 Constants.KEY_CONTACT_ME ->
-                    startActivity(browser.setData(Uri.parse(
-                        "mailto:${getString(R.string.contact_me_url)}")))
+                    startActivity(
+                        browser.setData(
+                            Uri.parse("mailto:${getString(R.string.contact_me_url)}")
+                        )
+                    )
                 Constants.KEY_LOGOUT -> {
                     val mainActivity = requireActivity() as? MainActivity
                     mainActivity?.let { showLogoutDialog(it, preference) }

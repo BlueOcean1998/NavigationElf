@@ -9,17 +9,23 @@ import base.foxizz.BaseApplication.Companion.baseApplication
 
 /**
  * 数据库帮助类
+ *
+ * @param context 上下文
+ * @param name    数据库名
+ * @param factory 用于创建cursor对象，一般传入null即可
+ * @param version 版本
  */
 class DatabaseHelper private constructor(
-    context: Context, name: String, factory: CursorFactory?, version: Int,
+    context: Context, name: String, factory: CursorFactory?, version: Int
 ) : SQLiteOpenHelper(context, name, factory, version) {
     companion object {
         /**
          * 获取数据库帮助对象
          */
         @get:Synchronized
-        val databaseHelper = DatabaseHelper(baseApplication, Constants.LOCAL_DATABASE,
-            null, 1)
+        val databaseHelper = DatabaseHelper(
+            baseApplication, Constants.LOCAL_DATABASE, null, 1
+        )
 
         private const val CREATE_SEARCH = ("create table SearchData ("
                 + "uid text primary key, " //uid

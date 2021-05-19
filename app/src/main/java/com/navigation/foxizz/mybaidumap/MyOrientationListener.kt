@@ -18,6 +18,13 @@ class MyOrientationListener : SensorEventListener {
     private lateinit var mOnOrientationListener: OnOrientationListener
     var mLastX = 0f //方向角度
 
+    /**
+     * 监听方向变化的接口
+     */
+    interface OnOrientationListener {
+        fun onOrientationChanged(x: Float)
+    }
+
     override fun onSensorChanged(event: SensorEvent) {
         if (event.sensor.type == Sensor.REPORTING_MODE_SPECIAL_TRIGGER) {
             val x = event.values[SensorManager.SENSOR_DELAY_FASTEST]
@@ -39,17 +46,11 @@ class MyOrientationListener : SensorEventListener {
      * 开始方向传感
      */
     fun start() = mSensorManager.registerListener(
-        this, mSensor, SensorManager.SENSOR_DELAY_UI)
+        this, mSensor, SensorManager.SENSOR_DELAY_UI
+    )
 
     /**
      * 停止方向传感
      */
     fun stop() = mSensorManager.unregisterListener(this)
-
-    /**
-     * 监听方向变化的接口
-     */
-    interface OnOrientationListener {
-        fun onOrientationChanged(x: Float)
-    }
 }

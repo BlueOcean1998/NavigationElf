@@ -18,20 +18,18 @@ object AppUtil {
      * 获取应用程序名称
      */
     val appName: String = baseApplication.run {
-        resources.getString(packageManager.getPackageInfo(packageName, 0)
-            .applicationInfo.labelRes)
+        getString(packageManager.getPackageInfo(packageName, 0).applicationInfo.labelRes)
     }
 
     /**
      * 获取应用版本号
      */
     val appVersionCode = baseApplication.packageManager.getPackageInfo(
-        baseApplication.packageName, 0).run {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+        baseApplication.packageName, 0
+    ).run {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P)
             longVersionCode
-        } else {
-            versionCode
-        }
+        else versionCode
     }
 
     /**

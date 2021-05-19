@@ -82,12 +82,15 @@ class SettingsActivity : BaseActivity(R.layout.activity_settings) {
             iv_map_traffic.setImageResource(R.drawable.map_traffic_off)
             adaptive_tv_map_traffic.setTextColor(getColor(R.color.black))
 
-            //保存地图类型到sharedPreferences
-            SPUtil.put(Constants.MAP_TYPE, Constants.STANDARD_MAP)
+            Constants.run {
+                //保存地图类型到sharedPreferences
+                SPUtil.put(MAP_TYPE, STANDARD_MAP)
 
-            //发送本地广播通知更新地图类型
-            lbm.sendBroadcast(Intent(Constants.SETTINGS_BROADCAST)
-                .putExtra(Constants.SETTINGS_TYPE, Constants.SET_MAP_TYPE))
+                //发送本地广播通知更新地图类型
+                lbm.sendBroadcast(
+                    Intent(SETTINGS_BROADCAST).putExtra(SETTINGS_TYPE, SET_MAP_TYPE)
+                )
+            }
         }
 
         //卫星地图的点击事件
@@ -99,12 +102,15 @@ class SettingsActivity : BaseActivity(R.layout.activity_settings) {
             iv_map_traffic.setImageResource(R.drawable.map_traffic_off)
             adaptive_tv_map_traffic.setTextColor(getColor(R.color.black))
 
-            //保存地图类型到sharedPreferences
-            SPUtil.put(Constants.MAP_TYPE, Constants.SATELLITE_MAP)
+            Constants.run {
+                //保存地图类型到sharedPreferences
+                SPUtil.put(MAP_TYPE, SATELLITE_MAP)
 
-            //发送本地广播通知更新地图类型
-            lbm.sendBroadcast(Intent(Constants.SETTINGS_BROADCAST)
-                .putExtra(Constants.SETTINGS_TYPE, Constants.SET_MAP_TYPE))
+                //发送本地广播通知更新地图类型
+                lbm.sendBroadcast(
+                    Intent(SETTINGS_BROADCAST).putExtra(SETTINGS_TYPE, SET_MAP_TYPE)
+                )
+            }
         }
 
         //交通地图的点击事件
@@ -116,23 +122,28 @@ class SettingsActivity : BaseActivity(R.layout.activity_settings) {
             iv_map_traffic.setImageResource(R.drawable.map_traffic_on)
             adaptive_tv_map_traffic.setTextColor(getColor(R.color.deepblue))
 
-            //保存地图类型到sharedPreferences
-            SPUtil.put(Constants.MAP_TYPE, Constants.TRAFFIC_MAP)
+            Constants.run {
+                //保存地图类型到sharedPreferences
+                SPUtil.put(MAP_TYPE, TRAFFIC_MAP)
 
-            //发送本地广播通知更新地图类型
-            lbm.sendBroadcast(Intent(Constants.SETTINGS_BROADCAST)
-                .putExtra(Constants.SETTINGS_TYPE, Constants.SET_MAP_TYPE))
+                //发送本地广播通知更新地图类型
+                lbm.sendBroadcast(
+                    Intent(SETTINGS_BROADCAST).putExtra(SETTINGS_TYPE, SET_MAP_TYPE)
+                )
+            }
         }
         ib_destination_city_confirm.visibility = View.GONE //隐藏确定按钮
         ib_destination_city_cancel.visibility = View.GONE //隐藏取消按钮
 
-        //获取从MainActivity中传来的所在城市名
-        mCity = intent.getStringExtra(Constants.MY_CITY)
-        if (mCity.isEmpty()) mCity = SPUtil.getString(Constants.MY_CITY, "")
+        Constants.run {
+            //获取从MainActivity中传来的所在城市名
+            mCity = intent.getStringExtra(MY_CITY)
+            if (mCity.isEmpty()) mCity = SPUtil.getString(MY_CITY, "")
 
-        //设置城市信息
-        saveCity = SPUtil.getString(Constants.DESTINATION_CITY, "")
-        if (saveCity.isNotEmpty()) et_destination_city.setText(saveCity)
+            //设置城市信息
+            saveCity = SPUtil.getString(DESTINATION_CITY, "")
+            if (saveCity.isNotEmpty()) et_destination_city.setText(saveCity)
+        }
 
         //设置提示信息为所在城市
         et_destination_city.hint = mCity
@@ -214,23 +225,30 @@ class SettingsActivity : BaseActivity(R.layout.activity_settings) {
             Constants.run {
                 when (preference.key) {
                     //发送本地广播通知更新是否允许横屏
-                    KEY_LANDSCAPE -> lbm.sendBroadcast(Intent(SETTINGS_BROADCAST)
-                        .putExtra(SETTINGS_TYPE, SET_LANDSCAPE))
+                    KEY_LANDSCAPE -> lbm.sendBroadcast(
+                        Intent(SETTINGS_BROADCAST).putExtra(SETTINGS_TYPE, SET_LANDSCAPE)
+                    )
                     //发送本地广播通知更新否启用3D视角
-                    KEY_ANGLE_3D -> lbm.sendBroadcast(Intent(SETTINGS_BROADCAST)
-                        .putExtra(SETTINGS_TYPE, SET_ANGLE_3D))
+                    KEY_ANGLE_3D -> lbm.sendBroadcast(
+                        Intent(SETTINGS_BROADCAST).putExtra(SETTINGS_TYPE, SET_ANGLE_3D)
+                    )
                     //发送本地广播通知更新是否允许地图旋转
-                    KEY_MAP_ROTATION -> lbm.sendBroadcast(Intent(SETTINGS_BROADCAST)
-                        .putExtra(SETTINGS_TYPE, SET_MAP_ROTATION))
+                    KEY_MAP_ROTATION -> lbm.sendBroadcast(
+                        Intent(SETTINGS_BROADCAST).putExtra(SETTINGS_TYPE, SET_MAP_ROTATION)
+                    )
                     //发送本地广播通知更新是否显示比例尺
-                    KEY_SCALE_CONTROL -> lbm.sendBroadcast(Intent(SETTINGS_BROADCAST)
-                        .putExtra(SETTINGS_TYPE, SET_SCALE_CONTROL))
+                    KEY_SCALE_CONTROL -> lbm.sendBroadcast(
+                        Intent(SETTINGS_BROADCAST).putExtra(SETTINGS_TYPE, SET_SCALE_CONTROL)
+                    )
                     //发送本地广播通知更新是否显示缩放按钮
-                    KEY_ZOOM_CONTROLS -> lbm.sendBroadcast(Intent(SETTINGS_BROADCAST)
-                        .putExtra(SETTINGS_TYPE, SET_ZOOM_CONTROLS))
+                    KEY_ZOOM_CONTROLS -> lbm.sendBroadcast(
+                        Intent(SETTINGS_BROADCAST).putExtra(SETTINGS_TYPE, SET_ZOOM_CONTROLS)
+                    )
                     //发送本地广播通知更新是否显示指南针
-                    KEY_COMPASS -> lbm.sendBroadcast(Intent(SETTINGS_BROADCAST)
-                        .putExtra(SETTINGS_TYPE, SET_COMPASS))
+                    KEY_COMPASS -> lbm.sendBroadcast(
+                        Intent(SETTINGS_BROADCAST)
+                            .putExtra(SETTINGS_TYPE, SET_COMPASS)
+                    )
                     KEY_INTELLIGENT_SEARCH -> {
                     }
                     //显示删除所有搜索记录对话框
@@ -249,8 +267,9 @@ class SettingsActivity : BaseActivity(R.layout.activity_settings) {
                 .setMessage(getString(R.string.to_clear))
                 .setPositiveButton(R.string.clear) { _, _ -> //发送本地广播通知清空搜索记录
                     Constants.run {
-                        lbm.sendBroadcast(Intent(SETTINGS_BROADCAST)
-                            .putExtra(SETTINGS_TYPE, CLEAN_RECORD))
+                        lbm.sendBroadcast(
+                            Intent(SETTINGS_BROADCAST).putExtra(SETTINGS_TYPE, CLEAN_RECORD)
+                        )
                         SearchDataHelper.deleteSearchData() //清空数据库中的搜索记录
                         showToast(R.string.has_cleared)
                     }

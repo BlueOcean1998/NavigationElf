@@ -20,9 +20,9 @@ import com.navigation.foxizz.R
 import com.navigation.foxizz.activity.MainActivity
 import com.navigation.foxizz.util.CityUtil
 
-/*
-* 下载离线地图服务
-*/
+/**
+ * 下载离线地图服务
+ */
 class OfflineMapService : Service() {
     companion object {
         private const val MAX_CITY_NUM = 3 //最大保存城市数量
@@ -73,7 +73,8 @@ class OfflineMapService : Service() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             val notificationChannel = NotificationChannel(
-                channelId, appName, NotificationManager.IMPORTANCE_DEFAULT)
+                channelId, appName, NotificationManager.IMPORTANCE_DEFAULT
+            )
             notificationManager.createNotificationChannel(notificationChannel)
         }
 
@@ -110,9 +111,7 @@ class OfflineMapService : Service() {
         //根据城市名获取城市id
         var cityID = 0
         val searchRecords: List<MKOLSearchRecord> = mkOfflineMap.searchCity(mCity)
-        if (searchRecords.size == 1) {
-            cityID = searchRecords[0].cityID
-        }
+        if (searchRecords.size == 1) cityID = searchRecords[0].cityID
         Log.d("Foxizz_Test", "cityID=$cityID")
         if (cityID != 0) {
             //mkOfflineMap.remove(cityID);

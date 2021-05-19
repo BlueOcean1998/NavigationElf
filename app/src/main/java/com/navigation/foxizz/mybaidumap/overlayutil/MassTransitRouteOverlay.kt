@@ -11,9 +11,9 @@ import com.baidu.mapapi.search.route.MassTransitRouteLine.TransitStep.StepVehicl
 import java.util.*
 
 /**
- * 构造函数
+ * 用于显示跨城公交路线的overlay
  *
- * @param baiduMap 该TransitRouteOverlay引用的 BaiduMap 对象
+ * @param baiduMap 百度地图
  */
 class MassTransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
     private lateinit var mRouteLine: MassTransitRouteLine
@@ -70,21 +70,25 @@ class MassTransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
                     val b = Bundle()
                     b.putInt("index", i + 1)
                     if (step.startLocation != null) {
-                        overlayOptionses.add(MarkerOptions()
-                            .position(step.startLocation)
-                            .anchor(0.5f, 0.5f)
-                            .zIndex(10)
-                            .extraInfo(b)
-                            .icon(getIconForStep(step)))
+                        overlayOptionses.add(
+                            MarkerOptions()
+                                .position(step.startLocation)
+                                .anchor(0.5f, 0.5f)
+                                .zIndex(10)
+                                .extraInfo(b)
+                                .icon(getIconForStep(step))
+                        )
                     }
 
                     //最后一个终点
                     if (i == steps.size - 1 && step.endLocation != null) {
-                        overlayOptionses.add(MarkerOptions()
-                            .position(step.endLocation)
-                            .anchor(0.5f, 0.5f)
-                            .zIndex(10)
-                            .icon(getIconForStep(step)))
+                        overlayOptionses.add(
+                            MarkerOptions()
+                                .position(step.endLocation)
+                                .anchor(0.5f, 0.5f)
+                                .zIndex(10)
+                                .icon(getIconForStep(step))
+                        )
                     }
                 }
 
@@ -100,11 +104,13 @@ class MassTransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
                         if (lineColor != 0) lineColor
                         else Color.argb(178, 88, 208, 0)
                     }
-                    overlayOptionses.add(PolylineOptions()
-                        .points(step.wayPoints)
-                        .width(10)
-                        .color(color)
-                        .zIndex(0))
+                    overlayOptionses.add(
+                        PolylineOptions()
+                            .points(step.wayPoints)
+                            .width(10)
+                            .color(color)
+                            .zIndex(0)
+                    )
                 }
             } else {
                 //跨城 （跨城时，每个steps的get(i)对应的List是一条step的子路线sub_step，需要将它们全部拼接才是一条完整路线）
@@ -121,21 +127,25 @@ class MassTransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
                         val b = Bundle()
                         b.putInt("index", k)
                         if (step.startLocation != null) {
-                            overlayOptionses.add(MarkerOptions()
-                                .position(step.startLocation)
-                                .anchor(0.5f, 0.5f)
-                                .zIndex(10)
-                                .extraInfo(b)
-                                .icon(getIconForStep(step)))
+                            overlayOptionses.add(
+                                MarkerOptions()
+                                    .position(step.startLocation)
+                                    .anchor(0.5f, 0.5f)
+                                    .zIndex(10)
+                                    .extraInfo(b)
+                                    .icon(getIconForStep(step))
+                            )
                         }
 
                         //最后一个终点
                         if (k == stepSum && step.endLocation != null) {
-                            overlayOptionses.add(MarkerOptions()
-                                .position(step.endLocation)
-                                .anchor(0.5f, 0.5f)
-                                .zIndex(10)
-                                .icon(getIconForStep(step)))
+                            overlayOptionses.add(
+                                MarkerOptions()
+                                    .position(step.endLocation)
+                                    .anchor(0.5f, 0.5f)
+                                    .zIndex(10)
+                                    .icon(getIconForStep(step))
+                            )
                         }
                         k++
                     }
@@ -155,11 +165,13 @@ class MassTransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
                             else Color.argb(178, 88, 208, 0)
                         }
                         if (step.wayPoints != null) {
-                            overlayOptionses.add(PolylineOptions()
-                                .points(step.wayPoints)
-                                .width(10)
-                                .color(color)
-                                .zIndex(0))
+                            overlayOptionses.add(
+                                PolylineOptions()
+                                    .points(step.wayPoints)
+                                    .width(10)
+                                    .color(color)
+                                    .zIndex(0)
+                            )
                         }
                     }
                 }
@@ -167,18 +179,22 @@ class MassTransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
 
             //起点
             if (mRouteLine.starting != null && mRouteLine.starting.location != null) {
-                overlayOptionses.add(MarkerOptions()
-                    .position(mRouteLine.starting.location)
-                    .icon(startMarker)
-                    .zIndex(10))
+                overlayOptionses.add(
+                    MarkerOptions()
+                        .position(mRouteLine.starting.location)
+                        .icon(startMarker)
+                        .zIndex(10)
+                )
             }
 
             //终点
             if (mRouteLine.terminal != null && mRouteLine.terminal.location != null) {
-                overlayOptionses.add(MarkerOptions()
-                    .position(mRouteLine.terminal.location)
-                    .icon(terminalMarker)
-                    .zIndex(10))
+                overlayOptionses.add(
+                    MarkerOptions()
+                        .position(mRouteLine.terminal.location)
+                        .icon(terminalMarker)
+                        .zIndex(10)
+                )
             }
             return overlayOptionses
         }

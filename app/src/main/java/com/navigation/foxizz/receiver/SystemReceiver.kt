@@ -8,6 +8,11 @@ import base.foxizz.util.NetworkUtil
 import com.navigation.foxizz.activity.MainActivity
 import com.navigation.foxizz.data.SearchDataHelper
 
+/**
+ * 系统接收器
+ *
+ * @param mContext 上下文
+ */
 class SystemReceiver(private val mContext: Context) : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (mContext is MainActivity) {

@@ -18,6 +18,8 @@ import kotlinx.android.synthetic.main.include_tv_end.view.*
 
 /**
  * 路线规划信息列表的适配器
+ *
+ * @param mainFragment 地图页
  */
 class SchemeAdapter(private val mainFragment: MainFragment) :
     RecyclerView.Adapter<SchemeAdapter.ViewHolder>() {
@@ -35,8 +37,6 @@ class SchemeAdapter(private val mainFragment: MainFragment) :
 
     /**
      * 获取item数量
-     *
-     * @return item数量
      */
     override fun getItemCount() = mainFragment.mBaiduRoutePlan.mSchemeList.size
 
@@ -53,20 +53,19 @@ class SchemeAdapter(private val mainFragment: MainFragment) :
             tvDetailInfo.text = schemeItem.detailInfo
 
             //根据保存的展开状态设置信息抽屉的高度、旋转角度和最大行数
-            if (schemeItem.expandFlag) {
+            tvSimpleInfo.maxLines = if (schemeItem.expandFlag) {
                 llInfoDrawer.setHeight(tvDetailInfo.lineHeight * (tvDetailInfo.lineCount + 1))
                 ibSchemeExpand.rotation = 180f
-                tvSimpleInfo.maxLines = 8
+                8
             } else {
                 llInfoDrawer.setHeight(0)
                 ibSchemeExpand.rotation = 0f
-                tvSimpleInfo.maxLines = 1
+                1
             }
 
             //底部显示提示信息
-            if (position == mainFragment.mBaiduRoutePlan.mSchemeList.size - 1)
-                tvEnd.visibility = View.VISIBLE
-            else tvEnd.visibility = View.GONE
+            tvEnd.visibility = if (position == mainFragment.mBaiduRoutePlan.mSchemeList.size - 1)
+                View.VISIBLE else View.GONE
         }
     }
 
@@ -74,11 +73,11 @@ class SchemeAdapter(private val mainFragment: MainFragment) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.adapter_scheme_item, parent, false)
-        ViewHolder(view).run {
+        return ViewHolder(view).apply {
             mainFragment.run {
                 //cardView的点击事件
                 cardSchemeInfo.setOnClickListener {
-                    if (unableToClick()) return@setOnClickListener
+                    if (unableToClick) return@setOnClickListener
                     infoFlag = 2 //设置信息状态为交通选择
                     bt_middle.setText(R.string.middle_button3) //设置按钮为交通选择
                     mBaiduRoutePlan.startMassTransitRoutePlan(bindingAdapterPosition)
@@ -94,25 +93,27 @@ class SchemeAdapter(private val mainFragment: MainFragment) :
                     if (schemeItem.expandFlag) { //收起
                         tvSimpleInfo.maxLines = 1
                         llInfoDrawer.expandLayout(
-                            false, tvDetailInfo, recycler_scheme_result, position)
+                            false, tvDetailInfo, recycler_scheme_result, position
+                        )
                         ibSchemeExpand.rotateExpandIcon(180f, 0f) //旋转伸展按钮
                         schemeItem.expandFlag = false
                     } else { //展开
                         tvSimpleInfo.maxLines = 8
                         llInfoDrawer.expandLayout(
-                            true, tvDetailInfo, recycler_scheme_result, position)
+                            true, tvDetailInfo, recycler_scheme_result, position
+                        )
                         ibSchemeExpand.rotateExpandIcon(0f, 180f) //旋转伸展按钮
                         schemeItem.expandFlag = true
                     }
                 }
             }
-            return this
         }
     }
 
     //不允许同时点击多个item
-    private fun unableToClick() = if (System.currentTimeMillis() - clickTime > 1000) {
-        clickTime = System.currentTimeMillis()
-        false
-    } else true
+    private val unableToClick
+        get() = if (System.currentTimeMillis() - clickTime > 1000) {
+            clickTime = System.currentTimeMillis()
+            false
+        } else true
 }

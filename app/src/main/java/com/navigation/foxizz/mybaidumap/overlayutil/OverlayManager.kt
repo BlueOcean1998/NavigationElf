@@ -8,18 +8,15 @@ import com.baidu.mapapi.model.LatLngBounds
 /**
  * 该类提供一个能够显示和管理多个Overlay的基类
  *
- *
  * 复写[.getOverlayOptions] 设置欲显示和管理的Overlay列表
- *
- *
  *
  * 通过
  * [BaiduMap.setOnMarkerClickListener]
  * 将覆盖物点击事件传递给OverlayManager后，OverlayManager才能响应点击事件。
  *
- *
  * 复写[.onMarkerClick] 处理Marker点击事件
  *
+ * @param mBaiduMap 百度地图
  */
 abstract class OverlayManager(private val mBaiduMap: BaiduMap) : OnMarkerClickListener,
     OnPolylineClickListener {

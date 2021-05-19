@@ -2,7 +2,7 @@
  * App name: NavigationElf
  * Author: Foxizz
  * Accomplish date: 2020-04-30
- * Last modify date: 2021-05-11
+ * Last modify date: 2021-05-19
  */
 object Constants {
     const val LOCAL_DATABASE = "Navigate.db" //本地数据库

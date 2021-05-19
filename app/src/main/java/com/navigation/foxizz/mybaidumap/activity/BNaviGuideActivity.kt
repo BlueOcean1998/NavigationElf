@@ -29,9 +29,8 @@ class BNaviGuideActivity : Activity() {
          *
          * @param context 上下文
          */
-        fun startActivity(context: Context) {
+        fun startActivity(context: Context) =
             context.startActivity(Intent(context, BNaviGuideActivity::class.java))
-        }
     }
 
     private lateinit var mNaviHelper: BikeNavigateHelper
@@ -53,7 +52,7 @@ class BNaviGuideActivity : Activity() {
             override fun onRouteGuideIconUpdate(icon: Drawable) {}
             override fun onRouteGuideKind(routeGuideKind: RouteGuideKind) {}
             override fun onRoadGuideTextUpdate(
-                charSequence: CharSequence, charSequence1: CharSequence,
+                charSequence: CharSequence, charSequence1: CharSequence
             ) {
             }
 

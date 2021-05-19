@@ -7,11 +7,6 @@ import android.app.Application
  */
 class BaseApplication : Application() {
     companion object {
-        /**
-         * 获取Application
-         *
-         * @return application
-         */
         lateinit var baseApplication: BaseApplication
     }
 

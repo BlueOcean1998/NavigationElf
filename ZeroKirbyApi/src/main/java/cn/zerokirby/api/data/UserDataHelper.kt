@@ -17,20 +17,22 @@ object UserDataHelper {
     /**
      * 初始化手机信息
      */
-    fun initPhoneInfo() {
-        try {
-            databaseHelper.writableDatabase.use { db ->
-                db.execSQL("update User set language = ?, version = ?, " +
-                        "display = ?, model = ?, brand = ?", arrayOf(
-                    SystemUtil.systemLanguage,
-                    SystemUtil.systemVersion,
-                    SystemUtil.systemDisplay,
-                    SystemUtil.systemModel,
-                    SystemUtil.deviceBrand
-                ))
+    fun initPhoneInfo() = try {
+        databaseHelper.writableDatabase.use { db ->
+            SystemUtil.run {
+                db.execSQL(
+                    "update User set language = ?, version = ?, " +
+                            "display = ?, model = ?, brand = ?", arrayOf(
+                        systemLanguage,
+                        systemVersion,
+                        systemDisplay,
+                        systemModel,
+                        deviceBrand
+                    )
+                )
             }
-        } catch (e: Exception) {
         }
+    } catch (e: Exception) {
     }
 
     /**
@@ -43,11 +45,10 @@ object UserDataHelper {
      * @return 从服务器获取到的json字符串
      */
     fun loginRegisterSendRequest(
-        username: String, password: String, isLogin: Boolean,
+        username: String, password: String, isLogin: Boolean
     ): JSONObject {
         var response: Response? = null
         return try {
-            val client = OkHttpClient() //使用OkHttp发送HTTP请求调用服务端登录servlet
             //创建请求返回的数据格式
             val requestBody = FormBody.Builder()
                 .add("username", username)
@@ -62,8 +63,8 @@ object UserDataHelper {
                 if (isLogin) Constants.LOGIN_URL //登录页
                 else Constants.REGISTER_URL //注册页
             ).post(requestBody).build()
-            response = client.newCall(request).execute() //等待接收返回数据
-            val responseData = response.body?.string() ?: "" //将得到的数据转为String类型
+            response = OkHttpClient().newCall(request).execute()
+            val responseData = response.body?.string() ?: ""
             JSONObject(responseData)
         } catch (e: Exception) {
             JSONObject()
@@ -81,31 +82,27 @@ object UserDataHelper {
      * @param isLogin    是否是登录（而不是注册）
      */
     fun loginRegisterInitUserInfo(
-        jsonObject: JSONObject, username: String, password: String, isLogin: Boolean,
-    ) {
-        try {
-            val userId = jsonObject.getString("Id")
-            User().let {
-                it.userId = userId
-                it.username = username
-                it.password = password
-                it.lastUse = System.currentTimeMillis()
-                if (isLogin) { //登录
-                    it.registerTime = jsonObject.getLong("RegisterTime")
-                    it.lastSync = jsonObject.getLong("SyncTime")
-                } else { //注册
-                    it.registerTime = System.currentTimeMillis()
-                }
-                login(it) //更新用户数据库
+        jsonObject: JSONObject, username: String, password: String, isLogin: Boolean
+    ) = try {
+        val userId = jsonObject.getString("Id")
+        User().let {
+            it.userId = userId
+            it.username = username
+            it.password = password
+            it.lastUse = System.currentTimeMillis()
+            if (isLogin) { //登录
+                it.registerTime = jsonObject.getLong("RegisterTime")
+                it.lastSync = jsonObject.getLong("SyncTime")
+            } else { //注册
+                it.registerTime = System.currentTimeMillis()
             }
-        } catch (e: Exception) {
+            login(it) //更新用户数据库
         }
+    } catch (e: Exception) {
     }
 
     /**
      * 获取登录用户id
-     *
-     * @return userId
      */
     val loginUserId: String
         get() {
@@ -137,25 +134,24 @@ object UserDataHelper {
      *
      * @param user 用户对象
      */
-    private fun login(user: User) {
-        try {
-            databaseHelper.writableDatabase.use { db ->
-                user.run {
-                    db.execSQL("update User set user_id = ?, username = ?, password = ?, " +
+    private fun login(user: User) = try {
+        databaseHelper.writableDatabase.use { db ->
+            user.run {
+                db.execSQL(
+                    "update User set user_id = ?, username = ?, password = ?, " +
                             "register_time = ?, last_use = ?, last_sync = ? where user_id = '0'",
-                        arrayOf(
-                            userId,
-                            username,
-                            password,
-                            registerTime,
-                            System.currentTimeMillis(),
-                            lastSync
-                        )
+                    arrayOf(
+                        userId,
+                        username,
+                        password,
+                        registerTime,
+                        System.currentTimeMillis(),
+                        lastSync
                     )
-                }
+                )
             }
-        } catch (e: Exception) {
         }
+    } catch (e: Exception) {
     }
 
     /**
@@ -170,17 +166,15 @@ object UserDataHelper {
      * 获取某一用户信息
      *
      * @param userId 用户id
-     * @return User
      */
-    fun getUser(userId: String): User {
-        val user = User()
+    fun getUser(userId: String) = User().apply {
         try {
             databaseHelper.readableDatabase.use { db ->
-                db.rawQuery("select * from User where user_id = ?", arrayOf(userId)).use { cursor ->
-                    if (cursor != null && cursor.moveToFirst()) {
-                        cursor.run {
-                            user.run {
-                                this.userId = userId //设置用户id
+                db.rawQuery("select * from User where user_id = ?", arrayOf(userId))
+                    .use { cursor ->
+                        if (cursor != null && cursor.moveToFirst()) {
+                            this.userId = userId //设置用户id
+                            cursor.run {
                                 username = getString(getColumnIndex("username"))
                                 password = getString(getColumnIndex("password"))
                                 language = getString(getColumnIndex("language"))
@@ -194,11 +188,9 @@ object UserDataHelper {
                             }
                         }
                     }
-                }
             }
         } catch (e: Exception) {
         }
-        return user
     }
 
     /**
@@ -207,14 +199,13 @@ object UserDataHelper {
      * @param column 列名
      * @param value  值
      */
-    fun updateUser(column: String, value: String, userId: String) {
-        try {
-            databaseHelper.writableDatabase.use { db ->
-                db.execSQL("update User set $column = ? where user_id = ?",
-                    arrayOf(value, userId)
-                )
-            }
-        } catch (e: Exception) {
+    fun updateUser(column: String, value: String, userId: String) = try {
+        databaseHelper.writableDatabase.use { db ->
+            db.execSQL(
+                "update User set $column = ? where user_id = ?",
+                arrayOf(value, userId)
+            )
         }
+    } catch (e: Exception) {
     }
 }

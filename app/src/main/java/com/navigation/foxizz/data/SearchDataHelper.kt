@@ -26,8 +26,7 @@ object SearchDataHelper {
      */
     fun moveToLastSearchRecordLocation(mainFragment: MainFragment) {
         if (isHasSearchData) { //如果有搜索记录
-            val builder = LatLngBounds.Builder()
-            builder.include(searchData[0].latLng)
+            val builder = LatLngBounds.Builder().include(searchData[0].latLng)
             val msu = MapStatusUpdateFactory.newLatLngBounds(builder.build())
             mainFragment.mBaiduMap.setMapStatus(msu)
         }
@@ -50,8 +49,7 @@ object SearchDataHelper {
                     mBaiduSearch.mSearchType = BaiduSearch.DETAIL_SEARCH_ALL
                     mBaiduSearch.isFirstDetailSearch = true //第一次详细信息搜索
                 }
-                val searchItems = searchData
-                for (searchItem in searchItems) {
+                for (searchItem in searchData) {
                     //获取定位点到目标点的距离（单位：m，结果除以1000转化为km）
                     var distance =
                         DistanceUtil.getDistance(mBaiduLocation.mLatLng, searchItem.latLng) / 1000
@@ -62,7 +60,8 @@ object SearchDataHelper {
                     mBaiduSearch.mSearchList.add(searchItem)
                     if (isRefreshSearchRecord) { //通过网络重新获取搜索信息
                         mBaiduSearch.mPoiSearch.searchPoiDetail(
-                            PoiDetailSearchOption().poiUids(searchItem.uid))
+                            PoiDetailSearchOption().poiUids(searchItem.uid)
+                        )
                     }
                 }
                 mSearchAdapter.updateList() //通知adapter更新
@@ -75,10 +74,8 @@ object SearchDataHelper {
 
     /**
      * 判断是否有搜索记录
-     *
-     * @return Boolean
      */
-    val isHasSearchData: Boolean
+    val isHasSearchData
         get() = try {
             databaseHelper.readableDatabase.use { db ->
                 db.rawQuery("select * from SearchData", null).use { cursor ->
@@ -90,9 +87,7 @@ object SearchDataHelper {
         }
 
     /**
-     * 获取搜索信息
-     *
-     * @return 搜索历史记录列表
+     * 获取搜索记录
      */
     private val searchData: List<SearchItem>
         get() {
@@ -102,12 +97,14 @@ object SearchDataHelper {
             try {
                 db = databaseHelper.readableDatabase
                 //查询所有的搜索记录，按时间降序排列
-                cursor = db.rawQuery("select * from SearchData order by time desc",
-                    null)
+                cursor = db.rawQuery(
+                    "select * from SearchData order by time desc",
+                    null
+                )
                 cursor?.run {
                     if (cursor.moveToFirst()) {
                         do {
-                            SearchItem().run {
+                            searchItems.add(SearchItem().apply {
                                 uid = getString(getColumnIndex("uid"))
                                 targetName = getString(getColumnIndex("target_name"))
                                 address = getString(getColumnIndex("address"))
@@ -115,8 +112,7 @@ object SearchDataHelper {
                                     getDouble(getColumnIndex("latitude")),
                                     getDouble(getColumnIndex("longitude"))
                                 )
-                                searchItems.add(this)
-                            }
+                            })
                         } while (moveToNext())
                     }
                 }
@@ -133,20 +129,19 @@ object SearchDataHelper {
      *
      * @param poiDetailInfo POI详细信息
      */
-    fun insertOrUpdateSearchData(poiDetailInfo: PoiDetailInfo) {
-        try {
-            databaseHelper.readableDatabase.use { db ->
-                poiDetailInfo.let {
-                    db.rawQuery("select * from SearchData where uid = ?",
-                        arrayOf(it.uid))
-                        .use { cursor ->
-                            if (cursor.count > 0) updateSearchData(it) //有则更新
-                            else insertSearchData(it) //没有则添加
-                        }
+    fun insertOrUpdateSearchData(poiDetailInfo: PoiDetailInfo) = try {
+        databaseHelper.readableDatabase.use { db ->
+            poiDetailInfo.let {
+                db.rawQuery(
+                    "select * from SearchData where uid = ?",
+                    arrayOf(it.uid)
+                ).use { cursor ->
+                    if (cursor.count > 0) updateSearchData(it) //有则更新
+                    else insertSearchData(it) //没有则添加
                 }
             }
-        } catch (e: Exception) {
         }
+    } catch (e: Exception) {
     }
 
     /**
@@ -154,26 +149,25 @@ object SearchDataHelper {
      *
      * @param poiDetailInfo POI详细信息
      */
-    private fun insertSearchData(poiDetailInfo: PoiDetailInfo) {
-        try {
-            databaseHelper.writableDatabase.use { db ->
-                poiDetailInfo.run {
-                    db.execSQL("insert into SearchData " +
+    private fun insertSearchData(poiDetailInfo: PoiDetailInfo) = try {
+        databaseHelper.writableDatabase.use { db ->
+            poiDetailInfo.run {
+                db.execSQL(
+                    "insert into SearchData " +
                             "(uid, latitude, longitude, target_name, address, time) " +
                             "values(?, ?, ?, ?, ?, ?)",
-                        arrayOf(
-                            uid,
-                            location.latitude,
-                            location.longitude,
-                            name,
-                            address,
-                            System.currentTimeMillis()
-                        )
+                    arrayOf(
+                        uid,
+                        location.latitude,
+                        location.longitude,
+                        name,
+                        address,
+                        System.currentTimeMillis()
                     )
-                }
+                )
             }
-        } catch (e: Exception) {
         }
+    } catch (e: Exception) {
     }
 
     /**
@@ -181,25 +175,24 @@ object SearchDataHelper {
      *
      * @param poiDetailInfo POI详细信息
      */
-    private fun updateSearchData(poiDetailInfo: PoiDetailInfo) {
-        try {
-            databaseHelper.writableDatabase.use { db ->
-                poiDetailInfo.run {
-                    db.execSQL("update SearchData set latitude = ?, longitude = ?, " +
+    private fun updateSearchData(poiDetailInfo: PoiDetailInfo) = try {
+        databaseHelper.writableDatabase.use { db ->
+            poiDetailInfo.run {
+                db.execSQL(
+                    "update SearchData set latitude = ?, longitude = ?, " +
                             "target_name = ?, address = ?, time = ? where uid = ?",
-                        arrayOf(
-                            location.latitude,
-                            location.longitude,
-                            name,
-                            address,
-                            System.currentTimeMillis(),
-                            uid
-                        )
+                    arrayOf(
+                        location.latitude,
+                        location.longitude,
+                        name,
+                        address,
+                        System.currentTimeMillis(),
+                        uid
                     )
-                }
+                )
             }
-        } catch (e: Exception) {
         }
+    } catch (e: Exception) {
     }
 
     /**
@@ -207,27 +200,24 @@ object SearchDataHelper {
      *
      * @param uid uid
      */
-    fun deleteSearchData(uid: String?) {
-        try {
-            databaseHelper.writableDatabase
-                .use { db ->
-                    db.execSQL("delete from SearchData where uid = ?",
-                        arrayOf(uid)
-                    )
-                }
-        } catch (e: Exception) {
-        }
+    fun deleteSearchData(uid: String?) = try {
+        databaseHelper.writableDatabase
+            .use { db ->
+                db.execSQL(
+                    "delete from SearchData where uid = ?",
+                    arrayOf(uid)
+                )
+            }
+    } catch (e: Exception) {
     }
 
     /**
      * 清空搜索记录
      */
-    fun deleteSearchData() {
-        try {
-            databaseHelper.writableDatabase.use { db ->
-                db.execSQL("delete from SearchData")
-            }
-        } catch (e: Exception) {
+    fun deleteSearchData() = try {
+        databaseHelper.writableDatabase.use { db ->
+            db.execSQL("delete from SearchData")
         }
+    } catch (e: Exception) {
     }
 }

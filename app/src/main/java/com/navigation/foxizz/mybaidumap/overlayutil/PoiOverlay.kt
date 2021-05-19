@@ -8,11 +8,8 @@ import java.util.*
 
 /**
  * 用于显示poi的overly
- */
-/**
- * 构造函数
  *
- * @param baiduMap 该 PoiOverlay 引用的 BaiduMap 对象
+ * @param baiduMap 百度地图
  */
 class PoiOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
     companion object {
@@ -48,10 +45,12 @@ class PoiOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
                 markerSize++
                 val bundle = Bundle()
                 bundle.putInt("index", i)
-                markerList.add(MarkerOptions()
-                    .extraInfo(bundle)
-                    .position(mPoiResult.allPoi[i].location)
-                    .icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_mark$markerSize.png")))
+                markerList.add(
+                    MarkerOptions()
+                        .extraInfo(bundle)
+                        .position(mPoiResult.allPoi[i].location)
+                        .icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_mark$markerSize.png"))
+                )
                 i++
             }
             return markerList

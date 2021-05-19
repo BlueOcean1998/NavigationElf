@@ -24,7 +24,7 @@ object NetworkUtil {
     /**
      * 获取网络类型
      */
-    val networkType: String
+    val networkType
         @SuppressLint("MissingPermission")
         get() = (baseApplication.getSystemService(Context.CONNECTIVITY_SERVICE)
                 as ConnectivityManager).run {
@@ -41,6 +41,7 @@ object NetworkUtil {
      * 判断是否开启了飞行模式
      */
     val isAirplaneModeEnable
-        get() = Settings.Global.getInt(baseApplication.contentResolver,
-            Settings.Global.AIRPLANE_MODE_ON, 0) != 0
+        get() = Settings.Global.getInt(
+            baseApplication.contentResolver, Settings.Global.AIRPLANE_MODE_ON, 0
+        ) != 0
 }

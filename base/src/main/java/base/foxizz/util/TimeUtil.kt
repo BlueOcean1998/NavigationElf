@@ -20,7 +20,7 @@ object TimeUtil {
      *
      * @param date      日期
      * @param formation 格式
-     * @return 格式化的日期
+     * @return          格式化的日期
      */
     @SuppressLint("SimpleDateFormat")
     fun format(date: Date, formation: String): String =
@@ -31,7 +31,7 @@ object TimeUtil {
      *
      * @param formatString 格式化的日期
      * @param formation    格式
-     * @return 日期
+     * @return             日期
      */
     @SuppressLint("SimpleDateFormat")
     fun parse(formatString: String, formation: String): Date =

@@ -20,6 +20,8 @@ import java.util.*
 
 /**
  * 路线规划模块
+ *
+ * @param mainFragment 地图页
  */
 class BaiduRoutePlan(private val mainFragment: MainFragment) {
     companion object {
@@ -52,7 +54,7 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
         }
 
         mainFragment.run {
-            if (SettingUtil.haveReadWriteAndLocationPermissions()) { //权限不足
+            if (SettingUtil.hasReadWriteAndLocationPermissions) { //权限不足
                 checkPermissionAndLocate() //申请权限，获得权限后定位
                 return
             }
@@ -69,17 +71,20 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
             val startNode = PlanNode.withLocation(mBaiduLocation.mLatLng)
             val endNode = PlanNode.withLocation(mEndLocation)
             when (mRoutePlanSelect) {
-                DRIVING -> mRoutePlanSearch.drivingSearch(DrivingRoutePlanOption()
-                    .from(startNode)
-                    .to(endNode)
+                DRIVING -> mRoutePlanSearch.drivingSearch(
+                    DrivingRoutePlanOption()
+                        .from(startNode)
+                        .to(endNode)
                 )
-                WALKING -> mRoutePlanSearch.walkingSearch(WalkingRoutePlanOption()
-                    .from(startNode)
-                    .to(endNode)
+                WALKING -> mRoutePlanSearch.walkingSearch(
+                    WalkingRoutePlanOption()
+                        .from(startNode)
+                        .to(endNode)
                 )
-                BIKING -> mRoutePlanSearch.bikingSearch(BikingRoutePlanOption()
-                    .from(startNode)
-                    .to(endNode)
+                BIKING -> mRoutePlanSearch.bikingSearch(
+                    BikingRoutePlanOption()
+                        .from(startNode)
+                        .to(endNode)
                 )
                 TRANSIT -> {
                     //加载路线方案
@@ -205,8 +210,10 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
                                         allStationInfo.append(transitStep.coachInfo.name)
                                         simpleInfo.append("—", transitStep.coachInfo.name)
                                     }
-                                    allStationInfo.append("—终点站：",
-                                        transitStep.busInfo.arriveStation, "\n")
+                                    allStationInfo.append(
+                                        "—终点站：",
+                                        transitStep.busInfo.arriveStation, "\n"
+                                    )
                                 }
                             }
                         }
@@ -216,20 +223,28 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
                         //获取详细信息
                         StringBuilder().run {
                             val nowTime = System.currentTimeMillis()
-                            val arriveTime = TimeUtil.parse(massTransitRouteLine.arriveTime,
-                                TimeUtil.FORMATION_yMdHms).time
+                            val arriveTime = TimeUtil.parse(
+                                massTransitRouteLine.arriveTime,
+                                TimeUtil.FORMATION_yMdHms
+                            ).time
                             val spendTime = arriveTime - nowTime
                             spendTime.let {
                                 if (it < 3 * 60 * 60 * 1000) //小于3小时
-                                    append(getString(R.string.spend_time),
-                                        it / 1000 / 60, getString(R.string.minute))
-                                else append(getString(R.string.spend_time),
+                                    append(
+                                        getString(R.string.spend_time),
+                                        it / 1000 / 60, getString(R.string.minute)
+                                    )
+                                else append(
+                                    getString(R.string.spend_time),
                                     it / 1000 / 60 / 60, getString(R.string.hour),
-                                    it / 1000 / 60 % 60, getString(R.string.minute))
+                                    it / 1000 / 60 % 60, getString(R.string.minute)
+                                )
                             }
                             if (massTransitRouteLine.price > 10)
-                                append("\n", getString(R.string.budget),
-                                    massTransitRouteLine.price, getString(R.string.yuan))
+                                append(
+                                    "\n", getString(R.string.budget),
+                                    massTransitRouteLine.price, getString(R.string.yuan)
+                                )
                             schemeItem.detailInfo = this.toString()
                         }
 
@@ -307,12 +322,12 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
     /**
      * 开始跨城公交路线规划
      */
-    @SuppressLint("SetTextI18n")
     fun startMassTransitRoutePlan(index: Int) {
         val schemeItem = mSchemeList[index]
 
         mainFragment.run {
             //设置方案信息
+            @SuppressLint("SetTextI18n")
             tv_scheme_info.text = schemeItem.allStationInfo + schemeItem.detailInfo
 
             //构建Marker图标

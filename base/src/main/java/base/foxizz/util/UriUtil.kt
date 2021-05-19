@@ -53,10 +53,13 @@ object UriUtil {
                     else ""
                 }
                 isDownloadsDocument(uri) -> {
-                    getDataColumn(ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/public_downloads"),
-                        DocumentsContract.getDocumentId(uri).toLong()),
-                        null, null)
+                    getDataColumn(
+                        ContentUris.withAppendedId(
+                            Uri.parse("content://downloads/public_downloads"),
+                            DocumentsContract.getDocumentId(uri).toLong()
+                        ),
+                        null, null
+                    )
                 }
                 isMediaDocument(uri) -> {
                     val split =
@@ -88,13 +91,14 @@ object UriUtil {
      * @return The value of the _data column, which is typically a file path.
      */
     private fun getDataColumn(
-        uri: Uri, selection: String?, selectionArgs: Array<String>?,
+        uri: Uri, selection: String?, selectionArgs: Array<String>?
     ): String {
         var cursor: Cursor? = null
         val column = "_data"
         try {
             cursor = baseApplication.contentResolver.query(
-                uri, arrayOf(column), selection, selectionArgs, null)
+                uri, arrayOf(column), selection, selectionArgs, null
+            )
             cursor?.run {
                 if (moveToFirst()) {
                     val columnIndex = getColumnIndexOrThrow(column)

@@ -33,9 +33,8 @@ class DNaviGuideActivity : Activity() {
          *
          * @param context 上下文
          */
-        fun startActivity(context: Context) {
+        fun startActivity(context: Context) =
             context.startActivity(Intent(context, DNaviGuideActivity::class.java))
-        }
     }
 
     private lateinit var mRouteGuideManager: IBNRouteGuideManager
@@ -59,9 +58,8 @@ class DNaviGuideActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val fullScreen = supportFullScreen()
         val params = Bundle()
-        params.putBoolean(BNaviCommonParams.ProGuideKey.IS_SUPPORT_FULL_SCREEN, fullScreen)
+        params.putBoolean(BNaviCommonParams.ProGuideKey.IS_SUPPORT_FULL_SCREEN, supportFullScreen())
         mRouteGuideManager = BaiduNaviManagerFactory.getRouteGuideManager()
         val view = mRouteGuideManager.onCreate(this, mOnNavigationListener, null, params)
         view?.let { setContentView(it) }
@@ -72,21 +70,20 @@ class DNaviGuideActivity : Activity() {
 
     private fun initTTSListener() {
         //注册同步内置tts状态回调
-        BaiduNaviManagerFactory.getTTSManager().setOnTTSStateChangedListener(
-            object : IOnTTSPlayStateChangedListener {
-                override fun onPlayStart() {
-                    Log.e(TAG, "ttsCallback.onPlayStart")
-                }
-
-                override fun onPlayEnd(speechId: String) {
-                    Log.e(TAG, "ttsCallback.onPlayEnd")
-                }
-
-                override fun onPlayError(code: Int, message: String) {
-                    Log.e(TAG, "ttsCallback.onPlayError")
-                }
+        BaiduNaviManagerFactory.getTTSManager().setOnTTSStateChangedListener(object :
+            IOnTTSPlayStateChangedListener {
+            override fun onPlayStart() {
+                Log.e(TAG, "ttsCallback.onPlayStart")
             }
-        )
+
+            override fun onPlayEnd(speechId: String) {
+                Log.e(TAG, "ttsCallback.onPlayEnd")
+            }
+
+            override fun onPlayError(code: Int, message: String) {
+                Log.e(TAG, "ttsCallback.onPlayError")
+            }
+        })
 
         //注册内置tts 异步状态消息
         BaiduNaviManagerFactory.getTTSManager().setOnTTSStateChangedHandler(
@@ -142,18 +139,15 @@ class DNaviGuideActivity : Activity() {
         mRouteGuideManager.onConfigurationChanged(newConfig)
     }
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        return if (!mRouteGuideManager.onKeyDown(keyCode, event)) {
+    override fun onKeyDown(keyCode: Int, event: KeyEvent) =
+        if (!mRouteGuideManager.onKeyDown(keyCode, event)) {
             super.onKeyDown(keyCode, event)
         } else true
-    }
 
     private fun supportFullScreen(): Boolean {
         window.run {
-            val color: Int = if (Build.VERSION.SDK_INT >= 23)
-                Color.TRANSPARENT
-            else 0x2d000000
-            statusBarColor = color
+            statusBarColor = if (Build.VERSION.SDK_INT >= 23)
+                Color.TRANSPARENT else 0x2d000000
             decorView.systemUiVisibility = if (Build.VERSION.SDK_INT >= 23) {
                 var uiVisibility = decorView.systemUiVisibility
                 if (mMode == IBNaviListener.DayNightMode.DAY) {
@@ -167,10 +161,8 @@ class DNaviGuideActivity : Activity() {
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String>, grantResults: IntArray,
-    ) {
-        mRouteGuideManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
+        requestCode: Int, permissions: Array<String>, grantResults: IntArray
+    ) = mRouteGuideManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
