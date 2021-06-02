@@ -49,18 +49,18 @@ object SearchDataHelper {
                     mBaiduSearch.mSearchType = BaiduSearch.DETAIL_SEARCH_ALL
                     mBaiduSearch.isFirstDetailSearch = true //第一次详细信息搜索
                 }
-                for (searchItem in searchData) {
+                searchData.forEach {
                     //获取定位点到目标点的距离（单位：m，结果除以1000转化为km）
                     var distance =
-                        DistanceUtil.getDistance(mBaiduLocation.mLatLng, searchItem.latLng) / 1000
+                        DistanceUtil.getDistance(mBaiduLocation.mLatLng, it.latLng) / 1000
                     //保留两位小数
                     val bd = BigDecimal(distance)
                     distance = bd.setScale(2, BigDecimal.ROUND_HALF_UP).toDouble()
-                    searchItem.distance = distance
-                    mBaiduSearch.mSearchList.add(searchItem)
+                    it.distance = distance
+                    mBaiduSearch.mSearchList.add(it)
                     if (isRefreshSearchRecord) { //通过网络重新获取搜索信息
                         mBaiduSearch.mPoiSearch.searchPoiDetail(
-                            PoiDetailSearchOption().poiUids(searchItem.uid)
+                            PoiDetailSearchOption().poiUids(it.uid)
                         )
                     }
                 }

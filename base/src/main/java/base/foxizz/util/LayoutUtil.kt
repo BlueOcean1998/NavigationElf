@@ -1,13 +1,13 @@
 package base.foxizz.util
 
 import android.animation.ValueAnimator
+import android.content.res.Resources
 import android.view.View
-import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.view.iterator
+import androidx.core.view.forEach
 import androidx.recyclerview.widget.RecyclerView
 import base.foxizz.BaseApplication.Companion.baseApplication
 import base.foxizz.R
@@ -16,26 +16,6 @@ import base.foxizz.R
  * 布局工具类
  */
 object LayoutUtil {
-    /**
-     * 获取控件真实尺寸
-     *
-     * @param view 控件
-     * @param type true:宽 false:高
-     * @return 尺寸
-     */
-    fun getViewSize(view: View, type: Boolean): Int {
-        var heightOrWidth = 0
-        view.run {
-            viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    heightOrWidth = if (type) width else height
-                    viewTreeObserver.removeOnGlobalLayoutListener(this)
-                }
-            })
-        }
-        return heightOrWidth
-    }
-
     /**
      * 获取改变控件尺寸动画
      *
@@ -74,39 +54,21 @@ object LayoutUtil {
     }
 }
 
-/**
- * 将px值转换为sp值
- */
-val Int.pxToSp get() = this / baseApplication.resources.displayMetrics.scaledDensity.toInt()
+//将dp转换为px
+val Int.dpToPx get() = (this * Resources.getSystem().displayMetrics.density).toInt()
+val Float.dpToPx get() = this * Resources.getSystem().displayMetrics.density
 
-/**
- * 将sp值转换为px值
- */
-val Int.spToPx get() = this * baseApplication.resources.displayMetrics.scaledDensity.toInt()
+//将px转换为dp
+val Int.pxToDp get() = (this / Resources.getSystem().displayMetrics.density).toInt()
+val Float.pxToDp get() = this / Resources.getSystem().displayMetrics.density
 
-/**
- * 将px值转换为sp值
- */
-val Float.pxToSp get() = this / baseApplication.resources.displayMetrics.scaledDensity
+//将sp转换为px
+val Int.spToPx get() = (this * Resources.getSystem().displayMetrics.scaledDensity).toInt()
+val Float.spToPx get() = this * Resources.getSystem().displayMetrics.scaledDensity
 
-/**
- * 将sp值转换为px值
- */
-val Float.spToPx get() = this * baseApplication.resources.displayMetrics.scaledDensity
-
-/**
- * 获取控件宽度
- *
- * @return 宽度
- */
-val View.realWidth get() = LayoutUtil.getViewSize(this, true)
-
-/**
- * 获取控件高度
- *
- * @return 高度
- */
-val View.realHeight get() = LayoutUtil.getViewSize(this, false)
+//将px转换为sp
+val Int.pxToSp get() = (this / Resources.getSystem().displayMetrics.scaledDensity).toInt()
+val Float.pxToSp get() = this / Resources.getSystem().displayMetrics.scaledDensity
 
 /**
  * 设置控件宽度
@@ -136,9 +98,7 @@ fun LinearLayout.expandLayout(flag: Boolean) = if (flag) {
     startAnimation(AnimationUtils.loadAnimation(baseApplication, R.anim.adapter_alpha2))
     //计算布局自适应时的高度
     var layoutHeight = 0
-    for (view in this) {
-        layoutHeight += view.layoutParams.height
-    }
+    forEach { layoutHeight += it.layoutParams.height }
     LayoutUtil.getValueAnimator(this, 0, layoutHeight).start() //展开动画
 } else {
     //动画1，消失;

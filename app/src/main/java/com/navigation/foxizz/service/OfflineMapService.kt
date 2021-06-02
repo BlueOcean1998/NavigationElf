@@ -121,8 +121,8 @@ class OfflineMapService : Service() {
                 var offlineCities = SPUtil.getString(Constants.OFFLINE_CITIES, "")
                 Log.d("Foxizz_Test", "oldOfflineCities=$offlineCities")
                 if (offlineCities.isNotEmpty()) {
-                    for (offlineCity in offlineCities.split(" ")) {
-                        if (offlineCity.toInt() == cityID) return
+                    offlineCities.split(" ").forEach {
+                        if (it.toInt() == cityID) return
                     }
                 }
                 offlineCities = "$offlineCities $cityID".trim()

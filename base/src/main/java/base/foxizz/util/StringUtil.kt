@@ -32,7 +32,7 @@ fun String.containsCount(string: String): Int {
  */
 fun String.isDigits(): Boolean {
     if (isEmpty()) return false
-    for (c in this) if (!c.isDigit()) return false
+    forEach { if (!it.isDigit()) return false }
     return true
 }
 
@@ -43,7 +43,7 @@ fun String.isDigits(): Boolean {
  */
 fun String.isLetters(): Boolean {
     if (isEmpty()) return false
-    for (c in this) if (!c.isLetter()) return false
+    forEach { if (!it.isLetter()) return false }
     return true
 }
 
@@ -54,7 +54,7 @@ fun String.isLetters(): Boolean {
  */
 fun String.isChinese(): Boolean {
     if (isEmpty()) return false
-    for (c in this) if (!REGEX_CHINESE.matches(c.toString())) return false
+    forEach { if (!REGEX_CHINESE.matches(it.toString())) return false }
     return true
 }
 
@@ -124,11 +124,11 @@ fun String.removeChinese() = remove(REGEX_CHINESE)
 /**
  * 附加字符串
  *
- * @param time  次数
- * @param value 任意个字符串
+ * @param time   次数
+ * @param strings 任意个字符串
  */
-fun StringBuilder.appends(time: Int, vararg value: Any) =
-    apply { for (i in 1..time) for (item in value) append(item) }
+fun StringBuilder.appends(time: Int, vararg strings: Any) =
+    apply { for (i in 1..time) strings.forEach { append(it) } }
 
 /**
  * 替换字符串中的子串

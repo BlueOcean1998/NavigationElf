@@ -36,20 +36,15 @@ abstract class OverlayManager(private val mBaiduMap: BaiduMap) : OnMarkerClickLi
      */
     fun addToMap() {
         removeFromMap()
-        val overlayOptions = overlayOptions
         mOverlayOptionList.addAll(overlayOptions)
-        for (option in mOverlayOptionList) {
-            mOverlayList.add(mBaiduMap.addOverlay(option))
-        }
+        mOverlayOptionList.forEach { mOverlayList.add(mBaiduMap.addOverlay(it)) }
     }
 
     /**
      * 将所有Overlay 从 地图上消除
      */
     private fun removeFromMap() {
-        for (marker in mOverlayList) {
-            marker.remove()
-        }
+        mOverlayList.forEach { it.remove() }
         mOverlayOptionList.clear()
         mOverlayList.clear()
     }
@@ -64,10 +59,10 @@ abstract class OverlayManager(private val mBaiduMap: BaiduMap) : OnMarkerClickLi
     fun zoomToSpan() {
         if (mOverlayList.size > 0) {
             val builder = LatLngBounds.Builder()
-            for (overlay in mOverlayList) {
+            mOverlayList.forEach {
                 //polyline 中的点可能太多，只按marker 缩放
-                if (overlay is Marker) {
-                    builder.include(overlay.position)
+                if (it is Marker) {
+                    builder.include(it.position)
                 }
             }
             mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLngBounds(builder.build()))

@@ -67,15 +67,15 @@ class MassTransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
                 //step node
                 for (i in steps.indices) {
                     val step = steps[i][0]
-                    val b = Bundle()
-                    b.putInt("index", i + 1)
+                    val bundle = Bundle()
+                    bundle.putInt("index", i + 1)
                     if (step.startLocation != null) {
                         overlayOptionses.add(
                             MarkerOptions()
                                 .position(step.startLocation)
                                 .anchor(0.5f, 0.5f)
                                 .zIndex(10)
-                                .extraInfo(b)
+                                .extraInfo(bundle)
                                 .icon(getIconForStep(step))
                         )
                     }
@@ -124,15 +124,15 @@ class MassTransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
                 for (i in steps.indices) {
                     for (j in steps[i].indices) {
                         val step = steps[i][j]
-                        val b = Bundle()
-                        b.putInt("index", k)
+                        val bundle = Bundle()
+                        bundle.putInt("index", k)
                         if (step.startLocation != null) {
                             overlayOptionses.add(
                                 MarkerOptions()
                                     .position(step.startLocation)
                                     .anchor(0.5f, 0.5f)
                                     .zIndex(10)
-                                    .extraInfo(b)
+                                    .extraInfo(bundle)
                                     .icon(getIconForStep(step))
                             )
                         }

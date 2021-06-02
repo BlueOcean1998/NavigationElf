@@ -57,27 +57,27 @@ class DrivingRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
 
             //step node
             if (mRouteLine.allStep != null && mRouteLine.allStep.size > 0) {
-                for (step in mRouteLine.allStep) {
-                    val b = Bundle()
-                    b.putInt("index", mRouteLine.allStep.indexOf(step))
-                    if (step.entrance != null) {
+                mRouteLine.allStep.forEach {
+                    val bundle = Bundle()
+                    bundle.putInt("index", mRouteLine.allStep.indexOf(it))
+                    if (it.entrance != null) {
                         overlayOptionses.add(
                             MarkerOptions()
-                                .position(step.entrance.location)
+                                .position(it.entrance.location)
                                 .anchor(0.5f, 0.5f)
                                 .zIndex(10)
-                                .rotate((360 - step.direction).toFloat())
-                                .extraInfo(b)
+                                .rotate((360 - it.direction).toFloat())
+                                .extraInfo(bundle)
                                 .icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_line_node.png"))
                         )
                     }
                     //最后路段绘制出口点
-                    if (mRouteLine.allStep.indexOf(step) == mRouteLine.allStep.size - 1
-                        && step.exit != null
+                    if (mRouteLine.allStep.indexOf(it) == mRouteLine.allStep.size - 1
+                        && it.exit != null
                     ) {
                         overlayOptionses.add(
                             MarkerOptions()
-                                .position(step.exit.location)
+                                .position(it.exit.location)
                                 .anchor(0.5f, 0.5f)
                                 .zIndex(10)
                                 .icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_line_node.png"))
@@ -128,15 +128,15 @@ class DrivingRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
                     }
                 }
                 /*
-                Bundle indexList = new Bundle();
-                if (traffics.size() > 0) {
-                    int raffic [] = new int [traffics.size()];
-                    int index = 0;
-                    for (Integer tempTraff : traffics) {
-                        raffic[index] = tempTraff.intValue();
+                val indexList = Bundle()
+                if (traffics.size > 0) {
+                    val traffic = IntArray(traffics.size)
+                    var index = 0;
+                    traffics.forEach {
+                        traffic[index] = it
                         index++;
                     }
-                    indexList.putIntArray("indexs", raffic);
+                    indexList.putIntArray("indexes", traffic)
                 }
                 */
                 var isDotLine = false
@@ -187,8 +187,8 @@ class DrivingRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        for (mMarker in mOverlayList) {
-            if (mMarker is Marker && mMarker == marker) {
+        mOverlayList.forEach {
+            if (it is Marker && it == marker) {
                 if (marker.extraInfo != null) {
                     onRouteNodeClick(marker.extraInfo.getInt("index"))
                 }
@@ -199,23 +199,23 @@ class DrivingRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
 
     override fun onPolylineClick(polyline: Polyline): Boolean {
         var flag = false
-        for (mPolyline in mOverlayList) {
-            if (mPolyline is Polyline && mPolyline == polyline) {
+        mOverlayList.forEach {
+            if (it is Polyline && it == polyline) {
                 //选中
                 flag = true
-                break
+                return@forEach
             }
         }
         setFocus(flag)
-        return true
+        return flag
     }
 
     private fun setFocus(flag: Boolean) {
-        for (mPolyline in mOverlayList) {
-            if (mPolyline is Polyline) {
+        mOverlayList.forEach {
+            if (it is Polyline) {
                 //选中
-                mPolyline.isFocus = flag
-                break
+                it.isFocus = flag
+                return
             }
         }
     }

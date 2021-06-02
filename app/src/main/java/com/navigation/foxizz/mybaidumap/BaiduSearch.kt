@@ -190,8 +190,8 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                 //将Sug获取到的uid录入uid列表
                 val suggestionInfoList = suggestionResult.allSuggestions
                 if (suggestionInfoList != null && suggestionInfoList.size > 0) {
-                    for (suggestionInfo in suggestionResult.allSuggestions) {
-                        uidList.add(suggestionInfo.getUid())
+                    suggestionResult.allSuggestions.forEach {
+                        uidList.add(it.getUid())
                     }
                 }
                 if (uidList.size == 0) {
@@ -200,9 +200,9 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                     showToast(R.string.find_nothing)
                 } else {
                     //要进行详细搜索的所有内容
-                    for (uid in uidList) {
+                    uidList.forEach {
                         //uid的集合，最多可以传入10个uid，多个uid之间用英文逗号分隔。
-                        mPoiSearch.searchPoiDetail(PoiDetailSearchOption().poiUids(uid))
+                        mPoiSearch.searchPoiDetail(PoiDetailSearchOption().poiUids(it))
                     }
                 }
 
@@ -236,11 +236,11 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                             && poiResult.suggestCityList.size > 0
                         ) {
                             mSearchType = OTHER_CITY_SEARCH
-                            for (cityInfo in poiResult.suggestCityList) {
+                            poiResult.suggestCityList.forEach {
                                 //开始别的城市内搜索
                                 mPoiSearch.searchInCity(
                                     PoiCitySearchOption()
-                                        .city(cityInfo.city)
+                                        .city(it.city)
                                         .keyword(mSearchContent)
                                         .pageCapacity(PAGE_CAPACITY)
                                 )
@@ -292,21 +292,21 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                         val searchItems = ArrayList<SearchItem>()
 
                         //将POI获取到的信息录入搜索结果列表
-                        for (poiInfo in poiResult.allPoi) {
-                            if (!uidList.contains(poiInfo.uid) //uid不重复且类型不是下面那些
-                                && poiInfo.type != PoiInfo.POITYPE.BUS_STATION
-                                && poiInfo.type != PoiInfo.POITYPE.BUS_LINE
-                                && poiInfo.type != PoiInfo.POITYPE.SUBWAY_STATION
-                                && poiInfo.type != PoiInfo.POITYPE.SUBWAY_LINE
-                                && isUidNotInSearList(poiInfo.uid)
+                        poiResult.allPoi.forEach {
+                            if (!uidList.contains(it.uid) //uid不重复且类型不是下面那些
+                                && it.type != PoiInfo.POITYPE.BUS_STATION
+                                && it.type != PoiInfo.POITYPE.BUS_LINE
+                                && it.type != PoiInfo.POITYPE.SUBWAY_STATION
+                                && it.type != PoiInfo.POITYPE.SUBWAY_LINE
+                                && isUidNotInSearList(it.uid)
                             ) {
                                 //添加搜索到的不同uid的内容添加到searchItems
                                 searchItems.add(SearchItem().apply {
-                                    uid = poiInfo.uid //获取并设置Uid
-                                    val tLatLng = poiInfo.location //获取目标坐标
+                                    uid = it.uid //获取并设置Uid
+                                    val tLatLng = it.location //获取目标坐标
                                     latLng = tLatLng //设置目标坐标
-                                    targetName = poiInfo.name //获取并设置目标名
-                                    address = poiInfo.address //获取并设置目标地址
+                                    targetName = it.name //获取并设置目标名
+                                    address = it.address //获取并设置目标地址
 
                                     //设置定位点到目标点的距离（单位：m，结果除以1000转化为km，保留两位小数）
                                     distance = BigDecimal
@@ -373,7 +373,7 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                     //直接的详细信息搜索
                     if (mSearchType == DETAIL_SEARCH || mSearchType == DETAIL_SEARCH_ALL) {
                         //由于一般只传入一个uid，列表里往往只有一个搜索结果，即使这里用了循环语句
-                        for (detailInfo in poiDetailResult.poiDetailInfoList) {
+                        poiDetailResult.poiDetailInfoList.forEach { detailInfo ->
                             //将结果保存到数据库
                             if (mSearchType == DETAIL_SEARCH)
                                 SearchDataHelper.insertOrUpdateSearchData(detailInfo)
@@ -434,8 +434,8 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                                             //去除中文和头尾的空格
                                             val shopHours = detailInfo.getShopHours()
                                                 .removeChinese().trim().split(",")
-                                            for (shopHour in shopHours) {
-                                                val time = shopHour.split("-")
+                                            shopHours.forEach {
+                                                val time = it.split("-")
                                                 val startTime = parse(time[0], FORMATION_Hm)
                                                 val endTime = parse(time[1], FORMATION_Hm)
                                                 if (isInTime(nowTime, startTime, endTime))
@@ -467,7 +467,7 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                         }
                     } else { //间接的详细信息搜索
                         //由于一般只传入一个uid，列表里往往只有一个搜索结果，即使这里用了循环语句
-                        for (detailInfo in poiDetailResult.poiDetailInfoList) {
+                        poiDetailResult.poiDetailInfoList.forEach { detailInfo ->
                             if (isUidNotInSearList(detailInfo.uid)) {
                                 SearchItem().let {
                                     it.uid = detailInfo.uid //获取并设置Uid
@@ -514,11 +514,7 @@ class BaiduSearch(private val mainFragment: MainFragment) {
 
     //判断Uid是否不存在于搜索列表中
     private fun isUidNotInSearList(uid: String): Boolean {
-        for (searchItem in mSearchList) {
-            if (uid == searchItem.uid) {
-                return false
-            }
-        }
+        mSearchList.forEach { if (uid == it.uid) return false }
         return true
     }
 }

@@ -26,8 +26,8 @@ object SettingUtil {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             )
-            for (permission in permissions) {
-                if (ContextCompat.checkSelfPermission(baseApplication, permission)
+            permissions.forEach {
+                if (ContextCompat.checkSelfPermission(baseApplication, it)
                     != PackageManager.PERMISSION_GRANTED
                 ) return true
             }

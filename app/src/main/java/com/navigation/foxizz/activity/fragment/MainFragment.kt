@@ -449,10 +449,10 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
         )
         //将没有获得的权限加入申请列表
         val toApplyPermissions = ArrayList<String>()
-        for (permission in permissions) {
+        permissions.forEach {
             if (PackageManager.PERMISSION_GRANTED !=
-                ContextCompat.checkSelfPermission(baseActivity, permission)
-            ) toApplyPermissions.add(permission)
+                ContextCompat.checkSelfPermission(baseActivity, it)
+            ) toApplyPermissions.add(it)
         }
 
         //若权限都已获取，则开始定位，反之则申请权限

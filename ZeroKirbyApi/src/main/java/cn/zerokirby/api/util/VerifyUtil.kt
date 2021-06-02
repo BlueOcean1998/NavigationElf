@@ -67,11 +67,11 @@ class VerifyUtil {
         //设置画笔抗锯齿
         paint.isAntiAlias = true
         paint.textSize = FONT_SIZE.toFloat()
-        for (element in code) {
+        code.forEach {
             randomTextStyle(paint)
             randomPadding()
             //这里的padding_left,padding_top是文字的基线
-            c.drawText(element.toString(), paddingLeft.toFloat(), paddingTop.toFloat(), paint)
+            c.drawText(it.toString(), paddingLeft.toFloat(), paddingTop.toFloat(), paint)
         }
         //画干扰线
         for (i in 0 until LINE_NUMBER) {

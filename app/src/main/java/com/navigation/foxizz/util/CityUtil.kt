@@ -117,8 +117,8 @@ object CityUtil {
      */
     fun isCityName(cityName: String): Boolean {
         if (cityName.length < 2) return false
-        for (names in CHINA_CITY_PROVINCE_NAMES) {
-            val cityNames = names.removeFirst(names.split(" ")[0]).trim()
+        CHINA_CITY_PROVINCE_NAMES.forEach {
+            val cityNames = it.removeFirst(it.split(" ")[0]).trim()
             if (cityNames.contains(cityName)) return true
         }
         return false
@@ -132,8 +132,8 @@ object CityUtil {
      */
     fun isProvinceName(provinceName: String): Boolean {
         if (provinceName.length < 2) return false
-        for (names in CHINA_CITY_PROVINCE_NAMES) {
-            if (names.split(" ")[0].contains(provinceName)) return true
+        CHINA_CITY_PROVINCE_NAMES.forEach {
+            if (it.split(" ")[0].contains(provinceName)) return true
         }
         return false
     }
@@ -144,8 +144,8 @@ object CityUtil {
     val cityList: List<String>
         get() {
             val cityList = ArrayList<String>()
-            for (names in CHINA_CITY_PROVINCE_NAMES) {
-                cityList.addAll(names.split(" "))
+            CHINA_CITY_PROVINCE_NAMES.forEach {
+                cityList.addAll(it.split(" "))
             }
             return cityList
         }
@@ -159,11 +159,11 @@ object CityUtil {
     fun getCityList(provinceName: String): List<String> {
         val cityList = ArrayList<String>()
         if (isProvinceName(provinceName)) {
-            for (names in CHINA_CITY_PROVINCE_NAMES) {
-                val province = names.split(" ")[0]
+            CHINA_CITY_PROVINCE_NAMES.forEach {
+                val province = it.split(" ")[0]
                 if (province.contains((provinceName))) {
-                    cityList.addAll(names.removeFirst(province).trim().split(" "))
-                    break
+                    cityList.addAll(it.removeFirst(province).trim().split(" "))
+                    return cityList
                 }
             }
         }
@@ -176,8 +176,8 @@ object CityUtil {
     val provinceList: List<String>
         get() {
             val provinceList = ArrayList<String>()
-            for (names in CHINA_CITY_PROVINCE_NAMES) {
-                provinceList.add(names.split(" ")[0])
+            CHINA_CITY_PROVINCE_NAMES.forEach {
+                provinceList.add(it.split(" ")[0])
             }
             return provinceList
         }
@@ -190,8 +190,8 @@ object CityUtil {
      */
     fun getProvince(cityName: String): String {
         if (isCityName(cityName)) {
-            for (names in CHINA_CITY_PROVINCE_NAMES) {
-                if (names.contains((cityName))) return names.split(" ")[0]
+            CHINA_CITY_PROVINCE_NAMES.forEach {
+                if (it.contains((cityName))) return it.split(" ")[0]
             }
         }
         return ""

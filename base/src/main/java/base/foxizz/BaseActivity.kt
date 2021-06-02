@@ -23,10 +23,8 @@ open class BaseActivity(@LayoutRes contentLayoutId: Int) : FragmentActivity(cont
          * @return 基础活动
          */
         fun findActivity(baseActivityClass: KClass<out BaseActivity>): BaseActivity? {
-            for (activity in ACTIVITIES) {
-                if (activity::class == baseActivityClass) {
-                    return activity
-                }
+            ACTIVITIES.forEach {
+                if (it::class == baseActivityClass) return it
             }
             return null
         }
@@ -35,10 +33,8 @@ open class BaseActivity(@LayoutRes contentLayoutId: Int) : FragmentActivity(cont
          * 退出程序
          */
         fun finishAll() {
-            for (activity in ACTIVITIES) {
-                if (!activity.isFinishing) {
-                    activity.finish()
-                }
+            ACTIVITIES.forEach {
+                if (!it.isFinishing) it.finish()
             }
             ACTIVITIES.clear()
         }

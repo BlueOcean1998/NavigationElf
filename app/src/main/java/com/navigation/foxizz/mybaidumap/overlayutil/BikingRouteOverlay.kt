@@ -58,28 +58,28 @@ class BikingRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
             if (mRouteLine.allStep != null
                 && mRouteLine.allStep.size > 0
             ) {
-                for (step in mRouteLine.allStep) {
-                    val b = Bundle()
-                    b.putInt("index", mRouteLine.allStep.indexOf(step))
-                    if (step.entrance != null) {
+                mRouteLine.allStep.forEach {
+                    val bundle = Bundle()
+                    bundle.putInt("index", mRouteLine.allStep.indexOf(it))
+                    if (it.entrance != null) {
                         overlayList.add(
                             MarkerOptions()
-                                .position(step.entrance.location)
-                                .rotate((360 - step.direction).toFloat())
+                                .position(it.entrance.location)
+                                .rotate((360 - it.direction).toFloat())
                                 .zIndex(10)
                                 .anchor(0.5f, 0.5f)
-                                .extraInfo(b)
+                                .extraInfo(bundle)
                                 .icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_line_node.png"))
                         )
                     }
 
                     //最后路段绘制出口点
-                    if (mRouteLine.allStep.indexOf(step) == mRouteLine.allStep.size - 1
-                        && step.exit != null
+                    if (mRouteLine.allStep.indexOf(it) == mRouteLine.allStep.size - 1
+                        && it.exit != null
                     ) {
                         overlayList.add(
                             MarkerOptions()
-                                .position(step.exit.location)
+                                .position(it.exit.location)
                                 .anchor(0.5f, 0.5f)
                                 .zIndex(10)
                                 .icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_line_node.png"))
@@ -109,13 +109,11 @@ class BikingRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
             //poly line list
             if (mRouteLine.allStep != null && mRouteLine.allStep.size > 0) {
                 var lastStepLastPoint: LatLng? = null
-                for (step in mRouteLine.allStep) {
-                    val watPoints = step.wayPoints
+                mRouteLine.allStep.forEach {
+                    val watPoints = it.wayPoints
                     if (watPoints != null) {
                         val points = ArrayList<LatLng>()
-                        if (lastStepLastPoint != null) {
-                            points.add(lastStepLastPoint)
-                        }
+                        lastStepLastPoint?.let { points.add(it) }
                         points.addAll(watPoints)
                         overlayList.add(
                             PolylineOptions()
@@ -151,8 +149,8 @@ class BikingRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        for (mMarker in mOverlayList) {
-            if (mMarker is Marker && mMarker == marker) {
+        mOverlayList.forEach {
+            if (it is Marker && it == marker) {
                 if (marker.extraInfo != null) {
                     onRouteNodeClick(marker.extraInfo.getInt("index"))
                 }

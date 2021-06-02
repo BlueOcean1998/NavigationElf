@@ -57,30 +57,30 @@ class TransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
 
             //step node
             if (mRouteLine.allStep != null && mRouteLine.allStep.size > 0) {
-                for (step in mRouteLine.allStep) {
-                    val b = Bundle()
-                    b.putInt("index", mRouteLine.allStep.indexOf(step))
-                    if (step.entrance != null) {
+                mRouteLine.allStep.forEach {
+                    val bundle = Bundle()
+                    bundle.putInt("index", mRouteLine.allStep.indexOf(it))
+                    if (it.entrance != null) {
                         overlayOptionses.add(
                             MarkerOptions()
-                                .position(step.entrance.location)
+                                .position(it.entrance.location)
                                 .anchor(0.5f, 0.5f)
                                 .zIndex(10)
-                                .extraInfo(b)
-                                .icon(getIconForStep(step))
+                                .extraInfo(bundle)
+                                .icon(getIconForStep(it))
                         )
                     }
 
                     //最后路段绘制出口点
-                    if (mRouteLine.allStep.indexOf(step) == mRouteLine
-                            .allStep.size - 1 && step.exit != null
+                    if (mRouteLine.allStep.indexOf(it) == mRouteLine
+                            .allStep.size - 1 && it.exit != null
                     ) {
                         overlayOptionses.add(
                             MarkerOptions()
-                                .position(step.exit.location)
+                                .position(it.exit.location)
                                 .anchor(0.5f, 0.5f)
                                 .zIndex(10)
-                                .icon(getIconForStep(step))
+                                .icon(getIconForStep(it))
                         )
                     }
                 }
@@ -104,22 +104,21 @@ class TransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
 
             //polyline
             if (mRouteLine.allStep != null && mRouteLine.allStep.size > 0) {
-                for (step in mRouteLine.allStep) {
-                    if (step.wayPoints == null) {
-                        continue
+                mRouteLine.allStep.forEach {
+                    if (it.wayPoints != null) {
+                        val color = if (it.stepType != TransitRouteStepType.WAKLING) {
+                            if (lineColor != 0) lineColor else Color.argb(178, 0, 78, 255)
+                        } else {
+                            if (lineColor != 0) lineColor else Color.argb(178, 88, 208, 0)
+                        }
+                        overlayOptionses.add(
+                            PolylineOptions()
+                                .points(it.wayPoints)
+                                .width(10)
+                                .color(color)
+                                .zIndex(0)
+                        )
                     }
-                    val color: Int = if (step.stepType != TransitRouteStepType.WAKLING) {
-                        if (lineColor != 0) lineColor else Color.argb(178, 0, 78, 255)
-                    } else {
-                        if (lineColor != 0) lineColor else Color.argb(178, 88, 208, 0)
-                    }
-                    overlayOptionses.add(
-                        PolylineOptions()
-                            .points(step.wayPoints)
-                            .width(10)
-                            .color(color)
-                            .zIndex(0)
-                    )
                 }
             }
             return overlayOptionses
@@ -153,8 +152,8 @@ class TransitRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        for (mMarker in mOverlayList) {
-            if (mMarker is Marker && mMarker == marker) {
+        mOverlayList.forEach {
+            if (it is Marker && it == marker) {
                 if (marker.extraInfo != null) {
                     onRouteNodeClick(marker.extraInfo.getInt("index"))
                 }
