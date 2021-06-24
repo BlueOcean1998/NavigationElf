@@ -199,11 +199,11 @@ class DrivingRouteOverlay(baiduMap: BaiduMap) : OverlayManager(baiduMap) {
 
     override fun onPolylineClick(polyline: Polyline): Boolean {
         var flag = false
-        mOverlayList.forEach {
-            if (it is Polyline && it == polyline) {
+        for (overlay in mOverlayList) {
+            if (overlay is Polyline && overlay == polyline) {
                 //选中
                 flag = true
-                return@forEach
+                break
             }
         }
         setFocus(flag)

@@ -12,7 +12,7 @@ import kotlin.reflect.KClass
  *
  * @param contentLayoutId 内容布局id
  */
-open class BaseActivity(@LayoutRes contentLayoutId: Int) : FragmentActivity(contentLayoutId) {
+abstract class BaseActivity(@LayoutRes contentLayoutId: Int) : FragmentActivity(contentLayoutId) {
     companion object {
         private val ACTIVITIES = ArrayList<BaseActivity>()
 

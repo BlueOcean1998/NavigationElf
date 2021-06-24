@@ -17,7 +17,7 @@ val REGEX_HEXADECIMAL = "[0-9A-Fa-f]+".toRegex() //十六进制数
  */
 fun String.containsCount(string: String): Int {
     var count = 0
-    for (i in string.length..length) {
+    for (i in string.length until length) {
         if (substring(i, i + string.length) == string) {
             ++count
         }

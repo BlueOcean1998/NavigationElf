@@ -27,13 +27,13 @@ class DatabaseHelper private constructor(
             baseApplication, Constants.LOCAL_DATABASE, null, 1
         )
 
-        private const val CREATE_SEARCH = ("create table SearchData ("
-                + "uid text primary key, " //uid
-                + "latitude double, " //纬度
-                + "longitude double, " //经度
-                + "target_name text, " //目标名
-                + "address text, " //目标地址
-                + "time long)") //记录时间
+        private const val CREATE_SEARCH = "create table SearchData (" +
+                "uid text primary key, " + //uid
+                "latitude double, " + //纬度
+                "longitude double, " + //经度
+                "target_name text, " + //目标名
+                "address text, " + //目标地址
+                "time long)" //记录时间
     }
 
     override fun onCreate(db: SQLiteDatabase) {

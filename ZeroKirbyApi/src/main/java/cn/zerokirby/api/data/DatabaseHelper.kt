@@ -27,19 +27,19 @@ class DatabaseHelper private constructor(
             baseApplication, Constants.LOCAL_DATABASE, null, 1
         )
 
-        private const val CREATE_USER = ("create table User ("
-                + "user_id text, " //用户id
-                + "username text, " //用户名
-                + "password text, " //密码
-                + "language text, " //语言
-                + "version text, " //版本
-                + "display text, " //显示信息
-                + "model text, " //型号
-                + "brand text, " //品牌
-                + "register_time long, " //注册时间
-                + "last_use long, " //上次使用时间
-                + "last_sync long, " //次同步时间
-                + "avatar blob)") //头像
+        private const val CREATE_USER = "create table User (" +
+                "user_id text, " + //用户id
+                "username text, " + //用户名
+                "password text, " + //密码
+                "language text, " + //语言
+                "version text, " + //版本
+                "display text, " + //显示信息
+                "model text, " + //型号
+                "brand text, " + //品牌
+                "register_time long, " + //注册时间
+                "last_use long, " + //上次使用时间
+                "last_sync long, " + //次同步时间
+                "avatar blob)" //头像
 
         private const val INIT_USER = "insert into User " +
                 "(user_id, username, password, register_time, last_use, last_sync) " +

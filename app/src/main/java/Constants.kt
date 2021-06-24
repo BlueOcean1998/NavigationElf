@@ -2,13 +2,12 @@
  * App name: NavigationElf
  * Author: Foxizz
  * Accomplish date: 2020-04-30
- * Last modify date: 2021-06-02
+ * Last modify date: 2021-06-24
  */
 object Constants {
     const val LOCAL_DATABASE = "Navigate.db" //本地数据库
 
     //SettingsSharedPreferences的设置相关键
-    const val SETTINGS_SHARED_PREFERENCES = "settings" //设置SharedPreferences
     const val MAP_TYPE = "map_type" //地图类型
     const val STANDARD_MAP = "standard_map" //标准地图
     const val SATELLITE_MAP = "satellite_map" //卫星地图
