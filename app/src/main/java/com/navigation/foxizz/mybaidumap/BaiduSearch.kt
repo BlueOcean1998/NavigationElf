@@ -6,7 +6,6 @@ import android.os.Build
 import android.view.*
 import base.foxizz.dsp
 import base.foxizz.getString
-import base.foxizz.mlh
 import base.foxizz.util.*
 import com.baidu.mapapi.search.core.PoiInfo
 import com.baidu.mapapi.search.core.SearchResult
@@ -89,14 +88,14 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                 }
                 return
             }
-            ThreadUtil.execute {
+            runOnThread {
                 var searchCity = mBaiduLocation.mCity
                 //如果存储的城市不为空，则换用存储的城市
                 val saveCity = SPUtil.getString(Constants.DESTINATION_CITY)
                 if (saveCity.isNotEmpty()) searchCity = saveCity
                 if (searchCity.isEmpty()) {
                     checkPermissionAndLocate() //申请权限，获得权限后定位
-                    return@execute
+                    return@runOnThread
                 }
 
                 //如果是省份，则搜索城市列表设置为省份内所有的城市，否则设置为单个城市
@@ -105,7 +104,7 @@ class BaiduSearch(private val mainFragment: MainFragment) {
                     mSearchCityList.addAll(CityUtil.getCityList(searchCity))
                 else mSearchCityList.add(searchCity)
 
-                mlh.post {
+                runOnUiThread {
                     if (!searchExpandFlag) { //如果搜索抽屉收起
                         searchExpandFlag = true //设置搜索抽屉为展开
                         expandSearchDrawer(true) //展开搜索抽屉
@@ -141,7 +140,7 @@ class BaiduSearch(private val mainFragment: MainFragment) {
      */
     @Synchronized
     fun startSearch(currentPage: Int) {
-        ThreadUtil.execute {
+        runOnThread {
             isSearching = true
             mCurrentPage = currentPage //当前页
             uidList.clear() //清空uid集合
@@ -186,7 +185,7 @@ class BaiduSearch(private val mainFragment: MainFragment) {
         //获取Sug搜索实例
         mSuggestionSearch = SuggestionSearch.newInstance()
         val suggestionResultListener = OnGetSuggestionResultListener { suggestionResult ->
-            ThreadUtil.execute {
+            runOnThread {
                 //将Sug获取到的uid录入uid列表
                 val suggestionInfoList = suggestionResult.allSuggestions
                 if (suggestionInfoList != null && suggestionInfoList.size > 0) {

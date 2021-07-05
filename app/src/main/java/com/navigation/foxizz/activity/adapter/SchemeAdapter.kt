@@ -6,9 +6,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import base.foxizz.mlh
 import base.foxizz.util.expandLayout
 import base.foxizz.util.rotateExpandIcon
+import base.foxizz.util.runOnUiThread
 import base.foxizz.util.setHeight
 import com.navigation.foxizz.R
 import com.navigation.foxizz.activity.fragment.MainFragment
@@ -43,7 +43,7 @@ class SchemeAdapter(private val mainFragment: MainFragment) :
     /**
      * 更新列表
      */
-    fun updateList() = mlh.post { notifyDataSetChanged() }
+    fun updateList() = runOnUiThread { notifyDataSetChanged() }
 
     //获取SearchItem的数据
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

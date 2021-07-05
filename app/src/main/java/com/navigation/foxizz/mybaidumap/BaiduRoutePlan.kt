@@ -3,7 +3,6 @@ package com.navigation.foxizz.mybaidumap
 import android.annotation.SuppressLint
 import android.view.View
 import base.foxizz.getString
-import base.foxizz.mlh
 import base.foxizz.util.*
 import com.baidu.mapapi.map.BitmapDescriptorFactory
 import com.baidu.mapapi.map.MarkerOptions
@@ -185,7 +184,7 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
                     showToast(R.string.suggest_to_walk)
                     return
                 }
-                ThreadUtil.execute {
+                runOnThread {
                     //所有的路线
                     massTransitRouteResult.routeLines.forEach {
                         val schemeItem = SchemeItem()
@@ -250,7 +249,7 @@ class BaiduRoutePlan(private val mainFragment: MainFragment) {
 
                         mSchemeList.add(schemeItem) //添加到列表中
                         mainFragment.mSchemeAdapter.updateList() //通知adapter更新
-                        mlh.post {
+                        runOnUiThread {
                             startMassTransitRoutePlan(0) //默认选择第一个方案
                         }
                     }

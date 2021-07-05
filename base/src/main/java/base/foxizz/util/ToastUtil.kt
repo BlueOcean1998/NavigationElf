@@ -3,7 +3,6 @@ package base.foxizz.util
 import android.widget.Toast
 import androidx.annotation.StringRes
 import base.foxizz.BaseApplication.Companion.baseApplication
-import base.foxizz.mlh
 
 /**
  * Toast工具类
@@ -27,7 +26,7 @@ private fun showToast(toast: Toast, string: String?, resId: Int?, duration: Int)
 
 //确保Toast操作在主线程进行，等待Toast或覆盖Toast
 private fun showToast(string: String?, resId: Int?, duration: Int, isWait: Boolean) {
-    mlh.post {
+    runOnUiThread {
         if (isWait) {
             showToast(newToast, string, resId, duration)
         } else {

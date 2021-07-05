@@ -4,10 +4,10 @@ package base.foxizz.util
  * 字符串工具类
  */
 
-val REGEX_DIGITS = "[0-9]".toRegex() //数字
-val REGEX_LETTERS = "[A-Za-z]".toRegex() //字母
-val REGEX_CHINESE = "[\u4e00-\u9fa5]".toRegex() //中文
-val REGEX_HEXADECIMAL = "[0-9A-Fa-f]+".toRegex() //十六进制数
+val REGEX_DIGITS = Regex("[0-9]+") //数字
+val REGEX_LETTERS = Regex("[A-Za-z]+") //字母
+val REGEX_CHINESE = Regex("[\u4e00-\u9fa5]+") //中文
+val REGEX_HEXADECIMAL = Regex("[0-9A-Fa-f]+") //十六进制数
 
 /**
  * 统计字符串中包含多少个子串
@@ -17,7 +17,7 @@ val REGEX_HEXADECIMAL = "[0-9A-Fa-f]+".toRegex() //十六进制数
  */
 fun String.containsCount(string: String): Int {
     var count = 0
-    for (i in string.length until length) {
+    for (i in 0..length - string.length) {
         if (substring(i, i + string.length) == string) {
             ++count
         }
@@ -27,36 +27,18 @@ fun String.containsCount(string: String): Int {
 
 /**
  * 判断字符串是否全为数字
- *
- * @return Boolean
  */
-fun String.isDigits(): Boolean {
-    if (isEmpty()) return false
-    forEach { if (!it.isDigit()) return false }
-    return true
-}
+fun String.isDigits() = REGEX_DIGITS.matches(this)
 
 /**
  * 判断字符串是否全为字母
- *
- * @return Boolean
  */
-fun String.isLetters(): Boolean {
-    if (isEmpty()) return false
-    forEach { if (!it.isLetter()) return false }
-    return true
-}
+fun String.isLetters() = REGEX_LETTERS.matches(this)
 
 /**
  * 判断字符串是否全为中文
- *
- * @return Boolean
  */
-fun String.isChinese(): Boolean {
-    if (isEmpty()) return false
-    forEach { if (!REGEX_CHINESE.matches(it.toString())) return false }
-    return true
-}
+fun String.isChinese() = REGEX_CHINESE.matches(this)
 
 /**
  * 判断字符串是否是十六进制数
@@ -80,29 +62,21 @@ fun String.hasChinese() = contains(REGEX_CHINESE)
 
 /**
  * 移除字符串中的子串
- *
- * @param string 子串
  */
 fun String.remove(string: String) = replace(string, "")
 
 /**
  * 移除字符串中符合正则的子串
- *
- * @param regex 正则
  */
 fun String.remove(regex: Regex) = replace(regex, "")
 
 /**
  * 移除字符串中第一个子串
- *
- * @param string 子串
  */
 fun String.removeFirst(string: String) = replaceFirst(string, "")
 
 /**
  * 移除字符串中第一个子串符合正则的子串
- *
- * @param regex 正则
  */
 fun String.removeFirst(regex: Regex) = replaceFirst(regex, "")
 

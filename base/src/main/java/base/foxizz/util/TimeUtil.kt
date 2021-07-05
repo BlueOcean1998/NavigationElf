@@ -7,9 +7,6 @@ import java.util.*
 
 /**
  * 时间工具类
- *
- * @author YSK
- * @date 2021-06-11
  */
 object TimeUtil {
     const val FORMATION_yMdHms = "yy-MM-dd HH:mm:ss"

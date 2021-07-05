@@ -12,8 +12,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import base.foxizz.BaseFragment
-import base.foxizz.util.ThreadUtil
 import base.foxizz.util.UriUtil
+import base.foxizz.util.runOnThread
 import base.foxizz.util.showToast
 import cn.zerokirby.api.data.AvatarDataHelper
 import cn.zerokirby.api.data.UserDataHelper
@@ -46,7 +46,7 @@ class UserFragment : BaseFragment(R.layout.fragment_user) {
                 AvatarDataHelper.showAvatarAndSave(
                     iv_avatar_image, avatarPath, UserDataHelper.loginUserId
                 )
-                ThreadUtil.execute {
+                runOnThread {
                     AvatarDataHelper.uploadAvatar(UriUtil.getPath(avatarUri))
                     showToast(R.string.upload_avatar_successfully)
                 }

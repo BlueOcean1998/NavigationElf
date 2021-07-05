@@ -14,10 +14,9 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import base.foxizz.BaseActivity
 import base.foxizz.lbm
-import base.foxizz.mlh
 import base.foxizz.util.SPUtil
 import base.foxizz.util.SettingUtil
-import base.foxizz.util.ThreadUtil
+import base.foxizz.util.runOnThread
 import base.foxizz.util.showToast
 import cn.zerokirby.api.data.AvatarDataHelper
 import cn.zerokirby.api.data.User
@@ -152,7 +151,7 @@ class LoginRegisterActivity : BaseActivity(R.layout.activity_login_register) {
             setOnClickListener {
                 pb_loading.visibility = View.VISIBLE //显示进度条
                 isEnabled = false //登录或注册时不可点击
-                ThreadUtil.execute {
+                runOnThread {
                     isSending = true
 
                     //提交账号信息，获取返回结果。该操作会阻塞线程，需在子线程进行
@@ -190,7 +189,7 @@ class LoginRegisterActivity : BaseActivity(R.layout.activity_login_register) {
                     isSending = false
 
                     //返回UI线程进行UI操作（主线程）
-                    mlh.post {
+                    runOnUiThread {
                         pb_loading.visibility = View.GONE //隐藏进度条
                         isEnabled = true //登录或注册完毕后可点击
                     }

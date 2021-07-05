@@ -7,9 +7,9 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import base.foxizz.mlh
 import base.foxizz.util.NetworkUtil
 import base.foxizz.util.expandLayout
+import base.foxizz.util.runOnUiThread
 import base.foxizz.util.showToast
 import com.baidu.mapapi.map.BitmapDescriptorFactory
 import com.baidu.mapapi.map.MapStatusUpdateFactory
@@ -54,7 +54,7 @@ class SearchAdapter(private val mainFragment: MainFragment) :
     /**
      * 更新列表
      */
-    fun updateList() = mlh.post { notifyDataSetChanged() }
+    fun updateList() = runOnUiThread { notifyDataSetChanged() }
 
     //获取SearchItem的数据
     @SuppressLint("SetTextI18n")

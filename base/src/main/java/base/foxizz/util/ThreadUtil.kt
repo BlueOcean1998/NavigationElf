@@ -1,5 +1,7 @@
 package base.foxizz.util
 
+import android.os.Looper
+import base.foxizz.mlh
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
@@ -23,5 +25,30 @@ object ThreadUtil {
      *
      * @param task Callable接口
      */
-    fun submit(task: Callable<*>): Future<*> = mExecutorService.submit(task)
+    fun <T> submit(task: Callable<T>): Future<T> = mExecutorService.submit(task)
 }
+
+/**
+ * 在子线程中执行代码
+ *
+ * @param delayMillis 延时
+ * @param block 代码块
+ */
+fun runOnThread(delayMillis: Long = 0, block: () -> Unit) = ThreadUtil.execute {
+    Thread.sleep(delayMillis)
+    block.invoke()
+}
+
+/**
+ * 在主线程中执行代码
+ *
+ * @param delayMillis 延时
+ * @param block 代码块
+ */
+fun runOnUiThread(delayMillis: Long = 0, block: () -> Unit) =
+    mlh.postDelayed(block, delayMillis)
+
+/**
+ * 判断当前线程是否是主线程
+ */
+fun isOnUiThread() = Looper.getMainLooper() == Looper.myLooper()
